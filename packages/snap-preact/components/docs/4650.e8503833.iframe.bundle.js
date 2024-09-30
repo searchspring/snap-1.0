@@ -4458,7 +4458,7 @@
 						: count + keyLength;
 				}, 1);
 			}
-			const { version } = { version: '1.1.10' };
+			const { version } = { version: '1.1.11' };
 			function removeUndefined(variables) {
 				return (
 					Object.keys(variables).forEach((key) => {
