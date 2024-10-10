@@ -5,13 +5,18 @@ import { ThemeStore, ThemeStoreThemeConfig } from './ThemeStore';
 import { TargetStore } from './TargetStore';
 import { CurrencyCodes, LanguageCodes, LibraryImports, LibraryStore } from './LibraryStore';
 import { debounce } from '@searchspring/snap-toolbox';
-
+import type { PluginMutateResultsConfig } from '@searchspring/snap-platforms/shopify';
+import type { PluginGenericBackgroundFilterPluginConfig } from './library/plugins/pluginGenericBackgroundFilters';
+import type { PluginScrollToTopConfig } from './library/plugins/pluginScrollToTop';
+import type { PluginStoreLoggerConfig } from './library/plugins/pluginStoreLogger';
 import type { LangComponentOverrides, ResultComponent, ThemeMinimal, ThemeOverrides, ThemeVariablesPartial } from '../../../components/src';
 import type { GlobalThemeStyleScript } from '../../types';
+
 export type TemplateThemeTypes = 'library' | 'local';
 export type TemplateTypes = 'search' | 'autocomplete' | `recommendation/${RecsTemplateTypes}`;
 export type TemplateCustomComponentTypes = 'result' | 'badge';
 export type RecsTemplateTypes = 'bundle' | 'default' | 'email';
+export type IntegrationPlatforms = keyof SnapTemplatesConfig['platform'];
 
 type TargetMap = { [targetId: string]: TargetStore };
 
@@ -55,12 +60,29 @@ export type TemplateStoreComponentConfig = {
 	};
 };
 
+export type GenericPluginsConfig = {
+	backgroundFilters?: PluginGenericBackgroundFilterPluginConfig;
+	scrollToTop?: PluginScrollToTopConfig;
+	storeLogger?: PluginStoreLoggerConfig;
+};
+export type ShopifyStandardPluginConfig = GenericPluginsConfig & {
+	mutateResults?: PluginMutateResultsConfig;
+};
+export type BigcommerceStandardPluginConfig = GenericPluginsConfig;
+export type Magento2StandardPluginConfig = GenericPluginsConfig;
+
 export type TemplateStoreConfig = {
 	components?: TemplateStoreComponentConfig;
 	config?: {
 		siteId?: string;
 		currency?: CurrencyCodes;
 		language?: LanguageCodes;
+	};
+	platform?: {
+		shopify?: ShopifyStandardPluginConfig;
+		bigcommerce?: BigcommerceStandardPluginConfig;
+		magento2?: Magento2StandardPluginConfig;
+		other?: GenericPluginsConfig;
 	};
 	translations?: {
 		[currencyName in LanguageCodes]?: LangComponentOverrides;
@@ -83,6 +105,7 @@ export class TemplatesStore {
 	storage: StorageStore;
 	language: LanguageCodes;
 	currency: CurrencyCodes;
+	platform?: IntegrationPlatforms;
 	settings: TemplatesStoreSettings;
 	dependencies: TemplatesStoreDependencies;
 

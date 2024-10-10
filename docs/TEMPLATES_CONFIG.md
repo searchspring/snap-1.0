@@ -86,6 +86,127 @@ It is possible to switch language and currency at run-time using methods on the 
 - `window.searchspring.templates.setLanguage('fr')`
 
 
+### Platform Middleware
+
+| Configuration Option | Description | Type | Default |
+|----------------------|-------------|------|---------|
+| `platform` | Platform-specific middleware configurations | Object | - |
+| `platform[platform]` | Platform-specific configurations | Object | - |
+| `platform[platform].backgroundFilters` | Background filter configurations | Object | - |
+| `platform[platform].scrollToTop` | Configuration for scrolling to top after search | Object | - |
+| `platform[platform].storeLogger` | Configuration for store logging | Object | - |
+
+The `platform` object allows you to configure platform-specific middleware. Currently, `shopify`, `bigcommerce`, `magento2` and `common` are supported and share the following common options:
+
+#### backgroundFilters
+Allows you to set up background filters. You can configure filters for tags, collections, or other fields.
+
+| Configuration Option | Description | Type | Default |
+|----------------------|-------------|------|---------|
+| `platform[platform].backgroundFilters` | Background filter configurations | Object | - |
+| `platform[platform].backgroundFilters.filters[]` | Background filter definitions | Array | - |
+| `platform[platform].backgroundFilters.filters[].type` | Defines if filter should be 'value' or 'range' type | 'value' | 'range' | true |
+| `platform[platform].backgroundFilters.filters[].field` | Defines filter field name | string | - |
+| `platform[platform].backgroundFilters.filters[].value` | Defines filter value. If `type` is 'value', this must be a string, otherwise if `type` is 'range', this must be an object with `low` and `high` properties | string | { low: number, high: number } | - |
+
+```jsx
+platform: {
+	common: {
+		backgroundFilters: {
+			filters: [{
+				type: 'value',
+				field: 'ss_tags',
+				value: 'instock'
+			},
+			{
+				type: 'value',
+				field: 'collection',
+				value: 'mens'
+			},
+			{
+				type: 'value',
+				field: 'custom',
+				value: '1',
+			},
+			{
+				type: 'range',
+				field: 'price',
+				value: { low: 10, high: 20 },
+			}],
+		}
+	}
+}
+```
+
+#### scrollToTop
+Configures the behavior of scrolling to the top of the page upon the 'afterStore' event
+
+| Configuration Option | Description | Type | Default |
+|----------------------|-------------|------|---------|
+| `platform[platform].scrollToTop` | Scroll to top middleware configuration | Object | - |
+| `platform[platform].scrollToTop.enabled` | Enables middleware | boolean | false |
+| `platform[platform].scrollToTop.selector` | Query selector to scroll to | string | - |
+| `platform[platform].scrollToTop.options` | [`window.scroll` options configuration](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll#options) | Object | `{ top: 0, left: 0, behavior: 'smooth' }` |
+
+```jsx
+platform: {
+	common: {
+		scrollToTop: {
+			enabled: true,
+			options: {
+				top: 0,
+				left: 0,
+				behavior: "auto" | "instant" | "smooth"
+			}
+		}
+	}
+}
+```
+
+#### storeLogger
+Enables logging of the store upon the 'afterStore' event
+
+| Configuration Option | Description | Type | Default |
+|----------------------|-------------|------|---------|
+| `platform[platform].storeLogger` | Store logger middleware configuration | Object | - |
+| `platform[platform].storeLogger.enabled` | Enables middleware | boolean | false |
+
+```jsx
+platform: {
+	common: {
+		storeLogger: {
+			enabled: true
+		}
+	}
+}
+```
+
+### Shopify Platform Middleware
+In addition when platform is `shopify`, the following middleware is available:
+
+| Configuration Option | Description | Type | Default |
+|----------------------|-------------|------|---------|
+| `platform.shopify.mutateResults` | Shopify Updating results configuration | Object | - |
+| `platform.shopify.mutateResults.url` | Results URL Mutation configuration | Object | - |
+| `platform.shopify.mutateResults.url.enabled` | Enables middleware | Object | - |
+
+
+#### mutateResults
+Enables updating the URL with search results. Product urls will be prefixed with their category route.
+
+```jsx
+platform: {
+	shopify: {
+		mutateResults: {
+			url: {
+				enabled: true
+			}
+		}
+	}
+}
+```
+
+
 ### Language Translations
 
 | Configuration Option | Description | Type | Default |
