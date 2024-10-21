@@ -3152,7 +3152,7 @@
 								TemplateSelect.F
 							);
 						},
-						props: { type: 'autocomplete', templatesStore, targetId },
+						props: { type: 'autocomplete', templatesStore, targetId, input: templateConfig.autocomplete?.inputSelector },
 						hideTarget: !0,
 					};
 				});
@@ -6763,7 +6763,7 @@
 		'../snap-toolbox/dist/esm/version/version.js': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';
 			__webpack_require__.d(__webpack_exports__, { r: () => version });
-			const { version } = { version: '1.2.1' };
+			const { version } = { version: '1.2.2' };
 		},
 		'../snap-tracker/dist/esm/Tracker.js': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';
