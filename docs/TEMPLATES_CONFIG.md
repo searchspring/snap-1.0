@@ -102,7 +102,7 @@ Allows you to set up background filters. You can configure filters for tags, col
 | `plugins.common.backgroundFilters.filters[].controllerType` | Defines which controller types the filter should apply to | (string)[] | ➖ |
 
 ```jsx
-platform: {
+plugins: {
 	common: {
 		backgroundFilters: {
 			filters: [{
@@ -138,13 +138,13 @@ Configures the behavior of scrolling to the top of the page after a search has o
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|
-| `platform.common.scrollToTop` | Scroll to top plugin configuration | Object | ➖ |
-| `platform.common.scrollToTop.enabled` | Enables plugin | boolean | true |
-| `platform.common.scrollToTop.selector` | Query selector to scroll to | string | 'body' |
-| `platform.common.scrollToTop.options` | [`window.scroll` options configuration](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll#options) | Object | `{ top: 0, left: 0, behavior: 'smooth' }` |
+| `plugins.common.scrollToTop` | Scroll to top plugin configuration | Object | ➖ |
+| `plugins.common.scrollToTop.enabled` | Enables plugin | boolean | true |
+| `plugins.common.scrollToTop.selector` | Query selector to scroll to | string | 'body' |
+| `plugins.common.scrollToTop.options` | [`window.scroll` options configuration](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll#options) | Object | `{ top: 0, left: 0, behavior: 'smooth' }` |
 
 ```jsx
-platform: {
+plugins: {
 	common: {
 		scrollToTop: {
 			enabled: true,
@@ -173,7 +173,7 @@ In addition when platform is `shopify`, the following plugins are available:
 Enables updating the URL for products within search results; product URLs will be prefixed with their category route. The platform specific context variable `collection` must be provided for this functionality.
 
 ```jsx
-platform: {
+plugins: {
 	shopify: {
 		mutateResults: {
 			url: {
