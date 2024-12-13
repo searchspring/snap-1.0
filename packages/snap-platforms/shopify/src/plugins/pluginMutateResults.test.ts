@@ -64,8 +64,10 @@ describe('Shopify pluginMutateResults', () => {
 			controller.context.collection = collectionContext;
 
 			const config = {
-				collectionInUrl: {
-					enabled: true,
+				mutations: {
+					collectionInUrl: {
+						enabled: true,
+					},
 				},
 			};
 
@@ -111,10 +113,12 @@ describe('Shopify pluginMutateResults', () => {
 			errMock.mockRestore();
 		});
 
-		it('requires config.enabled', async () => {
+		it('requires collectionInUrl config.enabled', async () => {
 			const config = {
-				collectionInUrl: {
-					enabled: false,
+				mutations: {
+					collectionInUrl: {
+						enabled: false,
+					},
 				},
 			};
 
@@ -127,8 +131,10 @@ describe('Shopify pluginMutateResults', () => {
 
 		it('requires context.collection to be defined', async () => {
 			const config = {
-				collectionInUrl: {
-					enabled: true,
+				mutations: {
+					collectionInUrl: {
+						enabled: true,
+					},
 				},
 			};
 
@@ -148,8 +154,10 @@ describe('Shopify pluginMutateResults', () => {
 			controller.context.collection = collectionContext;
 
 			const config = {
-				collectionInUrl: {
-					enabled: true,
+				mutations: {
+					collectionInUrl: {
+						enabled: true,
+					},
 				},
 			};
 
@@ -164,6 +172,35 @@ describe('Shopify pluginMutateResults', () => {
 			expect(controller.store.results[0].mappings.core?.url).toEqual(
 				`${ROOT}collections/${collectionContext.handle}/products/${controller.store.results[0].attributes.handle}`
 			);
+		});
+
+		it('can disable plugin entirely', async () => {
+			// plugin requires collection context
+			const collectionContext = {
+				handle: 'collection-handle',
+				name: 'Collection Name',
+			};
+
+			controller.context.collection = collectionContext;
+
+			const config = {
+				enabled: false,
+				mutations: {
+					collectionInUrl: {
+						enabled: true,
+					},
+				},
+			};
+
+			pluginMutateResultsShopify(controller, config);
+
+			await controller.search();
+
+			// plugin requires handle attribute
+			expect(controller.store.results[0].attributes.handle).toBeDefined();
+			expect(errMock).not.toHaveBeenCalled();
+
+			expect(controller.store.results[0].mappings.core?.url).toEqual(controller.store.results[0].mappings.core?.url);
 		});
 	});
 });
