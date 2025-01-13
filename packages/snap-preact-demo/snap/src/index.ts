@@ -20,7 +20,7 @@ const configStore = new StorageStore({ type: 'local', key: 'ss-demo-config' });
 	configuration and instantiation
  */
 
-let siteId = '8uyt2m';
+let siteId = 'rp9hld';
 let customOrigin = '';
 let clientConfig = {};
 
@@ -52,8 +52,23 @@ if (urlOriginParam) {
 	if (storedOrigin) customOrigin = storedOrigin;
 }
 
-// if there is a custom origin set clientConfig
+// custom username and password
+const urlUsername = urlObj.params.query.u;
+const urlPassword = urlObj.params.query.p;
+if (urlUsername && urlPassword) {
+	configStore.set('username', urlUsername);
+	configStore.set('password', urlPassword);
+}
 
+const username = configStore.get('username');
+const password = configStore.get('password');
+
+if (urlObj.params.query.aiq && (!username || !password)) {
+	alert('Please provide a username and password.');
+	// throw new Error('Please provide a username and password.');
+}
+
+// if there is a custom origin set clientConfig
 if (customOrigin) {
 	clientConfig = {
 		meta: {
@@ -80,6 +95,15 @@ if (customOrigin) {
 		// },
 		suggest: {
 			origin: customOrigin,
+		},
+	};
+} else {
+	clientConfig = {
+		converse: {
+			origin: 'https://semantic-search-api.kube-dev.searchspring.io',
+			headers: {
+				Authorization: 'Basic ' + btoa(username + ':' + password),
+			},
 		},
 	};
 }
@@ -139,9 +163,6 @@ let config: SnapConfig = {
 					id: 'search',
 					plugins: [[afterStore]],
 					settings: {
-						infinite: {
-							backfill: 5,
-						},
 						redirects: {
 							merchandising: false,
 							singleResult: false,
@@ -216,6 +237,13 @@ let config: SnapConfig = {
 						hideTarget: true,
 						component: async () => {
 							return (await import('./components/Autocomplete/Autocomplete')).Autocomplete;
+						},
+					},
+					{
+						selector: '.searchspring-ac-tools',
+						hideTarget: true,
+						component: async () => {
+							return (await import('./components/Autocomplete/AutocompleteTools')).AutocompleteTools;
 						},
 					},
 				],

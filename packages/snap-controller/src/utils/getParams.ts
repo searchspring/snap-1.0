@@ -6,7 +6,7 @@ import {
 } from '@searchspring/snapi-types';
 import type { ImmutableUrlState } from '@searchspring/snap-url-manager';
 
-export function getSearchParams(state: ImmutableUrlState): Record<string, any> {
+export function getSearchParams(state: ImmutableUrlState): SearchRequestModel {
 	const params: SearchRequestModel = {};
 
 	if (state.tag) {
@@ -18,6 +18,12 @@ export function getSearchParams(state: ImmutableUrlState): Record<string, any> {
 		params.search = params.search || {};
 		params.search.query = params.search.query || {};
 		params.search.query.string = state.query;
+	}
+
+	if (state.aiq) {
+		params.search = params.search || {};
+		params.search.query = params.search.query || {};
+		params.search.query.string = state.aiq;
 	}
 
 	if (state.rq) {

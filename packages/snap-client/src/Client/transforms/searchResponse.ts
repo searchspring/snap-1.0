@@ -153,6 +153,7 @@ export type searchResponseType = {
 	didYouMean?: {
 		query: string;
 	};
+	userMessage?: string;
 	query?: {
 		matchType?: SearchResponseModelSearchMatchTypeEnum;
 		corrected?: string;
@@ -433,6 +434,7 @@ transformSearchResponse.search = (response: searchResponseType, request: SearchR
 	const searchObj: {
 		search: {
 			query?: string;
+			message?: string;
 			didYouMean?: string;
 			matchType?: string;
 			originalQuery?: string;
@@ -440,6 +442,7 @@ transformSearchResponse.search = (response: searchResponseType, request: SearchR
 	} = {
 		search: {
 			query: request?.search?.query?.string,
+			message: response?.userMessage,
 			didYouMean: response?.didYouMean?.query,
 			matchType: response?.query?.matchType,
 		},

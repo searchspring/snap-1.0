@@ -22,6 +22,7 @@ import type {
 } from '@searchspring/snapi-types';
 
 import deepmerge from 'deepmerge';
+import { ConverseAPI } from './apis/Converse';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -45,6 +46,9 @@ const defaultConfig: ClientConfig = {
 	suggest: {
 		// origin: 'https://snapi.kube.searchspring.io'
 	},
+	converse: {
+		// origin: 'https://snapi.kube.searchspring.io'
+	},
 };
 
 export class Client {
@@ -58,6 +62,7 @@ export class Client {
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
 		finder: HybridAPI;
+		converse: ConverseAPI;
 	};
 
 	constructor(globals: ClientGlobals, config: ClientConfig = {}) {
@@ -134,6 +139,16 @@ export class Client {
 					globals: this.config.suggest?.globals,
 				})
 			),
+			converse: new ConverseAPI(
+				new ApiConfiguration({
+					fetchApi: this.config.fetchApi,
+					mode: this.mode,
+					origin: this.config.converse?.origin,
+					headers: this.config.converse?.headers,
+					cache: this.config.converse?.cache,
+					globals: this.config.converse?.globals,
+				})
+			),
 		};
 	}
 
@@ -159,6 +174,13 @@ export class Client {
 		params = deepmerge(this.globals, params);
 
 		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.search.getSearch(params)]);
+		return { meta, search };
+	}
+
+	async converse(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge(this.globals, params);
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.converse.getConverse(params)]);
 		return { meta, search };
 	}
 

@@ -95,6 +95,8 @@ export const NoResults = withSnap(
 						</div>
 					)}
 
+					<div style={{ maxWidth: '100%' }}>{recsController?.store?.loaded && <Recommendation controller={recsController} />}</div>
+
 					<div className="ss-no-results-container">
 						<h4 className="ss-title">Suggestions</h4>
 
@@ -141,7 +143,6 @@ export const NoResults = withSnap(
 								<a href="mailto:email@sitename.com">email@sitename.com</a>
 							</p>
 						</div>
-						<div style={{ maxWidth: '100%' }}>{recsController?.store?.loaded && <Recommendation controller={recsController} />}</div>
 					</div>
 				</div>
 			);

@@ -19,6 +19,7 @@ type UnnamedMapOptions = {
 
 export type CoreMap = {
 	query: MapOptions;
+	aiq: MapOptions;
 	oq: MapOptions;
 	rq: MapOptions;
 	tag: MapOptions;
@@ -65,6 +66,7 @@ const defaultConfig: UrlTranslatorConfigFull = {
 	parameters: {
 		core: {
 			query: { name: 'q', type: ParamLocationType.query },
+			aiq: { name: 'aiq', type: ParamLocationType.query },
 			oq: { name: 'oq', type: ParamLocationType.query },
 			rq: { name: 'rq', type: ParamLocationType.query },
 			tag: { name: 'tag', type: ParamLocationType.query },

@@ -1,19 +1,25 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 import { Skeleton } from '@searchspring/snap-preact/components';
 
-export class SidebarSkel extends Component {
-	render() {
-		return (
-			<div className="ss-sidebar-container" style={{ flex: '0 1 auto', width: '250px', margin: '0 40px 0 0', overflow: 'hidden' }}>
-				<div className="ss__facets">
-					{Array.from({ length: 5 }).map((_, index) => (
-						<FacetSkel key={index} />
-					))}
-				</div>
-			</div>
-		);
+export const SidebarSkel = () => {
+	const aiq = new URL(window.location.href).searchParams.get('aiq');
+	const sideBarElem = document.querySelector('.ss-lite-sidebar');
+	if (aiq) {
+		sideBarElem?.setAttribute('style', 'display: none');
+	} else {
+		sideBarElem?.setAttribute('style', 'display: block');
 	}
-}
+
+	return (
+		<div className="ss-sidebar-container" style={{ flex: '0 1 auto', width: '250px', margin: '0 40px 0 0', overflow: 'hidden' }}>
+			<div className="ss__facets">
+				{Array.from({ length: 5 }).map((_, index) => (
+					<FacetSkel key={index} />
+				))}
+			</div>
+		</div>
+	);
+};
 
 const FacetSkel = () => {
 	return (

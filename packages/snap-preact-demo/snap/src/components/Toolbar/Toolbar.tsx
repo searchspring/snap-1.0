@@ -17,31 +17,33 @@ const mobileMediaQuery = '(max-width: 991px)';
 export const Toolbar = withController(
 	observer(({ controller }: ToolBarProps) => {
 		const store = controller.store;
-		const { pagination } = store;
+		const { pagination, search } = store;
 		const isMobile = useMediaQuery(mobileMediaQuery);
 
 		return (
-			<div className="ss-toolbar ss-toolbar-top">
-				<Slideout displayAt={mobileMediaQuery} buttonContent={<SlideoutButton />}>
-					<Fragment>
-						<h3>Filters</h3>
-						<SidebarContents />
-					</Fragment>
-				</Slideout>
+			!search?.message && (
+				<div className="ss-toolbar ss-toolbar-top">
+					<Slideout displayAt={mobileMediaQuery} buttonContent={<SlideoutButton />}>
+						<Fragment>
+							<h3>Filters</h3>
+							<SidebarContents />
+						</Fragment>
+					</Slideout>
 
-				<div className="ss-toolbar-row">
-					<div className="ss-toolbar-col">
-						<SortBy />
-					</div>
+					<div className="ss-toolbar-row">
+						<div className="ss-toolbar-col">
+							<SortBy />
+						</div>
 
-					<div className="ss-toolbar-col">
-						<PerPage />
-					</div>
-					<div className="ss-toolbar-col pagination">
-						{pagination.totalPages > 1 && !isMobile && !controller.config?.settings?.infinite && <Pagination pagination={pagination} />}
+						<div className="ss-toolbar-col">
+							<PerPage />
+						</div>
+						<div className="ss-toolbar-col pagination">
+							{pagination.totalPages > 1 && !isMobile && !controller.config?.settings?.infinite && <Pagination pagination={pagination} />}
+						</div>
 					</div>
 				</div>
-			</div>
+			)
 		);
 	})
 );
