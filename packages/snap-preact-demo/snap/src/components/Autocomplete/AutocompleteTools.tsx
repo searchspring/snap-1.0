@@ -13,23 +13,32 @@ const CSS = {
 		css({
 			position: 'absolute',
 			top: '0',
-			right: '30px',
+			right: '40px',
 		}),
 };
 
 export const AutocompleteTools = ({ controller }: AutocompleteToolsProps) => {
 	const aiEnabled = new URL(window.location.href).searchParams.get('aiq');
 
-	const setInputName = (enabled) => {
+	const toggleAiSearch = (enabled) => {
 		let input: string | Element | null = controller.config.selector;
 		if (typeof input === 'string') {
 			input = document.querySelector(input);
 		}
 
+		// disable autocomplete
+		if (enabled) {
+			controller.unbind();
+			controller.setFocused();
+		} else {
+			controller.bind();
+		}
+
 		input.setAttribute('name', enabled ? 'aiq' : 'q');
+		input.setAttribute('placeholder', enabled ? 'What can I help you find today?' : 'Search for Brand, Color, Size...');
 	};
 
-	setInputName(aiEnabled);
+	toggleAiSearch(aiEnabled);
 
 	return (
 		<div css={[CSS.tools()]} className="ss__autocomplete__tools">
@@ -38,7 +47,7 @@ export const AutocompleteTools = ({ controller }: AutocompleteToolsProps) => {
 				round
 				size={'33px'}
 				onClick={(e, enabled) => {
-					setInputName(enabled);
+					toggleAiSearch(enabled);
 				}}
 			/>
 		</div>

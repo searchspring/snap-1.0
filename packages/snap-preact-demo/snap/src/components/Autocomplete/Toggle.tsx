@@ -21,7 +21,7 @@ const CSS = {
 			'&.ss__toggle--off': {
 				svg: {
 					path: {
-						stroke: '#aaa !important',
+						stroke: '#ddd !important',
 						fill: 'none',
 					},
 				},
@@ -74,7 +74,7 @@ const CSS = {
 			},
 
 			'& .ss__toggle__switch--filtered .ss__toggle__slider-box': {
-				backgroundColor: activeColor || '#4c3ce2',
+				backgroundColor: activeColor || '#382f5a',
 			},
 
 			'& .ss__toggle__switch--filtered .ss__toggle__slider-box .ss__toggle__slider': {
