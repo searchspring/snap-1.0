@@ -893,7 +893,7 @@ input[type='text'] {
 	}
 
 	.ss-lite-main .ss-lite-flex-nowrap .ss-lite-sidebar {
-		display: none;
+		display: none !important;
 	}
 }
 
