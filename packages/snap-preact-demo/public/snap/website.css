@@ -576,6 +576,7 @@ input[type='text'] {
 ============================================== */
 .ss-lite-header {
 	background: #382f5a;
+	border-bottom: 5px solid #7061a9;
 }
 
 .ss-lite-header,
@@ -623,7 +624,6 @@ input[type='text'] {
 .ss-lite-header .ss-lite-header-logo a {
 	text-align: right;
 	display: block;
-	line-height: 0;
 }
 
 .ss-lite-header .ss-lite-header-logo svg {
@@ -645,6 +645,8 @@ input[type='text'] {
 
 .ss-lite-header .ss-lite-header-buttons .ss-lite-search-bar .ss-lite-input[type='text'] {
 	border: 1px solid #ebebeb;
+	border-radius: 4px;
+	outline: 0;
 	padding-right: 90px;
 	width: 100%;
 }
@@ -854,6 +856,13 @@ input[type='text'] {
 
 /* Responsive
 ============================================== */
+
+@media only screen and (max-width: 1200px) {
+	.ss-lite-header .ss-lite-header-buttons {
+		width: 600px;
+	}
+}
+
 @media only screen and (max-width: 991px) {
 
 	.ss-lite-footer .ss-lite-col,
@@ -876,7 +885,7 @@ input[type='text'] {
 
 	.ss-lite-header .ss-lite-header-logo {
 		max-width: 250px;
-		margin: 0 auto 20px auto;
+		margin: 0 0 20px 0;
 	}
 
 	.ss-lite-main .ss-lite-flex-nowrap {
