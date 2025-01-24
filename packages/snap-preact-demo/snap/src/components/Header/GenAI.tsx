@@ -17,16 +17,10 @@ const CSS = {
 			alignItems: 'center',
 			marginBottom: '20px',
 			'.ss-genai-image-search': {
-				border: '1px solid #3a23ad',
-				borderRadius: '3px',
-				overflow: 'hidden',
-				position: 'relative',
-				// width: '120px',
-				// height: '120px',
 				display: 'flex',
 				justifyContent: 'center',
-				// boxSizing: 'border-box',
-				// padding: '5px',
+				width: '120px',
+				height: '120px',
 				'.ss-genai-image-outer-ring': {
 					position: 'absolute',
 					width: '100%',
@@ -43,9 +37,11 @@ const CSS = {
 					boxSizing: 'border-box',
 				},
 				'.ss-genai-image': {
+					border: '2px solid rgb(213 209 238)',
+					boxSizing: 'border-box',
 					borderRadius: '3px',
-					maxWidth: '100px',
-					maxHeight: '100px',
+					maxWidth: '120px',
+					maxHeight: '120px',
 				},
 			},
 			'.ss-genai-line': {
@@ -56,13 +52,14 @@ const CSS = {
 			'.ss-genai-header': {
 				display: 'flex',
 				padding: '10px',
+				gap: '10px',
 				borderRadius: '4px',
 				border: '1px solid #3a23ad',
 				backgroundColor: '#3a23ad0d',
 				flex: 1,
 
 				'.ss-genai-header__left': {
-					margin: '6px 10px 0 0',
+					margin: '6px 0 0 0',
 				},
 
 				'.ss-genai-header__title': {
@@ -96,17 +93,16 @@ export const GenAI = withController(
 		return (
 			displayMessage && (
 				<div css={[CSS.genAI()]} className="ss-genai">
-					{searchedImage && (
-						<Fragment>
-							<div className="ss-genai-image-search">
-								{/* <div className="ss-genai-image-outer-ring"></div> */}
-								{/* <div className="ss-genai-image-ring"></div> */}
-								<img className="ss-genai-image" src={searchedImage} alt="uploaded image" />
-							</div>
-							<div className="ss-genai-line"></div>
-						</Fragment>
-					)}
 					<div className="ss-genai-header">
+						{searchedImage && (
+							<Fragment>
+								<div className="ss-genai-image-search">
+									{/* <div className="ss-genai-image-outer-ring"></div> */}
+									{/* <div className="ss-genai-image-ring"></div> */}
+									<img className="ss-genai-image" src={searchedImage} alt="uploaded image" />
+								</div>
+							</Fragment>
+						)}
 						<div className="ss-genai-header__left">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 								<g clip-path="url(#clip0_576_8456)">
