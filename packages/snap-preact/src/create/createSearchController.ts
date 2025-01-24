@@ -18,6 +18,13 @@ export default (config: SnapSearchControllerConfig, services?: SnapControllerSer
 		config.client.config.mode = config.mode;
 	}
 
+	if (config.context?.template === 'category') {
+		config.controller.settings = {
+			...config.controller.settings,
+			isCategory: true,
+		};
+	}
+
 	const cntrlr = new SearchController(
 		config.controller,
 		{

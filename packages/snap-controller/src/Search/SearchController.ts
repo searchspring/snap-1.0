@@ -6,8 +6,7 @@ import { StorageStore, ErrorType } from '@searchspring/snap-store-mobx';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
 
-import type { BeaconEvent } from '@searchspring/snap-tracker';
-import type { SearchStore } from '@searchspring/snap-store-mobx';
+import type { Product, Banner, SearchStore, SearchResultStore } from '@searchspring/snap-store-mobx';
 import type {
 	SearchControllerConfig,
 	AfterSearchObj,
@@ -25,6 +24,9 @@ import type {
 	MetaResponseModel,
 	SearchResponseModel,
 } from '@searchspring/snapi-types';
+
+// TODO: change to package import when ready
+import { Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/snap-tracker/dist/cjs/client';
 
 const defaultConfig: SearchControllerConfig = {
 	id: 'search',
@@ -45,7 +47,11 @@ const defaultConfig: SearchControllerConfig = {
 
 type SearchTrackMethods = {
 	product: {
-		click: (e: MouseEvent, result: any) => BeaconEvent | undefined;
+		click: (e: MouseEvent, result: Product) => void;
+		render: (result: Product) => void;
+		impression: (result: Product) => void;
+		addToCart: (result: Product) => void;
+		redirect: (redirectURL: string) => void;
 	};
 };
 
@@ -55,6 +61,31 @@ export class SearchController extends AbstractController {
 	declare config: SearchControllerConfig;
 	storage: StorageStore;
 	private previousResults: Array<SearchResponseModelResult> = [];
+	private trackMethod: 'search' | 'category';
+
+	private lastParams: string = '';
+	// events: {
+	// 	product: Record<string, {
+	// 		click?: SearchSchemaData;
+	// 		impression?: SearchSchemaData;
+	// 		render?: SearchSchemaData;
+	// 	}>;
+	// } = {
+	// 	product: {},
+	// };
+
+	events: {
+		[params: string]: {
+			product: Record<
+				string,
+				{
+					click?: SearchSchemaData;
+					impression?: SearchSchemaData;
+					render?: SearchSchemaData;
+				}
+			>;
+		};
+	} = {};
 
 	constructor(
 		config: SearchControllerConfig,
@@ -70,6 +101,8 @@ export class SearchController extends AbstractController {
 		if (this.config.settings?.infinite && typeof this.config.settings.restorePosition == 'undefined') {
 			this.config.settings.restorePosition = { enabled: true };
 		}
+
+		this.trackMethod = this.config.settings?.isCategory ? 'category' : 'search';
 
 		this.store.setConfig(this.config);
 
@@ -87,6 +120,7 @@ export class SearchController extends AbstractController {
 			const redirectURL = search.response?.search?.merchandising?.redirect;
 			const searchStore = search.controller.store as SearchStore;
 			if (redirectURL && config?.settings?.redirects?.merchandising && !search?.response?.search?.filters?.length && !searchStore.loaded) {
+				this.track.product.redirect(redirectURL);
 				window.location.replace(redirectURL);
 				return false;
 			}
@@ -212,11 +246,67 @@ export class SearchController extends AbstractController {
 		this.use(this.config);
 	}
 
+	getSearchRedirectSchemaData = (redirectURL: string): SearchRedirectSchemaData => {
+		return {
+			redirect: redirectURL,
+		};
+	};
+
+	getSearchSchemaData = (results?: SearchResultStore): SearchSchemaData => {
+		return {
+			q: this.params.search?.query?.string || '',
+			correctedQuery: this.params.search?.originalQuery || '', // TODO: is this correct?
+			// bgfilter: [], // TODO: bgfilters
+			sort: [
+				{
+					field: this.store.sorting.current?.field,
+					dir: this.store.sorting.current?.direction as any, // TODO: enum
+				},
+			],
+			pagination: {
+				totalResults: this.store.pagination.totalResults,
+				page: this.store.pagination.page,
+				resultsPerPage: this.store.pagination.pageSize,
+			},
+			merchandising: {
+				personalized: this.store.merchandising.personalized,
+				triggeredCampaigns:
+					this.store.merchandising.campaigns?.map((campaign) => {
+						const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
+						return {
+							id: campaign.id,
+							experimentId: experiement?.experimentId,
+							variationId: experiement?.variationId,
+						};
+					}) || [],
+			},
+			results:
+				results?.map((result: Product | Banner): Item => {
+					return {
+						uid: (result as Product).display?.mappings.core?.uid || (result as Product).mappings.core?.uid || '',
+						// @ts-ignore - childUid not on snapi-types
+						// TODO: fix types here
+						childUid: (result as Product).display?.mappings.core?.childUid || (result as Product).mappings.core?.childUid,
+						sku: (result as Product).display?.mappings.core?.sku || (result as Product).mappings.core?.sku,
+						// @ts-ignore - childSku not on snapi-types
+						childSku: (result as Product).display?.mappings.core?.childSku || (result as Product).mappings.core?.childSku,
+					};
+				}) || [],
+		};
+	};
+
 	track: SearchTrackMethods = {
 		product: {
-			click: (e: MouseEvent, result): BeaconEvent | undefined => {
+			click: (e: MouseEvent, result): void => {
+				e.preventDefault(); // TODO: remove
+
+				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.click) {
+					console.log('click already tracked');
+					return;
+				}
+
 				const target = e.target as HTMLAnchorElement;
-				const resultHref = result.display?.mappings.core?.url || result.mappings.core?.url;
+				const resultHref = result.display?.mappings.core?.url || result.mappings.core?.url || '';
 				const elemHref = target?.getAttribute('href');
 
 				// the href that should be used for restoration - if the elemHref contains the resultHref - use resultHref
@@ -246,17 +336,43 @@ export class SearchController extends AbstractController {
 				// store position data or empty object
 				this.storage.set('scrollMap', scrollMap);
 
-				// track
-				const { intellisuggestData, intellisuggestSignature } = result.attributes;
+				const data = this.getSearchSchemaData([result]);
+				this.tracker.beacon.events[this.trackMethod].clickThrough({ data });
+				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
+				this.events[this.lastParams].product[result.id].click = data;
+				this.eventManager.fire('track.product.click', { controller: this, event: e, result });
+			},
+			render: (result: Product | Banner) => {
+				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.render) {
+					console.log('render already tracked');
+					return;
+				}
 
-				const event = this.tracker.track.product.click({
-					intellisuggestData,
-					intellisuggestSignature,
-					href: elemHref || resultHref,
-				});
+				const data = this.getSearchSchemaData([result]);
+				this.tracker.beacon.events[this.trackMethod].render({ data });
+				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
+				this.events[this.lastParams].product[result.id].render = data;
+				this.eventManager.fire('track.product.render', { controller: this, result, trackEvent: data });
+			},
+			impression: (result: Product): void => {
+				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.impression) {
+					console.log('impression already tracked');
+					return;
+				}
 
-				this.eventManager.fire('track.product.click', { controller: this, event: e, result, trackEvent: event });
-				return event;
+				const data = this.getSearchSchemaData([result]);
+				this.tracker.beacon.events[this.trackMethod].impression({ data });
+				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
+				this.events[this.lastParams].product[result.id].impression = data;
+				this.eventManager.fire('track.product.impression', { controller: this, result, trackEvent: data });
+			},
+			addToCart: (result: Product): void => {
+				this.tracker.beacon.events[this.trackMethod].addToCart({ data: this.getSearchSchemaData([result]) });
+				this.eventManager.fire('track.product.addToCart', { controller: this, result });
+			},
+			redirect: (redirectURL: string): void => {
+				this.tracker.beacon.events.search.redirect({ data: this.getSearchRedirectSchemaData(redirectURL) });
+				this.eventManager.fire('track.product.redirect', { controller: this, redirectURL });
 			},
 		},
 	};
@@ -318,6 +434,8 @@ export class SearchController extends AbstractController {
 				await this.init();
 			}
 			const params = this.params;
+			this.lastParams = JSON.stringify(params);
+			this.events[this.lastParams] = this.events[this.lastParams] || { product: {} };
 
 			if (this.params.search?.query?.string && this.params.search?.query?.string.length) {
 				// save it to the history store

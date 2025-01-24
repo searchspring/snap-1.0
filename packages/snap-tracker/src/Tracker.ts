@@ -5,8 +5,9 @@ import { StorageStore } from '@searchspring/snap-store-mobx';
 import { cookies, getFlags, version, DomTargeter, getContext, charsParams } from '@searchspring/snap-toolbox';
 import { AppMode } from '@searchspring/snap-toolbox';
 
+import { Beacon } from './Beacon';
+
 import { TrackEvent } from './TrackEvent';
-import { PixelEvent } from './PixelEvent';
 import { BeaconEvent } from './BeaconEvent';
 import {
 	TrackerGlobals,
@@ -21,19 +22,18 @@ import {
 	ShopperLoginEvent,
 	TrackErrorEvent,
 	OrderTransactionData,
-	ProductData,
 	TrackerConfig,
 	DoNotTrackEntry,
 	PreflightRequestModel,
 	CurrencyContext,
 } from './types';
+import { CartSchemaData, Item, OrderTransactionSchemaData, Product } from './client';
 
 export const BATCH_TIMEOUT = 200;
 const LEGACY_USERID_COOKIE_NAME = '_isuid';
 const USERID_COOKIE_NAME = 'ssUserId';
 const SHOPPERID_COOKIE_NAME = 'ssShopperId';
 const COOKIE_EXPIRATION = 31536000000; // 1 year
-const VIEWED_COOKIE_EXPIRATION = 220752000000; // 7 years
 const COOKIE_SAMESITE = 'Lax';
 const COOKIE_DOMAIN =
 	(typeof window !== 'undefined' && window.location.hostname && '.' + window.location.hostname.replace(/^www\./, '')) || undefined;
@@ -53,12 +53,15 @@ export class Tracker {
 	private mode = AppMode.production;
 	private globals: TrackerGlobals;
 	private localStorage: StorageStore;
-	private context: BeaconContext;
+
+	// @ts-ignore - temp
+	private context: BeaconContext = {};
 	private isSending: number | undefined;
 	private doNotTrack: DoNotTrackEntry[];
 
 	public config: TrackerConfig;
 	private targeters: DomTargeter[] = [];
+	public beacon: Beacon;
 
 	constructor(globals: TrackerGlobals, config?: TrackerConfig) {
 		if (typeof globals != 'object' || typeof globals.siteId != 'string') {
@@ -81,19 +84,22 @@ export class Tracker {
 
 		this.localStorage.set('siteId', this.globals.siteId);
 
-		this.context = {
-			userId: this.getUserId() || '',
-			sessionId: this.getSessionId(),
-			shopperId: this.getShopperId(),
-			pageLoadId: uuidv4(),
-			website: {
-				trackingCode: this.globals.siteId,
-			},
-		};
+		this.beacon = new Beacon({ siteId: this.globals.siteId, currency: this.globals.currency }, { version, framework: 'snap' });
+		console.log('beacon', this.beacon);
 
-		if (this.globals.currency?.code) {
-			this.context.currency = this.globals.currency;
-		}
+		// this.context = {
+		// 	userId: this.getUserId() || '',
+		// 	sessionId: this.getSessionId(),
+		// 	shopperId: this.getShopperId(),
+		// 	pageLoadId: uuidv4(),
+		// 	website: {
+		// 		trackingCode: this.globals.siteId,
+		// 	},
+		// };
+
+		// if (this.globals.currency?.code) {
+		// 	this.context.currency = this.globals.currency;
+		// }
 
 		if (!window.searchspring?.tracker) {
 			window.searchspring = window.searchspring || {};
@@ -219,109 +225,13 @@ export class Tracker {
 		},
 
 		shopper: {
-			login: (data: ShopperLoginEvent, siteId?: string): BeaconEvent | undefined => {
-				// sets shopperid if logged in
-				if (!getFlags().cookies()) {
-					return;
-				}
-				if (!data.id) {
-					console.error('tracker.shopper.login event: requires a valid shopper ID parameter. Example: tracker.shopper.login({ id: "1234" })');
-					return;
-				}
-				data.id = `${data.id}`;
-
-				let context = this.context;
-				if (siteId) {
-					context = deepmerge(context, {
-						context: {
-							website: {
-								trackingCode: siteId,
-							},
-						},
-					});
-					context.shopperId = data.id;
-				}
-				const storedShopperId = this.getShopperId();
-				if (storedShopperId != data.id) {
-					// user's logged in id has changed, update shopperId cookie send login event
-					cookies.set(SHOPPERID_COOKIE_NAME, data.id, COOKIE_SAMESITE, COOKIE_EXPIRATION, COOKIE_DOMAIN);
-					this.context.shopperId = data.id;
-					this.sendPreflight();
-					const payload = {
-						type: BeaconType.LOGIN,
-						category: BeaconCategory.PERSONALIZATION,
-						context,
-						event: {
-							userId: this.context.userId,
-							shopperId: data.id,
-						},
-					};
-					return this.track.event(payload);
-				}
+			login: (data: ShopperLoginEvent, siteId?: string): undefined => {
+				this.beacon.events.shopper.login({ data: { id: data.id }, siteId });
 			},
 		},
 		product: {
-			view: (data: ProductViewEvent, siteId?: string): BeaconEvent | undefined => {
-				if (!data?.uid && !data?.sku && !data?.childUid && !data?.childSku) {
-					console.error(
-						'track.product.view event: requires a valid uid, sku and/or childUid, childSku. \nExample: track.product.view({ uid: "123", sku: "product123", childUid: "123_a", childSku: "product123_a" })'
-					);
-					return;
-				}
-				let context = this.context;
-				if (siteId) {
-					context = deepmerge(context, {
-						context: {
-							website: {
-								trackingCode: siteId,
-							},
-						},
-					});
-				}
-				const payload = {
-					type: BeaconType.PRODUCT,
-					category: BeaconCategory.PAGEVIEW,
-					context,
-					event: {
-						uid: data?.uid ? `${data.uid}` : undefined,
-						sku: data?.sku ? `${data.sku}` : undefined,
-						childUid: data?.childUid ? `${data.childUid}` : undefined,
-						childSku: data?.childSku ? `${data.childSku}` : undefined,
-					},
-				};
-
-				const event = this.track.event(payload);
-				if (event) {
-					// save recently viewed products to cookie
-					const sku = data?.childSku || data?.childUid || data?.sku || data?.uid;
-					if (sku) {
-						const lastViewedProducts = this.cookies.viewed.get();
-						const uniqueCartItems = Array.from(new Set([sku, ...lastViewedProducts])).map((item) => `${item}`.trim());
-						cookies.set(
-							VIEWED_PRODUCTS,
-							uniqueCartItems.slice(0, MAX_VIEWED_COUNT).join(','),
-							COOKIE_SAMESITE,
-							VIEWED_COOKIE_EXPIRATION,
-							COOKIE_DOMAIN
-						);
-						if (!lastViewedProducts.includes(sku)) {
-							this.sendPreflight();
-						}
-					}
-
-					// legacy tracking
-					if (data?.sku) {
-						// only send sku to pixel tracker if present (don't send childSku)
-						new PixelEvent({
-							...payload,
-							event: {
-								sku: data.sku,
-								id: data.uid,
-							},
-						});
-					}
-					return event;
-				}
+			view: (data: Item | ProductViewEvent, siteId?: string): undefined => {
+				this.beacon.events.product.pageView({ data: { result: data as Item }, siteId });
 			},
 			click: (data: ProductClickEvent, siteId?: string): BeaconEvent | undefined => {
 				if (!data?.intellisuggestData || !data?.intellisuggestSignature) {
@@ -358,136 +268,39 @@ export class Tracker {
 			},
 		},
 		cart: {
-			view: (data: CartViewEvent, siteId?: string): BeaconEvent | undefined => {
-				if (!Array.isArray(data?.items) || !data?.items.length) {
-					console.error(
-						'track.view.cart event: parameter must be an array of cart items. \nExample: track.view.cart({ items: [{ id: "123", sku: "product123", childSku: "product123_a", qty: "1", price: "9.99" }] })'
-					);
-					return;
-				}
-				let context = this.context;
-				if (siteId) {
-					context = deepmerge(context, {
-						context: {
-							website: {
-								trackingCode: siteId,
-							},
-						},
-					});
-				}
-				const items = data.items.map((item, index) => {
-					if (!item?.qty || !item?.price || (!item?.uid && !item?.sku && !item?.childUid && !item?.childSku)) {
-						console.error(
-							`track.view.cart event: item at index ${index} requires a valid qty, price, and (uid and/or sku and/or childUid and/or childSku.) \nExample: track.view.cart({ items: [{ uid: "123", sku: "product123", childUid: "123_a", childSku: "product123_a", qty: "1", price: "9.99" }] })`
-						);
-						return;
-					}
-					const product: ProductData = {
-						qty: `${item.qty}`,
-						price: `${item.price}`,
-					};
-					if (item?.uid) {
-						product.uid = `${item.uid}`;
-					}
-					if (item?.sku) {
-						product.sku = `${item.sku}`;
-					}
-					if (item?.childUid) {
-						product.childUid = `${item.childUid}`;
-					}
-					if (item?.childSku) {
-						product.childSku = `${item.childSku}`;
-					}
-					return product;
-				});
-				const payload = {
-					type: BeaconType.CART,
-					category: BeaconCategory.CARTVIEW,
-					context,
-					event: { items },
-				};
-
-				const event = this.track.event(payload);
-				if (event) {
-					// save cart items to cookie
-					if (items.length) {
-						const products = items.map((item) => item?.childSku || item?.childUid || item?.sku || item?.uid || '').filter((sku) => sku);
-						this.cookies.cart.add(products);
-					}
-					// legacy tracking
-					new PixelEvent(payload);
-					return event;
-				}
+			view: (data: CartViewEvent | CartSchemaData, siteId?: string): undefined => {
+				const results = (data as CartViewEvent).items || (data as CartSchemaData).results;
+				this.beacon.events.cart.view({ data: { results: results as Product[] }, siteId });
 			},
 		},
 		order: {
-			transaction: (data: OrderTransactionData, siteId?: string): BeaconEvent | undefined => {
-				if (!data?.items || !Array.isArray(data.items) || !data.items.length) {
-					console.error(
-						'track.order.transaction event: object parameter must contain `items` array of cart items. \nExample: order.transaction({ order: { id: "1001", total: "10.71", transactionTotal: "9.99", city: "Los Angeles", state: "CA", country: "US" }, items: [{ uid: "123", sku: "product123", childUid: "123_a", childSku: "product123_a", qty: "1", price: "9.99" }] })'
-					);
-					return;
-				}
-				let context = this.context;
-				if (siteId) {
-					context = deepmerge(context, {
-						context: {
-							website: {
-								trackingCode: siteId,
-							},
-						},
-					});
-				}
-				const items = data.items.map((item, index) => {
-					if (!item?.qty || !item?.price || (!item?.uid && !item?.sku && !item?.childUid && !item?.childSku)) {
-						console.error(
-							`track.order.transaction event: object parameter \`items\`: item at index ${index} requires a valid qty, price, and (id or sku and/or childSku.) \nExample: order.view({ items: [{ uid: "123", sku: "product123", childUid: "123_a", childSku: "product123_a", qty: "1", price: "9.99" }] })`
-						);
-						return;
-					}
-					const product: ProductData = {
-						qty: `${item.qty}`,
-						price: `${item.price}`,
+			transaction: (data: OrderTransactionData | OrderTransactionSchemaData, siteId?: string): undefined => {
+				if ((data as OrderTransactionData).items && !(data as OrderTransactionSchemaData).orderId) {
+					// backwards compatibility for OrderTransactionData
+					const order = (data as OrderTransactionData).order;
+					const items = (data as OrderTransactionData).items as Product[];
+					const orderTransactionData: OrderTransactionSchemaData = {
+						orderId: `${order?.id || ''}`,
+						transactionTotal: Number(order?.transactionTotal || 0),
+						total: Number(order?.total || 0),
+						city: order?.city,
+						state: order?.state,
+						country: order?.country,
+						results: items.map((item) => {
+							return {
+								// uid is required - fallback to get most relevant
+								uid: item.uid || this.beacon.getSku(item),
+								childUid: item.childUid,
+								sku: item.sku,
+								childSku: item.childSku,
+								qty: Number(item.qty),
+								price: Number(item.price),
+							};
+						}),
 					};
-					if (item?.uid) {
-						product.uid = `${item.uid}`;
-					}
-					if (item?.sku) {
-						product.sku = `${item.sku}`;
-					}
-					if (item?.childUid) {
-						product.childUid = `${item.childUid}`;
-					}
-					if (item?.childSku) {
-						product.childSku = `${item.childSku}`;
-					}
-					return product;
-				});
-				const eventPayload = {
-					orderId: data?.order?.id ? `${data.order.id}` : undefined,
-					total: data?.order?.total ? `${data.order.total}` : undefined,
-					transactionTotal: data?.order?.transactionTotal ? `${data.order.transactionTotal}` : undefined,
-					city: data?.order?.city ? `${data.order.city}` : undefined,
-					state: data?.order?.state ? `${data.order.state}` : undefined,
-					country: data?.order?.country ? `${data.order.country}` : undefined,
-					items,
-				};
-				const payload = {
-					type: BeaconType.ORDER,
-					category: BeaconCategory.ORDERVIEW,
-					context,
-					event: eventPayload,
-				};
-
-				const event = this.track.event(payload);
-				if (event) {
-					// clear cart items from cookie when order is placed
-					this.cookies.cart.clear();
-
-					// legacy tracking
-					new PixelEvent(payload);
-
-					return event;
+					this.beacon.events.order.transaction({ data: orderTransactionData, siteId });
+				} else {
+					this.beacon.events.order.transaction({ data: data as OrderTransactionSchemaData, siteId });
 				}
 			},
 		},

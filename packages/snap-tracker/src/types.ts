@@ -66,8 +66,6 @@ export enum BeaconType {
 	PROFILE_PRODUCT_RENDER = 'profile.product.render', // A recommended product is loaded onto the page.
 	PROFILE_PRODUCT_IMPRESSION = 'profile.product.impression', // A recommended product is visible to the shopper (within viewport, not hidden). If determining visibility is not possible, this can be sent at the same time as a profile.product.render event.
 	PROFILE_PRODUCT_CLICK = 'profile.product.click', // A recommended product is clicked.
-	PROFILE_PRODUCT_ADDEDTOBUNDLE = 'profile.product.addedToBundle',
-	PROFILE_PRODUCT_REMOVEDFROMBUNDLE = 'profile.product.removedFromBundle',
 }
 
 export enum BeaconCategory {
