@@ -28,15 +28,8 @@ export class aiAPI extends API {
 	async postVisual(requestParameters: SearchRequestModel & VisualRequestModel): Promise<SearchResponseModel> {
 		const headerParameters: HTTPHeaders = {};
 
-		console.log('requestParameters', requestParameters);
-		console.log('requestParameters.image', requestParameters.image);
-
 		const formData = new FormData();
 		formData.append('image', requestParameters.image, 'image.jpg');
-
-		for (const key of formData.entries()) {
-			console.log('client:', key[0] + ', ' + key[1]);
-		}
 
 		const searchData = await this.request<AiResponseModel>(
 			{

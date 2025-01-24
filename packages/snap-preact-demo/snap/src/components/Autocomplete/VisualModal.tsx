@@ -161,7 +161,6 @@ export const VisualModal = (props: VisualModalProps) => {
 	const innerRef = useClickOutside(() => toggleVisible(false));
 
 	const handleDrop = (e) => {
-		console.log('got droped', e);
 		e.preventDefault();
 		setDragOn(false);
 		storeImage(e.dataTransfer.files[0]);

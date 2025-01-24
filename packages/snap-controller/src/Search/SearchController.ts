@@ -332,7 +332,6 @@ export class SearchController extends AbstractController {
 					// @ts-ignore - it is a string
 					if (base64Id == this.urlManager.state.vq) {
 						const blob = await base64ToBlob(base64Image);
-						console.log('blob', blob);
 
 						// @ts-ignore - formData is not in the SearchRequestModel
 						params.image = blob;
