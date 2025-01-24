@@ -200,21 +200,6 @@
 		
 		<button onClick="setShopperID()">Set Shopper ID</button>
 	</div>
-	<script>
-		document.getElementById("login").addEventListener("click", function(e) {
-			document.getElementById("login-modal").style.display = "block";
-			document.querySelector("#login-modal input").focus();
-		})
-		function setShopperID(){
-			var id = document.querySelector("#login-modal input").value;
-			if(id) {
-				window.searchspring.tracker.track.shopper.login({
-					id: id
-				});
-				document.getElementById("login-modal").style.display = "none";
-			}
-		}
-	</script>
 </body>
 
 </html>

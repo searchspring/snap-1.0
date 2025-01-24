@@ -322,6 +322,27 @@ export class SearchController extends AbstractController {
 
 			if (this.urlManager.state.aiq) {
 				searchFunc = this.client.converse;
+			} else if (this.urlManager.state.vq) {
+				// attach the image stored as base64 to the formData
+				const base64Image = sessionStorage.getItem('ssImageSearch');
+				if (base64Image) {
+					const [_, base64] = base64Image.split(';base64,');
+					const base64Id = base64.slice(0, 12);
+
+					// @ts-ignore - it is a string
+					if (base64Id == this.urlManager.state.vq) {
+						const blob = await base64ToBlob(base64Image);
+						console.log('blob', blob);
+
+						// @ts-ignore - formData is not in the SearchRequestModel
+						params.image = blob;
+						searchFunc = this.client.visual;
+					}
+				} else {
+					// no image found - redirect back to search
+					this.log.error('No image found in sessionStorage');
+					return;
+				}
 			} else if (params.search?.query?.string && params.search?.query?.string.length) {
 				// save it to the history store
 				this.store.history.save(params.search.query.string);
@@ -582,4 +603,11 @@ export function generateHrefSelector(element: HTMLElement, href: string, levels 
 	}
 
 	return;
+}
+
+async function base64ToBlob(base64Image: string): Promise<Blob> {
+	const fetchedImage = await fetch(base64Image);
+	const blob = await fetchedImage.blob();
+	// const file = new File([blob], `searchableimage.jpg`, { type: blob.type });
+	return blob;
 }

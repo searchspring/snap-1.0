@@ -86,14 +86,18 @@ export class API {
 	}
 
 	private createFetchParams(context: RequestOpts) {
-		// grab siteID out of context to generate apiHost fo URL
-		const siteId = context?.body?.siteId || context?.query?.siteId;
-		if (!siteId) {
-			throw new Error(`Request failed. Missing "siteId" parameter.`);
-		}
+		let origin = '';
+		if (this.configuration.origin) {
+			origin = this.configuration.origin.replace(/\/$/, '');
+		} else {
+			// grab siteID out of context to generate apiHost fo URL
+			const siteId = context?.body?.siteId || context?.query?.siteId;
+			if (!siteId) {
+				throw new Error(`Request failed. Missing "siteId" parameter.`);
+			}
 
-		const siteIdHost = `https://${siteId}.a.searchspring.io`;
-		const origin = (this.configuration.origin || siteIdHost).replace(/\/$/, '');
+			origin = `https://${siteId}.a.searchspring.io`;
+		}
 
 		let url = `${origin}/${context.path.replace(/^\//, '')}`;
 

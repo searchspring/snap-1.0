@@ -25,7 +25,7 @@ export type ClientConfig = {
 	finder?: RequesterConfig<SearchRequestModel>;
 	recommend?: RequesterConfig<RecommendRequestModel>;
 	suggest?: RequesterConfig<SuggestRequestModel>;
-	converse?: RequesterConfig<ConverseRequestModel>;
+	ai?: RequesterConfig<ConverseRequestModel>;
 };
 
 export type HybridRequesterConfig = {
@@ -225,6 +225,23 @@ export type ConverseRequestModel = {
 };
 
 export type ConverseResponseModel = {
+	pagination: {
+		totalResults: number;
+		begin: number;
+		end: number;
+		currentPage: number;
+		totalPages: number;
+		perPage: number;
+	};
+	results: Record<string, any>;
+	userMessage: string;
+};
+
+export type VisualRequestModel = {
+	image: Blob;
+};
+
+export type AiResponseModel = {
 	pagination: {
 		totalResults: number;
 		begin: number;

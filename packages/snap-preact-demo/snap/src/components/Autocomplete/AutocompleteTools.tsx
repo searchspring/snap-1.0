@@ -1,7 +1,9 @@
 import { h } from 'preact';
+import { useState } from 'preact/hooks';
 import { jsx, css } from '@emotion/react';
 import type { Snap, SnapTemplates } from '@searchspring/snap-preact';
 import { Toggle } from './Toggle';
+import { VisualModal } from './VisualModal';
 
 type AutocompleteToolsProps = {
 	controller?: AutocompleteController;
@@ -11,13 +13,23 @@ type AutocompleteToolsProps = {
 const CSS = {
 	tools: () =>
 		css({
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
 			position: 'absolute',
 			top: '0',
 			right: '40px',
+			'.ss__autocomplete__tools__upload': {
+				cursor: 'pointer',
+				'.fa-image': {
+					fontSize: '27px',
+				},
+			},
 		}),
 };
 
 export const AutocompleteTools = ({ controller }: AutocompleteToolsProps) => {
+	const [modalOpen, setModalOpen] = useState(false);
 	const aiEnabled = new URL(window.location.href).searchParams.get('aiq');
 
 	const toggleAiSearch = (enabled) => {
@@ -40,6 +52,13 @@ export const AutocompleteTools = ({ controller }: AutocompleteToolsProps) => {
 
 	toggleAiSearch(aiEnabled);
 
+	const toggleVisualSearch = () => {
+		if (!modalOpen) {
+			controller.setFocused();
+		}
+		setModalOpen(!modalOpen);
+	};
+
 	return (
 		<div css={[CSS.tools()]} className="ss__autocomplete__tools">
 			<Toggle
@@ -50,6 +69,10 @@ export const AutocompleteTools = ({ controller }: AutocompleteToolsProps) => {
 					toggleAiSearch(enabled);
 				}}
 			/>
+			<div className="ss__autocomplete__tools__upload" onClick={() => toggleVisualSearch()}>
+				<i className="far fa-image"></i>
+			</div>
+			<VisualModal controller={controller} visible={modalOpen} toggleVisible={setModalOpen} />
 		</div>
 	);
 };

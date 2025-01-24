@@ -10,6 +10,7 @@ import type {
 	ProfileResponseModel,
 	RecommendResponseModel,
 	RecommendRequestModel,
+	VisualRequestModel,
 } from '../types';
 
 import type {
@@ -22,7 +23,7 @@ import type {
 } from '@searchspring/snapi-types';
 
 import deepmerge from 'deepmerge';
-import { ConverseAPI } from './apis/Converse';
+import { aiAPI } from './apis/Ai';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -46,7 +47,7 @@ const defaultConfig: ClientConfig = {
 	suggest: {
 		// origin: 'https://snapi.kube.searchspring.io'
 	},
-	converse: {
+	ai: {
 		// origin: 'https://snapi.kube.searchspring.io'
 	},
 };
@@ -62,7 +63,7 @@ export class Client {
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
 		finder: HybridAPI;
-		converse: ConverseAPI;
+		ai: aiAPI;
 	};
 
 	constructor(globals: ClientGlobals, config: ClientConfig = {}) {
@@ -139,14 +140,14 @@ export class Client {
 					globals: this.config.suggest?.globals,
 				})
 			),
-			converse: new ConverseAPI(
+			ai: new aiAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					mode: this.mode,
-					origin: this.config.converse?.origin,
-					headers: this.config.converse?.headers,
-					cache: this.config.converse?.cache,
-					globals: this.config.converse?.globals,
+					origin: this.config.ai?.origin,
+					headers: this.config.ai?.headers,
+					cache: this.config.ai?.cache,
+					globals: this.config.ai?.globals,
 				})
 			),
 		};
@@ -180,7 +181,16 @@ export class Client {
 	async converse(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
 		params = deepmerge(this.globals, params);
 
-		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.converse.getConverse(params)]);
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.ai.getConverse(params)]);
+		return { meta, search };
+	}
+
+	async visual(params: SearchRequestModel & VisualRequestModel): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		const image = params.image;
+		params = deepmerge(this.globals, params) as SearchRequestModel & VisualRequestModel;
+		params.image = image;
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.ai.postVisual(params)]);
 		return { meta, search };
 	}
 

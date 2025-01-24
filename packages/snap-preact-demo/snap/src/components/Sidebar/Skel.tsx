@@ -3,8 +3,9 @@ import { Skeleton } from '@searchspring/snap-preact/components';
 
 export const SidebarSkel = () => {
 	const aiq = new URL(window.location.href).searchParams.get('aiq');
+	const vq = new URL(window.location.href).searchParams.get('vq');
 	const sideBarElem = document.querySelector('.ss-lite-sidebar');
-	if (aiq) {
+	if (aiq || vq) {
 		sideBarElem?.setAttribute('style', 'display: none');
 	} else {
 		sideBarElem?.setAttribute('style', 'display: block');

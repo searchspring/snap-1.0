@@ -99,7 +99,7 @@ if (customOrigin) {
 	};
 } else {
 	clientConfig = {
-		converse: {
+		ai: {
 			origin: 'https://semantic-search-api.kube-dev.searchspring.io',
 			headers: {
 				Authorization: 'Basic ' + btoa(username + ':' + password),
