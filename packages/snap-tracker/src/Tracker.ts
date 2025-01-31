@@ -7,7 +7,6 @@ import { AppMode } from '@searchspring/snap-toolbox';
 
 import { Beacon } from './Beacon';
 
-// import { TrackEvent } from './TrackEvent';
 import { BeaconEvent } from './BeaconEvent';
 import {
 	TrackerGlobals,
@@ -261,9 +260,6 @@ export class Tracker {
 					},
 				};
 
-				// legacy tracking
-				// new TrackEvent(payload);
-
 				return this.track.event(payload);
 			},
 		},
@@ -373,7 +369,7 @@ export class Tracker {
 
 	sendPreflight = (): void => {
 		const userId = this.getUserId();
-		const siteId = this.context.website.trackingCode;
+		const siteId = this.globals.siteId;
 		const shopper = this.getShopperId();
 		const cart = this.cookies.cart.get();
 		const lastViewed = this.cookies.viewed.get();
