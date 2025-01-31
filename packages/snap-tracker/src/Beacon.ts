@@ -51,6 +51,10 @@ import {
 	RecommendationsSchema,
 	AutocompleteSchema,
 	CategorySchema,
+	ErrorLogsApi,
+	LogShopifypixelRequest,
+	Log,
+	LogSnapRequest,
 } from './client';
 
 declare global {
@@ -93,7 +97,7 @@ type BeaconGlobals = {
 };
 
 type PayloadRequest = {
-	apiType: 'shopper' | 'autocomplete' | 'search' | 'category' | 'recommendations' | 'product' | 'cart' | 'order';
+	apiType: 'shopper' | 'autocomplete' | 'search' | 'category' | 'recommendations' | 'product' | 'cart' | 'order' | 'error';
 	endpoint: string;
 	payload: any;
 };
@@ -142,6 +146,7 @@ export class Beacon {
 		product: ProductApi;
 		cart: CartApi;
 		order: OrderApi;
+		error: ErrorLogsApi;
 	};
 
 	private requests: PayloadRequest[] = [];
@@ -175,6 +180,7 @@ export class Beacon {
 			product: new ProductApi(),
 			cart: new CartApi(),
 			order: new OrderApi(),
+			error: new ErrorLogsApi(),
 		};
 
 		this.globals = globals;
@@ -271,7 +277,6 @@ export class Beacon {
 			const data = JSON.parse(storedValue);
 			return data[this.globals.siteId] || '';
 		} catch (e) {
-			console.error('Failed to parse localStorage item:', e);
 			return '';
 		}
 	}
@@ -296,57 +301,106 @@ export class Beacon {
 
 	storage = {
 		cart: {
-			get: async (): Promise<string[]> => {
-				const items = (await this.getCookie(CART_KEY)) || (await this.getLocalStorageItem(CART_KEY));
-				if (!items) {
-					return [];
+			get: async (): Promise<Product[]> => {
+				const storedProducts = (await this.getCookie(CART_KEY)) || (await this.getLocalStorageItem(CART_KEY));
+				try {
+					const parsedProducts = JSON.parse(storedProducts);
+					return parsedProducts as Product[];
+				} catch (_) {
+					// noop
 				}
-				return items.split(',');
+				return [];
 			},
-			set: async (items: string[]): Promise<void> => {
-				if (items.length) {
-					const cartItems = items.map((item) => `${item}`.trim());
-					const uniqueCartItems = Array.from(new Set(cartItems));
-					await this.setCookie(CART_KEY, uniqueCartItems.join(','), COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
-					await this.setLocalStorageItem(CART_KEY, uniqueCartItems.join(','));
+			set: async (products: Product[]): Promise<void> => {
+				if (products.length) {
+					const currentCartProducts = await this.storage.cart.get();
 
-					const itemsHaveChanged = cartItems.filter((item) => items.includes(item)).length !== items.length;
-					if (itemsHaveChanged) {
+					if (typeof products[0] === 'string') {
+						const cartSkus = products.map((sku) => `${sku}`.trim());
+						const uniqueCartSkus = Array.from(new Set(cartSkus));
+						products = uniqueCartSkus.map((sku) => ({ uid: sku, sku: sku, qty: 1, price: 0 }));
+					}
+
+					const storedProducts = JSON.stringify(products);
+					await this.setCookie(CART_KEY, storedProducts, COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
+					await this.setLocalStorageItem(CART_KEY, storedProducts);
+
+					const productsHaveChanged = JSON.stringify(currentCartProducts) !== storedProducts;
+					if (productsHaveChanged) {
 						await this.sendPreflight();
 					}
 				}
 			},
-			add: async (items: string[]): Promise<void> => {
-				if (items.length) {
-					const currentCartItems = await this.storage.cart.get();
-					const itemsToAdd = items.map((item) => `${item}`.trim());
-					const uniqueCartItems = Array.from(new Set([...currentCartItems, ...itemsToAdd]));
-					await this.setCookie(CART_KEY, uniqueCartItems.join(','), COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
-					await this.setLocalStorageItem(CART_KEY, uniqueCartItems.join(','));
+			add: async (products: Product[]): Promise<void> => {
+				if (products.length) {
+					const existingCartProducts = await this.storage.cart.get();
+					const cartProducts = [...existingCartProducts];
+					if (typeof products[0] === 'string') {
+						const cartSkus = products.map((sku) => `${sku}`.trim());
+						const uniqueCartSkus = Array.from(new Set(cartSkus));
+						products = uniqueCartSkus.map((sku) => ({ uid: sku, sku: sku, qty: 1, price: 0 }));
+					}
 
-					const itemsHaveChanged = currentCartItems.filter((item) => itemsToAdd.includes(item)).length !== itemsToAdd.length;
-					if (itemsHaveChanged) {
+					products.reverse().forEach((product) => {
+						const isSkuAlreadyInCart = cartProducts.find((cartProduct) => cartProduct.uid === product.uid);
+						if (!isSkuAlreadyInCart) {
+							cartProducts.unshift(product);
+						} else {
+							isSkuAlreadyInCart.qty += product.qty;
+							isSkuAlreadyInCart.price = product.price || isSkuAlreadyInCart.price;
+						}
+					});
+
+					const storedProducts = JSON.stringify(cartProducts);
+					await this.setCookie(CART_KEY, storedProducts, COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
+					await this.setLocalStorageItem(CART_KEY, storedProducts);
+
+					const productsHaveChanged = JSON.stringify(existingCartProducts) !== storedProducts;
+					if (productsHaveChanged) {
 						await this.sendPreflight();
 					}
 				}
 			},
-			remove: async (items: string[]): Promise<void> => {
-				if (items.length) {
-					const currentCartItems = await this.storage.cart.get();
-					const itemsToRemove = items.map((item) => `${item}`.trim());
-					const updatedItems = currentCartItems.filter((item) => !itemsToRemove.includes(item));
-					await this.setCookie(CART_KEY, updatedItems.join(','), COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
-					await this.setLocalStorageItem(CART_KEY, updatedItems.join(','));
+			remove: async (products: Product[]): Promise<void> => {
+				if (products.length) {
+					const existingCartProducts = await this.storage.cart.get();
+					const cartProducts = [...existingCartProducts];
 
-					const itemsHaveChanged = currentCartItems.length !== updatedItems.length;
-					if (itemsHaveChanged) {
+					if (typeof products[0] === 'string') {
+						const cartSkus = products.map((sku) => `${sku}`.trim());
+						const uniqueCartSkus = Array.from(new Set(cartSkus));
+						products = uniqueCartSkus.map((sku) => ({ uid: sku, sku: sku, qty: 1, price: 0 }));
+					}
+
+					products.forEach((product) => {
+						const isSkuAlreadyInCart = cartProducts.find((cartProduct) => cartProduct.uid === product.uid);
+						if (!isSkuAlreadyInCart) {
+							// noop
+						} else {
+							if (isSkuAlreadyInCart.qty > 1) {
+								isSkuAlreadyInCart.qty -= product.qty || 1;
+							} else {
+								isSkuAlreadyInCart.qty = 0;
+							}
+						}
+					});
+
+					// remove products with qty 0
+					const updatedCartProducts = cartProducts.filter((product) => product.qty > 0);
+
+					const storedProducts = JSON.stringify(updatedCartProducts);
+					await this.setCookie(CART_KEY, storedProducts, COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
+					await this.setLocalStorageItem(CART_KEY, storedProducts);
+
+					const productsHaveChanged = JSON.stringify(existingCartProducts) !== storedProducts;
+					if (productsHaveChanged) {
 						await this.sendPreflight();
 					}
 				}
 			},
 			clear: async (): Promise<void> => {
-				const items = await this.storage.cart.get();
-				if (items.length) {
+				const products = await this.storage.cart.get();
+				if (products.length) {
 					await this.setCookie(CART_KEY, '', COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
 					await this.setLocalStorageItem(CART_KEY, '');
 					// TODO: add clear cookie method? Shopify doesn't have one?
@@ -646,10 +700,11 @@ export class Beacon {
 						data: event.data,
 					},
 				};
-
+				console.log('cart add payload', payload);
 				const request = this.createRequest('cart', 'cartAdd', payload);
 				this.sendRequests([request]);
-				await this.storage.cart.add(event.data.results.map((product) => this.getSku(product)));
+				// await this.storage.cart.add(event.data.results.map((product) => this.getSku(product)));
+				await this.storage.cart.add(event.data.results);
 			},
 			remove: async (event: Payload<CartSchemaData>): Promise<void> => {
 				const payload: CartRemoveRequest = {
@@ -662,12 +717,12 @@ export class Beacon {
 
 				const request = this.createRequest('cart', 'cartRemove', payload);
 				this.sendRequests([request]);
-				await this.storage.cart.remove(event.data.results.map((product) => this.getSku(product)));
+				await this.storage.cart.remove(event.data.results);
 			},
 			view: async (event: Payload<CartSchemaData>): Promise<void> => {
 				const payload: CartViewRequest = {
 					siteId: event?.siteId || this.globals.siteId,
-					cartSchema: {
+					cartviewSchema: {
 						context: await this.getContext(),
 						data: event.data,
 					},
@@ -675,7 +730,7 @@ export class Beacon {
 
 				const request = this.createRequest('cart', 'cartView', payload);
 				this.sendRequests([request]);
-				await this.storage.cart.set(event.data.results.map((product) => this.getSku(product)));
+				await this.storage.cart.set(event.data.results);
 			},
 		},
 		order: {
@@ -691,6 +746,32 @@ export class Beacon {
 				const request = this.createRequest('order', 'orderTransaction', payload);
 				this.sendRequests([request]);
 				await this.storage.cart.clear();
+			},
+		},
+		error: {
+			shopifypixel: async (event: Payload<Log>): Promise<void> => {
+				const payload: LogShopifypixelRequest = {
+					siteId: event?.siteId || this.globals.siteId,
+					shopifyPixelExtensionLogEvent: {
+						context: await this.getContext(),
+						data: event.data,
+					},
+				};
+
+				const request = this.createRequest('error', 'logShopifypixel', payload);
+				this.sendRequests([request]);
+			},
+			snap: async (event: Payload<Log>): Promise<void> => {
+				const payload: LogSnapRequest = {
+					siteId: event?.siteId || this.globals.siteId,
+					snapLogEvent: {
+						context: await this.getContext(),
+						data: event.data,
+					},
+				};
+
+				const request = this.createRequest('error', 'logSnap', payload);
+				this.sendRequests([request]);
 			},
 		},
 	};
@@ -962,8 +1043,8 @@ export class Beacon {
 				queryStringParams += `&shopper=${encodeURIComponent(shopper)}`;
 			}
 			if (cart.length) {
-				preflightParams.cart = cart;
-				queryStringParams += cart.map((item) => `&cart=${encodeURIComponent(item)}`).join('');
+				preflightParams.cart = cart.map((item) => this.getSku(item));
+				queryStringParams += cart.map((item) => `&cart=${encodeURIComponent(this.getSku(item))}`).join('');
 			}
 			if (lastViewed.length) {
 				preflightParams.lastViewed = lastViewed;
