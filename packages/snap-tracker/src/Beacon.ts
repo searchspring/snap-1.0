@@ -967,7 +967,7 @@ export class Beacon {
 		console.log('processRequests', this.requests);
 
 		// clone requests to process to allow more requests to be queued while processing
-		const requestToProcess = structuredClone(this.requests); // TODO: try deepmerge
+		const requestToProcess = deepmerge([], this.requests);
 		this.requests = [];
 
 		const data = requestToProcess.reduce<{
