@@ -7,7 +7,7 @@ import { AppMode } from '@searchspring/snap-toolbox';
 
 import { Beacon } from './Beacon';
 
-import { TrackEvent } from './TrackEvent';
+// import { TrackEvent } from './TrackEvent';
 import { BeaconEvent } from './BeaconEvent';
 import {
 	TrackerGlobals,
@@ -262,7 +262,7 @@ export class Tracker {
 				};
 
 				// legacy tracking
-				new TrackEvent(payload);
+				// new TrackEvent(payload);
 
 				return this.track.event(payload);
 			},
