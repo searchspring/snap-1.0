@@ -7,7 +7,7 @@ import { ControllerTypes } from '../types';
 import type { RecommendationStore } from '@searchspring/snap-store-mobx';
 import type { RecommendRequestModel } from '@searchspring/snap-client';
 import type { RecommendationControllerConfig, ControllerServices, ContextVariables } from '../types';
-import { Item, RecommendationsSchemaData } from '@searchspring/snap-tracker/dist/cjs/client';
+import { Item, RecommendationsSchemaData } from '@searchspring/beacon';
 
 type RecommendationTrackMethods = {
 	product: {

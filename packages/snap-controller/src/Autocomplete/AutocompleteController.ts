@@ -9,7 +9,7 @@ import { AutocompleteStore } from '@searchspring/snap-store-mobx';
 import type { AutocompleteControllerConfig, AfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
 import type { AutocompleteRequestModel } from '@searchspring/snapi-types';
-import { AutocompleteRedirectSchemaData, AutocompleteSchemaData, Item } from '@searchspring/snap-tracker/dist/cjs/client';
+import { AutocompleteRedirectSchemaData, AutocompleteSchemaData, Item } from '@searchspring/beacon';
 
 const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;

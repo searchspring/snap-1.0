@@ -25,8 +25,7 @@ import type {
 	SearchResponseModel,
 } from '@searchspring/snapi-types';
 
-// TODO: change to package import when ready
-import { Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/snap-tracker/dist/cjs/client';
+import { Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/beacon';
 
 const defaultConfig: SearchControllerConfig = {
 	id: 'search',

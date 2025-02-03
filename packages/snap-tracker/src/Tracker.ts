@@ -5,7 +5,7 @@ import { StorageStore } from '@searchspring/snap-store-mobx';
 import { cookies, getFlags, version, DomTargeter, getContext, charsParams } from '@searchspring/snap-toolbox';
 import { AppMode } from '@searchspring/snap-toolbox';
 
-import { Beacon } from './Beacon';
+import { Beacon } from '@searchspring/beacon';
 
 import { BeaconEvent } from './BeaconEvent';
 import {
@@ -26,7 +26,7 @@ import {
 	PreflightRequestModel,
 	CurrencyContext,
 } from './types';
-import { CartSchemaData, Item, OrderTransactionSchemaData, Product } from './client';
+import { CartSchemaData, Item, OrderTransactionSchemaData, Product } from '@searchspring/beacon';
 
 export const BATCH_TIMEOUT = 200;
 const LEGACY_USERID_COOKIE_NAME = '_isuid';
