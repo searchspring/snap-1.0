@@ -771,6 +771,17 @@ export class AutocompleteController extends AbstractController {
 			this.store.loading = false;
 		}
 	};
+
+	addToCart = async (products: Product[]): Promise<void> => {
+		const eventContext = {
+			controller: this,
+			products: products,
+		};
+
+		this.eventManager.fire('addToCart', eventContext);
+
+		// TODO: fire some future beacon event
+	};
 }
 
 function addHiddenFormInput(form: HTMLFormElement, name: string, value: string) {
