@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import deepmerge from 'deepmerge';
 import cssEscape from 'css.escape';
 

@@ -31,6 +31,22 @@ let controller: SearchController;
 const mockClient = new MockClient(globals, {});
 
 describe('Search Template Component', () => {
+	beforeAll(() => {
+		const mock = jest.fn(() => ({
+			observe: jest.fn(),
+			unobserve: jest.fn(),
+			disconnect: jest.fn(),
+		}));
+
+		//@ts-ignore
+		window.IntersectionObserver = mock;
+	});
+
+	afterAll(() => {
+		// @ts-ignore
+		window.IntersectionObserver.mockReset();
+	});
+
 	beforeEach(async () => {
 		searchConfig = { ...searchConfigDefault };
 		searchConfig.id = uuidv4().split('-').join('');
