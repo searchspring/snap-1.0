@@ -24,7 +24,7 @@ import type {
 
 import deepmerge from 'deepmerge';
 import { aiAPI } from './apis/Ai';
-// @ts-ignore - TODO: what the heck is going on here
+// @ts-ignore - TODO: random casing error
 import { nlsAPI } from './apis/Nls';
 
 const defaultConfig: ClientConfig = {

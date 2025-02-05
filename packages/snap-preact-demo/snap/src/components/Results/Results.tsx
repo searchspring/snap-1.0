@@ -72,7 +72,7 @@ export const Results = withController(
 
 export const CustomResultComponent = ({ controller, result, theme }: { controller: SearchController; result: Product; theme: Theme }) => {
 	let aiResult = false;
-	if (result.attributes.knnRank && parseInt(result.attributes.knnRank as string) > 0) {
+	if (result.attributes.knnRank && parseInt(result.attributes.knnRank as string) > 0 && result.attributes.keywordRank == '') {
 		aiResult = true;
 	}
 
