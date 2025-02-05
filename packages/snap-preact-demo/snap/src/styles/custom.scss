@@ -1,0 +1,22 @@
+.aiResult {
+    background: rgb(250,94,214);
+    background: radial-gradient(circle, rgba(250,94,214,1) 0%, rgba(148,198,233,1) 100%);
+    padding: 5px;
+    position: relative;
+}
+
+.aiResult .aiResult-inner {
+    background: white;
+}
+
+.aiResult-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 9;
+}
+
+.ss__result__details__title {
+    height: 40px;
+    overflow: hidden;
+}

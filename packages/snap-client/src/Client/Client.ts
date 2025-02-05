@@ -24,6 +24,8 @@ import type {
 
 import deepmerge from 'deepmerge';
 import { aiAPI } from './apis/Ai';
+// @ts-ignore - TODO: random casing error
+import { nlsAPI } from './apis/Nls';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -50,6 +52,9 @@ const defaultConfig: ClientConfig = {
 	ai: {
 		// origin: 'https://snapi.kube.searchspring.io'
 	},
+	nls: {
+		// origin: 'https://snapi.kube.searchspring.io'
+	},
 };
 
 export class Client {
@@ -64,6 +69,7 @@ export class Client {
 		suggest: SuggestAPI;
 		finder: HybridAPI;
 		ai: aiAPI;
+		nls: nlsAPI;
 	};
 
 	constructor(globals: ClientGlobals, config: ClientConfig = {}) {
@@ -150,6 +156,16 @@ export class Client {
 					globals: this.config.ai?.globals,
 				})
 			),
+			nls: new nlsAPI(
+				new ApiConfiguration({
+					fetchApi: this.config.fetchApi,
+					mode: this.mode,
+					origin: this.config.nls?.origin,
+					headers: this.config.nls?.headers,
+					cache: this.config.nls?.cache,
+					globals: this.config.nls?.globals,
+				})
+			),
 		};
 	}
 
@@ -182,6 +198,13 @@ export class Client {
 		params = deepmerge(this.globals, params);
 
 		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.ai.getConverse(params)]);
+		return { meta, search };
+	}
+
+	async nls(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge(this.globals, params);
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.nls.getConverse(params)]);
 		return { meta, search };
 	}
 
