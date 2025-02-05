@@ -321,7 +321,8 @@ export class SearchController extends AbstractController {
 			let searchFunc = this.client.search;
 
 			if (this.urlManager.state.aiq) {
-				searchFunc = this.client.converse;
+				searchFunc = this.client.nls;
+				// searchFunc = this.client.converse;
 			} else if (this.urlManager.state.vq) {
 				// attach the image stored as base64 to the formData
 				const base64Image = sessionStorage.getItem('ssImageSearch');

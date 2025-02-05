@@ -91,7 +91,8 @@ export const GenAI = withController(
 		}
 
 		return (
-			displayMessage && (
+			displayMessage &&
+			vq && (
 				<div css={[CSS.genAI()]} className="ss-genai">
 					<div className="ss-genai-header">
 						{searchedImage && (
@@ -130,7 +131,7 @@ export const GenAI = withController(
 							</svg>
 						</div>
 						<div className="ss-genai-header__content">
-							<h5 className="ss-genai-header__title">Generative Discovery</h5>
+							<h5 className="ss-genai-header__title">Visual Search</h5>
 							<p className="ss-genai-header__subtitle">{displayMessage}</p>
 						</div>
 					</div>

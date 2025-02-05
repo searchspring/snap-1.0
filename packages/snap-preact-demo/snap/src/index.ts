@@ -105,6 +105,9 @@ if (customOrigin) {
 				Authorization: 'Basic ' + btoa(username + ':' + password),
 			},
 		},
+		nls: {
+			origin: 'https://search-api-ephemeral-env-4.kube-dev.searchspring.io',
+		},
 	};
 }
 

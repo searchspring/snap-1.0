@@ -26,6 +26,7 @@ export type ClientConfig = {
 	recommend?: RequesterConfig<RecommendRequestModel>;
 	suggest?: RequesterConfig<SuggestRequestModel>;
 	ai?: RequesterConfig<ConverseRequestModel>;
+	nls?: RequesterConfig<ConverseRequestModel>;
 };
 
 export type HybridRequesterConfig = {
