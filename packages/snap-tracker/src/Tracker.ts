@@ -11,8 +11,6 @@ import { BeaconEvent } from './BeaconEvent';
 import {
 	TrackerGlobals,
 	TrackMethods,
-	BeaconType,
-	BeaconCategory,
 	BeaconContext,
 	ProductViewEvent,
 	CartViewEvent,
@@ -142,46 +140,22 @@ export class Tracker {
 				return;
 			}
 
-			let context = this.context;
-			if (siteId) {
-				context = deepmerge(context, {
-					context: {
-						website: {
-							trackingCode: siteId,
-						},
-					},
-				});
-			}
-			const { href, filename, stack, message, colno, lineno, errortimestamp, details } = data;
-
-			const payload = {
-				type: BeaconType.ERROR,
-				category: BeaconCategory.RUNTIME,
-				context,
-				event: {
-					href: href || window.location.href,
-					filename,
-					stack,
-					message,
-					colno,
-					lineno,
-					errortimestamp,
-					details,
-					context: data.context,
-				},
-			};
+			const { stack, message, details } = data;
+			const href = typeof window !== 'undefined' ? window.location.href : '';
 
 			// prevent sending of errors when on localhost or CDN
-			if (
-				payload.event.message?.includes('Profile is currently paused') ||
-				!payload.event.href ||
-				payload.event.href.includes('//localhost') ||
-				payload.event.href.includes('//snapui.searchspring.io/')
-			) {
+			if (message?.includes('Profile is currently paused') || href.includes('//localhost') || href.includes('//snapui.searchspring.io/')) {
 				return;
 			}
 
-			return this.track.event(payload);
+			this.beacon.events.error.snap({
+				data: {
+					message: message || '',
+					stack,
+					details,
+				},
+				siteId,
+			});
 		},
 
 		shopper: {
@@ -191,9 +165,17 @@ export class Tracker {
 		},
 		product: {
 			view: (data: Item | ProductViewEvent, siteId?: string): undefined => {
-				// TODO: if only data.sku is provided (ProductViewEvent), transform to Item
-				this.beacon.events.product.pageView({ data: { result: data as Item }, siteId });
+				let result = data;
+				if (!data.uid && data.sku) {
+					result = {
+						...data,
+						uid: data.sku,
+					};
+				}
+
+				this.beacon.events.product.pageView({ data: { result: result as Item }, siteId });
 			},
+			// eslint-disable-next-line
 			click: (data: ProductClickEvent, siteId?: string): BeaconEvent | undefined => {
 				if (!data?.intellisuggestData || !data?.intellisuggestSignature) {
 					console.error(
@@ -201,31 +183,19 @@ export class Tracker {
 					);
 					return;
 				}
-				let context = this.context;
-				if (siteId) {
-					context = deepmerge(context, {
-						context: {
-							website: {
-								trackingCode: siteId,
-							},
-						},
-					});
-				}
-				const payload = {
-					type: BeaconType.CLICK,
-					category: BeaconCategory.INTERACTION,
-					context,
-					event: {
-						intellisuggestData: data.intellisuggestData,
-						intellisuggestSignature: data.intellisuggestSignature,
-						href: data?.href ? `${data.href}` : undefined,
-					},
-				};
 
-				return this.track.event(payload);
+				// TODO: product click event
+
+				// TODO: if only intellisuggestData, send to legacy track.json?
 			},
 		},
 		cart: {
+			add: (data: CartSchemaData, siteId?: string): undefined => {
+				this.beacon.events.cart.add({ data, siteId });
+			},
+			remove: (data: CartSchemaData, siteId?: string): undefined => {
+				this.beacon.events.cart.remove({ data, siteId });
+			},
 			view: (data: CartViewEvent | CartSchemaData, siteId?: string): undefined => {
 				const results = (data as CartViewEvent).items || (data as CartSchemaData).results;
 				this.beacon.events.cart.view({ data: { results: results as Product[] }, siteId });

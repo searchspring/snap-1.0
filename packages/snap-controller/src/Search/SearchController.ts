@@ -50,7 +50,7 @@ type SearchTrackMethods = {
 		click: (e: MouseEvent, result: Product) => void;
 		render: (result: Product) => void;
 		impression: (result: Product) => void;
-		addToCart: (result: Product) => void;
+		addToCart: (results: Product | Product[]) => void;
 		redirect: (redirectURL: string) => void;
 	};
 };
@@ -340,7 +340,7 @@ export class SearchController extends AbstractController {
 				this.tracker.beacon.events[this.trackMethod].clickThrough({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].click = data;
-				this.eventManager.fire('track.product.click', { controller: this, event: e, result });
+				this.eventManager.fire('product.click', { controller: this, event: e, result });
 			},
 			render: (result: Product | Banner) => {
 				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.render) {
@@ -352,7 +352,7 @@ export class SearchController extends AbstractController {
 				this.tracker.beacon.events[this.trackMethod].render({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].render = data;
-				this.eventManager.fire('track.product.render', { controller: this, result, trackEvent: data });
+				this.eventManager.fire('product.render', { controller: this, result, trackEvent: data });
 			},
 			impression: (result: Product): void => {
 				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.impression) {
@@ -364,15 +364,18 @@ export class SearchController extends AbstractController {
 				this.tracker.beacon.events[this.trackMethod].impression({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].impression = data;
-				this.eventManager.fire('track.product.impression', { controller: this, result, trackEvent: data });
+				this.eventManager.fire('product.impression', { controller: this, result, trackEvent: data });
 			},
-			addToCart: (result: Product): void => {
-				this.tracker.beacon.events[this.trackMethod].addToCart({ data: this.getSearchSchemaData([result]), siteId: this.client.globals.siteId });
-				this.eventManager.fire('track.product.addToCart', { controller: this, result });
+			addToCart: (results: Product | Product[]): void => {
+				this.tracker.beacon.events[this.trackMethod].addToCart({
+					data: this.getSearchSchemaData(Array.isArray(results) ? results : [results]),
+					siteId: this.client.globals.siteId,
+				});
+				this.eventManager.fire('product.addToCart', { controller: this, results });
 			},
 			redirect: (redirectURL: string): void => {
 				this.tracker.beacon.events.search.redirect({ data: this.getSearchRedirectSchemaData(redirectURL), siteId: this.client.globals.siteId });
-				this.eventManager.fire('track.product.redirect', { controller: this, redirectURL });
+				this.eventManager.fire('product.redirect', { controller: this, redirectURL });
 			},
 		},
 	};
@@ -646,14 +649,7 @@ export class SearchController extends AbstractController {
 	};
 
 	addToCart = async (products: Product[]): Promise<void> => {
-		const eventContext = {
-			controller: this,
-			products: products,
-		};
-
-		this.eventManager.fire('addToCart', eventContext);
-
-		// TODO: fire some future beacon event
+		this.track.product.addToCart(products);
 	};
 }
 

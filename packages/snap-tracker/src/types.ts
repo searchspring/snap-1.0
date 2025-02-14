@@ -1,5 +1,6 @@
 import { AppMode } from '@searchspring/snap-toolbox';
 import { BeaconEvent } from './BeaconEvent';
+import { CartSchemaData } from '@searchspring/beacon';
 
 export type CurrencyContext = {
 	code: string;
@@ -221,7 +222,9 @@ export interface TrackMethods {
 		click: (data: ProductClickEvent, siteId?: string) => BeaconEvent | undefined;
 	};
 	cart: {
-		view: (data: CartViewEvent, siteId?: string) => BeaconEvent | undefined;
+		add: (data: CartSchemaData, siteId?: string) => BeaconEvent | undefined;
+		remove: (data: CartSchemaData, siteId?: string) => BeaconEvent | undefined;
+		view: (data: CartViewEvent | CartSchemaData, siteId?: string) => BeaconEvent | undefined;
 	};
 	order: {
 		transaction: (data: OrderTransactionData, siteId?: string) => BeaconEvent | undefined;

@@ -15,7 +15,7 @@ type RecommendationTrackMethods = {
 		render: (result: Product) => BeaconEvent | undefined;
 		impression: (result: Product) => BeaconEvent | undefined;
 	};
-	addBundle: (e: MouseEvent, results: Product[]) => BeaconEvent | undefined;
+	addBundle: (results: Product[]) => BeaconEvent | undefined;
 };
 
 const defaultConfig: RecommendationControllerConfig = {
@@ -68,21 +68,13 @@ export class RecommendationController extends AbstractController {
 		this.config = deepmerge(defaultConfig, this.config);
 		this.store.setConfig(this.config);
 
-		// add 'afterStore' middleware
-		// this.eventManager.on('afterStore', async (recommend: AfterStoreObj, next: Next): Promise<void | boolean> => {
+		// this.eventManager.on('afterStore', async (_: AfterStoreObj, next: Next): Promise<void | boolean> => {
 		// 	await next();
-
-		// 	// attach tracking events to cart store
 		// 	this.store.cart?.on('addItems', ({ items }: { items: Product[] }) => {
-		// 		items.forEach((item) => {
-		// 			this.track.product.addedToBundle(item);
-		// 		});
+		// 		// add to bundle
 		// 	});
-
 		// 	this.store.cart?.on('removeItems', ({ items }: { items: Product[] }) => {
-		// 		items.forEach((item) => {
-		// 			this.track.product.removedFromBundle(item);
-		// 		});
+		// 		// remove from bundle
 		// 	});
 		// });
 
@@ -116,7 +108,7 @@ export class RecommendationController extends AbstractController {
 
 					const data = getRecommendationsSchemaData([result]);
 					this.tracker.beacon.events.recommendations.clickThrough({ data, siteId: this.client.globals.siteId });
-					this.eventManager.fire('track.product.click', { controller: this, event: e, result, trackEvent: data });
+					this.eventManager.fire('product.click', { controller: this, event: e, result, trackEvent: data });
 				},
 				impression: (result): RecommendationsSchemaData | undefined => {
 					if (!this.store.profile.tag || !result || (this.events.product && this.events.product[result.id]?.impression)) return;
@@ -125,7 +117,7 @@ export class RecommendationController extends AbstractController {
 					this.tracker.beacon.events.recommendations.impression({ data, siteId: this.client.globals.siteId });
 					this.events.product![result.id] = this.events.product![result.id] || {};
 					this.events.product![result.id].impression = data;
-					this.eventManager.fire('track.product.impression', { controller: this, result, trackEvent: data });
+					this.eventManager.fire('product.impression', { controller: this, result, trackEvent: data });
 					return data;
 				},
 				render: (result): RecommendationsSchemaData | undefined => {
@@ -135,7 +127,7 @@ export class RecommendationController extends AbstractController {
 					this.tracker.beacon.events.recommendations.render({ data, siteId: this.client.globals.siteId });
 					this.events.product![result.id] = this.events.product![result.id] || {};
 					this.events.product![result.id].render = data;
-					this.eventManager.fire('track.product.render', { controller: this, result, trackEvent: data });
+					this.eventManager.fire('product.render', { controller: this, result, trackEvent: data });
 					return data;
 				},
 				// TODO: keep or remove?
@@ -146,19 +138,13 @@ export class RecommendationController extends AbstractController {
 				// 	this.log.warn('product.addedToBundle tracking is not currently supported in this controller type');
 				// },
 			},
-			addBundle: (e: MouseEvent, results: Product[]): RecommendationsSchemaData | undefined => {
+			addBundle: (results: Product[]): RecommendationsSchemaData | undefined => {
 				if (!results.length || !this.store.profile.tag || this.store.profile.type != 'bundle') return;
 
 				const data = getRecommendationsSchemaData(results);
 				this.tracker.beacon.events.recommendations.addToCart({ data, siteId: this.client.globals.siteId });
-				this.eventManager.fire('track.product.addBundle', { controller: this, results, trackEvent: data });
+				this.eventManager.fire('addBundle', { controller: this, results, trackEvent: data });
 				return data;
-			},
-			// click: (): undefined => {
-			// 	// TODO: remove after removing references to this
-			// },
-			impression: (): undefined => {
-				// TODO: remove after removing references to this
 			},
 		} as RecommendationTrackMethods;
 	})();
@@ -317,13 +303,6 @@ export class RecommendationController extends AbstractController {
 	};
 
 	addToCart = async (products: Product[]): Promise<void> => {
-		const eventContext = {
-			controller: this,
-			products: products,
-		};
-
-		this.eventManager.fire('addToCart', eventContext);
-
-		// TODO: fire some future beacon event
+		this.track.addBundle(products);
 	};
 }
