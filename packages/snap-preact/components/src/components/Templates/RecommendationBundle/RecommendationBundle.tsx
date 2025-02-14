@@ -461,6 +461,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 															seed: true,
 															selected: selectedItems.findIndex((item) => item.id == seed.id) > -1,
 															onProductSelect,
+															treePath,
 														})
 													) : (
 														<Result {...subProps.result} controller={controller} result={seed} />
@@ -512,7 +513,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 																			lang={{ seedText: lang.seedText }}
 																		>
 																			{resultComponent ? (
-																				cloneWithProps(resultComponent, { result: result, seed: true, selected, onProductSelect })
+																				cloneWithProps(resultComponent, { result: result, seed: true, selected, onProductSelect, treePath })
 																			) : (
 																				<Result {...subProps.result} controller={controller} result={result} />
 																			)}
@@ -536,7 +537,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 																			className={idx + 1 == resultsToRender.length ? 'ss__recommendation-bundle__wrapper__selector--last' : ''}
 																		>
 																			{resultComponent ? (
-																				cloneWithProps(resultComponent, { result: result, seed: false, selected, onProductSelect })
+																				cloneWithProps(resultComponent, { result: result, seed: false, selected, onProductSelect, treePath })
 																			) : (
 																				<Result {...subProps.result} controller={controller} result={result} />
 																			)}
@@ -566,7 +567,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 																		className={idx + 1 == results.length ? 'ss__recommendation-bundle__wrapper__selector--last' : ''}
 																	>
 																		{resultComponent ? (
-																			cloneWithProps(resultComponent, { result: result, seed: false, selected, onProductSelect })
+																			cloneWithProps(resultComponent, { result: result, seed: false, selected, onProductSelect, treePath })
 																		) : (
 																			<Result {...subProps.result} controller={controller} result={result} />
 																		)}
@@ -602,7 +603,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 														lang={{ seedText: lang.seedText }}
 													>
 														{resultComponent ? (
-															cloneWithProps(resultComponent, { result: result, seed: true, selected, onProductSelect })
+															cloneWithProps(resultComponent, { result: result, seed: true, selected, onProductSelect, treePath })
 														) : (
 															<Result {...subProps.result} controller={controller} result={result} />
 														)}
@@ -626,7 +627,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 														className={idx + 1 == resultsToRender.length ? 'ss__recommendation-bundle__wrapper__selector--last' : ''}
 													>
 														{resultComponent ? (
-															cloneWithProps(resultComponent, { result: result, seed: false, selected, onProductSelect })
+															cloneWithProps(resultComponent, { result: result, seed: false, selected, onProductSelect, treePath })
 														) : (
 															<Result {...subProps.result} controller={controller} result={result} />
 														)}
