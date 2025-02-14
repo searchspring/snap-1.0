@@ -337,7 +337,7 @@ export class SearchController extends AbstractController {
 				this.storage.set('scrollMap', scrollMap);
 
 				const data = this.getSearchSchemaData([result]);
-				this.tracker.beacon.events[this.trackMethod].clickThrough({ data });
+				this.tracker.beacon.events[this.trackMethod].clickThrough({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].click = data;
 				this.eventManager.fire('track.product.click', { controller: this, event: e, result });
@@ -349,7 +349,7 @@ export class SearchController extends AbstractController {
 				}
 
 				const data = this.getSearchSchemaData([result]);
-				this.tracker.beacon.events[this.trackMethod].render({ data });
+				this.tracker.beacon.events[this.trackMethod].render({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].render = data;
 				this.eventManager.fire('track.product.render', { controller: this, result, trackEvent: data });
@@ -361,17 +361,17 @@ export class SearchController extends AbstractController {
 				}
 
 				const data = this.getSearchSchemaData([result]);
-				this.tracker.beacon.events[this.trackMethod].impression({ data });
+				this.tracker.beacon.events[this.trackMethod].impression({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].impression = data;
 				this.eventManager.fire('track.product.impression', { controller: this, result, trackEvent: data });
 			},
 			addToCart: (result: Product): void => {
-				this.tracker.beacon.events[this.trackMethod].addToCart({ data: this.getSearchSchemaData([result]) });
+				this.tracker.beacon.events[this.trackMethod].addToCart({ data: this.getSearchSchemaData([result]), siteId: this.client.globals.siteId });
 				this.eventManager.fire('track.product.addToCart', { controller: this, result });
 			},
 			redirect: (redirectURL: string): void => {
-				this.tracker.beacon.events.search.redirect({ data: this.getSearchRedirectSchemaData(redirectURL) });
+				this.tracker.beacon.events.search.redirect({ data: this.getSearchRedirectSchemaData(redirectURL), siteId: this.client.globals.siteId });
 				this.eventManager.fire('track.product.redirect', { controller: this, redirectURL });
 			},
 		},

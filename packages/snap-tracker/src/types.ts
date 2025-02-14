@@ -212,7 +212,6 @@ export type PreflightRequestModel = {
 };
 
 export interface TrackMethods {
-	event: (payload: BeaconPayload) => BeaconEvent | undefined;
 	error: (data: TrackErrorEvent) => BeaconEvent | undefined;
 	shopper: {
 		login: (data: ShopperLoginEvent, siteId?: string) => BeaconEvent | undefined;

@@ -11,7 +11,6 @@ import { BeaconEvent } from './BeaconEvent';
 import {
 	TrackerGlobals,
 	TrackMethods,
-	BeaconPayload,
 	BeaconType,
 	BeaconCategory,
 	BeaconContext,
@@ -37,7 +36,6 @@ const COOKIE_SAMESITE = 'Lax';
 const COOKIE_DOMAIN =
 	(typeof window !== 'undefined' && window.location.hostname && '.' + window.location.hostname.replace(/^www\./, '')) || undefined;
 const SESSIONID_STORAGE_NAME = 'ssSessionIdNamespace';
-const LOCALSTORAGE_BEACON_POOL_NAME = 'ssBeaconPool';
 const CART_PRODUCTS = 'ssCartProducts';
 const VIEWED_PRODUCTS = 'ssViewedProducts';
 export const MAX_VIEWED_COUNT = 20;
@@ -84,21 +82,6 @@ export class Tracker {
 		this.localStorage.set('siteId', this.globals.siteId);
 
 		this.beacon = new Beacon({ siteId: this.globals.siteId, currency: this.globals.currency }, { version, framework: 'snap' });
-		console.log('beacon', this.beacon);
-
-		// this.context = {
-		// 	userId: this.getUserId() || '',
-		// 	sessionId: this.getSessionId(),
-		// 	shopperId: this.getShopperId(),
-		// 	pageLoadId: uuidv4(),
-		// 	website: {
-		// 		trackingCode: this.globals.siteId,
-		// 	},
-		// };
-
-		// if (this.globals.currency?.code) {
-		// 	this.context.currency = this.globals.currency;
-		// }
 
 		if (!window.searchspring?.tracker) {
 			window.searchspring = window.searchspring || {};
@@ -136,8 +119,6 @@ export class Tracker {
 				})
 			);
 		});
-
-		this.sendEvents();
 	}
 
 	public getGlobals(): TrackerGlobals {
@@ -155,26 +136,6 @@ export class Tracker {
 	}
 
 	track: TrackMethods = {
-		event: (payload: BeaconPayload): BeaconEvent | undefined => {
-			const event: BeaconPayload = {
-				type: payload?.type || BeaconType.CUSTOM,
-				category: payload?.category || BeaconCategory.CUSTOM,
-				context: payload?.context ? deepmerge(this.context, payload.context) : this.context,
-				event: payload.event,
-				pid: payload?.pid || undefined,
-			};
-
-			const doNotTrack = this.doNotTrack.find((entry) => entry.type === event.type && entry.category === event.category);
-			if (doNotTrack) {
-				return;
-			}
-
-			const beaconEvent = new BeaconEvent(event as BeaconPayload, this.config);
-			this.sendEvents([beaconEvent]);
-
-			return beaconEvent;
-		},
-
 		error: (data: TrackErrorEvent, siteId?: string): BeaconEvent | undefined => {
 			if (!data?.stack && !data?.message) {
 				// no console log
@@ -230,6 +191,7 @@ export class Tracker {
 		},
 		product: {
 			view: (data: Item | ProductViewEvent, siteId?: string): undefined => {
+				// TODO: if only data.sku is provided (ProductViewEvent), transform to Item
 				this.beacon.events.product.pageView({ data: { result: data as Item }, siteId });
 			},
 			click: (data: ProductClickEvent, siteId?: string): BeaconEvent | undefined => {
@@ -285,7 +247,7 @@ export class Tracker {
 						results: items.map((item) => {
 							return {
 								// uid is required - fallback to get most relevant
-								uid: item.uid || this.beacon.getSku(item),
+								uid: item.uid || item.sku || item.childUid || item.childSku || '',
 								childUid: item.childUid,
 								sku: item.sku,
 								childSku: item.childSku,
@@ -472,49 +434,5 @@ export class Tracker {
 				return items.split(',');
 			},
 		},
-	};
-
-	sendEvents = (eventsToSend?: BeaconEvent[]): void => {
-		if (this.mode !== AppMode.production) {
-			return;
-		}
-
-		const savedEvents = JSON.parse(this.localStorage.get(LOCALSTORAGE_BEACON_POOL_NAME) || '[]') as BeaconEvent[];
-		if (eventsToSend) {
-			const eventsClone: BeaconEvent[] = [];
-			savedEvents.forEach((_event: BeaconEvent, idx: number) => {
-				// using Object.assign since we are not modifying nested properties
-				eventsClone.push(Object.assign({}, _event));
-				delete eventsClone[idx].id;
-				delete eventsClone[idx].pid;
-			});
-
-			const stringyEventsClone = JSON.stringify(eventsClone);
-
-			// de-dupe events
-			eventsToSend.forEach((event, idx) => {
-				const newEvent: BeaconEvent = Object.assign({}, event);
-				delete newEvent.id;
-				delete newEvent.pid;
-				if (stringyEventsClone.indexOf(JSON.stringify(newEvent)) == -1) {
-					savedEvents.push({ ...eventsToSend[idx] });
-				}
-			});
-
-			// save the beacon pool with de-duped events
-			this.localStorage.set(LOCALSTORAGE_BEACON_POOL_NAME, JSON.stringify(savedEvents));
-		}
-
-		clearTimeout(this.isSending);
-		this.isSending = window.setTimeout(() => {
-			if (savedEvents.length) {
-				const xhr = new XMLHttpRequest();
-				const origin = this.config.requesters?.beacon?.origin || 'https://beacon.searchspring.io';
-				xhr.open('POST', `${origin}/beacon`);
-				xhr.setRequestHeader('Content-Type', 'application/json');
-				xhr.send(JSON.stringify(savedEvents.length == 1 ? savedEvents[0] : savedEvents));
-			}
-			this.localStorage.set(LOCALSTORAGE_BEACON_POOL_NAME, JSON.stringify([]));
-		}, BATCH_TIMEOUT);
 	};
 }

@@ -192,7 +192,7 @@ export class AutocompleteController extends AbstractController {
 					return;
 				}
 				const data = this.getAutocompleteSchemaData([result]);
-				this.tracker.beacon.events.autocomplete.clickThrough({ data });
+				this.tracker.beacon.events.autocomplete.clickThrough({ data, siteId: this.client.globals.siteId });
 				this.events.product[result.id] = this.events.product[result.id] || {};
 				this.events.product[result.id].click = data;
 				this.eventManager.fire('track.product.click', { controller: this, event: e, result, trackEvent: data });
@@ -201,7 +201,7 @@ export class AutocompleteController extends AbstractController {
 				if (this.events.product && this.events.product[result.id]?.render) return;
 
 				const data = this.getAutocompleteSchemaData([result]);
-				this.tracker.beacon.events.autocomplete.render({ data });
+				this.tracker.beacon.events.autocomplete.render({ data, siteId: this.client.globals.siteId });
 				this.events.product[result.id] = this.events.product[result.id] || {};
 				this.events.product[result.id].render = data;
 				this.eventManager.fire('track.product.render', { controller: this, result, trackEvent: data });
@@ -210,17 +210,20 @@ export class AutocompleteController extends AbstractController {
 				if (this.events.product && this.events.product[result.id]?.impression) return;
 
 				const data = this.getAutocompleteSchemaData([result]);
-				this.tracker.beacon.events.autocomplete.impression({ data });
+				this.tracker.beacon.events.autocomplete.impression({ data, siteId: this.client.globals.siteId });
 				this.events.product[result.id] = this.events.product[result.id] || {};
 				this.events.product[result.id].impression = data;
 				this.eventManager.fire('track.product.impression', { controller: this, result, trackEvent: data });
 			},
 			addToCart: (result: Product): void => {
-				this.tracker.beacon.events.autocomplete.addToCart({ data: this.getAutocompleteSchemaData([result]) });
+				this.tracker.beacon.events.autocomplete.addToCart({ data: this.getAutocompleteSchemaData([result]), siteId: this.client.globals.siteId });
 				this.eventManager.fire('track.product.addToCart', { controller: this, result });
 			},
 			redirect: (redirectURL: string): void => {
-				this.tracker.beacon.events.autocomplete.redirect({ data: this.getAutocompleteRedirectSchemaData(redirectURL) });
+				this.tracker.beacon.events.autocomplete.redirect({
+					data: this.getAutocompleteRedirectSchemaData(redirectURL),
+					siteId: this.client.globals.siteId,
+				});
 				this.eventManager.fire('track.product.redirect', { controller: this, redirectURL });
 			},
 		},

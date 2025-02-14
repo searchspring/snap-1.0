@@ -115,14 +115,14 @@ export class RecommendationController extends AbstractController {
 					if (!this.store.profile.tag || !result) return;
 
 					const data = getRecommendationsSchemaData([result]);
-					this.tracker.beacon.events.recommendations.clickThrough({ data });
+					this.tracker.beacon.events.recommendations.clickThrough({ data, siteId: this.client.globals.siteId });
 					this.eventManager.fire('track.product.click', { controller: this, event: e, result, trackEvent: data });
 				},
 				impression: (result): RecommendationsSchemaData | undefined => {
 					if (!this.store.profile.tag || !result || (this.events.product && this.events.product[result.id]?.impression)) return;
 
 					const data = getRecommendationsSchemaData([result]);
-					this.tracker.beacon.events.recommendations.impression({ data });
+					this.tracker.beacon.events.recommendations.impression({ data, siteId: this.client.globals.siteId });
 					this.events.product![result.id] = this.events.product![result.id] || {};
 					this.events.product![result.id].impression = data;
 					this.eventManager.fire('track.product.impression', { controller: this, result, trackEvent: data });
@@ -132,7 +132,7 @@ export class RecommendationController extends AbstractController {
 					if (!this.store.profile.tag || !result || this.events.product![result.id]?.render) return;
 
 					const data = getRecommendationsSchemaData([result]);
-					this.tracker.beacon.events.recommendations.render({ data });
+					this.tracker.beacon.events.recommendations.render({ data, siteId: this.client.globals.siteId });
 					this.events.product![result.id] = this.events.product![result.id] || {};
 					this.events.product![result.id].render = data;
 					this.eventManager.fire('track.product.render', { controller: this, result, trackEvent: data });
@@ -150,7 +150,7 @@ export class RecommendationController extends AbstractController {
 				if (!results.length || !this.store.profile.tag || this.store.profile.type != 'bundle') return;
 
 				const data = getRecommendationsSchemaData(results);
-				this.tracker.beacon.events.recommendations.addToCart({ data });
+				this.tracker.beacon.events.recommendations.addToCart({ data, siteId: this.client.globals.siteId });
 				this.eventManager.fire('track.product.addBundle', { controller: this, results, trackEvent: data });
 				return data;
 			},
