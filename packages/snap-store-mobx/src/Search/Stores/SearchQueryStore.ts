@@ -4,7 +4,7 @@ import { escapeHTML } from '@searchspring/snap-toolbox';
 
 import type { UrlManager } from '@searchspring/snap-url-manager';
 import type { StoreServices } from '../../types';
-import type { SearchResponseModel, SearchResponseModelSearchMatchTypeEnum } from '@searchspring/snapi-types';
+import type { SearchResponseModel, SearchResponseModelSearch, SearchResponseModelSearchMatchTypeEnum } from '@searchspring/snapi-types';
 
 type SearchQueryStoreConfig = {
 	services: StoreServices;
@@ -17,16 +17,22 @@ export class SearchQueryStore {
 	public query?: Query;
 	public didYouMean?: Query;
 	public originalQuery?: Query;
+	public message?: string;
 	public matchType?: SearchResponseModelSearchMatchTypeEnum;
 
 	constructor(params: SearchQueryStoreConfig) {
 		const { services, data } = params || {};
-		const { search } = data.search || {};
+		const search: SearchResponseModelSearch & { message?: string } = data.search?.search || {};
 		const observables: Observables = {};
 
 		if (search?.query) {
 			this.query = new Query(services, search.query);
 			observables.query = observable;
+		}
+
+		if (search?.message) {
+			this.message = search.message;
+			observables.message = observable;
 		}
 
 		if (search?.didYouMean) {
@@ -50,6 +56,7 @@ export class SearchQueryStore {
 
 type Observables = {
 	query?: typeof observable;
+	message?: typeof observable;
 	didYouMean?: typeof observable;
 	originalQuery?: typeof observable;
 	matchType?: typeof observable;

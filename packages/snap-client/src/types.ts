@@ -25,6 +25,8 @@ export type ClientConfig = {
 	finder?: RequesterConfig<SearchRequestModel>;
 	recommend?: RequesterConfig<RecommendRequestModel>;
 	suggest?: RequesterConfig<SuggestRequestModel>;
+	ai?: RequesterConfig<ConverseRequestModel>;
+	nls?: RequesterConfig<ConverseRequestModel>;
 };
 
 export type HybridRequesterConfig = {
@@ -217,3 +219,38 @@ type RecommendationRequestValueFilterModel = {
 };
 
 export type RecommendCombinedResponseModel = ProfileResponseModel & { results: SearchResponseModelResult[] } & { meta: MetaResponseModel };
+
+export type ConverseRequestModel = {
+	siteId: string;
+	q: string;
+};
+
+export type ConverseResponseModel = {
+	pagination: {
+		totalResults: number;
+		begin: number;
+		end: number;
+		currentPage: number;
+		totalPages: number;
+		perPage: number;
+	};
+	results: Record<string, any>;
+	userMessage: string;
+};
+
+export type VisualRequestModel = {
+	image: Blob;
+};
+
+export type AiResponseModel = {
+	pagination: {
+		totalResults: number;
+		begin: number;
+		end: number;
+		currentPage: number;
+		totalPages: number;
+		perPage: number;
+	};
+	results: Record<string, any>;
+	userMessage: string;
+};

@@ -27,6 +27,7 @@ export type UrlState = {
 	page?: number;
 	pageSize?: number;
 	query?: string;
+	aiq?: string;
 	rq?: string;
 	oq?: string;
 	fallbackQuery?: string;

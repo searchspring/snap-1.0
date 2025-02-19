@@ -316,10 +316,34 @@ export class SearchController extends AbstractController {
 				await this.init();
 			}
 			const params = this.params;
+			let searchFunc = this.client.search;
 
-			if (this.params.search?.query?.string && this.params.search?.query?.string.length) {
+			if (this.urlManager.state.aiq) {
+				searchFunc = this.client.nls;
+				// searchFunc = this.client.converse;
+			} else if (this.urlManager.state.vq) {
+				// attach the image stored as base64 to the formData
+				const base64Image = sessionStorage.getItem('ssImageSearch');
+				if (base64Image) {
+					const [_, base64] = base64Image.split(';base64,');
+					const base64Id = base64.slice(0, 12);
+
+					// @ts-ignore - it is a string
+					if (base64Id == this.urlManager.state.vq) {
+						const blob = await base64ToBlob(base64Image);
+
+						// @ts-ignore - formData is not in the SearchRequestModel
+						params.image = blob;
+						searchFunc = this.client.visual;
+					}
+				} else {
+					// no image found - redirect back to search
+					this.log.error('No image found in sessionStorage');
+					return;
+				}
+			} else if (params.search?.query?.string && params.search?.query?.string.length) {
 				// save it to the history store
-				this.store.history.save(this.params.search.query.string);
+				this.store.history.save(params.search.query.string);
 			}
 			this.store.loading = true;
 
@@ -383,7 +407,7 @@ export class SearchController extends AbstractController {
 								}
 							}
 
-							return this.client.search(backfillParams);
+							return searchFunc.call(this.client, backfillParams);
 						});
 
 					const backfillResponses = await Promise.all(backfillRequests);
@@ -407,13 +431,13 @@ export class SearchController extends AbstractController {
 					search.results = backfillResults;
 				} else {
 					// infinite with no backfills.
-					const infiniteResponse = await this.client.search(params);
+					const infiniteResponse = await searchFunc.call(this.client, params);
 					meta = infiniteResponse.meta;
 					search = infiniteResponse.search;
 				}
 			} else {
 				// standard request (not using infinite scroll)
-				const searchResponse = await this.client.search(params);
+				const searchResponse = await searchFunc.call(this.client, params);
 				meta = searchResponse.meta;
 				search = searchResponse.search;
 			}
@@ -580,4 +604,11 @@ export function generateHrefSelector(element: HTMLElement, href: string, levels 
 	}
 
 	return;
+}
+
+async function base64ToBlob(base64Image: string): Promise<Blob> {
+	const fetchedImage = await fetch(base64Image);
+	const blob = await fetchedImage.blob();
+	// const file = new File([blob], `searchableimage.jpg`, { type: blob.type });
+	return blob;
 }

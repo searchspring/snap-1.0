@@ -10,6 +10,7 @@ import type {
 	ProfileResponseModel,
 	RecommendResponseModel,
 	RecommendRequestModel,
+	VisualRequestModel,
 } from '../types';
 
 import type {
@@ -22,6 +23,9 @@ import type {
 } from '@searchspring/snapi-types';
 
 import deepmerge from 'deepmerge';
+import { aiAPI } from './apis/Ai';
+// @ts-ignore - TODO: random casing error
+import { nlsAPI } from './apis/Nls';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -45,6 +49,12 @@ const defaultConfig: ClientConfig = {
 	suggest: {
 		// origin: 'https://snapi.kube.searchspring.io'
 	},
+	ai: {
+		// origin: 'https://snapi.kube.searchspring.io'
+	},
+	nls: {
+		// origin: 'https://snapi.kube.searchspring.io'
+	},
 };
 
 export class Client {
@@ -58,6 +68,8 @@ export class Client {
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
 		finder: HybridAPI;
+		ai: aiAPI;
+		nls: nlsAPI;
 	};
 
 	constructor(globals: ClientGlobals, config: ClientConfig = {}) {
@@ -134,6 +146,26 @@ export class Client {
 					globals: this.config.suggest?.globals,
 				})
 			),
+			ai: new aiAPI(
+				new ApiConfiguration({
+					fetchApi: this.config.fetchApi,
+					mode: this.mode,
+					origin: this.config.ai?.origin,
+					headers: this.config.ai?.headers,
+					cache: this.config.ai?.cache,
+					globals: this.config.ai?.globals,
+				})
+			),
+			nls: new nlsAPI(
+				new ApiConfiguration({
+					fetchApi: this.config.fetchApi,
+					mode: this.mode,
+					origin: this.config.nls?.origin,
+					headers: this.config.nls?.headers,
+					cache: this.config.nls?.cache,
+					globals: this.config.nls?.globals,
+				})
+			),
 		};
 	}
 
@@ -159,6 +191,29 @@ export class Client {
 		params = deepmerge(this.globals, params);
 
 		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.search.getSearch(params)]);
+		return { meta, search };
+	}
+
+	async converse(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge(this.globals, params);
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.ai.getConverse(params)]);
+		return { meta, search };
+	}
+
+	async nls(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge(this.globals, params);
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.nls.getConverse(params)]);
+		return { meta, search };
+	}
+
+	async visual(params: SearchRequestModel & VisualRequestModel): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		const image = params.image;
+		params = deepmerge(this.globals, params) as SearchRequestModel & VisualRequestModel;
+		params.image = image;
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.ai.postVisual(params)]);
 		return { meta, search };
 	}
 
