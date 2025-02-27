@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/searchspring/snap/compare/v1.4.0...v1.5.0) (2025-02-27)
+
+### Bug Fixes
+
+- **toolbox/getcontext:** adding resiliency to getContext to prevent keyword usage errors ([b3cf7ce](https://github.com/searchspring/snap/commit/b3cf7ce6ba51e6d35b55d466d5fcc0a3367b6976))
+
 # [1.4.0](https://github.com/searchspring/snap/compare/v1.3.0...v1.4.0) (2024-12-23)
 
 ### Bug Fixes
@@ -74,6 +80,32 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **preact-components/storybook:** updating storybook to latest version - build stable ([43c598d](https://github.com/searchspring/snap/commit/43c598d0e4d11d76364ff2775ecdcabe489023a8))
+
+## [0.63.5](https://github.com/searchspring/snap/compare/v0.63.4...v0.63.5) (2025-02-21)
+
+**Note:** Version bump only for package @searchspring/snap-toolbox
+
+## [0.63.4](https://github.com/searchspring/snap/compare/v0.63.3...v0.63.4) (2025-02-20)
+
+**Note:** Version bump only for package @searchspring/snap-toolbox
+
+## [0.63.3](https://github.com/searchspring/snap/compare/v0.63.2...v0.63.3) (2025-02-14)
+
+**Note:** Version bump only for package @searchspring/snap-toolbox
+
+## [0.63.2](https://github.com/searchspring/snap/compare/v0.63.1...v0.63.2) (2025-02-10)
+
+**Note:** Version bump only for package @searchspring/snap-toolbox
+
+## [0.63.1](https://github.com/searchspring/snap/compare/v0.63.0...v0.63.1) (2025-01-09)
+
+### Bug Fixes
+
+- **toolbox/getcontext:** adding resiliency to getContext to prevent keyword usage errors ([b3cf7ce](https://github.com/searchspring/snap/commit/b3cf7ce6ba51e6d35b55d466d5fcc0a3367b6976))
+
+# [0.63.0](https://github.com/searchspring/snap/compare/v0.62.0...v0.63.0) (2024-12-19)
+
+**Note:** Version bump only for package @searchspring/snap-toolbox
 
 # [0.62.0](https://github.com/searchspring/snap/compare/v0.61.5...v0.62.0) (2024-12-10)
 
