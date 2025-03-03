@@ -3,7 +3,7 @@ import { useState, StateUpdater } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 import { ComponentProps, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -29,8 +29,8 @@ const defaultStyles: StyleScript<CheckboxProps> = ({ size, color, theme, native 
 			},
 			'& .ss__checkbox__empty': {
 				display: 'inline-block',
-				width: `calc(${pixelSize} - 30%)`,
-				height: `calc(${pixelSize} - 30%)`,
+				width: `calc(${size} - 30%)`,
+				height: `calc(${size} - 30%)`,
 			},
 		});
 	} else {
@@ -61,14 +61,12 @@ export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
 			// default props
 			className: 'ss__checkbox__icon',
 			icon: 'check-thin',
-			// global theme
-			...globalTheme?.components?.icon,
 			// inherited props
 			...defined({
 				color: iconColor || color || theme?.variables?.colors?.primary,
 				disableStyles,
 				icon,
-				size: size && `calc(${pixelSize} - 30%)`,
+				size: pixelSize && `calc(${pixelSize} - 30%)`,
 			}),
 			// component theme overrides
 			theme: props.theme,

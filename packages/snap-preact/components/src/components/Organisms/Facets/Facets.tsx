@@ -3,7 +3,7 @@ import { Fragment, h } from 'preact';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 import { Facet, FacetProps } from '../Facet';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -70,8 +70,6 @@ export const Facets = observer((properties: FacetsProps): JSX.Element => {
 		facet: {
 			// default props
 			className: 'ss__facets__facet',
-			// global theme
-			...globalTheme?.components?.facet,
 			// inherited props
 			...defined({
 				disableStyles,

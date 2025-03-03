@@ -1,5 +1,5 @@
 import { Fragment, h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
@@ -68,8 +68,6 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 		result: {
 			// default props
 			className: 'ss__recommendation-grid__result',
-			// global theme
-			...globalTheme?.components?.result,
 			// inherited props
 			...defined({
 				disableStyles,

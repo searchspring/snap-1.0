@@ -2,7 +2,7 @@ import { Fragment, h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
@@ -59,8 +59,6 @@ export const FacetListOptions = observer((properties: FacetListOptionsProps): JS
 		checkbox: {
 			// default props
 			className: 'ss__facet-list-options__checkbox',
-			// global theme
-			...globalTheme?.components?.checkbox,
 			// inherited props
 			...defined({
 				disableStyles,

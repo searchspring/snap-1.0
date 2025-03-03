@@ -1,7 +1,7 @@
 import { h, Fragment } from 'preact';
 import { useState } from 'preact/hooks';
 
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 
@@ -55,6 +55,7 @@ const defaultStyles: StyleScript<SelectProps> = ({ color, backgroundColor, borde
 					color: 'initial',
 					display: 'flex',
 					alignItems: 'center',
+					gap: '5px',
 
 					'&.ss__select__select__option--selected': {
 						fontWeight: 'bold',
@@ -116,8 +117,6 @@ export const Select = observer((properties: SelectProps): JSX.Element => {
 	const subProps: SelectSubProps = {
 		dropdown: {
 			className: 'ss__select__dropdown',
-			// global theme
-			...globalTheme?.components?.dropdown,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -130,8 +129,6 @@ export const Select = observer((properties: SelectProps): JSX.Element => {
 		button: {
 			// default props
 			className: 'ss__select__dropdown__button',
-			// global theme
-			...globalTheme?.components?.button,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -147,8 +144,6 @@ export const Select = observer((properties: SelectProps): JSX.Element => {
 		icon: {
 			// default props
 			className: 'ss__select__dropdown__button__icon',
-			// global theme
-			...globalTheme?.components?.icon,
 			// inherited props
 			...defined({
 				disableStyles,

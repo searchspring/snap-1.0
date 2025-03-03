@@ -1,6 +1,6 @@
 import { Fragment, h } from 'preact';
 
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
@@ -99,8 +99,6 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 		result: {
 			// default props
 			className: 'ss__results__result',
-			// global theme
-			...globalTheme?.components?.result,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -112,8 +110,6 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 		inlineBanner: {
 			// default props
 			className: 'ss__results__inline-banner',
-			// global theme
-			...globalTheme?.components?.inlineBanner,
 			// inherited props
 			...defined({
 				disableStyles,

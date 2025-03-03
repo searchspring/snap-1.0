@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -46,8 +46,6 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 		icon: {
 			// default props
 			className: 'ss__search-input__icon',
-			// global theme
-			...globalTheme?.components?.icon,
 			// inherited props
 			...defined({
 				disableStyles,
