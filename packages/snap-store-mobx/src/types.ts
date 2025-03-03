@@ -42,7 +42,6 @@ export type SearchStoreConfigSettings = {
 			value: number;
 		}[];
 	};
-	isCategory?: boolean;
 };
 export type VariantConfigFilterTypes = 'first' | 'unaltered';
 

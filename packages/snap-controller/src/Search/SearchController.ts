@@ -16,17 +16,23 @@ import type {
 	ContextVariables,
 	RestorePositionObj,
 	ElementPositionObj,
+	BeforeSearchObj,
 } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
-import type {
-	SearchRequestModel,
-	SearchResponseModelResult,
-	SearchRequestModelSearchRedirectResponseEnum,
-	MetaResponseModel,
-	SearchResponseModel,
+import {
+	type SearchRequestModel,
+	type SearchResponseModelResult,
+	type SearchRequestModelSearchRedirectResponseEnum,
+	type MetaResponseModel,
+	type SearchResponseModel,
+	type SearchRequestModelFilterRange,
+	type SearchRequestModelFilterValue,
 } from '@searchspring/snapi-types';
 
 import { Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/beacon';
+
+const BACKGROUND_FILTER_FIELD_MATCHES = ['collection', 'category', 'categories', 'hierarchy'];
+const BACKGROUND_FILTERS_VALUE_FLAGS = [1, 0, '1', '0', 'true', 'false', true, false];
 
 const defaultConfig: SearchControllerConfig = {
 	id: 'search',
@@ -45,7 +51,7 @@ const defaultConfig: SearchControllerConfig = {
 	},
 };
 
-type SearchTrackMethods = {
+type SearchpageTypes = {
 	product: {
 		click: (e: MouseEvent, result: Product) => void;
 		render: (result: Product) => void;
@@ -61,18 +67,8 @@ export class SearchController extends AbstractController {
 	declare config: SearchControllerConfig;
 	storage: StorageStore;
 	private previousResults: Array<SearchResponseModelResult> = [];
-	private trackMethod: 'search' | 'category';
-
+	private pageType: 'search' | 'category' = 'search';
 	private lastParams: string = '';
-	// events: {
-	// 	product: Record<string, {
-	// 		click?: SearchSchemaData;
-	// 		impression?: SearchSchemaData;
-	// 		render?: SearchSchemaData;
-	// 	}>;
-	// } = {
-	// 	product: {},
-	// };
 
 	events: {
 		[params: string]: {
@@ -102,8 +98,6 @@ export class SearchController extends AbstractController {
 			this.config.settings.restorePosition = { enabled: true };
 		}
 
-		this.trackMethod = this.config.settings?.isCategory ? 'category' : 'search';
-
 		this.store.setConfig(this.config);
 
 		this.storage = new StorageStore({
@@ -114,6 +108,44 @@ export class SearchController extends AbstractController {
 		// set last params to undefined for compare in search
 		this.storage.set('lastStringyParams', undefined);
 
+		this.eventManager.on('beforeSearch', async ({ request }: BeforeSearchObj, next: Next): Promise<void | boolean> => {
+			// wait for other middleware to resolve
+			await next();
+
+			if (this.context?.pageType === 'category') {
+				this.pageType = 'category';
+				return;
+			}
+
+			const req = request as SearchRequestModel;
+			const query = req.search?.query;
+			if (!query) {
+				const hasCategoryBackgroundFilters = req.filters
+					?.filter((filter) => filter.background)
+					.filter((filter) => {
+						return BACKGROUND_FILTER_FIELD_MATCHES.find((bgFilter) => {
+							return filter.field?.toLowerCase().includes(bgFilter);
+						});
+					})
+					.filter((filter) => {
+						return BACKGROUND_FILTERS_VALUE_FLAGS.every((flag) => {
+							switch (filter.type) {
+								case 'range':
+									const rangeFilter = filter as SearchRequestModelFilterRange;
+									return rangeFilter.value !== flag;
+								case 'value':
+								default:
+									const valueFilter = filter as SearchRequestModelFilterValue;
+									return valueFilter.value !== flag;
+							}
+						});
+					});
+
+				if (hasCategoryBackgroundFilters?.length) {
+					this.pageType = 'category';
+				}
+			}
+		});
 		// add 'afterSearch' middleware
 		this.eventManager.on('afterSearch', async (search: AfterSearchObj, next: Next): Promise<void | boolean> => {
 			const config = search.controller.config as SearchControllerConfig;
@@ -295,7 +327,7 @@ export class SearchController extends AbstractController {
 		};
 	};
 
-	track: SearchTrackMethods = {
+	track: SearchpageTypes = {
 		product: {
 			click: (e: MouseEvent, result): void => {
 				e.preventDefault(); // TODO: remove
@@ -337,7 +369,7 @@ export class SearchController extends AbstractController {
 				this.storage.set('scrollMap', scrollMap);
 
 				const data = this.getSearchSchemaData([result]);
-				this.tracker.beacon.events[this.trackMethod].clickThrough({ data, siteId: this.client.globals.siteId });
+				this.tracker.beacon.events[this.pageType].clickThrough({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].click = data;
 				this.eventManager.fire('product.click', { controller: this, event: e, result });
@@ -349,7 +381,7 @@ export class SearchController extends AbstractController {
 				}
 
 				const data = this.getSearchSchemaData([result]);
-				this.tracker.beacon.events[this.trackMethod].render({ data, siteId: this.client.globals.siteId });
+				this.tracker.beacon.events[this.pageType].render({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].render = data;
 				this.eventManager.fire('product.render', { controller: this, result, trackEvent: data });
@@ -361,13 +393,13 @@ export class SearchController extends AbstractController {
 				}
 
 				const data = this.getSearchSchemaData([result]);
-				this.tracker.beacon.events[this.trackMethod].impression({ data, siteId: this.client.globals.siteId });
+				this.tracker.beacon.events[this.pageType].impression({ data, siteId: this.client.globals.siteId });
 				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
 				this.events[this.lastParams].product[result.id].impression = data;
 				this.eventManager.fire('product.impression', { controller: this, result, trackEvent: data });
 			},
 			addToCart: (results: Product | Product[]): void => {
-				this.tracker.beacon.events[this.trackMethod].addToCart({
+				this.tracker.beacon.events[this.pageType].addToCart({
 					data: this.getSearchSchemaData(Array.isArray(results) ? results : [results]),
 					siteId: this.client.globals.siteId,
 				});
