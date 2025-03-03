@@ -357,7 +357,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	};
 	const addToCart = (e: MouseEvent) => {
 		// add to cart tracking
-		controller.track.addBundle(e, selectedItems);
+		controller.addToCart(selectedItems);
 
 		//call the function passed
 		onAddToCart && onAddToCart(e, selectedItems);
@@ -438,7 +438,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 													seedText={seedText}
 													seed={true}
 													title={seed.display.mappings.core?.name}
-													onCheck={() => onProductSelect(seed)}
+													onCheck={(e) => {
+														e.stopPropagation();
+														onProductSelect(seed);
+													}}
 													checked={selectedItems.findIndex((item) => item.id == seed.id) > -1}
 													icon={separatorIcon}
 													hideCheckboxes={hideCheckboxes}
@@ -494,7 +497,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 																			seed={true}
 																			title={result.display.mappings.core?.name}
 																			icon={separatorIcon}
-																			onCheck={() => onProductSelect(result)}
+																			onCheck={(e) => {
+																				e.stopPropagation();
+																				onProductSelect(result);
+																			}}
 																			checked={selected}
 																			hideCheckboxes={hideCheckboxes}
 																			theme={props.theme}
@@ -515,7 +521,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 																		<BundleSelector
 																			icon={separatorIconSeedOnly ? false : separatorIcon}
 																			title={result.display.mappings.core?.name}
-																			onCheck={() => onProductSelect(result)}
+																			onCheck={(e) => {
+																				e.stopPropagation();
+																				onProductSelect(result);
+																			}}
 																			checked={selected}
 																			hideCheckboxes={hideCheckboxes}
 																			theme={props.theme}
@@ -542,7 +551,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 																	<BundleSelector
 																		icon={separatorIconSeedOnly ? false : separatorIcon}
 																		title={result.display.mappings.core?.name}
-																		onCheck={() => onProductSelect(result)}
+																		onCheck={(e) => {
+																			e.stopPropagation();
+																			onProductSelect(result);
+																		}}
 																		checked={selected}
 																		hideCheckboxes={hideCheckboxes}
 																		theme={props.theme}
@@ -575,7 +587,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 														seed={true}
 														title={result.display.mappings.core?.name}
 														icon={separatorIcon}
-														onCheck={() => onProductSelect(result)}
+														onCheck={(e) => {
+															e.stopPropagation();
+															onProductSelect(result);
+														}}
 														checked={selected}
 														hideCheckboxes={hideCheckboxes}
 														theme={props.theme}
@@ -596,7 +611,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 													<BundleSelector
 														icon={separatorIconSeedOnly ? false : separatorIcon}
 														title={result.display.mappings.core?.name}
-														onCheck={() => onProductSelect(result)}
+														onCheck={(e) => {
+															e.stopPropagation();
+															onProductSelect(result);
+														}}
 														checked={selected}
 														hideCheckboxes={hideCheckboxes}
 														theme={props.theme}

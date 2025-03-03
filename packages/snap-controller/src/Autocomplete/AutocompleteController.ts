@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore, ErrorType, Product } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, Product, SearchResultStore, Banner } from '@searchspring/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
@@ -9,6 +9,7 @@ import { AutocompleteStore } from '@searchspring/snap-store-mobx';
 import type { AutocompleteControllerConfig, AfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
 import type { AutocompleteRequestModel } from '@searchspring/snapi-types';
+import { AutocompleteRedirectSchemaData, AutocompleteSchemaData, Item } from '@searchspring/beacon';
 
 const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;
@@ -45,6 +46,10 @@ const defaultConfig: AutocompleteControllerConfig = {
 type AutocompleteTrackMethods = {
 	product: {
 		click: (e: MouseEvent, result: any) => void;
+		render: (result: Product) => void;
+		impression: (result: Product) => void;
+		addToCart: (results: Product | Product[]) => void;
+		redirect: (redirectURL: string) => void;
 	};
 };
 
@@ -53,6 +58,19 @@ export class AutocompleteController extends AbstractController {
 	declare store: AutocompleteStore;
 	declare config: AutocompleteControllerConfig;
 	public storage: StorageStore;
+
+	events: {
+		product: Record<
+			string,
+			{
+				click?: AutocompleteSchemaData;
+				impression?: AutocompleteSchemaData;
+				render?: AutocompleteSchemaData;
+			}
+		>;
+	} = {
+		product: {},
+	};
 
 	constructor(
 		config: AutocompleteControllerConfig,
@@ -95,6 +113,7 @@ export class AutocompleteController extends AbstractController {
 
 			const redirectURL = (ac.controller as AutocompleteController).store.merchandising?.redirect;
 			if (redirectURL && this.config?.settings?.redirects?.merchandising) {
+				this.track.product.redirect(redirectURL);
 				window.location.href = redirectURL;
 				return false;
 			}
@@ -114,11 +133,102 @@ export class AutocompleteController extends AbstractController {
 		this.use(this.config);
 	}
 
+	getAutocompleteRedirectSchemaData = (redirectURL: string): AutocompleteRedirectSchemaData => {
+		return {
+			redirect: redirectURL,
+		};
+	};
+
+	getAutocompleteSchemaData = (results?: SearchResultStore): AutocompleteSchemaData => {
+		return {
+			q: this.params.search?.query?.string || '',
+			correctedQuery: this.params.search?.originalQuery || '', // TODO: is this correct?
+			// bgfilter: [], // TODO: bgfilters
+			sort: [
+				{
+					field: this.store.sorting.current?.field,
+					dir: this.store.sorting.current?.direction as any, // TODO: enum
+				},
+			],
+			pagination: {
+				totalResults: this.store.pagination.totalResults,
+				page: this.store.pagination.page,
+				resultsPerPage: this.store.pagination.pageSize,
+			},
+			merchandising: {
+				personalized: this.store.merchandising.personalized,
+				triggeredCampaigns:
+					this.store.merchandising.campaigns?.map((campaign) => {
+						const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
+						return {
+							id: campaign.id,
+							experimentId: experiement?.experimentId,
+							variationId: experiement?.variationId,
+						};
+					}) || [],
+			},
+			results:
+				results?.map((result: Product | Banner): Item => {
+					return {
+						uid: (result as Product).display?.mappings.core?.uid || (result as Product).mappings.core?.uid || '',
+						// @ts-ignore - childUid not on snapi-types
+						// TODO: fix types here
+						childUid: (result as Product).display?.mappings.core?.childUid || (result as Product).mappings.core?.childUid,
+						sku: (result as Product).display?.mappings.core?.sku || (result as Product).mappings.core?.sku,
+						// @ts-ignore - childSku not on snapi-types
+						childSku: (result as Product).display?.mappings.core?.childSku || (result as Product).mappings.core?.childSku,
+					};
+				}) || [],
+		};
+	};
+
 	track: AutocompleteTrackMethods = {
 		// TODO: add in future when autocomplete supports result click tracking
 		product: {
-			click: (): void => {
-				this.log.warn('product.click tracking is not currently supported in this controller type');
+			click: (e: MouseEvent, result): void => {
+				e.preventDefault(); // TODO: remove
+
+				if (this.events.product && this.events.product[result.id]?.click) {
+					console.log('click already tracked');
+					return;
+				}
+				const data = this.getAutocompleteSchemaData([result]);
+				this.tracker.beacon.events.autocomplete.clickThrough({ data, siteId: this.client.globals.siteId });
+				this.events.product[result.id] = this.events.product[result.id] || {};
+				this.events.product[result.id].click = data;
+				this.eventManager.fire('product.click', { controller: this, event: e, result, trackEvent: data });
+			},
+			render: (result: Product) => {
+				if (this.events.product && this.events.product[result.id]?.render) return;
+
+				const data = this.getAutocompleteSchemaData([result]);
+				this.tracker.beacon.events.autocomplete.render({ data, siteId: this.client.globals.siteId });
+				this.events.product[result.id] = this.events.product[result.id] || {};
+				this.events.product[result.id].render = data;
+				this.eventManager.fire('product.render', { controller: this, result, trackEvent: data });
+			},
+			impression: (result: Product): void => {
+				if (this.events.product && this.events.product[result.id]?.impression) return;
+
+				const data = this.getAutocompleteSchemaData([result]);
+				this.tracker.beacon.events.autocomplete.impression({ data, siteId: this.client.globals.siteId });
+				this.events.product[result.id] = this.events.product[result.id] || {};
+				this.events.product[result.id].impression = data;
+				this.eventManager.fire('product.impression', { controller: this, result, trackEvent: data });
+			},
+			addToCart: (results: Product | Product[]): void => {
+				this.tracker.beacon.events.autocomplete.addToCart({
+					data: this.getAutocompleteSchemaData(Array.isArray(results) ? results : [results]),
+					siteId: this.client.globals.siteId,
+				});
+				this.eventManager.fire('product.addToCart', { controller: this, results });
+			},
+			redirect: (redirectURL: string): void => {
+				this.tracker.beacon.events.autocomplete.redirect({
+					data: this.getAutocompleteRedirectSchemaData(redirectURL),
+					siteId: this.client.globals.siteId,
+				});
+				this.eventManager.fire('product.redirect', { controller: this, redirectURL });
 			},
 		},
 	};
@@ -670,14 +780,7 @@ export class AutocompleteController extends AbstractController {
 	};
 
 	addToCart = async (products: Product[]): Promise<void> => {
-		const eventContext = {
-			controller: this,
-			products: products,
-		};
-
-		this.eventManager.fire('addToCart', eventContext);
-
-		// TODO: fire some future beacon event
+		this.track.product.addToCart(products);
 	};
 }
 

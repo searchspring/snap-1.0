@@ -172,6 +172,7 @@
             </div>
 
             <div class="ss__recs__similar" style="min-height: 100vh;"></div>
+            <div class="ss__recs__trending" style="min-height: 100vh;"></div>
 
             <script type="searchspring/recommendations">
                     globals = {
@@ -184,6 +185,17 @@
                         },
                     ]
             </script>
+            <script type="searchspring/recommendations">
+                globals = {
+                    products: ['C-AD-W1-1869P'],
+                };
+                profiles = [
+                    {
+                        profile: 'trending',
+                        selector: '.ss__recs__trending'
+                    },
+                ]
+        </script>
         </div>
     </main>
 

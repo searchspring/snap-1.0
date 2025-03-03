@@ -1,8 +1,8 @@
 import { Fragment, h } from 'preact';
 import { jsx, css } from '@emotion/react';
-import { useRef } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
-// import { useIntersection } from '../../../hooks';
+import { useIntersection } from '../../../hooks';
 import { ComponentProps, StyleScript } from '../../../types';
 import type { Product } from '@searchspring/snap-store-mobx';
 import classnames from 'classnames';
@@ -19,33 +19,27 @@ export const SearchResultTracker = observer((properties: SearchResultTrackerProp
 	const resultRef = useRef(null);
 
 	// FUTURE
-	// const resultInViewport = useIntersection(resultRef, '0px');
-	// if (resultInViewport) {
-	// intersection observer can trigger in any random order,
-	// so we need to check if profile impression has been sent and send if not.
-	// if (!controller.tracker.events.impression) {
-	// controller.tracker.track.product.view();
-	// console.log('track view')
-	// }
-	// }
+	const resultInViewport = useIntersection(resultRef, '0px');
 
 	const styling = mergeStyles<SearchResultTrackerProps>(properties, defaultStyles);
 
 	if (!controller) {
 		console.error('No SearchController was passed to SearchResultTracker.');
+		return <Fragment>{children}</Fragment>;
 	}
 
-	return controller ? (
-		<div
-			className={classnames('ss__result-tracker', className)}
-			onClick={(e: any) => controller.track.product.click(e, result)}
-			ref={resultRef}
-			{...styling}
-		>
+	useEffect(() => {
+		controller.track.product.render(result);
+	}, []);
+
+	if (resultInViewport) {
+		controller.track.product.impression(result);
+	}
+
+	return (
+		<div className={classnames('ss__result-tracker', className)} ref={resultRef} {...styling}>
 			{children}
 		</div>
-	) : (
-		<Fragment>{children}</Fragment>
 	);
 });
 

@@ -547,14 +547,3 @@ const tracker = new Tracker();
 console.log(tracker.cookies.viewed.get());
 // ['sku1', 'sku2']
 ```
-
-### `sendEvents` method
-Sends event(s) to beacon (and various legacy) endpoint(s). 
-
-```typescript
-const tracker = new Tracker();
-const event1 = new BeaconEvent();
-const event2 = new BeaconEvent();
-tracker.sendEvents([event1, event2])
-```
-
