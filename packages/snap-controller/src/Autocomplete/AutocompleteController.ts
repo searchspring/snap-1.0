@@ -157,15 +157,18 @@ export class AutocompleteController extends AbstractController {
 			},
 			merchandising: {
 				personalized: this.store.merchandising.personalized,
+				redirect: this.store.merchandising.redirect,
 				triggeredCampaigns:
-					this.store.merchandising.campaigns?.map((campaign) => {
-						const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
-						return {
-							id: campaign.id,
-							experimentId: experiement?.experimentId,
-							variationId: experiement?.variationId,
-						};
-					}) || [],
+					(this.store.merchandising.campaigns?.length &&
+						this.store.merchandising.campaigns?.map((campaign) => {
+							const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
+							return {
+								id: campaign.id,
+								experimentId: experiement?.experimentId,
+								variationId: experiement?.variationId,
+							};
+						})) ||
+					undefined,
 			},
 			results:
 				results?.map((result: Product | Banner): Item => {
@@ -189,7 +192,6 @@ export class AutocompleteController extends AbstractController {
 				e.preventDefault(); // TODO: remove
 
 				if (this.events.product && this.events.product[result.id]?.click) {
-					console.log('click already tracked');
 					return;
 				}
 				const data = this.getAutocompleteSchemaData([result]);
@@ -237,7 +239,7 @@ export class AutocompleteController extends AbstractController {
 		const urlState = this.urlManager.state;
 		const params: AutocompleteRequestModel = deepmerge({ ...getSearchParams(urlState) }, this.config.globals!);
 
-		const userId = this.tracker.getUserId();
+		const userId = this.tracker.getContext().userId;
 		const sessionId = this.tracker.getContext().sessionId;
 		const pageLoadId = this.tracker.getContext().pageLoadId;
 		params.tracking = params.tracking || {};
@@ -267,7 +269,7 @@ export class AutocompleteController extends AbstractController {
 				params.personalization.lastViewed = lastViewedItems.join(',');
 			}
 
-			const shopperId = this.tracker.getShopperId();
+			const shopperId = this.tracker.getContext().shopperId;
 			if (shopperId) {
 				params.personalization = params.personalization || {};
 				params.personalization.shopper = shopperId;

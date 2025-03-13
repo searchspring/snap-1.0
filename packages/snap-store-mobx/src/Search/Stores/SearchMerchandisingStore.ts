@@ -55,7 +55,7 @@ export class SearchMerchandisingStore {
 				this.experiments = merchandising.experiments;
 			}
 
-			if (merchandising.personalized) this.personalized = merchandising.personalized;
+			this.personalized = !!merchandising.personalized;
 		}
 	}
 }

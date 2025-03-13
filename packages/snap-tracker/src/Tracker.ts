@@ -1,11 +1,11 @@
 import deepmerge from 'deepmerge';
-import { v4 as uuidv4 } from 'uuid';
 
 import { StorageStore } from '@searchspring/snap-store-mobx';
-import { cookies, getFlags, version, DomTargeter, getContext, charsParams } from '@searchspring/snap-toolbox';
+import { cookies, version, DomTargeter, getContext } from '@searchspring/snap-toolbox';
 import { AppMode } from '@searchspring/snap-toolbox';
 
-import { Beacon } from '@searchspring/beacon';
+// import { Beacon } from '@searchspring/beacon';
+import { Beacon } from './Beacon'; // TODO: change to package import
 
 import { BeaconEvent } from './BeaconEvent';
 import {
@@ -20,20 +20,18 @@ import {
 	OrderTransactionData,
 	TrackerConfig,
 	DoNotTrackEntry,
-	PreflightRequestModel,
 	CurrencyContext,
+	BeaconPayload,
+	BeaconCategory,
+	BeaconType,
 } from './types';
 import { CartSchemaData, Item, OrderTransactionSchemaData, Product } from '@searchspring/beacon';
+import { Context, ContextCurrency } from './client';
 
 export const BATCH_TIMEOUT = 200;
-const LEGACY_USERID_COOKIE_NAME = '_isuid';
-const USERID_COOKIE_NAME = 'ssUserId';
-const SHOPPERID_COOKIE_NAME = 'ssShopperId';
-const COOKIE_EXPIRATION = 31536000000; // 1 year
 const COOKIE_SAMESITE = 'Lax';
 const COOKIE_DOMAIN =
 	(typeof window !== 'undefined' && window.location.hostname && '.' + window.location.hostname.replace(/^www\./, '')) || undefined;
-const SESSIONID_STORAGE_NAME = 'ssSessionIdNamespace';
 const CART_PRODUCTS = 'ssCartProducts';
 const VIEWED_PRODUCTS = 'ssViewedProducts';
 export const MAX_VIEWED_COUNT = 20;
@@ -48,12 +46,7 @@ export class Tracker {
 	private mode = AppMode.production;
 	private globals: TrackerGlobals;
 	private localStorage: StorageStore;
-
-	// @ts-ignore - temp
-	private context: BeaconContext = {};
-	private isSending: number | undefined;
 	private doNotTrack: DoNotTrackEntry[];
-
 	public config: TrackerConfig;
 	private targeters: DomTargeter[] = [];
 	public beacon: Beacon;
@@ -79,7 +72,10 @@ export class Tracker {
 
 		this.localStorage.set('siteId', this.globals.siteId);
 
-		this.beacon = new Beacon({ siteId: this.globals.siteId, currency: this.globals.currency }, { version, framework: 'snap' });
+		this.beacon = new Beacon(
+			{ siteId: this.globals.siteId, currency: this.globals.currency },
+			{ version, framework: this.config.framework, mode: this.mode }
+		);
 
 		if (!window.searchspring?.tracker) {
 			window.searchspring = window.searchspring || {};
@@ -120,11 +116,11 @@ export class Tracker {
 	}
 
 	public getGlobals(): TrackerGlobals {
-		return JSON.parse(JSON.stringify(this.globals));
+		return JSON.parse(JSON.stringify(this.beacon.globals));
 	}
 
-	public getContext(): BeaconContext {
-		return JSON.parse(JSON.stringify(this.context));
+	public getContext(): Context {
+		return JSON.parse(JSON.stringify(this.beacon.getContext()));
 	}
 
 	public retarget(): void {
@@ -134,9 +130,14 @@ export class Tracker {
 	}
 
 	track: TrackMethods = {
-		error: (data: TrackErrorEvent, siteId?: string): BeaconEvent | undefined => {
+		// TODO: search where this is used and remove unwanted fields from type
+		error: (data: TrackErrorEvent, siteId?: string): undefined => {
 			if (!data?.stack && !data?.message) {
 				// no console log
+				return;
+			}
+
+			if (this.doNotTrack?.includes('error')) {
 				return;
 			}
 
@@ -160,11 +161,17 @@ export class Tracker {
 
 		shopper: {
 			login: (data: ShopperLoginEvent, siteId?: string): undefined => {
+				if (this.doNotTrack?.includes('shopper.login')) {
+					return;
+				}
 				this.beacon.events.shopper.login({ data: { id: data.id }, siteId });
 			},
 		},
 		product: {
 			view: (data: Item | ProductViewEvent, siteId?: string): undefined => {
+				if (this.doNotTrack?.includes('product.view')) {
+					return;
+				}
 				let result = data;
 				if (!data.uid && data.sku) {
 					result = {
@@ -175,8 +182,14 @@ export class Tracker {
 
 				this.beacon.events.product.pageView({ data: { result: result as Item }, siteId });
 			},
-			// eslint-disable-next-line
+			/**
+			 * @deprecated tracker.track.product.click() is deprecated and will be removed. Use tracker.beacon.events['search' | 'category'].clickThrough() instead
+			 */
 			click: (data: ProductClickEvent, siteId?: string): BeaconEvent | undefined => {
+				// Controllers will send product click events through tracker.beacon
+				// For legacy support if someone calls this, continute to 1.0 beacon just like is.js
+				// TODO: remove after 1.0 deprecation period
+
 				if (!data?.intellisuggestData || !data?.intellisuggestSignature) {
 					console.error(
 						`track.product.click event: object parameter requires a valid intellisuggestData and intellisuggestSignature. \nExample: track.click.product({ intellisuggestData: "eJwrTs4tNM9jYCjKTM8oYXDWdQ3TDTfUDbIwMDVjMARCYwMQSi_KTAEA9IQKWA", intellisuggestSignature: "9e46f9fd3253c267fefc298704e39084a6f8b8e47abefdee57277996b77d8e70" })`
@@ -184,25 +197,68 @@ export class Tracker {
 					return;
 				}
 
-				// TODO: product click event
+				if (this.doNotTrack?.includes('product.click')) {
+					return;
+				}
 
-				// TODO: if only intellisuggestData, send to legacy track.json?
+				const beaconContext = this.beacon.getContext();
+				const context = transformToLegacyContext(beaconContext, siteId || this.globals.siteId);
+				const event = {
+					type: BeaconType.CLICK,
+					category: BeaconCategory.INTERACTION,
+					context,
+					event: {
+						intellisuggestData: data.intellisuggestData,
+						intellisuggestSignature: data.intellisuggestSignature,
+						href: data?.href ? `${data.href}` : undefined,
+					},
+				};
+
+				const beaconEvent = new BeaconEvent(event as BeaconPayload, this.config);
+				const beaconEventData = beaconEvent.send();
+				return beaconEventData;
 			},
 		},
 		cart: {
 			add: (data: CartSchemaData, siteId?: string): undefined => {
+				if (this.doNotTrack?.includes('cart.add')) {
+					return;
+				}
 				this.beacon.events.cart.add({ data, siteId });
 			},
 			remove: (data: CartSchemaData, siteId?: string): undefined => {
+				if (this.doNotTrack?.includes('cart.remove')) {
+					return;
+				}
 				this.beacon.events.cart.remove({ data, siteId });
 			},
 			view: (data: CartViewEvent | CartSchemaData, siteId?: string): undefined => {
-				const results = (data as CartViewEvent).items || (data as CartSchemaData).results;
+				if (this.doNotTrack?.includes('cart.view')) {
+					return;
+				}
+				let results;
+				if ((data as CartViewEvent).items) {
+					// uid can be optional in legacy payload but required in 2.0 spec - use sku as fallback
+					results = (data as CartViewEvent).items.map((item) => {
+						if (!item.uid && item.sku) {
+							return {
+								...item,
+								uid: item.sku,
+							};
+						}
+					});
+				} else if ((data as CartSchemaData).results) {
+					results = (data as CartSchemaData).results;
+				}
+
 				this.beacon.events.cart.view({ data: { results: results as Product[] }, siteId });
 			},
 		},
 		order: {
 			transaction: (data: OrderTransactionData | OrderTransactionSchemaData, siteId?: string): undefined => {
+				if (this.doNotTrack?.includes('order.transaction')) {
+					return;
+				}
 				if ((data as OrderTransactionData).items && !(data as OrderTransactionSchemaData).orderId) {
 					// backwards compatibility for OrderTransactionData
 					const order = (data as OrderTransactionData).order;
@@ -217,7 +273,7 @@ export class Tracker {
 						results: items.map((item) => {
 							return {
 								// uid is required - fallback to get most relevant
-								uid: item.uid || item.sku || item.childUid || item.childSku || '',
+								uid: item.uid || item.sku || item.childUid || item.childSku || '', // TODO: is this correct order?
 								childUid: item.childUid,
 								sku: item.sku,
 								childSku: item.childSku,
@@ -234,111 +290,16 @@ export class Tracker {
 		},
 	};
 
-	updateContext = (key: keyof BeaconContext, value: any) => {
-		if (value) {
-			this.context[key] = value;
-		}
+	updateContext = (key: keyof Context, value: any) => {
+		this.beacon.updateContext(key, value);
 	};
 
-	setCurrency = (currency: CurrencyContext): void => {
-		if (!currency?.code) {
-			return;
-		}
-		this.context.currency = currency;
-	};
-
-	getUserId = (): string | undefined | null => {
-		let userId;
-		try {
-			// use cookies if available, fallback to localstorage
-			if (getFlags().cookies()) {
-				userId = cookies.get(LEGACY_USERID_COOKIE_NAME) || cookies.get(USERID_COOKIE_NAME) || uuidv4();
-				cookies.set(USERID_COOKIE_NAME, userId, COOKIE_SAMESITE, COOKIE_EXPIRATION, COOKIE_DOMAIN);
-				cookies.set(LEGACY_USERID_COOKIE_NAME, userId, COOKIE_SAMESITE, COOKIE_EXPIRATION, COOKIE_DOMAIN);
-			} else if (getFlags().storage()) {
-				userId = window.localStorage.getItem(USERID_COOKIE_NAME) || uuidv4();
-				window.localStorage.setItem(USERID_COOKIE_NAME, userId);
-			} else {
-				throw 'unsupported features';
-			}
-		} catch (e) {
-			console.error('Failed to persist user id to cookie or local storage:', e);
-		}
-
-		return userId;
-	};
-
-	getSessionId = (): string | undefined => {
-		let sessionId;
-		if (getFlags().storage()) {
-			try {
-				sessionId = window.sessionStorage.getItem(SESSIONID_STORAGE_NAME) || uuidv4();
-				window.sessionStorage.setItem(SESSIONID_STORAGE_NAME, sessionId);
-				getFlags().cookies() && cookies.set(SESSIONID_STORAGE_NAME, sessionId, COOKIE_SAMESITE, 0, COOKIE_DOMAIN); //session cookie
-			} catch (e) {
-				console.error('Failed to persist session id to session storage:', e);
-			}
-		} else if (getFlags().cookies()) {
-			// use cookies if sessionStorage is not enabled and only reset cookie if new session to keep expiration
-			sessionId = cookies.get(SESSIONID_STORAGE_NAME);
-			if (!sessionId) {
-				sessionId = uuidv4();
-				cookies.set(SESSIONID_STORAGE_NAME, sessionId, COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
-			}
-		}
-
-		return sessionId;
-	};
-
-	getShopperId = (): string | undefined => {
-		const shopperId = cookies.get(SHOPPERID_COOKIE_NAME);
-		if (!shopperId) {
-			return;
-		}
-
-		return shopperId;
+	setCurrency = (currency: CurrencyContext | ContextCurrency): void => {
+		this.beacon.setCurrency(currency);
 	};
 
 	sendPreflight = (): void => {
-		const userId = this.getUserId();
-		const siteId = this.globals.siteId;
-		const shopper = this.getShopperId();
-		const cart = this.cookies.cart.get();
-		const lastViewed = this.cookies.viewed.get();
-
-		if (userId && typeof userId == 'string' && siteId && (shopper || cart.length || lastViewed.length)) {
-			const preflightParams: PreflightRequestModel = {
-				userId,
-				siteId,
-			};
-
-			let queryStringParams = `?userId=${encodeURIComponent(userId)}&siteId=${encodeURIComponent(siteId)}`;
-			if (shopper) {
-				preflightParams.shopper = shopper;
-				queryStringParams += `&shopper=${encodeURIComponent(shopper)}`;
-			}
-			if (cart.length) {
-				preflightParams.cart = cart;
-				queryStringParams += cart.map((item) => `&cart=${encodeURIComponent(item)}`).join('');
-			}
-			if (lastViewed.length) {
-				preflightParams.lastViewed = lastViewed;
-				queryStringParams += lastViewed.map((item) => `&lastViewed=${encodeURIComponent(item)}`).join('');
-			}
-
-			const origin = this.config.requesters?.personalization?.origin || `https://${siteId}.a.searchspring.io`;
-			const endpoint = `${origin}/api/personalization/preflightCache`;
-			const xhr = new XMLHttpRequest();
-
-			if (charsParams(preflightParams) > 1024) {
-				xhr.open('POST', endpoint);
-				xhr.setRequestHeader('Content-Type', 'application/json');
-				xhr.send(JSON.stringify(preflightParams));
-			} else {
-				xhr.open('GET', endpoint + queryStringParams);
-				xhr.send();
-			}
-		}
+		this.beacon.sendPreflight();
 	};
 
 	cookies = {
@@ -358,7 +319,7 @@ export class Tracker {
 
 					const itemsHaveChanged = cartItems.filter((item) => items.includes(item)).length !== items.length;
 					if (itemsHaveChanged) {
-						this.sendPreflight();
+						this.beacon.sendPreflight();
 					}
 				}
 			},
@@ -371,7 +332,7 @@ export class Tracker {
 
 					const itemsHaveChanged = currentCartItems.filter((item) => itemsToAdd.includes(item)).length !== itemsToAdd.length;
 					if (itemsHaveChanged) {
-						this.sendPreflight();
+						this.beacon.sendPreflight();
 					}
 				}
 			},
@@ -384,14 +345,14 @@ export class Tracker {
 
 					const itemsHaveChanged = currentCartItems.length !== updatedItems.length;
 					if (itemsHaveChanged) {
-						this.sendPreflight();
+						this.beacon.sendPreflight();
 					}
 				}
 			},
 			clear: () => {
 				if (this.cookies.cart.get().length) {
 					cookies.unset(CART_PRODUCTS, COOKIE_DOMAIN);
-					this.sendPreflight();
+					this.beacon.sendPreflight();
 				}
 			},
 		},
@@ -405,4 +366,45 @@ export class Tracker {
 			},
 		},
 	};
+}
+
+function transformToLegacyContext(_context: Context, siteId: string): BeaconContext {
+	const context = { ..._context };
+	if (context.userAgent) {
+		delete context.userAgent;
+	}
+	if (context.timestamp) {
+		// @ts-ignore - property not optional
+		delete context.timestamp;
+	}
+	if (context.initiator) {
+		// @ts-ignore - property not optional
+		delete context.initiator;
+	}
+	if (context.dev) {
+		delete context.dev;
+	}
+	let attribution:
+		| {
+				type?: string;
+				id?: string;
+		  }
+		| undefined;
+	if (context.attribution?.length) {
+		attribution = {
+			type: context.attribution[0].type,
+			id: context.attribution[0].id,
+		};
+		delete context.attribution;
+	}
+	const beaconContext: BeaconContext = {
+		...(context as unknown as BeaconContext),
+		website: {
+			trackingCode: siteId,
+		},
+	};
+	if (attribution) {
+		beaconContext.attribution = attribution;
+	}
+	return beaconContext;
 }

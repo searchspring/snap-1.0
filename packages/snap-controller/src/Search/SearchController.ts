@@ -302,15 +302,18 @@ export class SearchController extends AbstractController {
 			},
 			merchandising: {
 				personalized: this.store.merchandising.personalized,
+				redirect: this.store.merchandising.redirect,
 				triggeredCampaigns:
-					this.store.merchandising.campaigns?.map((campaign) => {
-						const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
-						return {
-							id: campaign.id,
-							experimentId: experiement?.experimentId,
-							variationId: experiement?.variationId,
-						};
-					}) || [],
+					(this.store.merchandising.campaigns?.length &&
+						this.store.merchandising.campaigns?.map((campaign) => {
+							const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
+							return {
+								id: campaign.id,
+								experimentId: experiement?.experimentId,
+								variationId: experiement?.variationId,
+							};
+						})) ||
+					undefined,
 			},
 			results:
 				results?.map((result: Product | Banner): Item => {
@@ -330,10 +333,7 @@ export class SearchController extends AbstractController {
 	track: SearchpageTypes = {
 		product: {
 			click: (e: MouseEvent, result): void => {
-				e.preventDefault(); // TODO: remove
-
 				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.click) {
-					console.log('click already tracked');
 					return;
 				}
 
@@ -376,7 +376,6 @@ export class SearchController extends AbstractController {
 			},
 			render: (result: Product | Banner) => {
 				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.render) {
-					console.log('render already tracked');
 					return;
 				}
 
@@ -388,7 +387,6 @@ export class SearchController extends AbstractController {
 			},
 			impression: (result: Product): void => {
 				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.impression) {
-					console.log('impression already tracked');
 					return;
 				}
 
@@ -425,7 +423,7 @@ export class SearchController extends AbstractController {
 		params.tracking = params.tracking || {};
 		params.tracking.domain = window.location.href;
 
-		const userId = this.tracker.getUserId();
+		const userId = this.tracker.getContext().userId;
 		if (userId) {
 			params.tracking.userId = userId;
 		}
@@ -453,7 +451,7 @@ export class SearchController extends AbstractController {
 				params.personalization.lastViewed = lastViewedItems.join(',');
 			}
 
-			const shopperId = this.tracker.getShopperId();
+			const shopperId = this.tracker.getContext().shopperId;
 			if (shopperId) {
 				params.personalization = params.personalization || {};
 				params.personalization.shopper = shopperId;
