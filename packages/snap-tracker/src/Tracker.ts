@@ -19,8 +19,7 @@ import {
 	TrackErrorEvent,
 	OrderTransactionData,
 	TrackerConfig,
-	DoNotTrackEntry,
-	CurrencyContext,
+	TrackerEvents,
 	BeaconPayload,
 	BeaconCategory,
 	BeaconType,
@@ -46,7 +45,7 @@ export class Tracker {
 	private mode = AppMode.production;
 	private globals: TrackerGlobals;
 	private localStorage: StorageStore;
-	private doNotTrack: DoNotTrackEntry[];
+	private doNotTrack: TrackerEvents[];
 	public config: TrackerConfig;
 	private targeters: DomTargeter[] = [];
 	public beacon: Beacon;
@@ -73,8 +72,21 @@ export class Tracker {
 		this.localStorage.set('siteId', this.globals.siteId);
 
 		this.beacon = new Beacon(
-			{ siteId: this.globals.siteId, currency: this.globals.currency },
-			{ version, framework: this.config.framework, mode: this.mode }
+			{
+				siteId: this.globals.siteId,
+				currency: this.globals.currency,
+			},
+			{
+				version,
+				framework: this.config.framework,
+				mode: this.mode,
+				apis: {
+					requesters: {
+						personalization: this.config.requesters?.personalization,
+						beacon: this.config.requesters?.beacon,
+					},
+				},
+			}
 		);
 
 		if (!window.searchspring?.tracker) {
@@ -115,12 +127,8 @@ export class Tracker {
 		});
 	}
 
-	public getGlobals(): TrackerGlobals {
-		return JSON.parse(JSON.stringify(this.beacon.globals));
-	}
-
 	public getContext(): Context {
-		return JSON.parse(JSON.stringify(this.beacon.getContext()));
+		return this.beacon.getContext();
 	}
 
 	public retarget(): void {
@@ -132,15 +140,14 @@ export class Tracker {
 	track: TrackMethods = {
 		// TODO: search where this is used and remove unwanted fields from type
 		error: (data: TrackErrorEvent, siteId?: string): undefined => {
-			if (!data?.stack && !data?.message) {
-				// no console log
-				return;
-			}
-
 			if (this.doNotTrack?.includes('error')) {
 				return;
 			}
 
+			if (!data?.stack && !data?.message) {
+				// no console log
+				return;
+			}
 			const { stack, message, details } = data;
 			const href = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -151,7 +158,7 @@ export class Tracker {
 
 			this.beacon.events.error.snap({
 				data: {
-					message: message || '',
+					message: message || 'unknown',
 					stack,
 					details,
 				},
@@ -190,14 +197,14 @@ export class Tracker {
 				// For legacy support if someone calls this, continute to 1.0 beacon just like is.js
 				// TODO: remove after 1.0 deprecation period
 
+				if (this.doNotTrack?.includes('product.click')) {
+					return;
+				}
+
 				if (!data?.intellisuggestData || !data?.intellisuggestSignature) {
 					console.error(
 						`track.product.click event: object parameter requires a valid intellisuggestData and intellisuggestSignature. \nExample: track.click.product({ intellisuggestData: "eJwrTs4tNM9jYCjKTM8oYXDWdQ3TDTfUDbIwMDVjMARCYwMQSi_KTAEA9IQKWA", intellisuggestSignature: "9e46f9fd3253c267fefc298704e39084a6f8b8e47abefdee57277996b77d8e70" })`
 					);
-					return;
-				}
-
-				if (this.doNotTrack?.includes('product.click')) {
 					return;
 				}
 
@@ -294,8 +301,20 @@ export class Tracker {
 		this.beacon.updateContext(key, value);
 	};
 
-	setCurrency = (currency: CurrencyContext | ContextCurrency): void => {
+	setCurrency = (currency: ContextCurrency): void => {
 		this.beacon.setCurrency(currency);
+	};
+
+	getUserId = (): string => {
+		return this.beacon.getContext().userId;
+	};
+
+	getSessionId = (): string => {
+		return this.beacon.getContext().sessionId;
+	};
+
+	getShopperId = (): string => {
+		return this.beacon.getShopperId();
 	};
 
 	sendPreflight = (): void => {

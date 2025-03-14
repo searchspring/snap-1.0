@@ -41,15 +41,20 @@ export class BeaconEvent {
 	}
 
 	send(): BeaconEvent {
-		// TODO: refactor to fetch to use keepalive option
 		const data = { ...this };
 		const origin = data.origin;
 		delete data.origin;
 
-		const xhr = new XMLHttpRequest();
-		xhr.open('POST', `${origin}/beacon`);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.send(JSON.stringify(data));
+		if (typeof fetch !== 'undefined') {
+			fetch(`${origin}/beacon`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+				keepalive: true,
+			});
+		}
 		return data;
 	}
 }

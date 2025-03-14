@@ -65,9 +65,8 @@ export class FinderController extends AbstractController {
 
 	get params(): Record<string, any> {
 		const urlState = this.urlManager.state;
-		const userId = this.tracker.getContext().userId;
-		const sessionId = this.tracker.getContext().sessionId;
-		const pageLoadId = this.tracker.getContext().pageLoadId;
+
+		const { userId, sessionId, pageLoadId } = this.tracker.getContext();
 
 		const tracking: any = {};
 

@@ -1,17 +1,21 @@
 import { AppMode } from '@searchspring/snap-toolbox';
 import { BeaconEvent } from './BeaconEvent';
-import { CartSchemaData, Item, OrderTransactionSchemaData } from '@searchspring/beacon';
-
-export type CurrencyContext = {
-	code: string;
-};
+import { CartSchemaData, ContextCurrency, Item, OrderTransactionSchemaData } from '@searchspring/beacon';
 
 export type TrackerGlobals = {
 	siteId: string;
-	currency?: CurrencyContext;
+	currency?: ContextCurrency;
 };
 
-export type DoNotTrackEntry = string;
+export type TrackerEvents =
+	| 'error'
+	| 'shopper.login'
+	| 'product.view'
+	| 'product.click'
+	| 'cart.add'
+	| 'cart.remove'
+	| 'cart.view'
+	| 'order.transaction';
 
 export type TrackerConfig = {
 	id?: string;
@@ -25,7 +29,7 @@ export type TrackerConfig = {
 			origin?: string;
 		};
 	};
-	doNotTrack?: DoNotTrackEntry[];
+	doNotTrack?: TrackerEvents[];
 };
 
 export type BeaconPayload = {
@@ -75,7 +79,7 @@ export interface BeaconContext {
 		type?: string;
 		id?: string;
 	};
-	currency?: CurrencyContext;
+	currency?: ContextCurrency;
 }
 
 export interface BeaconMeta {

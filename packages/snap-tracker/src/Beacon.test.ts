@@ -6,18 +6,9 @@ import {
 	COOKIE_DOMAIN,
 	COOKIE_SAMESITE,
 	PayloadRequest,
-	PREFLIGHT_POST_THRESHOLD,
 	REQUEST_GROUPING_TIMEOUT,
 } from './Beacon';
-import {
-	AutocompleteSchema,
-	AutocompleteSchemaDataFilterInnerFromJSON,
-	CategorySchema,
-	ContextCurrency,
-	Product,
-	RecommendationsSchema,
-	SearchSchema,
-} from './client';
+import { AutocompleteSchema, CategorySchema, ContextCurrency, Product, RecommendationsSchema, SearchSchema } from './client';
 
 jest.mock('./client/apis/ShopperApi', () => {
 	return {
@@ -331,31 +322,31 @@ describe('Beacon', () => {
 			});
 		});
 		describe('Methods', () => {
-			it('can getStoredID', async () => {
-				const id1 = beacon['getStoredID']('key', 0);
+			it('can getStoredId', async () => {
+				const id1 = beacon['getStoredId']('key', 0);
 				expect(id1).toStrictEqual(expect.any(String));
 
 				await new Promise((resolve) => setTimeout(resolve, 100));
 
-				const id2 = beacon['getStoredID']('key', 0);
+				const id2 = beacon['getStoredId']('key', 0);
 				expect(id2).toStrictEqual(expect.any(String));
 				expect(id1).toBe(id2);
 			});
 
-			it('can getStoredID with expiration', async () => {
+			it('can getStoredId with expiration', async () => {
 				const expiration = 1000;
-				const id1 = beacon['getStoredID']('key', expiration);
+				const id1 = beacon['getStoredId']('key', expiration);
 				expect(id1).toStrictEqual(expect.any(String));
 
 				await new Promise((resolve) => setTimeout(resolve, expiration / 2));
 
-				const id2 = beacon['getStoredID']('key', expiration);
+				const id2 = beacon['getStoredId']('key', expiration);
 				expect(id2).toStrictEqual(expect.any(String));
 				expect(id1).toBe(id2);
 
 				await new Promise((resolve) => setTimeout(resolve, expiration));
 
-				const id3 = beacon['getStoredID']('key', expiration);
+				const id3 = beacon['getStoredId']('key', expiration);
 				expect(id3).toStrictEqual(expect.any(String));
 				expect(id3).not.toBe(id2);
 			});
@@ -470,72 +461,6 @@ describe('Beacon', () => {
 			const beacon2 = new Beacon(mockGlobals, mockConfig);
 			const attribution2 = beacon2['getAttribution']();
 			expect(attribution2).toStrictEqual([{ type, id }]);
-		});
-
-		it('can sendPreflight via GET', () => {
-			// only add 1 product to be under threshold and still generate GET request
-			const items = ['abc123'];
-
-			// @ts-ignore - legacy string array support
-			beacon.storage.cart.add(items);
-
-			const sendPreflight = jest.spyOn(beacon, 'sendPreflight');
-			const xhrMock: Partial<XMLHttpRequest> = {
-				open: jest.fn(),
-				send: jest.fn(),
-				setRequestHeader: jest.fn(),
-				readyState: 4,
-				status: 200,
-				response: 'Hello World!',
-			};
-			const request = jest.spyOn(global.window, 'XMLHttpRequest').mockImplementation(() => xhrMock as XMLHttpRequest);
-
-			beacon.sendPreflight();
-
-			const querystring =
-				`?userId=${encodeURIComponent(beacon['userId'])}` +
-				`&siteId=${encodeURIComponent(mockGlobals.siteId)}` +
-				`&cart=${encodeURIComponent(items[0])}`;
-
-			expect(xhrMock.open).toHaveBeenCalledWith(
-				'GET',
-				`https://${mockGlobals.siteId}.a.searchspring.io/api/personalization/preflightCache${querystring}`
-			);
-
-			sendPreflight.mockRestore();
-			request.mockRestore();
-		});
-
-		it('can sendPreflight via POST', () => {
-			// populate cart cookie so charsParams threshold is met for POST request
-			const items: string[] = [];
-			const minBytesThreshold = PREFLIGHT_POST_THRESHOLD;
-			const skuPrefix = 'a_very_long_product_sku_to_fill_charsParams_bytes_'; // 50 chars
-			for (let i = 0; i < Math.ceil(minBytesThreshold / skuPrefix.length); i++) {
-				items.push(`${skuPrefix}_${i}`);
-			}
-
-			// @ts-ignore - legacy string array support
-			beacon.storage.cart.add(items); // 51 * 20 = 1050 bytes
-			expect(items.join().length).toBeGreaterThanOrEqual(minBytesThreshold);
-
-			const sendPreflight = jest.spyOn(beacon, 'sendPreflight');
-			const xhrMock: Partial<XMLHttpRequest> = {
-				open: jest.fn(),
-				send: jest.fn(),
-				setRequestHeader: jest.fn(),
-				readyState: 4,
-				status: 200,
-				response: 'Hello World!',
-			};
-			const request = jest.spyOn(global.window, 'XMLHttpRequest').mockImplementation(() => xhrMock as XMLHttpRequest);
-
-			beacon.sendPreflight();
-
-			expect(xhrMock.open).toHaveBeenCalledWith('POST', `https://${mockGlobals.siteId}.a.searchspring.io/api/personalization/preflightCache`);
-
-			sendPreflight.mockRestore();
-			request.mockRestore();
 		});
 	});
 
@@ -1006,6 +931,37 @@ describe('Beacon', () => {
 				expect(acc.batches[recsKey].payload[recsSchemaName].data.results[0].uid).toBe('recProduct1');
 				expect(acc.batches[recsKey].payload[recsSchemaName].data.results[1].uid).toBe('recProduct2');
 			});
+		});
+	});
+
+	describe('sendPreflight', () => {
+		beforeAll(async () => {
+			// importing whatwg-fetch at the top causes generated client fetch to fail
+			// @ts-ignore - type error
+			await import('whatwg-fetch');
+		});
+		it('can sendPreflight via POST', () => {
+			// only add 1 product to be under threshold and still generate GET request
+			const items = ['abc123'];
+
+			// @ts-ignore - legacy string array support
+			beacon.storage.cart.add(items);
+
+			const fetchSpy = jest.spyOn(global.window, 'fetch').mockResolvedValue({ json: jest.fn().mockResolvedValue({}) } as any);
+
+			beacon.sendPreflight();
+
+			expect(fetchSpy).toHaveBeenCalledWith(`https://${mockGlobals.siteId}.a.searchspring.io/api/personalization/preflightCache`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: expect.any(String),
+				keepalive: true,
+			});
+
+			fetchSpy.mockRestore();
+			fetchSpy.mockClear();
 		});
 	});
 });

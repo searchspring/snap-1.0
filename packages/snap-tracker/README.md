@@ -26,7 +26,7 @@ import { Tracker } from '@searchspring/snap-tracker';
 | id | unique identifier for the tracker | track |   |
 | framework | unique identifier for the framework utilizing the tracker | snap |   |
 | mode | application mode (production, development) | production |   |
-| doNotTrack | array of DoNotTrackEntry objects, used to block specific types of tracking | ➖ |   |
+| doNotTrack | array of TrackerEvents, used to block specific types of tracking | ➖ |   |
 
 
 ## Controller usage

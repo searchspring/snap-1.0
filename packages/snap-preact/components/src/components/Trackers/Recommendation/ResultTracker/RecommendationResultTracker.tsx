@@ -28,10 +28,6 @@ export const RecommendationResultTracker = observer((properties: RecommendationR
 	const resultRef = useRef(null);
 	const resultInViewport = useIntersection(resultRef, '0px');
 
-	// if (!controller.events.render) {
-	// 	controller.log.warn('<RecommendationResultTracker> used without <RecommendationProfileTracker>');
-	// }
-
 	controller.track.product.render(result);
 	if (resultInViewport && mergedTrack.impression) {
 		controller.track.product.impression(result);

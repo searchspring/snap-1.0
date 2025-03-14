@@ -11,11 +11,15 @@ import { Item, RecommendationsSchemaData } from '@searchspring/beacon';
 
 type RecommendationTrackMethods = {
 	product: {
+		clickThrough: (e: MouseEvent, result: Product) => BeaconEvent | undefined;
 		click: (e: MouseEvent, result: Product) => BeaconEvent | undefined;
 		render: (result: Product) => BeaconEvent | undefined;
 		impression: (result: Product) => BeaconEvent | undefined;
+		addToCart: (result: Product) => BeaconEvent | undefined;
 	};
-	addBundle: (results: Product[]) => BeaconEvent | undefined;
+	bundle: {
+		addToCart: (results: Product[]) => BeaconEvent | undefined;
+	};
 };
 
 const defaultConfig: RecommendationControllerConfig = {
@@ -35,6 +39,7 @@ export class RecommendationController extends AbstractController {
 		product: Record<
 			string,
 			{
+				clickThrough?: RecommendationsSchemaData;
 				impression?: RecommendationsSchemaData;
 				render?: RecommendationsSchemaData;
 			}
@@ -83,68 +88,62 @@ export class RecommendationController extends AbstractController {
 	}
 
 	track: RecommendationTrackMethods = (() => {
-		const getRecommendationsSchemaData = (results?: Product[]): RecommendationsSchemaData => {
-			return {
-				tag: this.store.profile.tag,
-				results:
-					results?.map((result: Product): Item => {
-						return {
-							uid: result.display?.mappings.core?.uid || result?.mappings.core?.uid || '',
-							// @ts-ignore - childUid not on snapi-types
-							// TODO: fix types here
-							childUid: result.display?.mappings.core?.childUid || result?.mappings.core?.childUid,
-							sku: result.display?.mappings.core?.sku || result?.mappings.core?.sku,
-							// @ts-ignore - childSku not on snapi-types
-							childSku: result.display?.mappings.core?.childSku || result?.mappings.core?.childSku,
-						};
-					}) || [],
-			};
-		};
-
 		return {
 			product: {
-				click: (e: MouseEvent, result): void => {
-					if (!this.store.profile.tag || !result) return;
+				clickThrough: (e: MouseEvent, result): void => {
+					if (this.events.product[result.id]?.clickThrough) return;
 
-					const data = getRecommendationsSchemaData([result]);
+					const data = getRecommendationsSchemaData({ store: this.store, results: [result] });
 					this.tracker.beacon.events.recommendations.clickThrough({ data, siteId: this.client.globals.siteId });
-					this.eventManager.fire('product.click', { controller: this, event: e, result, trackEvent: data });
+					this.events.product![result.id] = this.events.product![result.id] || {};
+					this.events.product![result.id].clickThrough = data;
+					this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, products: [result], trackEvent: data });
+				},
+				click: (e: MouseEvent, result): void => {
+					// TODO: closest might be going too far - write own function to only go n levels up
+					const href = (e.target as Element)?.getAttribute('href') || (e.target as Element)?.closest('a')?.getAttribute('href');
+					if (href) {
+						this.track.product.clickThrough(e, result);
+					} else {
+						// TODO: in future, send as an interaction event
+					}
 				},
 				impression: (result): RecommendationsSchemaData | undefined => {
-					if (!this.store.profile.tag || !result || (this.events.product && this.events.product[result.id]?.impression)) return;
+					if (this.events.product[result.id]?.impression) return;
 
-					const data = getRecommendationsSchemaData([result]);
+					const data = getRecommendationsSchemaData({ store: this.store, results: [result] });
 					this.tracker.beacon.events.recommendations.impression({ data, siteId: this.client.globals.siteId });
 					this.events.product![result.id] = this.events.product![result.id] || {};
 					this.events.product![result.id].impression = data;
-					this.eventManager.fire('product.impression', { controller: this, result, trackEvent: data });
+					this.eventManager.fire('track.product.impression', { controller: this, products: [result], trackEvent: data });
 					return data;
 				},
 				render: (result): RecommendationsSchemaData | undefined => {
-					if (!this.store.profile.tag || !result || this.events.product![result.id]?.render) return;
+					if (this.events.product![result.id]?.render) return;
 
-					const data = getRecommendationsSchemaData([result]);
+					const data = getRecommendationsSchemaData({ store: this.store, results: [result] });
 					this.tracker.beacon.events.recommendations.render({ data, siteId: this.client.globals.siteId });
 					this.events.product![result.id] = this.events.product![result.id] || {};
 					this.events.product![result.id].render = data;
-					this.eventManager.fire('product.render', { controller: this, result, trackEvent: data });
+					this.eventManager.fire('track.product.render', { controller: this, products: [result], trackEvent: data });
 					return data;
 				},
-				// TODO: keep or remove?
-				// removedFromBundle: (): void => {
-				// 	this.log.warn('product.removedFromBundle tracking is not currently supported in this controller type');
-				// },
-				// addedToBundle: (): void => {
-				// 	this.log.warn('product.addedToBundle tracking is not currently supported in this controller type');
-				// },
+				addToCart: (result: Product): RecommendationsSchemaData | undefined => {
+					const data = getRecommendationsSchemaData({ store: this.store, results: [result] });
+					this.tracker.beacon.events.recommendations.addToCart({ data, siteId: this.client.globals.siteId });
+					this.eventManager.fire('track.product.addToCart', { controller: this, products: [result], trackEvent: data });
+					return data;
+				},
 			},
-			addBundle: (results: Product[]): RecommendationsSchemaData | undefined => {
-				if (!results.length || !this.store.profile.tag || this.store.profile.type != 'bundle') return;
+			bundle: {
+				addToCart: (results: Product[]): RecommendationsSchemaData | undefined => {
+					if (this.store.profile.type != 'bundle') return;
 
-				const data = getRecommendationsSchemaData(results);
-				this.tracker.beacon.events.recommendations.addToCart({ data, siteId: this.client.globals.siteId });
-				this.eventManager.fire('addBundle', { controller: this, results, trackEvent: data });
-				return data;
+					const data = getRecommendationsSchemaData({ store: this.store, results });
+					this.tracker.beacon.events.recommendations.addToCart({ data, siteId: this.client.globals.siteId });
+					this.eventManager.fire('track.bundle.addToCart', { controller: this, products: results, trackEvent: data });
+					return data;
+				},
 			},
 		} as RecommendationTrackMethods;
 	})();
@@ -158,7 +157,8 @@ export class RecommendationController extends AbstractController {
 			...this.config.globals,
 		};
 
-		const shopperId = this.tracker.getContext().shopperId;
+		const { shopperId } = this.tracker.getContext();
+
 		const cart = this.tracker.cookies.cart.get();
 		const lastViewed = this.tracker.cookies.viewed.get();
 
@@ -166,7 +166,7 @@ export class RecommendationController extends AbstractController {
 			params.shopper = shopperId;
 		}
 
-		if (!params.siteId || params.siteId == this.tracker.getGlobals().siteId) {
+		if (!params.siteId || params.siteId == this.tracker.beacon.globals.siteId) {
 			if (cart?.length) {
 				params.cart = cart;
 			}
@@ -185,6 +185,9 @@ export class RecommendationController extends AbstractController {
 			}
 
 			const params = this.params;
+
+			// reset events for new search
+			this.events = { product: {} };
 
 			this.store.loading = true;
 
@@ -302,7 +305,29 @@ export class RecommendationController extends AbstractController {
 		}
 	};
 
-	addToCart = async (products: Product[]): Promise<void> => {
-		this.track.addBundle(products);
+	addToCart = async (product: Product): Promise<void> => {
+		this.track.product.addToCart(product);
+		this.eventManager.fire('addToCart', { controller: this, products: [product] });
+	};
+
+	addBundleToCart = async (products: Product[]): Promise<void> => {
+		this.track.bundle.addToCart(products);
+		this.eventManager.fire('addToCart', { controller: this, products });
+	};
+}
+
+function getRecommendationsSchemaData({ store, results }: { store: RecommendationStore; results?: Product[] }): RecommendationsSchemaData {
+	return {
+		tag: store.profile.tag,
+		results:
+			results?.map((result: Product): Item => {
+				const core = result.mappings.core!;
+				return {
+					uid: core.uid || '',
+					childUid: core.uid,
+					sku: core.sku,
+					childSku: core.sku,
+				};
+			}) || [],
 	};
 }

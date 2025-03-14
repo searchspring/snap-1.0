@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 import type { SnapConfig } from '../../Snap';
-import { DoNotTrackEntry } from '@searchspring/snap-tracker';
+import { TrackerEvents } from '@searchspring/snap-tracker';
 
 export const SHOPIFY_WEBPIXEL_STORAGE_KEY = 'ssWebPixel';
 
@@ -70,7 +70,7 @@ function configureTracking(config: SnapConfig) {
 
 			// when enabled, add certain events to doNotTrack list
 			if (webPixelData?.enabled) {
-				const doNotTrack: DoNotTrackEntry[] = ['product.view', 'cart.view', 'order.transaction'];
+				const doNotTrack: TrackerEvents[] = ['product.view', 'cart.view', 'order.transaction'];
 
 				config.tracker = config.tracker || {};
 				config.tracker.config = config.tracker.config || {};

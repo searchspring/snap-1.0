@@ -1,4 +1,3 @@
-import deepmerge from 'deepmerge';
 import { v4 as uuidv4 } from 'uuid';
 import {
 	Context,
@@ -55,6 +54,7 @@ import {
 	LogShopifypixelRequest,
 	Log,
 	LogSnapRequest,
+	Configuration,
 } from './client';
 
 declare global {
@@ -85,6 +85,14 @@ type BeaconConfig = {
 			getItem: (key: string) => Promise<string | null>;
 			setItem: (key: string, value: string) => Promise<void>;
 			removeItem: (key: string) => Promise<void>;
+		};
+		requesters?: {
+			personalization?: {
+				origin?: string;
+			};
+			beacon?: {
+				origin?: string;
+			};
 		};
 	};
 	href?: string;
@@ -118,7 +126,6 @@ const ATTRIBUTION_KEY = 'ssAttribution';
 const MAX_EXPIRATION = 47304000000; // 18 months
 const THIRTY_MINUTES = 1800000; // 30 minutes
 const MAX_VIEWED_COUNT = 20;
-export const PREFLIGHT_POST_THRESHOLD = 1024;
 export const COOKIE_DOMAIN =
 	(typeof window !== 'undefined' && window.location.hostname && '.' + window.location.hostname.replace(/^www\./, '')) || undefined;
 
@@ -155,28 +162,23 @@ export class Beacon {
 			throw new Error(`Invalid config passed to tracker. The "siteId" attribute must be provided.`);
 		}
 
-		this.config = deepmerge(
-			{
-				framework: 'beacon.js',
-				mode: 'production',
-			},
-			config || {}
-		);
+		this.config = { framework: 'beacon.js', mode: 'production', ...(config || {}) };
 
 		if (this.config.mode && ['production', 'development'].includes(this.config.mode)) {
 			this.mode = this.config.mode;
 		}
 
+		const apiConfig = new Configuration({ basePath: this.config.apis?.requesters?.beacon?.origin });
 		this.apis = {
-			shopper: new ShopperApi(),
-			autocomplete: new AutocompleteApi(),
-			search: new SearchApi(),
-			category: new CategoryApi(),
-			recommendations: new RecommendationsApi(),
-			product: new ProductApi(),
-			cart: new CartApi(),
-			order: new OrderApi(),
-			error: new ErrorLogsApi(),
+			shopper: new ShopperApi(apiConfig),
+			autocomplete: new AutocompleteApi(apiConfig),
+			search: new SearchApi(apiConfig),
+			category: new CategoryApi(apiConfig),
+			recommendations: new RecommendationsApi(apiConfig),
+			product: new ProductApi(apiConfig),
+			cart: new CartApi(apiConfig),
+			order: new OrderApi(apiConfig),
+			error: new ErrorLogsApi(apiConfig),
 		};
 
 		this.globals = globals;
@@ -381,6 +383,10 @@ export class Beacon {
 					return [];
 				}
 				return items.split(',');
+			},
+			set: (items: string[]): void => {
+				this.setCookie(VIEWED_KEY, items.join(','), COOKIE_SAMESITE, MAX_EXPIRATION, COOKIE_DOMAIN);
+				this.setLocalStorageItem(VIEWED_KEY, items.join(','));
 			},
 		},
 	};
@@ -642,9 +648,10 @@ export class Beacon {
 				const sku = this.getSku(item);
 				if (sku) {
 					const lastViewedProducts = this.storage.viewed.get();
-					const uniqueCartItems = Array.from(new Set([sku, ...lastViewedProducts]));
-					this.setCookie(VIEWED_KEY, uniqueCartItems.slice(0, MAX_VIEWED_COUNT).join(','), COOKIE_SAMESITE, MAX_EXPIRATION, COOKIE_DOMAIN);
-					this.setLocalStorageItem(VIEWED_KEY, uniqueCartItems.slice(0, MAX_VIEWED_COUNT).join(','));
+					const uniqueCartItems = Array.from(new Set([sku, ...lastViewedProducts])).slice(0, MAX_VIEWED_COUNT);
+
+					this.storage.viewed.set(uniqueCartItems);
+
 					if (!lastViewedProducts.includes(sku)) {
 						this.sendPreflight();
 					}
@@ -662,7 +669,6 @@ export class Beacon {
 				};
 				const request = this.createRequest('cart', 'cartAdd', payload);
 				this.sendRequests([request]);
-				// this.storage.cart.add(event.data.results.map((product) => this.getSku(product)));
 				this.storage.cart.add(event.data.results);
 			},
 			remove: (event: Payload<CartSchemaData>): void => {
@@ -781,7 +787,7 @@ export class Beacon {
 			userId: this.userId || this.getUserId(),
 			sessionId: this.sessionId || this.getSessionId(),
 			shopperId: this.shopperId || this.getShopperId(),
-			pageLoadId: this.pageLoadId || this.generateId(),
+			pageLoadId: this.pageLoadId,
 			timestamp: this.getTimestamp(),
 			pageUrl: this.config.href || (typeof window !== 'undefined' && window.location.href) || '',
 			initiator: `searchspring/${this.config.framework}${this.config.version ? `/${this.config.version}` : ''}`,
@@ -795,7 +801,7 @@ export class Beacon {
 		return context;
 	}
 
-	private getStoredID(key: string, expiration: number): string {
+	private getStoredId(key: string, expiration: number): string {
 		// try to get the value from the cookie
 		const storedCookieValue = this.getCookie(key);
 		if (storedCookieValue) {
@@ -810,6 +816,7 @@ export class Beacon {
 			const data = JSON.parse(storedLocalStorageValue);
 			if (data.timestamp && new Date(data.timestamp).getTime() < Date.now() - expiration) {
 				uuid = this.generateId();
+				this.attribution = undefined;
 			} else {
 				uuid = data.id;
 			}
@@ -826,9 +833,9 @@ export class Beacon {
 		}
 	}
 
-	private getUserId(): string {
+	public getUserId(): string {
 		try {
-			const value = this.getStoredID(USER_ID_KEY, THIRTY_MINUTES);
+			const value = this.getStoredId(USER_ID_KEY, MAX_EXPIRATION);
 			this.userId = value;
 			return this.userId;
 		} catch (e) {
@@ -837,8 +844,8 @@ export class Beacon {
 		}
 	}
 
-	private getSessionId(): string {
-		const value = this.getStoredID(SESSION_ID_KEY, 0);
+	public getSessionId(): string {
+		const value = this.getStoredId(SESSION_ID_KEY, THIRTY_MINUTES);
 		this.sessionId = value;
 		return this.sessionId;
 	}
@@ -870,31 +877,40 @@ export class Beacon {
 	}
 
 	private getAttribution(): ContextAttributionInner[] | undefined {
-		let attribution: string | null = null;
+		let attribution: ContextAttributionInner[] = [];
 
+		let urlAttribution: string | null = null;
 		try {
 			const url = new URL(this.config.href || (typeof window !== 'undefined' && window.location.href) || '');
-			attribution = url.searchParams.get(ATTRIBUTION_QUERY_PARAM);
+			urlAttribution = url.searchParams.get(ATTRIBUTION_QUERY_PARAM);
 		} catch (e) {
 			// noop - URL failed to parse empty url
 		}
 
-		// TODO: should this also fallback to storage? - yes - save in storage as json parsable array for future multiple attribution types
-		// TODO: should append attribution to existiing attribution data?
-		if (attribution) {
-			const [type, id] = attribution.split(':');
-			if (type && id) {
-				this.setCookie(ATTRIBUTION_KEY, attribution, COOKIE_SAMESITE, 0, COOKIE_DOMAIN);
-				return [{ type, id }];
-			}
-		} else {
-			const storedAttribution = this.getCookie(ATTRIBUTION_KEY);
-			if (storedAttribution) {
-				const [type, id] = storedAttribution.split(':');
-				if (type && id) {
-					return [{ type, id }];
+		const storedAttribution = this.getCookie(ATTRIBUTION_KEY) || this.getLocalStorageItem(ATTRIBUTION_KEY);
+		if (storedAttribution) {
+			try {
+				const data = JSON.parse(storedAttribution);
+				if (Array.isArray(data)) {
+					attribution = data;
 				}
+			} catch (e) {
+				// noop - failed to parse stored attribution
 			}
+		}
+
+		if (urlAttribution) {
+			const [type, id] = urlAttribution.split(':');
+			if (type && id && !attribution.find((attr) => attr.type === type && attr.id === id)) {
+				attribution.unshift({ type, id });
+			}
+		}
+
+		if (attribution.length) {
+			this.setCookie(ATTRIBUTION_KEY, JSON.stringify(attribution), COOKIE_SAMESITE, THIRTY_MINUTES, COOKIE_DOMAIN);
+			this.setLocalStorageItem(ATTRIBUTION_KEY, JSON.stringify(attribution));
+			this.attribution = attribution;
+			return attribution;
 		}
 	}
 
@@ -909,15 +925,15 @@ export class Beacon {
 	setCurrency(currency: ContextCurrency): void {
 		if (currency && currency.code && this.currency?.code !== currency.code) {
 			this.currency = currency;
-			// TODO: add preflight?
-			// this.sendPreflight();
 		}
 	}
 
-	// TODO: add helper methods:
-	// resetSession - clear cookies, local storage
-	// syncPersonalization
-	// pageLoad (for spa)
+	pageLoad(): string {
+		this.pageLoadId = this.generateId();
+		return this.pageLoadId;
+	}
+
+	// TODO: add resetSession method - clear cookies, local storage
 
 	private createRequest(apiType: PayloadRequest['apiType'], endpoint: string, payload: any): PayloadRequest {
 		const request: PayloadRequest = {
@@ -945,18 +961,13 @@ export class Beacon {
 				return {
 					keepalive: true,
 					body: JSON.stringify(x.init.body),
+					url: '/test',
 				} as any; // TODO: fix typing
 			});
 		}
 	}
 	private processRequests(): void {
-		// TODO: remove so if this is running other events cant get queues - move requests = [] to end of function
-
-		// clone requests to process to allow more requests to be queued while processing
-		const requestToProcess = deepmerge([], this.requests);
-		this.requests = [];
-
-		const data = requestToProcess.reduce<{
+		const data = this.requests.reduce<{
 			nonBatched: PayloadRequest[];
 			batches: Record<string, PayloadRequest>;
 		}>(
@@ -1002,6 +1013,8 @@ export class Beacon {
 			}
 		);
 
+		this.requests = [];
+
 		// combine batches and non-batched requests
 		const requestsToSend = Object.values(data.batches).reduce<PayloadRequest[]>((acc, batch) => {
 			acc.push(batch);
@@ -1010,12 +1023,13 @@ export class Beacon {
 
 		this.sendRequests(requestsToSend);
 	}
-	public sendPreflight(): void {
-		const userId = this.getUserId();
-		const siteId = this.globals.siteId;
-		const shopper = this.getShopperId();
-		const cart = this.storage.cart.get();
-		const lastViewed = this.storage.viewed.get();
+
+	public sendPreflight(overrides?: { userId: string; siteId: string; shopper: string; cart: Product[]; lastViewed: string[] }): void {
+		const userId = overrides?.userId || this.getUserId();
+		const siteId = overrides?.siteId || this.globals.siteId;
+		const shopper = overrides?.shopper || this.getShopperId();
+		const cart = overrides?.cart || this.storage.cart.get();
+		const lastViewed = overrides?.lastViewed || this.storage.viewed.get();
 
 		if (userId && typeof userId == 'string' && siteId && (shopper || cart.length || lastViewed.length)) {
 			const preflightParams: PreflightRequestModel = {
@@ -1023,32 +1037,28 @@ export class Beacon {
 				siteId,
 			};
 
-			let queryStringParams = `?userId=${encodeURIComponent(userId)}&siteId=${encodeURIComponent(siteId)}`;
 			if (shopper) {
 				preflightParams.shopper = shopper;
-				queryStringParams += `&shopper=${encodeURIComponent(shopper)}`;
 			}
 			if (cart.length) {
 				preflightParams.cart = cart.map((item) => this.getSku(item));
-				queryStringParams += cart.map((item) => `&cart=${encodeURIComponent(this.getSku(item))}`).join('');
 			}
 			if (lastViewed.length) {
 				preflightParams.lastViewed = lastViewed;
-				queryStringParams += lastViewed.map((item) => `&lastViewed=${encodeURIComponent(item)}`).join('');
 			}
 
-			// const origin = this.config.requesters?.personalization?.origin || `https://${siteId}.a.searchspring.io`;
-			const origin = `https://${siteId}.a.searchspring.io`;
+			const origin = this.config.apis?.requesters?.personalization?.origin || `https://${siteId}.a.searchspring.io`;
 			const endpoint = `${origin}/api/personalization/preflightCache`;
-			const xhr = new XMLHttpRequest();
 
-			if (charsParams(preflightParams) > PREFLIGHT_POST_THRESHOLD) {
-				xhr.open('POST', endpoint);
-				xhr.setRequestHeader('Content-Type', 'application/json');
-				xhr.send(JSON.stringify(preflightParams));
-			} else {
-				xhr.open('GET', endpoint + queryStringParams);
-				xhr.send();
+			if (typeof fetch !== 'undefined') {
+				fetch(endpoint, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(preflightParams),
+					keepalive: true,
+				});
 			}
 		}
 	}
@@ -1090,11 +1100,6 @@ export function additionalRequestKeys(
 		case 'category':
 			const searchSchema = schema as SearchSchema | AutocompleteSchema | CategorySchema;
 			value += `||rq=${searchSchema.data.rq || ''}`;
-			// TODO: QQ: Should bgfilter, filter, sort, merchandising be included in the key?
-			// value += `||bgfilter=${schema.data.bgfilter || ''}`;
-			// value += `||filter=${schema.data.filter || ''}`;
-			// value += `||sort=${schema.data.sort || ''}`;
-			// value += `||merchandising=${schema.data.merchandising || ''}`;
 			value += `||page=${searchSchema.data.pagination.page}`;
 			value += `||resultsPerPage=${searchSchema.data.pagination.resultsPerPage}`;
 			value += `||totalResults=${searchSchema.data.pagination.totalResults}`;
@@ -1120,33 +1125,4 @@ export function additionalRequestKeys(
 	}
 
 	return value;
-}
-
-export type ParameterObject = Record<string, boolean | string | string[] | number | number[] | unknown>;
-
-/* istanbul ignore next - tested in @searchspring/snap-toolbox */
-export function charsParams(params: ParameterObject): number {
-	if (typeof params != 'object') {
-		throw new Error('function requires an object');
-	}
-
-	const count = Object.keys(params).reduce((count, key) => {
-		const keyLength = key.length;
-		const value = params[key];
-		if (Array.isArray(value)) {
-			return (
-				count +
-				(value as string[]).reduce((length, val) => {
-					return length + keyLength + 1 + ('' + val).length;
-				}, 0)
-			);
-		} else if (typeof value == 'object') {
-			//recursive check
-			return count + keyLength + 1 + charsParams(value as any);
-		} else if (typeof value == 'string' || typeof value == 'number') {
-			return count + keyLength + 1 + ('' + value).length;
-		} else return count + keyLength;
-	}, 1);
-
-	return count;
 }

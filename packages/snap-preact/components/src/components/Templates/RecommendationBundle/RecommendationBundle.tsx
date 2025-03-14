@@ -159,7 +159,6 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		ctaButtonSuccessText: 'Bundle Added!',
 		ctaButtonSuccessTimeout: 2000,
 		ctaInline: true,
-		onAddToCart: (e, items) => controller?.addToCart && controller.addToCart(items),
 		...properties,
 		// props
 		...properties.theme?.components?.recommendationBundle,
@@ -357,7 +356,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	};
 	const addToCart = (e: MouseEvent) => {
 		// add to cart tracking
-		controller.addToCart(selectedItems);
+		controller.addBundleToCart(selectedItems);
 
 		//call the function passed
 		onAddToCart && onAddToCart(e, selectedItems);

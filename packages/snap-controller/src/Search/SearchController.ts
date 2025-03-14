@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import deepmerge from 'deepmerge';
 import cssEscape from 'css.escape';
 
@@ -19,17 +18,17 @@ import type {
 	BeforeSearchObj,
 } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
-import {
-	type SearchRequestModel,
-	type SearchResponseModelResult,
-	type SearchRequestModelSearchRedirectResponseEnum,
-	type MetaResponseModel,
-	type SearchResponseModel,
-	type SearchRequestModelFilterRange,
-	type SearchRequestModelFilterValue,
+import type {
+	SearchRequestModel,
+	SearchResponseModelResult,
+	SearchRequestModelSearchRedirectResponseEnum,
+	MetaResponseModel,
+	SearchResponseModel,
+	SearchRequestModelFilterRange,
+	SearchRequestModelFilterValue,
 } from '@searchspring/snapi-types';
 
-import { Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/beacon';
+import { AutocompleteSchemaDataSortInnerDirEnum, Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/beacon';
 
 const BACKGROUND_FILTER_FIELD_MATCHES = ['collection', 'category', 'categories', 'hierarchy'];
 const BACKGROUND_FILTERS_VALUE_FLAGS = [1, 0, '1', '0', 'true', 'false', true, false];
@@ -53,10 +52,11 @@ const defaultConfig: SearchControllerConfig = {
 
 type SearchpageTypes = {
 	product: {
+		clickThrough: (e: MouseEvent, result: Product) => void;
 		click: (e: MouseEvent, result: Product) => void;
 		render: (result: Product) => void;
 		impression: (result: Product) => void;
-		addToCart: (results: Product | Product[]) => void;
+		addToCart: (results: Product) => void;
 		redirect: (redirectURL: string) => void;
 	};
 };
@@ -68,20 +68,16 @@ export class SearchController extends AbstractController {
 	storage: StorageStore;
 	private previousResults: Array<SearchResponseModelResult> = [];
 	private pageType: 'search' | 'category' = 'search';
-	private lastParams: string = '';
-
-	events: {
-		[params: string]: {
-			product: Record<
-				string,
-				{
-					click?: SearchSchemaData;
-					impression?: SearchSchemaData;
-					render?: SearchSchemaData;
-				}
-			>;
-		};
-	} = {};
+	private events: {
+		product: Record<
+			string,
+			{
+				clickThrough?: SearchSchemaData;
+				impression?: SearchSchemaData;
+				render?: SearchSchemaData;
+			}
+		>;
+	} = { product: {} };
 
 	constructor(
 		config: SearchControllerConfig,
@@ -278,65 +274,12 @@ export class SearchController extends AbstractController {
 		this.use(this.config);
 	}
 
-	getSearchRedirectSchemaData = (redirectURL: string): SearchRedirectSchemaData => {
-		return {
-			redirect: redirectURL,
-		};
-	};
-
-	getSearchSchemaData = (results?: SearchResultStore): SearchSchemaData => {
-		return {
-			q: this.params.search?.query?.string || '',
-			correctedQuery: this.params.search?.originalQuery || '', // TODO: is this correct?
-			// bgfilter: [], // TODO: bgfilters
-			sort: [
-				{
-					field: this.store.sorting.current?.field,
-					dir: this.store.sorting.current?.direction as any, // TODO: enum
-				},
-			],
-			pagination: {
-				totalResults: this.store.pagination.totalResults,
-				page: this.store.pagination.page,
-				resultsPerPage: this.store.pagination.pageSize,
-			},
-			merchandising: {
-				personalized: this.store.merchandising.personalized,
-				redirect: this.store.merchandising.redirect,
-				triggeredCampaigns:
-					(this.store.merchandising.campaigns?.length &&
-						this.store.merchandising.campaigns?.map((campaign) => {
-							const experiement = this.store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
-							return {
-								id: campaign.id,
-								experimentId: experiement?.experimentId,
-								variationId: experiement?.variationId,
-							};
-						})) ||
-					undefined,
-			},
-			results:
-				results?.map((result: Product | Banner): Item => {
-					return {
-						uid: (result as Product).display?.mappings.core?.uid || (result as Product).mappings.core?.uid || '',
-						// @ts-ignore - childUid not on snapi-types
-						// TODO: fix types here
-						childUid: (result as Product).display?.mappings.core?.childUid || (result as Product).mappings.core?.childUid,
-						sku: (result as Product).display?.mappings.core?.sku || (result as Product).mappings.core?.sku,
-						// @ts-ignore - childSku not on snapi-types
-						childSku: (result as Product).display?.mappings.core?.childSku || (result as Product).mappings.core?.childSku,
-					};
-				}) || [],
-		};
-	};
-
 	track: SearchpageTypes = {
 		product: {
-			click: (e: MouseEvent, result): void => {
-				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.click) {
+			clickThrough: (e: MouseEvent, result): void => {
+				if (this.events.product[result.id]?.clickThrough) {
 					return;
 				}
-
 				const target = e.target as HTMLAnchorElement;
 				const resultHref = result.display?.mappings.core?.url || result.mappings.core?.url || '';
 				const elemHref = target?.getAttribute('href');
@@ -368,44 +311,55 @@ export class SearchController extends AbstractController {
 				// store position data or empty object
 				this.storage.set('scrollMap', scrollMap);
 
-				const data = this.getSearchSchemaData([result]);
+				const data = getSearchSchemaData({ params: this.params, store: this.store, results: [result] });
 				this.tracker.beacon.events[this.pageType].clickThrough({ data, siteId: this.client.globals.siteId });
-				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
-				this.events[this.lastParams].product[result.id].click = data;
-				this.eventManager.fire('product.click', { controller: this, event: e, result });
+				this.events.product[result.id] = this.events.product[result.id] || {};
+				this.events.product[result.id].clickThrough = data;
+				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, products: [result], trackEvent: data });
+			},
+			click: (e: MouseEvent, result): void => {
+				// TODO: closest might be going too far - write own function to only go n levels up
+				const href = (e.target as Element)?.getAttribute('href') || (e.target as Element)?.closest('a')?.getAttribute('href');
+				if (href) {
+					this.track.product.clickThrough(e, result);
+				} else {
+					// TODO: in future, send as an interaction event
+				}
 			},
 			render: (result: Product | Banner) => {
-				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.render) {
+				if (this.events.product[result.id]?.render) {
 					return;
 				}
 
-				const data = this.getSearchSchemaData([result]);
+				const data = getSearchSchemaData({ params: this.params, store: this.store, results: [result] });
 				this.tracker.beacon.events[this.pageType].render({ data, siteId: this.client.globals.siteId });
-				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
-				this.events[this.lastParams].product[result.id].render = data;
-				this.eventManager.fire('product.render', { controller: this, result, trackEvent: data });
+				this.events.product[result.id] = this.events.product[result.id] || {};
+				this.events.product[result.id].render = data;
+				this.eventManager.fire('track.product.render', { controller: this, products: [result], trackEvent: data });
 			},
 			impression: (result: Product): void => {
-				if (this.events[this.lastParams] && this.events[this.lastParams].product && this.events[this.lastParams].product[result.id]?.impression) {
+				if (this.events.product[result.id]?.impression) {
 					return;
 				}
 
-				const data = this.getSearchSchemaData([result]);
+				const data = getSearchSchemaData({ params: this.params, store: this.store, results: [result] });
 				this.tracker.beacon.events[this.pageType].impression({ data, siteId: this.client.globals.siteId });
-				this.events[this.lastParams].product[result.id] = this.events[this.lastParams].product[result.id] || {};
-				this.events[this.lastParams].product[result.id].impression = data;
-				this.eventManager.fire('product.impression', { controller: this, result, trackEvent: data });
+				this.events.product[result.id] = this.events.product[result.id] || {};
+				this.events.product[result.id].impression = data;
+				this.eventManager.fire('track.product.impression', { controller: this, products: [result], trackEvent: data });
 			},
-			addToCart: (results: Product | Product[]): void => {
+			addToCart: (result: Product): void => {
+				const data = getSearchSchemaData({ params: this.params, store: this.store, results: [result] });
 				this.tracker.beacon.events[this.pageType].addToCart({
-					data: this.getSearchSchemaData(Array.isArray(results) ? results : [results]),
+					data,
 					siteId: this.client.globals.siteId,
 				});
-				this.eventManager.fire('product.addToCart', { controller: this, results });
+				this.eventManager.fire('track.product.addToCart', { controller: this, products: [result], trackEvent: data });
 			},
 			redirect: (redirectURL: string): void => {
-				this.tracker.beacon.events.search.redirect({ data: this.getSearchRedirectSchemaData(redirectURL), siteId: this.client.globals.siteId });
-				this.eventManager.fire('product.redirect', { controller: this, redirectURL });
+				const data = getSearchRedirectSchemaData({ redirectURL });
+				this.tracker.beacon.events.search.redirect({ data, siteId: this.client.globals.siteId });
+				this.eventManager.fire('track.product.redirect', { controller: this, redirectURL, trackEvent: data });
 			},
 		},
 	};
@@ -423,19 +377,18 @@ export class SearchController extends AbstractController {
 		params.tracking = params.tracking || {};
 		params.tracking.domain = window.location.href;
 
-		const userId = this.tracker.getContext().userId;
+		const { userId, sessionId, pageLoadId, shopperId } = this.tracker.getContext();
+
 		if (userId) {
 			params.tracking.userId = userId;
 		}
 
-		const sessionId = this.tracker.getContext().sessionId;
 		if (sessionId) {
 			params.tracking.sessionId = sessionId;
 		}
 
-		const pageId = this.tracker.getContext().pageLoadId;
-		if (pageId) {
-			params.tracking.pageLoadId = pageId;
+		if (pageLoadId) {
+			params.tracking.pageLoadId = pageLoadId;
 		}
 
 		if (!this.config.globals?.personalization?.disabled) {
@@ -451,7 +404,6 @@ export class SearchController extends AbstractController {
 				params.personalization.lastViewed = lastViewedItems.join(',');
 			}
 
-			const shopperId = this.tracker.getContext().shopperId;
 			if (shopperId) {
 				params.personalization = params.personalization || {};
 				params.personalization.shopper = shopperId;
@@ -467,12 +419,13 @@ export class SearchController extends AbstractController {
 				await this.init();
 			}
 			const params = this.params;
-			this.lastParams = JSON.stringify(params);
-			this.events[this.lastParams] = this.events[this.lastParams] || { product: {} };
 
-			if (this.params.search?.query?.string && this.params.search?.query?.string.length) {
+			// reset events for new search
+			this.events = { product: {} };
+
+			if (params.search?.query?.string && params.search?.query?.string.length) {
 				// save it to the history store
-				this.store.history.save(this.params.search.query.string);
+				this.store.history.save(params.search.query.string);
 			}
 			this.store.loading = true;
 
@@ -679,8 +632,9 @@ export class SearchController extends AbstractController {
 		}
 	};
 
-	addToCart = async (products: Product[]): Promise<void> => {
-		this.track.product.addToCart(products);
+	addToCart = async (product: Product): Promise<void> => {
+		this.track.product.addToCart(product);
+		this.eventManager.fire('addToCart', { controller: this, products: [product] });
 	};
 }
 
@@ -735,4 +689,63 @@ export function generateHrefSelector(element: HTMLElement, href: string, levels 
 	}
 
 	return;
+}
+
+function getSearchRedirectSchemaData({ redirectURL }: { redirectURL: string }): SearchRedirectSchemaData {
+	return {
+		redirect: redirectURL,
+	};
+}
+
+function getSearchSchemaData({
+	params,
+	store,
+	results,
+}: {
+	params: SearchRequestModel;
+	store: SearchStore;
+	results?: SearchResultStore;
+}): SearchSchemaData {
+	const bgfilter = params.filters?.filter((filter) => filter.background);
+	return {
+		q: params.search?.query?.string || '',
+		correctedQuery: params.search?.originalQuery,
+		bgfilter: bgfilter?.length ? bgfilter : undefined,
+		sort: [
+			{
+				field: store.sorting.current?.field,
+				dir: store.sorting.current?.direction as AutocompleteSchemaDataSortInnerDirEnum,
+			},
+		],
+		pagination: {
+			totalResults: store.pagination.totalResults,
+			page: store.pagination.page,
+			resultsPerPage: store.pagination.pageSize,
+		},
+		merchandising: {
+			personalized: store.merchandising.personalized,
+			redirect: store.merchandising.redirect,
+			triggeredCampaigns:
+				(store.merchandising.campaigns?.length &&
+					store.merchandising.campaigns?.map((campaign) => {
+						const experiement = store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
+						return {
+							id: campaign.id,
+							experimentId: experiement?.experimentId,
+							variationId: experiement?.variationId,
+						};
+					})) ||
+				undefined,
+		},
+		results:
+			results?.map((result: Product | Banner): Item => {
+				const core = (result as Product).mappings.core!;
+				return {
+					uid: core.uid || '',
+					childUid: core.uid,
+					sku: core.sku,
+					childSku: core.sku,
+				};
+			}) || [],
+	};
 }
