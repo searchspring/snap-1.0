@@ -9,7 +9,14 @@ import { AutocompleteStore } from '@searchspring/snap-store-mobx';
 import type { AutocompleteControllerConfig, AfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
 import type { AutocompleteRequestModel } from '@searchspring/snapi-types';
-import { AutocompleteRedirectSchemaData, AutocompleteSchemaData, AutocompleteSchemaDataSortInnerDirEnum, Item } from '@searchspring/beacon';
+import {
+	AutocompleteRedirectSchemaData,
+	AutocompleteSchemaData,
+	AutocompleteSchemaDataBgfilterInner,
+	AutocompleteSchemaDataFilterInner,
+	AutocompleteSchemaDataSortInnerDirEnum,
+	Item,
+} from '@searchspring/beacon';
 
 const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;
@@ -828,11 +835,35 @@ function getAutocompleteSchemaData({
 	store: AutocompleteStore;
 	results?: SearchResultStore;
 }): AutocompleteSchemaData {
-	const bgfilter = params.filters?.filter((filter) => filter.background);
+	const filters = params.filters?.reduce<{
+		bgfilter?: Array<AutocompleteSchemaDataBgfilterInner>;
+		filter?: Array<AutocompleteSchemaDataFilterInner>;
+	}>((acc, filter) => {
+		const key = filter.background ? 'bgfilter' : 'filter';
+		acc[key] = acc[key] || [];
+
+		// @ts-ignore - fix type
+		const value =
+			filter.type === 'range' && !isNaN(filter.value.low) && !isNaN(filter.value.low)
+				? [`low=${filter.value.low}`, `high=${filter.value.high}`]
+				: [`${filter.value}`];
+
+		const existing = acc[key]!.find((item) => item.field === filter.field);
+		if (existing && !existing.value!.includes(value[0])) {
+			existing.value!.push(...value);
+		} else {
+			acc[key]!.push({
+				field: filter.field,
+				value,
+			});
+		}
+
+		return acc;
+	}, {});
 	return {
 		q: params.search?.query?.string || '',
 		correctedQuery: params.search?.originalQuery || '',
-		bgfilter: bgfilter?.length ? bgfilter : undefined,
+		...filters,
 		sort: [
 			{
 				field: store.sorting.current?.field,

@@ -79,6 +79,7 @@ export * from './components/Templates/SearchHorizontal';
 // TRACKERS
 export * from './components/Trackers/Recommendation/ProfileTracker';
 export * from './components/Trackers/Recommendation/ResultTracker';
+export * from './components/Trackers/SearchResultTracker';
 
 // TYPES
 export * from './types';

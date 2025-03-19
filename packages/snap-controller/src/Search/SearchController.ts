@@ -28,7 +28,14 @@ import type {
 	SearchRequestModelFilterValue,
 } from '@searchspring/snapi-types';
 
-import { AutocompleteSchemaDataSortInnerDirEnum, Item, SearchRedirectSchemaData, SearchSchemaData } from '@searchspring/beacon';
+import {
+	AutocompleteSchemaDataBgfilterInner,
+	AutocompleteSchemaDataFilterInner,
+	AutocompleteSchemaDataSortInnerDirEnum,
+	Item,
+	SearchRedirectSchemaData,
+	SearchSchemaData,
+} from '@searchspring/beacon';
 
 const BACKGROUND_FILTER_FIELD_MATCHES = ['collection', 'category', 'categories', 'hierarchy'];
 const BACKGROUND_FILTERS_VALUE_FLAGS = [1, 0, '1', '0', 'true', 'false', true, false];
@@ -706,11 +713,35 @@ function getSearchSchemaData({
 	store: SearchStore;
 	results?: SearchResultStore;
 }): SearchSchemaData {
-	const bgfilter = params.filters?.filter((filter) => filter.background);
+	const filters = params.filters?.reduce<{
+		bgfilter?: Array<AutocompleteSchemaDataBgfilterInner>;
+		filter?: Array<AutocompleteSchemaDataFilterInner>;
+	}>((acc, filter) => {
+		const key = filter.background ? 'bgfilter' : 'filter';
+		acc[key] = acc[key] || [];
+
+		// @ts-ignore - fix type
+		const value =
+			filter.type === 'range' && !isNaN(filter.value.low) && !isNaN(filter.value.low)
+				? [`low=${filter.value.low}`, `high=${filter.value.high}`]
+				: [`${filter.value}`];
+
+		const existing = acc[key]!.find((item) => item.field === filter.field);
+		if (existing && !existing.value!.includes(value[0])) {
+			existing.value!.push(...value);
+		} else {
+			acc[key]!.push({
+				field: filter.field,
+				value,
+			});
+		}
+
+		return acc;
+	}, {});
 	return {
 		q: params.search?.query?.string || '',
 		correctedQuery: params.search?.originalQuery,
-		bgfilter: bgfilter?.length ? bgfilter : undefined,
+		...filters,
 		sort: [
 			{
 				field: store.sorting.current?.field,

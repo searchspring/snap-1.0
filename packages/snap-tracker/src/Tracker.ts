@@ -4,8 +4,7 @@ import { StorageStore } from '@searchspring/snap-store-mobx';
 import { cookies, version, DomTargeter, getContext } from '@searchspring/snap-toolbox';
 import { AppMode } from '@searchspring/snap-toolbox';
 
-// import { Beacon } from '@searchspring/beacon';
-import { Beacon } from './Beacon'; // TODO: change to package import
+import { Beacon, type Context, type ContextCurrency } from '@searchspring/beacon';
 
 import { BeaconEvent } from './BeaconEvent';
 import {
@@ -25,7 +24,6 @@ import {
 	BeaconType,
 } from './types';
 import { CartSchemaData, Item, OrderTransactionSchemaData, Product } from '@searchspring/beacon';
-import { Context, ContextCurrency } from './client';
 
 export const BATCH_TIMEOUT = 200;
 const COOKIE_SAMESITE = 'Lax';
