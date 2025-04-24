@@ -2,6 +2,7 @@ import type {
 	SearchResponseModelMerchandisingContentInline,
 	SearchResponseModelMerchandisingCampaigns,
 	SearchResponseModel,
+	SearchResponseModelMerchandisingExperiments,
 } from '@searchspring/snapi-types';
 
 export enum ContentType {
@@ -26,6 +27,7 @@ export class SearchMerchandisingStore {
 	public campaigns: SearchResponseModelMerchandisingCampaigns[] = [];
 	public landingPage?: SearchResponseModelMerchandisingCampaigns;
 	public personalized?: boolean;
+	public experiments: SearchResponseModelMerchandisingExperiments[] = [];
 
 	constructor(params: SearchMerchandisingStoreConfig) {
 		const { merchandising } = params?.data?.search || {};
@@ -49,7 +51,11 @@ export class SearchMerchandisingStore {
 				});
 			}
 
-			if (merchandising.personalized) this.personalized = merchandising.personalized;
+			if (merchandising.experiments) {
+				this.experiments = merchandising.experiments;
+			}
+
+			this.personalized = !!merchandising.personalized;
 		}
 	}
 }

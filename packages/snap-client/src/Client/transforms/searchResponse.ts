@@ -422,6 +422,7 @@ transformSearchResponse.merchandising = (response: searchResponseType) => {
 		content: merchandising?.content || {},
 		campaigns: merchandising?.triggeredCampaigns || [],
 		personalized: merchandising?.personalized,
+		experiments: merchandising?.experiments || [],
 	};
 
 	return {
