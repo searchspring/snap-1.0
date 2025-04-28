@@ -18,7 +18,7 @@ let config: SnapTemplatesConfig = {
 	},
 	themes: {
 		global: {
-			extends: 'bocachica',
+			extends: 'base',
 			variables: {
 				breakpoints: [768, 1024, 1280],
 				// colors: {
@@ -124,7 +124,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'Search',
+				component: 'Search_Boca',
 			},
 		],
 	},

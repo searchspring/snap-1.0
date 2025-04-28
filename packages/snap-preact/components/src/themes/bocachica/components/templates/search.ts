@@ -9,6 +9,38 @@ const searchStyleScript = ({ theme }: SearchProps) => {
 	return css({});
 };
 
+export const search: ThemeComponentProps<SearchProps> = {
+	components: {
+		overrides: {
+			blah: true,
+		},
+	},
+};
+
+export const search: ThemeComponentProps<SearchProps> = [
+	{
+		components: {
+			overrides: {
+				blah: true,
+			},
+		},
+	},
+	{
+		components: {
+			overrides: {
+				blah: true,
+			},
+		},
+	},
+	{
+		components: {
+			overrides: {
+				blah: true,
+			},
+		},
+	},
+];
+
 // Search component props
 export const search: ThemeComponentProps<SearchProps> = {
 	default: {

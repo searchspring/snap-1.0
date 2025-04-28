@@ -26,7 +26,7 @@ export type ThemeStoreThemeConfig = {
 	style?: GlobalThemeStyleScript;
 };
 
-class SelectedLayout {
+export class SelectedLayout {
 	public selected?: ListOption;
 	private storage: StorageStore;
 	private name: string;
@@ -121,7 +121,7 @@ export class ThemeStore {
 	public get theme(): Theme {
 		/*
 			Themes consist of layers which are deep merged together in order (last merge has highest priority)
-				1. base theme
+				1. base theme styles ONLY
 				2. base theme responsive breakpoints
 				3. currency overrides
 				4. language overrides
@@ -129,8 +129,14 @@ export class ThemeStore {
 				6. theme overrides
 				7. theme overrides at responsive breakpoints
 				8. altered theme variables
-				9. layout option overrides
 				10. stored theme editor overrides
+
+
+
+			Merge order from Search Template Components
+				1. Default Template Props (handles responsive itself)
+				2. Theme (from this getter)
+				3. Default Layout Options (if none specified in theme)
 		*/
 
 		const breakpoints = (this.variables.breakpoints || this.base.variables?.breakpoints) as number[];

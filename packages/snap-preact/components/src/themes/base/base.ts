@@ -1,6 +1,7 @@
 import { Theme, ThemeVariables } from '../../providers';
 import { responsive } from './responsive';
 import { components } from './components';
+// import { defaultLayoutOptions } from './layoutOptions';
 
 const baseVariables: ThemeVariables = {
 	breakpoints: [767, 1024, 1400],
@@ -17,4 +18,5 @@ export const base: Theme = {
 	variables: baseVariables,
 	components,
 	responsive,
+	// layoutOptions: defaultLayoutOptions,
 };

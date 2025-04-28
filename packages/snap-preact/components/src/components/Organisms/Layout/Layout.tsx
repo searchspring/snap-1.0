@@ -215,7 +215,7 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 				return <FilterSummary {...subProps.FilterSummary} />;
 
 			case 'layoutSelector':
-				if (themeStore && props.theme?.layoutOptions && props.theme.layoutOptions.length > 0) {
+				if (themeStore) {
 					return (
 						<LayoutSelector
 							onSelect={(e, option) => {

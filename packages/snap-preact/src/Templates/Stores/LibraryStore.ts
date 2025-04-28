@@ -57,6 +57,9 @@ export type LibraryImports = {
 		search: {
 			Search: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 			SearchHorizontal: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Search_Snappy: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Search_Boca: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Search_Snapnco: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 		};
 		autocomplete: {
 			AutocompleteTemplate: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
@@ -192,6 +195,24 @@ export class LibraryStore {
 					return (
 						this.components.search.SearchHorizontal ||
 						(this.components.search.SearchHorizontal = (await import('./library/components/SearchHorizontal')).SearchHorizontal)
+					);
+				},
+				Search_Snappy: async () => {
+					return (
+						this.components.search.Search_Snappy ||
+						(this.components.search.Search_Snappy = (await import('./library/components/Search_Snappy')).Search_Snappy)
+					);
+				},
+				Search_Boca: async () => {
+					return (
+						this.components.search.Search_Boca ||
+						(this.components.search.Search_Boca = (await import('./library/components/Search_Boca')).Search_Boca)
+					);
+				},
+				Search_Snapnco: async () => {
+					return (
+						this.components.search.Search_Boca ||
+						(this.components.search.Search_Snapnco = (await import('./library/components/Search_Snapnco')).Search_Snapnco)
 					);
 				},
 			},
