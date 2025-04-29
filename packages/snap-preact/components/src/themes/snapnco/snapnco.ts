@@ -1,6 +1,6 @@
 import { ThemeComplete, ThemeVariables } from '../../providers';
 import { components } from './components';
-import { defaultLayoutOptions } from './layoutOptions';
+// import { defaultLayoutOptions } from './layoutOptions';
 import { responsive } from './responsive';
 
 const snapncoVariables: ThemeVariables = {
@@ -17,6 +17,6 @@ export const snapnco: ThemeComplete = {
 	name: 'snapnco',
 	variables: snapncoVariables,
 	components,
-	layoutOptions: defaultLayoutOptions,
+	// layoutOptions: defaultLayoutOptions,
 	responsive,
 };

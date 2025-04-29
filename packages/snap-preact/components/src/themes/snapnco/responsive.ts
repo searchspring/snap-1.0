@@ -1,19 +1,19 @@
 import { ThemeResponsive } from '../../providers/theme';
 import { mobileComponents, tabletComponents, desktopComponents } from './components';
-import { mobileLayoutOptions, tabletLayoutOptions, desktopLayoutOptions } from './layoutOptions';
+// import { mobileLayoutOptions, tabletLayoutOptions, desktopLayoutOptions } from './layoutOptions';
 
 const mobileOverrides: ThemeResponsive = {
-	layoutOptions: mobileLayoutOptions,
+	// layoutOptions: mobileLayoutOptions,
 	components: mobileComponents,
 };
 
 const tabletOverrides: ThemeResponsive = {
-	layoutOptions: tabletLayoutOptions,
+	// layoutOptions: tabletLayoutOptions,
 	components: tabletComponents,
 };
 
 const desktopOverrides: ThemeResponsive = {
-	layoutOptions: desktopLayoutOptions,
+	// layoutOptions: desktopLayoutOptions,
 	components: desktopComponents,
 };
 

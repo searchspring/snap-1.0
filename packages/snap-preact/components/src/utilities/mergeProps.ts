@@ -1,11 +1,15 @@
 import type { ComponentProps } from '../types';
 import type { Theme, ThemeComponentOverrides } from '../providers';
+import deepmerge from 'deepmerge';
+import { isPlainObject } from 'is-plain-object';
 
 export function mergeProps<GenericComponentProps = ComponentProps>(
 	componentType: string,
 	globalTheme: Theme,
 	defaultProps: Partial<GenericComponentProps>,
-	props: GenericComponentProps
+	props: GenericComponentProps,
+	defaultComponentTheme?: Theme,
+	responsiveComponentTheme?: Theme
 ): GenericComponentProps {
 	/*
 
@@ -20,12 +24,65 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 		
 		1. start with default props
 		2. spreads standard props (directly passed via JSX) - these may be provided by the integration or sub-props
-		3. spreads component theme props of component and named component
-		4. spreads global theme props of component and named component
+		NEW - merge defaultComponentTheme onto theme and also merge layoutOptions overrides onto theme
+		3. spreads global theme (response of ThemeStore getter) props of component and named component
+		4. spreads component theme props of component and named component
+			
 		5. ensure templates theme variables pass on in `theme`
 		6. if treepath contains 'custom' do #2 again
 
 	*/
+
+	/*
+
+
+	const generateOverrideTheme = <Props extends ComponentProps,>(props: Props & { layoutOptions?: any }, globalTheme: Theme, defaultTheme: Theme, responsiveTheme: Theme, snap?: Snap | SnapTemplates): Props => {
+	let themeDefaults: ThemePartial = {};
+
+	if (props.theme?.name) {
+		const themeStore = snap?.templates?.themes.local[props.theme?.name] || snap?.templates?.themes.library[props.theme?.name];
+		const innerWidth = themeStore?.innerWidth;
+		const breakpoints = themeStore?.variables.breakpoints || themeStore?.['base']?.variables?.breakpoints || [];
+		themeDefaults = deepmerge(defaultTheme, getOverridesAtWidth(innerWidth, breakpoints!, responsiveTheme), { arrayMerge: arrayMerge });
+	}
+
+	if (props.controller && props.layoutOptions) {
+		// handle layoutOptions and selected option
+		const [selectedLayout, setSelectedLayout] = useControllerStorage(
+			props.controller,
+			'layoutOptions',
+			props.layoutOptions.filter((option: any) => option.default)
+		);
+
+		if (themeDefaults.components) {
+			themeDefaults.components.layoutSelector = {
+				options: props.layoutOptions,
+				onSelect: (e, option) => {
+					if (option) {
+						setSelectedLayout(option);
+					}
+				},
+				selected: selectedLayout,
+			}
+		}
+		
+		// grab overrides out of the "selected" or default layoutOptions and merge it in
+		if (selectedLayout?.overrides) {
+			themeDefaults = deepmerge(themeDefaults, { components: selectedLayout.overrides.components });
+		}
+	}
+
+	// all the props!
+	return {
+		...props,
+		theme: { components: themeDefaults.components, name: globalTheme.name },
+	};
+}
+
+
+	*/
+
+	console.log(responsiveComponentTheme);
 
 	const theme = (props as ComponentProps).theme;
 	const componentName = (props as any)?.name;
@@ -42,6 +99,8 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 	};
 
 	if (!globalTheme?.name) {
+		// non-snap templates usage
+
 		// add globalTheme props if they exist
 		const globalComponent = globalTheme?.components && globalTheme.components[componentType as keyof typeof globalTheme.components];
 
@@ -62,6 +121,8 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 			mergedProps = mergeThemeProps(themeComponent, mergedProps) as Partial<GenericComponentProps>;
 		}
 	} else {
+		// snap templates usage
+
 		// normal props
 		mergedProps = {
 			...mergedProps,
@@ -69,6 +130,20 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 		};
 
 		treePath += componentName?.match(/^[A-Z,a-z,-]+$/) ? `.${componentName}` : '';
+		// template component theme defaults (responsive)
+		// add layer to globalTheme by deepmerging defaultComponentTheme and applicable responsiveComponentTheme into globalTheme
+		if (defaultComponentTheme) {
+			(mergedProps as ComponentProps).theme = deepmerge((mergedProps as ComponentProps).theme || {}, defaultComponentTheme, {
+				arrayMerge: arrayMerge,
+			});
+		}
+
+		// if (props.theme?.name) {
+		// 	const themeStore = snap?.templates?.themes.local[props.theme?.name] || snap?.templates?.themes.library[props.theme?.name];
+		// 	const innerWidth = themeStore?.innerWidth;
+		// 	const breakpoints = themeStore?.variables.breakpoints || themeStore?.['base']?.variables?.breakpoints || [];
+		// 	themeDefaults = deepmerge(defaultTheme, getOverridesAtWidth(innerWidth, breakpoints!, responsiveTheme), { arrayMerge: arrayMerge });
+		// }
 
 		// add globalTheme props for components with selector matches if they exist
 		const globalApplicableSelectors = filterSelectors(globalTheme?.components || {}, treePath).sort(sortSelectors);
@@ -105,9 +180,9 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 		if (globalTheme.variables) {
 			(mergedProps as ComponentProps).theme!.variables = globalTheme.variables;
 		}
-		if (globalTheme.layoutOptions) {
-			(mergedProps as ComponentProps).theme!.layoutOptions = globalTheme.layoutOptions;
-		}
+		// if (globalTheme.layoutOptions) {
+		// 	(mergedProps as ComponentProps).theme!.layoutOptions = globalTheme.layoutOptions;
+		// }
 
 		//if custom component, re-spread props again
 		if (treePath && treePath.indexOf('customComponent') > -1) {
@@ -132,6 +207,23 @@ function mergeThemeProps(componentThemeProps: Partial<ComponentProps>, mergedPro
 
 	return mergedProps;
 }
+
+const arrayMerge = (target: any, source: any, options: any) => {
+	// trim off any excess array entries
+	const destination = target.slice(0, source.length);
+
+	source.forEach((item: any, index: any) => {
+		if (typeof destination[index] === 'undefined') {
+			destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
+		} else if (isPlainObject(item)) {
+			destination[index] = deepmerge(target[index], item, options);
+		} else {
+			destination[index] = item;
+		}
+	});
+
+	return destination;
+};
 
 export function sortSelectors(a: string, b: string): number {
 	const aWeight = a

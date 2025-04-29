@@ -218,13 +218,9 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 				if (themeStore) {
 					return (
 						<LayoutSelector
-							onSelect={(e, option) => {
-								if (option) {
-									themeStore?.layout.select(option);
-								}
+							onSelect={() => {
+								/* noop */
 							}}
-							selected={themeStore?.layout.selected}
-							options={props.theme?.layoutOptions}
 							{...subProps.LayoutSelector}
 						/>
 					);

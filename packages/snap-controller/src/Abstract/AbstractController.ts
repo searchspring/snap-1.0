@@ -1,4 +1,5 @@
 import { DomTargeter } from '@searchspring/snap-toolbox';
+import { StorageStore } from '@searchspring/snap-store-mobx';
 
 import type { Client } from '@searchspring/snap-client';
 import type { AbstractStore } from '@searchspring/snap-store-mobx';
@@ -23,6 +24,7 @@ export abstract class AbstractController {
 	public log: Logger;
 	public tracker: Tracker;
 	public context: ContextVariables;
+	public storage: StorageStore;
 
 	public targeters: {
 		[key: string]: DomTargeter;
@@ -148,6 +150,12 @@ export abstract class AbstractController {
 
 		// set namespaces
 		this.profiler.setNamespace(this.config.id);
+
+		// set storage
+		this.storage = new StorageStore({
+			type: 'session',
+			key: `ss-controller-${this.config.id}`,
+		});
 	}
 
 	public createTargeter(target: Target, onTarget: OnTarget, document?: Document): DomTargeter | undefined {

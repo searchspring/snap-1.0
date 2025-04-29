@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge';
 import cssEscape from 'css.escape';
 
 import { AbstractController } from '../Abstract/AbstractController';
-import { StorageStore, ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@searchspring/snap-store-mobx';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
 
@@ -53,7 +53,6 @@ export class SearchController extends AbstractController {
 	public type = ControllerTypes.search;
 	declare store: SearchStore;
 	declare config: SearchControllerConfig;
-	storage: StorageStore;
 	private previousResults: Array<SearchResponseModelResult> = [];
 
 	constructor(
@@ -72,11 +71,6 @@ export class SearchController extends AbstractController {
 		}
 
 		this.store.setConfig(this.config);
-
-		this.storage = new StorageStore({
-			type: 'session',
-			key: `ss-controller-${this.config.id}`,
-		});
 
 		// set last params to undefined for compare in search
 		this.storage.set('lastStringyParams', undefined);
