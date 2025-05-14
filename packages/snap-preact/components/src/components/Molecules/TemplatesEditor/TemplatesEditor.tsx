@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { css, Global } from '@emotion/react';
 import classnames from 'classnames';
-import { useState } from 'preact/hooks';
+import { useCallback, useCallback, useEffect, useState } from 'preact/hooks';
 import { ComponentProps, RootNodeProperties } from '../../../types';
 import { ChromePicker } from 'react-color';
 import { Icon } from '../../Atoms/Icon/Icon';
@@ -196,6 +196,11 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 	}, 10);
 
 	const [isColorPickerVisible, setColorPickerVisible] = useState(false);
+
+	const [currentSelector, setCurrentSelector] = useState(''); // three possible selectors
+	const [contentSelector, setContentSelector] = useState('');
+	const [componentSelector, setComponentSelector] = useState('');
+	const [autocompleteSelector, setAutocompleteSelector] = useState('');
 
 	return (
 		<CacheProvider>
@@ -429,10 +434,244 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 						/>
 					)}
 				</div>
+
+				<h2>Find SS-Path Element: </h2>
+				<div className="section">
+					<span>Current autocompleteSelector: {autocompleteSelector}</span>
+					<DomSelector
+						elementSelector={'input[type="text"]'}
+						onSelectHandler={(elemSelector) => setAutocompleteSelector(elemSelector)}
+						type="autocomplete"
+						currentSelector={currentSelector}
+						setCurrentSelector={setCurrentSelector}
+					/>
+					<span>Current contentSelector: {contentSelector}</span>
+					<DomSelector
+						elementSelector={'div, section, article, aside'}
+						onSelectHandler={(elemSelector) => setContentSelector(elemSelector)}
+						type="content"
+						currentSelector={currentSelector}
+						setCurrentSelector={setCurrentSelector}
+					/>
+					<span>Current componentSelector: {componentSelector}</span>
+					<DomSelector
+						elementSelector={'[ss-path]'}
+						onSelectHandler={(elemSelector) => setComponentSelector(elemSelector)}
+						type="component"
+						currentSelector={currentSelector}
+						setCurrentSelector={setCurrentSelector}
+					/>
+				</div>
 			</div>
 		</CacheProvider>
 	);
 });
+
+const ElementSelectorHelpers = {
+	getComponent: function (el: EventTarget): HTMLElement | null {
+		return (el as HTMLElement).closest('[ss-path]');
+	},
+	getContent: function (el: EventTarget): HTMLElement | null {
+		return (el as HTMLElement).closest('div, section, article, aside');
+	},
+	getInput: function (el: EventTarget): HTMLInputElement | null {
+		return (el as HTMLElement).closest('input[type=text], input[type=searc]');
+	},
+	markElement: function (type: string | undefined, child: EventTarget | null): HTMLElement | null {
+		let element: HTMLElement | null = null;
+		if (!child) {
+			return null;
+		}
+		switch (type) {
+			case 'component':
+				element = this.getComponent(child);
+				if (element) {
+					element.classList.add('hoverEls');
+				}
+				break;
+			case 'content':
+				element = this.getContent(child);
+				if (element) {
+					element.classList.add('hoverEls');
+				}
+				break;
+			case 'input':
+				element = this.getInput(child);
+				if (element) {
+					element.classList.add('hoverEls');
+				}
+				break;
+			default:
+				break;
+		}
+		return element;
+	},
+	getShortestUniqueSelector: function (el: Element | null): string | null {
+		if (!(el instanceof Element)) return null;
+
+		const parts = [];
+		let current: Element | null = el;
+
+		while (current && current.nodeType === 1) {
+			let selector = current.tagName.toLowerCase();
+
+			// Use ID if present, but check for uniqueness later
+			if (current.id) {
+				selector = `#${window.CSS.escape(current.id)}`;
+				parts.unshift(selector);
+			} else {
+				// Add class-based selector
+				if (current.classList.length > 0) {
+					selector +=
+						'.' +
+						Array.from(current.classList)
+							.map((cls) => window.CSS.escape(cls))
+							.join('.');
+				}
+
+				// Use :nth-child if needed for uniqueness
+				const siblings = Array.from(current.parentNode?.children || []);
+				const sameTagSiblings = siblings.filter((sib) => sib.tagName === current?.tagName);
+				if (sameTagSiblings.length > 1) {
+					const index = siblings.indexOf(current) + 1;
+					selector += `:nth-child(${index})`;
+				}
+
+				parts.unshift(selector);
+			}
+
+			// Try to build the selector
+			const combinedSelector = parts.join(' > ');
+			const found = document.querySelector(combinedSelector);
+
+			// If it returns exactly the original element, return it
+			if (found === el) {
+				return combinedSelector;
+			}
+
+			// Move up
+			current = current.parentElement;
+			if (current === null) {
+				break;
+			}
+		}
+
+		return null;
+	},
+};
+
+export interface TemplatesEditorProps extends ComponentProps {
+	onRemoveClick: () => void;
+	templatesStore: any;
+}
+
+const DomSelector = (props) => {
+	const { elementSelector, onSelectHandler, type, currentSelector, setCurrentSelector } = props;
+
+	const [active, setActive] = useState(currentSelector === type);
+
+	const elements = document.querySelectorAll(elementSelector);
+
+	const clickListener = useCallback((e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		// get element from event
+		const target = e.target.closest(elementSelector);
+		if (target) {
+			target.style.border = '3px solid green';
+			onSelectHandler(ElementSelectorHelpers.getShortestUniqueSelector(target));
+			target.style.border = 'none';
+		}
+
+		setCurrentSelector('');
+	}, []);
+
+	const onMouseOverListener = useCallback((e) => {
+		// add styling and tooltip thing
+		const target = e.target.closest(elementSelector);
+		if (target) {
+			target.style.border = '3px solid green';
+		}
+	}, []);
+
+	const onMouseOutListener = useCallback((e) => {
+		// remove styling and tooltip thing
+		const target = e.target.closest(elementSelector);
+		if (target) {
+			target.style.border = 'none';
+		}
+	}, []);
+
+	const removeEvents = () => {
+		console.log(elements.length);
+		elements.forEach((elem) => {
+			elem.removeEventListener('click', clickListener);
+			elem.removeEventListener('mouseover', onMouseOverListener);
+			elem.removeEventListener('mouseout', onMouseOutListener);
+		});
+	};
+
+	const addEvents = () => {
+		console.log(elements);
+		elements.forEach((elem) => {
+			elem.addEventListener('click', clickListener);
+			elem.addEventListener('mouseover', onMouseOverListener);
+			elem.addEventListener('mouseout', onMouseOutListener);
+		});
+	};
+
+	useEffect(() => {
+		setActive(currentSelector === type);
+	}, [currentSelector]);
+
+	useEffect(() => {
+		if (active) {
+			// loop through elements and:
+			// attach listeners
+			// (optional) add overlay/border to element
+			console.log('adding events from', type);
+			addEvents();
+		} else {
+			// loop through elements and:
+			// remove event listeners
+			console.log('removing events from', type);
+			removeEvents();
+		}
+	}, [active]);
+
+	useEffect(() => {
+		if (!active) return;
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') {
+				setCurrentSelector('');
+			}
+		};
+		document.addEventListener('keydown', handleKeyDown);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [active]);
+
+	const toggleInspecting = () => {
+		if (active) {
+			setCurrentSelector('');
+		} else {
+			setCurrentSelector(type);
+		}
+	};
+
+	return (
+		<div>
+			<button
+				onClick={() => {
+					toggleInspecting();
+				}}
+			>
+				{active ? 'Cancel' : 'Find'}
+			</button>
+		</div>
+	);
+};
 
 const ThemeEditor = (props: any): any => {
 	const pathPrefix: any = props.pathPrefix || [];
@@ -505,8 +744,3 @@ const ThemeEditor = (props: any): any => {
 		}
 	}
 };
-
-export interface TemplatesEditorProps extends ComponentProps {
-	onRemoveClick: () => void;
-	templatesStore: any;
-}
