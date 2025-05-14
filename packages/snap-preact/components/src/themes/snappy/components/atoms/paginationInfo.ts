@@ -1,5 +1,6 @@
 // import { css } from '@emotion/react';
 import type { PaginationInfoProps } from '../../../../components/Atoms/PaginationInfo';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Pagination component
 // const paginationInfoStyleScript = ({ theme }: PaginationInfoProps) => {
@@ -10,11 +11,10 @@ import type { PaginationInfoProps } from '../../../../components/Atoms/Paginatio
 // };
 
 // PaginationInfo component props
-export const paginationInfo: ThemeComponentProps<PaginationInfoProps> = {
+export const paginationInfo: ThemeComponent<'paginationInfo', PaginationInfoProps> = {
 	default: {
-		// themeStyleScript: paginationInfoStyleScript,
+		props: {
+			// themeStyleScript: paginationInfoStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

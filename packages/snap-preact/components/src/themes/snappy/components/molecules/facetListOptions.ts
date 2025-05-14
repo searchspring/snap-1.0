@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import type { FacetListOptionsProps } from '../../../../components/Molecules/FacetListOptions';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the FacetListOptions component
 const facetListOptionsStyleScript = ({ horizontal, theme }: FacetListOptionsProps) => {
 	const variables = theme?.variables;
@@ -31,11 +31,10 @@ const facetListOptionsStyleScript = ({ horizontal, theme }: FacetListOptionsProp
 };
 
 // FacetListOptions component props
-export const facetListOptions: ThemeComponentProps<FacetListOptionsProps> = {
+export const facetListOptions: ThemeComponent<'facetListOptions', FacetListOptionsProps> = {
 	default: {
-		themeStyleScript: facetListOptionsStyleScript,
+		props: {
+			themeStyleScript: facetListOptionsStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

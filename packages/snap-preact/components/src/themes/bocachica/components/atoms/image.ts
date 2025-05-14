@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { ImageProps } from '../../../../components/Atoms/Image';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Image component
 const imageStyleScript = ({ visibility, theme }: ImageProps & { visibility: React.CSSProperties['visibility'] }) => {
@@ -14,11 +15,10 @@ const imageStyleScript = ({ visibility, theme }: ImageProps & { visibility: Reac
 };
 
 // Image component props
-export const image: ThemeComponentProps<ImageProps> = {
+export const image: ThemeComponent<'image', ImageProps> = {
 	default: {
-		themeStyleScript: imageStyleScript,
+		props: {
+			themeStyleScript: imageStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

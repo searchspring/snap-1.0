@@ -6,7 +6,7 @@ const config = {
 		topToolbarElem: '.ss__search__header-section__toolbar--top-toolbar',
 		bottomToolbarElem: '.ss__search__content__toolbar--bottom-toolbar',
 		pagination: '.ss__pagination',
-		layoutSelector: '.ss__toolbar__layout-selector',
+		layoutSelector: '.ss__layout__list',
 		perpage: '.ss__per-page',
 	},
 };
@@ -16,6 +16,7 @@ describe('Theme overrides work', () => {
 		//clear local storage before each test
 		//in order to prevent theme storage from overrriding settings...
 		cy.clearLocalStorage();
+		cy.clearAllSessionStorage();
 	});
 
 	describe('Theme component overrides work', () => {
@@ -74,11 +75,11 @@ describe('Theme overrides work', () => {
 									},
 
 									'search toolbar.top': {
-										modules: ['PaginationInfo', 'Pagination', 'SortBy', 'PerPage'],
+										layout: ['searchHeader', 'paginationInfo', 'pagination', 'sortBy', 'perPage'],
 									},
 
 									'search toolbar.bottom': {
-										modules: ['PaginationInfo', 'SortBy', 'PerPage'],
+										layout: ['paginationInfo', 'sortBy', 'perPage'],
 									},
 								},
 							},
@@ -123,36 +124,39 @@ describe('Theme overrides work', () => {
 									},
 
 									'search toolbar.top': {
-										modules: ['PaginationInfo', 'LayoutSelector', 'SortBy', 'PerPage'],
+										layout: ['searchHeader', 'paginationInfo', 'layoutSelector', 'sortBy', 'perPage'],
+									},
+									search: {
+										layoutOptions: [
+											{
+												default: true,
+												value: '1',
+												label: 'one',
+												overrides: {
+													components: {
+														searchHeader: {
+															titleText: 'title text one',
+															subtitleText: 'subtitle text one',
+														},
+													},
+												},
+											},
+											{
+												default: false,
+												value: '2',
+												label: 'two',
+												overrides: {
+													components: {
+														searchHeader: {
+															titleText: 'title text two',
+															subtitleText: 'subtitle text two',
+														},
+													},
+												},
+											},
+										],
 									},
 								},
-								layoutOptions: [
-									{
-										default: true,
-										value: '1',
-										label: 'one',
-										overrides: {
-											components: {
-												searchHeader: {
-													titleText: 'title text one',
-													subtitleText: 'subtitle text one',
-												},
-											},
-										},
-									},
-									{
-										value: '2',
-										label: 'two',
-										overrides: {
-											components: {
-												searchHeader: {
-													titleText: 'title text two',
-													subtitleText: 'subtitle text two',
-												},
-											},
-										},
-									},
-								],
 							},
 						},
 					},
@@ -199,58 +203,64 @@ describe('Theme overrides work', () => {
 										titleText: 'global title text',
 										subtitleText: 'global subtitle text',
 									},
+									'search toolbar.top': {
+										layout: ['searchHeader', 'layoutSelector', 'pagination', 'perPage'],
+									},
+									search: {
+										layoutOptions: [
+											{
+												default: true,
+												value: '1',
+												label: 'one',
+												overrides: {
+													components: {
+														'search searchHeader': {
+															titleText: 'title text one',
+															subtitleText: 'subtitle text one',
+														},
+														'horizontalSearch searchHeader': {
+															titleText: 'nope',
+															subtitleText: 'nope',
+														},
+														'search toolbar.top': {
+															layout: ['searchHeader', 'layoutSelector', 'pagination', 'perPage'],
+														},
+
+														'search toolbar.bottom': {
+															layout: ['layoutSelector', 'sortBy'],
+														},
+													},
+												},
+											},
+											{
+												default: false,
+												value: '2',
+												label: 'two',
+												overrides: {
+													components: {
+														'search searchHeader': {
+															titleText: 'title text two',
+															subtitleText: 'subtitle text two',
+														},
+
+														'horizontalSearch searchHeader': {
+															titleText: 'nope',
+															subtitleText: 'nope',
+														},
+
+														'search toolbar.top': {
+															layout: ['searchHeader', 'layoutSelector', 'sortBy'],
+														},
+
+														'search toolbar.bottom': {
+															layout: ['layoutSelector', 'pagination', 'perPage'],
+														},
+													},
+												},
+											},
+										],
+									},
 								},
-								layoutOptions: [
-									{
-										default: true,
-										value: '1',
-										label: 'one',
-										overrides: {
-											components: {
-												'search searchHeader': {
-													titleText: 'title text one',
-													subtitleText: 'subtitle text one',
-												},
-												'horizontalSearch searchHeader': {
-													titleText: 'nope',
-													subtitleText: 'nope',
-												},
-												'search toolbar.top': {
-													modules: ['LayoutSelector', 'Pagination', 'PerPage'],
-												},
-
-												'search toolbar.bottom': {
-													modules: ['LayoutSelector', 'SortBy'],
-												},
-											},
-										},
-									},
-									{
-										value: '2',
-										label: 'two',
-										overrides: {
-											components: {
-												'search searchHeader': {
-													titleText: 'title text two',
-													subtitleText: 'subtitle text two',
-												},
-
-												'horizontalSearch searchHeader': {
-													titleText: 'nope',
-													subtitleText: 'nope',
-												},
-
-												'search toolbar.top': {
-													modules: ['LayoutSelector', 'SortBy'],
-												},
-
-												'search toolbar.bottom': {
-													modules: ['LayoutSelector', 'Pagination', 'PerPage'],
-												},
-											},
-										},
-									},
-								],
 							},
 						},
 					},
@@ -305,119 +315,128 @@ describe('Theme overrides work', () => {
 					themes: {
 						custom: {
 							extends: 'bocachica',
+							variables: {
+								breakpoints: {
+									mobile: 768,
+									tablet: 991,
+									desktop: 1299,
+								},
+							},
 							overrides: {
 								components: {
+									'toolbar.top': {
+										layout: ['layoutSelector', 'searchHeader'],
+									},
 									searchHeader: {
 										titleText: 'global title text',
 										subtitleText: 'global subtitle text',
 									},
+									search: {
+										layoutOptions: [
+											{
+												default: true,
+												value: '1',
+												label: 'one',
+												overrides: {
+													components: {
+														searchHeader: {
+															titleText: 'title text one',
+															subtitleText: 'subtitle text one',
+														},
+													},
+												},
+											},
+											{
+												default: false,
+												value: '2',
+												label: 'two',
+												overrides: {
+													components: {
+														searchHeader: {
+															titleText: 'title text two',
+															subtitleText: 'subtitle text two',
+														},
+													},
+												},
+											},
+										],
+									},
 								},
-								layoutOptions: [
-									{
-										default: true,
-										value: '1',
-										label: 'one',
-										overrides: {
-											components: {
-												searchHeader: {
-													titleText: 'title text one',
-													subtitleText: 'subtitle text one',
-												},
-											},
-										},
-									},
-									{
-										value: '2',
-										label: 'two',
-										overrides: {
-											components: {
-												searchHeader: {
-													titleText: 'title text two',
-													subtitleText: 'subtitle text two',
-												},
-											},
-										},
-									},
-								],
-								responsive: [
-									{
-										components: {
-											searchHeader: {
-												titleText: '0 - 767',
-											},
-										},
 
-										layoutOptions: [
-											{
-												default: true,
-												value: '1',
-												label: 'one',
-												overrides: {
-													components: {
-														searchHeader: {
-															titleText: 'layout1 0 - 767',
-														},
-													},
-												},
-											},
-											{
-												value: '2',
-												label: 'two',
-												overrides: {
-													components: {
-														searchHeader: {
-															titleText: 'layout2 0 - 767',
-														},
-													},
-												},
-											},
-										],
-									},
-									{
-										components: {
-											searchHeader: {
-												titleText: '767 - 991',
-											},
+								responsive: {
+									mobile: {
+										searchHeader: {
+											titleText: '0 - 767',
 										},
-
-										layoutOptions: [
-											{
-												default: true,
-												value: '1',
-												label: 'one',
-												overrides: {
-													components: {
-														searchHeader: {
-															titleText: 'layout1 767 - 991',
+										search: {
+											layoutOptions: [
+												{
+													default: true,
+													value: '1',
+													label: 'one',
+													overrides: {
+														components: {
+															searchHeader: {
+																titleText: 'layout1 0 - 767',
+															},
 														},
 													},
 												},
-											},
-											{
-												value: '2',
-												label: 'two',
-												overrides: {
-													components: {
-														searchHeader: {
-															titleText: 'layout2 767 - 991',
+												{
+													default: false,
+													value: '2',
+													label: 'two',
+													overrides: {
+														components: {
+															searchHeader: {
+																titleText: 'layout2 0 - 767',
+															},
 														},
 													},
 												},
-											},
-										],
+											],
+										},
 									},
-									{
+									tablet: {
+										searchHeader: {
+											titleText: '767 - 991',
+										},
+										search: {
+											layoutOptions: [
+												{
+													default: true,
+													value: '1',
+													label: 'one',
+													overrides: {
+														components: {
+															searchHeader: {
+																titleText: 'layout1 767 - 991',
+															},
+														},
+													},
+												},
+												{
+													default: false,
+													value: '2',
+													label: 'two',
+													overrides: {
+														components: {
+															searchHeader: {
+																titleText: 'layout2 767 - 991',
+															},
+														},
+													},
+												},
+											],
+										},
+									},
+									desktop: {
 										//only overrides when layoutoptions, if its also in a layout options
-										components: {
-											searchHeader: {
-												titleText: '991 - 1299',
-											},
-											'toolbar.top': {
-												modules: [],
-											},
+										searchHeader: {
+											titleText: '991 - 1299',
 										},
 									},
-								],
+								},
 							},
 						},
 					},
@@ -442,31 +461,27 @@ describe('Theme overrides work', () => {
 			cy.snapController().then(({ store }) => {
 				cy.get(config.selectors.titleElem).should('have.text', 'title text one');
 				cy.get(config.selectors.subtitleElem).should('have.text', 'subtitle text one');
-				cy.get(`${config.selectors.topToolbarElem} ${config.selectors.perpage}`).should('exist');
 			});
 
 			cy.viewport(1298, 1000);
 
 			cy.snapController().then(({ store }) => {
-				// cy.get(config.selectors.titleElem).should('have.text','991 - 1299');
 				cy.get(config.selectors.titleElem).should('have.text', 'title text one');
 				cy.get(config.selectors.subtitleElem).should('have.text', 'subtitle text one');
-				cy.get(`${config.selectors.topToolbarElem} ${config.selectors.perpage}`).should('not.exist');
 			});
 
 			cy.viewport(990, 1000);
 
 			cy.snapController().then(({ store }) => {
 				cy.get(config.selectors.titleElem).should('have.text', 'layout1 767 - 991');
-				cy.get(config.selectors.subtitleElem).should('have.text', 'global subtitle text');
-				cy.get(`${config.selectors.topToolbarElem} ${config.selectors.perpage}`).should('exist');
+				cy.get(config.selectors.subtitleElem).should('have.text', 'subtitle text one');
 			});
 
 			cy.viewport(766, 1000);
 
 			cy.snapController().then(({ store }) => {
 				cy.get(config.selectors.titleElem).should('have.text', 'layout1 0 - 767');
-				cy.get(config.selectors.subtitleElem).should('have.text', 'global subtitle text');
+				cy.get(config.selectors.subtitleElem).should('have.text', 'subtitle text one');
 			});
 		});
 	});

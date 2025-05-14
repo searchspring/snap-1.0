@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { ButtonProps } from '../../../../components/Atoms/Button';
+import { ThemeComponent } from '../../../../providers';
 import Color from 'color';
 
 // CSS in JS style script for the Button component
@@ -23,11 +24,10 @@ const buttonStyleScript = ({ backgroundColor, theme }: ButtonProps) => {
 };
 
 // Button component props
-export const button: ThemeComponentProps<ButtonProps> = {
+export const button: ThemeComponent<'button', ButtonProps> = {
 	default: {
-		themeStyleScript: buttonStyleScript,
+		props: {
+			themeStyleScript: buttonStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

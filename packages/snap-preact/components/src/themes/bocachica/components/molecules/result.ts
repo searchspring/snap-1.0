@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { ResultProps } from '../../../../components/Molecules/Result';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Result component
 const resultStyleScript = ({ theme }: ResultProps) => {
@@ -18,11 +19,10 @@ const resultStyleScript = ({ theme }: ResultProps) => {
 };
 
 // Result component props
-export const result: ThemeComponentProps<ResultProps> = {
+export const result: ThemeComponent<'result', ResultProps> = {
 	default: {
-		themeStyleScript: resultStyleScript,
+		props: {
+			themeStyleScript: resultStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

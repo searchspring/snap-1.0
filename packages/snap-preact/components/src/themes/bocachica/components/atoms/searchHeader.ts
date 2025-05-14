@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { SearchHeaderProps } from '../../../../components/Atoms/SearchHeader';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the SearchHeader component
 const searchHeaderStyleScript = ({ theme }: SearchHeaderProps) => {
@@ -19,11 +20,11 @@ const searchHeaderStyleScript = ({ theme }: SearchHeaderProps) => {
 };
 
 // SearchHeader component props
-export const searchHeader: ThemeComponentProps<SearchHeaderProps> = {
+export const searchHeader: ThemeComponent<'searchHeader', SearchHeaderProps> = {
 	default: {
-		themeStyleScript: searchHeaderStyleScript,
+		props: {
+			themeStyleScript: searchHeaderStyleScript,
+			titleText: (data) => `Search Results${data.search?.query?.string ? ` for "${data.search.query.string}"` : ''}`,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { LoadMoreProps } from '../../../../components/Molecules/LoadMore';
 import Color from 'color';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the LoadMore component
 const loadMoreStyleScript = ({ color, backgroundColor, theme }: LoadMoreProps) => {
 	const variables = theme?.variables;
@@ -30,11 +30,10 @@ const loadMoreStyleScript = ({ color, backgroundColor, theme }: LoadMoreProps) =
 };
 
 // LoadMore component props
-export const loadMore: ThemeComponentProps<LoadMoreProps> = {
+export const loadMore: ThemeComponent<'loadMore', LoadMoreProps> = {
 	default: {
-		themeStyleScript: loadMoreStyleScript,
+		props: {
+			themeStyleScript: loadMoreStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

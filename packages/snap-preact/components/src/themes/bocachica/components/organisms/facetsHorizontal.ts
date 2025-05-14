@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { FacetsHorizontalProps } from '../../../../components/Organisms/FacetsHorizontal';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Facets component
 const facetsHorizontalStyleScript = ({ theme }: FacetsHorizontalProps) => {
@@ -47,18 +48,27 @@ const facetsHorizontalStyleScript = ({ theme }: FacetsHorizontalProps) => {
 };
 
 // FacetsHorizontal component props
-export const facetsHorizontal: ThemeComponentProps<FacetsHorizontalProps> = {
+export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizontalProps> = {
 	default: {
-		themeStyleScript: facetsHorizontalStyleScript,
-		iconCollapse: 'angle-down',
+		props: {
+			themeStyleScript: facetsHorizontalStyleScript,
+			iconCollapse: 'angle-down',
+			limit: 9,
+		},
 	},
 	mobile: {
-		limit: 0,
+		props: {
+			limit: 0,
+		},
 	},
 	tablet: {
-		limit: 5,
+		props: {
+			limit: 5,
+		},
 	},
 	desktop: {
-		limit: 7,
+		props: {
+			limit: 7,
+		},
 	},
 };

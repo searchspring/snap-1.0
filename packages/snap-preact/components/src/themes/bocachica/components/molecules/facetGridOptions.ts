@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { FacetGridOptionsProps } from '../../../../components/Molecules/FacetGridOptions';
+import { ThemeComponent } from '../../../../providers';
 import Color from 'color';
 
 // CSS in JS style script for the FacetGridOptions component
@@ -28,13 +29,12 @@ const facetGridOptionsStyleScript = ({ theme }: FacetGridOptionsProps) => {
 };
 
 // FacetGridOptions component props
-export const facetGridOptions: ThemeComponentProps<FacetGridOptionsProps> = {
+export const facetGridOptions: ThemeComponent<'facetGridOptions', FacetGridOptionsProps> = {
 	default: {
-		themeStyleScript: facetGridOptionsStyleScript,
-		gapSize: '5px',
-		columns: 5,
+		props: {
+			themeStyleScript: facetGridOptionsStyleScript,
+			gapSize: '5px',
+			columns: 5,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { PerPageProps } from '../../../../components/Molecules/PerPage';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the PerPage component
 const perPageStyleScript = ({ theme }: PerPageProps) => {
@@ -14,18 +15,15 @@ const perPageStyleScript = ({ theme }: PerPageProps) => {
 };
 
 // PerPage component props
-export const perPage: ThemeComponentProps<PerPageProps> = {
+export const perPage: ThemeComponent<'perPage', PerPageProps> = {
 	default: {
-		themeStyleScript: perPageStyleScript,
-		theme: {
-			components: {
-				icon: {
-					size: '12px',
-				},
+		props: {
+			themeStyleScript: perPageStyleScript,
+		},
+		components: {
+			'*perPage icon': {
+				size: '12px',
 			},
 		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

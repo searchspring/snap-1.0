@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { FilterProps } from '../../../../components/Molecules/Filter';
+import { ThemeComponent } from '../../../../providers';
 import Color from 'color';
 
 // CSS in JS style script for the Filter component
@@ -23,11 +24,10 @@ const filterStyleScript = ({ theme }: FilterProps) => {
 };
 
 // Filter component props
-export const filter: ThemeComponentProps<FilterProps> = {
+export const filter: ThemeComponent<'filter', FilterProps> = {
 	default: {
-		themeStyleScript: filterStyleScript,
+		props: {
+			themeStyleScript: filterStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

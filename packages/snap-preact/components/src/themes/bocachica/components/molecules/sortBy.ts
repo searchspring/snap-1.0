@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { SortByProps } from '../../../../components/Molecules/SortBy';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the SortBy component
 const sortByStyleScript = () => {
@@ -11,18 +12,15 @@ const sortByStyleScript = () => {
 };
 
 // SortBy component props
-export const sortBy: ThemeComponentProps<SortByProps> = {
+export const sortBy: ThemeComponent<'sortBy', SortByProps> = {
 	default: {
-		themeStyleScript: sortByStyleScript,
-		theme: {
-			components: {
-				icon: {
-					size: '12px',
-				},
+		props: {
+			themeStyleScript: sortByStyleScript,
+		},
+		components: {
+			'*sortBy icon': {
+				size: '12px',
 			},
 		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

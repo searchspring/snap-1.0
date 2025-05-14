@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import type { ListProps } from '../../../../components/Molecules/List';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the List component
 const listStyleScript = ({ theme }: ListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,18 +16,15 @@ const listStyleScript = ({ theme }: ListProps) => {
 };
 
 // List component props
-export const list: ThemeComponentProps<ListProps> = {
+export const list: ThemeComponent<'list', ListProps> = {
 	default: {
-		themeStyleScript: listStyleScript,
-		theme: {
-			components: {
-				icon: {
-					size: '24px',
-				},
+		props: {
+			themeStyleScript: listStyleScript,
+		},
+		components: {
+			'*list icon': {
+				size: '24px',
 			},
 		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

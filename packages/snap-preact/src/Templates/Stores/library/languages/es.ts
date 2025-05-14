@@ -3,6 +3,61 @@ import type { ValueFacet } from '@searchspring/snap-store-mobx';
 
 export const es: LangComponents = {
 	recommendation: {},
+	autocompleteTemplate: {
+		facetsTitle: {},
+		contentTitle: {},
+		closeButton: {
+			value: 'Cerrar Autocompletar',
+			attributes: {
+				'aria-label': 'Cerrar Autocompletar',
+			},
+		},
+		noResultsText: {
+			value: (data) =>
+				`<p>No se encontraron resultados para "${
+					data.controller?.store?.search?.originalQuery?.string || data.controller?.store?.search?.query?.string
+				}".</p><p>Por favor intenta otra búsqueda.</p>`,
+		},
+		seeMoreButton: {
+			value: (data) =>
+				`Ver ${data?.controller?.store?.pagination.totalResults} ${data?.controller?.store?.filters.length > 0 ? 'filtrado' : ''} resultado${
+					data?.controller?.store?.pagination?.totalResults == 1 ? '' : 's'
+				} para "${data?.controller?.store?.search?.query?.string}"`,
+		},
+	},
+	'terms.history': {
+		title: {
+			value: 'Historia',
+		},
+		term: {
+			value: (data) => `${data.term.value}`,
+			attributes: {
+				'aria-label': (data) => `artículo ${data.index + 1} de ${data.numberOfTerms}, ${data.term.value}`,
+			},
+		},
+	},
+	'terms.suggestions': {
+		title: {
+			value: 'Sugerido',
+		},
+		term: {
+			value: (data) => `${data.term.value}`,
+			attributes: {
+				'aria-label': (data) => `artículo ${data.index + 1} de ${data.numberOfTerms}, ${data.term.value}`,
+			},
+		},
+	},
+	'terms.trending': {
+		title: {
+			value: 'Tendencia',
+		},
+		term: {
+			value: (data) => `${data.term.value}`,
+			attributes: {
+				'aria-label': (data) => `artículo ${data.index + 1} de ${data.numberOfTerms}, ${data.term.value}`,
+			},
+		},
+	},
 	button: {},
 	search: {},
 	list: {},
@@ -15,56 +70,6 @@ export const es: LangComponents = {
 	perPage: {
 		label: {
 			value: 'Por Página',
-		},
-	},
-	autocomplete: {
-		trendingTitle: {
-			value: 'Búsquedas populares',
-		},
-		termsTitle: {
-			value: '',
-		},
-		contentTitle: {
-			value: '',
-		},
-		facetsTitle: {
-			value: '',
-		},
-		historyTitle: {
-			value: 'Búsquedas anteriores',
-		},
-		closeButton: {
-			value: 'Cerrar autocompletar',
-			attributes: {
-				'aria-label': 'cerrar autocompletar',
-			},
-		},
-		noResultsText: {
-			value: (data) =>
-				`<p>No se encontraron resultados para "${
-					data?.controller.store.search.originalQuery?.string || data?.controller.store.search.query?.string
-				}".</p><p>Intenta con otra búsqueda.</p>`,
-		},
-		contentInfo: {
-			value: (data) =>
-				`Ver ${data?.controller.store.pagination.totalResults} ${
-					data?.controller.store.filters.length && data?.controller.store.filters.length > 0 ? 'resultado(s) filtrado(s)' : 'resultado(s)'
-				} para "${data?.controller.store.search.query?.string}"`,
-		},
-		historyTerm: {
-			attributes: {
-				'aria-label': (data) => `ítem ${data?.index! + 1} de ${data?.controller.store.history.length}, ${data?.term.value}`,
-			},
-		},
-		trendingTerm: {
-			attributes: {
-				'aria-label': (data) => `ítem ${data?.index! + 1} de ${data?.controller.store.trending.length}, ${data?.term.value}`,
-			},
-		},
-		suggestionsTerm: {
-			attributes: {
-				'aria-label': (data) => `ítem ${data?.index! + 1} de ${data?.controller.store.terms.length}, ${data?.term.value}`,
-			},
 		},
 	},
 	sidebar: {

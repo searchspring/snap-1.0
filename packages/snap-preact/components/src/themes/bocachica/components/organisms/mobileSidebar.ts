@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { MobileSidebarProps } from '../../../../components/Organisms/MobileSidebar';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = ({ theme }: MobileSidebarProps) => {
@@ -27,15 +28,13 @@ const mobileSidebarStyleScript = ({ theme }: MobileSidebarProps) => {
 			padding: '5px',
 		},
 
-		[`@media (max-width: ${variables?.breakpoints[2]}px)`]: {
+		[`@media (max-width: ${variables?.breakpoints?.desktop}px)`]: {
 			'.ss__mobile-sidebar__body': {
 				//83px is the height of the footer & footer
 				height: 'calc(100vh - 100px)',
 				overflow: 'scroll',
 			},
 			'.ss__per-page, .ss__sortby': {
-				display: 'inline-flex',
-				width: '49%',
 				fontSize: '10px',
 
 				'.ss__dropdown': {
@@ -52,13 +51,15 @@ const mobileSidebarStyleScript = ({ theme }: MobileSidebarProps) => {
 };
 
 // MobileSidebar component props
-export const mobileSidebar: ThemeComponentProps<MobileSidebarProps> = {
+export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> = {
 	default: {
-		themeStyleScript: mobileSidebarStyleScript,
+		props: {
+			themeStyleScript: mobileSidebarStyleScript,
+		},
+		components: {
+			'*mobileSidebar button.slideout': {
+				icon: 'filters',
+			},
+		},
 	},
-	mobile: {
-		hideSortBy: false,
-	},
-	tablet: {},
-	desktop: {},
 };

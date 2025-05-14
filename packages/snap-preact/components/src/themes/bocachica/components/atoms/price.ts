@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { PriceProps } from '../../../../components/Atoms/Price';
+import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Price component
 const priceStyleScript = ({ theme }: PriceProps) => {
@@ -15,11 +16,10 @@ const priceStyleScript = ({ theme }: PriceProps) => {
 };
 
 // Price component props
-export const price: ThemeComponentProps<PriceProps> = {
+export const price: ThemeComponent<'price', PriceProps> = {
 	default: {
-		themeStyleScript: priceStyleScript,
+		props: {
+			themeStyleScript: priceStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

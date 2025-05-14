@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import type { SelectProps } from '../../../../components/Molecules/Select';
+import { ThemeComponent } from '../../../../providers';
 import Color from 'color';
 
 // CSS in JS style script for the Select component
@@ -69,13 +70,12 @@ const selectStyleScript = ({ backgroundColor, theme }: SelectProps) => {
 };
 
 // Select component props
-export const select: ThemeComponentProps<SelectProps> = {
+export const select: ThemeComponent<'select', SelectProps> = {
 	default: {
-		themeStyleScript: selectStyleScript,
-		iconClose: 'angle-down',
-		iconOpen: 'angle-down',
+		props: {
+			themeStyleScript: selectStyleScript,
+			iconClose: 'angle-down',
+			iconOpen: 'angle-down',
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

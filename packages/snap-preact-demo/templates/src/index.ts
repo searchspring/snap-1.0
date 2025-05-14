@@ -18,9 +18,13 @@ let config: SnapTemplatesConfig = {
 	},
 	themes: {
 		global: {
-			extends: 'bocachica',
+			extends: 'base',
 			variables: {
-				breakpoints: [768, 1024, 1280],
+				breakpoints: {
+					mobile: 768,
+					tablet: 1024,
+					desktop: 1280,
+				},
 				// colors: {
 				// 	primary: '#6d7175',
 				// 	secondary: '#202223',
@@ -29,79 +33,7 @@ let config: SnapTemplatesConfig = {
 			},
 			style: globalStyles,
 			overrides: {
-				components: {
-					// "searchHorizontal toolbar.top": {
-					// 	hideLayoutSelector: false,
-					// },
-					button: {},
-					// recommendation: {
-					// 	lazyRender: {
-					// 		enabled: false,
-					// 	},
-					// },
-					// recommendationBundle: {
-					// 	lazyRender: {
-					// 		enabled: false,
-					// 	},
-					// },
-					// noResults: {
-					// 	templates: {
-					// 		recommendation: {
-					// 			enabled: true,
-					// 			component: 'Recommendation',
-					// 			config: {
-					// 				tag: 'similar',
-					// 			},
-					// 		},
-					// 	},
-					// },
-					// toolbar: {
-					// 	hidePerPage: true,
-					// },
-					// 'toolbar.top': {
-					// 	hidePerPage: true,
-					// 	hidePagination: true,
-					// },
-					// 'search toolbar.top': {
-					// 	hidePerPage: false,
-					// 	hidePagination: false,
-					// },
-					// 'search toolbar': {
-					// 	hidePerPage: false,
-					// },
-					// 'search toolbar.bottom': {
-					// 	hidePerPage: false,
-					// 	hidePagination: false,
-					// },
-				},
-				// layoutOptions: [
-				// 	{
-				// 		value: 2,
-				// 		label: 'two',
-				// 		overrides: {
-				// 			components: {
-				// 				toolbar: {
-				// 					hideSortBy: true,
-				// 				},
-				// 				results: {
-				// 					columns: 2,
-				// 				},
-				// 			},
-				// 		},
-				// 	},
-				// 	{
-				// 		value: 4,
-				// 		label: 'four',
-				// 		default: true,
-				// 		overrides: {
-				// 			components: {
-				// 				results: {
-				// 					columns: 4,
-				// 				},
-				// 			},
-				// 		},
-				// 	},
-				// ],
+				components: {},
 			},
 		},
 	},
@@ -114,6 +46,11 @@ let config: SnapTemplatesConfig = {
 		default: {
 			Default: {
 				component: 'Recommendation',
+			},
+		},
+		bundle: {
+			Bundle: {
+				component: 'RecommendationBundle',
 			},
 		},
 	},
@@ -129,7 +66,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: 'input.searchspring-ac',
-				component: 'Autocomplete',
+				component: 'AutocompleteTemplate',
 			},
 		],
 	},
@@ -140,3 +77,27 @@ if (window.mergeSnapConfig) {
 }
 
 new SnapTemplates(config);
+
+/*
+
+Overrides are taking priority over the theme layouts (responsive) specified within the Search component - but they shouldn't be.
+Look into:
+			overrides: {
+				'toolbar.top': {
+					layout: [
+						['Banner.header'],
+					]
+				},
+				'toolbar.middle': {
+					layout: [
+						['_', 'Pagination'],
+						['Pagination'],
+						['Pagination'],
+						['Pagination'],
+						['Pagination'],
+						['Banner.banner']
+					]
+				},
+			},
+
+*/

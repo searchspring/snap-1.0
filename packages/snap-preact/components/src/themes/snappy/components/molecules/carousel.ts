@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import type { CarouselProps } from '../../../../components/Molecules/Carousel';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the Carousel component
 const carouselStyleScript = ({ theme }: CarouselProps) => {
 	const variables = theme?.variables;
@@ -18,11 +18,10 @@ const carouselStyleScript = ({ theme }: CarouselProps) => {
 };
 
 // Carousel component props
-export const carousel: ThemeComponentProps<CarouselProps> = {
+export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 	default: {
-		themeStyleScript: carouselStyleScript,
+		props: {
+			themeStyleScript: carouselStyleScript,
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import type { LayoutSelectorProps } from '../../../../components/Molecules/LayoutSelector';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the LayoutSelector component
 const layoutSelectorStyleScript = ({ theme }: LayoutSelectorProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -43,20 +43,17 @@ const layoutSelectorStyleScript = ({ theme }: LayoutSelectorProps) => {
 };
 
 // LayoutSelector component props
-export const layoutSelector: ThemeComponentProps<LayoutSelectorProps> = {
+export const layoutSelector: ThemeComponent<'layoutSelector', LayoutSelectorProps> = {
 	default: {
-		themeStyleScript: layoutSelectorStyleScript,
-		type: 'list',
-		hideLabel: true,
-		theme: {
-			components: {
-				icon: {
-					size: '5px',
-				},
+		props: {
+			themeStyleScript: layoutSelectorStyleScript,
+			type: 'list',
+			hideLabel: true,
+		},
+		components: {
+			'*layoutSelector icon': {
+				size: '5px',
 			},
 		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

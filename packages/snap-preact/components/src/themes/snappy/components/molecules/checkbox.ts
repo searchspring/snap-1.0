@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { CheckboxProps } from '../../../../components/Molecules/Checkbox';
 import Color from 'color';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = ({ color, theme }: CheckboxProps) => {
 	const variables = theme?.variables;
@@ -25,12 +25,11 @@ const checkboxStyleScript = ({ color, theme }: CheckboxProps) => {
 };
 
 // Checkbox component props
-export const checkbox: ThemeComponentProps<CheckboxProps> = {
+export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 	default: {
-		themeStyleScript: checkboxStyleScript,
-		size: '18px',
+		props: {
+			themeStyleScript: checkboxStyleScript,
+			size: '18px',
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

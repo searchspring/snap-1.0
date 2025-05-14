@@ -12,39 +12,39 @@ describe('Theme variables work', () => {
 				themes: {
 					custom: {
 						extends: 'bocachica',
-						// variables: {
-						// default breakpoints: [767, 991, 1299],
-						// breakpoints: [540, 767, 1200],
-						// },
+						variables: {
+							breakpoints: {
+								mobile: 767,
+								tablet: 991,
+								desktop: 1299,
+							},
+						},
 						overrides: {
 							components: {
 								searchHeader: {
 									titleText: 'default title text',
 								},
+								search: {
+									toggleSidebarStartClosed: false,
+								},
 							},
-							responsive: [
-								{
-									components: {
-										searchHeader: {
-											titleText: '0 - 767',
-										},
+							responsive: {
+								mobile: {
+									searchHeader: {
+										titleText: '0 - 767',
 									},
 								},
-								{
-									components: {
-										searchHeader: {
-											titleText: '767 - 991',
-										},
+								tablet: {
+									searchHeader: {
+										titleText: '767 - 991',
 									},
 								},
-								{
-									components: {
-										searchHeader: {
-											titleText: '991 - 1299',
-										},
+								desktop: {
+									searchHeader: {
+										titleText: '991 - 1299',
 									},
 								},
-							],
+							},
 						},
 					},
 				},
@@ -94,38 +94,38 @@ describe('Theme variables work', () => {
 					custom: {
 						extends: 'bocachica',
 						variables: {
-							// default breakpoints: [767, 991, 1299],
-							breakpoints: [540, 767, 1200],
+							breakpoints: {
+								mobile: 540,
+								tablet: 767,
+								desktop: 1200,
+							},
 						},
 						overrides: {
 							components: {
 								searchHeader: {
 									titleText: 'default title text',
 								},
+								search: {
+									toggleSidebarStartClosed: false,
+								},
 							},
-							responsive: [
-								{
-									components: {
-										searchHeader: {
-											titleText: '0 - 540',
-										},
+							responsive: {
+								mobile: {
+									searchHeader: {
+										titleText: '0 - 540',
 									},
 								},
-								{
-									components: {
-										searchHeader: {
-											titleText: '540 - 767',
-										},
+								tablet: {
+									searchHeader: {
+										titleText: '540 - 767',
 									},
 								},
-								{
-									components: {
-										searchHeader: {
-											titleText: '767 - 1200',
-										},
+								desktop: {
+									searchHeader: {
+										titleText: '767 - 1200',
 									},
 								},
-							],
+							},
 						},
 					},
 				},
@@ -184,6 +184,18 @@ describe('Theme variables work', () => {
 						// accent: '#3a23ad',
 						//     }
 						// },
+						breakpoints: {
+							mobile: 767,
+							tablet: 991,
+							desktop: 1299,
+						},
+						overrides: {
+							components: {
+								search: {
+									toggleSidebarStartClosed: false,
+								},
+							},
+						},
 					},
 				},
 				search: {
@@ -228,6 +240,13 @@ describe('Theme variables work', () => {
 								primary: 'rgb(33, 33, 255)',
 								secondary: 'rgb(44, 44, 255)',
 								accent: 'rgb(55, 55, 255)',
+							},
+						},
+						overrides: {
+							components: {
+								search: {
+									toggleSidebarStartClosed: false,
+								},
 							},
 						},
 					},

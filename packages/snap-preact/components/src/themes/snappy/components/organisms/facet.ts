@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import type { FacetProps } from '../../../../components/Organisms/Facet';
-
+import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the Facet component
 const facetStyleScript = ({ color, theme }: FacetProps) => {
 	const variables = theme?.variables;
@@ -54,17 +54,16 @@ const facetStyleScript = ({ color, theme }: FacetProps) => {
 };
 
 // Facet component props
-export const facet: ThemeComponentProps<FacetProps> = {
+export const facet: ThemeComponent<'facet', FacetProps> = {
 	default: {
-		themeStyleScript: facetStyleScript,
-		iconCollapse: 'angle-down',
-		iconExpand: 'angle-down',
-		iconOverflowMore: undefined,
-		iconOverflowLess: undefined,
-		showMoreText: 'View More',
-		showLessText: 'View Less',
+		props: {
+			themeStyleScript: facetStyleScript,
+			iconCollapse: 'angle-down',
+			iconExpand: 'angle-down',
+			iconOverflowMore: undefined,
+			iconOverflowLess: undefined,
+			showMoreText: 'View More',
+			showLessText: 'View Less',
+		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };
