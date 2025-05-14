@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { SnapTemplates, TemplatesStore } from '../../src';
 import { ThemeProvider } from '../src/providers/theme';
-import { base, bocachica, snappy, snapnco } from '../src/themes';
+import { base, bocachica, snappy, snapnco, pike } from '../src/themes';
 
 // custom styles for storybook
 import './styles.scss';
@@ -24,10 +24,11 @@ const snapTemplates = new SnapTemplates({
 });
 
 // need to add each theme synchronously
-addTheme(snapTemplates, 'snappy', snappy);
-addTheme(snapTemplates, 'bocachica', bocachica);
-addTheme(snapTemplates, 'snapnco', snapnco);
 addTheme(snapTemplates, 'base', base);
+addTheme(snapTemplates, 'bocachica', bocachica);
+addTheme(snapTemplates, 'pike', pike);
+addTheme(snapTemplates, 'snapnco', snapnco);
+addTheme(snapTemplates, 'snappy', snappy);
 
 const Providers = observer(
 	({ templateStore, children, themeName }: { templateStore: TemplatesStore; themeName: string; children: ComponentChildren }) => {
@@ -65,6 +66,7 @@ export const decorators = [
 					? snapTemplates.templates.themes.library.bocachica.theme
 					: snapTemplates.templates.themes.local.bocachicaSimple.theme,
 				base: templateStory ? snapTemplates.templates.themes.library.base.theme : snapTemplates.templates.themes.local.baseSimple.theme,
+				pike: templateStory ? snapTemplates.templates.themes.library.pike.theme : snapTemplates.templates.themes.local.pikeSimple.theme,
 			},
 			defaultTheme: 'base',
 			Provider: templateStory ? CustomThemeProvider : ThemeProvider,

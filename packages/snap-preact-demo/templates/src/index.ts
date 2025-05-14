@@ -18,13 +18,13 @@ let config: SnapTemplatesConfig = {
 	},
 	themes: {
 		global: {
-			extends: 'base',
+			extends: 'pike',
 			variables: {
-				breakpoints: {
-					mobile: 768,
-					tablet: 1024,
-					desktop: 1280,
-				},
+				// breakpoints: {
+				// 	mobile: 768,
+				// 	tablet: 1024,
+				// 	desktop: 1280,
+				// },
 				// colors: {
 				// 	primary: '#6d7175',
 				// 	secondary: '#202223',
@@ -58,7 +58,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'Search',
+				component: 'SearchHorizontal',
 			},
 		],
 	},
