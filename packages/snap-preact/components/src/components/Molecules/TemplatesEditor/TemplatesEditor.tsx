@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { css, Global } from '@emotion/react';
 import classnames from 'classnames';
-import { useCallback, useCallback, useEffect, useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 import { ComponentProps, RootNodeProperties } from '../../../types';
 import { ChromePicker } from 'react-color';
 import { Icon } from '../../Atoms/Icon/Icon';
@@ -22,7 +22,7 @@ const CSS = {
 		css({
 			display: 'flex',
 			flexDirection: 'column',
-			minWidth: '420px',
+			width: '420px',
 			overflow: 'hidden',
 			fontSize: '14px',
 			position: 'fixed',
@@ -248,8 +248,35 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 				{!collapsed ? (
 					<Global
 						styles={css`
-							${selectedTarget.selector} {
-								border: 1px dashed black !important;
+							.ss-overlay {
+								position: fixed;
+								top: 0;
+								left: 0;
+								background-color: rgba(58, 35, 173, 0.5);
+								pointer-events: none;
+								z-index: 1000;
+							}
+							.ss-tooltip {
+								position: fixed;
+								background-color: white;
+								border: 2px solid #3a23ad;
+								padding: 10px 15px;
+								max-width: 300px;
+								min-width: 200px;
+								max-height: 500px;
+								overflow: auto;
+								pointer-events: none;
+								box-sizing: border-box;
+								z-index: 1000;
+								opacity: 1;
+								box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+								label {
+									display: block;
+									margin-bottom: 5px;
+								}
+								br {
+									margin: 5px 0;
+								}
 							}
 						`}
 					/>
@@ -440,7 +467,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 					<span>Current autocompleteSelector: {autocompleteSelector}</span>
 					<DomSelector
 						elementSelector={'input[type="text"]'}
-						onSelectHandler={(elemSelector) => setAutocompleteSelector(elemSelector)}
+						onSelectHandler={(elemSelector: any) => setAutocompleteSelector(elemSelector)}
 						type="autocomplete"
 						currentSelector={currentSelector}
 						setCurrentSelector={setCurrentSelector}
@@ -448,7 +475,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 					<span>Current contentSelector: {contentSelector}</span>
 					<DomSelector
 						elementSelector={'div, section, article, aside'}
-						onSelectHandler={(elemSelector) => setContentSelector(elemSelector)}
+						onSelectHandler={(elemSelector: any) => setContentSelector(elemSelector)}
 						type="content"
 						currentSelector={currentSelector}
 						setCurrentSelector={setCurrentSelector}
@@ -456,7 +483,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 					<span>Current componentSelector: {componentSelector}</span>
 					<DomSelector
 						elementSelector={'[ss-path]'}
-						onSelectHandler={(elemSelector) => setComponentSelector(elemSelector)}
+						onSelectHandler={(elemSelector: any) => setComponentSelector(elemSelector)}
 						type="component"
 						currentSelector={currentSelector}
 						setCurrentSelector={setCurrentSelector}
@@ -558,6 +585,9 @@ const ElementSelectorHelpers = {
 
 		return null;
 	},
+	getSSPath: function (elem: HTMLElement) {
+		return elem.getAttribute('ss-path') || '';
+	},
 };
 
 export interface TemplatesEditorProps extends ComponentProps {
@@ -565,58 +595,94 @@ export interface TemplatesEditorProps extends ComponentProps {
 	templatesStore: any;
 }
 
-const DomSelector = (props) => {
+const DomSelector = (props: any) => {
 	const { elementSelector, onSelectHandler, type, currentSelector, setCurrentSelector } = props;
 
 	const [active, setActive] = useState(currentSelector === type);
 
 	const elements = document.querySelectorAll(elementSelector);
 
-	const clickListener = useCallback((e) => {
+	const clickListener = useCallback((e: any) => {
 		e.preventDefault();
 		e.stopPropagation();
 		// get element from event
 		const target = e.target.closest(elementSelector);
-		if (target) {
-			target.style.border = '3px solid green';
+		if (!target) return;
+		if (type == 'component') {
+			const ssPath = ElementSelectorHelpers.getSSPath(target);
+			if (ssPath) {
+				// TODO: open editor with ssPath component
+				onSelectHandler(ssPath);
+			}
+		} else {
 			onSelectHandler(ElementSelectorHelpers.getShortestUniqueSelector(target));
-			target.style.border = 'none';
 		}
 
 		setCurrentSelector('');
+		cleanUp();
 	}, []);
 
-	const onMouseOverListener = useCallback((e) => {
+	const onMouseOverListener = useCallback((e: any) => {
+		e.preventDefault();
+		e.stopPropagation();
 		// add styling and tooltip thing
-		const target = e.target.closest(elementSelector);
+		const target = e.target.closest(elementSelector) as HTMLElement;
 		if (target) {
-			target.style.border = '3px solid green';
+			const overlay = document.createElement('div');
+			overlay.classList.add('ss-overlay');
+			overlay.style.width = `${target.getBoundingClientRect().width}px`;
+			overlay.style.height = `${target.getBoundingClientRect().height}px`;
+			overlay.style.left = `${target.getBoundingClientRect().left}px`;
+			overlay.style.top = `${target.getBoundingClientRect().top}px`;
+
+			const tooltip = document.createElement('div');
+			tooltip.classList.add('ss-tooltip');
+			tooltip.style.left = `${target.getBoundingClientRect().left}px`;
+			tooltip.style.top = `${target.getBoundingClientRect().bottom}px`;
+
+			const ssPath = ElementSelectorHelpers.getSSPath(target);
+			tooltip.innerHTML += `
+				${ssPath ? `<label><b>SS-Path:</b> ${ssPath}</label>` : ''}
+				<br />
+				<label><b>Shortest Unique Selector:</b> ${ElementSelectorHelpers.getShortestUniqueSelector(target)}</label>
+			`;
+			document.body.appendChild(tooltip);
+			document.body.appendChild(overlay);
 		}
 	}, []);
 
-	const onMouseOutListener = useCallback((e) => {
-		// remove styling and tooltip thing
-		const target = e.target.closest(elementSelector);
-		if (target) {
-			target.style.border = 'none';
+	const cleanUp = () => {
+		// remove the tooltip overlay
+		const tooltipOverlay = document.querySelector('.ss-tooltip');
+		if (tooltipOverlay) {
+			tooltipOverlay.remove();
 		}
+		const overlay = document.querySelector('.ss-overlay');
+		if (overlay) {
+			overlay.remove();
+		}
+	};
+
+	const onMouseOutListener = useCallback(() => {
+		cleanUp();
 	}, []);
 
 	const removeEvents = () => {
-		console.log(elements.length);
 		elements.forEach((elem) => {
 			elem.removeEventListener('click', clickListener);
 			elem.removeEventListener('mouseover', onMouseOverListener);
 			elem.removeEventListener('mouseout', onMouseOutListener);
+			elem.style.outline = 'none';
 		});
+		cleanUp();
 	};
 
 	const addEvents = () => {
-		console.log(elements);
 		elements.forEach((elem) => {
 			elem.addEventListener('click', clickListener);
 			elem.addEventListener('mouseover', onMouseOverListener);
 			elem.addEventListener('mouseout', onMouseOutListener);
+			elem.style.outline = '1px dotted #3a23ad';
 		});
 	};
 
@@ -644,6 +710,7 @@ const DomSelector = (props) => {
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
 				setCurrentSelector('');
+				cleanUp();
 			}
 		};
 		document.addEventListener('keydown', handleKeyDown);
