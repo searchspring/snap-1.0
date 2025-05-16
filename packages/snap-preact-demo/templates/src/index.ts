@@ -14,6 +14,7 @@ let config: SnapTemplatesConfig = {
 	components: {
 		result: {
 			CustomResult: async () => (await import('./components/Result')).CustomResult,
+			EmailResult: async () => (await import('./components/Result')).CustomResult,
 		},
 	},
 	themes: {
@@ -41,6 +42,7 @@ let config: SnapTemplatesConfig = {
 		email: {
 			Email: {
 				component: 'RecommendationEmail',
+				resultComponent: 'EmailResult',
 			},
 		},
 		default: {
@@ -58,7 +60,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchHorizontal',
+				component: 'SearchBoca',
 			},
 		],
 	},

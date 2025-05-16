@@ -1,0 +1,29 @@
+import { css } from '@emotion/react';
+import type { RecommendationBundleProps } from '../../../../components/Templates/RecommendationBundle';
+import { recommendationBundleThemeComponentProps } from '../../../themeComponents/recommendationBundle';
+import { ThemeComponent } from '../../../../providers';
+import { customVariables } from '../../custom';
+
+// CSS in JS style script for the RecommendationBundle component
+const recommendationBundleStyleScript = ({ theme }: any) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const variables = theme?.variables;
+
+	return css({});
+};
+
+// RecommendationBundle component props come from Template export
+export const recommendationBundle: ThemeComponent<'recommendationBundle', RecommendationBundleProps> = {
+	default: {
+		props: {
+			...recommendationBundleThemeComponentProps.default?.props,
+			themeStyleScript: recommendationBundleStyleScript,
+			separatorIcon: customVariables.icons.plus,
+			ctaIcon: customVariables.icons.bag,
+		},
+		components: recommendationBundleThemeComponentProps.default?.components,
+	},
+	mobile: recommendationBundleThemeComponentProps.mobile,
+	desktop: recommendationBundleThemeComponentProps.desktop,
+	tablet: recommendationBundleThemeComponentProps.tablet,
+};
