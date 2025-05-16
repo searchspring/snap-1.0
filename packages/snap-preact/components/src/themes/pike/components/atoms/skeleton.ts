@@ -3,9 +3,9 @@ import type { SkeletonProps } from '../../../../components/Atoms/Skeleton';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Skeleton component
-const skeletonStyleScript = ({ theme }: SkeletonProps) => {
+const skeletonStyleScript = (props: SkeletonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

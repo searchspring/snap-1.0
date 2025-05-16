@@ -4,9 +4,9 @@ import { recommendationBundleVerticalThemeComponentProps } from '../../../themeC
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the RecommendationBundle component
-const recommendationBundleVerticalStyleScript = ({ theme }: RecommendationBundleVerticalProps) => {
+const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVerticalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

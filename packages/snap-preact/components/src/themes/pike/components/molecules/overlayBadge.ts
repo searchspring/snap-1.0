@@ -3,9 +3,9 @@ import type { OverlayBadgeProps } from '../../../../components/Molecules/Overlay
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Search component
-const overlayBadgeStyleScript = ({ theme }: OverlayBadgeProps) => {
+const overlayBadgeStyleScript = (props: OverlayBadgeProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

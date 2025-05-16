@@ -3,9 +3,9 @@ import type { SidebarProps } from '../../../../components/Organisms/Sidebar';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Sidebar component
-const sidebarStyleScript = ({ theme }: SidebarProps) => {
+const sidebarStyleScript = (props: SidebarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

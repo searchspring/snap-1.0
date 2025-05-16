@@ -3,9 +3,9 @@ import type { FacetsHorizontalProps } from '../../../../components/Organisms/Fac
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Facets component
-const facetsHorizontalStyleScript = ({ theme }: FacetsHorizontalProps) => {
+const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

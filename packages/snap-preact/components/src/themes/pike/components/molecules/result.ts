@@ -3,9 +3,9 @@ import type { ResultProps } from '../../../../components/Molecules/Result';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Result component
-const resultStyleScript = ({ theme }: ResultProps) => {
+const resultStyleScript = (props: ResultProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

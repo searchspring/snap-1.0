@@ -3,9 +3,9 @@ import type { ErrorHandlerProps } from '../../../../components/Molecules/ErrorHa
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the ErrorHandler component
-const errorHandlerStyleScript = ({ theme }: ErrorHandlerProps) => {
+const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

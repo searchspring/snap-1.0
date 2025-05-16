@@ -5,9 +5,9 @@ import { ThemeComponent } from '../../../../providers';
 import { customVariables } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundle component
-const recommendationBundleStyleScript = ({ theme }: any) => {
+const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

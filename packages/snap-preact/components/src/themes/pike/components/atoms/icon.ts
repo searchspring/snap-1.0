@@ -1,13 +1,17 @@
 import { css } from '@emotion/react';
 import type { IconProps } from '../../../../components/Atoms/Icon';
 import { ThemeComponent } from '../../../../providers';
+import { customVariables } from '../../custom';
 
 // CSS in JS style script for the Icon component
-const iconStyleScript = ({ theme }: IconProps) => {
+const iconStyleScript = (props: IconProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
-	return css({});
+	return css({
+		fill: 'currentColor',
+		stroke: 'currentColor',
+	});
 };
 
 // Icon component props
@@ -15,6 +19,7 @@ export const icon: ThemeComponent<'icon', IconProps> = {
 	default: {
 		props: {
 			themeStyleScript: iconStyleScript,
+			size: customVariables.sizes.icons,
 		},
 	},
 };

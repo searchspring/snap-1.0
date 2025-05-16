@@ -3,9 +3,9 @@ import type { FilterProps } from '../../../../components/Molecules/Filter';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Filter component
-const filterStyleScript = ({ theme }: FilterProps) => {
+const filterStyleScript = (props: FilterProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

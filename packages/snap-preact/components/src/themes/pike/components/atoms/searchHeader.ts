@@ -3,9 +3,9 @@ import type { SearchHeaderProps } from '../../../../components/Atoms/SearchHeade
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the SearchHeader component
-const searchHeaderStyleScript = ({ theme }: SearchHeaderProps) => {
+const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

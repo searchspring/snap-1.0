@@ -4,9 +4,9 @@ import { autocompleteThemeComponentProps } from '../../../themeComponents/autoco
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Search component
-const autocompleteTemplateStyleScript = ({ theme }: AutocompleteTemplateProps) => {
+const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

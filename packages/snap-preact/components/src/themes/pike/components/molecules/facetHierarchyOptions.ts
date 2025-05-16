@@ -3,9 +3,9 @@ import type { FacetHierarchyOptionsProps } from '../../../../components/Molecule
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the FacetHierarchyOptions component
-const facetHierarchyOptionsStyleScript = ({ theme }: FacetHierarchyOptionsProps) => {
+const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

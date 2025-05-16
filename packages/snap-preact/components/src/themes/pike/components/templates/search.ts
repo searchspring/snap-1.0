@@ -2,13 +2,21 @@ import { css } from '@emotion/react';
 import type { SearchProps } from '../../../../components/Templates/Search';
 import { searchThemeComponentProps } from '../../../themeComponents/search';
 import { ThemeComponent } from '../../../../providers';
+import { customVariables } from '../../custom';
 
 // CSS in JS style script for the Search component
-const searchStyleScript = ({ theme }: SearchProps) => {
+const searchStyleScript = (props: SearchProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
-	return css({});
+	return css({
+		'.ss__button--sidebar-toggle-button-wrapper .ss__button': {
+			'.ss__icon': {
+				width: '16px',
+				height: '16px',
+			},
+		},
+	});
 };
 
 // Search component props come from Template export
@@ -21,7 +29,7 @@ export const search: ThemeComponent<'search', SearchProps> = {
 		components: {
 			...searchThemeComponentProps.default?.components,
 			'*search button.sidebar-toggle': {
-				icon: 'heart',
+				icon: customVariables.icons.filter,
 			},
 		},
 	},

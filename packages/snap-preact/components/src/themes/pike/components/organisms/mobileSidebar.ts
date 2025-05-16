@@ -4,9 +4,9 @@ import { ThemeComponent } from '../../../../providers';
 import { customVariables } from '../../custom';
 
 // CSS in JS style script for the MobileSidebar component
-const mobileSidebarStyleScript = ({ theme }: MobileSidebarProps) => {
+const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };
@@ -20,7 +20,7 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 		},
 		components: {
 			'*mobileSidebar button.close': {
-				icon: 'heart',
+				icon: customVariables.icons.close,
 			},
 		},
 	},

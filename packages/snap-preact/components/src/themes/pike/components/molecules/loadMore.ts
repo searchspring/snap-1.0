@@ -3,9 +3,9 @@ import type { LoadMoreProps } from '../../../../components/Molecules/LoadMore';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the LoadMore component
-const loadMoreStyleScript = ({ theme }: LoadMoreProps) => {
+const loadMoreStyleScript = (props: LoadMoreProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

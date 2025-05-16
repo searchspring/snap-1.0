@@ -3,9 +3,9 @@ import type { PriceProps } from '../../../../components/Atoms/Price';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Price component
-const priceStyleScript = ({ theme }: PriceProps) => {
+const priceStyleScript = (props: PriceProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

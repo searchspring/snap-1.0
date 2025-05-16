@@ -3,9 +3,9 @@ import type { SwatchesProps } from '../../../../components/Molecules/Swatches';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Swatches component
-const swatchesStyleScript = ({ theme }: SwatchesProps) => {
+const swatchesStyleScript = (props: SwatchesProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

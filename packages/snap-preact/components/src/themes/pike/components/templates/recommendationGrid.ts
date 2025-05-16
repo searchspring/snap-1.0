@@ -4,9 +4,9 @@ import { recommendationGridThemeComponentProps } from '../../../themeComponents/
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the RecommendationBundle component
-const recommendationGridStyleScript = ({ theme }: RecommendationGridProps) => {
+const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

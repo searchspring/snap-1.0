@@ -3,9 +3,9 @@ import type { SortByProps } from '../../../../components/Molecules/SortBy';
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the SortBy component
-const sortByStyleScript = ({ theme }: SortByProps) => {
+const sortByStyleScript = (props: SortByProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

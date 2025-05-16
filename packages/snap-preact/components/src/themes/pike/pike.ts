@@ -10,8 +10,8 @@ const pikeVariables: ThemeVariables = {
 	},
 	colors: {
 		text: '#515151',
-		primary: '#1d4990',
-		secondary: '#00aeef',
+		primary: '#00aeef',
+		secondary: '#1d4990',
 		accent: '#2154a5',
 	},
 };

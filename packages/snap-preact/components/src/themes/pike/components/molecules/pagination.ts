@@ -3,9 +3,9 @@ import type { PaginationProps } from '../../../../components/Molecules/Paginatio
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the Pagination component
-const paginationStyleScript = ({ theme }: PaginationProps) => {
+const paginationStyleScript = (props: PaginationProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };

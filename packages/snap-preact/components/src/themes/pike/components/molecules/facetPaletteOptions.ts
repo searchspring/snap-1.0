@@ -3,9 +3,9 @@ import type { FacetPaletteOptionsProps } from '../../../../components/Molecules/
 import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the FacetPaletteOptions component
-const facetPaletteStyleScript = ({ theme }: FacetPaletteOptionsProps) => {
+const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const variables = theme?.variables;
+	const variables = props?.theme?.variables;
 
 	return css({});
 };
