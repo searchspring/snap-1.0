@@ -13,6 +13,9 @@ export const customVariables: {
 	sizes: {
 		[size: string]: any;
 	};
+	spacing: {
+		[size: string]: number;
+	};
 } = {
 	colors: {
 		white: '#ffffff',
@@ -40,8 +43,15 @@ export const customVariables: {
 		sort: 'sort',
 	},
 	sizes: {
-		height: 35, // refers to height for button and dropdown sizes
+		height: 33, // refers to height for button and dropdown sizes
 		icons: 12,
-		spacing: 20,
+	},
+	spacing: {
+		x1: 5,
+		x2: 10,
+		x3: 15,
+		x4: 20,
+		x5: 25,
+		x6: 30,
 	},
 };

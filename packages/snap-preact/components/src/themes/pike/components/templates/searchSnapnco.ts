@@ -9,14 +9,7 @@ const searchSnapncoStyleScript = (props: SearchSnapncoProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		'.ss__button--sidebar-toggle-button-wrapper .ss__button': {
-			'.ss__icon': {
-				width: '16px',
-				height: '16px',
-			},
-		},
-	});
+	return css({});
 };
 
 // Search component props come from Template export
@@ -30,6 +23,9 @@ export const searchSnapnco: ThemeComponent<'searchSnapnco', SearchSnapncoProps> 
 			...searchSnapncoThemeComponentProps.default?.components,
 			'*searchSnapnco button.sidebar-toggle': {
 				icon: customVariables.icons.filter,
+			},
+			'*searchSnapnco button.sidebar-toggle icon': {
+				size: '16px',
 			},
 		},
 	},

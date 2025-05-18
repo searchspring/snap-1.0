@@ -7,7 +7,12 @@ const loadingBarStyleScript = (props: LoadingBarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({});
+	return css({
+		background: variables?.colors?.primary,
+		'.ss__loading-bar__bar': {
+			background: variables?.colors?.secondary,
+		},
+	});
 };
 
 // LoadingBar component props

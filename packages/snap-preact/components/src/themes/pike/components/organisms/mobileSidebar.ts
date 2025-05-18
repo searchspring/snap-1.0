@@ -22,6 +22,9 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			'*mobileSidebar button.close': {
 				icon: customVariables.icons.close,
 			},
+			'*mobileSidebar button.slideout icon': {
+				size: '16px',
+			},
 		},
 	},
 };

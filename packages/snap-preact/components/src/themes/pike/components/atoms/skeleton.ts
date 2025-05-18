@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import type { SkeletonProps } from '../../../../components/Atoms/Skeleton';
 import { ThemeComponent } from '../../../../providers';
+import { customVariables } from '../../custom';
 
 // CSS in JS style script for the Skeleton component
 const skeletonStyleScript = (props: SkeletonProps) => {
@@ -15,6 +16,7 @@ export const skeleton: ThemeComponent<'skeleton', SkeletonProps> = {
 	default: {
 		props: {
 			themeStyleScript: skeletonStyleScript,
+			backgroundColor: customVariables.colors.gray02,
 		},
 	},
 };

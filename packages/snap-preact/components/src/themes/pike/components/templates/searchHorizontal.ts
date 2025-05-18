@@ -9,14 +9,7 @@ const searchHorizontalStyleScript = (props: SearchHorizontalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		'.ss__button--sidebar-toggle-button-wrapper .ss__button': {
-			'.ss__icon': {
-				width: '16px',
-				height: '16px',
-			},
-		},
-	});
+	return css({});
 };
 
 // Search component props come from Template export
@@ -30,6 +23,9 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 			...searchHorizontalThemeComponentProps.default?.components,
 			'*searchHorizontal button.sidebar-toggle': {
 				icon: customVariables.icons.filter,
+			},
+			'*searchHorizontal button.sidebar-toggle icon': {
+				size: '16px',
 			},
 		},
 	},

@@ -9,14 +9,7 @@ const searchStyleScript = (props: SearchProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		'.ss__button--sidebar-toggle-button-wrapper .ss__button': {
-			'.ss__icon': {
-				width: '16px',
-				height: '16px',
-			},
-		},
-	});
+	return css({});
 };
 
 // Search component props come from Template export
@@ -30,6 +23,9 @@ export const search: ThemeComponent<'search', SearchProps> = {
 			...searchThemeComponentProps.default?.components,
 			'*search button.sidebar-toggle': {
 				icon: customVariables.icons.filter,
+			},
+			'*search button.sidebar-toggle icon': {
+				size: '16px',
 			},
 		},
 	},

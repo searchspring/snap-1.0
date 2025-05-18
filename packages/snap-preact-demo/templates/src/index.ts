@@ -11,12 +11,12 @@ let config: SnapTemplatesConfig = {
 		currency: 'usd',
 		platform: 'other',
 	},
-	components: {
-		result: {
-			CustomResult: async () => (await import('./components/Result')).CustomResult,
-			EmailResult: async () => (await import('./components/Result')).CustomResult,
-		},
-	},
+	// components: {
+	// 	result: {
+	// 		CustomResult: async () => (await import('./components/Result')).CustomResult,
+	// 		EmailResult: async () => (await import('./components/Result')).CustomResult,
+	// 	},
+	// },
 	themes: {
 		global: {
 			extends: 'pike',
@@ -42,7 +42,7 @@ let config: SnapTemplatesConfig = {
 		email: {
 			Email: {
 				component: 'RecommendationEmail',
-				resultComponent: 'EmailResult',
+				//resultComponent: 'EmailResult',
 			},
 		},
 		default: {
