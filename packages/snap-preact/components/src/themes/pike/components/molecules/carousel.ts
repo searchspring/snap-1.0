@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { CarouselProps } from '../../../../components/Molecules/Carousel';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Carousel component
 const carouselStyleScript = (props: CarouselProps) => {
@@ -19,10 +19,10 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 		},
 		components: {
 			'*carousel icon.prev': {
-				icon: customVariables.icons.arrowLeft,
+				icon: custom.icons.arrowLeft,
 			},
 			'*carousel icon.next': {
-				icon: customVariables.icons.arrowRight,
+				icon: custom.icons.arrowRight,
 			},
 		},
 	},

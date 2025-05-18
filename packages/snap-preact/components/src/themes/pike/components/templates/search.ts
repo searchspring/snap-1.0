@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { SearchProps } from '../../../../components/Templates/Search';
 import { searchThemeComponentProps } from '../../../themeComponents/search';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchStyleScript = (props: SearchProps) => {
@@ -22,7 +22,7 @@ export const search: ThemeComponent<'search', SearchProps> = {
 		components: {
 			...searchThemeComponentProps.default?.components,
 			'*search button.sidebar-toggle': {
-				icon: customVariables.icons.filter,
+				icon: custom.icons.filter,
 			},
 			'*search button.sidebar-toggle icon': {
 				size: '16px',

@@ -1,17 +1,17 @@
 import { css } from '@emotion/react';
 import type { CheckboxProps } from '../../../../components/Molecules/Checkbox';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 import Color from 'color';
 
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = (props: CheckboxProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const backgroundColor = new Color(customVariables.colors.gray02).lighten(0.055);
-	const borderColor = new Color(customVariables.colors.gray02);
-	const activeIconColor = new Color(variables?.colors?.primary || customVariables.colors.black);
-	const activeBorderColor = new Color(customVariables.colors.gray02).darken(0.055);
+	const backgroundColor = new Color(custom.colors.gray02).lighten(0.055);
+	const borderColor = new Color(custom.colors.gray02);
+	const activeIconColor = new Color(variables?.colors?.primary || custom.colors.black);
+	const activeBorderColor = new Color(custom.colors.gray02).darken(0.055);
 
 	// shared checkbox styles
 	const sharedStyles = css({
@@ -49,7 +49,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			width: '16px',
 			height: '16px',
-			border: `1px solid ${customVariables.colors.gray02}`,
+			border: `1px solid ${custom.colors.gray02}`,
 			cursor: 'pointer',
 		},
 		disabledStyles,
@@ -63,7 +63,7 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 	default: {
 		props: {
 			themeStyleScript: checkboxStyleScript,
-			icon: customVariables.icons.check,
+			icon: custom.icons.check,
 			size: '14px',
 		},
 	},

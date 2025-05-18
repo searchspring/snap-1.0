@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { SearchHeaderProps } from '../../../../components/Atoms/SearchHeader';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the SearchHeader component
 const searchHeaderStyleScript = (props: SearchHeaderProps) => {
@@ -11,11 +11,11 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 	return css({
 		h3: {
 			margin: 0,
-			fontWeight: customVariables.fonts.weight02,
+			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
 		h5: {
-			margin: `${customVariables.spacing.x2}px 0 0 0`,
+			margin: `${custom.spacing.x2}px 0 0 0`,
 			fontSize: '16px',
 			fontWeight: 400,
 			color: variables?.colors?.text,

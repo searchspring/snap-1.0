@@ -1,17 +1,17 @@
 import { css } from '@emotion/react';
 import type { RadioProps } from '../../../../components/Molecules/Radio';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 import Color from 'color';
 
 // CSS in JS style script for the Radio component
 const radioStyleScript = (props: RadioProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const backgroundColor = new Color(customVariables.colors.gray02).lighten(0.055);
-	const borderColor = new Color(customVariables.colors.gray02);
-	const activeIconColor = new Color(variables?.colors?.primary || customVariables.colors.black);
-	const activeBorderColor = new Color(customVariables.colors.gray02).darken(0.055);
+	const backgroundColor = new Color(custom.colors.gray02).lighten(0.055);
+	const borderColor = new Color(custom.colors.gray02);
+	const activeIconColor = new Color(variables?.colors?.primary || custom.colors.black);
+	const activeBorderColor = new Color(custom.colors.gray02).darken(0.055);
 
 	// shared radio styles
 	const disabledStyles = css({
@@ -26,8 +26,6 @@ const radioStyleScript = (props: RadioProps) => {
 	// default styles
 	const defaultStyles = css([
 		{
-			position: 'relative',
-			top: '-1px',
 			backgroundColor: backgroundColor.hex(),
 			border: `1px solid ${props?.checked ? activeBorderColor.hex() : borderColor.hex()}`,
 			'&, & .ss__icon': {
@@ -49,7 +47,7 @@ const radioStyleScript = (props: RadioProps) => {
 			'.ss__radio__input': {
 				width: '16px',
 				height: '16px',
-				border: `1px solid ${customVariables.colors.gray02}`,
+				border: `1px solid ${custom.colors.gray02}`,
 				cursor: 'pointer',
 			},
 		},

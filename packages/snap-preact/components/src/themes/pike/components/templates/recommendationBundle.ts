@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { RecommendationBundleProps } from '../../../../components/Templates/RecommendationBundle';
 import { recommendationBundleThemeComponentProps } from '../../../themeComponents/recommendationBundle';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundle component
 const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
@@ -18,8 +18,8 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 		props: {
 			...recommendationBundleThemeComponentProps.default?.props,
 			themeStyleScript: recommendationBundleStyleScript,
-			separatorIcon: customVariables.icons.plus,
-			ctaIcon: customVariables.icons.bag,
+			separatorIcon: custom.icons.plus,
+			ctaIcon: custom.icons.bag,
 		},
 		components: recommendationBundleThemeComponentProps.default?.components,
 	},

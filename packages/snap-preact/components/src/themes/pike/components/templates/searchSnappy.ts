@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { SearchSnappyProps } from '../../../../components/Templates/SearchSnappy';
 import { searchSnappyThemeComponentProps } from '../../../themeComponents/searchSnappy';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchSnappyStyleScript = (props: SearchSnappyProps) => {
@@ -22,7 +22,7 @@ export const searchSnappy: ThemeComponent<'searchSnappy', SearchSnappyProps> = {
 		components: {
 			...searchSnappyThemeComponentProps.default?.components,
 			'*searchSnappy button.sidebar-toggle': {
-				icon: customVariables.icons.filter,
+				icon: custom.icons.filter,
 			},
 			'*searchSnappy button.sidebar-toggle icon': {
 				size: '16px',

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { FilterSummaryProps } from '../../../../components/Organisms/FilterSummary';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the FilterSummary component
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
@@ -16,8 +16,8 @@ export const filterSummary: ThemeComponent<'filterSummary', FilterSummaryProps> 
 	default: {
 		props: {
 			themeStyleScript: filterSummaryStyleScript,
-			clearAllIcon: customVariables.icons.close,
-			filterIcon: customVariables.icons.close,
+			clearAllIcon: custom.icons.close,
+			filterIcon: custom.icons.close,
 		},
 	},
 };

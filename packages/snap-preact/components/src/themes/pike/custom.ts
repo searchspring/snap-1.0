@@ -1,6 +1,6 @@
 import { IconType } from '../../components/Atoms/Icon';
 
-export const customVariables: {
+export const custom: {
 	colors: {
 		[color: string]: string;
 	};

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { MobileSidebarProps } from '../../../../components/Organisms/MobileSidebar';
 import { ThemeComponent } from '../../../../providers';
-import { customVariables } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
@@ -16,11 +16,11 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 	default: {
 		props: {
 			themeStyleScript: mobileSidebarStyleScript,
-			openButtonIcon: customVariables.icons.filter,
+			openButtonIcon: custom.icons.filter,
 		},
 		components: {
 			'*mobileSidebar button.close': {
-				icon: customVariables.icons.close,
+				icon: custom.icons.close,
 			},
 			'*mobileSidebar button.slideout icon': {
 				size: '16px',
