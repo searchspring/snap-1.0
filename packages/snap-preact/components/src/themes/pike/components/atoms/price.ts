@@ -15,6 +15,7 @@ const priceStyleScript = (props: PriceProps) => {
 		},
 		'&.ss__price--strike': {
 			color: variables?.colors?.text,
+			opacity: 0.805,
 		},
 	});
 };

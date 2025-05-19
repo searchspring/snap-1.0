@@ -26,10 +26,6 @@ const listStyleScript = (props: ListProps) => {
 		'.ss__list__options': {
 			'.ss__list__option': {
 				gap: `${custom.spacing.x2}px`,
-				'.ss__list__option__icon': {
-					width: '16px',
-					height: '16px',
-				},
 				'&:last-child': {
 					marginBottom: 0,
 				},

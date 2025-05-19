@@ -24,9 +24,6 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 			'*searchHorizontal button.sidebar-toggle': {
 				icon: custom.icons.filter,
 			},
-			'*searchHorizontal button.sidebar-toggle icon': {
-				size: '16px',
-			},
 		},
 	},
 	mobile: searchHorizontalThemeComponentProps.mobile,

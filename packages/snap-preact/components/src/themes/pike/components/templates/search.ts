@@ -24,9 +24,6 @@ export const search: ThemeComponent<'search', SearchProps> = {
 			'*search button.sidebar-toggle': {
 				icon: custom.icons.filter,
 			},
-			'*search button.sidebar-toggle icon': {
-				size: '16px',
-			},
 		},
 	},
 	mobile: searchThemeComponentProps.mobile,

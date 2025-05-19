@@ -44,7 +44,7 @@ export const custom: {
 	},
 	sizes: {
 		height: 33, // refers to height for button and dropdown sizes
-		icons: 12,
+		icons: 16,
 	},
 	spacing: {
 		x1: 5,

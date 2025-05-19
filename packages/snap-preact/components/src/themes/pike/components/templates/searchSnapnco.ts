@@ -24,9 +24,6 @@ export const searchSnapnco: ThemeComponent<'searchSnapnco', SearchSnapncoProps> 
 			'*searchSnapnco button.sidebar-toggle': {
 				icon: custom.icons.filter,
 			},
-			'*searchSnapnco button.sidebar-toggle icon': {
-				size: '16px',
-			},
 		},
 	},
 	mobile: searchSnapncoThemeComponentProps.mobile,

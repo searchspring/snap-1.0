@@ -47,10 +47,6 @@ const selectStyleScript = (props: SelectProps) => {
 							padding: 0,
 							margin: `0 0 ${custom.spacing.x2}px 0`,
 							color: 'inherit',
-							'.ss__icon': {
-								width: '16px',
-								height: '16px',
-							},
 							'&:last-child': {
 								marginBottom: '0',
 							},
@@ -125,6 +121,9 @@ export const select: ThemeComponent<'select', SelectProps> = {
 		components: {
 			'*select dropdown button': {
 				native: false,
+			},
+			'*select dropdown icon': {
+				size: '12px',
 			},
 		},
 	},

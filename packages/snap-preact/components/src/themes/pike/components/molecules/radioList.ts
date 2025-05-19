@@ -25,10 +25,6 @@ const radioListStyleScript = (props: RadioListProps) => {
 				'.ss__radio-list__option__icon, .ss__radio-list__option__label': {
 					padding: 0,
 				},
-				'.ss__radio-list__option__icon': {
-					width: '16px',
-					height: '16px',
-				},
 				'&:last-child': {
 					marginBottom: 0,
 				},

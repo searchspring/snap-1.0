@@ -47,8 +47,8 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 	const nativeStyles = css([
 		sharedStyles,
 		{
-			width: '16px',
-			height: '16px',
+			width: `${custom.sizes.icon}px`,
+			height: `${custom.sizes.icon}px`,
 			border: `1px solid ${custom.colors.gray02}`,
 			cursor: 'pointer',
 		},

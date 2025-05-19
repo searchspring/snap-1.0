@@ -22,9 +22,6 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			'*mobileSidebar button.close': {
 				icon: custom.icons.close,
 			},
-			'*mobileSidebar button.slideout icon': {
-				size: '16px',
-			},
 		},
 	},
 };
