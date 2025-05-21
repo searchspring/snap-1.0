@@ -10,7 +10,7 @@ const radioStyleScript = (props: RadioProps) => {
 	const variables = props?.theme?.variables;
 	const backgroundColor = new Color(custom.colors.gray02).lighten(0.055);
 	const borderColor = new Color(custom.colors.gray02);
-	const activeIconColor = new Color(variables?.colors?.primary || custom.colors.black);
+	const activeIconColor = new Color(variables?.colors?.primary);
 	const activeBorderColor = new Color(custom.colors.gray02).darken(0.055);
 
 	// shared radio styles

@@ -31,7 +31,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 			},
 			'.ss__radio-list__option--selected': {
 				fontWeight: custom.fonts.weight01,
-				color: variables?.colors?.primary || custom.colors.black,
+				color: variables?.colors?.primary,
 			},
 		},
 	});

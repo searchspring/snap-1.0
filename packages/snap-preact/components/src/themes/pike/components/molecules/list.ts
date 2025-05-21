@@ -8,7 +8,7 @@ import Color from 'color';
 const listStyleScript = (props: ListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary || custom.colors.black);
+	const activeColor = new Color(variables?.colors?.primary);
 
 	return css({
 		'&, .ss__list__options': {

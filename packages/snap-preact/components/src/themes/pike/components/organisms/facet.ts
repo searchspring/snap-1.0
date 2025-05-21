@@ -7,7 +7,6 @@ import { custom } from '../../custom';
 const facetStyleScript = (props: FacetProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	console.log('facet props', props);
 
 	return css({
 		margin: ` 0 0 ${custom.spacing.x6}px 0`,

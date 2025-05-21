@@ -38,7 +38,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 		},
 		'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
 			fontWeight: custom.fonts.weight01,
-			color: variables?.colors?.primary || custom.colors.black,
+			color: variables?.colors?.primary,
 			'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
 				paddingLeft: `${custom.spacing.x6}px`,
 			},

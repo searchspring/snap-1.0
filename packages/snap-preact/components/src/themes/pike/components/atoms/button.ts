@@ -35,7 +35,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			textOverflow: 'ellipsis',
 			whiteSpace: 'nowrap',
 			'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
-				backgroundColor: buttonColor.hex() || custom.colors.black,
+				backgroundColor: buttonColor.hex(),
 			},
 		},
 		disabledStyles,

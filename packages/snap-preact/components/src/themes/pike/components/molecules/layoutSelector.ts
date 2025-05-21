@@ -9,7 +9,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const backgroundColor = new Color(custom.colors.gray02).lighten(0.055);
-	const activeColor = new Color(variables?.colors?.primary || custom.colors.black);
+	const activeColor = new Color(variables?.colors?.primary);
 	const activeIconColor = activeColor.isDark() || activeColor.hex() == '#00AEEF' ? Color('#ffffff') : Color('#000000');
 
 	// dropdown styles

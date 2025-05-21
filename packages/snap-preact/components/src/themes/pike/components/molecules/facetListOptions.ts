@@ -30,7 +30,7 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 		},
 		'.ss__facet-list-options__option.ss__facet-list-options__option--filtered': {
 			fontWeight: custom.fonts.weight01,
-			color: variables?.colors?.primary || custom.colors.black,
+			color: variables?.colors?.primary,
 		},
 	});
 };

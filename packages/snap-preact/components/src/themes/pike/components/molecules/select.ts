@@ -56,7 +56,7 @@ const selectStyleScript = (props: SelectProps) => {
 						},
 						'.ss__select__select__option--selected': {
 							fontWeight: custom.fonts.weight01,
-							color: variables?.colors?.primary || custom.colors.black,
+							color: variables?.colors?.primary,
 						},
 					},
 				},
