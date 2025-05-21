@@ -49,6 +49,9 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					'&:not([style]):before': {
 						...lightBorderStyles,
 					},
+					'.ss__icon': {
+						display: 'none',
+					},
 				},
 				[`${lightColors}`]: {
 					'&:before': {
@@ -98,24 +101,32 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 		sharedStyles,
 		{
 			display: 'grid',
-			gridTemplateColumns: 'repeat(auto-fill, minmax(52px, 1fr))',
-			gap: custom.spacing.x1,
+			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
+			gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 			alignItems: 'center',
 			'.ss__facet-palette-options__option': {
 				textAlign: 'center',
+				'.ss__checkbox': {
+					display: 'none',
+				},
 				'.ss__facet-palette-options__option__wrapper': {
 					position: 'relative',
 					height: 0,
 					paddingBottom: '100%',
 				},
-				'.ss__facet-palette-options__option__value': {
+				'.ss__facet-palette-options__option__value, .ss__facet-palette-options__option__value__count': {
 					display: 'block',
-					fontSize: '0.75rem',
 					lineHeight: '0.85rem',
-					overflow: 'hidden',
 					textOverflow: 'ellipsis',
 					whiteSpace: 'nowrap',
+				},
+				'.ss__facet-palette-options__option__value': {
+					fontSize: '0.75rem',
+					overflow: 'hidden',
 					margin: `${custom.spacing.x1}px 0 0 0`,
+				},
+				'.ss__facet-palette-options__option__value__count': {
+					margin: `${custom.spacing.x1 / 2}px 0 0 0`,
 				},
 			},
 		},
@@ -162,14 +173,10 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 	default: {
 		props: {
 			themeStyleScript: facetPaletteStyleScript,
-			columns: 5,
 			disableStyles: true,
 			hideIcon: true,
-			//hideCheckbox: false,
-			hideCount: false,
-			//layout: 'list',
-			gridSize: '80px',
-			gapSize: '10px',
+			gridSize: '52px',
+			gapSize: `${custom.spacing.x1}px`,
 			colorMapping: {
 				brown: {
 					background: custom.colors.brown,
