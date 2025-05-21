@@ -569,10 +569,10 @@ const ElementSelectorHelpers = {
 
 			// Try to build the selector
 			const combinedSelector = parts.join(' > ');
-			const found = document.querySelector(combinedSelector);
+			const found = document.querySelectorAll(combinedSelector);
 
 			// If it returns exactly the original element, return it
-			if (found === el) {
+			if (found.length === 1 && found[0] === el) {
 				return combinedSelector;
 			}
 
@@ -621,6 +621,10 @@ const DomSelector = (props: any) => {
 		setCurrentSelector('');
 		cleanUp();
 	}, []);
+
+	// TODO add an onscroll event that repositions the overlay and tooltip
+
+	// TOD remove the dashed border on contentSelector
 
 	const onMouseOverListener = useCallback((e: any) => {
 		e.preventDefault();
@@ -682,7 +686,7 @@ const DomSelector = (props: any) => {
 			elem.addEventListener('click', clickListener);
 			elem.addEventListener('mouseover', onMouseOverListener);
 			elem.addEventListener('mouseout', onMouseOutListener);
-			elem.style.outline = '1px dotted #3a23ad';
+			if (type !== 'content') elem.style.outline = '1px dotted #3a23ad';
 		});
 	};
 
@@ -707,14 +711,20 @@ const DomSelector = (props: any) => {
 
 	useEffect(() => {
 		if (!active) return;
+
 		const handleKeyDown = (e: KeyboardEvent) => {
+			console.log('SS: running keydown event listener');
 			if (e.key === 'Escape') {
 				setCurrentSelector('');
 				cleanUp();
 			}
 		};
+
+		// TODO make sure we only bind once
+		console.log('SS: adding keydown event listener');
 		document.addEventListener('keydown', handleKeyDown);
 		return () => {
+			console.log('SS: removing keydown event listener');
 			document.removeEventListener('keydown', handleKeyDown);
 		};
 	}, [active]);
