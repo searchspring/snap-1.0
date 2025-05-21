@@ -2,13 +2,11 @@ import { css } from '@emotion/react';
 import type { SelectProps } from '../../../../components/Molecules/Select';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
-import Color from 'color';
 
 // CSS in JS style script for the Select component
 const selectStyleScript = (props: SelectProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const backgroundColor = new Color(custom.colors.gray02).lighten(0.055);
 	const nativeIcon = `<svg class="ss__icon ss__icon--chevron-down" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" fill="${
 		variables?.colors?.text || '#515151'
 	}"><path d="M55.348 19.573l-25.785 25.75c-0.869 0.869-2.259 0.869-3.128 0l-25.785-25.75c-0.869-0.869-0.869-2.293 0-3.162l5.768-5.734c0.869-0.869 2.259-0.869 3.128 0l18.452 18.452 18.452-18.452c0.869-0.869 2.259-0.869 3.128 0l5.768 5.734c0.869 0.869 0.869 2.293 0 3.162z"></path></svg>`;
@@ -17,7 +15,7 @@ const selectStyleScript = (props: SelectProps) => {
 	const sharedStyles = css({
 		border: `1px solid ${custom.colors.gray02}`,
 		color: variables?.colors?.text,
-		backgroundColor: backgroundColor.hex(),
+		backgroundColor: custom.colors.gray01,
 	});
 
 	// default styles

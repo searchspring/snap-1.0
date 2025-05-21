@@ -1,4 +1,5 @@
 import { IconType } from '../../components/Atoms/Icon';
+import Color from 'color';
 
 export const custom: {
 	colors: {
@@ -20,8 +21,9 @@ export const custom: {
 	colors: {
 		white: '#ffffff',
 		black: '#000000',
-		gray01: '#f8f8f8',
-		gray02: '#ebebeb',
+		gray01: '#f8f8f8', // lighter gray: bg color under terms, dropdown, checkboxes
+		gray02: '#ebebeb', // light gray: borders for autocomplete, dropdown, checkboxes
+		gray03: `${new Color('#ebebeb').darken(0.055).hex().toLowerCase()}`, // dark gray: active border for checkboxes, palette, etc.
 	},
 	fonts: {
 		weight01: 700, // main font weight

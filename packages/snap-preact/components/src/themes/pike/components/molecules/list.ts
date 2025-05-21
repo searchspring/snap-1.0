@@ -2,13 +2,11 @@ import { css } from '@emotion/react';
 import type { ListProps } from '../../../../components/Molecules/List';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
-import Color from 'color';
 
 // CSS in JS style script for the List component
 const listStyleScript = (props: ListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary);
 
 	return css({
 		'&, .ss__list__options': {
@@ -32,7 +30,7 @@ const listStyleScript = (props: ListProps) => {
 			},
 			'.ss__list__option--selected': {
 				fontWeight: custom.fonts.weight01,
-				color: activeColor.hex(),
+				color: variables?.colors?.primary,
 			},
 		},
 	});

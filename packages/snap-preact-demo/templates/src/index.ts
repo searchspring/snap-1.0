@@ -60,7 +60,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchBoca',
+				component: 'SearchSnapnco',
 			},
 		],
 	},

@@ -8,7 +8,6 @@ import Color from 'color';
 const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const backgroundColor = new Color(custom.colors.gray02).lighten(0.055);
 	const activeColor = new Color(variables?.colors?.primary);
 	const activeIconColor = activeColor.isDark() || activeColor.hex() == '#00AEEF' ? Color('#ffffff') : Color('#000000');
 
@@ -27,7 +26,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 			display: 'flex',
 			'.ss__list__option': {
 				border: `1px solid ${custom.colors.gray02}`,
-				backgroundColor: backgroundColor.hex(),
+				backgroundColor: custom.colors.gray01,
 				height: `${custom.sizes.height}px`,
 				lineHeight: `${custom.sizes.height}px`,
 				padding: `0 ${custom.spacing.x2}px`,
