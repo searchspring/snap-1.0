@@ -20,6 +20,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 					top: '-1px',
 					margin: `0 0 0 ${custom.spacing.x1}px`,
 					opacity: 0.805,
+					fontSize: '0.6rem',
 				},
 			},
 			'&:last-child': {

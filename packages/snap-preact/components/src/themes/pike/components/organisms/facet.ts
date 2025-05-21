@@ -69,7 +69,6 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
-			searchable: true,
 		},
 	},
 };

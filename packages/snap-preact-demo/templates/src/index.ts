@@ -6,7 +6,7 @@ import { SnapTemplatesConfig } from '@searchspring/snap-preact';
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: '8uyt2m',
+		siteId: 'hi0bkd',
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',

@@ -24,6 +24,10 @@ export const custom: {
 		gray01: '#f8f8f8', // lighter gray: bg color under terms, dropdown, checkboxes
 		gray02: '#ebebeb', // light gray: borders for autocomplete, dropdown, checkboxes
 		gray03: `${new Color('#ebebeb').darken(0.055).hex().toLowerCase()}`, // dark gray: active border for checkboxes, palette, etc.
+		brown: '#845329', // for color palette
+		purple: '#7c368e', // for color palette
+		rainbow:
+			'linear-gradient(rgb(40, 87, 218) 20%, rgb(40, 218, 70) 20%, rgb(40, 218, 70) 40%, rgb(245, 228, 24) 40%, rgb(245, 228, 24) 60%, rgb(242, 133, 0) 60%, rgb(242, 133, 0) 80%, rgb(218, 40, 72) 80%, rgb(218, 40, 72))', // for color palette
 	},
 	fonts: {
 		weight01: 700, // main font weight
