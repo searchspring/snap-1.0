@@ -9,8 +9,10 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const fontColor = props?.valueTextColor || variables?.colors?.text;
-	//const valuesTop = custom.slider.valuesPosition == 'top' ? true : false;
+	const valuesTop = custom.slider.valuesPosition == 'top' ? true : false;
 	const valuesSides = custom.slider.valuesAlign == 'sides' ? true : false;
+	const hasTicks = props?.showTicks ? true : false;
+	const hasStickyHandles = props?.stickyHandleLabel ? true : false;
 	const handleColor = new Color(props?.handleColor || variables?.colors?.primary);
 	const handleInnerColor =
 		handleColor.isDark() || handleColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
@@ -65,6 +67,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			},
 		},
 		'.ss__facet-slider__slider': {
+			border: `1px solid green`,
 			display: 'block',
 			top: 0,
 			width: '100%',
@@ -72,12 +75,16 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			//marginTop: addTopMargin ? `${custom.slider.handles / 2}px` : '',
 			//order: 1,
 			//margin: `7px auto`,
-			height: `${custom.slider.bar}px`,
+			//height: `${custom.slider.bar}px`,
 			// '&, .ss__facet-slider__handles': {
 			// },
+			'.ss__facet-slider__segment, .ss__facet-slider__rail, .ss__facet-slider__handles': {
+				height: `${custom.slider.bar}px`,
+			},
 			'.ss__facet-slider__tick': {
 				'.ss__facet-slider__tick__label': {
 					color: props?.tickTextColor || variables?.colors?.text,
+					lineHeight: 1,
 				},
 			},
 			'.ss__facet-slider__segment': {
@@ -92,7 +99,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			'.ss__facet-slider__handles': {
 				position: 'relative',
 				margin: `0 ${custom.slider.handles / 2 - 2}px`,
-				height: '100%',
+				//height: '100%',
 				button: {
 					'.ss__facet-slider__handle': {
 						transform: 'none',
@@ -109,7 +116,9 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 						},
 						'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
 							//top: `${valuesTop ? '-' : ''}${valuesTop ? custom.slider.handles + custom.spacing.x1 : custom.slider.handles + custom.spacing.x5}px`,
-							valuesStyles,
+							'&': {
+								...valuesStyles,
+							},
 						},
 					},
 				},
@@ -123,9 +132,11 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			// order: valuesTop ? -1 : '',
 			// margin: valuesTop ? `0 0 ${custom.spacing.x2}px 0` : `${custom.spacing.x2}px 0 0 0`,
 			// order: 3,
-			// border: `1px solid blue`,
+			border: `1px solid blue`,
 			'.ss__facet-slider__label': {
-				valuesStyles,
+				'&': {
+					...valuesStyles,
+				},
 				'&:after': {
 					display: valuesSides ? 'none' : '',
 					padding: `0 ${custom.spacing.x1}px`,
@@ -137,31 +148,69 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 		},
 	});
 
+	// spacing calculations
+	const handlesMinusBar = custom.slider.handles - custom.slider.bar;
+	const handlesMinusBarHalf = handlesMinusBar / 2;
+	const valuesPlusSpacing = custom.slider.values + custom.spacing.x2;
+
 	// spacing styles for different configurations
 	// note: default for facet slider is no ticks, no stick handles, values bottom
-	const spacingStyles = css({
+	let spacingStyles = css({
 		'.ss__facet-slider__slider': {
-			margin: `${(custom.slider.handles - custom.slider.bar) / 2}px auto`,
-			'&, .ss__facet-slider__handles': {},
-			'.ss__facet-slider__tick': {
-				'.ss__facet-slider__tick__label': {},
-			},
-			'.ss__facet-slider__segment': {},
-			'.ss__facet-slider__rail': {},
-			'.ss__facet-slider__handles': {
-				button: {
-					'.ss__facet-slider__handle': {
-						'&:after': {},
-						'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {},
-					},
-				},
-			},
+			margin: `${handlesMinusBarHalf}px auto`,
 		},
 		'.ss__facet-slider__labels': {
 			margin: `${custom.spacing.x2}px 0 0 0`,
-			'.ss__facet-slider__label': {},
 		},
 	});
+
+	if (valuesTop) {
+	} else {
+		if (hasTicks && hasStickyHandles) {
+			spacingStyles = css({
+				'.ss__facet-slider__slider': {
+					margin: `${handlesMinusBarHalf}px 0 ${custom.slider.ticks + valuesPlusSpacing}px 0`,
+					'.ss__facet-slider__handles': {
+						button: {
+							'.ss__facet-slider__handle': {
+								'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
+									top: 'auto',
+									bottom: `-${custom.slider.ticks + custom.spacing.x2}px`,
+								},
+							},
+						},
+					},
+				},
+			});
+		} else if (hasTicks && !hasStickyHandles) {
+			spacingStyles = css({
+				'.ss__facet-slider__slider': {
+					padding: `${handlesMinusBarHalf}px 0 ${custom.slider.bar + custom.slider.ticks}px 0`,
+				},
+				'.ss__facet-slider__labels': {
+					margin: `${custom.spacing.x2}px 0 0 0`,
+				},
+			});
+		} else if (!hasTicks && hasStickyHandles) {
+			spacingStyles = css({
+				'.ss__facet-slider__slider': {
+					padding: `${handlesMinusBarHalf}px 0 ${custom.slider.bar + handlesMinusBarHalf + valuesPlusSpacing}px 0`,
+					'.ss__facet-slider__handles': {
+						button: {
+							'.ss__facet-slider__handle': {
+								'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
+									top: 'auto',
+									bottom: `-${valuesPlusSpacing}px`,
+								},
+							},
+						},
+					},
+				},
+			});
+		} else {
+			// don't do anything -- this is the default
+		}
+	}
 
 	// spacingStyles = css({
 	// 	'.ss__facet-slider__slider': {
@@ -193,8 +242,8 @@ export const facetSlider: ThemeComponent<'facetSlider', FacetSliderProps> = {
 	default: {
 		props: {
 			themeStyleScript: facetSliderStyleScript,
-			// showTicks: true,
-			// stickyHandleLabel: true,
+			showTicks: true,
+			stickyHandleLabel: true,
 		},
 	},
 };

@@ -13,12 +13,14 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const palettePrefix = '.ss__facet-palette-options__option__palette';
 	const lightColors = `${palettePrefix}--white, ${palettePrefix}--ivory, ${palettePrefix}--clear, ${palettePrefix}--transparent`;
 
-	// shared palette styles
+	// light border styles styles
 	const lightBorderStyles = css({
 		borderColor: custom.colors.gray02,
 		opacity: 1,
 		visibility: 'visible',
 	});
+
+	// shared palette styles
 	const sharedStyles = css({
 		'.ss__facet-palette-options__option': {
 			color: variables?.colors?.text,
