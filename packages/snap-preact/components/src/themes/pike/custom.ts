@@ -59,8 +59,9 @@ export const custom: {
 		handles: 20, // handle size
 		values: 14, // values size
 		bar: 6, // bar size
+		ticks: 20, // size of ticks
 		valuesPosition: 'topz', // position of slider values
-		valuesAlign: 'left', // alignment of slider values
+		valuesAlign: 'sidesz', // alignment of slider values
 	},
 	spacing: {
 		x1: 5,
