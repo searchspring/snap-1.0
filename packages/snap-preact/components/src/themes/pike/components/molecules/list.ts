@@ -13,7 +13,7 @@ const listStyleScript = (props: ListProps) => {
 			display: 'block',
 		},
 		'.ss__list__title, .ss__list__options .ss__list__option': {
-			margin: `0 0 ${custom.spacing.x2}px 0`,
+			margin: `0 0 ${custom.spacing.x1}px 0`,
 		},
 		'.ss__list__title': {
 			display: 'block',

@@ -11,7 +11,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 	return css({
 		'.ss__radio-list__title, .ss__radio-list__options-wrapper .ss__radio-list__option': {
 			padding: 0,
-			margin: `0 0 ${custom.spacing.x2}px 0`,
+			margin: `0 0 ${custom.spacing.x1}px 0`,
 		},
 		'.ss__radio-list__title': {
 			display: 'block',

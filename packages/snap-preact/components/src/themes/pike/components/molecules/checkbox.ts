@@ -33,6 +33,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 				height: '8px',
 			},
 			'&.ss__checkbox--active': {
+				backgroundColor: custom.colors.white,
 				borderColor: custom.colors.gray03,
 				'.ss__icon': {
 					fill: variables?.colors?.primary,

@@ -9,7 +9,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary);
-	const fontColor = buttonColor.isDark() || buttonColor.hex() == '#00AEEF' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
 	// shared button styles
 	const disabledStyles = css({

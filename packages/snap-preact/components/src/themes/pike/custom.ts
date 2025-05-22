@@ -14,6 +14,9 @@ export const custom: {
 	sizes: {
 		[size: string]: any;
 	};
+	slider: {
+		[slider: string]: any;
+	};
 	spacing: {
 		[size: string]: number;
 	};
@@ -51,6 +54,13 @@ export const custom: {
 	sizes: {
 		height: 33, // refers to height for button and dropdown sizes
 		icons: 16,
+	},
+	slider: {
+		handles: 20, // handle size
+		values: 14, // values size
+		bar: 6, // bar size
+		valuesPosition: 'topz', // position of slider values
+		valuesAlign: 'left', // alignment of slider values
 	},
 	spacing: {
 		x1: 5,

@@ -43,7 +43,7 @@ const selectStyleScript = (props: SelectProps) => {
 						padding: `${custom.spacing.x2}px`,
 						'.ss__select__select__option': {
 							padding: 0,
-							margin: `0 0 ${custom.spacing.x2}px 0`,
+							margin: `0 0 ${custom.spacing.x1}px 0`,
 							color: 'inherit',
 							'&:last-child': {
 								marginBottom: '0',

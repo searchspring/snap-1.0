@@ -10,37 +10,40 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 
 	return css({
 		'.ss__facet-hierarchy-options__option': {
-			padding: 0,
-			margin: `0 0 ${custom.spacing.x2}px 0`,
+			display: 'block',
+			margin: `0 0 ${custom.spacing.x1}px 0`,
 			color: variables?.colors?.text,
+			'&:last-child': {
+				marginBottom: 0,
+			},
 			'.ss__facet-hierarchy-options__option__value': {
 				margin: 0,
 				'.ss__facet-hierarchy-options__option__value__count': {
 					position: 'relative',
 					top: '-1px',
-					margin: `0 0 0 ${custom.spacing.x1}px`,
+					padding: `0 ${custom.spacing.x1}px`,
 					opacity: 0.805,
 					fontSize: '0.6rem',
 				},
 			},
-			'&:last-child': {
-				marginBottom: 0,
-			},
 		},
 		'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--return': {
 			'&:before': {
+				content: '"\\0000ab"',
+				display: 'inline-block',
+				height: '24px',
 				position: 'relative',
-				top: '-2px',
+				top: '1px',
 				padding: `0 ${custom.spacing.x1}px 0 0`,
 				fontSize: '24px',
 				color: 'inherit',
-				lineHeight: 0,
+				lineHeight: '24px',
 			},
 		},
 		'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
 			fontWeight: custom.fonts.weight01,
 			color: variables?.colors?.primary,
-			'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
+			'& ~ .ss__facet-hierarchy-options__option': {
 				paddingLeft: `${custom.spacing.x6}px`,
 			},
 		},
@@ -52,6 +55,7 @@ export const facetHierarchyOptions: ThemeComponent<'facetHierarchyOptions', Face
 	default: {
 		props: {
 			themeStyleScript: facetHierarchyOptionsStyleScript,
+			disableStyles: true,
 		},
 	},
 };

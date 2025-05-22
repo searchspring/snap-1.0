@@ -17,6 +17,12 @@ const facetStyleScript = (props: FacetProps) => {
 				},
 			},
 		},
+		'&.ss__facet--slider': {
+			'.ss__facet__options': {
+				maxHeight: 'none',
+				overflow: 'visible',
+			},
+		},
 		'.ss__facet__header': {
 			margin: ` 0 0 ${custom.spacing.x4}px 0`,
 			padding: ` 0 0 ${custom.spacing.x2}px 0`,

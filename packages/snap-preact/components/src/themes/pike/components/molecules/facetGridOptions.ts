@@ -9,12 +9,12 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const activeColor = new Color(variables?.colors?.primary);
-	const fontColor = activeColor.isDark() || activeColor.hex() == '#00AEEF' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
 	return css({
 		display: 'grid',
-		gridTemplateColumns: 'repeat(auto-fill, minmax(52px, 1fr))',
-		gap: custom.spacing.x1,
+		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
+		gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 		alignItems: 'center',
 		'.ss__facet-grid-options__option': {
 			position: 'relative',
@@ -66,8 +66,9 @@ export const facetGridOptions: ThemeComponent<'facetGridOptions', FacetGridOptio
 	default: {
 		props: {
 			themeStyleScript: facetGridOptionsStyleScript,
-			columns: 5,
 			disableStyles: true,
+			gridSize: '52px',
+			gapSize: `${custom.spacing.x1}px`,
 		},
 	},
 };

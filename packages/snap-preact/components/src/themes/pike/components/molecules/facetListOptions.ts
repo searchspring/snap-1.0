@@ -7,26 +7,30 @@ import { custom } from '../../custom';
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const isHorizontal = props?.horizontal ? true : false;
 
 	return css({
-		gap: isHorizontal ? `${custom.spacing.x2}px` : '',
 		'.ss__facet-list-options__option': {
-			padding: 0,
-			margin: isHorizontal ? `` : `0 0 ${custom.spacing.x2}px 0`,
+			display: 'block',
+			position: 'relative',
+			margin: `0 0 ${custom.spacing.x1}px 0`,
+			padding: props?.hideCheckbox ? `` : `0 0 0 ${16 + custom.spacing.x2}px`,
 			color: variables?.colors?.text,
+			'&:last-child': {
+				marginBottom: 0,
+			},
+			'.ss__checkbox': {
+				position: 'absolute',
+				top: '1px',
+				left: 0,
+			},
 			'.ss__facet-list-options__option__value': {
-				margin: props?.hideCheckbox ? `` : `0 0 0 ${custom.spacing.x2}px`,
 				'.ss__facet-list-options__option__value__count': {
 					position: 'relative',
 					top: '-1px',
-					margin: `0 0 0 ${custom.spacing.x1}px`,
+					padding: `0 ${custom.spacing.x1}px`,
 					opacity: 0.805,
 					fontSize: '0.6rem',
 				},
-			},
-			'&:last-child': {
-				marginBottom: isHorizontal ? '' : 0,
 			},
 		},
 		'.ss__facet-list-options__option.ss__facet-list-options__option--filtered': {
@@ -41,6 +45,12 @@ export const facetListOptions: ThemeComponent<'facetListOptions', FacetListOptio
 	default: {
 		props: {
 			themeStyleScript: facetListOptionsStyleScript,
+			disableStyles: true,
+		},
+		components: {
+			'*facetListOptions checkbox': {
+				disableStyles: false,
+			},
 		},
 	},
 };
