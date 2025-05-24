@@ -17,17 +17,6 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	const handleInnerColor =
 		handleColor.isDark() || handleColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
-	// // set slider height
-	// const sliderHeight = custom.slider.values + custom.slider.handles + custom.slider.handles / 2 + (props?.showTicks ? 20 : 0);
-
-	// // determine when to add top margin to slider
-	// let addTopMargin = false;
-	// if (props?.stickyHandleLabel) {
-	// 	if (props?.showTicks && !valuesTop) {
-	// 		addTopMargin = true;
-	// 	}
-	// }
-
 	// values font styles
 	const valuesStyles = css({
 		fontSize: `${custom.slider.values}px`,
@@ -37,28 +26,12 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	// shared slider styles
 	const sharedStyles = css({
-		//height: `${sliderHeight}px`,
-		border: `1px solid #ff00ff`,
 		'&, *': {
 			boxSizing: 'border-box',
 		},
 		'&, .ss__facet-slider__slider': {
 			margin: 'auto',
 		},
-		// '&:before': {
-		// 	content: '""',
-		// 	display: 'block',
-		// 	height: '8px',
-		// 	backgroundColor: 'red',
-		// 	order: 0,
-		// },
-		// '&:after': {
-		// 	content: '""',
-		// 	display: 'block',
-		// 	height: '8px',
-		// 	backgroundColor: 'orange',
-		// 	order: 2,
-		// },
 		'.ss__facet-slider__slider button, .ss__facet-slider__labels label': {
 			margin: 0,
 			padding: 0,
@@ -67,22 +40,23 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			},
 		},
 		'.ss__facet-slider__slider': {
-			border: `1px solid green`,
 			display: 'block',
 			top: 0,
 			width: '100%',
-			//border: `1px solid green`,
-			//marginTop: addTopMargin ? `${custom.slider.handles / 2}px` : '',
-			//order: 1,
-			//margin: `7px auto`,
-			//height: `${custom.slider.bar}px`,
-			// '&, .ss__facet-slider__handles': {
-			// },
+			height: `${custom.slider.bar}px`,
 			'.ss__facet-slider__segment, .ss__facet-slider__rail, .ss__facet-slider__handles': {
-				height: `${custom.slider.bar}px`,
+				height: '100%',
 			},
 			'.ss__facet-slider__tick': {
+				'&:before, .ss__facet-slider__tick__label': {
+					transform: 'translate(-50%, 0)',
+				},
+				'&:before': {
+					top: `${custom.slider.ticks / 2}px`,
+					backgroundColor: custom.colors.gray03,
+				},
 				'.ss__facet-slider__tick__label': {
+					top: `${custom.slider.ticks}px`,
 					color: props?.tickTextColor || variables?.colors?.text,
 					lineHeight: 1,
 				},
@@ -99,7 +73,6 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			'.ss__facet-slider__handles': {
 				position: 'relative',
 				margin: `0 ${custom.slider.handles / 2 - 2}px`,
-				//height: '100%',
 				button: {
 					'.ss__facet-slider__handle': {
 						transform: 'none',
@@ -115,7 +88,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 							border: `1px solid ${handleInnerColor.hex()}`,
 						},
 						'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
-							//top: `${valuesTop ? '-' : ''}${valuesTop ? custom.slider.handles + custom.spacing.x1 : custom.slider.handles + custom.spacing.x5}px`,
+							backgroundColor: 'transparent',
 							'&': {
 								...valuesStyles,
 							},
@@ -129,10 +102,6 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			flexFlow: 'row nowrap',
 			alignItems: 'center',
 			justifyContent: valuesSides ? '' : 'center',
-			// order: valuesTop ? -1 : '',
-			// margin: valuesTop ? `0 0 ${custom.spacing.x2}px 0` : `${custom.spacing.x2}px 0 0 0`,
-			// order: 3,
-			border: `1px solid blue`,
 			'.ss__facet-slider__label': {
 				'&': {
 					...valuesStyles,
@@ -148,91 +117,63 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 		},
 	});
 
-	// spacing calculations
-	const handlesMinusBar = custom.slider.handles - custom.slider.bar;
-	const handlesMinusBarHalf = handlesMinusBar / 2;
-	const valuesPlusSpacing = custom.slider.values + custom.spacing.x2;
+	// spacing and size calculations
+	const handlesSizeHalf = (custom.slider.handles - custom.slider.bar) / 2;
+	const handlesSpacing = custom.slider.handles + custom.spacing.x2;
+	const ticksSpacing = custom.slider.ticks + custom.spacing.x1;
+	const stickySpacing = custom.slider.values + custom.spacing.x2;
+	const handlesPlusSticky = handlesSizeHalf + stickySpacing;
+	const ticksPlusSticky = ticksSpacing + stickySpacing;
 
 	// spacing styles for different configurations
 	// note: default for facet slider is no ticks, no stick handles, values bottom
-	let spacingStyles = css({
-		'.ss__facet-slider__slider': {
-			margin: `${handlesMinusBarHalf}px auto`,
-		},
-		'.ss__facet-slider__labels': {
-			margin: `${custom.spacing.x2}px 0 0 0`,
-		},
-	});
+	let spacingStyles = css({});
 
-	if (valuesTop) {
+	if (hasTicks && hasStickyHandles) {
+		spacingStyles = css({
+			'.ss__facet-slider__slider': {
+				margin: `${valuesTop ? handlesPlusSticky : handlesSizeHalf}px auto ${valuesTop ? ticksSpacing : ticksPlusSticky}px auto`,
+				'.ss__facet-slider__handles button .ss__facet-slider__handle': {
+					'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
+						top: valuesTop ? `auto` : `${handlesSizeHalf + ticksPlusSticky - custom.slider.bar}px`,
+						bottom: valuesTop ? `${handlesSpacing}px` : ``,
+					},
+				},
+			},
+		});
+	} else if (hasTicks && !hasStickyHandles) {
+		spacingStyles = css({
+			'.ss__facet-slider__slider': {
+				margin: `${handlesSizeHalf}px auto ${ticksSpacing}px auto`,
+			},
+			'.ss__facet-slider__labels': {
+				order: valuesTop ? -1 : '',
+				margin: `${valuesTop ? 0 : custom.spacing.x2}px 0 ${valuesTop ? custom.spacing.x2 : 0}px 0`,
+			},
+		});
+	} else if (!hasTicks && hasStickyHandles) {
+		spacingStyles = css({
+			'.ss__facet-slider__slider': {
+				margin: `${valuesTop ? handlesPlusSticky : handlesSizeHalf}px auto ${valuesTop ? handlesSizeHalf : handlesPlusSticky}px auto`,
+				'.ss__facet-slider__handles button .ss__facet-slider__handle': {
+					'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
+						top: valuesTop ? 'auto' : `${handlesSpacing}px`,
+						bottom: valuesTop ? `${handlesSpacing}px` : ``,
+					},
+				},
+			},
+		});
 	} else {
-		if (hasTicks && hasStickyHandles) {
-			spacingStyles = css({
-				'.ss__facet-slider__slider': {
-					margin: `${handlesMinusBarHalf}px 0 ${custom.slider.ticks + valuesPlusSpacing}px 0`,
-					'.ss__facet-slider__handles': {
-						button: {
-							'.ss__facet-slider__handle': {
-								'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
-									top: 'auto',
-									bottom: `-${custom.slider.ticks + custom.spacing.x2}px`,
-								},
-							},
-						},
-					},
-				},
-			});
-		} else if (hasTicks && !hasStickyHandles) {
-			spacingStyles = css({
-				'.ss__facet-slider__slider': {
-					padding: `${handlesMinusBarHalf}px 0 ${custom.slider.bar + custom.slider.ticks}px 0`,
-				},
-				'.ss__facet-slider__labels': {
-					margin: `${custom.spacing.x2}px 0 0 0`,
-				},
-			});
-		} else if (!hasTicks && hasStickyHandles) {
-			spacingStyles = css({
-				'.ss__facet-slider__slider': {
-					padding: `${handlesMinusBarHalf}px 0 ${custom.slider.bar + handlesMinusBarHalf + valuesPlusSpacing}px 0`,
-					'.ss__facet-slider__handles': {
-						button: {
-							'.ss__facet-slider__handle': {
-								'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
-									top: 'auto',
-									bottom: `-${valuesPlusSpacing}px`,
-								},
-							},
-						},
-					},
-				},
-			});
-		} else {
-			// don't do anything -- this is the default
-		}
+		spacingStyles = css({
+			'.ss__facet-slider__slider': {
+				margin: `${handlesSizeHalf}px auto`,
+			},
+			'.ss__facet-slider__labels': {
+				order: valuesTop ? -1 : '',
+				margin: `${valuesTop ? 0 : custom.spacing.x2}px 0 ${valuesTop ? custom.spacing.x2 : 0}px 0`,
+			},
+		});
 	}
-
-	// spacingStyles = css({
-	// 	'.ss__facet-slider__slider': {
-	// 		'&, .ss__facet-slider__handles': {},
-	// 		'.ss__facet-slider__tick': {
-	// 			'.ss__facet-slider__tick__label': {},
-	// 		},
-	// 		'.ss__facet-slider__segment': {},
-	// 		'.ss__facet-slider__rail': {},
-	// 		'.ss__facet-slider__handles': {
-	// 			button: {
-	// 				'.ss__facet-slider__handle': {
-	// 					'&:after': {},
-	// 					'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {},
-	// 				},
-	// 			},
-	// 		},
-	// 	},
-	// 	'.ss__facet-slider__labels': {
-	// 		'.ss__facet-slider__label': {},
-	// 	},
-	// });
 
 	return css([sharedStyles, spacingStyles]);
 };
@@ -242,8 +183,6 @@ export const facetSlider: ThemeComponent<'facetSlider', FacetSliderProps> = {
 	default: {
 		props: {
 			themeStyleScript: facetSliderStyleScript,
-			showTicks: true,
-			stickyHandleLabel: true,
 		},
 	},
 };
