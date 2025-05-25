@@ -193,8 +193,6 @@ export const facetSlider: ThemeComponent<'facetSlider', FacetSliderProps> = {
 	default: {
 		props: {
 			themeStyleScript: facetSliderStyleScript,
-			stickyHandleLabel: true,
-			showTicks: true,
 		},
 	},
 };
