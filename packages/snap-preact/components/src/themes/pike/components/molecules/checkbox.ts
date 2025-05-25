@@ -65,7 +65,7 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 		props: {
 			themeStyleScript: checkboxStyleScript,
 			icon: custom.icons.check,
-			size: '14px',
+			size: `${custom.sizes.icon14}px`,
 		},
 	},
 };

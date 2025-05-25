@@ -9,7 +9,6 @@ const facetStyleScript = (props: FacetProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		margin: ` 0 0 ${custom.spacing.x6}px 0`,
 		'&.ss__facet--collapsed': {
 			'.ss__facet__header': {
 				'.ss__icon': {
@@ -24,18 +23,14 @@ const facetStyleScript = (props: FacetProps) => {
 			},
 		},
 		'.ss__facet__header': {
-			margin: ` 0 0 ${custom.spacing.x4}px 0`,
-			padding: ` 0 0 ${custom.spacing.x2}px 0`,
 			gap: `${custom.spacing.x2}px`,
-			borderBottomColor: variables?.colors?.primary,
 			fontSize: '16px',
 			fontWeight: custom.fonts.weight02,
-			color: variables?.colors?.secondary,
 			'.ss__icon': {
 				transition: 'transform ease .5s',
 				transform: 'rotate(180deg)',
-				width: '12px',
-				height: '12px',
+				width: `${custom.sizes.icon12}px`,
+				height: `${custom.sizes.icon12}px`,
 				fill: variables?.colors?.primary,
 				stroke: variables?.colors?.primary,
 			},
@@ -59,8 +54,8 @@ const facetStyleScript = (props: FacetProps) => {
 			fontWeight: custom.fonts.weight01,
 			color: variables?.colors?.primary,
 			'.ss__icon': {
-				width: '10px',
-				height: '10px',
+				width: `${custom.sizes.icon10}px`,
+				height: `${custom.sizes.icon10}px`,
 			},
 		},
 	});

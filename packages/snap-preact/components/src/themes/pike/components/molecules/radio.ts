@@ -30,6 +30,7 @@ const radioStyleScript = (props: RadioProps) => {
 				display: 'none',
 			},
 			'&.ss__radio--active': {
+				backgroundColor: custom.colors.white,
 				borderColor: custom.colors.gray03,
 				'.ss__icon': {
 					display: 'block',
@@ -63,12 +64,12 @@ export const radio: ThemeComponent<'radio', RadioProps> = {
 	default: {
 		props: {
 			themeStyleScript: radioStyleScript,
-			size: '14px',
+			size: `${custom.sizes.icon14}px`,
 		},
 		components: {
 			'*radio icon': {
 				icon: 'square',
-				size: '8px',
+				size: `${custom.sizes.icon10 - 2}px`,
 			},
 		},
 	},

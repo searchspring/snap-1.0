@@ -6,11 +6,21 @@ import Color from 'color';
 
 // CSS in JS style script for the FacetSlider component
 const facetSliderStyleScript = (props: FacetSliderProps) => {
+	// slider options
+	const slider = {
+		handles: 20, // handle size
+		values: 14, // values size
+		bar: 6, // bar size
+		ticks: 17, // size of ticks
+		valuesPosition: 'top', // position of slider values (top or bottom)
+		valuesAlign: 'sides', // alignment of slider values (sides or center)
+	};
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const fontColor = props?.valueTextColor || variables?.colors?.text;
-	const valuesTop = custom.slider.valuesPosition == 'top' ? true : false;
-	const valuesSides = custom.slider.valuesAlign == 'sides' ? true : false;
+	const valuesTop = slider.valuesPosition == 'top' ? true : false;
+	const valuesSides = slider.valuesAlign == 'sides' ? true : false;
 	const hasTicks = props?.showTicks ? true : false;
 	const hasStickyHandles = props?.stickyHandleLabel ? true : false;
 	const handleColor = new Color(props?.handleColor || variables?.colors?.primary);
@@ -19,8 +29,8 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	// values font styles
 	const valuesStyles = css({
-		fontSize: `${custom.slider.values}px`,
-		lineHeight: `${custom.slider.values}px`,
+		fontSize: `${slider.values}px`,
+		lineHeight: `${slider.values}px`,
 		color: fontColor,
 	});
 
@@ -43,7 +53,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			display: 'block',
 			top: 0,
 			width: '100%',
-			height: `${custom.slider.bar}px`,
+			height: `${slider.bar}px`,
 			'.ss__facet-slider__segment, .ss__facet-slider__rail, .ss__facet-slider__handles': {
 				height: '100%',
 			},
@@ -52,11 +62,11 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 					transform: 'translate(-50%, 0)',
 				},
 				'&:before': {
-					top: `${custom.slider.ticks / 2}px`,
+					top: `${slider.ticks / 2}px`,
 					backgroundColor: custom.colors.gray03,
 				},
 				'.ss__facet-slider__tick__label': {
-					top: `${custom.slider.ticks}px`,
+					top: `${slider.ticks}px`,
 					color: props?.tickTextColor || variables?.colors?.text,
 					lineHeight: 1,
 				},
@@ -64,7 +74,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			'.ss__facet-slider__segment': {
 				backgroundColor: props?.trackColor || custom.colors.gray01,
 				border: `1px solid ${props?.trackColor || custom.colors.gray02}`,
-				borderRadius: `${custom.slider.bar}px`,
+				borderRadius: `${slider.bar}px`,
 			},
 			'.ss__facet-slider__rail': {
 				backgroundColor: props?.railColor || variables?.colors?.secondary,
@@ -72,18 +82,18 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			},
 			'.ss__facet-slider__handles': {
 				position: 'relative',
-				margin: `0 ${custom.slider.handles / 2 - 2}px`,
+				margin: `0 ${slider.handles / 2 - 2}px`,
 				button: {
 					'.ss__facet-slider__handle': {
 						transform: 'none',
-						width: `${custom.slider.handles}px`,
-						height: `${custom.slider.handles}px`,
-						lineHeight: `${custom.slider.handles}px`,
+						width: `${slider.handles}px`,
+						height: `${slider.handles}px`,
+						lineHeight: `${slider.handles}px`,
 						backgroundColor: handleColor.hex(),
 						border: `1px solid ${handleColor.hex()}`,
 						'&:after': {
-							width: `${custom.slider.handles / 4}px`,
-							height: `${custom.slider.handles / 4}px`,
+							width: `${slider.handles / 4}px`,
+							height: `${slider.handles / 4}px`,
 							backgroundColor: handleInnerColor.hex(),
 							border: `1px solid ${handleInnerColor.hex()}`,
 						},
@@ -118,10 +128,10 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	});
 
 	// spacing and size calculations
-	const handlesSizeHalf = (custom.slider.handles - custom.slider.bar) / 2;
-	const handlesSpacing = custom.slider.handles + custom.spacing.x2;
-	const ticksSpacing = custom.slider.ticks + custom.spacing.x1;
-	const stickySpacing = custom.slider.values + custom.spacing.x2;
+	const handlesSizeHalf = (slider.handles - slider.bar) / 2;
+	const handlesSpacing = slider.handles + custom.spacing.x2;
+	const ticksSpacing = slider.ticks + custom.spacing.x1;
+	const stickySpacing = slider.values + custom.spacing.x2;
 	const handlesPlusSticky = handlesSizeHalf + stickySpacing;
 	const ticksPlusSticky = ticksSpacing + stickySpacing;
 
@@ -135,7 +145,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 				margin: `${valuesTop ? handlesPlusSticky : handlesSizeHalf}px auto ${valuesTop ? ticksSpacing : ticksPlusSticky}px auto`,
 				'.ss__facet-slider__handles button .ss__facet-slider__handle': {
 					'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {
-						top: valuesTop ? `auto` : `${handlesSizeHalf + ticksPlusSticky - custom.slider.bar}px`,
+						top: valuesTop ? `auto` : `${handlesSizeHalf + ticksPlusSticky - slider.bar}px`,
 						bottom: valuesTop ? `${handlesSpacing}px` : ``,
 					},
 				},
@@ -183,6 +193,8 @@ export const facetSlider: ThemeComponent<'facetSlider', FacetSliderProps> = {
 	default: {
 		props: {
 			themeStyleScript: facetSliderStyleScript,
+			stickyHandleLabel: true,
+			showTicks: true,
 		},
 	},
 };
