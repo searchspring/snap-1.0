@@ -7,6 +7,7 @@ import { dropdown } from './dropdown';
 import { icon } from './icon';
 import { image } from './image';
 import { loadingBar } from './loadingBar';
+import { paginationInfo } from './paginationInfo';
 import { price } from './price';
 import { searchHeader } from './searchHeader';
 import { skeleton } from './skeleton';
@@ -18,6 +19,7 @@ export const atoms: ThemeResponsiveComplete = {
 		...transformThemeComponent('icon', icon.default),
 		...transformThemeComponent('image', image.default),
 		...transformThemeComponent('loadingBar', loadingBar.default),
+		...transformThemeComponent('paginationInfo', paginationInfo.default),
 		...transformThemeComponent('price', price.default),
 		...transformThemeComponent('searchHeader', searchHeader.default),
 		...transformThemeComponent('skeleton', skeleton.default),
@@ -28,6 +30,7 @@ export const atoms: ThemeResponsiveComplete = {
 		...transformThemeComponent('icon', icon.mobile),
 		...transformThemeComponent('image', image.mobile),
 		...transformThemeComponent('loadingBar', loadingBar.mobile),
+		...transformThemeComponent('paginationInfo', paginationInfo.mobile),
 		...transformThemeComponent('price', price.mobile),
 		...transformThemeComponent('searchHeader', searchHeader.mobile),
 		...transformThemeComponent('skeleton', skeleton.mobile),
@@ -37,6 +40,7 @@ export const atoms: ThemeResponsiveComplete = {
 		...transformThemeComponent('icon', icon.tablet),
 		...transformThemeComponent('image', image.tablet),
 		...transformThemeComponent('loadingBar', loadingBar.tablet),
+		...transformThemeComponent('paginationInfo', paginationInfo.tablet),
 		...transformThemeComponent('price', price.tablet),
 		...transformThemeComponent('searchHeader', searchHeader.tablet),
 		...transformThemeComponent('skeleton', skeleton.tablet),
@@ -47,6 +51,7 @@ export const atoms: ThemeResponsiveComplete = {
 		...transformThemeComponent('icon', icon.desktop),
 		...transformThemeComponent('image', image.desktop),
 		...transformThemeComponent('loadingBar', loadingBar.desktop),
+		...transformThemeComponent('paginationInfo', paginationInfo.desktop),
 		...transformThemeComponent('price', price.desktop),
 		...transformThemeComponent('searchHeader', searchHeader.desktop),
 		...transformThemeComponent('skeleton', skeleton.desktop),

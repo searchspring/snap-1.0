@@ -2,6 +2,7 @@ import { transformThemeComponent } from '../../../utils/transformThemeComponent'
 import { ThemeResponsiveComplete } from '../../../../providers';
 
 // MOLECULES Imports
+import { calloutBadge } from './calloutBadge';
 import { carousel } from './carousel';
 import { checkbox } from './checkbox';
 import { errorHandler } from './errorHandler';
@@ -32,6 +33,7 @@ import { terms } from './terms';
 
 export const molecules: ThemeResponsiveComplete = {
 	default: {
+		...transformThemeComponent('calloutBadge', calloutBadge.default),
 		...transformThemeComponent('carousel', carousel.default),
 		...transformThemeComponent('checkbox', checkbox.default),
 		...transformThemeComponent('errorHandler', errorHandler.default),
@@ -61,6 +63,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...transformThemeComponent('terms', terms.default),
 	},
 	mobile: {
+		...transformThemeComponent('calloutBadge', calloutBadge.mobile),
 		...transformThemeComponent('carousel', carousel.mobile),
 		...transformThemeComponent('checkbox', checkbox.mobile),
 		...transformThemeComponent('errorHandler', errorHandler.mobile),
@@ -90,6 +93,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...transformThemeComponent('terms', terms.mobile),
 	},
 	tablet: {
+		...transformThemeComponent('calloutBadge', calloutBadge.tablet),
 		...transformThemeComponent('carousel', carousel.tablet),
 		...transformThemeComponent('checkbox', checkbox.tablet),
 		...transformThemeComponent('errorHandler', errorHandler.tablet),
@@ -119,6 +123,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...transformThemeComponent('terms', terms.tablet),
 	},
 	desktop: {
+		...transformThemeComponent('calloutBadge', calloutBadge.desktop),
 		...transformThemeComponent('carousel', carousel.desktop),
 		...transformThemeComponent('checkbox', checkbox.desktop),
 		...transformThemeComponent('errorHandler', errorHandler.desktop),

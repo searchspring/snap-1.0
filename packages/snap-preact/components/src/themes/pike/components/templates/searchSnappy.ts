@@ -24,6 +24,9 @@ export const searchSnappy: ThemeComponent<'searchSnappy', SearchSnappyProps> = {
 			'*searchSnappy button.sidebar-toggle': {
 				icon: custom.icons.filter,
 			},
+			'*searchSnappy filterSummary': {
+				hideTitle: false,
+			},
 		},
 	},
 	mobile: searchSnappyThemeComponentProps.mobile,
