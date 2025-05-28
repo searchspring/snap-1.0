@@ -7859,14 +7859,7 @@
 								value: 2,
 								label: 'Two Columns',
 								icon: 'layout-list',
-								overrides: {
-									components: {
-										'searchSnappy searchHorizontal result': { layout: 'list' },
-										'searchSnappy search result': { layout: 'list' },
-										'searchSnappy searchHorizontal results': { columns: 1 },
-										'searchSnappy search results': { columns: 1 },
-									},
-								},
+								overrides: { components: { 'searchSnappy result': { layout: 'list' }, 'searchSnappy results': { columns: 1 } } },
 							},
 						],
 						hideToggleSidebarButton: !1,
@@ -7970,7 +7963,7 @@
 			function filterSelectors(themeComponents, treePath) {
 				let selectors = Object.keys(themeComponents);
 				const paths = treePath.split(' '),
-					componentTypeAndName = paths.splice(-1).pop() ?? '',
+					componentTypeAndName = paths.slice(-1).pop() ?? '',
 					[componentType, componentName] = componentTypeAndName.split('.'),
 					mappedSplitTreePath = paths.map((path) => {
 						const [type, name] = path.split('.');
@@ -7980,7 +7973,7 @@
 					(selectors = componentName
 						? selectors.filter((key) => {
 								const keys = key.split(' '),
-									lastkey = keys[keys.length - 1].replace(/\*/g, '');
+									lastkey = keys[keys.length - 1].replace(/\*?(\([MDT]\))?/g, '');
 								if (lastkey == componentType || lastkey == `${componentType}.${componentName}`) return !0;
 						  })
 						: selectors.filter((key) => key.endsWith(componentType))),
@@ -9672,7 +9665,7 @@
 		'../snap-toolbox/dist/esm/version/version.js': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';
 			__webpack_require__.d(__webpack_exports__, { r: () => version });
-			const { version } = { version: '1.7.0' };
+			const { version } = { version: '1.8.0' };
 		},
 		'../snap-tracker/dist/esm/Tracker.js': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';

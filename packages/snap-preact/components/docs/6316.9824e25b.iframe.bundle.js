@@ -331,7 +331,7 @@
 			__webpack_require__
 		) => {
 			__webpack_require__.d(__webpack_exports__, { T: () => FacetHierarchyOptions });
-			var _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+			var _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
 					'../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'
 				),
 				preact__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('../../node_modules/preact/dist/preact.module.js'),
@@ -343,14 +343,16 @@
 					'../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'
 				),
 				_providers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__('./components/src/providers/treePath.tsx'),
-				_providers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__('./components/src/providers/cache.tsx'),
+				_providers__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__('./components/src/providers/cache.tsx'),
 				_utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__('./components/src/utilities/mergeProps.ts'),
-				_utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__('./components/src/utilities/mergeStyles.ts'),
-				_toolbox__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__('./components/src/toolbox/createHoverProps/createHoverProps.ts'),
-				_hooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__('./components/src/hooks/useLang.tsx'),
+				_utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__('./components/src/utilities/defined.ts'),
+				_utilities__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__('./components/src/utilities/mergeStyles.ts'),
+				_toolbox__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__('./components/src/toolbox/createHoverProps/createHoverProps.ts'),
+				_hooks__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__('./components/src/hooks/useLang.tsx'),
 				deepmerge__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__('../../node_modules/deepmerge/dist/cjs.js'),
-				deepmerge__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(deepmerge__WEBPACK_IMPORTED_MODULE_3__);
-			const defaultStyles = ({ theme, horizontal }) =>
+				deepmerge__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(deepmerge__WEBPACK_IMPORTED_MODULE_3__),
+				_Atoms_Icon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__('./components/src/components/Atoms/Icon/Icon.tsx');
+			const defaultStyles = ({ theme, horizontal, returnIcon }) =>
 					horizontal
 						? (0, _emotion_react__WEBPACK_IMPORTED_MODULE_4__.AH)({
 								display: 'flex',
@@ -368,7 +370,12 @@
 										'&:hover': { cursor: 'default', background: 'unset' },
 									},
 									'&.ss__facet-hierarchy-options__option--return': {
-										'&:before': { content: "'\\0000ab'", padding: '0 2px 0 0', color: theme?.variables?.colors?.primary },
+										'.ss__icon': { padding: '0 0 0 2px' },
+										[returnIcon ? '' : '&:before']: {
+											content: '' + (returnIcon ? '""' : "'\\0000ab'"),
+											padding: '0 2px 0 0',
+											color: theme?.variables?.colors?.primary,
+										},
 									},
 									'& .ss__facet-hierarchy-options__option__value': {
 										'& .ss__facet-hierarchy-options__option__value__count': { fontSize: '0.8em', marginLeft: '6px' },
@@ -389,7 +396,12 @@
 										'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': { paddingLeft: '16px' },
 									},
 									'&.ss__facet-hierarchy-options__option--return': {
-										'&:before': { content: "'\\0000ab'", padding: '0 2px 0 0', color: theme?.variables?.colors?.primary },
+										'.ss__icon': { padding: '0 0 0 2px' },
+										[returnIcon ? '' : '&:before']: {
+											content: '' + (returnIcon ? '""' : "'\\0000ab'"),
+											padding: '0 2px 0 0',
+											color: theme?.variables?.colors?.primary,
+										},
 									},
 									'& .ss__facet-hierarchy-options__option__value': {
 										marginLeft: '8px',
@@ -401,12 +413,18 @@
 					const globalTheme = (0, _providers__WEBPACK_IMPORTED_MODULE_5__.u)(),
 						defaultProps = { treePath: (0, _providers__WEBPACK_IMPORTED_MODULE_6__.LU)() },
 						props = (0, _utilities__WEBPACK_IMPORTED_MODULE_7__.v6)('facetHierarchyOptions', globalTheme, defaultProps, properties),
-						{ values, hideCount, onClick, previewOnFocus, horizontal, valueProps, facet, className } = props,
-						styling = (0, _utilities__WEBPACK_IMPORTED_MODULE_8__.Z)(props, defaultStyles),
+						{ values, hideCount, returnIcon, onClick, previewOnFocus, horizontal, valueProps, facet, disableStyles, treePath, className } = props,
+						subProps_icon = {
+							className: 'ss__facet-hierarchy-options__icon',
+							...(0, _utilities__WEBPACK_IMPORTED_MODULE_8__.s)({ disableStyles }),
+							theme: props?.theme,
+							treePath,
+						},
+						styling = (0, _utilities__WEBPACK_IMPORTED_MODULE_9__.Z)(props, defaultStyles),
 						facetValues = values || facet?.refinedValues;
 					return facetValues?.length
-						? (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)(_providers__WEBPACK_IMPORTED_MODULE_10__._, {
-								children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)('div', {
+						? (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_providers__WEBPACK_IMPORTED_MODULE_11__._, {
+								children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
 									...styling,
 									className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
 										'ss__facet-hierarchy-options',
@@ -428,8 +446,8 @@
 												},
 											},
 											lang = deepmerge__WEBPACK_IMPORTED_MODULE_3___default()(defaultLang, props.lang || {}),
-											mergedLang = (0, _hooks__WEBPACK_IMPORTED_MODULE_11__.u)(lang, { facet, value });
-										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)('a', {
+											mergedLang = (0, _hooks__WEBPACK_IMPORTED_MODULE_12__.u)(lang, { facet, value });
+										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('a', {
 											className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
 												'ss__facet-hierarchy-options__option',
 												{ 'ss__facet-hierarchy-options__option--filtered': value.filtered },
@@ -440,26 +458,35 @@
 											onClick: (e) => {
 												value.url?.link?.onClick(e), onClick && onClick(e);
 											},
-											...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_12__.l)(() => value?.preview && value.preview()) : {}),
+											...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_13__.l)(() => value?.preview && value.preview()) : {}),
 											...mergedLang.hierarchyOption?.all,
-											children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.FD)('span', {
-												className: 'ss__facet-hierarchy-options__option__value',
-												children: [
-													value.label,
-													!hideCount &&
-														value?.count > 0 &&
-														!value.filtered &&
-														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.FD)('span', {
-															className: 'ss__facet-hierarchy-options__option__value__count',
-															children: ['(', value.count, ')'],
-														}),
-												],
-											}),
+											children: [
+												returnIcon &&
+													value.history &&
+													!value.filtered &&
+													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Atoms_Icon__WEBPACK_IMPORTED_MODULE_14__.I, {
+														...subProps_icon,
+														...('string' == typeof returnIcon ? { icon: returnIcon } : returnIcon),
+													}),
+												(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
+													className: 'ss__facet-hierarchy-options__option__value',
+													children: [
+														value.label,
+														!hideCount &&
+															value?.count > 0 &&
+															!value.filtered &&
+															(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
+																className: 'ss__facet-hierarchy-options__option__value__count',
+																children: ['(', value.count, ')'],
+															}),
+													],
+												}),
+											],
 										});
 									}),
 								}),
 						  })
-						: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)(preact__WEBPACK_IMPORTED_MODULE_0__.FK, {});
+						: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(preact__WEBPACK_IMPORTED_MODULE_0__.FK, {});
 				});
 		},
 		'./components/src/components/Molecules/FacetListOptions/FacetListOptions.tsx': (
@@ -780,66 +807,72 @@
 											},
 											lang = deepmerge__WEBPACK_IMPORTED_MODULE_3___default()(defaultLang, props.lang || {}),
 											mergedLang = (0, _hooks__WEBPACK_IMPORTED_MODULE_12__.u)(lang, { facet, value });
-										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('a', {
-											className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
-												'ss__facet-palette-options__option',
-												{ 'ss__facet-palette-options__option--filtered': value.filtered },
-												`ss__facet-palette-options__option--${layout?.toLowerCase()}`
-											),
-											href: value.url?.link?.href,
-											...(hideLabel ? { title: value.label } : {}),
-											...valueProps,
-											onClick: (e) => {
-												value.url?.link?.onClick(e), onClick && onClick(e);
+										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)(
+											'a',
+											{
+												className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
+													'ss__facet-palette-options__option',
+													{ 'ss__facet-palette-options__option--filtered': value.filtered },
+													`ss__facet-palette-options__option--${layout?.toLowerCase()}`
+												),
+												href: value.url?.link?.href,
+												...(hideLabel ? { title: value.label } : {}),
+												...valueProps,
+												onClick: (e) => {
+													value.url?.link?.onClick(e), onClick && onClick(e);
+												},
+												'aria-atomic': 'false',
+												...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_13__.l)(() => value?.preview && value.preview()) : {}),
+												...mergedLang.paletteOption?.all,
+												children: [
+													!hideCheckbox &&
+														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Checkbox__WEBPACK_IMPORTED_MODULE_14__.S, {
+															...subProps_checkbox,
+															checked: value.filtered,
+															disableA11y: !0,
+														}),
+													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
+														className: 'ss__facet-palette-options__option__wrapper',
+														children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
+															className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
+																'ss__facet-palette-options__option__palette',
+																`ss__facet-palette-options__option__palette--${_searchspring_snap_toolbox__WEBPACK_IMPORTED_MODULE_15__.p(
+																	value.value
+																)}`
+															),
+															style: {
+																background:
+																	colorMapping && colorMapping[value.label] && colorMapping[value.label].background
+																		? colorMapping[value.label].background
+																		: value.value,
+															},
+															children:
+																!hideIcon &&
+																value.filtered &&
+																'grid' == layout?.toLowerCase() &&
+																(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Atoms_Icon__WEBPACK_IMPORTED_MODULE_16__.I, {
+																	...subProps_icon,
+																}),
+														}),
+													}),
+													!hideLabel &&
+														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('span', {
+															className: 'ss__facet-palette-options__option__value',
+															children:
+																colorMapping && colorMapping[value.label] && colorMapping[value.label].label
+																	? colorMapping[value.label].label
+																	: value.label,
+														}),
+													!hideCount &&
+														value?.count > 0 &&
+														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
+															className: 'ss__facet-palette-options__option__value__count',
+															children: ['(', value.count, ')'],
+														}),
+												],
 											},
-											'aria-atomic': 'false',
-											...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_13__.l)(() => value?.preview && value.preview()) : {}),
-											...mergedLang.paletteOption?.all,
-											children: [
-												!hideCheckbox &&
-													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Checkbox__WEBPACK_IMPORTED_MODULE_14__.S, {
-														...subProps_checkbox,
-														checked: value.filtered,
-														disableA11y: !0,
-													}),
-												(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
-													className: 'ss__facet-palette-options__option__wrapper',
-													children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
-														className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
-															'ss__facet-palette-options__option__palette',
-															`ss__facet-palette-options__option__palette--${_searchspring_snap_toolbox__WEBPACK_IMPORTED_MODULE_15__.p(value.value)}`
-														),
-														style: {
-															background:
-																colorMapping && colorMapping[value.label] && colorMapping[value.label].background
-																	? colorMapping[value.label].background
-																	: value.value,
-														},
-														children:
-															!hideIcon &&
-															value.filtered &&
-															'grid' == layout?.toLowerCase() &&
-															(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Atoms_Icon__WEBPACK_IMPORTED_MODULE_16__.I, {
-																...subProps_icon,
-															}),
-													}),
-												}),
-												!hideLabel &&
-													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('span', {
-														className: 'ss__facet-palette-options__option__value',
-														children:
-															colorMapping && colorMapping[value.label] && colorMapping[value.label].label
-																? colorMapping[value.label].label
-																: value.label,
-													}),
-												!hideCount &&
-													value?.count > 0 &&
-													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
-														className: 'ss__facet-palette-options__option__value__count',
-														children: ['(', value.count, ')'],
-													}),
-											],
-										});
+											value.value
+										);
 									}),
 								}),
 						  })
@@ -1530,7 +1563,8 @@
 											`ss__facet--${facet.field}`,
 											'' + (facet.collapsed ? 'ss__facet--collapsed' : ''),
 											className,
-											'' + (facet.display ? `ss__facet--${facet.display}` : '')
+											'' + (facet.display ? `ss__facet--${facet.display}` : ''),
+											(facet?.overflow?.remaining || 0) > 0 || 'slider' == facet?.display ? '' : 'ss__facet--showing-all'
 										),
 										children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.Y)(_Atoms_Dropdown__WEBPACK_IMPORTED_MODULE_14__.m, {
 											...subProps.dropdown,

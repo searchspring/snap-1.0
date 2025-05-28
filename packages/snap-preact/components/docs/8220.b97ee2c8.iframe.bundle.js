@@ -1583,6 +1583,7 @@
 						flexWrap: 'wrap',
 						gap: '10px',
 						'.ss__layout__separator': { flex: '1 1 auto' },
+						'.ss__layout__row:empty': { display: 'none' },
 						'.ss__layout__row': {
 							display: 'flex',
 							alignItems: 'center',
@@ -1597,8 +1598,9 @@
 					const globalTheme = (0, _providers__WEBPACK_IMPORTED_MODULE_3__.u)(),
 						defaultProps = { treePath: (0, _providers__WEBPACK_IMPORTED_MODULE_4__.LU)() },
 						props = (0, _utilities__WEBPACK_IMPORTED_MODULE_5__.v6)('layout', globalTheme, defaultProps, properties),
-						{ controller, toggleSideBarButton, disableStyles, className, treePath, layout } = props,
-						styling = (0, _utilities__WEBPACK_IMPORTED_MODULE_6__.Z)(props, defaultStyles),
+						{ controller, toggleSideBarButton, disableStyles, className, treePath, layout } = props;
+					delete props.treePath;
+					const styling = (0, _utilities__WEBPACK_IMPORTED_MODULE_6__.Z)(props, defaultStyles),
 						subProps_MobileSidebar = {
 							controller,
 							...(0, _utilities__WEBPACK_IMPORTED_MODULE_7__.s)({ disableStyles }),

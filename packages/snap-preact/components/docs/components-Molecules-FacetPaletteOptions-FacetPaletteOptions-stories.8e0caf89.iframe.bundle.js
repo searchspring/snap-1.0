@@ -477,66 +477,72 @@
 											},
 											lang = deepmerge__WEBPACK_IMPORTED_MODULE_3___default()(defaultLang, props.lang || {}),
 											mergedLang = (0, _hooks__WEBPACK_IMPORTED_MODULE_12__.u)(lang, { facet, value });
-										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('a', {
-											className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
-												'ss__facet-palette-options__option',
-												{ 'ss__facet-palette-options__option--filtered': value.filtered },
-												`ss__facet-palette-options__option--${layout?.toLowerCase()}`
-											),
-											href: value.url?.link?.href,
-											...(hideLabel ? { title: value.label } : {}),
-											...valueProps,
-											onClick: (e) => {
-												value.url?.link?.onClick(e), onClick && onClick(e);
+										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)(
+											'a',
+											{
+												className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
+													'ss__facet-palette-options__option',
+													{ 'ss__facet-palette-options__option--filtered': value.filtered },
+													`ss__facet-palette-options__option--${layout?.toLowerCase()}`
+												),
+												href: value.url?.link?.href,
+												...(hideLabel ? { title: value.label } : {}),
+												...valueProps,
+												onClick: (e) => {
+													value.url?.link?.onClick(e), onClick && onClick(e);
+												},
+												'aria-atomic': 'false',
+												...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_13__.l)(() => value?.preview && value.preview()) : {}),
+												...mergedLang.paletteOption?.all,
+												children: [
+													!hideCheckbox &&
+														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Checkbox__WEBPACK_IMPORTED_MODULE_14__.S, {
+															...subProps_checkbox,
+															checked: value.filtered,
+															disableA11y: !0,
+														}),
+													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
+														className: 'ss__facet-palette-options__option__wrapper',
+														children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
+															className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
+																'ss__facet-palette-options__option__palette',
+																`ss__facet-palette-options__option__palette--${_searchspring_snap_toolbox__WEBPACK_IMPORTED_MODULE_15__.p(
+																	value.value
+																)}`
+															),
+															style: {
+																background:
+																	colorMapping && colorMapping[value.label] && colorMapping[value.label].background
+																		? colorMapping[value.label].background
+																		: value.value,
+															},
+															children:
+																!hideIcon &&
+																value.filtered &&
+																'grid' == layout?.toLowerCase() &&
+																(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Atoms_Icon__WEBPACK_IMPORTED_MODULE_16__.I, {
+																	...subProps_icon,
+																}),
+														}),
+													}),
+													!hideLabel &&
+														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('span', {
+															className: 'ss__facet-palette-options__option__value',
+															children:
+																colorMapping && colorMapping[value.label] && colorMapping[value.label].label
+																	? colorMapping[value.label].label
+																	: value.label,
+														}),
+													!hideCount &&
+														value?.count > 0 &&
+														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
+															className: 'ss__facet-palette-options__option__value__count',
+															children: ['(', value.count, ')'],
+														}),
+												],
 											},
-											'aria-atomic': 'false',
-											...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_13__.l)(() => value?.preview && value.preview()) : {}),
-											...mergedLang.paletteOption?.all,
-											children: [
-												!hideCheckbox &&
-													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Checkbox__WEBPACK_IMPORTED_MODULE_14__.S, {
-														...subProps_checkbox,
-														checked: value.filtered,
-														disableA11y: !0,
-													}),
-												(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
-													className: 'ss__facet-palette-options__option__wrapper',
-													children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
-														className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
-															'ss__facet-palette-options__option__palette',
-															`ss__facet-palette-options__option__palette--${_searchspring_snap_toolbox__WEBPACK_IMPORTED_MODULE_15__.p(value.value)}`
-														),
-														style: {
-															background:
-																colorMapping && colorMapping[value.label] && colorMapping[value.label].background
-																	? colorMapping[value.label].background
-																	: value.value,
-														},
-														children:
-															!hideIcon &&
-															value.filtered &&
-															'grid' == layout?.toLowerCase() &&
-															(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Atoms_Icon__WEBPACK_IMPORTED_MODULE_16__.I, {
-																...subProps_icon,
-															}),
-													}),
-												}),
-												!hideLabel &&
-													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('span', {
-														className: 'ss__facet-palette-options__option__value',
-														children:
-															colorMapping && colorMapping[value.label] && colorMapping[value.label].label
-																? colorMapping[value.label].label
-																: value.label,
-													}),
-												!hideCount &&
-													value?.count > 0 &&
-													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
-														className: 'ss__facet-palette-options__option__value__count',
-														children: ['(', value.count, ')'],
-													}),
-											],
-										});
+											value.value
+										);
 									}),
 								}),
 						  })

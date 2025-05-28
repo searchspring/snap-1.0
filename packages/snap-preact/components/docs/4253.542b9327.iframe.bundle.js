@@ -729,7 +729,8 @@
 						lang = cjs_default()(defaultLang, props.lang || {}),
 						mergedLang = (0, useLang.u)(lang, { controller });
 					let recsController, RecommendationTemplateComponent, RecommendationTemplateResultComponent;
-					if (templates?.recommendation?.enabled) {
+					const noresults = Boolean(controller.store.search?.query?.string && 0 === controller.store.results.length);
+					if (templates?.recommendation?.enabled && noresults) {
 						const recs = (function createRecommendationTemplate(templates, theme) {
 							let recommendationTemplateComponent, recommendationTemplateResultComponent, recsController;
 							if (templates?.recommendation?.enabled) {

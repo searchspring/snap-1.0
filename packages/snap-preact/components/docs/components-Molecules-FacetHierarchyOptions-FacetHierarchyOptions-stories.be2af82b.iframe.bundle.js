@@ -23,6 +23,7 @@
 				componentArgs = __webpack_require__('./components/src/utilities/componentArgs.ts'),
 				snapify = __webpack_require__('./components/src/utilities/snapify.ts'),
 				types = __webpack_require__('./components/src/types.ts');
+			var paths = __webpack_require__('./components/src/components/Atoms/Icon/paths.tsx');
 			const FacetHierarchyOptions_stories = {
 					title: 'Molecules/FacetHierarchyOptions',
 					component: FacetHierarchyOptions.T,
@@ -35,7 +36,7 @@
 										(0, emotion_react_jsx_runtime_browser_esm.Y)(dist.oz, {
 											options: { overrides: { code: storybook.Z } },
 											children:
-												"# Facet Hierarchy Options\n\nRenders a list of hierarchy options.\n\n## Usage\n\n### values\nThe `values` prop specifies all facet values where the facet type is 'hierarchy'. Overrides values passed via the facet prop. \n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} />\n```\n\n### facet\nThe `facet` prop specifies the reference to the facet object in the store.\n\n```jsx\n<FacetHierarchyOptions facet={hierarchyFacet} />\n```\n\n### hideCount\nThe `hideCount` prop will disable the facet count values.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} hideCount={true} />\n```\n\n### horizontal\nThe `horizontal` prop render facet options horizontally.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} horizontal={true} />\n```\n\n### previewOnFocus\nIf using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over.\n\n```jsx\n<Autocomplete>\n    ...\n\t<FacetHierarchyOptions values={hierarchyFacet.values} previewOnFocus={true} />\n    ...\n</Autocomplete>\n```\n\n\n### valueProps\nThe `valueProps` prop will be spread onto each value's `<a>` element. Typical usage would be to provide custom callback functions when used within Autocomplete.\n\n```typescript\nconst valueProps = {\n\tonMouseEnter: (e) => {\n\t\tclearTimeout(delayTimeout);\n\t\tdelayTimeout = setTimeout(() => {\n\t\t\te.target.focus();\n\t\t}, delayTime);\n\t},\n\tonMouseLeave: () => {\n\t\tclearTimeout(delayTimeout);\n\t},\n}\n```\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} valueProps={valueProps} />\n```\n\n### Events\n\n#### onClick\nThe `onClick` prop allows for a custom callback function for when a facet value is clicked.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} onClick={(e)=>{console.log(e)}} />\n```\n",
+												"# Facet Hierarchy Options\n\nRenders a list of hierarchy options.\n\n## Sub-components\n- Icon\n\n## Usage\n\n### values\nThe `values` prop specifies all facet values where the facet type is 'hierarchy'. Overrides values passed via the facet prop. \n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} />\n```\n\n### facet\nThe `facet` prop specifies the reference to the facet object in the store.\n\n```jsx\n<FacetHierarchyOptions facet={hierarchyFacet} />\n```\n\n### hideCount\nThe `hideCount` prop will disable the facet count values.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} hideCount={true} />\n```\n\n### returnIcon\nThe `returnIcon` prop will set the icon to render for the return levels / options.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} returnIcon={'angle-left'} />\n```\n\n### horizontal\nThe `horizontal` prop render facet options horizontally.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} horizontal={true} />\n```\n\n### previewOnFocus\nIf using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over.\n\n```jsx\n<Autocomplete>\n    ...\n\t<FacetHierarchyOptions values={hierarchyFacet.values} previewOnFocus={true} />\n    ...\n</Autocomplete>\n```\n\n\n### valueProps\nThe `valueProps` prop will be spread onto each value's `<a>` element. Typical usage would be to provide custom callback functions when used within Autocomplete.\n\n```typescript\nconst valueProps = {\n\tonMouseEnter: (e) => {\n\t\tclearTimeout(delayTimeout);\n\t\tdelayTimeout = setTimeout(() => {\n\t\t\te.target.focus();\n\t\t}, delayTime);\n\t},\n\tonMouseLeave: () => {\n\t\tclearTimeout(delayTimeout);\n\t},\n}\n```\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} valueProps={valueProps} />\n```\n\n### Events\n\n#### onClick\nThe `onClick` prop allows for a custom callback function for when a facet value is clicked.\n\n```jsx\n<FacetHierarchyOptions values={hierarchyFacet.values} onClick={(e)=>{console.log(e)}} />\n```\n",
 										}),
 										(0, emotion_react_jsx_runtime_browser_esm.Y)(dist.uY, { story: dist.h1 }),
 									],
@@ -54,6 +55,12 @@
 							type: { required: !1 },
 							table: { type: { summary: 'facet store object' } },
 							control: { type: 'none' },
+						},
+						returnIcon: {
+							description: 'return Icon name',
+							table: { type: { summary: 'string' } },
+							options: [...Object.keys(paths.c)],
+							control: { type: 'select' },
 						},
 						hideCount: {
 							defaultValue: !1,
@@ -117,7 +124,7 @@
 		) => {
 			'use strict';
 			__webpack_require__.d(__webpack_exports__, { T: () => FacetHierarchyOptions });
-			var _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+			var _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
 					'../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'
 				),
 				preact__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('../../node_modules/preact/dist/preact.module.js'),
@@ -129,14 +136,16 @@
 					'../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'
 				),
 				_providers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__('./components/src/providers/treePath.tsx'),
-				_providers__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__('./components/src/providers/cache.tsx'),
+				_providers__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__('./components/src/providers/cache.tsx'),
 				_utilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__('./components/src/utilities/mergeProps.ts'),
-				_utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__('./components/src/utilities/mergeStyles.ts'),
-				_toolbox__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__('./components/src/toolbox/createHoverProps/createHoverProps.ts'),
-				_hooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__('./components/src/hooks/useLang.tsx'),
+				_utilities__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__('./components/src/utilities/defined.ts'),
+				_utilities__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__('./components/src/utilities/mergeStyles.ts'),
+				_toolbox__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__('./components/src/toolbox/createHoverProps/createHoverProps.ts'),
+				_hooks__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__('./components/src/hooks/useLang.tsx'),
 				deepmerge__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__('../../node_modules/deepmerge/dist/cjs.js'),
-				deepmerge__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(deepmerge__WEBPACK_IMPORTED_MODULE_3__);
-			const defaultStyles = ({ theme, horizontal }) =>
+				deepmerge__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(deepmerge__WEBPACK_IMPORTED_MODULE_3__),
+				_Atoms_Icon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__('./components/src/components/Atoms/Icon/Icon.tsx');
+			const defaultStyles = ({ theme, horizontal, returnIcon }) =>
 					horizontal
 						? (0, _emotion_react__WEBPACK_IMPORTED_MODULE_4__.AH)({
 								display: 'flex',
@@ -154,7 +163,12 @@
 										'&:hover': { cursor: 'default', background: 'unset' },
 									},
 									'&.ss__facet-hierarchy-options__option--return': {
-										'&:before': { content: "'\\0000ab'", padding: '0 2px 0 0', color: theme?.variables?.colors?.primary },
+										'.ss__icon': { padding: '0 0 0 2px' },
+										[returnIcon ? '' : '&:before']: {
+											content: '' + (returnIcon ? '""' : "'\\0000ab'"),
+											padding: '0 2px 0 0',
+											color: theme?.variables?.colors?.primary,
+										},
 									},
 									'& .ss__facet-hierarchy-options__option__value': {
 										'& .ss__facet-hierarchy-options__option__value__count': { fontSize: '0.8em', marginLeft: '6px' },
@@ -175,7 +189,12 @@
 										'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': { paddingLeft: '16px' },
 									},
 									'&.ss__facet-hierarchy-options__option--return': {
-										'&:before': { content: "'\\0000ab'", padding: '0 2px 0 0', color: theme?.variables?.colors?.primary },
+										'.ss__icon': { padding: '0 0 0 2px' },
+										[returnIcon ? '' : '&:before']: {
+											content: '' + (returnIcon ? '""' : "'\\0000ab'"),
+											padding: '0 2px 0 0',
+											color: theme?.variables?.colors?.primary,
+										},
 									},
 									'& .ss__facet-hierarchy-options__option__value': {
 										marginLeft: '8px',
@@ -187,12 +206,18 @@
 					const globalTheme = (0, _providers__WEBPACK_IMPORTED_MODULE_5__.u)(),
 						defaultProps = { treePath: (0, _providers__WEBPACK_IMPORTED_MODULE_6__.LU)() },
 						props = (0, _utilities__WEBPACK_IMPORTED_MODULE_7__.v6)('facetHierarchyOptions', globalTheme, defaultProps, properties),
-						{ values, hideCount, onClick, previewOnFocus, horizontal, valueProps, facet, className } = props,
-						styling = (0, _utilities__WEBPACK_IMPORTED_MODULE_8__.Z)(props, defaultStyles),
+						{ values, hideCount, returnIcon, onClick, previewOnFocus, horizontal, valueProps, facet, disableStyles, treePath, className } = props,
+						subProps_icon = {
+							className: 'ss__facet-hierarchy-options__icon',
+							...(0, _utilities__WEBPACK_IMPORTED_MODULE_8__.s)({ disableStyles }),
+							theme: props?.theme,
+							treePath,
+						},
+						styling = (0, _utilities__WEBPACK_IMPORTED_MODULE_9__.Z)(props, defaultStyles),
 						facetValues = values || facet?.refinedValues;
 					return facetValues?.length
-						? (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)(_providers__WEBPACK_IMPORTED_MODULE_10__._, {
-								children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)('div', {
+						? (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_providers__WEBPACK_IMPORTED_MODULE_11__._, {
+								children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)('div', {
 									...styling,
 									className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
 										'ss__facet-hierarchy-options',
@@ -214,8 +239,8 @@
 												},
 											},
 											lang = deepmerge__WEBPACK_IMPORTED_MODULE_3___default()(defaultLang, props.lang || {}),
-											mergedLang = (0, _hooks__WEBPACK_IMPORTED_MODULE_11__.u)(lang, { facet, value });
-										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)('a', {
+											mergedLang = (0, _hooks__WEBPACK_IMPORTED_MODULE_12__.u)(lang, { facet, value });
+										return (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('a', {
 											className: classnames__WEBPACK_IMPORTED_MODULE_1___default()(
 												'ss__facet-hierarchy-options__option',
 												{ 'ss__facet-hierarchy-options__option--filtered': value.filtered },
@@ -226,26 +251,35 @@
 											onClick: (e) => {
 												value.url?.link?.onClick(e), onClick && onClick(e);
 											},
-											...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_12__.l)(() => value?.preview && value.preview()) : {}),
+											...(previewOnFocus ? (0, _toolbox__WEBPACK_IMPORTED_MODULE_13__.l)(() => value?.preview && value.preview()) : {}),
 											...mergedLang.hierarchyOption?.all,
-											children: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.FD)('span', {
-												className: 'ss__facet-hierarchy-options__option__value',
-												children: [
-													value.label,
-													!hideCount &&
-														value?.count > 0 &&
-														!value.filtered &&
-														(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.FD)('span', {
-															className: 'ss__facet-hierarchy-options__option__value__count',
-															children: ['(', value.count, ')'],
-														}),
-												],
-											}),
+											children: [
+												returnIcon &&
+													value.history &&
+													!value.filtered &&
+													(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(_Atoms_Icon__WEBPACK_IMPORTED_MODULE_14__.I, {
+														...subProps_icon,
+														...('string' == typeof returnIcon ? { icon: returnIcon } : returnIcon),
+													}),
+												(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
+													className: 'ss__facet-hierarchy-options__option__value',
+													children: [
+														value.label,
+														!hideCount &&
+															value?.count > 0 &&
+															!value.filtered &&
+															(0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.FD)('span', {
+																className: 'ss__facet-hierarchy-options__option__value__count',
+																children: ['(', value.count, ')'],
+															}),
+													],
+												}),
+											],
 										});
 									}),
 								}),
 						  })
-						: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Y)(preact__WEBPACK_IMPORTED_MODULE_0__.FK, {});
+						: (0, _emotion_react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Y)(preact__WEBPACK_IMPORTED_MODULE_0__.FK, {});
 				});
 		},
 		'./components/src/hooks/useLang.tsx': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -343,6 +377,19 @@
 				style: { description: 'Inline style', table: { type: { summary: 'string, object' } }, control: { type: 'text' } },
 				theme: { description: 'Specify specific sub component props', table: { type: { summary: 'object' } }, control: { type: 'none' } },
 			};
+		},
+		'./components/src/utilities/defined.ts': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+			'use strict';
+			function defined(properties) {
+				const definedProps = {};
+				return (
+					Object.keys(properties).map((key) => {
+						void 0 !== properties[key] && (definedProps[key] = properties[key]);
+					}),
+					definedProps
+				);
+			}
+			__webpack_require__.d(__webpack_exports__, { s: () => defined });
 		},
 		'./components/src/utilities/snapify.ts': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';
