@@ -13,7 +13,7 @@ const resultStyleScript = (props: ResultProps) => {
 // Result component props
 export const result: ThemeComponent<'result', ResultProps> = {
 	default: {
-		props: {
+		result: {
 			themeStyleScript: resultStyleScript,
 		},
 	},

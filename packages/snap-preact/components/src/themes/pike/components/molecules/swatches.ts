@@ -13,7 +13,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 // Swatches component props
 export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 	default: {
-		props: {
+		swatches: {
 			themeStyleScript: swatchesStyleScript,
 		},
 	},

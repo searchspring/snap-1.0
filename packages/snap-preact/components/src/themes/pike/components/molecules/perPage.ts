@@ -13,7 +13,7 @@ const perPageStyleScript = (props: PerPageProps) => {
 // PerPage component props
 export const perPage: ThemeComponent<'perPage', PerPageProps> = {
 	default: {
-		props: {
+		perPage: {
 			themeStyleScript: perPageStyleScript,
 		},
 	},

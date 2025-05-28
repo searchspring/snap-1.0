@@ -39,19 +39,17 @@ const paginationStyleScript = (props: PaginationProps) => {
 // Pagination component props
 export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 	default: {
-		props: {
+		pagination: {
 			themeStyleScript: paginationStyleScript,
 		},
-		components: {
-			'*pagination icon': {
-				size: `${custom.sizes.icon14}px`,
-			},
-			'*pagination icon.prev': {
-				icon: custom.icons.arrowLeft,
-			},
-			'*pagination icon.next': {
-				icon: custom.icons.arrowRight,
-			},
+		'pagination icon': {
+			size: `${custom.sizes.icon14}px`,
+		},
+		'pagination icon.prev': {
+			icon: custom.icons.arrowLeft,
+		},
+		'pagination icon.next': {
+			icon: custom.icons.arrowRight,
 		},
 	},
 };

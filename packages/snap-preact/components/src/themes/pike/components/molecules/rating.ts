@@ -13,7 +13,7 @@ const ratingStyleScript = (props: RatingProps) => {
 // Rating component props
 export const rating: ThemeComponent<'rating', RatingProps> = {
 	default: {
-		props: {
+		rating: {
 			themeStyleScript: ratingStyleScript,
 		},
 	},

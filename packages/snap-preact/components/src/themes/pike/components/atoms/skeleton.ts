@@ -14,7 +14,7 @@ const skeletonStyleScript = (props: SkeletonProps) => {
 // Skeleton component props
 export const skeleton: ThemeComponent<'skeleton', SkeletonProps> = {
 	default: {
-		props: {
+		skeleton: {
 			themeStyleScript: skeletonStyleScript,
 			backgroundColor: custom.colors.gray02,
 		},

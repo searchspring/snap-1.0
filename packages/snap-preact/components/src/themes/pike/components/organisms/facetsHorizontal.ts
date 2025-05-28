@@ -13,23 +13,23 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 // FacetsHorizontal component props
 export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizontalProps> = {
 	default: {
-		props: {
+		facetsHorizontal: {
 			themeStyleScript: facetsHorizontalStyleScript,
 			limit: 9,
 		},
 	},
 	mobile: {
-		props: {
+		facetsHorizontal: {
 			limit: 0,
 		},
 	},
 	tablet: {
-		props: {
+		facetsHorizontal: {
 			limit: 5,
 		},
 	},
 	desktop: {
-		props: {
+		facetsHorizontal: {
 			limit: 7,
 		},
 	},

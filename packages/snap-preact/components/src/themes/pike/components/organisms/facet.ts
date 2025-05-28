@@ -64,7 +64,7 @@ const facetStyleScript = (props: FacetProps) => {
 // Facet component props
 export const facet: ThemeComponent<'facet', FacetProps> = {
 	default: {
-		props: {
+		facet: {
 			themeStyleScript: facetStyleScript,
 			iconCollapse: custom.icons.arrowDown,
 			iconExpand: custom.icons.arrowDown,

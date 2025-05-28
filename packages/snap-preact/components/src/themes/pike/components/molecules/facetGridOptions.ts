@@ -64,7 +64,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 // FacetGridOptions component props
 export const facetGridOptions: ThemeComponent<'facetGridOptions', FacetGridOptionsProps> = {
 	default: {
-		props: {
+		facetGridOptions: {
 			themeStyleScript: facetGridOptionsStyleScript,
 			disableStyles: true,
 			gridSize: '52px',

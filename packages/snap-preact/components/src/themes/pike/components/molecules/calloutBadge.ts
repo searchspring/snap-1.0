@@ -13,7 +13,7 @@ const calloutBadgeStyleScript = (props: CalloutBadgeProps) => {
 // CalloutBadge component props
 export const calloutBadge: ThemeComponent<'calloutBadge', CalloutBadgeProps> = {
 	default: {
-		props: {
+		calloutBadge: {
 			themeStyleScript: calloutBadgeStyleScript,
 		},
 	},

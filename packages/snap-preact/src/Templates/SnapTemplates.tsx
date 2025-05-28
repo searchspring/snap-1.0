@@ -20,7 +20,6 @@ import type { SnapFeatures } from '../types';
 import type { SnapConfig, ExtendedTarget } from '../Snap';
 import type { PluginsConfigs, RecsTemplateTypes, TemplatesStoreConfigConfig, TemplateTypes } from './Stores/TemplateStore';
 import { LibraryImports } from './Stores/LibraryStore';
-import { GLOBAL_THEME_NAME } from './Stores/TargetStore';
 import {
 	pluginBackgroundFilters,
 	PluginBackgroundFiltersConfig,
@@ -57,7 +56,6 @@ export const THEME_EDIT_COOKIE = 'ssThemeEdit';
 // TODO: tabbing, finder
 export type SearchTargetConfig = {
 	selector: string;
-	theme?: keyof LibraryImports['theme'] | (string & NonNullable<unknown>);
 	component: keyof LibraryImports['component']['search'];
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
@@ -65,23 +63,19 @@ export type SearchTargetConfig = {
 export type AutocompleteTargetConfig = {
 	selector: string;
 	inputSelector?: string;
-	theme?: keyof LibraryImports['theme'] | (string & NonNullable<unknown>);
 	component: keyof LibraryImports['component']['autocomplete'];
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
 
 export type RecommendationDefaultTargetConfig = {
-	theme?: keyof LibraryImports['theme'] | (string & NonNullable<unknown>);
 	component: keyof LibraryImports['component']['recommendation']['default'];
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
 export type RecommendationEmailTargetConfig = {
-	theme?: keyof LibraryImports['theme'] | (string & NonNullable<unknown>);
 	component: keyof LibraryImports['component']['recommendation']['email'];
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
 export type RecommendationBundleTargetConfig = {
-	theme?: keyof LibraryImports['theme'] | (string & NonNullable<unknown>);
 	component: keyof LibraryImports['component']['recommendation']['bundle'];
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
@@ -243,8 +237,8 @@ export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templ
 	const targets = templateConfig.search?.targets || [];
 	return targets.map((target) => {
 		// use theme provided resultComponent if specified
-		if (!target.resultComponent && templateConfig.themes[target.theme || GLOBAL_THEME_NAME].resultComponent) {
-			target.resultComponent = templateConfig.themes[target.theme || GLOBAL_THEME_NAME].resultComponent;
+		if (!target.resultComponent && templateConfig.theme.resultComponent) {
+			target.resultComponent = templateConfig.theme.resultComponent;
 		}
 		const targetId = templatesStore.addTarget('search', target);
 		const targeter: ExtendedTarget = {
@@ -270,8 +264,8 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 	const targets = templateConfig.autocomplete?.targets || [];
 	return targets.map((target) => {
 		// use theme provided resultComponent if specified
-		if (!target.resultComponent && templateConfig.themes[target.theme || GLOBAL_THEME_NAME].resultComponent) {
-			target.resultComponent = templateConfig.themes[target.theme || GLOBAL_THEME_NAME].resultComponent;
+		if (!target.resultComponent && templateConfig.theme.resultComponent) {
+			target.resultComponent = templateConfig.theme.resultComponent;
 		}
 
 		const targetId = templatesStore.addTarget('autocomplete', target);
@@ -311,8 +305,8 @@ export function createRecommendationComponentMapping(
 				const target = templateConfig.recommendation![recsType]![targetName] as TemplateTarget;
 
 				// use theme provided resultComponent if specified
-				if (!target.resultComponent && templateConfig.themes[target.theme || GLOBAL_THEME_NAME].resultComponent) {
-					target.resultComponent = templateConfig.themes[target.theme || GLOBAL_THEME_NAME].resultComponent;
+				if (!target.resultComponent && templateConfig.theme.resultComponent) {
+					target.resultComponent = templateConfig.theme.resultComponent;
 				}
 
 				const mappedConfig: RecommendationComponentObject = {

@@ -13,7 +13,7 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 // NoResults component props
 export const noResults: ThemeComponent<'noResults', NoResultsProps> = {
 	default: {
-		props: {
+		noResults: {
 			themeStyleScript: noResultsStyleScript,
 		},
 	},

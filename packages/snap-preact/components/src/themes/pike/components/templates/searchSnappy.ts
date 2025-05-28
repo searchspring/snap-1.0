@@ -15,18 +15,16 @@ const searchSnappyStyleScript = (props: SearchSnappyProps) => {
 // Search component props come from Template export
 export const searchSnappy: ThemeComponent<'searchSnappy', SearchSnappyProps> = {
 	default: {
-		props: {
-			...searchSnappyThemeComponentProps.default?.props,
+		...searchSnappyThemeComponentProps.default,
+		searchSnappy: {
+			...(searchSnappyThemeComponentProps.default?.['searchSnappy'] || {}),
 			themeStyleScript: searchSnappyStyleScript,
 		},
-		components: {
-			...searchSnappyThemeComponentProps.default?.components,
-			'*searchSnappy button.sidebar-toggle': {
-				icon: custom.icons.filter,
-			},
-			'*searchSnappy filterSummary': {
-				hideTitle: false,
-			},
+		'searchSnappy button.sidebar-toggle': {
+			icon: custom.icons.filter,
+		},
+		'searchSnappy filterSummary': {
+			hideTitle: false,
 		},
 	},
 	mobile: searchSnappyThemeComponentProps.mobile,

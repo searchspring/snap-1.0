@@ -14,11 +14,11 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 // Recommendation component props come from Template export
 export const recommendation: ThemeComponent<'recommendation', RecommendationProps> = {
 	default: {
-		props: {
-			...recommendationThemeComponentProps.default?.props,
+		...recommendationThemeComponentProps.default,
+		recommendation: {
+			...(recommendationThemeComponentProps.default?.['recommendation'] || {}),
 			themeStyleScript: recommendationStyleScript,
 		},
-		components: recommendationThemeComponentProps.default?.components,
 	},
 	mobile: recommendationThemeComponentProps.mobile,
 	desktop: recommendationThemeComponentProps.desktop,

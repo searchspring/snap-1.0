@@ -13,7 +13,7 @@ const slideoutStyleScript = (props: SlideoutProps & { isActive: boolean }) => {
 // Slideout component props
 export const slideout: ThemeComponent<'slideout', SlideoutProps> = {
 	default: {
-		props: {
+		slideout: {
 			themeStyleScript: slideoutStyleScript,
 		},
 	},

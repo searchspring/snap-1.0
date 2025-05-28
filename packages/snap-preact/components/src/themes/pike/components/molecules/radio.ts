@@ -62,15 +62,13 @@ const radioStyleScript = (props: RadioProps) => {
 // Radio component props
 export const radio: ThemeComponent<'radio', RadioProps> = {
 	default: {
-		props: {
+		radio: {
 			themeStyleScript: radioStyleScript,
 			size: `${custom.sizes.icon14}px`,
 		},
-		components: {
-			'*radio icon': {
-				icon: 'square',
-				size: `${custom.sizes.icon10 - 2}px`,
-			},
+		'radio icon': {
+			icon: 'square',
+			size: `${custom.sizes.icon10 - 2}px`,
 		},
 	},
 };

@@ -13,7 +13,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 // Grid component props
 export const grid: ThemeComponent<'grid', GridProps> = {
 	default: {
-		props: {
+		grid: {
 			themeStyleScript: gridStyleScript,
 		},
 	},

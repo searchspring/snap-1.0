@@ -33,6 +33,9 @@ const defaultStyles: StyleScript<LayoutProps> = ({}) => {
 		'.ss__layout__separator': {
 			flex: '1 1 auto',
 		},
+		'.ss__layout__row:empty': {
+			display: 'none',
+		},
 		'.ss__layout__row': {
 			display: 'flex',
 			alignItems: 'center',
@@ -57,6 +60,8 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 
 	const props = mergeProps('layout', globalTheme, defaultProps, properties);
 	const { controller, toggleSideBarButton, disableStyles, className, treePath, layout } = props;
+
+	delete props.treePath;
 
 	const styling = mergeStyles<LayoutProps>(props, defaultStyles);
 
@@ -210,10 +215,12 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 
 	const ToggleSideBarButton = toggleSideBarButton;
 
+	const hasResults = controller.store.pagination.totalResults > 0;
+
 	function renderModule(module: ModuleNames) {
 		switch (module) {
 			case 'mobileSidebar':
-				if (controller.store.pagination.totalResults > 0) {
+				if (hasResults) {
 					return <MobileSidebar controller={controller} {...subProps.MobileSidebar} />;
 				}
 				break;
@@ -222,34 +229,43 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 				return <SearchHeader {...subProps.SearchHeader} />;
 
 			case 'filterSummary':
-				return <FilterSummary {...subProps.FilterSummary} />;
-
+				if (hasResults) {
+					return <FilterSummary {...subProps.FilterSummary} />;
+				}
 			case 'layoutSelector':
-				return <LayoutSelector {...subProps.LayoutSelector} />;
-
+				if (hasResults) {
+					return <LayoutSelector {...subProps.LayoutSelector} />;
+				}
 			case 'paginationInfo':
-				return <PaginationInfo {...subProps.PaginationInfo} />;
-
+				if (hasResults) {
+					return <PaginationInfo {...subProps.PaginationInfo} />;
+				}
 			case 'sortBy':
-				return <SortBy {...subProps.SortBy} />;
-
+				if (hasResults) {
+					return <SortBy {...subProps.SortBy} />;
+				}
 			case 'perPage':
-				return <PerPage {...subProps.PerPage} />;
-
+				if (hasResults) {
+					return <PerPage {...subProps.PerPage} />;
+				}
 			case 'button.sidebar-toggle':
-				return (
-					ToggleSideBarButton && (
-						<div className="ss__button--sidebar-toggle-button-wrapper">
-							<Button {...subProps.ToggleSideBarButton}></Button>
-						</div>
-					)
-				);
+				if (hasResults) {
+					return (
+						ToggleSideBarButton && (
+							<div className="ss__button--sidebar-toggle-button-wrapper">
+								<Button {...subProps.ToggleSideBarButton}></Button>
+							</div>
+						)
+					);
+				}
 
 			case 'pagination':
-				if (controller.config.settings?.infinite) {
-					return <LoadMore {...subProps.LoadMore} />;
-				} else {
-					return <Pagination {...subProps.Pagination} />;
+				if (hasResults) {
+					if (controller.config.settings?.infinite) {
+						return <LoadMore {...subProps.LoadMore} />;
+					} else {
+						return <Pagination {...subProps.Pagination} />;
+					}
 				}
 
 			case '_':
@@ -268,11 +284,13 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 				return <Banner {...subProps.Banner} type={ContentType.LEFT} name={'left'} />;
 
 			case 'facets':
-				return <Facets {...subProps.Facets} />;
-
+				if (hasResults) {
+					return <Facets {...subProps.Facets} />;
+				}
 			case 'facetsHorizontal':
-				return <FacetsHorizontal {...subProps.Facets} />;
-
+				if (hasResults) {
+					return <FacetsHorizontal {...subProps.Facets} />;
+				}
 			default:
 				return null;
 		}

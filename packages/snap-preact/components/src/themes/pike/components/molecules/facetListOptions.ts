@@ -43,14 +43,12 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 // FacetListOptions component props
 export const facetListOptions: ThemeComponent<'facetListOptions', FacetListOptionsProps> = {
 	default: {
-		props: {
+		facetListOptions: {
 			themeStyleScript: facetListOptionsStyleScript,
 			disableStyles: true,
 		},
-		components: {
-			'*facetListOptions checkbox': {
-				disableStyles: false,
-			},
+		'facetListOptions checkbox': {
+			disableStyles: false,
 		},
 	},
 };
