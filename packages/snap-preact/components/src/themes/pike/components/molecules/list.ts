@@ -39,7 +39,7 @@ const listStyleScript = (props: ListProps) => {
 // List component props
 export const list: ThemeComponent<'list', ListProps> = {
 	default: {
-		props: {
+		list: {
 			themeStyleScript: listStyleScript,
 		},
 	},

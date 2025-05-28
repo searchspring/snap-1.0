@@ -12,18 +12,15 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 	return css({});
 };
 
-// Search component props come from Template export
 export const searchBoca: ThemeComponent<'searchBoca', SearchBocaProps> = {
 	default: {
-		props: {
-			...searchBocaThemeComponentProps.default?.props,
+		...searchBocaThemeComponentProps.default,
+		searchBoca: {
+			...(searchBocaThemeComponentProps.default?.['searchBoca'] || {}),
 			themeStyleScript: searchBocaStyleScript,
 		},
-		components: {
-			...searchBocaThemeComponentProps.default?.components,
-			'*searchBoca button.sidebar-toggle': {
-				icon: custom.icons.filter,
-			},
+		'searchBoca button.sidebar-toggle': {
+			icon: custom.icons.filter,
 		},
 	},
 	mobile: searchBocaThemeComponentProps.mobile,

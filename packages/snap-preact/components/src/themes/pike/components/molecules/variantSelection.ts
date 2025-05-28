@@ -13,7 +13,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 // VariantSelection component props
 export const variantSelection: ThemeComponent<'variantSelection', VariantSelectionProps> = {
 	default: {
-		props: {
+		variantSelection: {
 			themeStyleScript: variantSelectionStyleScript,
 		},
 	},

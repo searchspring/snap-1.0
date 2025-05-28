@@ -13,7 +13,7 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 // Image component props
 export const image: ThemeComponent<'image', ImageProps> = {
 	default: {
-		props: {
+		image: {
 			themeStyleScript: imageStyleScript,
 		},
 	},

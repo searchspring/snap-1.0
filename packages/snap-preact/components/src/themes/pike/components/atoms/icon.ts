@@ -17,7 +17,7 @@ const iconStyleScript = (props: IconProps) => {
 // Icon component props
 export const icon: ThemeComponent<'icon', IconProps> = {
 	default: {
-		props: {
+		icon: {
 			themeStyleScript: iconStyleScript,
 			size: `${custom.sizes.icon16}px`,
 		},

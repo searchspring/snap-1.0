@@ -13,7 +13,7 @@ const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 // ErrorHandler component props
 export const errorHandler: ThemeComponent<'errorHandler', ErrorHandlerProps> = {
 	default: {
-		props: {
+		errorHandler: {
 			themeStyleScript: errorHandlerStyleScript,
 		},
 	},

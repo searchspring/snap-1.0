@@ -111,18 +111,16 @@ const selectStyleScript = (props: SelectProps) => {
 // Select component props
 export const select: ThemeComponent<'select', SelectProps> = {
 	default: {
-		props: {
+		select: {
 			themeStyleScript: selectStyleScript,
 			iconOpen: custom.icons.arrowDown,
 			iconClose: custom.icons.arrowDown,
 		},
-		components: {
-			'*select dropdown button': {
-				native: false,
-			},
-			'*select dropdown icon': {
-				size: `${custom.sizes.icon12}px`,
-			},
+		'select dropdown button': {
+			native: false,
+		},
+		'select dropdown icon': {
+			size: `${custom.sizes.icon12}px`,
 		},
 	},
 };

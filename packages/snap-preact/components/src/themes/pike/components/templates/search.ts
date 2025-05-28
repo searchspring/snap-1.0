@@ -15,15 +15,13 @@ const searchStyleScript = (props: SearchProps) => {
 // Search component props come from Template export
 export const search: ThemeComponent<'search', SearchProps> = {
 	default: {
-		props: {
-			...searchThemeComponentProps.default?.props,
+		...searchThemeComponentProps.default,
+		search: {
+			...(searchThemeComponentProps.default?.['search'] || {}),
 			themeStyleScript: searchStyleScript,
 		},
-		components: {
-			...searchThemeComponentProps.default?.components,
-			'*search button.sidebar-toggle': {
-				icon: custom.icons.filter,
-			},
+		'search button.sidebar-toggle': {
+			icon: custom.icons.filter,
 		},
 	},
 	mobile: searchThemeComponentProps.mobile,

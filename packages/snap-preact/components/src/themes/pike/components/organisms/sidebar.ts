@@ -34,7 +34,7 @@ const sidebarStyleScript = (props: SidebarProps) => {
 // Sidebar component props
 export const sidebar: ThemeComponent<'sidebar', SidebarProps> = {
 	default: {
-		props: {
+		sidebar: {
 			themeStyleScript: sidebarStyleScript,
 		},
 	},

@@ -30,7 +30,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 // FilterSummary component props
 export const filterSummary: ThemeComponent<'filterSummary', FilterSummaryProps> = {
 	default: {
-		props: {
+		filterSummary: {
 			themeStyleScript: filterSummaryStyleScript,
 			clearAllIcon: custom.icons.close,
 			filterIcon: custom.icons.close,

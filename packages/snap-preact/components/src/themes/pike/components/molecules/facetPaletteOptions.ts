@@ -173,7 +173,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 // FacetPaletteOptions component props
 export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPaletteOptionsProps> = {
 	default: {
-		props: {
+		facetPaletteOptions: {
 			themeStyleScript: facetPaletteStyleScript,
 			disableStyles: true,
 			hideIcon: true,
@@ -212,10 +212,8 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 				},
 			},
 		},
-		components: {
-			'*facetPaletteOptions checkbox': {
-				disableStyles: false,
-			},
+		'facetPaletteOptions checkbox': {
+			disableStyles: false,
 		},
 	},
 };

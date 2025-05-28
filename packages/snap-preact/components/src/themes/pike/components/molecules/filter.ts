@@ -38,14 +38,12 @@ const filterStyleScript = (props: FilterProps) => {
 // Filter component props
 export const filter: ThemeComponent<'filter', FilterProps> = {
 	default: {
-		props: {
+		filter: {
 			themeStyleScript: filterStyleScript,
 			icon: custom.icons.close,
 		},
-		components: {
-			'*filter icon': {
-				size: `${custom.sizes.icon10}px`,
-			},
+		'filter icon': {
+			size: `${custom.sizes.icon10}px`,
 		},
 	},
 };

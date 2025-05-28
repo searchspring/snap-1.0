@@ -14,11 +14,11 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 // RecommendationBundleVertical component props come from Template export
 export const recommendationBundleVertical: ThemeComponent<'recommendationBundleVertical', RecommendationBundleVerticalProps> = {
 	default: {
-		props: {
-			...recommendationBundleVerticalThemeComponentProps.default?.props,
+		...recommendationBundleVerticalThemeComponentProps.default,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.default?.['recommendationBundleVertical'] || {}),
 			themeStyleScript: recommendationBundleVerticalStyleScript,
 		},
-		components: recommendationBundleVerticalThemeComponentProps.default?.components,
 	},
 	mobile: recommendationBundleVerticalThemeComponentProps.mobile,
 	desktop: recommendationBundleVerticalThemeComponentProps.desktop,

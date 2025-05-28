@@ -13,7 +13,7 @@ const loadMoreStyleScript = (props: LoadMoreProps) => {
 // LoadMore component props
 export const loadMore: ThemeComponent<'loadMore', LoadMoreProps> = {
 	default: {
-		props: {
+		loadMore: {
 			themeStyleScript: loadMoreStyleScript,
 		},
 	},

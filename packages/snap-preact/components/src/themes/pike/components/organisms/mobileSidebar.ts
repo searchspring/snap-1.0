@@ -14,14 +14,12 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 // MobileSidebar component props
 export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> = {
 	default: {
-		props: {
+		mobileSidebar: {
 			themeStyleScript: mobileSidebarStyleScript,
 			openButtonIcon: custom.icons.filter,
 		},
-		components: {
-			'*mobileSidebar button.close': {
-				icon: custom.icons.close,
-			},
+		'mobileSidebar button.close': {
+			icon: custom.icons.close,
 		},
 	},
 };

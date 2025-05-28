@@ -15,13 +15,13 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 // RecommendationBundle component props come from Template export
 export const recommendationBundle: ThemeComponent<'recommendationBundle', RecommendationBundleProps> = {
 	default: {
-		props: {
-			...recommendationBundleThemeComponentProps.default?.props,
-			themeStyleScript: recommendationBundleStyleScript,
+		...recommendationBundleThemeComponentProps.default,
+		recommendationBundle: {
+			...(recommendationBundleThemeComponentProps.default?.['recommendationBundle'] || {}),
 			separatorIcon: custom.icons.plus,
 			ctaIcon: custom.icons.bag,
+			themeStyleScript: recommendationBundleStyleScript,
 		},
-		components: recommendationBundleThemeComponentProps.default?.components,
 	},
 	mobile: recommendationBundleThemeComponentProps.mobile,
 	desktop: recommendationBundleThemeComponentProps.desktop,

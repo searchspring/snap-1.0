@@ -56,21 +56,19 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 // LayoutSelector component props
 export const layoutSelector: ThemeComponent<'layoutSelector', LayoutSelectorProps> = {
 	default: {
-		props: {
+		layoutSelector: {
 			themeStyleScript: layoutSelectorStyleScript,
 			type: 'list',
 		},
-		components: {
-			'*layoutSelector select': {
-				hideSelection: true,
-				separator: '',
-			},
-			'*layoutSelector list': {
-				hideTitleText: true,
-			},
-			'*layoutSelector radioList': {
-				hideTitleText: true,
-			},
+		'layoutSelector select': {
+			hideSelection: true,
+			separator: '',
+		},
+		'layoutSelector list': {
+			hideTitleText: true,
+		},
+		'layoutSelector radioList': {
+			hideTitleText: true,
 		},
 	},
 };

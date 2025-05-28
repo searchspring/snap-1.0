@@ -13,7 +13,7 @@ const sortByStyleScript = (props: SortByProps) => {
 // SortBy component props
 export const sortBy: ThemeComponent<'sortBy', SortByProps> = {
 	default: {
-		props: {
+		sortBy: {
 			themeStyleScript: sortByStyleScript,
 		},
 	},

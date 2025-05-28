@@ -23,7 +23,7 @@ const priceStyleScript = (props: PriceProps) => {
 // Price component props
 export const price: ThemeComponent<'price', PriceProps> = {
 	default: {
-		props: {
+		price: {
 			themeStyleScript: priceStyleScript,
 		},
 	},
