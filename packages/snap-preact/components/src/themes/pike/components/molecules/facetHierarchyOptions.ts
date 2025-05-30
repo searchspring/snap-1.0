@@ -55,7 +55,7 @@ export const facetHierarchyOptions: ThemeComponent<'facetHierarchyOptions', Face
 	default: {
 		facetHierarchyOptions: {
 			themeStyleScript: facetHierarchyOptionsStyleScript,
-			disableStyles: true,
+			//disableStyles: true,
 		},
 	},
 };

@@ -175,7 +175,7 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 	default: {
 		facetPaletteOptions: {
 			themeStyleScript: facetPaletteStyleScript,
-			disableStyles: true,
+			//disableStyles: true,
 			hideIcon: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
@@ -212,8 +212,8 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 				},
 			},
 		},
-		'facetPaletteOptions checkbox': {
-			disableStyles: false,
-		},
+		// 'facetPaletteOptions checkbox': {
+		// 	disableStyles: false,
+		// },
 	},
 };

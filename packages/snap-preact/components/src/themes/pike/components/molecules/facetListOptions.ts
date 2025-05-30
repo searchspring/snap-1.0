@@ -45,10 +45,10 @@ export const facetListOptions: ThemeComponent<'facetListOptions', FacetListOptio
 	default: {
 		facetListOptions: {
 			themeStyleScript: facetListOptionsStyleScript,
-			disableStyles: true,
+			//disableStyles: true,
 		},
-		'facetListOptions checkbox': {
-			disableStyles: false,
-		},
+		// 'facetListOptions checkbox': {
+		// 	disableStyles: false,
+		// },
 	},
 };

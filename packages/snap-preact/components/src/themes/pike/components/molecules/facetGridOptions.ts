@@ -66,7 +66,7 @@ export const facetGridOptions: ThemeComponent<'facetGridOptions', FacetGridOptio
 	default: {
 		facetGridOptions: {
 			themeStyleScript: facetGridOptionsStyleScript,
-			disableStyles: true,
+			//disableStyles: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
 		},
