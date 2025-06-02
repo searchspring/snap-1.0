@@ -4792,7 +4792,7 @@
 				},
 				swatches = { default: { swatches: {} } },
 				variantSelection = { default: { variantSelection: {} } },
-				terms = { default: { terms: { styleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
+				terms = { default: { terms: { themeStyleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
 				molecules_default = {
 					...carousel.default,
 					...checkbox_checkbox.default,
@@ -5008,7 +5008,7 @@
 						},
 					},
 				},
-				termsList = { default: { termsList: { styleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
+				termsList = { default: { termsList: { themeStyleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
 				toolbar = { default: { toolbar: { themeStyleScript: () => (0, emotion_react_browser_esm.AH)({}) } } },
 				organisms_default = {
 					...facet.default,
@@ -5891,7 +5891,7 @@
 				},
 				swatches = { default: { swatches: {} } },
 				variantSelection = { default: { variantSelection: {} } },
-				terms = { default: { terms: { styleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
+				terms = { default: { terms: { themeStyleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
 				molecules_default = {
 					...carousel.default,
 					...checkbox_checkbox.default,
@@ -6143,7 +6143,7 @@
 						},
 					},
 				},
-				termsList = { default: { termsList: { styleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
+				termsList = { default: { termsList: { themeStyleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
 				toolbar = { default: { toolbar: { themeStyleScript: () => (0, emotion_react_browser_esm.AH)({ paddingBottom: '10px' }) } } },
 				organisms_default = {
 					...facet.default,
@@ -7121,7 +7121,7 @@
 				},
 				swatches = { default: { swatches: {} } },
 				variantSelection = { default: { variantSelection: {} } },
-				terms = { default: { terms: { styleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
+				terms = { default: { terms: { themeStyleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
 				molecules_default = {
 					...carousel.default,
 					...checkbox_checkbox.default,
@@ -7353,7 +7353,7 @@
 						},
 					},
 				},
-				termsList = { default: { termsList: { styleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
+				termsList = { default: { termsList: { themeStyleScript: ({ theme }) => (0, emotion_react_browser_esm.AH)({}) } } },
 				toolbar = { default: { toolbar: { themeStyleScript: () => (0, emotion_react_browser_esm.AH)({}) } } },
 				organisms_default = {
 					...facet.default,
@@ -9665,7 +9665,7 @@
 		'../snap-toolbox/dist/esm/version/version.js': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';
 			__webpack_require__.d(__webpack_exports__, { r: () => version });
-			const { version } = { version: '1.8.0' };
+			const { version } = { version: '1.8.1' };
 		},
 		'../snap-tracker/dist/esm/Tracker.js': (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 			'use strict';
