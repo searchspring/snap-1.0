@@ -16,10 +16,12 @@ const facetStyleScript = (props: FacetProps) => {
 				},
 			},
 		},
-		'&.ss__facet--slider': {
+		'&.ss__facet--showing-all': {
 			'.ss__facet__options': {
-				maxHeight: 'none',
-				overflow: 'visible',
+				maxHeight: `490px`,
+				overflowY: 'auto',
+				overflowX: 'hidden',
+				paddingRight: `${custom.spacing.x2}px`,
 			},
 		},
 		'.ss__facet__header': {
@@ -37,7 +39,8 @@ const facetStyleScript = (props: FacetProps) => {
 		},
 		'.ss__facet__options': {
 			marginTop: 0,
-			maxHeight: `490px`,
+			maxHeight: 'none',
+			overflow: 'visible',
 			'&::-webkit-scrollbar': {
 				width: '8px',
 				height: '8px',

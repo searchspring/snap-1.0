@@ -18,15 +18,17 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 			'&:last-child': {
 				marginBottom: 0,
 			},
-			'.ss__checkbox': {
+			'.ss__checkbox, .ss__radio': {
 				position: 'absolute',
-				top: '1px',
+				top: '1.5px',
 				left: 0,
 			},
 			'.ss__facet-list-options__option__value': {
+				margin: 0,
 				'.ss__facet-list-options__option__value__count': {
 					position: 'relative',
 					top: '-1px',
+					margin: 0,
 					padding: `0 ${custom.spacing.x1}px`,
 					opacity: 0.805,
 					fontSize: '0.6rem',
@@ -45,10 +47,7 @@ export const facetListOptions: ThemeComponent<'facetListOptions', FacetListOptio
 	default: {
 		facetListOptions: {
 			themeStyleScript: facetListOptionsStyleScript,
-			//disableStyles: true,
+			respectSingleSelect: true,
 		},
-		// 'facetListOptions checkbox': {
-		// 	disableStyles: false,
-		// },
 	},
 };

@@ -7,9 +7,6 @@ import { custom } from '../../custom';
 const selectStyleScript = (props: SelectProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const nativeIcon = `<svg class="ss__icon ss__icon--chevron-down" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" fill="${
-		variables?.colors?.text || '#515151'
-	}"><path d="M55.348 19.573l-25.785 25.75c-0.869 0.869-2.259 0.869-3.128 0l-25.785-25.75c-0.869-0.869-0.869-2.293 0-3.162l5.768-5.734c0.869-0.869 2.259-0.869 3.128 0l18.452 18.452 18.452-18.452c0.869-0.869 2.259-0.869 3.128 0l5.768 5.734c0.869 0.869 0.869 2.293 0 3.162z"></path></svg>`;
 
 	// shared styles for select menus
 	const sharedStyles = css({
@@ -22,12 +19,17 @@ const selectStyleScript = (props: SelectProps) => {
 	const defaultStyles = css([
 		{
 			'.ss__dropdown': {
+				width: '100%',
 				'.ss__dropdown__button .ss__button, .ss__dropdown__content .ss__select__select': {
 					...sharedStyles,
 				},
 				'.ss__dropdown__button': {
 					'.ss__button': {
+						display: 'flex',
 						padding: `0 ${custom.spacing.x2}px`,
+						'.ss__select__selection__icon': {
+							margin: 0,
+						},
 						'.ss__select__selection': {
 							paddingRight: `${custom.spacing.x1}px`,
 							fontWeight: 'normal',
@@ -41,7 +43,9 @@ const selectStyleScript = (props: SelectProps) => {
 					marginTop: `${custom.spacing.x2}px`,
 					'.ss__select__select': {
 						padding: `${custom.spacing.x2}px`,
+						margin: 0,
 						'.ss__select__select__option': {
+							gap: `${custom.spacing.x2}px`,
 							padding: 0,
 							margin: `0 0 ${custom.spacing.x1}px 0`,
 							color: 'inherit',
@@ -79,17 +83,14 @@ const selectStyleScript = (props: SelectProps) => {
 			flexFlow: 'row nowrap',
 			alignItems: 'center',
 			gap: `${custom.spacing.x1}px`,
-			padding: `0 ${custom.spacing.x4 + custom.sizes.icon}px 0 ${custom.spacing.x2}px`,
+			padding: `0 ${custom.spacing.x2}px`,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			backgroundImage: `url(data:image/svg+xml;base64,${btoa(nativeIcon)})`,
-			backgroundPosition: `right ${custom.spacing.x2}px center`,
-			backgroundRepeat: 'no-repeat',
-			backgroundSize: `${custom.sizes.icon}px ${custom.sizes.icon}px`,
 			'.ss__select__label': {
 				fontWeight: custom.fonts.weight01,
 			},
 			'.ss__select__select': {
+				paddingRight: `${custom.spacing.x1}px`,
 				backgroundColor: 'transparent',
 				border: 'none',
 				appearance: 'none',
@@ -116,10 +117,13 @@ export const select: ThemeComponent<'select', SelectProps> = {
 			iconOpen: custom.icons.arrowDown,
 			iconClose: custom.icons.arrowDown,
 		},
+		'select icon.open': {
+			size: `${custom.sizes.icon12}px`,
+		},
 		'select dropdown button': {
 			native: false,
 		},
-		'select dropdown icon': {
+		'select dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,
 		},
 	},

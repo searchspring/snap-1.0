@@ -9,21 +9,21 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		h3: {
+		em: {
+			fontStyle: 'normal',
+		},
+		'.ss__search-header__title': {
 			margin: 0,
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
-		h5: {
+		'.ss__search-header__subtitle': {
 			margin: `${custom.spacing.x2}px 0 0 0`,
 			fontSize: '16px',
 			fontWeight: 400,
 			color: variables?.colors?.text,
 		},
-		em: {
-			fontStyle: 'normal',
-		},
-		'.ss__query': {
+		'.ss__search-header__results-query': {
 			color: variables?.colors?.primary,
 		},
 	});
@@ -34,11 +34,6 @@ export const searchHeader: ThemeComponent<'searchHeader', SearchHeaderProps> = {
 	default: {
 		searchHeader: {
 			themeStyleScript: searchHeaderStyleScript,
-			titleText: (data) => {
-				const search = data?.search;
-				const query = search?.query?.string ? ` for "<span class="ss__query">${search.query.string}</span>"` : ``;
-				return search?.matchType == 'expanded' ? `We couldn't find an exact match${query}, but here's something similar:` : `Search Results${query}`;
-			},
 		},
 	},
 };

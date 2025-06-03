@@ -61,11 +61,12 @@ export const layoutSelector: ThemeComponent<'layoutSelector', LayoutSelectorProp
 			type: 'list',
 		},
 		'layoutSelector select': {
-			hideSelection: true,
+			hideSelection: false,
 			separator: '',
 		},
 		'layoutSelector list': {
 			hideTitleText: true,
+			hideOptionLabels: true,
 		},
 		'layoutSelector radioList': {
 			hideTitleText: true,
