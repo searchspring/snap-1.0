@@ -12,15 +12,18 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
 	return css({
-		display: 'grid',
 		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
 		gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 		alignItems: 'center',
+		'&:before': {
+			display: 'none',
+		},
 		'.ss__facet-grid-options__option': {
 			position: 'relative',
 			height: 0,
 			paddingBottom: '100%',
 			color: variables?.colors?.text,
+			border: 0,
 			'&, &:before, .ss__facet-grid-options__option__value': {
 				display: 'block',
 			},
@@ -47,7 +50,9 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				maxHeight: `calc(100% - ${custom.spacing.x2}px)`,
 				overflow: 'hidden',
 				textAlign: 'center',
-				fontSize: '0.75rem',
+				'&, &.ss__facet-grid-options__option__value--smaller': {
+					fontSize: '0.75rem',
+				},
 			},
 		},
 		'.ss__facet-grid-options__option.ss__facet-grid-options__option--filtered': {
@@ -66,7 +71,6 @@ export const facetGridOptions: ThemeComponent<'facetGridOptions', FacetGridOptio
 	default: {
 		facetGridOptions: {
 			themeStyleScript: facetGridOptionsStyleScript,
-			//disableStyles: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
 		},

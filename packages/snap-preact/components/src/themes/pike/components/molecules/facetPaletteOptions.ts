@@ -9,6 +9,11 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const variables = props?.theme?.variables;
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
 
+	// set details for radius
+	const radius = 0;
+	const radiusUnit = 'px';
+	const paletteRadius = radius ? `${radius}${radiusUnit}` : `0`;
+
 	// light colors selector
 	const palettePrefix = '.ss__facet-palette-options__option__palette';
 	const lightColors = `${palettePrefix}--white, ${palettePrefix}--ivory, ${palettePrefix}--clear, ${palettePrefix}--transparent`;
@@ -23,7 +28,15 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// shared palette styles
 	const sharedStyles = css({
 		'.ss__facet-palette-options__option': {
+			display: 'block',
 			color: variables?.colors?.text,
+			'&, &.ss__facet-palette-options__option--filtered': {
+				'.ss__facet-palette-options__option__wrapper': {
+					border: 0,
+					borderRadius: 0,
+					padding: 0,
+				},
+			},
 			'.ss__facet-palette-options__option__wrapper': {
 				'&:before, .ss__facet-palette-options__option__palette, .ss__facet-palette-options__option__palette:before': {
 					position: 'absolute',
@@ -32,6 +45,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					left: 0,
 					right: 0,
 					margin: 'auto',
+					borderRadius: paletteRadius,
 				},
 				'&:before, .ss__facet-palette-options__option__palette:before': {
 					content: '""',
@@ -45,6 +59,8 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				},
 				'.ss__facet-palette-options__option__palette': {
 					zIndex: 1,
+					border: 0,
+					padding: 0,
 					'&:before': {
 						border: `1px solid ${custom.colors.white}`,
 					},
@@ -77,13 +93,14 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					visibility: 'visible',
 				},
 				'&:before': {
-					opacity: 0.4,
+					opacity: 0.3,
 				},
 				'.ss__facet-palette-options__option__palette': {
 					'&:before': {
 						opacity: 1,
 						margin: '1px',
 						borderWidth: props?.layout == 'list' ? `${hasCheckbox ? 2 : 3}px` : `5px`,
+						borderRadius: radius ? `calc(${paletteRadius} - 1px)` : '',
 					},
 					'&:not([style]):before': {
 						borderColor: custom.colors.gray01,
@@ -98,23 +115,24 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 		},
 	});
 
-	// default styles
-	const defaultStyles = css([
+	// grid styles
+	const gridStyles = css([
 		sharedStyles,
 		{
-			display: 'grid',
 			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
 			gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 			alignItems: 'center',
 			'.ss__facet-palette-options__option': {
 				textAlign: 'center',
+				'&, &.ss__facet-palette-options__option--filtered': {
+					'.ss__facet-palette-options__option__wrapper': {
+						position: 'relative',
+						height: 0,
+						padding: '0 0 100% 0',
+					},
+				},
 				'.ss__checkbox': {
 					display: 'none',
-				},
-				'.ss__facet-palette-options__option__wrapper': {
-					position: 'relative',
-					height: 0,
-					paddingBottom: '100%',
 				},
 				'.ss__facet-palette-options__option__value, .ss__facet-palette-options__option__value__count': {
 					display: 'block',
@@ -141,8 +159,10 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const listStyles = css([
 		sharedStyles,
 		{
-			'.ss__facet-palette-options__option': {
+			'&.ss__facet-palette-options--list': {
 				display: 'block',
+			},
+			'.ss__facet-palette-options__option': {
 				position: 'relative',
 				margin: `0 0 ${custom.spacing.x1}px 0`,
 				padding: `${hasCheckbox ? 0 : custom.spacing.x1 + 'px'} 0 0 ${listPadding}px`,
@@ -163,11 +183,21 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					height: `${listSize}px`,
 					lineHeight: `${listSize}px`,
 				},
+				'.ss__facet-palette-options__option__value, .ss__facet-palette-options__option__value__count': {
+					display: 'inline',
+					overflow: 'visible',
+					textOverflow: 'unset',
+					textAlign: 'left',
+					whiteSpace: 'unset',
+				},
+				'.ss__facet-palette-options__option__value__count': {
+					margin: 0,
+				},
 			},
 		},
 	]);
 
-	return props?.layout == 'list' ? listStyles : defaultStyles;
+	return props?.layout == 'list' ? listStyles : gridStyles;
 };
 
 // FacetPaletteOptions component props
@@ -175,7 +205,6 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 	default: {
 		facetPaletteOptions: {
 			themeStyleScript: facetPaletteStyleScript,
-			//disableStyles: true,
 			hideIcon: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
@@ -212,8 +241,5 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 				},
 			},
 		},
-		// 'facetPaletteOptions checkbox': {
-		// 	disableStyles: false,
-		// },
 	},
 };

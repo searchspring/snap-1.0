@@ -12,10 +12,57 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 		display: 'flex',
 		flexFlow: 'row wrap',
 		alignItems: 'center',
+		'&.ss__filter-summary--list': {
+			'&, .ss__filter-summary__filters': {
+				display: 'block',
+			},
+			'.ss__filter-summary__title:after': {
+				display: 'none',
+			},
+			'.ss__filter-summary__filters': {
+				'.ss__filter': {
+					margin: `0 0 ${custom.spacing.x1}px 0`,
+					'&:last-child': {
+						marginBottom: 0,
+					},
+					'.ss__filter__button': {
+						padding: `0 0 0 ${16 + custom.spacing.x2}px`,
+						border: 0,
+						'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
+							backgroundColor: 'transparent',
+						},
+						'.ss__button__content': {
+							'&:before, .ss__icon': {
+								top: '1px',
+								left: 0,
+							},
+							'&:before': {
+								content: '""',
+								display: 'block',
+								position: 'absolute',
+
+								width: `${custom.sizes.icon14}px`,
+								height: `${custom.sizes.icon14}px`,
+								backgroundColor: custom.colors.white,
+								border: `1px solid ${custom.colors.gray03}`,
+							},
+							'.ss__icon': {
+								margin: '4px',
+								width: `${custom.sizes.icon08}px`,
+								height: `${custom.sizes.icon08}px`,
+								fill: variables?.colors?.primary,
+								stroke: variables?.colors?.primary,
+							},
+						},
+					},
+				},
+			},
+		},
 		'.ss__filter-summary__title': {
 			padding: `0 ${custom.spacing.x1}px 0 0`,
 			fontSize: '14px',
 			fontWeight: custom.fonts.weight02,
+			color: variables?.colors?.text,
 			'&:after': {
 				content: '":"',
 			},

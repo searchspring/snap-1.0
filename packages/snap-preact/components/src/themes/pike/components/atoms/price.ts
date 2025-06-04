@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import type { PriceProps } from '../../../../components/Atoms/Price';
 import { ThemeComponent } from '../../../../providers';
-import { custom } from '../../custom';
 
 // CSS in JS style script for the Price component
 const priceStyleScript = (props: PriceProps) => {
@@ -9,13 +8,9 @@ const priceStyleScript = (props: PriceProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		color: props?.name == 'price' ? variables?.colors?.primary : variables?.colors?.text,
-		'&:not(.ss__price--strike)': {
-			fontWeight: custom.fonts.weight01,
-		},
-		'&.ss__price--strike': {
-			color: variables?.colors?.text,
-			opacity: 0.805,
+		color: variables?.colors?.text,
+		'span, &.ss__price, &.ss__price--strike': {
+			color: 'inherit',
 		},
 	});
 };
