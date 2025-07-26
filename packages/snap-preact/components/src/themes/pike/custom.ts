@@ -3,19 +3,19 @@ import Color from 'color';
 
 export const custom: {
 	colors: {
-		[color: string]: string;
+		[key: string]: string;
 	};
 	fonts: {
-		[font: string]: any;
+		[key: string]: any;
 	};
 	icons: {
-		[icon: string]: IconType;
+		[key: string]: IconType;
 	};
 	sizes: {
-		[size: string]: any;
+		[key: string]: number;
 	};
 	spacing: {
-		[size: string]: number;
+		[key: string]: number;
 	};
 } = {
 	colors: {
