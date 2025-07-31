@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge } from '@searchspring/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating } from '@searchspring/snap-preact/components';
 
 export const CustomResult = (props) => {
 	const { result, controller } = props;
@@ -14,6 +14,7 @@ export const CustomResult = (props) => {
 					</OverlayBadge>
 				</a>
 			</div>
+
 			<div className="ss__custom-result__details">
 				<div className="ss__custom-result__details__title">
 					<a
@@ -34,6 +35,8 @@ export const CustomResult = (props) => {
 						<Price value={core.price} />
 					)}
 				</div>
+
+				<Rating value={4.35} count={70} />
 
 				<CalloutBadge result={result}></CalloutBadge>
 			</div>

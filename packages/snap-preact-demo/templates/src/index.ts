@@ -32,13 +32,16 @@ let config: SnapTemplatesConfig = {
 			// },
 		},
 		style: globalStyles,
-		// overrides: {
-		// 	default: {
-		// 		'toolbar.bottom': {
-		// 			layout: ['loadMore']
-		// 		}
-		// 	}
-		// },
+		overrides: {
+			default: {
+				// 'toolbar.top': {
+				// 	layout: ['breadcrumbs']
+				// }
+				// 'toolbar.bottom': {
+				// 	layout: ['loadMore']
+				// }
+			},
+		},
 	},
 	recommendation: {
 		email: {
@@ -62,9 +65,14 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnapnco',
+				component: 'SearchSnappy',
 			},
 		],
+		settings: {
+			infinite: {
+				backfill: 5,
+			},
+		},
 	},
 	autocomplete: {
 		targets: [

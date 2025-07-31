@@ -10,7 +10,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 
 	return css({
 		'&.ss__search-input': {
-			margin: `0 0 ${custom.spacing.x4}px`,
+			margin: `0 0 ${custom.spacing.x2}px`,
 			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: `${custom.colors.gray01}`,
 			'.ss__icon': {
@@ -20,6 +20,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				padding: `0 ${custom.spacing.x2}px`,
 				backgroundColor: `inherit`,
 				color: variables?.colors?.text,
+				minHeight: '1px',
 				height: `${custom.sizes.height}px`,
 				lineHeight: `${custom.sizes.height}px`,
 				'&::-webkit-input-placeholder': {
