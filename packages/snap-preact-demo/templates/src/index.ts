@@ -12,12 +12,13 @@ let config: SnapTemplatesConfig = {
 		platform: 'other',
 	},
 	components: {
-		// result: {
-		// 	CustomResult: async () => (await import('./components/Result')).CustomResult,
-		// },
+		result: {
+			CustomResult: async () => (await import('./components/Result')).CustomResult,
+		},
 	},
 	theme: {
 		extends: 'pike',
+		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
 				mobile: 767,
@@ -31,7 +32,13 @@ let config: SnapTemplatesConfig = {
 			// },
 		},
 		style: globalStyles,
-		overrides: {},
+		// overrides: {
+		// 	default: {
+		// 		'toolbar.bottom': {
+		// 			layout: ['loadMore']
+		// 		}
+		// 	}
+		// },
 	},
 	recommendation: {
 		email: {
@@ -55,7 +62,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnappy',
+				component: 'SearchSnapnco',
 			},
 		],
 	},
