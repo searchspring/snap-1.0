@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const selectStyleScript = (props: SelectProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const desktopBp = variables?.breakpoints?.mobile || 767;
 
 	// shared styles for select menus
 	const sharedStyles = css({
@@ -86,6 +87,9 @@ const selectStyleScript = (props: SelectProps) => {
 			padding: `0 ${custom.spacing.x2}px`,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
+			'.ss__select__label, .ss__select__select': {
+				fontSize: custom.utils.convertPxToEm(16),
+			},
 			'.ss__select__label': {
 				fontWeight: custom.fonts.weight01,
 			},
@@ -101,6 +105,19 @@ const selectStyleScript = (props: SelectProps) => {
 				},
 				'&::-ms-expand': {
 					display: 'none',
+				},
+			},
+			'.ss__select__dropdown__button__icon': {
+				width: `${custom.sizes.icon14}px`,
+				height: `${custom.sizes.icon14}px`,
+			},
+			[`@media (min-width: ${desktopBp + 1}px)`]: {
+				'.ss__select__label, .ss__select__select': {
+					fontSize: custom.utils.convertPxToEm(14),
+				},
+				'.ss__select__dropdown__button__icon': {
+					width: `${custom.sizes.icon12}px`,
+					height: `${custom.sizes.icon12}px`,
 				},
 			},
 		},

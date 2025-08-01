@@ -68,11 +68,11 @@ let config: SnapTemplatesConfig = {
 				component: 'SearchSnappy',
 			},
 		],
-		settings: {
-			infinite: {
-				backfill: 5,
-			},
-		},
+		// settings: {
+		// 	infinite: {
+		// 		backfill: 5,
+		// 	},
+		// },
 	},
 	autocomplete: {
 		targets: [

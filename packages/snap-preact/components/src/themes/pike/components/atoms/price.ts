@@ -8,9 +8,8 @@ const priceStyleScript = (props: PriceProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		color: variables?.colors?.text,
-		'span, &.ss__price, &.ss__price--strike': {
-			color: 'inherit',
+		'&, span, &.ss__price, &.ss__price--strike': {
+			color: variables?.colors?.text,
 		},
 	});
 };

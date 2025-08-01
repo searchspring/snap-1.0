@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 
 	return css({
 		'.ss__facet-list-options__option': {
@@ -14,7 +15,6 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 			position: 'relative',
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			padding: props?.hideCheckbox ? `` : `0 0 0 ${16 + custom.spacing.x2}px`,
-			color: variables?.colors?.text,
 			'&:last-child': {
 				marginBottom: 0,
 			},
@@ -30,8 +30,8 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 					top: '-1px',
 					margin: 0,
 					padding: `0 ${custom.spacing.x1}px`,
-					opacity: 0.805,
-					fontSize: '0.6rem',
+					fontSize: custom.utils.convertPxToEm(10),
+					color: lightGray,
 				},
 			},
 		},

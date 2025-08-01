@@ -18,8 +18,7 @@ const paginationStyleScript = (props: PaginationProps) => {
 			lineHeight: 1,
 			'.ss__pagination__page, span': {
 				padding: `0 ${custom.spacing.x2}px`,
-				fontSize: '16px',
-				color: variables?.colors?.text,
+				fontSize: custom.utils.convertPxToEm(16),
 			},
 			'.ss__pagination__page': {
 				minWidth: '1px',
@@ -40,7 +39,7 @@ const paginationStyleScript = (props: PaginationProps) => {
 			nav: {
 				'.ss__pagination__page, span': {
 					padding: `0 ${custom.spacing.x1}px`,
-					fontSize: '14px',
+					fontSize: custom.utils.convertPxToEm(14),
 				},
 				'.ss__pagination__page--previous, .ss__pagination__page--next': {
 					lineHeight: `${custom.sizes.icon12}px`,

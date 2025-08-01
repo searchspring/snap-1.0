@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
 
 	// set details for radius
@@ -29,7 +30,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const sharedStyles = css({
 		'.ss__facet-palette-options__option': {
 			display: 'block',
-			color: variables?.colors?.text,
 			'&, &.ss__facet-palette-options__option--filtered': {
 				'.ss__facet-palette-options__option__wrapper': {
 					border: 0,
@@ -81,8 +81,8 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				position: 'relative',
 				top: props?.layout == 'list' ? '-1px' : '',
 				padding: props?.layout == 'list' ? `0 ${custom.spacing.x1}px` : ``,
-				opacity: 0.805,
-				fontSize: '0.6rem',
+				fontSize: custom.utils.convertPxToEm(10),
+				color: lightGray,
 			},
 		},
 		'.ss__facet-palette-options__option.ss__facet-palette-options__option--filtered': {
@@ -141,7 +141,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					whiteSpace: 'nowrap',
 				},
 				'.ss__facet-palette-options__option__value': {
-					fontSize: '0.75rem',
+					fontSize: custom.utils.convertPxToEm(12),
 					overflow: 'hidden',
 					margin: `${custom.spacing.x1}px 0 0 0`,
 				},

@@ -15,6 +15,7 @@ export const slideout: ThemeComponent<'slideout', SlideoutProps> = {
 	default: {
 		slideout: {
 			themeStyleScript: slideoutStyleScript,
+			overlayColor: '',
 		},
 	},
 };

@@ -19,6 +19,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const fontColor = props?.valueTextColor || variables?.colors?.text;
+	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 	const valuesTop = slider.valuesPosition == 'top' ? true : false;
 	const valuesSides = slider.valuesAlign == 'sides' ? true : false;
 	const hasTicks = props?.showTicks ? true : false;
@@ -29,7 +30,6 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	// values font styles
 	const valuesStyles = css({
-		fontSize: `${slider.values}px`,
 		lineHeight: `${slider.values}px`,
 		color: fontColor,
 	});
@@ -63,7 +63,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 				},
 				'&:before': {
 					top: `${slider.ticks / 2}px`,
-					backgroundColor: custom.colors.gray03,
+					backgroundColor: darkGray,
 				},
 				'.ss__facet-slider__tick__label': {
 					top: `${slider.ticks}px`,

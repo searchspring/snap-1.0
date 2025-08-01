@@ -17,7 +17,7 @@ const listStyleScript = (props: ListProps) => {
 		},
 		'.ss__list__title': {
 			display: 'block',
-			fontSize: '14px',
+			fontSize: custom.utils.convertPxToEm(14),
 			fontWeight: custom.fonts.weight02,
 			lineHeight: 1,
 		},

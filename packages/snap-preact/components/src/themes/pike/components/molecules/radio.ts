@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const radioStyleScript = (props: RadioProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	// shared radio styles
 	const disabledStyles = css({
@@ -31,7 +32,7 @@ const radioStyleScript = (props: RadioProps) => {
 			},
 			'&.ss__radio--active': {
 				backgroundColor: custom.colors.white,
-				borderColor: custom.colors.gray03,
+				borderColor: darkGray,
 				'.ss__icon': {
 					display: 'block',
 					fill: variables?.colors?.primary,

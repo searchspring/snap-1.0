@@ -22,7 +22,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			position: 'relative',
 			height: 0,
 			paddingBottom: '100%',
-			color: variables?.colors?.text,
 			border: 0,
 			'&, &:before, .ss__facet-grid-options__option__value': {
 				display: 'block',
@@ -51,7 +50,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				overflow: 'hidden',
 				textAlign: 'center',
 				'&, &.ss__facet-grid-options__option__value--smaller': {
-					fontSize: '0.75rem',
+					fontSize: custom.utils.convertPxToEm(12),
 				},
 			},
 		},

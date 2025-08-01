@@ -22,7 +22,7 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 			margin: ` 0 0 ${custom.spacing.x4}px 0`,
 			padding: ` 0 0 ${custom.spacing.x2}px 0`,
 			borderBottom: `2px solid ${variables?.colors?.primary}`,
-			fontSize: '16px',
+			fontSize: custom.utils.convertPxToEm(16),
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},

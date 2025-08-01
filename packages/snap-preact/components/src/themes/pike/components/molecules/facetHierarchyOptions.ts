@@ -7,13 +7,13 @@ import { custom } from '../../custom';
 const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 
 	return css({
 		'.ss__facet-hierarchy-options__option': {
 			display: 'block',
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			padding: 0,
-			color: variables?.colors?.text,
 			'&:last-child': {
 				marginBottom: 0,
 			},
@@ -24,8 +24,8 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 					top: '-1px',
 					margin: 0,
 					padding: `0 ${custom.spacing.x1}px`,
-					opacity: 0.805,
-					fontSize: '0.6rem',
+					fontSize: custom.utils.convertPxToEm(10),
+					color: lightGray,
 				},
 			},
 		},

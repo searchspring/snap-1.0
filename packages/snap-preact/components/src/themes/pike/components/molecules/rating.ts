@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const ratingStyleScript = (props: RatingProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	return css({
 		flexWrap: 'wrap',
@@ -21,8 +22,8 @@ const ratingStyleScript = (props: RatingProps) => {
 			},
 			'.ss__rating__stars--empty': {
 				'.ss__rating__stars__star .ss__icon': {
-					fill: custom.colors.gray03,
-					stroke: custom.colors.gray03,
+					fill: darkGray,
+					stroke: darkGray,
 				},
 			},
 			'.ss__rating__stars--full': {
@@ -33,6 +34,7 @@ const ratingStyleScript = (props: RatingProps) => {
 			},
 		},
 		'.ss__rating__count, .ss__rating__text': {
+			fontSize: custom.utils.convertPxToEm(12),
 			color: variables?.colors?.text,
 		},
 	});
@@ -45,6 +47,9 @@ export const rating: ThemeComponent<'rating', RatingProps> = {
 			themeStyleScript: ratingStyleScript,
 			emptyIcon: 'star',
 			fullIcon: 'star',
+		},
+		'rating icon': {
+			size: `${custom.sizes.icon14}px`,
 		},
 	},
 };

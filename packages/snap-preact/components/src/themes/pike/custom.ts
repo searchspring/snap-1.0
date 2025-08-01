@@ -17,13 +17,17 @@ export const custom: {
 	spacing: {
 		[key: string]: number;
 	};
+	utils: {
+		convertPxToEm: (value: number) => string;
+		lightenColor: (color: string | undefined, amount: number) => string;
+		darkenColor: (color: string | undefined, amount: number) => string;
+	};
 } = {
 	colors: {
 		white: '#ffffff',
 		black: '#000000',
 		gray01: '#f8f8f8', // lighter gray: bg color under terms, dropdown, checkboxes
 		gray02: '#ebebeb', // light gray: borders for autocomplete, dropdown, checkboxes
-		gray03: `${new Color('#ebebeb').darken(0.055).hex().toLowerCase()}`, // dark gray: active border for checkboxes, palette, etc.
 		brown: '#845329', // for color palette
 		purple: '#7c368e', // for color palette
 		rainbow:
@@ -49,6 +53,7 @@ export const custom: {
 		sort: 'sort',
 	},
 	sizes: {
+		font: 16, // base font size
 		height: 33, // refers to height for button and dropdown sizes
 		icon08: 8,
 		icon10: 10,
@@ -63,5 +68,19 @@ export const custom: {
 		x4: 20,
 		x5: 25,
 		x6: 30,
+	},
+	utils: {
+		convertPxToEm: (value: number) => {
+			// translates px to rem
+			return `${value / custom.sizes.font}rem`;
+		},
+		lightenColor: (color: string | undefined, amount: number) => {
+			const lightColor = new Color(color || '#515151').lighten(amount).hex().toLowerCase();
+			return lightColor;
+		},
+		darkenColor: (color: string | undefined, amount: number) => {
+			const darkColor = new Color(color || '#515151').darken(amount).hex().toLowerCase();
+			return darkColor;
+		},
 	},
 };

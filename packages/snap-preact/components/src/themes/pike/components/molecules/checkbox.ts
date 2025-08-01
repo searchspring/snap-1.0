@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const checkboxStyleScript = (props: CheckboxProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	// shared checkbox styles
 	const sharedStyles = css({
@@ -34,7 +35,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 			},
 			'&.ss__checkbox--active': {
 				backgroundColor: custom.colors.white,
-				borderColor: custom.colors.gray03,
+				borderColor: darkGray,
 				'.ss__icon': {
 					fill: variables?.colors?.primary,
 					stroke: variables?.colors?.primary,
@@ -65,7 +66,7 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 		checkbox: {
 			themeStyleScript: checkboxStyleScript,
 			icon: custom.icons.check,
-			size: `${custom.sizes.icon14}px`,
+			size: `${custom.sizes.icon16}px`,
 		},
 	},
 };

@@ -14,12 +14,13 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 		},
 		'.ss__search-header__title': {
 			margin: 0,
+			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
 		'.ss__search-header__subtitle': {
 			margin: `${custom.spacing.x2}px 0 0 0`,
-			fontSize: '16px',
+			fontSize: custom.utils.convertPxToEm(16),
 			fontWeight: 400,
 			color: variables?.colors?.text,
 		},

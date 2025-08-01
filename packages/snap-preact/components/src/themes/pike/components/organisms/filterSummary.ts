@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	return css({
 		display: 'flex',
@@ -44,7 +45,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 								width: `${custom.sizes.icon14}px`,
 								height: `${custom.sizes.icon14}px`,
 								backgroundColor: custom.colors.white,
-								border: `1px solid ${custom.colors.gray03}`,
+								border: `1px solid ${darkGray}`,
 							},
 							'.ss__icon': {
 								margin: '4px',
@@ -60,7 +61,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 		},
 		'.ss__filter-summary__title': {
 			padding: `0 ${custom.spacing.x1}px 0 0`,
-			fontSize: '14px',
+			fontSize: custom.utils.convertPxToEm(14),
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.text,
 			'&:after': {

@@ -15,7 +15,7 @@ const overlayBadgeStyleScript = () => {
 					padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
 					lineHeight: 1,
 					span: {
-						fontSize: '12px',
+						fontSize: custom.utils.convertPxToEm(12),
 					},
 				},
 			},

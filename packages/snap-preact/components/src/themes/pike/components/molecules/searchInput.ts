@@ -7,30 +7,35 @@ import { custom } from '../../custom';
 const searchInputStyleScript = (props: SearchInputProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const desktopBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
 		'&.ss__search-input': {
 			margin: `0 0 ${custom.spacing.x2}px`,
 			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: `${custom.colors.gray01}`,
+			'.ss__icon, .ss__search-input__input': {
+				minWidth: '1px',
+				padding: 0,
+			},
 			'.ss__icon': {
-				padding: `0 0 0 ${custom.spacing.x2}px`,
+				flex: '0 1 auto',
+				margin: `0 0 0 ${custom.spacing.x2}px`,
 			},
 			'.ss__search-input__input': {
-				padding: `0 ${custom.spacing.x2}px`,
+				flex: '1 1 0%',
+				margin: `0 ${custom.spacing.x2}px`,
 				backgroundColor: `inherit`,
-				color: variables?.colors?.text,
 				minHeight: '1px',
 				height: `${custom.sizes.height}px`,
 				lineHeight: `${custom.sizes.height}px`,
-				'&::-webkit-input-placeholder': {
-					opacity: 0.5,
-				},
-				'&::-ms-input-placeholder': {
-					opacity: 0.5,
-				},
-				'&::placeholder': {
-					opacity: 0.5,
+				fontSize: custom.utils.convertPxToEm(16),
+			},
+		},
+		[`@media (min-width: ${desktopBp + 1}px)`]: {
+			'&.ss__search-input': {
+				'.ss__search-input__input': {
+					fontSize: custom.utils.convertPxToEm(14),
 				},
 			},
 		},
@@ -42,6 +47,9 @@ export const searchInput: ThemeComponent<'searchInput', SearchInputProps> = {
 	default: {
 		searchInput: {
 			themeStyleScript: searchInputStyleScript,
+		},
+		'searchInput icon': {
+			size: `${custom.sizes.icon14}px`,
 		},
 	},
 };

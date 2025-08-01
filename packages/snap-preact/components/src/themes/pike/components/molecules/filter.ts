@@ -17,11 +17,11 @@ const filterStyleScript = (props: FilterProps) => {
 			lineHeight: 1.5,
 			padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
 			paddingLeft: `${custom.spacing.x2 + custom.spacing.x1 + 10}px`,
-			border: `1px solid ${custom.colors.gray02}`,
 			fontWeight: 'normal',
-			color: variables?.colors?.text,
+			color: 'inherit',
 			'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
 				backgroundColor: custom.colors.gray01,
+				border: `1px solid ${custom.colors.gray02}`,
 			},
 			'.ss__button__content': {
 				'.ss__icon': {
