@@ -29,12 +29,14 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			backgroundColor: custom.colors.gray01,
 			border: `1px solid ${custom.colors.gray02}`,
+			'&, *': {
+				boxSizing: 'border-box',
+			},
 			'.ss__icon': {
 				width: '8px',
 				height: '8px',
 			},
 			'&.ss__checkbox--active': {
-				backgroundColor: custom.colors.white,
 				borderColor: darkGray,
 				'.ss__icon': {
 					fill: variables?.colors?.primary,

@@ -30,6 +30,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	// values font styles
 	const valuesStyles = css({
+		fontSize: custom.utils.convertPxToEm(slider.values),
 		lineHeight: `${slider.values}px`,
 		color: fontColor,
 	});

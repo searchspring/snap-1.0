@@ -52,6 +52,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			[`&, &:hover, &:not(.ss__button--disabled):hover, ${disabledSelectors}`]: {
 				border: `1px solid ${custom.colors.gray02}`,
 				backgroundColor: custom.colors.white,
+				fontSize: custom.utils.convertPxToEm(14),
 				color: variables?.colors?.text,
 			},
 		},

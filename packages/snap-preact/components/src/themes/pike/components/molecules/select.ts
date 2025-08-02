@@ -88,7 +88,7 @@ const selectStyleScript = (props: SelectProps) => {
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
 			'.ss__select__label, .ss__select__select': {
-				fontSize: custom.utils.convertPxToEm(16),
+				fontSize: '16px',
 			},
 			'.ss__select__label': {
 				fontWeight: custom.fonts.weight01,
@@ -113,7 +113,7 @@ const selectStyleScript = (props: SelectProps) => {
 			},
 			[`@media (min-width: ${desktopBp + 1}px)`]: {
 				'.ss__select__label, .ss__select__select': {
-					fontSize: custom.utils.convertPxToEm(14),
+					fontSize: '14px',
 				},
 				'.ss__select__dropdown__button__icon': {
 					width: `${custom.sizes.icon12}px`,

@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const searchInputStyleScript = (props: SearchInputProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const desktopBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
@@ -30,6 +31,16 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				height: `${custom.sizes.height}px`,
 				lineHeight: `${custom.sizes.height}px`,
 				fontSize: custom.utils.convertPxToEm(16),
+				color: variables?.colors?.text,
+				'&::-webkit-input-placeholder': {
+					color: lightGray,
+				},
+				'&::-ms-input-placeholder': {
+					color: lightGray,
+				},
+				'&::placeholder': {
+					color: lightGray,
+				},
 			},
 		},
 		[`@media (min-width: ${desktopBp + 1}px)`]: {

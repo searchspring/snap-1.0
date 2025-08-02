@@ -19,6 +19,7 @@ const paginationStyleScript = (props: PaginationProps) => {
 			'.ss__pagination__page, span': {
 				padding: `0 ${custom.spacing.x2}px`,
 				fontSize: custom.utils.convertPxToEm(16),
+				color: variables?.colors?.text,
 			},
 			'.ss__pagination__page': {
 				minWidth: '1px',

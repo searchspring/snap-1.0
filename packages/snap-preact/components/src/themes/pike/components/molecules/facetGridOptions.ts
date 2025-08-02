@@ -23,6 +23,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			height: 0,
 			paddingBottom: '100%',
 			border: 0,
+			color: variables?.colors?.text,
 			'&, &:before, .ss__facet-grid-options__option__value': {
 				display: 'block',
 			},

@@ -14,6 +14,9 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 			'&, .ss__breadcrumbs__crumbs__crumb': {
 				listStyle: 'none',
 			},
+			'&, a': {
+				color: variables?.colors?.text,
+			},
 			'.ss__breadcrumbs__crumbs__crumb': {
 				padding: `0 ${custom.spacing.x1}px`,
 				'&:last-child': {

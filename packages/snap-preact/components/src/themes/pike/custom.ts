@@ -75,10 +75,12 @@ export const custom: {
 			return `${value / custom.sizes.font}rem`;
 		},
 		lightenColor: (color: string | undefined, amount: number) => {
+			// lighten a color
 			const lightColor = new Color(color || '#515151').lighten(amount).hex().toLowerCase();
 			return lightColor;
 		},
 		darkenColor: (color: string | undefined, amount: number) => {
+			// darken a color
 			const darkColor = new Color(color || '#515151').darken(amount).hex().toLowerCase();
 			return darkColor;
 		},

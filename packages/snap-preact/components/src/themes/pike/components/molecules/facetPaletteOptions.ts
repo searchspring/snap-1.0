@@ -30,6 +30,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const sharedStyles = css({
 		'.ss__facet-palette-options__option': {
 			display: 'block',
+			color: variables?.colors?.text,
 			'&, &.ss__facet-palette-options__option--filtered': {
 				'.ss__facet-palette-options__option__wrapper': {
 					border: 0,

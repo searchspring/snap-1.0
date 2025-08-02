@@ -15,6 +15,7 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 			position: 'relative',
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			padding: props?.hideCheckbox ? `` : `0 0 0 ${16 + custom.spacing.x2}px`,
+			color: variables?.colors?.text,
 			'&:last-child': {
 				marginBottom: 0,
 			},

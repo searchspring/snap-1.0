@@ -18,7 +18,7 @@ const filterStyleScript = (props: FilterProps) => {
 			padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
 			paddingLeft: `${custom.spacing.x2 + custom.spacing.x1 + 10}px`,
 			fontWeight: 'normal',
-			color: 'inherit',
+			color: variables?.colors?.text,
 			'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
 				backgroundColor: custom.colors.gray01,
 				border: `1px solid ${custom.colors.gray02}`,

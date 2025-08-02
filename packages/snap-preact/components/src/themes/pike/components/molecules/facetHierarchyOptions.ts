@@ -14,6 +14,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 			display: 'block',
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			padding: 0,
+			color: variables?.colors?.text,
 			'&:last-child': {
 				marginBottom: 0,
 			},

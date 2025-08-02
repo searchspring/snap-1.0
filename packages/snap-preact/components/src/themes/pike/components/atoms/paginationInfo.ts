@@ -10,7 +10,7 @@ const paginationInfoStyleScript = ({ theme }: PaginationInfoProps) => {
 
 	return css({
 		fontWeight: custom.fonts.weight02,
-		color: variables?.colors?.text,
+		color: variables?.colors?.secondary,
 	});
 };
 

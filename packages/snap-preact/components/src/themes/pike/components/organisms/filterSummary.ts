@@ -41,10 +41,9 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 								content: '""',
 								display: 'block',
 								position: 'absolute',
-
 								width: `${custom.sizes.icon14}px`,
 								height: `${custom.sizes.icon14}px`,
-								backgroundColor: custom.colors.white,
+								backgroundColor: custom.colors.gray01,
 								border: `1px solid ${darkGray}`,
 							},
 							'.ss__icon': {

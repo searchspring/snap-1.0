@@ -8,13 +8,49 @@ const carouselStyleScript = (props: CarouselProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
+	// shared button styles
+	const disabledStyles = css({
+		opacity: 0.65,
+		'&, & *': {
+			cursor: 'not-allowed',
+		},
+	});
+
 	return css({
-		'&, .ss__carousel__navigation': {
-			'.ss__carousel__prev-wrapper .swiper-button-disabled, .ss__carousel__next-wrapper .swiper-button-disabled, .ss__carousel__prev-wrapper--hidden div, .ss__carousel__next-wrapper--hidden div':
-				{
-					cursor: 'not-allowed',
-					opacity: 0.5,
-				},
+		position: 'relative',
+		'.ss__carousel__prev-wrapper--hidden > div, .ss__carousel__next-wrapper--hidden > div': {
+			...disabledStyles,
+		},
+		'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
+			width: '24px',
+			height: '24px',
+			display: 'block',
+			position: 'absolute',
+			top: 0,
+			bottom: '33.33%',
+			zIndex: 2,
+			margin: 'auto',
+			'& > div': {
+				display: 'flex',
+				flexFlow: 'column nowrap',
+				alignItems: 'center',
+				justifyContent: 'center',
+				padding: 0,
+				width: '100%',
+				height: '100%',
+				lineHeight: 1,
+				backgroundColor: variables?.colors?.primary,
+				color: custom.colors.white,
+			},
+			'.swiper-button-disabled': {
+				...disabledStyles,
+			},
+		},
+		'.ss__carousel__prev-wrapper': {
+			left: 0,
+		},
+		'.ss__carousel__next-wrapper': {
+			right: 0,
 		},
 		'.swiper-container': {
 			margin: '0 auto',
@@ -53,6 +89,16 @@ const carouselStyleScript = (props: CarouselProps) => {
 				},
 			},
 		},
+		'.swiper-grid-column': {
+			'& > .swiper-wrapper': {
+				flexFlow: 'row wrap',
+				'& > .swiper-slide': {
+					height: 'auto !important',
+					marginTop: '0 !important',
+					marginBottom: `${custom.spacing.x4}px`,
+				},
+			},
+		},
 	});
 };
 
@@ -61,6 +107,14 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 	default: {
 		carousel: {
 			themeStyleScript: carouselStyleScript,
+		},
+		'carousel icon.prev': {
+			icon: custom.icons.arrowLeft,
+			size: '8px',
+		},
+		'carousel icon.next': {
+			icon: custom.icons.arrowRight,
+			size: '8px',
 		},
 	},
 };
