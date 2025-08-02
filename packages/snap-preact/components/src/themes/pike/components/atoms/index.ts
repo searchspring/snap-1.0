@@ -3,6 +3,7 @@ import { ThemeResponsiveComplete } from '../../../../providers';
 // ATOMS Imports
 import { breadcrumbs } from './breadcrumbs';
 import { button } from './button';
+import { dropdown } from './dropdown';
 import { icon } from './icon';
 import { image } from './image';
 import { loadingBar } from './loadingBar';
@@ -16,6 +17,7 @@ export const atoms: ThemeResponsiveComplete = {
 	default: {
 		...breadcrumbs.default,
 		...button.default,
+		...dropdown.default,
 		...icon.default,
 		...image.default,
 		...loadingBar.default,
@@ -28,6 +30,7 @@ export const atoms: ThemeResponsiveComplete = {
 	mobile: {
 		...breadcrumbs.mobile,
 		...button.mobile,
+		...dropdown.mobile,
 		...icon.mobile,
 		...image.mobile,
 		...loadingBar.mobile,
@@ -39,6 +42,8 @@ export const atoms: ThemeResponsiveComplete = {
 	},
 	tablet: {
 		...breadcrumbs.tablet,
+		...button.tablet,
+		...dropdown.tablet,
 		...icon.tablet,
 		...image.tablet,
 		...loadingBar.tablet,
@@ -51,6 +56,7 @@ export const atoms: ThemeResponsiveComplete = {
 	desktop: {
 		...breadcrumbs.desktop,
 		...button.desktop,
+		...dropdown.desktop,
 		...icon.desktop,
 		...image.desktop,
 		...loadingBar.desktop,
