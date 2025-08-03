@@ -57,6 +57,9 @@ const facetStyleScript = (props: FacetProps) => {
 			fontWeight: custom.fonts.weight01,
 			color: variables?.colors?.primary,
 			'.ss__icon': {
+				position: 'relative',
+				top: '-0.5px',
+				marginRight: `${custom.spacing.x1}px`,
 				width: `${custom.sizes.icon10}px`,
 				height: `${custom.sizes.icon10}px`,
 			},

@@ -8,11 +8,12 @@ import Color from 'color';
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const isHorizontal = props?.className?.includes('horizontal') ? true : false;
 	const activeColor = new Color(variables?.colors?.primary);
 	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
-	return css({
-		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
+	// shared grid styles
+	const sharedStyles = css({
 		gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 		alignItems: 'center',
 		'&:before': {
@@ -36,7 +37,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				display: 'block',
 				width: '100%',
 				height: '100%',
-				backgroundColor: custom.colors.gray01,
 				border: `1px solid ${custom.colors.gray02}`,
 				boxSizing: 'border-box',
 			},
@@ -64,6 +64,34 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			},
 		},
 	});
+
+	// default grid styles
+	const defaultStyles = css([
+		sharedStyles,
+		{
+			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
+			'.ss__facet-grid-options__option': {
+				'&:before': {
+					backgroundColor: custom.colors.gray01,
+				},
+			},
+		},
+	]);
+
+	// horizontal grid styles
+	const horizontalStyles = css([
+		sharedStyles,
+		{
+			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '62px'}, 1fr))`,
+			'.ss__facet-grid-options__option': {
+				'&:before': {
+					backgroundColor: custom.colors.white,
+				},
+			},
+		},
+	]);
+
+	return isHorizontal ? horizontalStyles : defaultStyles;
 };
 
 // FacetGridOptions component props

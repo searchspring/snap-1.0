@@ -1,13 +1,182 @@
 import { css } from '@emotion/react';
 import type { FacetsHorizontalProps } from '../../../../components/Organisms/FacetsHorizontal';
 import { ThemeComponent } from '../../../../providers';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Facets component
 const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const tabletBp = variables?.breakpoints?.tablet || 1024;
+	//const mobileBp = variables?.breakpoints?.mobile || 767;
 
-	return css({});
+	return css({
+		margin: 0,
+		'.ss__facets-horizontal__header': {
+			gap: 0,
+			margin: `0 -${custom.spacing.x1}px ${custom.spacing.x2}px -${custom.spacing.x1}px `,
+			position: 'relative',
+			'& > *': {
+				boxSizing: 'border-box',
+				minWidth: '1px',
+				width: `${100 / 6}%`,
+				flex: '0 1 auto',
+				padding: `0 ${custom.spacing.x1}px`,
+			},
+			'& > *, & > .ss__dropdown, .ss__mobile-sidebar': {
+				margin: `0 0 ${custom.spacing.x2}px 0`,
+			},
+			'& > .ss__dropdown': {
+				position: 'static',
+				'&.ss__dropdown--open': {
+					'.ss__dropdown__button': {
+						'.ss__dropdown__button__heading': {
+							'.ss__icon': {
+								transform: 'rotate(180deg)',
+							},
+						},
+					},
+					'.ss__dropdown__content': {
+						width: 'auto',
+						minWidth: '1px',
+						maxHeight: 'none',
+						overflowY: 'visible',
+						padding: `${custom.spacing.x2}px`,
+						marginTop: `${custom.spacing.x2}px`,
+						left: `${custom.spacing.x1}px`,
+						right: `${custom.spacing.x1}px`,
+					},
+				},
+				'&.ss__facets-horizontal__header__dropdown--slider': {
+					'.ss__dropdown__content': {
+						'.ss__facet__options': {
+							maxHeight: `none`,
+							overflow: 'visible',
+							paddingRight: 0,
+						},
+					},
+				},
+				'.ss__dropdown__button, .ss__dropdown__content': {
+					border: `1px solid ${custom.colors.gray02}`,
+					backgroundColor: custom.colors.gray01,
+				},
+				'.ss__dropdown__button': {
+					display: 'block',
+					height: `${custom.sizes.height}px`,
+					lineHeight: `${custom.sizes.height}px`,
+					padding: `0 ${custom.spacing.x2}px`,
+					textAlign: 'left',
+					color: variables?.colors?.text,
+					'.ss__dropdown__button__heading': {
+						flexFlow: 'row nowrap',
+						justifyContent: 'flex-start',
+						gap: `${custom.spacing.x1}px`,
+						padding: 0,
+						'& > *': {
+							minWidth: '1px',
+							flex: '0 1 auto',
+						},
+						span: {
+							flex: '1 1 0%',
+							paddingRight: `${custom.spacing.x1}px`,
+							fontWeight: custom.fonts.weight01,
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap',
+						},
+						'.ss__icon': {
+							transition: 'transform ease .5s',
+						},
+					},
+				},
+				'.ss__dropdown__content': {
+					width: 'auto',
+					padding: `${custom.spacing.x2}px`,
+					'.ss__facet__options': {
+						maxHeight: `335px`,
+						overflowY: 'auto',
+						overflowX: 'hidden',
+						paddingRight: `${custom.spacing.x2}px`,
+						'&::-webkit-scrollbar': {
+							width: '8px',
+							height: '8px',
+						},
+						'&::-webkit-scrollbar-track': {
+							backgroundColor: custom.colors.gray01,
+						},
+						'&::-webkit-scrollbar-thumb': {
+							backgroundColor: custom.colors.gray02,
+						},
+					},
+					'.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, .ss__facet-palette-options--list.ss__facet-palette-options--horizontal':
+						{
+							'& > *': {
+								width: `${100 / 4}%`,
+							},
+						},
+					'.ss__facet-palette-options--list.ss__facet-palette-options--horizontal': {
+						'& > *': {
+							maxWidth: `24%`,
+						},
+					},
+					'.ss__facet__show-more-less': {
+						margin: `${custom.spacing.x2}px 0 0 0`,
+						fontWeight: custom.fonts.weight01,
+						textAlign: 'center',
+						color: variables?.colors?.primary,
+						'.ss__icon': {
+							position: 'relative',
+							top: '-0.5px',
+							marginRight: `${custom.spacing.x1}px`,
+							width: `${custom.sizes.icon10}px`,
+							height: `${custom.sizes.icon10}px`,
+						},
+					},
+				},
+			},
+		},
+		[`@media (max-width: ${tabletBp}px)`]: {
+			'.ss__facets-horizontal__header': {
+				'& > *': {
+					width: `${100 / 4}%`,
+				},
+				'& > .ss__dropdown .ss__dropdown__content': {
+					'.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, .ss__facet-palette-options--list.ss__facet-palette-options--horizontal':
+						{
+							'& > *': {
+								width: `${100 / 3}%`,
+							},
+						},
+					'.ss__facet-palette-options--list.ss__facet-palette-options--horizontal': {
+						'& > *': {
+							maxWidth: `32%`,
+						},
+					},
+				},
+			},
+		},
+		[`@media (max-width: ${mobileBp}px)`]: {
+			'.ss__facets-horizontal__header': {
+				'& > *': {
+					width: `${100 / 2}%`,
+				},
+				'& > .ss__dropdown .ss__dropdown__content': {
+					'.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, .ss__facet-palette-options--list.ss__facet-palette-options--horizontal':
+						{
+							'& > *': {
+								width: `${100 / 2}%`,
+							},
+						},
+					'.ss__facet-palette-options--list.ss__facet-palette-options--horizontal': {
+						'& > *': {
+							maxWidth: `48%`,
+						},
+					},
+				},
+			},
+		},
+	});
 };
 
 // FacetsHorizontal component props
@@ -15,22 +184,45 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 	default: {
 		facetsHorizontal: {
 			themeStyleScript: facetsHorizontalStyleScript,
-			limit: 9,
+			iconExpand: custom.icons.arrowDown,
+			iconCollapse: custom.icons.arrowDown,
 		},
-	},
-	mobile: {
-		facetsHorizontal: {
-			limit: 0,
+		'facetsHorizontal dropdown button icon': {
+			size: `${custom.sizes.icon12}px`,
 		},
-	},
-	tablet: {
-		facetsHorizontal: {
-			limit: 5,
+		'facetsHorizontal facetGridOptions': {
+			className: 'ss__facet-grid-options--horizontal',
+			gridSize: '62px',
 		},
-	},
-	desktop: {
-		facetsHorizontal: {
-			limit: 7,
+		'facetsHorizontal mobileSidebar facetGridOptions': {
+			className: '',
+			gridSize: '52px',
+		},
+		'facetsHorizontal facetHierarchyOptions': {
+			className: 'ss__facet-hierarchy-options--horizontal',
+		},
+		'facetsHorizontal mobileSidebar facetHierarchyOptions': {
+			className: '',
+		},
+		'facetsHorizontal facetListOptions': {
+			className: 'ss__facet-list-options--horizontal',
+		},
+		'facetsHorizontal mobileSidebar facetListOptions': {
+			className: '',
+		},
+		'facetsHorizontal facetPaletteOptions': {
+			className: 'ss__facet-palette-options--horizontal',
+			gridSize: '62px',
+		},
+		'facetsHorizontal mobileSidebar facetPaletteOptions': {
+			className: '',
+			gridSize: '52px',
+		},
+		'facetsHorizontal searchInput': {
+			className: 'ss__search-input--horizontal',
+		},
+		'facetsHorizontal mobileSidebar searchInput': {
+			className: '',
 		},
 	},
 };

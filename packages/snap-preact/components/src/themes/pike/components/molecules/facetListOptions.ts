@@ -7,22 +7,20 @@ import { custom } from '../../custom';
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const isHorizontal = props?.className?.includes('horizontal') ? true : false;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
+	const checkboxSpacing = 16 + custom.spacing.x2;
 
-	return css({
+	// shared list styles
+	const sharedStyles = css({
 		'.ss__facet-list-options__option': {
 			display: 'block',
 			position: 'relative',
 			margin: `0 0 ${custom.spacing.x1}px 0`,
-			padding: props?.hideCheckbox ? `` : `0 0 0 ${16 + custom.spacing.x2}px`,
 			color: variables?.colors?.text,
-			'&:last-child': {
-				marginBottom: 0,
-			},
 			'.ss__checkbox, .ss__radio': {
 				position: 'absolute',
 				top: '1.5px',
-				left: 0,
 			},
 			'.ss__facet-list-options__option__value': {
 				margin: 0,
@@ -41,6 +39,47 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 			color: variables?.colors?.primary,
 		},
 	});
+
+	// default list styles
+	const defaultStyles = css([
+		sharedStyles,
+		{
+			'.ss__facet-list-options__option': {
+				padding: props?.hideCheckbox ? `` : `0 0 0 ${checkboxSpacing}px`,
+				'&:last-child': {
+					marginBottom: 0,
+				},
+				'.ss__checkbox, .ss__radio': {
+					left: 0,
+				},
+			},
+		},
+	]);
+
+	// horizontal list styles
+	const horizontalStyles = css([
+		sharedStyles,
+		{
+			display: 'flex',
+			flexFlow: 'row wrap',
+			margin: `0 -${custom.spacing.x2}px`,
+			'.ss__facet-list-options__option': {
+				flex: '0 1 auto',
+				minWidth: '1px',
+				padding: props?.hideCheckbox ? `0 ${custom.spacing.x2}px` : `0 ${custom.spacing.x2}px 0 ${checkboxSpacing + custom.spacing.x2}px`,
+				boxSizing: 'border-box',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+				whiteSpace: 'nowrap',
+				'.ss__checkbox, .ss__radio': {
+					left: `${custom.spacing.x2}px`,
+					backgroundColor: custom.colors.white,
+				},
+			},
+		},
+	]);
+
+	return isHorizontal ? horizontalStyles : defaultStyles;
 };
 
 // FacetListOptions component props

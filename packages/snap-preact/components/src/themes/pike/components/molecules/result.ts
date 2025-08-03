@@ -27,14 +27,33 @@ const resultStyleScript = (props: ResultProps) => {
 			},
 		},
 		'&.ss__result--list': {
+			display: 'flex',
+			flexFlow: 'row wrap',
+			alignItems: 'center',
+			'.ss__result__image-wrapper, .ss__result__details': {
+				minWidth: '1px',
+			},
+			'.ss__result__image-wrapper': {
+				flex: '0 0 33.33%',
+				margin: `0 ${custom.spacing.x4}px 0 0`,
+			},
 			'.ss__result__details': {
-				textAlign: 'center',
+				flex: '1 1 0%',
+				textAlign: 'left',
 				margin: 0,
+				'.ss__callout-badge, .ss__result__rating-wrapper': {
+					justifyContent: 'flex-start',
+				},
 				'.ss__result__details__title': {
+					flex: '1 1 0%',
 					a: {
 						fontSize: custom.utils.convertPxToEm(18),
 						fontWeight: custom.fonts.weight02,
 					},
+				},
+				'.ss__result__details__pricing': {
+					flex: '0 1 auto',
+					order: -1,
 				},
 			},
 		},
@@ -74,31 +93,23 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 			},
 		},
-		'@media (min-width: 541px)': {
+		'@media (max-width: 540px)': {
 			'&.ss__result--list': {
-				display: 'flex',
-				flexFlow: 'row wrap',
-				alignItems: 'center',
-				'.ss__result__image-wrapper, .ss__result__details': {
-					minWidth: '1px',
-				},
-				'.ss__result__image-wrapper': {
-					flex: '0 0 33.33%',
-					margin: `0 ${custom.spacing.x4}px 0 0`,
-				},
+				display: 'block',
 				'.ss__result__details': {
-					flex: '1 1 0%',
-					textAlign: 'left',
+					textAlign: 'center',
 					'.ss__callout-badge, .ss__result__rating-wrapper': {
-						justifyContent: 'flex-start',
+						justifyContent: 'center',
 					},
-					'.ss__result__details__title': {
-						flex: '1 1 0%',
+					'.ss__result__details__title, .ss__result__details__pricing': {
+						flex: '1 1 100%',
 					},
 					'.ss__result__details__pricing': {
-						flex: '0 1 auto',
-						order: -1,
+						order: 0,
 					},
+				},
+				'.ss__result__image-wrapper': {
+					margin: `0 0 ${custom.spacing.x2}px 0`,
 				},
 			},
 		},

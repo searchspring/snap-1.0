@@ -9,10 +9,16 @@ const dropdownStyleScript = ({ theme }: DropdownProps) => {
 
 	return css({
 		width: 'auto',
+		'&.ss__dropdown--open': {
+			'.ss__dropdown__content': {
+				zIndex: 1,
+			},
+		},
 		'.ss__dropdown__content': {
 			minWidth: '1px',
 			left: 0,
 			right: 0,
+			zIndex: -1,
 		},
 	});
 };

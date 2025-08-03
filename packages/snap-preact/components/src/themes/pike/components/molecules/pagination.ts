@@ -7,7 +7,7 @@ import { custom } from '../../custom';
 const paginationStyleScript = (props: PaginationProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const desktopBp = variables?.breakpoints?.mobile || 767;
+	const mobileBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
 		nav: {
@@ -17,8 +17,8 @@ const paginationStyleScript = (props: PaginationProps) => {
 			justifyContent: 'center',
 			lineHeight: 1,
 			'.ss__pagination__page, span': {
-				padding: `0 ${custom.spacing.x2}px`,
-				fontSize: custom.utils.convertPxToEm(16),
+				padding: `0 ${custom.spacing.x1}px`,
+				fontSize: custom.utils.convertPxToEm(14),
 				color: variables?.colors?.text,
 			},
 			'.ss__pagination__page': {
@@ -29,21 +29,23 @@ const paginationStyleScript = (props: PaginationProps) => {
 				color: variables?.colors?.primary,
 			},
 			'.ss__pagination__page--previous, .ss__pagination__page--next': {
-				lineHeight: `${custom.sizes.icon14}px`,
+				lineHeight: `${custom.sizes.icon12}px`,
 				'.ss__icon': {
+					position: 'relative',
+					top: '0.5px',
 					fill: variables?.colors?.primary,
 					stroke: variables?.colors?.primary,
 				},
 			},
 		},
-		[`@media (min-width: ${desktopBp + 1}px)`]: {
+		[`@media (max-width: ${mobileBp}px)`]: {
 			nav: {
 				'.ss__pagination__page, span': {
-					padding: `0 ${custom.spacing.x1}px`,
-					fontSize: custom.utils.convertPxToEm(14),
+					padding: `0 ${custom.spacing.x2}px`,
+					fontSize: custom.utils.convertPxToEm(16),
 				},
 				'.ss__pagination__page--previous, .ss__pagination__page--next': {
-					lineHeight: `${custom.sizes.icon12}px`,
+					lineHeight: `${custom.sizes.icon14}px`,
 				},
 			},
 		},
@@ -57,7 +59,7 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 			themeStyleScript: paginationStyleScript,
 		},
 		'pagination icon': {
-			size: `${custom.sizes.icon12}px`,
+			size: `${custom.sizes.icon14}px`,
 		},
 		'pagination icon.prev': {
 			icon: custom.icons.arrowLeft,
@@ -66,9 +68,9 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 			icon: custom.icons.arrowRight,
 		},
 	},
-	mobile: {
+	desktop: {
 		'pagination icon': {
-			size: `${custom.sizes.icon14}px`,
+			size: `${custom.sizes.icon12}px`,
 		},
 	},
 };
