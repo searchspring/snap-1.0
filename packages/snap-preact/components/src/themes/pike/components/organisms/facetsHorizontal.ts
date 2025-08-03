@@ -9,7 +9,8 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
-	//const mobileBp = variables?.breakpoints?.mobile || 767;
+	const columnsPaletteSelector = `.ss__facet-palette-options--list.ss__facet-palette-options--horizontal`;
+	const columnsSelector = `.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, ${columnsPaletteSelector}`;
 
 	return css({
 		margin: 0,
@@ -24,10 +25,10 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				flex: '0 1 auto',
 				padding: `0 ${custom.spacing.x1}px`,
 			},
-			'& > *, & > .ss__dropdown, .ss__mobile-sidebar': {
+			'& > *, .ss__facets-horizontal__header__dropdown, .ss__mobile-sidebar': {
 				margin: `0 0 ${custom.spacing.x2}px 0`,
 			},
-			'& > .ss__dropdown': {
+			'.ss__facets-horizontal__header__dropdown': {
 				position: 'static',
 				'&.ss__dropdown--open': {
 					'.ss__dropdown__button': {
@@ -109,13 +110,12 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 							backgroundColor: custom.colors.gray02,
 						},
 					},
-					'.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, .ss__facet-palette-options--list.ss__facet-palette-options--horizontal':
-						{
-							'& > *': {
-								width: `${100 / 4}%`,
-							},
+					[columnsSelector]: {
+						'& > *': {
+							width: `${100 / 4}%`,
 						},
-					'.ss__facet-palette-options--list.ss__facet-palette-options--horizontal': {
+					},
+					[columnsPaletteSelector]: {
 						'& > *': {
 							maxWidth: `24%`,
 						},
@@ -141,14 +141,13 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				'& > *': {
 					width: `${100 / 4}%`,
 				},
-				'& > .ss__dropdown .ss__dropdown__content': {
-					'.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, .ss__facet-palette-options--list.ss__facet-palette-options--horizontal':
-						{
-							'& > *': {
-								width: `${100 / 3}%`,
-							},
+				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
+					[columnsSelector]: {
+						'& > *': {
+							width: `${100 / 3}%`,
 						},
-					'.ss__facet-palette-options--list.ss__facet-palette-options--horizontal': {
+					},
+					[columnsPaletteSelector]: {
 						'& > *': {
 							maxWidth: `32%`,
 						},
@@ -161,14 +160,13 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				'& > *': {
 					width: `${100 / 2}%`,
 				},
-				'& > .ss__dropdown .ss__dropdown__content': {
-					'.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, .ss__facet-palette-options--list.ss__facet-palette-options--horizontal':
-						{
-							'& > *': {
-								width: `${100 / 2}%`,
-							},
+				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
+					[columnsSelector]: {
+						'& > *': {
+							width: `${100 / 2}%`,
 						},
-					'.ss__facet-palette-options--list.ss__facet-palette-options--horizontal': {
+					},
+					[columnsPaletteSelector]: {
 						'& > *': {
 							maxWidth: `48%`,
 						},

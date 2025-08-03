@@ -14,6 +14,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 
 	// shared grid styles
 	const sharedStyles = css({
+		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
 		gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 		alignItems: 'center',
 		'&:before': {
@@ -69,7 +70,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	const defaultStyles = css([
 		sharedStyles,
 		{
-			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
 			'.ss__facet-grid-options__option': {
 				'&:before': {
 					backgroundColor: custom.colors.gray01,
@@ -82,7 +82,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	const horizontalStyles = css([
 		sharedStyles,
 		{
-			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '62px'}, 1fr))`,
 			'.ss__facet-grid-options__option': {
 				'&:before': {
 					backgroundColor: custom.colors.white,

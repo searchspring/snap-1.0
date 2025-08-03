@@ -117,21 +117,11 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 		},
 	});
 
-	// default palette grid styles
-	const defaultGridStyles = css({
-		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
-	});
-
-	// default palette grid horizontal styles
-	const defaultGridHorizontalStyles = css({
-		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '62px'}, 1fr))`,
-	});
-
 	// grid palette styles
 	const gridStyles = css([
 		sharedStyles,
-		isHorizontal ? defaultGridHorizontalStyles : defaultGridStyles,
 		{
+			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
 			gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 			alignItems: 'center',
 			'.ss__facet-palette-options__option': {

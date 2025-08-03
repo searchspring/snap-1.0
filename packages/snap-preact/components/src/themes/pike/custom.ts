@@ -68,6 +68,8 @@ export const custom: {
 		x4: 20,
 		x5: 25,
 		x6: 30,
+		x7: 35,
+		x8: 40,
 	},
 	utils: {
 		convertPxToEm: (value: number) => {

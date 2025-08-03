@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { TermsListProps } from '../../../../components/Organisms/TermsList';
 import { ThemeComponent } from '../../../../providers';
 
-// CSS in JS style script for the Terms component
+// CSS in JS style script for the TermsList component
 const termsListStyleScript = (props: TermsListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
