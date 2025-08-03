@@ -8,7 +8,6 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
-	const desktopBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
 		'&.ss__search-input': {
@@ -30,7 +29,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				minHeight: '1px',
 				height: `${custom.sizes.height}px`,
 				lineHeight: `${custom.sizes.height}px`,
-				fontSize: custom.utils.convertPxToEm(16),
+				fontSize: custom.utils.convertPxToEm(14),
 				color: variables?.colors?.text,
 				'&::-webkit-input-placeholder': {
 					color: lightGray,
@@ -40,13 +39,6 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				},
 				'&::placeholder': {
 					color: lightGray,
-				},
-			},
-		},
-		[`@media (min-width: ${desktopBp + 1}px)`]: {
-			'&.ss__search-input': {
-				'.ss__search-input__input': {
-					fontSize: custom.utils.convertPxToEm(14),
 				},
 			},
 		},

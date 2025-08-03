@@ -7,10 +7,7 @@ const slideoutStyleScript = (props: SlideoutProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		overflow: 'hidden',
-		padding: 0,
-	});
+	return css({});
 };
 
 // Slideout component props

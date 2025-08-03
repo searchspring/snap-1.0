@@ -8,8 +8,11 @@ const dropdownStyleScript = ({ theme }: DropdownProps) => {
 	const variables = theme?.variables;
 
 	return css({
+		width: 'auto',
 		'.ss__dropdown__content': {
 			minWidth: '1px',
+			left: 0,
+			right: 0,
 		},
 	});
 };

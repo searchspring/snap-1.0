@@ -7,7 +7,6 @@ import { custom } from '../../custom';
 const selectStyleScript = (props: SelectProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const desktopBp = variables?.breakpoints?.mobile || 767;
 
 	// shared styles for select menus
 	const sharedStyles = css({
@@ -19,8 +18,8 @@ const selectStyleScript = (props: SelectProps) => {
 	// default styles
 	const defaultStyles = css([
 		{
+			display: 'block',
 			'.ss__dropdown': {
-				width: '100%',
 				'.ss__dropdown__button .ss__button, .ss__dropdown__content .ss__select__select': {
 					...sharedStyles,
 				},
@@ -28,15 +27,23 @@ const selectStyleScript = (props: SelectProps) => {
 					'.ss__button': {
 						display: 'flex',
 						padding: `0 ${custom.spacing.x2}px`,
-						'.ss__select__selection__icon': {
-							margin: 0,
-						},
-						'.ss__select__selection': {
-							paddingRight: `${custom.spacing.x1}px`,
-							fontWeight: 'normal',
-						},
-						'.ss__select__dropdown__button__icon': {
-							transition: 'transform ease .5s',
+						textAlign: 'left',
+						'.ss__button__content': {
+							'& > *': {
+								minWidth: '1px',
+								flex: '0 1 auto',
+							},
+							'.ss__select__selection__icon': {
+								margin: 0,
+							},
+							'.ss__select__selection': {
+								flex: '1 1 0%',
+								paddingRight: `${custom.spacing.x1}px`,
+								fontWeight: 'normal',
+							},
+							'.ss__select__dropdown__button__icon': {
+								transition: 'transform ease .5s',
+							},
 						},
 					},
 				},
@@ -87,13 +94,18 @@ const selectStyleScript = (props: SelectProps) => {
 			padding: `0 ${custom.spacing.x2}px`,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
+			'& > *': {
+				minWidth: '1px',
+				flex: '0 1 auto',
+			},
 			'.ss__select__label, .ss__select__select': {
-				fontSize: '16px',
+				fontSize: custom.utils.convertPxToEm(14),
 			},
 			'.ss__select__label': {
 				fontWeight: custom.fonts.weight01,
 			},
 			'.ss__select__select': {
+				flex: '1 1 0%',
 				paddingRight: `${custom.spacing.x1}px`,
 				backgroundColor: 'transparent',
 				border: 'none',
@@ -108,17 +120,8 @@ const selectStyleScript = (props: SelectProps) => {
 				},
 			},
 			'.ss__select__dropdown__button__icon': {
-				width: `${custom.sizes.icon14}px`,
-				height: `${custom.sizes.icon14}px`,
-			},
-			[`@media (min-width: ${desktopBp + 1}px)`]: {
-				'.ss__select__label, .ss__select__select': {
-					fontSize: '14px',
-				},
-				'.ss__select__dropdown__button__icon': {
-					width: `${custom.sizes.icon12}px`,
-					height: `${custom.sizes.icon12}px`,
-				},
+				width: `${custom.sizes.icon12}px`,
+				height: `${custom.sizes.icon12}px`,
 			},
 		},
 	]);

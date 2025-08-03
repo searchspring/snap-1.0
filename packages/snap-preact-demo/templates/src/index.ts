@@ -6,7 +6,7 @@ import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: 'prvb79', // prvb79 // 8uyt2m
+		siteId: '8uyt2m', // prvb79 // 8uyt2m
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
@@ -65,7 +65,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnappy',
+				component: 'SearchHorizontal',
 			},
 		],
 		// settings: {

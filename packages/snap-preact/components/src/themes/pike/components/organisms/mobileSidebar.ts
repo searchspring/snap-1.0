@@ -14,8 +14,10 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	const footerHeight = 75;
 
 	return css({
-		background: '',
 		'.ss__mobile-sidebar__slideout': {
+			overflowY: 'hidden',
+			padding: 0,
+			width: '100%',
 			'.ss__mobile-sidebar__content': {
 				height: '100%',
 				'.ss__mobile-sidebar__header, .ss__mobile-sidebar__footer': {
@@ -43,6 +45,14 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						},
 					},
 				},
+				'.ss__mobile-sidebar__footer': {
+					height: `${footerHeight}px`,
+					backgroundColor: custom.colors.white,
+					borderTop: `1px solid ${custom.colors.gray02}`,
+					'.ss__button': {
+						flex: `1 1 0%`,
+					},
+				},
 				'.ss__mobile-sidebar__inner': {
 					height: `calc(100% - ${headerHeight + footerHeight}px)`,
 					overflowY: 'auto',
@@ -58,9 +68,8 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						backgroundColor: custom.colors.gray02,
 					},
 					'.ss__layout': {
-						'&, & > *': {
-							display: 'block',
-						},
+						overflow: 'hidden',
+						display: 'block',
 						'& > *': {
 							borderBottom: `1px solid ${custom.colors.gray02}`,
 							padding: `${custom.spacing.x4}px`,
@@ -68,6 +77,12 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 								borderBottom: 0,
 							},
 						},
+					},
+					'.ss__select--native': {
+						padding: `0 ${custom.spacing.x4}px`,
+						borderTop: 0,
+						height: '40px',
+						lineHeight: '40px',
 					},
 					'.ss__filter-summary, .ss__facets': {
 						padding: 0,
@@ -96,14 +111,6 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 								stroke: 'currentColor',
 							},
 						},
-					},
-				},
-				'.ss__mobile-sidebar__footer': {
-					height: `${footerHeight}px`,
-					backgroundColor: custom.colors.white,
-					borderTop: `1px solid ${custom.colors.gray02}`,
-					'.ss__button': {
-						flex: `1 1 0%`,
 					},
 				},
 			},

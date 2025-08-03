@@ -2,6 +2,7 @@ import { ThemeResponsiveComplete } from '../../../../providers';
 
 // ORGANISMS Imports
 import { facet } from './facet';
+import { facets } from './facets';
 import { facetsHorizontal } from './facetsHorizontal';
 import { filterSummary } from './filterSummary';
 import { mobileSidebar } from './mobileSidebar';
@@ -13,6 +14,7 @@ import { toolbar } from './toolbar';
 export const organisms: ThemeResponsiveComplete = {
 	default: {
 		...facet.default,
+		...facets.default,
 		...facetsHorizontal.default,
 		...filterSummary.default,
 		...mobileSidebar.default,
@@ -23,6 +25,7 @@ export const organisms: ThemeResponsiveComplete = {
 	},
 	mobile: {
 		...facet.mobile,
+		...facets.mobile,
 		...facetsHorizontal.mobile,
 		...filterSummary.mobile,
 		...mobileSidebar.mobile,
@@ -33,6 +36,7 @@ export const organisms: ThemeResponsiveComplete = {
 	},
 	tablet: {
 		...facet.tablet,
+		...facets.tablet,
 		...facetsHorizontal.tablet,
 		...filterSummary.tablet,
 		...mobileSidebar.tablet,
@@ -43,6 +47,7 @@ export const organisms: ThemeResponsiveComplete = {
 	},
 	desktop: {
 		...facet.desktop,
+		...facets.desktop,
 		...facetsHorizontal.desktop,
 		...filterSummary.desktop,
 		...mobileSidebar.desktop,
