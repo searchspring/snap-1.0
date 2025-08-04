@@ -4,13 +4,12 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // CSS in JS style script for the Facets component
-const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
+const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
-	const columnsPaletteSelector = `.ss__facet-palette-options--list.ss__facet-palette-options--horizontal`;
-	const columnsSelector = `.ss__facet-hierarchy-options--horizontal, .ss__facet-list-options--horizontal, ${columnsPaletteSelector}`;
+	const columnsSelector = `.ss__facet-hierarchy-options, .ss__facet-list-options, .ss__facet-palette-options.ss__facet-palette-options--list`;
 
 	return css({
 		margin: 0,
@@ -111,13 +110,24 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						},
 					},
 					[columnsSelector]: {
+						display: 'flex',
+						flexFlow: 'row wrap',
+						gap: `0 ${custom.spacing.x2}px`,
 						'& > *': {
-							width: `${100 / 4}%`,
+							flex: '0 1 auto',
+							width: `${100 / 4 - 2}%`,
+							minWidth: '1px',
+							boxSizing: 'border-box',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap',
 						},
 					},
-					[columnsPaletteSelector]: {
-						'& > *': {
-							maxWidth: `24%`,
+					'.ss__facet-hierarchy-options': {
+						'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
+							'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
+								paddingLeft: 0,
+							},
 						},
 					},
 					'.ss__facet__show-more-less': {
@@ -144,12 +154,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
 					[columnsSelector]: {
 						'& > *': {
-							width: `${100 / 3}%`,
-						},
-					},
-					[columnsPaletteSelector]: {
-						'& > *': {
-							maxWidth: `32%`,
+							width: `${100 / 3 - 2}%`,
 						},
 					},
 				},
@@ -163,12 +168,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
 					[columnsSelector]: {
 						'& > *': {
-							width: `${100 / 2}%`,
-						},
-					},
-					[columnsPaletteSelector]: {
-						'& > *': {
-							maxWidth: `48%`,
+							width: `${100 / 2 - 2}%`,
 						},
 					},
 				},
@@ -181,43 +181,41 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizontalProps> = {
 	default: {
 		facetsHorizontal: {
-			themeStyleScript: facetsHorizontalStyleScript,
+			themeStyleScript: facetssecondaryStylescript,
 			iconExpand: custom.icons.arrowDown,
 			iconCollapse: custom.icons.arrowDown,
 		},
 		'facetsHorizontal dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,
 		},
+		'facetsHorizontal checkbox': {
+			className: 'ss__secondary',
+		},
+		'facetsHorizontal mobileSidebar checkbox': {
+			className: '',
+		},
+		'facetsHorizontal radio': {
+			className: 'ss__secondary',
+		},
+		'facetsHorizontal mobileSidebar radio': {
+			className: '',
+		},
 		'facetsHorizontal facetGridOptions': {
-			className: 'ss__facet-grid-options--horizontal',
+			className: 'ss__secondary',
 			gridSize: '62px',
 		},
 		'facetsHorizontal mobileSidebar facetGridOptions': {
 			className: '',
 			gridSize: '52px',
 		},
-		'facetsHorizontal facetHierarchyOptions': {
-			className: 'ss__facet-hierarchy-options--horizontal',
-		},
-		'facetsHorizontal mobileSidebar facetHierarchyOptions': {
-			className: '',
-		},
-		'facetsHorizontal facetListOptions': {
-			className: 'ss__facet-list-options--horizontal',
-		},
-		'facetsHorizontal mobileSidebar facetListOptions': {
-			className: '',
-		},
 		'facetsHorizontal facetPaletteOptions': {
-			className: 'ss__facet-palette-options--horizontal',
 			gridSize: '62px',
 		},
 		'facetsHorizontal mobileSidebar facetPaletteOptions': {
-			className: '',
 			gridSize: '52px',
 		},
 		'facetsHorizontal searchInput': {
-			className: 'ss__search-input--horizontal',
+			className: 'ss__secondary',
 		},
 		'facetsHorizontal mobileSidebar searchInput': {
 			className: '',

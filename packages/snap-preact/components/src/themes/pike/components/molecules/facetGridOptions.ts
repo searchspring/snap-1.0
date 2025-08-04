@@ -8,7 +8,7 @@ import Color from 'color';
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const isHorizontal = props?.className?.includes('horizontal') ? true : false;
+	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const activeColor = new Color(variables?.colors?.primary);
 	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
@@ -78,8 +78,8 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 		},
 	]);
 
-	// horizontal grid styles
-	const horizontalStyles = css([
+	// secondary grid styles
+	const secondaryStyles = css([
 		sharedStyles,
 		{
 			'.ss__facet-grid-options__option': {
@@ -90,7 +90,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 		},
 	]);
 
-	return isHorizontal ? horizontalStyles : defaultStyles;
+	return isSecondary ? secondaryStyles : defaultStyles;
 };
 
 // FacetGridOptions component props

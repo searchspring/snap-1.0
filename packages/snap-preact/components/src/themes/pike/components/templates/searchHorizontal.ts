@@ -5,7 +5,7 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
-const searchHorizontalStyleScript = (props: SearchHorizontalProps) => {
+const searchsecondaryStylescript = (props: SearchHorizontalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
@@ -17,7 +17,7 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 		...searchHorizontalThemeComponentProps.default,
 		searchHorizontal: {
 			...(searchHorizontalThemeComponentProps.default?.['searchHorizontal'] || {}),
-			themeStyleScript: searchHorizontalStyleScript,
+			themeStyleScript: searchsecondaryStylescript,
 		},
 		'searchHorizontal button.sidebar-toggle': {
 			icon: custom.icons.filter,

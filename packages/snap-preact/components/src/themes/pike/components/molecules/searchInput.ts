@@ -7,7 +7,7 @@ import { custom } from '../../custom';
 const searchInputStyleScript = (props: SearchInputProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const isHorizontal = props?.className?.includes('horizontal') ? true : false;
+	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 
 	// shared search input styles
@@ -55,8 +55,8 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 		},
 	]);
 
-	// horizontal search input styles
-	const horizontalStyles = css([
+	// secondary search input styles
+	const secondaryStyles = css([
 		sharedStyles,
 		{
 			'&.ss__search-input': {
@@ -65,7 +65,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 		},
 	]);
 
-	return isHorizontal ? horizontalStyles : defaultStyles;
+	return isSecondary ? secondaryStyles : defaultStyles;
 };
 
 // SearchInput component props

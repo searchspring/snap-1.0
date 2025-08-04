@@ -7,7 +7,6 @@ import { custom } from '../../custom';
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const isHorizontal = props?.className?.includes('horizontal') ? true : false;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
 
@@ -159,64 +158,30 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const listCheckboxSize = 16;
 	const listPadding = hasCheckbox ? custom.spacing.x4 + listSize + listCheckboxSize : custom.spacing.x2 + listSize;
 
-	// default palette list styles
-	const defaultListStyles = css({
-		'&.ss__facet-palette-options--list': {
-			display: 'block',
-		},
-		'.ss__facet-palette-options__option': {
-			padding: `${hasCheckbox ? 0 : '2px'} 0 0 ${listPadding}px`,
-			'&:last-child': {
-				marginBottom: 0,
-			},
-			'.ss__checkbox, .ss__radio': {
-				left: 0,
-			},
-			'.ss__facet-palette-options__option__wrapper': {
-				left: hasCheckbox ? `${listCheckboxSize + custom.spacing.x2}px` : 0,
-			},
-		},
-	});
-
-	// default palette list horizontal styles
-	const defaultListHorizontalStyles = css({
-		'&.ss__facet-palette-options--list': {
-			display: 'flex',
-			flexFlow: 'row wrap',
-			margin: `0 -${custom.spacing.x2}px`,
-		},
-		'.ss__facet-palette-options__option': {
-			flex: '0 1 auto',
-			minWidth: '1px',
-			padding: `${hasCheckbox ? 0 : '2px'} ${custom.spacing.x2}px 0 ${listPadding + custom.spacing.x2}px`,
-			boxSizing: 'border-box',
-			overflow: 'hidden',
-			textOverflow: 'ellipsis',
-			whiteSpace: 'nowrap',
-			'.ss__checkbox, .ss__radio': {
-				left: `${custom.spacing.x2}px`,
-				backgroundColor: custom.colors.white,
-			},
-			'.ss__facet-palette-options__option__wrapper': {
-				left: hasCheckbox ? `${listCheckboxSize + custom.spacing.x4}px` : `${custom.spacing.x2}px`,
-			},
-		},
-	});
-
 	// list palette styles
 	const listStyles = css([
 		sharedStyles,
-		isHorizontal ? defaultListHorizontalStyles : defaultListStyles,
 		{
+			'&.ss__facet-palette-options--list': {
+				display: 'block',
+			},
 			'.ss__facet-palette-options__option': {
 				position: 'relative',
+				padding: `${hasCheckbox ? 0 : '2px'} 0 0 ${listPadding}px`,
 				margin: `0 0 ${custom.spacing.x1}px 0`,
 				minHeight: hasCheckbox ? '' : `${listSize + 2}px`,
+				'&:last-child': {
+					marginBottom: 0,
+				},
 				'.ss__checkbox, .ss__radio, .ss__facet-palette-options__option__wrapper': {
 					position: 'absolute',
 					top: `${hasCheckbox ? 2 : 0.5}px`,
 				},
+				'.ss__checkbox, .ss__radio': {
+					left: 0,
+				},
 				'.ss__facet-palette-options__option__wrapper': {
+					left: hasCheckbox ? `${listCheckboxSize + custom.spacing.x2}px` : 0,
 					width: `${listSize}px`,
 					height: `${listSize}px`,
 					lineHeight: `${listSize}px`,
@@ -246,7 +211,7 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 			hideIcon: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
-			layout: 'grid',
+			layout: 'list',
 			colorMapping: {
 				brown: {
 					background: custom.colors.brown,

@@ -7,9 +7,27 @@ import { custom } from '../../custom';
 const radioStyleScript = (props: RadioProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	// shared radio styles
+	const sharedDefaultStyles = css({
+		border: `1px solid ${custom.colors.gray02}`,
+		'&, & .ss__icon': {
+			borderRadius: '50%',
+		},
+		'.ss__icon': {
+			display: 'none',
+		},
+		'&.ss__radio--active': {
+			borderColor: darkGray,
+			'.ss__icon': {
+				display: 'block',
+				fill: variables?.colors?.primary,
+				stroke: variables?.colors?.primary,
+			},
+		},
+	});
 	const disabledStyles = css({
 		'&.ss__radio--disabled': {
 			opacity: 0.65,
@@ -19,30 +37,24 @@ const radioStyleScript = (props: RadioProps) => {
 		},
 	});
 
-	// default styles
+	// default radio styles
 	const defaultStyles = css([
+		sharedDefaultStyles,
 		{
 			backgroundColor: custom.colors.gray01,
-			border: `1px solid ${custom.colors.gray02}`,
-			'&, & .ss__icon': {
-				borderRadius: '50%',
-			},
-			'.ss__icon': {
-				display: 'none',
-			},
-			'&.ss__radio--active': {
-				borderColor: darkGray,
-				'.ss__icon': {
-					display: 'block',
-					fill: variables?.colors?.primary,
-					stroke: variables?.colors?.primary,
-				},
-			},
 		},
 		disabledStyles,
 	]);
 
-	// native styles
+	// secondary radio styles
+	const secondaryStyles = css([
+		sharedDefaultStyles,
+		{
+			backgroundColor: custom.colors.white,
+		},
+	]);
+
+	// native radio styles
 	const nativeStyles = css([
 		{
 			lineHeight: 0,
@@ -56,7 +68,14 @@ const radioStyleScript = (props: RadioProps) => {
 		disabledStyles,
 	]);
 
-	return props?.native ? nativeStyles : defaultStyles;
+	// return radio styles
+	if (props?.native) {
+		return nativeStyles;
+	} else if (isSecondary) {
+		return secondaryStyles;
+	} else {
+		return defaultStyles;
+	}
 };
 
 // Radio component props
