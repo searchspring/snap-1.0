@@ -211,7 +211,7 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 			hideIcon: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
-			layout: 'list',
+			layout: 'grid',
 			colorMapping: {
 				brown: {
 					background: custom.colors.brown,
