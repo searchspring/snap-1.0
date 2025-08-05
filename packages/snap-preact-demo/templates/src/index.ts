@@ -34,6 +34,10 @@ let config: SnapTemplatesConfig = {
 		style: globalStyles,
 		overrides: {
 			default: {
+				// 'autocompleteTemplate': {
+				// 	className: '',
+				// 	width: '200px',
+				// },
 				// 'toolbar.top': {
 				// 	layout: ['breadcrumbs']
 				// }

@@ -49,7 +49,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 	} else if (props?.type == 'list') {
 		return listStyles;
 	} else {
-		return css({});
+		return dropdownStyles;
 	}
 };
 
