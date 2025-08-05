@@ -22,12 +22,12 @@ const carouselStyleScript = (props: CarouselProps) => {
 			...disabledStyles,
 		},
 		'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-			width: '24px',
-			height: '24px',
+			width: '32px',
+			height: '32px',
 			display: 'block',
 			position: 'absolute',
 			top: 0,
-			bottom: '33.33%',
+			bottom: '22%',
 			zIndex: 2,
 			margin: 'auto',
 			'& > div': {
@@ -110,11 +110,11 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 		},
 		'carousel icon.prev': {
 			icon: custom.icons.arrowLeft,
-			size: '8px',
+			size: `${custom.sizes.icon12}px`,
 		},
 		'carousel icon.next': {
 			icon: custom.icons.arrowRight,
-			size: '8px',
+			size: `${custom.sizes.icon12}px`,
 		},
 	},
 };
