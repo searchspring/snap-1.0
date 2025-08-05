@@ -8,6 +8,12 @@ import { custom } from '../../custom';
 const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const tabletBp = variables?.breakpoints?.tablet || 1024;
+	const textSelectors = 'a, div, p';
+	const headerSelectors =
+		'.ss__terms .ss__terms__title h5, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content .ss__autocomplete__see-more a, .ss__no-results__recommendations h3';
+	const activeSelectors =
+		'.ss__terms .ss__terms__options .ss__terms__option--active a, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more .ss__button__content .ss__autocomplete__see-more a:hover';
 
 	return css({
 		border: `1px solid ${custom.colors.gray02}`,
@@ -17,7 +23,7 @@ const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 		left: 'auto',
 		top: 'auto',
 		margin: `${custom.spacing.x1}px 0 0 0`,
-		'a, div, p': {
+		[textSelectors]: {
 			fontSize: custom.utils.convertPxToEm(12),
 			lineHeight: 1.5,
 			color: variables?.colors?.text,
@@ -37,6 +43,18 @@ const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 				height: 'auto',
 			},
 		},
+		[headerSelectors]: {
+			margin: `0 0 ${custom.spacing.x4}px 0`,
+			padding: 0,
+			fontSize: custom.utils.convertPxToEm(16),
+			fontWeight: custom.fonts.weight02,
+			lineHeight: 1.2,
+			color: variables?.colors?.secondary,
+		},
+		[activeSelectors]: {
+			fontWeight: custom.fonts.weight01,
+			color: variables?.colors?.primary,
+		},
 		'& > .ss__autocomplete__row': {
 			gap: `${custom.spacing.x4}px`,
 			'.ss__autocomplete__column': {
@@ -54,24 +72,12 @@ const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 				},
 			},
 		},
-		'.ss__terms .ss__terms__title h5, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content .ss__autocomplete__see-more a, .ss__no-results__recommendations h3':
-			{
-				margin: `0 0 ${custom.spacing.x4}px 0`,
-				padding: 0,
-				fontSize: custom.utils.convertPxToEm(16),
-				fontWeight: custom.fonts.weight02,
-				lineHeight: 1.2,
-				color: variables?.colors?.secondary,
-			},
-		'.ss__terms .ss__terms__options .ss__terms__option--active a, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more .ss__button__content .ss__autocomplete__see-more a:hover':
-			{
-				fontWeight: custom.fonts.weight01,
-				color: variables?.colors?.primary,
-			},
 		'.ss__autocomplete__terms-wrapper': {
 			backgroundColor: custom.colors.gray01,
+			height: '100%',
 		},
 		'.ss__terms-list': {
+			backgroundColor: 'transparent',
 			'.ss__terms-list__row': {
 				'&:first-child .ss__terms .ss__terms__title': {
 					marginTop: `${custom.spacing.x2}px`,
@@ -174,6 +180,7 @@ const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 		},
 		'.ss__autocomplete__button--see-more': {
 			padding: 0,
+			width: '100%',
 			height: 'auto',
 			'&, &:hover': {
 				backgroundColor: 'transparent',
@@ -202,6 +209,98 @@ const autocompleteTemplateStyleScript = (props: AutocompleteTemplateProps) => {
 				margin: `${custom.spacing.x4}px 0 0 0`,
 			},
 		},
+		[`@media (max-width: ${tabletBp}px)`]: {
+			width: props?.width,
+			left: 0,
+			right: 0,
+			[headerSelectors]: {
+				fontSize: custom.utils.convertPxToEm(14),
+			},
+			'& > .ss__autocomplete__row': {
+				flexFlow: 'row wrap',
+				gap: 0,
+				'.ss__autocomplete__column': {
+					borderBottom: `1px solid ${custom.colors.gray02}`,
+					'&:last-child': {
+						borderBottom: 0,
+					},
+					'&, &:has(.ss__autocomplete__terms-wrapper)': {
+						padding: `${custom.spacing.x4}px`,
+					},
+				},
+			},
+			'.ss__autocomplete__terms-wrapper': {
+				backgroundColor: 'transparent',
+			},
+			'.ss__terms-list': {
+				flexFlow: 'row nowrap',
+				gap: `${custom.spacing.x4}px`,
+				'.ss__terms-list__row': {
+					flex: '1 1 0%',
+					'&:first-child .ss__terms .ss__terms__title': {
+						marginTop: 0,
+					},
+					'&:last-child .ss__terms .ss__terms__options': {
+						marginBottom: 0,
+					},
+				},
+			},
+			'.ss__terms .ss__terms__options, .ss__autocomplete__facets .ss__facets': {
+				display: 'flex',
+			},
+			'.ss__terms .ss__terms__options .ss__terms__options, .ss__autocomplete__facets .ss__facets .ss__facet': {
+				minWidth: '1px',
+			},
+			'.ss__terms': {
+				'.ss__terms__title h5': {
+					padding: 0,
+					margin: `0 0 ${custom.spacing.x4}px 0`,
+				},
+				'.ss__terms__options': {
+					gap: `${custom.spacing.x1}px ${custom.spacing.x4}px`,
+					flexFlow: 'row wrap',
+					'.ss__terms__option': {
+						flex: '0 1 auto',
+						a: {
+							padding: 0,
+							fontSize: custom.utils.convertPxToEm(12),
+						},
+					},
+				},
+			},
+			'.ss__autocomplete__facets': {
+				'.ss__facets': {
+					gap: `0 ${custom.spacing.x4}px`,
+					flexFlow: 'row nowrap',
+					'.ss__facet': {
+						flex: '1 1 0%',
+						'&, &:last-child': {
+							margin: 0,
+						},
+					},
+				},
+			},
+			'.ss__autocomplete__button--see-more': {
+				'.ss__button__content': {
+					'.ss__autocomplete__see-more': {
+						a: {
+							'.ss__icon': {
+								position: 'relative',
+								top: '1px',
+							},
+						},
+					},
+				},
+			},
+		},
+		'@media (max-width: 540px)': {
+			'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__recommendation-grid__results': {
+				gridTemplateColumns: `repeat(2, 1fr)`,
+				'& > div:nth-child(n+3)': {
+					display: 'none',
+				},
+			},
+		},
 	});
 };
 
@@ -221,6 +320,10 @@ export const autocompleteTemplate: ThemeComponent<'autocompleteTemplate', Autoco
 			column2: {
 				width: '160px',
 				layout: ['facets'],
+			},
+			column3: {
+				width: 'auto',
+				layout: ['content', 'button.see-more'],
 			},
 		},
 		'autocompleteTemplate termsList': {
@@ -249,7 +352,76 @@ export const autocompleteTemplate: ThemeComponent<'autocompleteTemplate', Autoco
 			size: `${custom.sizes.icon12}px`,
 		},
 	},
-	mobile: autocompleteThemeComponentProps.mobile,
-	desktop: autocompleteThemeComponentProps.desktop,
-	tablet: autocompleteThemeComponentProps.tablet,
+	mobile: {
+		...autocompleteThemeComponentProps.mobile,
+		autocompleteTemplate: {
+			...(autocompleteThemeComponentProps.mobile?.['autocompleteTemplate'] || {}),
+			width: '100%',
+			layout: [['c1', 'c2']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
+		},
+		'autocompleteTemplate results': {
+			rows: 1,
+			columns: 3,
+			gapSize: `${custom.spacing.x2}px`,
+		},
+		'autocompleteTemplate recommendationGrid': {
+			rows: 1,
+			columns: 3,
+			gapSize: `${custom.spacing.x2}px`,
+		},
+	},
+	tablet: {
+		...autocompleteThemeComponentProps.tablet,
+		autocompleteTemplate: {
+			...(autocompleteThemeComponentProps.tablet?.['autocompleteTemplate'] || {}),
+			width: '100%',
+			layout: [['c1', 'c2', 'c3']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['facets'],
+			},
+			column3: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
+		},
+		'autocompleteTemplate results': {
+			rows: 1,
+			columns: 4,
+			gapSize: `${custom.spacing.x4}px`,
+		},
+		'autocompleteTemplate recommendationGrid': {
+			rows: 1,
+			columns: 4,
+			gapSize: `${custom.spacing.x4}px`,
+		},
+	},
+	desktop: {
+		...autocompleteThemeComponentProps.desktop,
+		autocompleteTemplate: {
+			...(autocompleteThemeComponentProps.desktop?.['autocompleteTemplate'] || {}),
+		},
+		'autocompleteTemplate results': {
+			rows: 2,
+			columns: 3,
+			gapSize: `${custom.spacing.x4}px`,
+		},
+		'autocompleteTemplate recommendationGrid': {
+			rows: 2,
+			columns: 4,
+			gapSize: `${custom.spacing.x4}px`,
+		},
+	},
 };
