@@ -39,7 +39,8 @@ let config: SnapTemplatesConfig = {
 				// 	width: '200px',
 				// },
 				// 'toolbar.top': {
-				// 	layout: ['breadcrumbs']
+				// 	className: 'aaa',
+				// 	//layout: ['breadcrumbs']
 				// }
 				// 'toolbar.bottom': {
 				// 	layout: ['loadMore']
@@ -69,7 +70,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnappy',
+				component: 'SearchHorizontal',
 			},
 		],
 		// settings: {

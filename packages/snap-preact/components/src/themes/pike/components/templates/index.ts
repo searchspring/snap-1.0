@@ -1,7 +1,8 @@
 import { ThemeResponsiveComplete } from '../../../../providers';
 
 // TEMPLATES
-import { autocompleteTemplate } from './autocompleteTemplate';
+//import { autocompleteTemplate } from './autocompleteTemplate';
+import { autocompleteFixed } from './autocompleteFixed';
 import { recommendation } from './recommendation';
 import { recommendationBundle } from './recommendationBundle';
 import { recommendationBundleEasyAdd } from './recommendationBundleEasyAdd';
@@ -17,7 +18,7 @@ import { searchSnappy } from './searchSnappy';
 
 export const templates: ThemeResponsiveComplete = {
 	default: {
-		...autocompleteTemplate.default,
+		...autocompleteFixed.default,
 		...recommendation.default,
 		...recommendationBundle.default,
 		...recommendationBundleEasyAdd.default,
@@ -32,7 +33,7 @@ export const templates: ThemeResponsiveComplete = {
 		...searchHorizontal.default,
 	},
 	mobile: {
-		...autocompleteTemplate.mobile,
+		//...autocompleteTemplate.mobile,
 		...recommendation.mobile,
 		...recommendationBundle.mobile,
 		...recommendationBundleEasyAdd.mobile,
@@ -47,7 +48,7 @@ export const templates: ThemeResponsiveComplete = {
 		...searchHorizontal.mobile,
 	},
 	tablet: {
-		...autocompleteTemplate.tablet,
+		//...autocompleteTemplate.tablet,
 		...recommendation.tablet,
 		...recommendationBundle.tablet,
 		...recommendationBundleEasyAdd.tablet,
@@ -62,7 +63,7 @@ export const templates: ThemeResponsiveComplete = {
 		...searchHorizontal.tablet,
 	},
 	desktop: {
-		...autocompleteTemplate.desktop,
+		//...autocompleteTemplate.desktop,
 		...recommendation.desktop,
 		...recommendationBundle.desktop,
 		...recommendationBundleEasyAdd.desktop,
