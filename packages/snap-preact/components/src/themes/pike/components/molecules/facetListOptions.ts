@@ -17,7 +17,7 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			color: variables?.colors?.text,
 			padding: props?.hideCheckbox ? `` : `0 0 0 ${checkboxSpacing}px`,
-			'&:last-child': {
+			'&:last-of-type': {
 				marginBottom: 0,
 			},
 			'.ss__checkbox, .ss__radio': {

@@ -33,7 +33,7 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 			li: {
 				listStyle: 'disc',
 				margin: `0 0 ${custom.spacing.x1}px 0`,
-				'&:last-child': {
+				'&:last-of-type': {
 					marginBottom: 0,
 				},
 			},

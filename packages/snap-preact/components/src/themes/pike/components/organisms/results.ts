@@ -17,11 +17,19 @@ export const results: ThemeComponent<'results', ResultsProps> = {
 		results: {
 			themeStyleScript: resultsStyleScript,
 			gapSize: `${custom.spacing.x6}px ${custom.spacing.x4}px`,
+			columns: 4,
 		},
 	},
 	mobile: {
 		results: {
 			gapSize: `${custom.spacing.x6}px ${custom.spacing.x2}px`,
+			columns: 2,
 		},
 	},
+	tablet: {
+		results: {
+			columns: 3,
+		},
+	},
+	desktop: {},
 };

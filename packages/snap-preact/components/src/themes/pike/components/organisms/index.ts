@@ -2,6 +2,7 @@ import { ThemeResponsiveComplete } from '../../../../providers';
 
 // ORGANISMS Imports
 import { autocomplete } from './autocomplete';
+import { autocompleteLayout } from './autocompleteLayout';
 import { facet } from './facet';
 import { facets } from './facets';
 import { facetsHorizontal } from './facetsHorizontal';
@@ -16,6 +17,7 @@ import { toolbar } from './toolbar';
 export const organisms: ThemeResponsiveComplete = {
 	default: {
 		...autocomplete.default,
+		...autocompleteLayout.default,
 		...facet.default,
 		...facets.default,
 		...facetsHorizontal.default,
@@ -29,6 +31,7 @@ export const organisms: ThemeResponsiveComplete = {
 	},
 	mobile: {
 		...autocomplete.mobile,
+		...autocompleteLayout.mobile,
 		...facet.mobile,
 		...facets.mobile,
 		...facetsHorizontal.mobile,
@@ -42,6 +45,7 @@ export const organisms: ThemeResponsiveComplete = {
 	},
 	tablet: {
 		...autocomplete.tablet,
+		...autocompleteLayout.tablet,
 		...facet.tablet,
 		...facets.tablet,
 		...facetsHorizontal.tablet,
@@ -55,6 +59,7 @@ export const organisms: ThemeResponsiveComplete = {
 	},
 	desktop: {
 		...autocomplete.desktop,
+		...autocompleteLayout.desktop,
 		...facet.desktop,
 		...facets.desktop,
 		...facetsHorizontal.desktop,

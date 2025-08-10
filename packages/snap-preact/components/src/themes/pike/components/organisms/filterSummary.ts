@@ -23,7 +23,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 			'.ss__filter-summary__filters': {
 				'.ss__filter': {
 					margin: `0 0 ${custom.spacing.x1}px 0`,
-					'&:last-child': {
+					'&:last-of-type': {
 						marginBottom: 0,
 					},
 					'.ss__filter__button': {

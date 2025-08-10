@@ -32,7 +32,7 @@ const sidebarStyleScript = (props: SidebarProps) => {
 			},
 			'.ss__layout .ss__layout__row, .ss__facets .ss__facet': {
 				margin: `0 0 ${custom.spacing.x6}px 0`,
-				'&:last-child': {
+				'&:last-of-type': {
 					marginBottom: 0,
 				},
 			},

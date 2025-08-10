@@ -24,7 +24,7 @@ const listStyleScript = (props: ListProps) => {
 		'.ss__list__options': {
 			'.ss__list__option': {
 				gap: `${custom.spacing.x2}px`,
-				'&:last-child': {
+				'&:last-of-type': {
 					marginBottom: 0,
 				},
 			},

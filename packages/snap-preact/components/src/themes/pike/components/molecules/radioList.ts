@@ -22,7 +22,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 		'.ss__radio-list__options-wrapper': {
 			'.ss__radio-list__option': {
 				gap: `${custom.spacing.x2}px`,
-				'&:last-child': {
+				'&:last-of-type': {
 					marginBottom: 0,
 				},
 				'.ss__radio-list__option__icon, .ss__radio-list__option__label': {

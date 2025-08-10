@@ -9,27 +9,39 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 	const variables = props?.theme?.variables;
 	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
+	const darkPrimary = custom.utils.darkenColor(variables?.colors?.primary, 0.15);
 
 	// shared search input styles
 	const sharedStyles = css({
 		'&.ss__search-input': {
 			margin: `0 0 ${custom.spacing.x2}px`,
-			border: `1px solid ${custom.colors.gray02}`,
-			'.ss__icon, .ss__search-input__input': {
+			border: 0,
+			height: '35px',
+			'& > *': {
 				minWidth: '1px',
-				padding: 0,
 			},
-			'.ss__icon': {
+			'.ss__search-input__input, .ss__search-input__icons, .ss__button': {
+				height: '100%',
+				lineHeight: 1,
+			},
+			'.ss__search-input__icons, .ss__search-input__button--close-search-button': {
 				flex: '0 1 auto',
-				margin: `0 0 0 ${custom.spacing.x2}px`,
+			},
+			'.ss__button': {
+				padding: `0 ${custom.spacing.x2}px`,
+				border: 0,
+				justifyContent: 'center',
+				'.ss__icon': {
+					padding: 0,
+					fill: custom.colors.white,
+					stroke: custom.colors.white,
+				},
 			},
 			'.ss__search-input__input': {
 				flex: '1 1 0%',
-				margin: `0 ${custom.spacing.x2}px`,
-				backgroundColor: `inherit`,
+				border: `1px solid ${custom.colors.gray02}`,
+				padding: `0 ${custom.spacing.x2}px`,
 				minHeight: '1px',
-				height: `${custom.sizes.height}px`,
-				lineHeight: `${custom.sizes.height}px`,
 				fontSize: custom.utils.convertPxToEm(14),
 				color: variables?.colors?.text,
 				'&::-webkit-input-placeholder': {
@@ -42,6 +54,14 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 					color: lightGray,
 				},
 			},
+			'.ss__search-input__icons': {
+				gap: '2px',
+				margin: '0 0 0 -1px',
+				backgroundColor: darkPrimary,
+			},
+			'.ss__search-input__button--close-search-button': {
+				margin: '0 -1px 0 0',
+			},
 		},
 	});
 
@@ -50,7 +70,9 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 		sharedStyles,
 		{
 			'&.ss__search-input': {
-				backgroundColor: `${custom.colors.gray01}`,
+				'.ss__search-input__input': {
+					backgroundColor: `${custom.colors.gray01}`,
+				},
 			},
 		},
 	]);
@@ -60,7 +82,9 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 		sharedStyles,
 		{
 			'&.ss__search-input': {
-				backgroundColor: `${custom.colors.white}`,
+				'.ss__search-input__input': {
+					backgroundColor: `${custom.colors.white}`,
+				},
 			},
 		},
 	]);
@@ -76,6 +100,15 @@ export const searchInput: ThemeComponent<'searchInput', SearchInputProps> = {
 		},
 		'searchInput icon': {
 			size: `${custom.sizes.icon14}px`,
+		},
+		'searchInput button.close-search icon': {
+			icon: custom.icons.arrowLeft,
+		},
+		'searchInput button.clear-search icon': {
+			icon: custom.icons.close,
+		},
+		'searchInput button.submit-search icon': {
+			icon: custom.icons.search,
 		},
 	},
 };

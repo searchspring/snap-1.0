@@ -170,7 +170,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				padding: `${hasCheckbox ? 0 : '2px'} 0 0 ${listPadding}px`,
 				margin: `0 0 ${custom.spacing.x1}px 0`,
 				minHeight: hasCheckbox ? '' : `${listSize + 2}px`,
-				'&:last-child': {
+				'&:last-of-type': {
 					marginBottom: 0,
 				},
 				'.ss__checkbox, .ss__radio, .ss__facet-palette-options__option__wrapper': {

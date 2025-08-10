@@ -19,7 +19,7 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 			},
 			'.ss__breadcrumbs__crumbs__crumb': {
 				padding: `0 ${custom.spacing.x1}px`,
-				'&:last-child': {
+				'&:last-of-type': {
 					color: variables?.colors?.primary,
 					fontWeight: custom?.fonts?.weight01,
 				},

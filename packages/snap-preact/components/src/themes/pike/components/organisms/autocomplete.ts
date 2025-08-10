@@ -70,10 +70,10 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				width: '200px',
 				backgroundColor: custom.colors.gray01,
 				textAlign: 'left',
-				'& > div:first-child .ss__autocomplete__title': {
+				'& > div:first-of-type .ss__autocomplete__title': {
 					marginTop: `${custom.spacing.x2}px`,
 				},
-				'& > div:last-child .ss__autocomplete__terms__options': {
+				'& > div:last-of-type .ss__autocomplete__terms__options': {
 					marginBottom: `${custom.spacing.x2}px`,
 				},
 				'& > div': {
@@ -86,9 +86,22 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					},
 					'.ss__autocomplete__terms__options': {
 						'.ss__autocomplete__terms__option': {
+							'&:not(.ss__autocomplete__terms__option--active)': {
+								a: {
+									color: variables?.colors?.primary,
+									em: {
+										color: variables?.colors?.text,
+									},
+								},
+							},
 							a: {
 								padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
 								fontSize: custom.utils.convertPxToEm(14),
+								em: {
+									fontStyle: 'normal',
+									fontSize: 'inherit',
+									fontWeight: 'inherit',
+								},
 							},
 						},
 						'.ss__autocomplete__terms__option--active': {
@@ -110,12 +123,17 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 								padding: 0,
 							},
 						},
-						'&:last-child': {
+						'&:last-of-type': {
 							marginBottom: 0,
 						},
 						'.ss__facet__header': {
 							borderBottom: 0,
 							padding: 0,
+							'.ss__facet__header__inner': {
+								fontSize: 'inherit',
+								fontWeight: 'inherit',
+								color: 'inherit',
+							},
 						},
 						'.ss__facet__options': {
 							margin: 0,
@@ -124,7 +142,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 							'.ss__facet-hierarchy-options .ss__facet-hierarchy-options__option, .ss__facet-list-options .ss__facet-list-options__option': {
 								padding: 0,
 								margin: `0 0 ${custom.spacing.x1}px 0`,
-								'&:last-child': {
+								'&:last-of-type': {
 									marginBottom: 0,
 								},
 							},
@@ -206,7 +224,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				'& > div': {
 					flex: '1 1 100%',
 					borderBottom: `1px solid ${custom.colors.gray02}`,
-					'&:last-child': {
+					'&:last-of-type': {
 						borderBottom: 0,
 					},
 					'&, &.ss__autocomplete__terms': {
@@ -222,10 +240,10 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					'& > div': {
 						minWidth: '1px',
 						flex: '1 1 0%',
-						'&:first-child .ss__autocomplete__title': {
+						'&:first-of-type .ss__autocomplete__title': {
 							marginTop: 0,
 						},
-						'&:last-child .ss__autocomplete__terms__options': {
+						'&:last-of-type .ss__autocomplete__terms__options': {
 							marginBottom: 0,
 						},
 						'.ss__autocomplete__title h5': {
@@ -259,7 +277,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 						flexFlow: 'row nowrap',
 						'.ss__facet': {
 							flex: '1 1 0%',
-							'&, &:last-child': {
+							'&, &:last-of-type': {
 								margin: 0,
 							},
 						},
@@ -279,7 +297,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			'&.ss__autocomplete': {
 				'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__recommendation-grid__results': {
 					gridTemplateColumns: `repeat(2, 1fr)`,
-					'& > div:nth-child(n+3)': {
+					'& > div:nth-of-type(n+3)': {
 						display: 'none',
 					},
 				},
@@ -316,12 +334,10 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		'autocomplete results': {
 			rows: 2,
 			columns: 3,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocomplete recommendationGrid': {
 			rows: 2,
 			columns: 4,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocomplete icon': {
 			icon: custom.icons.arrowRight,
@@ -335,12 +351,10 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		'autocomplete results': {
 			rows: 1,
 			columns: 3,
-			gapSize: `${custom.spacing.x2}px`,
 		},
 		'autocomplete recommendationGrid': {
 			rows: 1,
 			columns: 3,
-			gapSize: `${custom.spacing.x2}px`,
 		},
 	},
 	tablet: {
@@ -350,12 +364,10 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		'autocomplete results': {
 			rows: 1,
 			columns: 4,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocomplete recommendationGrid': {
 			rows: 1,
 			columns: 4,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 	},
 	desktop: {
@@ -363,12 +375,10 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		'autocomplete results': {
 			rows: 2,
 			columns: 3,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocomplete recommendationGrid': {
 			rows: 2,
 			columns: 4,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 	},
 };

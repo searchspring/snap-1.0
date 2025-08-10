@@ -11,7 +11,7 @@ const dropdownStyleScript = ({ theme }: DropdownProps) => {
 		width: 'auto',
 		'&.ss__dropdown--open': {
 			'.ss__dropdown__content': {
-				zIndex: 2,
+				zIndex: 4,
 			},
 		},
 		'.ss__dropdown__content': {

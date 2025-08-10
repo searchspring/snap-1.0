@@ -2,10 +2,58 @@ import { css } from '@emotion/react';
 import { autocompleteFixedThemeComponentProps } from '../../../themeComponents/autocompleteFixed';
 import { ThemeComponent } from '../../../../providers';
 import { AutocompleteFixedProps } from '../../../../components/Templates/AutocompleteFixed';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
-const autocompleteFixedStyleScript = ({}: AutocompleteFixedProps) => {
-	return css({});
+const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const variables = props?.theme?.variables;
+	const tabletBp = variables?.breakpoints?.tablet || 1024;
+
+	return css({
+		width: props?.width,
+		'.ss__modal': {
+			'.ss__slideout__overlay': {
+				display: 'none',
+			},
+			'.ss__modal__content': {
+				'.ss__autocomplete-fixed__inner': {
+					'& > .ss__search-input': {
+						height: '40px',
+						margin: `0 0 ${custom.spacing.x1}px 0`,
+						'.ss__search-input__icons .ss__button, .ss__search-input__button--close-search-button': {
+							width: '40px',
+							padding: 0,
+						},
+					},
+					'.ss__autocomplete-fixed__inner__layout-wrapper': {
+						'.ss__autocomplete': {
+							width: props?.width,
+							right: 0,
+							left: '-102px',
+							top: 'auto',
+							margin: 'auto',
+						},
+					},
+				},
+			},
+		},
+		[`@media (max-width: ${tabletBp}px)`]: {
+			'.ss__modal': {
+				'.ss__modal__content': {
+					'.ss__autocomplete-fixed__inner': {
+						'.ss__autocomplete-fixed__inner__layout-wrapper': {
+							'.ss__autocomplete': {
+								width: props?.width,
+								left: 0,
+								right: 0,
+							},
+						},
+					},
+				},
+			},
+		},
+	});
 };
 
 export const autocompleteFixed: ThemeComponent<'autocompleteFixed', AutocompleteFixedProps> = {
@@ -14,9 +62,75 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		autocompleteFixed: {
 			...(autocompleteFixedThemeComponentProps.default?.['autocompleteFixed'] || {}),
 			themeStyleScript: autocompleteFixedStyleScript,
+			width: '900px',
+		},
+		'autocompleteFixed searchInput': {
+			className: 'ss__secondary',
+		},
+		'autocompleteFixed facet searchInput': {
+			className: '',
+		},
+		'autocompleteFixed termsList': {
+			retainHistory: true,
+			retainTrending: true,
+		},
+		'autocompleteFixed facetPaletteOptions': {
+			gridSize: '38px',
+			hideLabel: false,
+		},
+		'autocompleteFixed facetGridOptions': {
+			gridSize: '38px',
+		},
+		'autocompleteFixed results': {
+			rows: 2,
+			columns: 3,
+		},
+		'autocompleteFixed recommendationGrid': {
+			rows: 2,
+			columns: 4,
+		},
+		'autocompleteFixed button.see-more icon': {
+			icon: custom.icons.arrowRight,
+			size: `${custom.sizes.icon12}px`,
 		},
 	},
-	mobile: autocompleteFixedThemeComponentProps.mobile,
-	desktop: autocompleteFixedThemeComponentProps.desktop,
-	tablet: autocompleteFixedThemeComponentProps.tablet,
+	mobile: {
+		...autocompleteFixedThemeComponentProps.mobile,
+		autocompleteFixed: {
+			width: '100%',
+		},
+		'autocompleteFixed results': {
+			rows: 1,
+			columns: 3,
+		},
+		'autocompleteFixed recommendationGrid': {
+			rows: 1,
+			columns: 3,
+		},
+	},
+	tablet: {
+		...autocompleteFixedThemeComponentProps.tablet,
+		autocompleteFixed: {
+			width: '100%',
+		},
+		'autocompleteFixed results': {
+			rows: 1,
+			columns: 4,
+		},
+		'autocompleteFixed recommendationGrid': {
+			rows: 1,
+			columns: 4,
+		},
+	},
+	desktop: {
+		...autocompleteFixedThemeComponentProps.desktop,
+		'autocompleteFixed results': {
+			rows: 2,
+			columns: 3,
+		},
+		'autocompleteFixed recommendationGrid': {
+			rows: 2,
+			columns: 4,
+		},
+	},
 };

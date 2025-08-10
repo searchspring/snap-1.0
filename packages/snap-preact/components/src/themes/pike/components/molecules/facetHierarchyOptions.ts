@@ -15,7 +15,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			padding: 0,
 			color: variables?.colors?.text,
-			'&:last-child': {
+			'&:last-of-type': {
 				marginBottom: 0,
 			},
 			'.ss__facet-hierarchy-options__option__value': {

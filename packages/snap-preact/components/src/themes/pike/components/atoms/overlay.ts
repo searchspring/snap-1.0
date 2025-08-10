@@ -7,6 +7,7 @@ const overlayStyleScript = (props: OverlayProps) => {
 	const backgroundColor = props?.color || 'rgba(0, 0, 0, 0.80)';
 
 	return css({
+		cursor: 'pointer',
 		'&, &.ss__overlay--active': {
 			background: backgroundColor,
 		},

@@ -8,15 +8,14 @@ import Color from 'color';
 const buttonStyleScript = (props: ButtonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const buttonDisabledSelectors = '&.ss__button--disabled';
+	const buttonSelector = `&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`;
 	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary);
 	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
-	// disabled button selectors
-	const disabledSelectors = '&.ss__button--disabled, &.ss__load-more__button.ss__load-more__button--disabled';
-
 	// shared button styles
 	const disabledStyles = css({
-		[`${disabledSelectors}`]: {
+		[buttonDisabledSelectors]: {
 			opacity: 0.65,
 			'&, & *': {
 				cursor: 'not-allowed',
@@ -36,8 +35,8 @@ const buttonStyleScript = (props: ButtonProps) => {
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',
 			whiteSpace: 'nowrap',
-			[`&, &:hover, &:not(.ss__button--disabled):hover, ${disabledSelectors}`]: {
-				borderColor: buttonColor.hex(),
+			[buttonSelector]: {
+				border: `1px solid ${buttonColor.hex()}`,
 				backgroundColor: buttonColor.hex(),
 			},
 		},
@@ -49,7 +48,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 		{
 			cursor: 'pointer',
 			padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
-			[`&, &:hover, &:not(.ss__button--disabled):hover, ${disabledSelectors}`]: {
+			[buttonSelector]: {
 				border: `1px solid ${custom.colors.gray02}`,
 				backgroundColor: custom.colors.white,
 				fontSize: custom.utils.convertPxToEm(14),

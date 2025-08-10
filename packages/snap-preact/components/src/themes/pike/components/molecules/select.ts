@@ -57,7 +57,7 @@ const selectStyleScript = (props: SelectProps) => {
 							padding: 0,
 							margin: `0 0 ${custom.spacing.x1}px 0`,
 							color: 'inherit',
-							'&:last-child': {
+							'&:last-of-type': {
 								marginBottom: '0',
 							},
 							'&:hover': {

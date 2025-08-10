@@ -15,6 +15,7 @@ import { grid } from './grid';
 import { layoutSelector } from './layoutSelector';
 import { list } from './list';
 import { loadMore } from './loadMore';
+import { modal } from './modal';
 import { overlayBadge } from './overlayBadge';
 import { pagination } from './pagination';
 import { radio } from './radio';
@@ -45,6 +46,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.default,
 		...list.default,
 		...loadMore.default,
+		...modal.default,
 		...overlayBadge.default,
 		...pagination.default,
 		...radio.default,
@@ -75,6 +77,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.mobile,
 		...list.mobile,
 		...loadMore.mobile,
+		...modal.mobile,
 		...overlayBadge.mobile,
 		...pagination.mobile,
 		...radio.mobile,
@@ -105,6 +108,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.tablet,
 		...list.tablet,
 		...loadMore.tablet,
+		...modal.tablet,
 		...overlayBadge.tablet,
 		...pagination.tablet,
 		...radio.tablet,
@@ -135,6 +139,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.desktop,
 		...list.desktop,
 		...loadMore.desktop,
+		...modal.desktop,
 		...overlayBadge.desktop,
 		...pagination.desktop,
 		...radio.desktop,
