@@ -11,7 +11,6 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
 
 	return css({
-		width: props?.width,
 		'.ss__modal': {
 			'.ss__slideout__overlay': {
 				display: 'none',
@@ -27,7 +26,11 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 						},
 					},
 					'.ss__autocomplete-fixed__inner__layout-wrapper': {
+						overflowY: 'visible',
+						maxHeight: 'none',
+						width: 'auto',
 						'.ss__autocomplete': {
+							maxWidth: 'none',
 							width: props?.width,
 							right: 0,
 							left: '-102px',
@@ -44,6 +47,7 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 					'.ss__autocomplete-fixed__inner': {
 						'.ss__autocomplete-fixed__inner__layout-wrapper': {
 							'.ss__autocomplete': {
+								maxWidth: '100%',
 								width: props?.width,
 								left: 0,
 								right: 0,
@@ -97,7 +101,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 	mobile: {
 		...autocompleteFixedThemeComponentProps.mobile,
 		autocompleteFixed: {
-			width: '100%',
+			width: 'auto',
 		},
 		'autocompleteFixed results': {
 			rows: 1,
@@ -111,7 +115,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 	tablet: {
 		...autocompleteFixedThemeComponentProps.tablet,
 		autocompleteFixed: {
-			width: '100%',
+			width: 'auto',
 		},
 		'autocompleteFixed results': {
 			rows: 1,

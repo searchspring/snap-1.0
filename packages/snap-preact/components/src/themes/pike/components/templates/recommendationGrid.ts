@@ -12,6 +12,8 @@ const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
+		overflow: 'visible',
+		maxHeight: 'none',
 		'.ss__recommendation-grid__title': {
 			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,
@@ -19,8 +21,21 @@ const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 			textAlign: 'center',
 			margin: `0 0 ${custom.spacing.x4}px 0`,
 		},
+		'.ss__recommendation-grid__results': {
+			overflowX: 'auto',
+			'&::-webkit-scrollbar': {
+				width: '8px',
+				height: '8px',
+			},
+			'&::-webkit-scrollbar-track': {
+				backgroundColor: custom.colors.gray01,
+			},
+			'&::-webkit-scrollbar-thumb': {
+				backgroundColor: custom.colors.gray02,
+			},
+		},
 		[`@media (max-width: ${mobileBp}px)`]: {
-			'.ss__recommendation__title': {
+			'.ss__recommendation-grid__title': {
 				textAlign: 'left',
 			},
 		},

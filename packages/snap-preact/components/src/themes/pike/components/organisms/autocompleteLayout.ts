@@ -14,10 +14,14 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	const activeSelectors =
 		'.ss__terms .ss__terms__options .ss__terms__option.ss__terms__option--active a, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more:hover .ss__button__content';
 
+	// check if there is a slideout autocomplete
+	const hasAcSlideout =
+		document.querySelectorAll('.ss__autocomplete-slideout') && document.querySelectorAll('.ss__autocomplete-slideout').length !== 0 ? true : false;
+
 	// determine autocomplete layout and type
 	let acLayout = 'default';
 	let acType = 'default';
-	if (props?.className?.includes('slim')) {
+	if (props?.className?.includes('slim') || hasAcSlideout) {
 		acLayout = 'secondary';
 		acType = 'slim';
 	} else if (props?.className?.includes('terms')) {
@@ -103,6 +107,14 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 				padding: 0,
 			},
 		},
+		'.ss__autocomplete__content__results, .ss__autocomplete__content__no-results .ss__no-results__recommendations .ss__recommendation-grid .ss__recommendation-grid__results':
+			{
+				'.ss__result': {
+					'.ss__result__details': {
+						gap: `${custom.spacing.x1}px`,
+					},
+				},
+			},
 		'.ss__autocomplete__content__results': {
 			'.ss__results': {
 				overflowY: 'auto',
@@ -117,11 +129,6 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 				},
 				'&::-webkit-scrollbar-thumb': {
 					backgroundColor: custom.colors.gray02,
-				},
-				'.ss__result': {
-					'.ss__result__details': {
-						gap: `${custom.spacing.x1}px`,
-					},
 				},
 				'.ss__inline-banner': {
 					maxHeight: '250px',
@@ -280,7 +287,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 						minWidth: '1px',
 						borderBottom: `1px solid ${custom.colors.gray02}`,
 						'&:last-of-type': {
-							borderBottom: 0,
+							borderBottomWidth: 0,
 						},
 						'&, &:has(.ss__autocomplete__terms-wrapper)': {
 							padding: `${custom.spacing.x4}px`,
@@ -355,7 +362,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 					padding: `${custom.spacing.x4}px`,
 					borderBottom: `1px solid ${custom.colors.gray02}`,
 					'&:last-of-type': {
-						borderBottom: 0,
+						borderBottomWidth: 0,
 					},
 				},
 			},

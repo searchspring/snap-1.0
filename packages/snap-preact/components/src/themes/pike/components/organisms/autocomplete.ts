@@ -225,7 +225,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					flex: '1 1 100%',
 					borderBottom: `1px solid ${custom.colors.gray02}`,
 					'&:last-of-type': {
-						borderBottom: 0,
+						borderBottomWidth: 0,
 					},
 					'&, &.ss__autocomplete__terms': {
 						padding: `${custom.spacing.x4}px`,
