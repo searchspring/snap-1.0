@@ -29,7 +29,7 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 			maxHeight: '100%',
 			border: 0,
 			objectFit: 'contain',
-			objectPosition: 'center 0',
+			objectPosition: 'center center',
 		},
 	});
 };

@@ -8,7 +8,11 @@ const resultsStyleScript = (props: ResultsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({});
+	return css({
+		'& > *': {
+			minWidth: '1px',
+		},
+	});
 };
 
 // Results component props
