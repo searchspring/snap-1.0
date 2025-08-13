@@ -28,6 +28,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			color: variables?.colors?.text,
 			'&, &:before, .ss__facet-grid-options__option__value': {
 				display: 'block',
+				boxSizing: 'border-box',
 			},
 			'&:before, .ss__facet-grid-options__option__value': {
 				position: 'absolute',
@@ -39,7 +40,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				width: '100%',
 				height: '100%',
 				border: `1px solid ${custom.colors.gray02}`,
-				boxSizing: 'border-box',
 			},
 			'.ss__facet-grid-options__option__value': {
 				top: '50%',

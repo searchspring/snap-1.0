@@ -16,15 +16,14 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const paletteRadius = radius ? `${radius}${radiusUnit}` : `0`;
 
 	// light colors selector
-	const palettePrefix = '.ss__facet-palette-options__option__palette';
+	const palettePrefix = '&.ss__facet-palette-options__option__palette';
 	const lightColors = `${palettePrefix}--white, ${palettePrefix}--ivory, ${palettePrefix}--clear, ${palettePrefix}--transparent`;
 
-	// light border styles styles
-	const lightBorderStyles = css({
-		borderColor: custom.colors.gray02,
-		opacity: 1,
-		visibility: 'visible',
-	});
+	// determine inner border width
+	let innerBorder = 5;
+	if (props?.layout == 'list') {
+		innerBorder = hasCheckbox ? 2 : 3;
+	}
 
 	// shared palette styles
 	const sharedStyles = css({
@@ -39,42 +38,37 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				},
 			},
 			'.ss__facet-palette-options__option__wrapper': {
-				'&:before, .ss__facet-palette-options__option__palette, .ss__facet-palette-options__option__palette:before': {
-					position: 'absolute',
-					top: 0,
-					bottom: 0,
-					left: 0,
-					right: 0,
-					margin: 'auto',
-					borderRadius: paletteRadius,
-				},
-				'&:before, .ss__facet-palette-options__option__palette:before': {
-					content: '""',
-					display: 'block',
-					opacity: 0,
-					visibility: 'hidden',
-				},
-				'&:before': {
-					zIndex: 2,
-					border: `1px solid ${custom.colors.black}`,
-				},
 				'.ss__facet-palette-options__option__palette': {
-					zIndex: 1,
 					border: 0,
 					padding: 0,
+					'&, &:before, &:after': {
+						position: 'absolute',
+						top: 0,
+						bottom: 0,
+						left: 0,
+						right: 0,
+						borderRadius: paletteRadius,
+						boxSizing: 'border-box',
+					},
+					'&:before, &:after': {
+						content: '""',
+						display: 'block',
+						opacity: 0,
+						visibility: 'hidden',
+					},
 					'&:before': {
-						border: `1px solid ${custom.colors.white}`,
+						border: `1px solid ${custom.colors.black}`,
 					},
-					'&:not([style]):before': {
-						...lightBorderStyles,
+					'&:after': {
+						border: `${innerBorder}px solid ${custom.colors.white}`,
+						margin: '1px',
 					},
-					'.ss__icon': {
-						display: 'none',
-					},
-				},
-				[`${lightColors}`]: {
-					'&:before': {
-						...lightBorderStyles,
+					[`&:not([style]), ${lightColors}`]: {
+						'&:before': {
+							borderColor: custom.colors.gray02,
+							opacity: 1,
+							visibility: 'visible',
+						},
 					},
 				},
 			},
@@ -90,26 +84,24 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 			fontWeight: custom.fonts.weight01,
 			color: variables?.colors?.primary,
 			'.ss__facet-palette-options__option__wrapper': {
-				'&:before, .ss__facet-palette-options__option__palette:before': {
-					visibility: 'visible',
-				},
-				'&:before': {
-					opacity: 0.3,
-				},
 				'.ss__facet-palette-options__option__palette': {
+					'&:before, &:after': {
+						visibility: 'visible',
+					},
 					'&:before': {
+						opacity: 0.3,
+					},
+					'&:after': {
 						opacity: 1,
-						margin: '1px',
-						borderWidth: props?.layout == 'list' ? `${hasCheckbox ? 2 : 3}px` : `5px`,
-						borderRadius: radius ? `calc(${paletteRadius} - 1px)` : '',
 					},
-					'&:not([style]):before': {
-						borderColor: custom.colors.gray01,
-					},
-				},
-				[`${lightColors}`]: {
-					'&:before': {
-						borderColor: custom.colors.gray01,
+					[`&:not([style]), ${lightColors}`]: {
+						'&:before': {
+							borderColor: custom.colors.black,
+							opacity: 0.3,
+						},
+						'&:after': {
+							borderColor: custom.colors.gray01,
+						},
 					},
 				},
 			},
