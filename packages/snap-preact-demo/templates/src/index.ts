@@ -6,7 +6,7 @@ import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: 'c52bzz', // prvb79 // 8uyt2m
+		siteId: '8uyt2m', // prvb79 // 8uyt2m // c52bzz (for variant options)
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
@@ -18,7 +18,7 @@ let config: SnapTemplatesConfig = {
 	},
 	theme: {
 		extends: 'pike',
-		resultComponent: 'CustomResult',
+		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
 				mobile: 767,

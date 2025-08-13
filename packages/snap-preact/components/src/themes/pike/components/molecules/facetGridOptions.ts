@@ -11,46 +11,41 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const activeColor = new Color(variables?.colors?.primary);
 	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const gridSize = props?.gridSize ? props.gridSize : '52px';
 
 	// shared grid styles
 	const sharedStyles = css({
-		gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
+		gridTemplateColumns: `repeat(auto-fill, minmax(${gridSize}, 1fr))`,
 		gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 		alignItems: 'center',
-		'&:before': {
-			display: 'none',
-		},
 		'.ss__facet-grid-options__option': {
 			position: 'relative',
-			height: 0,
-			paddingBottom: '100%',
+			height: '100%',
+			aspectRatio: 1,
 			border: 0,
 			color: variables?.colors?.text,
-			'&, &:before, .ss__facet-grid-options__option__value': {
-				display: 'block',
+			'&, &:after, .ss__facet-grid-options__option__value': {
 				boxSizing: 'border-box',
 			},
-			'&:before, .ss__facet-grid-options__option__value': {
-				position: 'absolute',
-				margin: 'auto',
-			},
-			'&:before': {
-				content: '""',
+			'&:after, .ss__facet-grid-options__option__value': {
 				display: 'block',
-				width: '100%',
-				height: '100%',
+			},
+			'&:after': {
+				content: '""',
+				position: 'absolute',
+				top: 0,
+				bottom: 0,
+				left: 0,
+				right: 0,
+				zIndex: 1,
 				border: `1px solid ${custom.colors.gray02}`,
 			},
 			'.ss__facet-grid-options__option__value': {
-				top: '50%',
-				left: 0,
-				right: 0,
+				position: 'relative',
 				zIndex: 2,
-				transform: 'translateY(-50%)',
 				maxWidth: `calc(100% - ${custom.spacing.x2}px)`,
 				maxHeight: `calc(100% - ${custom.spacing.x2}px)`,
 				overflow: 'hidden',
-				textAlign: 'center',
 				'&, &.ss__facet-grid-options__option__value--smaller': {
 					fontSize: custom.utils.convertPxToEm(12),
 				},
@@ -59,7 +54,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 		'.ss__facet-grid-options__option.ss__facet-grid-options__option--filtered': {
 			fontWeight: custom.fonts.weight01,
 			color: fontColor.hex(),
-			'&:before': {
+			'&:after': {
 				backgroundColor: activeColor.hex(),
 				borderColor: activeColor.hex(),
 			},
@@ -71,7 +66,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 		sharedStyles,
 		{
 			'.ss__facet-grid-options__option': {
-				'&:before': {
+				'&:after': {
 					backgroundColor: custom.colors.gray01,
 				},
 			},
@@ -83,7 +78,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 		sharedStyles,
 		{
 			'.ss__facet-grid-options__option': {
-				'&:before': {
+				'&:after': {
 					backgroundColor: custom.colors.white,
 				},
 			},

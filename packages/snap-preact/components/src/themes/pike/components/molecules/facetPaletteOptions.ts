@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
 
@@ -38,6 +39,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				},
 			},
 			'.ss__facet-palette-options__option__wrapper': {
+				overflow: 'hidden',
 				'.ss__facet-palette-options__option__palette': {
 					border: 0,
 					padding: 0,
@@ -70,6 +72,15 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 							visibility: 'visible',
 						},
 					},
+					'&[style*="url"]': {
+						backgroundRepeat: 'no-repeat !important',
+						backgroundSize: 'cover !important',
+						backgroundPosition: 'center !important',
+						transition: 'transform 0.5s ease-in-out',
+						'&:hover': {
+							transform: 'scale(1.5)',
+						},
+					},
 				},
 			},
 			'.ss__facet-palette-options__option__value__count': {
@@ -96,11 +107,16 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					},
 					[`&:not([style]), ${lightColors}`]: {
 						'&:before': {
-							borderColor: custom.colors.black,
-							opacity: 0.3,
+							borderColor: darkGray,
+							opacity: 1,
 						},
 						'&:after': {
 							borderColor: custom.colors.gray01,
+						},
+					},
+					'&[style*="url"]': {
+						'&:hover': {
+							transform: 'none',
 						},
 					},
 				},

@@ -9,7 +9,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 
-	// shared styles for variant menus
+	// shared styles for variant selections
 	const sharedStyles = css({
 		margin: `0 0 ${custom.spacing.x2}px 0`,
 		'&:last-of-type': {
@@ -124,17 +124,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 	]);
 
 	// swatches syles
-	const swatchesStyles = css([
-		sharedStyles,
-		// 	{
-		// 	// minWidth: '1px',
-		// 	// maxWidth: '100%',
-		// 	// '.ss__swatches, .ss__carousel, .swiper, .swiper-wrapper': {
-		// 	// 	minWidth: '1px',
-		// 	// 	maxWidth: '100%'
-		// 	// }
-		// }
-	]);
+	const swatchesStyles = css([sharedStyles]);
 
 	// return variant selection styles
 	if (props?.type == 'list') {
@@ -151,7 +141,6 @@ export const variantSelection: ThemeComponent<'variantSelection', VariantSelecti
 	default: {
 		variantSelection: {
 			themeStyleScript: variantSelectionStyleScript,
-			type: 'swatches',
 		},
 		'variantSelection dropdown icon': {
 			size: `${custom.sizes.icon12}px`,
