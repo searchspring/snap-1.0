@@ -46,9 +46,9 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				top: '5px',
 				left: '5px',
 				backgroundColor: variables?.colors?.primary,
-				fontSize: custom.utils.convertPxToEm(10),
+				fontSize: custom.utils.convertPxToEm(12),
 				fontWeight: custom.fonts.weight01,
-				lineHeight: `18px`,
+				lineHeight: `20px`,
 				color: custom.colors.white,
 				padding: `0 ${custom.spacing.x2}px`,
 			},
@@ -71,7 +71,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			'&:has(.ss__overlay-badge)': {
 				'.ss__result': {
 					'.ss__overlay-badge .ss__overlay-badge__grid-wrapper': {
-						top: '30px',
+						top: '25px',
 					},
 				},
 			},
@@ -110,14 +110,22 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			},
 			'.ss__recommendation-bundle__wrapper__cta__subtotal': {
 				color: variables?.colors?.text,
+				'& > *': {
+					lineHeight: 1,
+					margin: `0 0 ${custom.spacing.x2}px 0`,
+					'&:last-child': {
+						marginBottom: 0,
+					},
+				},
 				'.icon': {
-					position: 'relative',
-					top: '-1.5px',
-					margin: `0 0 ${custom.spacing.x1}px 0`,
 					'.ss__icon': {
 						fill: variables?.colors?.secondary,
 						stroke: variables?.colors?.secondary,
 					},
+				},
+				'.ss__recommendation-bundle__wrapper__cta__subtotal__title': {
+					display: 'block',
+					fontWeight: custom.fonts.weight02,
 				},
 				'.ss__recommendation-bundle__wrapper__cta__subtotal__prices': {
 					margin: `${custom.spacing.x1}px 0 0 0`,
