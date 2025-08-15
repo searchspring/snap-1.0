@@ -31,8 +31,6 @@ const paginationStyleScript = (props: PaginationProps) => {
 			'.ss__pagination__page--previous, .ss__pagination__page--next': {
 				lineHeight: `${custom.sizes.icon12}px`,
 				'.ss__icon': {
-					position: 'relative',
-					top: '0.5px',
 					fill: variables?.colors?.primary,
 					stroke: variables?.colors?.primary,
 				},
@@ -59,7 +57,7 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 			themeStyleScript: paginationStyleScript,
 		},
 		'pagination icon': {
-			size: `${custom.sizes.icon14}px`,
+			size: `${custom.sizes.icon12}px`,
 		},
 		'pagination icon.prev': {
 			icon: custom.icons.arrowLeft,
@@ -68,9 +66,9 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 			icon: custom.icons.arrowRight,
 		},
 	},
-	desktop: {
+	mobile: {
 		'pagination icon': {
-			size: `${custom.sizes.icon12}px`,
+			size: `${custom.sizes.icon14}px`,
 		},
 	},
 };

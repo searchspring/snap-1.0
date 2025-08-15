@@ -9,9 +9,16 @@ const dropdownStyleScript = ({ theme }: DropdownProps) => {
 
 	return css({
 		width: 'auto',
+		'&:not(.ss__facet__dropdown)': {
+			'&.ss__dropdown--open': {
+				'.ss__dropdown__content': {
+					zIndex: 200,
+				},
+			},
+		},
 		'&.ss__dropdown--open': {
 			'.ss__dropdown__content': {
-				zIndex: 4,
+				zIndex: 5,
 			},
 		},
 		'.ss__dropdown__content': {

@@ -114,7 +114,20 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.default?.['autocompleteModal'] || {}),
 			themeStyleScript: autocompleteModalStyleScript,
-			width: '80vw',
+			width: '70vw',
+			layout: [['c1', 'c2', 'c3']],
+			column1: {
+				width: '200px',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '160px',
+				layout: ['facets'],
+			},
+			column3: {
+				width: 'auto',
+				layout: ['content', 'button.see-more'],
+			},
 		},
 		'autocompleteModal searchInput': {
 			className: 'ss__secondary',
@@ -150,6 +163,15 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		...autocompleteModalThemeComponentProps.mobile,
 		autocompleteModal: {
 			width: '100%',
+			layout: [['c1', 'c2']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
 		},
 		'autocompleteModal results': {
 			rows: 2,
@@ -162,6 +184,21 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 	},
 	tablet: {
 		...autocompleteModalThemeComponentProps.tablet,
+		autocompleteModal: {
+			layout: [['c1', 'c2', 'c3']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['facets'],
+			},
+			column3: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
+		},
 		'autocompleteModal results': {
 			rows: 1,
 			columns: 4,
@@ -173,6 +210,9 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 	},
 	desktop: {
 		...autocompleteModalThemeComponentProps.desktop,
+		autocompleteModal: {
+			width: '80vw',
+		},
 		'autocompleteModal results': {
 			rows: 2,
 			columns: 3,

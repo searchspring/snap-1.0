@@ -23,7 +23,7 @@ const autocompleteSlideoutStyleScript = (props: AutocompleteSlideoutProps) => {
 			backgroundColor: custom.colors.gray02,
 		},
 		'& > *': {
-			'& > .ss__search-input': {
+			'& > div.ss__search-input, & > .ss__search-input': {
 				height: '40px',
 				margin: `0 0 ${custom.spacing.x1}px 0`,
 				'.ss__search-input__icons .ss__button, .ss__search-input__button--close-search-button': {
@@ -93,17 +93,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 	},
 	mobile: {
 		...autocompleteSlideoutThemeComponentProps.mobile,
-		autocompleteSlideout: {
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
-		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 2,
@@ -115,17 +104,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 	},
 	tablet: {
 		...autocompleteSlideoutThemeComponentProps.tablet,
-		autocompleteSlideout: {
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
-		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
@@ -137,17 +115,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 	},
 	desktop: {
 		...autocompleteSlideoutThemeComponentProps.desktop,
-		autocompleteSlideout: {
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
-		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,

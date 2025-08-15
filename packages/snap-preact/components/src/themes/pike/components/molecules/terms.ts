@@ -32,7 +32,15 @@ const termsStyleScript = (props: TermsProps) => {
 				a: {
 					padding: `0 ${custom.spacing.x2}px ${custom.spacing.x1}px ${custom.spacing.x2}px`,
 					fontSize: custom.utils.convertPxToEm(12),
-					color: variables?.colors?.text,
+					'&.ss__terms__option--active': {
+						color: variables?.colors?.primary,
+						em: {
+							color: variables?.colors?.text,
+							fontStyle: 'normal',
+							fontSize: 'inherit',
+						},
+					},
+					//color: variables?.colors?.text,
 				},
 			},
 			'.ss__terms__option--active': {
@@ -49,6 +57,7 @@ export const terms: ThemeComponent<'terms', TermsProps> = {
 	default: {
 		terms: {
 			themeStyleScript: termsStyleScript,
+			emIfy: true,
 		},
 	},
 };

@@ -422,49 +422,9 @@ export const autocompleteLayout: ThemeComponent<'autocompleteLayout', Autocomple
 		autocompleteLayout: {
 			themeStyleScript: autocompleteLayoutStyleScript,
 			contentTitle: 'Product Suggestions',
-			column1: {
-				width: '200px',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '160px',
-				layout: ['facets'],
-			},
-			column3: {
-				width: 'auto',
-				layout: ['content', 'button.see-more'],
-			},
 		},
 	},
-	mobile: {
-		autocompleteLayout: {
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
-		},
-	},
-	tablet: {
-		autocompleteLayout: {
-			layout: [['c1', 'c2', 'c3']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['facets'],
-			},
-			column3: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
-		},
-	},
+	mobile: {},
+	tablet: {},
 	desktop: {},
 };

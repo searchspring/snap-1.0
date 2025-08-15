@@ -57,7 +57,7 @@ let config: SnapTemplatesConfig = {
 		},
 		default: {
 			Default: {
-				component: 'Recommendation',
+				component: 'RecommendationGrid',
 			},
 		},
 		bundle: {
@@ -70,7 +70,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnappy',
+				component: 'SearchBoca',
 			},
 		],
 		settings: {
@@ -86,7 +86,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: 'input.searchspring-ac',
-				component: 'AutocompleteFixed',
+				component: 'AutocompleteSlideout',
 			},
 		],
 	},

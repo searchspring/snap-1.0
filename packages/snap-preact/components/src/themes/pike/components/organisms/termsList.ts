@@ -37,20 +37,20 @@ const termsListStyleScript = (props: TermsListProps) => {
 				'.ss__terms__option': {
 					flex: '0 1 auto',
 					minWidth: '1px',
-					'&.ss__terms__option--active': {
-						a: {
-							fontWeight: custom.fonts.weight01,
-							color: variables?.colors?.primary,
-						},
-					},
+					// '&.ss__terms__option--active': {
+					// 	a: {
+					// 		fontWeight: custom.fonts.weight01,
+					// 		color: variables?.colors?.primary,
+					// 	},
+					// },
 					a: {
 						padding: 0,
 						fontSize: custom.utils.convertPxToEm(14),
-						color: variables?.colors?.text,
-						em: {
-							fontStyle: 'normal',
-							fontSize: 'inherit',
-						},
+						// color: variables?.colors?.text,
+						// em: {
+						// 	fontStyle: 'normal',
+						// 	fontSize: 'inherit',
+						// },
 					},
 				},
 			},

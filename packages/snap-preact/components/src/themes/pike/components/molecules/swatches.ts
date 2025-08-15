@@ -177,7 +177,6 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 	default: {
 		swatches: {
 			themeStyleScript: swatchesStyleScript,
-			type: 'grid',
 		},
 		'swatches carousel': {
 			autoAdjustSlides: false,

@@ -10,9 +10,7 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
-		margin: `0 0 ${custom.spacing.x4}px 0`,
 		'&[class*="bottom"]': {
-			margin: `${custom.spacing.x4}px 0 0 0`,
 			'.ss__pagination-info': {
 				fontSize: custom.utils.convertPxToEm(14),
 			},
