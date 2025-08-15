@@ -15,7 +15,7 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 		margin: 0,
 		'.ss__facets-horizontal__header': {
 			gap: 0,
-			margin: `0 -${custom.spacing.x1}px ${custom.spacing.x2}px -${custom.spacing.x1}px `,
+			margin: `0 -${custom.spacing.x1}px -${custom.spacing.x2}px -${custom.spacing.x1}px `,
 			position: 'relative',
 			'& > *': {
 				boxSizing: 'border-box',
@@ -145,6 +145,11 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 					},
 				},
 			},
+			'.ss__mobile-sidebar': {
+				'.ss__slideout__button .ss__button': {
+					display: 'flex',
+				},
+			},
 		},
 		[`@media (max-width: ${tabletBp}px)`]: {
 			'.ss__facets-horizontal__header': {
@@ -184,6 +189,7 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 			themeStyleScript: facetssecondaryStylescript,
 			iconExpand: custom.icons.arrowDown,
 			iconCollapse: custom.icons.arrowDown,
+			alwaysShowFiltersButton: true,
 		},
 		'facetsHorizontal dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,

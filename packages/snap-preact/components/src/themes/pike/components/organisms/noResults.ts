@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const noResultsStyleScript = (props: NoResultsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const mobileBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
 		'h1, h2, h3, h4, h5, h6, ul': {
@@ -36,6 +37,16 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 				'&:last-of-type': {
 					marginBottom: 0,
 				},
+			},
+		},
+		'.ss__no-results__recommendations': {
+			'.ss__recommendation': {
+				margin: `${custom.spacing.x4}px 0`,
+			},
+		},
+		[`@media (max-width: ${mobileBp}px)`]: {
+			'h1, h2, h3, h4, h5, h6': {
+				fontSize: custom.utils.convertPxToEm(18),
 			},
 		},
 	});

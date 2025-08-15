@@ -7,45 +7,70 @@ import { custom } from '../../custom';
 const termsStyleScript = (props: TermsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const tabletBp = variables?.breakpoints?.tablet || 1024;
 
 	return css({
-		'.ss__terms__title': {
+		width: '100%',
+		textAlign: 'left',
+		'ul, ul li': {
 			padding: 0,
+			margin: 0,
+			listStyle: 'none',
+		},
+		'.ss__terms__title': {
+			'&, h5': {
+				padding: 0,
+			},
 			h5: {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
+				fontSize: custom.utils.convertPxToEm(16),
 				fontWeight: custom.fonts.weight02,
-				fontSize: custom.utils.convertPxToEm(14),
 				textTransform: custom.fonts.transform ? custom.fonts.transform : 'none',
 				color: variables?.colors?.secondary,
 			},
 		},
 		'.ss__terms__options': {
-			margin: `0 -${custom.spacing.x2}px -${custom.spacing.x1}px -${custom.spacing.x2}px`,
 			flexFlow: 'row wrap',
 			justifyContent: 'flex-start',
+			gap: `${custom.spacing.x1}px ${custom.spacing.x4}px`,
 			'&, .ss__terms__option': {
 				listStyle: 'none',
 				padding: 0,
 			},
 			'.ss__terms__option': {
 				flex: '0 1 auto',
+				minWidth: '1px',
+				color: variables?.colors?.primary,
 				a: {
-					padding: `0 ${custom.spacing.x2}px ${custom.spacing.x1}px ${custom.spacing.x2}px`,
-					fontSize: custom.utils.convertPxToEm(12),
-					'&.ss__terms__option--active': {
-						color: variables?.colors?.primary,
-						em: {
-							color: variables?.colors?.text,
-							fontStyle: 'normal',
-							fontSize: 'inherit',
-						},
+					padding: 0,
+					fontSize: custom.utils.convertPxToEm(14),
+					color: variables?.colors?.primary,
+					em: {
+						color: variables?.colors?.text,
+						fontStyle: 'normal',
+						fontSize: 'inherit',
+						fontWeight: 'inherit',
 					},
-					//color: variables?.colors?.text,
 				},
 			},
 			'.ss__terms__option--active': {
-				a: {
+				'a, a em': {
+					fontWeight: custom?.fonts?.weight01,
 					color: variables?.colors?.primary,
+				},
+			},
+		},
+		[`@media (max-width: ${tabletBp}px)`]: {
+			'.ss__terms__title': {
+				h5: {
+					fontSize: custom.utils.convertPxToEm(14),
+				},
+			},
+			'.ss__terms__options': {
+				'.ss__terms__option': {
+					a: {
+						fontSize: custom.utils.convertPxToEm(12),
+					},
 				},
 			},
 		},

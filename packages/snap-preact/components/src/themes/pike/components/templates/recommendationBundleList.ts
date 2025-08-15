@@ -164,11 +164,20 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 	},
 	mobile: {
 		...recommendationBundleListThemeComponentProps.mobile,
+		recommendationBundleList: {
+			...(recommendationBundleListThemeComponentProps.mobile?.['recommendationBundleList'] || {}),
+		},
 	},
 	tablet: {
 		...recommendationBundleListThemeComponentProps.tablet,
+		recommendationBundleList: {
+			...(recommendationBundleListThemeComponentProps.tablet?.['recommendationBundleList'] || {}),
+		},
 	},
 	desktop: {
 		...recommendationBundleListThemeComponentProps.desktop,
+		recommendationBundleList: {
+			...(recommendationBundleListThemeComponentProps.desktop?.['recommendationBundleList'] || {}),
+		},
 	},
 };

@@ -125,11 +125,20 @@ export const recommendationBundleEasyAdd: ThemeComponent<'recommendationBundleEa
 	},
 	mobile: {
 		...recommendationBundleEasyAddThemeComponentProps.mobile,
+		recommendationBundleEasyAdd: {
+			...(recommendationBundleEasyAddThemeComponentProps.mobile?.['recommendationBundleEasyAdd'] || {}),
+		},
 	},
 	tablet: {
 		...recommendationBundleEasyAddThemeComponentProps.tablet,
+		recommendationBundleEasyAdd: {
+			...(recommendationBundleEasyAddThemeComponentProps.tablet?.['recommendationBundleEasyAdd'] || {}),
+		},
 	},
 	desktop: {
 		...recommendationBundleEasyAddThemeComponentProps.desktop,
+		recommendationBundleEasyAdd: {
+			...(recommendationBundleEasyAddThemeComponentProps.desktop?.['recommendationBundleEasyAdd'] || {}),
+		},
 	},
 };

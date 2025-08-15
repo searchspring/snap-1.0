@@ -56,6 +56,7 @@ export const recommendationGrid: ThemeComponent<'recommendationGrid', Recommenda
 	mobile: {
 		...recommendationGridThemeComponentProps.mobile,
 		recommendationGrid: {
+			...(recommendationGridThemeComponentProps.mobile?.['recommendationGrid'] || {}),
 			gapSize: `${custom.spacing.x6}px ${custom.spacing.x2}px`,
 			columns: 2,
 		},
@@ -63,10 +64,14 @@ export const recommendationGrid: ThemeComponent<'recommendationGrid', Recommenda
 	tablet: {
 		...recommendationGridThemeComponentProps.tablet,
 		recommendationGrid: {
+			...(recommendationGridThemeComponentProps.tablet?.['recommendationGrid'] || {}),
 			columns: 3,
 		},
 	},
 	desktop: {
 		...recommendationGridThemeComponentProps.desktop,
+		recommendationGrid: {
+			...(recommendationGridThemeComponentProps.desktop?.['recommendationGrid'] || {}),
+		},
 	},
 };

@@ -10,13 +10,18 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		'.ss__search-boca__header-section, .ss__search-boca__main-section': {
+			margin: `0 0 ${custom.spacing.x6}px 0`,
+			'.ss__toolbar .ss__layout': {
+				gap: `${custom.spacing.x4}px`,
+			},
+		},
 		'.ss__search-boca__header-section': {
-			'&, .ss__toolbar .ss__search-header': {
-				margin: `0 0 ${custom.spacing.x4}px 0`,
+			'.ss__search-header': {
+				textAlign: 'center',
 			},
 		},
 		'.ss__search-boca__main-section': {
-			margin: `0 0 ${custom.spacing.x6}px 0`,
 			gap: `${custom.spacing.x6}px`,
 			'.ss__search-boca__sidebar, .ss__search-boca__content': {
 				minWidth: '1px',
@@ -28,8 +33,12 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 				flex: '1 1 0%',
 				gap: `${custom.spacing.x4}px`,
 			},
-			'.ss__results': {
-				margin: `0 0 ${custom.spacing.x2}px 0`,
+		},
+		'@media (max-width: 540px)': {
+			'.ss__toolbar': {
+				'.ss__pagination-info': {
+					fontSize: custom.utils.convertPxToEm(16),
+				},
 			},
 		},
 	});
@@ -48,14 +57,47 @@ export const searchBoca: ThemeComponent<'searchBoca', SearchBocaProps> = {
 		'searchBoca sidebar': {
 			hideTitleText: true,
 		},
+		'searchBoca toolbar.top': {
+			layout: [['_', 'searchHeader', '_'], ['banner.header']],
+		},
+		'searchBoca toolbar.middle': {
+			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
+		},
 	},
 	mobile: {
 		...searchBocaThemeComponentProps.mobile,
+		searchBoca: {
+			...(searchBocaThemeComponentProps.mobile?.['searchBoca'] || {}),
+		},
+		'searchBoca toolbar.top': {
+			layout: [['_', 'searchHeader', '_'], ['banner.header']],
+		},
+		'searchBoca toolbar.middle': {
+			layout: [['mobileSidebar', '_', 'paginationInfo', '_', 'layoutSelector'], ['banner.banner']],
+		},
 	},
 	tablet: {
 		...searchBocaThemeComponentProps.tablet,
+		searchBoca: {
+			...(searchBocaThemeComponentProps.tablet?.['searchBoca'] || {}),
+		},
+		'searchBoca toolbar.top': {
+			layout: [['_', 'searchHeader', '_'], ['banner.header']],
+		},
+		'searchBoca toolbar.middle': {
+			layout: [['mobileSidebar', '_', 'paginationInfo', '_', 'layoutSelector'], ['banner.banner']],
+		},
 	},
 	desktop: {
 		...searchBocaThemeComponentProps.desktop,
+		searchBoca: {
+			...(searchBocaThemeComponentProps.desktop?.['searchBoca'] || {}),
+		},
+		'searchBoca toolbar.top': {
+			layout: [['_', 'searchHeader', '_'], ['banner.header']],
+		},
+		'searchBoca toolbar.middle': {
+			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
+		},
 	},
 };

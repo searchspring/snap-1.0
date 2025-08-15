@@ -86,18 +86,12 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					},
 					'.ss__autocomplete__terms__options': {
 						'.ss__autocomplete__terms__option': {
-							'&:not(.ss__autocomplete__terms__option--active)': {
-								a: {
-									color: variables?.colors?.primary,
-									em: {
-										color: variables?.colors?.text,
-									},
-								},
-							},
 							a: {
 								padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
 								fontSize: custom.utils.convertPxToEm(14),
+								color: variables?.colors?.primary,
 								em: {
+									color: variables?.colors?.text,
 									fontStyle: 'normal',
 									fontSize: 'inherit',
 									fontWeight: 'inherit',
@@ -105,7 +99,10 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 							},
 						},
 						'.ss__autocomplete__terms__option--active': {
-							backgroundColor: custom.colors.white,
+							'a, a em': {
+								fontWeight: custom?.fonts?.weight01,
+								color: variables?.colors?.primary,
+							},
 						},
 					},
 				},

@@ -15,7 +15,6 @@ import { grid } from './grid';
 import { layoutSelector } from './layoutSelector';
 import { list } from './list';
 import { loadMore } from './loadMore';
-import { modal } from './modal';
 import { overlayBadge } from './overlayBadge';
 import { pagination } from './pagination';
 import { radio } from './radio';
@@ -24,9 +23,7 @@ import { result } from './result';
 import { searchInput } from './searchInput';
 import { select } from './select';
 import { slideout } from './slideout';
-import { perPage } from './perPage';
 import { rating } from './rating';
-import { sortBy } from './sortBy';
 import { swatches } from './swatches';
 import { variantSelection } from './variantSelection';
 import { terms } from './terms';
@@ -46,7 +43,6 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.default,
 		...list.default,
 		...loadMore.default,
-		...modal.default,
 		...overlayBadge.default,
 		...pagination.default,
 		...radio.default,
@@ -55,9 +51,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...searchInput.default,
 		...select.default,
 		...slideout.default,
-		...perPage.default,
 		...rating.default,
-		...sortBy.default,
 		...swatches.default,
 		...variantSelection.default,
 		...terms.default,
@@ -77,7 +71,6 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.mobile,
 		...list.mobile,
 		...loadMore.mobile,
-		...modal.mobile,
 		...overlayBadge.mobile,
 		...pagination.mobile,
 		...radio.mobile,
@@ -86,9 +79,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...searchInput.mobile,
 		...select.mobile,
 		...slideout.mobile,
-		...perPage.mobile,
 		...rating.mobile,
-		...sortBy.mobile,
 		...swatches.mobile,
 		...variantSelection.mobile,
 		...terms.mobile,
@@ -108,7 +99,6 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.tablet,
 		...list.tablet,
 		...loadMore.tablet,
-		...modal.tablet,
 		...overlayBadge.tablet,
 		...pagination.tablet,
 		...radio.tablet,
@@ -117,9 +107,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...searchInput.tablet,
 		...select.tablet,
 		...slideout.tablet,
-		...perPage.tablet,
 		...rating.tablet,
-		...sortBy.tablet,
 		...swatches.tablet,
 		...variantSelection.tablet,
 		...terms.tablet,
@@ -139,7 +127,6 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.desktop,
 		...list.desktop,
 		...loadMore.desktop,
-		...modal.desktop,
 		...overlayBadge.desktop,
 		...pagination.desktop,
 		...radio.desktop,
@@ -148,9 +135,7 @@ export const molecules: ThemeResponsiveComplete = {
 		...searchInput.desktop,
 		...select.desktop,
 		...slideout.desktop,
-		...perPage.desktop,
 		...rating.desktop,
-		...sortBy.desktop,
 		...swatches.desktop,
 		...variantSelection.desktop,
 		...terms.desktop,

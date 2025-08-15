@@ -150,11 +150,20 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 	},
 	mobile: {
 		...recommendationBundleVerticalThemeComponentProps.mobile,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.mobile?.['recommendationBundleVertical'] || {}),
+		},
 	},
 	tablet: {
 		...recommendationBundleVerticalThemeComponentProps.tablet,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.tablet?.['recommendationBundleVertical'] || {}),
+		},
 	},
 	desktop: {
 		...recommendationBundleVerticalThemeComponentProps.desktop,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.desktop?.['recommendationBundleVertical'] || {}),
+		},
 	},
 };

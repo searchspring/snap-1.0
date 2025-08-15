@@ -13,6 +13,9 @@ const searchStyleScript = (props: SearchProps) => {
 	return css({
 		'.ss__search__header-section, .ss__search__main-section': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
+			'.ss__toolbar .ss__layout': {
+				gap: `${custom.spacing.x4}px`,
+			},
 		},
 		'.ss__search__main-section': {
 			gap: `${custom.spacing.x6}px`,
@@ -25,9 +28,6 @@ const searchStyleScript = (props: SearchProps) => {
 			'.ss__search__content': {
 				flex: '1 1 0%',
 				gap: `${custom.spacing.x4}px`,
-			},
-			'.ss__results': {
-				margin: `0 0 ${custom.spacing.x2}px 0`,
 			},
 		},
 		[`@media (max-width: ${mobileBp}px)`]: {
@@ -53,23 +53,29 @@ export const search: ThemeComponent<'search', SearchProps> = {
 		'search button.sidebar-toggle': {
 			icon: custom.icons.filter,
 		},
+		'search sidebar': {
+			hideTitleText: false,
+		},
 		'search toolbar.top': {
 			layout: [['searchHeader'], ['banner.header']],
 		},
 		'search toolbar.middle': {
 			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
 		},
-		'search sidebar': {
-			hideTitleText: true,
-		},
 	},
 	mobile: {
 		...searchThemeComponentProps.mobile,
+		search: {
+			...(searchThemeComponentProps.mobile?.['search'] || {}),
+		},
+		'search toolbar.top': {
+			layout: [['searchHeader'], ['banner.header']],
+		},
 		'search toolbar.middle': {
 			layout: [['paginationInfo', '_', 'mobileSidebar'], ['sortBy', 'perPage'], ['banner.banner']],
 		},
 		'search toolbar.bottom': {
-			layout: [['_', 'pagination', '_']],
+			layout: [['banner.footer'], ['_', 'pagination', '_']],
 		},
 		'search mobileSidebar': {
 			layout: ['filterSummary', 'facets', 'banner.left'],
@@ -77,6 +83,12 @@ export const search: ThemeComponent<'search', SearchProps> = {
 	},
 	tablet: {
 		...searchThemeComponentProps.tablet,
+		search: {
+			...(searchThemeComponentProps.tablet?.['search'] || {}),
+		},
+		'search toolbar.top': {
+			layout: [['searchHeader'], ['banner.header']],
+		},
 		'search toolbar.middle': {
 			layout: [['mobileSidebar', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
 		},
@@ -86,5 +98,14 @@ export const search: ThemeComponent<'search', SearchProps> = {
 	},
 	desktop: {
 		...searchThemeComponentProps.desktop,
+		search: {
+			...(searchThemeComponentProps.desktop?.['search'] || {}),
+		},
+		'search toolbar.top': {
+			layout: [['searchHeader'], ['banner.header']],
+		},
+		'search toolbar.middle': {
+			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
+		},
 	},
 };

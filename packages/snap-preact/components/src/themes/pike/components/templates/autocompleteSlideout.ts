@@ -93,6 +93,18 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 	},
 	mobile: {
 		...autocompleteSlideoutThemeComponentProps.mobile,
+		autocompleteSlideout: {
+			...(autocompleteSlideoutThemeComponentProps.mobile?.['autocompleteSlideout'] || {}),
+			layout: [['c1', 'c2']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
+		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 2,
@@ -104,6 +116,18 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 	},
 	tablet: {
 		...autocompleteSlideoutThemeComponentProps.tablet,
+		autocompleteSlideout: {
+			...(autocompleteSlideoutThemeComponentProps.tablet?.['autocompleteSlideout'] || {}),
+			layout: [['c1', 'c2']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
+		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
@@ -115,6 +139,18 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 	},
 	desktop: {
 		...autocompleteSlideoutThemeComponentProps.desktop,
+		autocompleteSlideout: {
+			...(autocompleteSlideoutThemeComponentProps.desktop?.['autocompleteSlideout'] || {}),
+			layout: [['c1', 'c2']],
+			column1: {
+				width: '100%',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '100%',
+				layout: ['content', 'button.see-more'],
+			},
+		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,

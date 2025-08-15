@@ -232,18 +232,27 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 	},
 	mobile: {
 		...recommendationBundleThemeComponentProps.mobile,
+		recommendationBundle: {
+			...(recommendationBundleThemeComponentProps.mobile?.['recommendationBundle'] || {}),
+		},
 		'recommendationBundle carousel': {
 			spaceBetween: 0,
 		},
 	},
 	tablet: {
 		...recommendationBundleThemeComponentProps.tablet,
+		recommendationBundle: {
+			...(recommendationBundleThemeComponentProps.tablet?.['recommendationBundle'] || {}),
+		},
 		'recommendationBundle carousel': {
 			spaceBetween: custom.spacing.x4,
 		},
 	},
 	desktop: {
 		...recommendationBundleThemeComponentProps.desktop,
+		recommendationBundle: {
+			...(recommendationBundleThemeComponentProps.desktop?.['recommendationBundle'] || {}),
+		},
 		'recommendationBundle carousel': {
 			spaceBetween: custom.spacing.x4,
 		},

@@ -62,7 +62,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 			padding: `0 ${custom.spacing.x1}px 0 0`,
 			fontSize: custom.utils.convertPxToEm(14),
 			fontWeight: custom.fonts.weight02,
-			color: variables?.colors?.text,
+			color: variables?.colors?.secondary,
 			'&:after': {
 				content: '":"',
 			},

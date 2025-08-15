@@ -90,6 +90,7 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 	mobile: {
 		...recommendationThemeComponentProps.mobile,
 		recommendation: {
+			...(recommendationThemeComponentProps.mobile?.['recommendation'] || {}),
 			spaceBetween: custom.spacing.x2,
 		},
 		'recommendation icon.prev': {
@@ -102,6 +103,7 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 	tablet: {
 		...recommendationThemeComponentProps.tablet,
 		recommendation: {
+			...(recommendationThemeComponentProps.tablet?.['recommendation'] || {}),
 			spaceBetween: custom.spacing.x4,
 		},
 		'recommendation icon.prev': {
@@ -114,6 +116,7 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 	desktop: {
 		...recommendationThemeComponentProps.desktop,
 		recommendation: {
+			...(recommendationThemeComponentProps.desktop?.['recommendation'] || {}),
 			spaceBetween: custom.spacing.x4,
 		},
 	},

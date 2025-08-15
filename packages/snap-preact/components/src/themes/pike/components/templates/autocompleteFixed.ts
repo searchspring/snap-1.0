@@ -114,6 +114,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 	mobile: {
 		...autocompleteFixedThemeComponentProps.mobile,
 		autocompleteFixed: {
+			...(autocompleteFixedThemeComponentProps.mobile?.['autocompleteFixed'] || {}),
 			width: 'auto',
 			layout: [['c1', 'c2']],
 			column1: {
@@ -137,6 +138,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 	tablet: {
 		...autocompleteFixedThemeComponentProps.tablet,
 		autocompleteFixed: {
+			...(autocompleteFixedThemeComponentProps.tablet?.['autocompleteFixed'] || {}),
 			width: 'auto',
 			layout: [['c1', 'c2', 'c3']],
 			column1: {
@@ -163,6 +165,22 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 	},
 	desktop: {
 		...autocompleteFixedThemeComponentProps.desktop,
+		autocompleteFixed: {
+			...(autocompleteFixedThemeComponentProps.desktop?.['autocompleteFixed'] || {}),
+			layout: [['c1', 'c2', 'c3']],
+			column1: {
+				width: '200px',
+				layout: ['termsList'],
+			},
+			column2: {
+				width: '160px',
+				layout: ['facets'],
+			},
+			column3: {
+				width: 'auto',
+				layout: ['content', 'button.see-more'],
+			},
+		},
 		'autocompleteFixed results': {
 			rows: 2,
 			columns: 3,

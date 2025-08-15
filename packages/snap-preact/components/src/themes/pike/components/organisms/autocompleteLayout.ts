@@ -174,16 +174,17 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	});
 	const sharedTabletStyles = css({
 		[`@media (max-width: ${tabletBp}px)`]: {
+			[textSelectors]: {
+				fontSize: acType == 'terms' ? custom.utils.convertPxToEm(12) : '',
+			},
 			[headerSelectors]: {
 				fontSize: custom.utils.convertPxToEm(14),
 			},
-			'.ss__terms-list': {
-				'.ss__terms': {
-					'.ss__terms__options': {
-						'.ss__terms__option': {
-							a: {
-								fontSize: custom.utils.convertPxToEm(12),
-							},
+			'.ss__terms': {
+				'.ss__terms__options': {
+					'.ss__terms__option': {
+						a: {
+							fontSize: acType == 'terms' ? custom.utils.convertPxToEm(12) : '',
 						},
 					},
 				},
@@ -235,7 +236,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 				height: '100%',
 			},
 			'.ss__terms-list': {
-				backgroundColor: 'transparent',
+				display: 'block',
 				'.ss__terms-list__row': {
 					'&:first-of-type .ss__terms .ss__terms__title': {
 						marginTop: `${custom.spacing.x2}px`,
@@ -257,7 +258,6 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 						'.ss__terms__option': {
 							a: {
 								padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
-								fontSize: custom.utils.convertPxToEm(14),
 							},
 						},
 						'.ss__terms__option--active': {
@@ -298,10 +298,8 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 					backgroundColor: 'transparent',
 				},
 				'.ss__terms-list': {
-					flexFlow: 'row nowrap',
-					gap: `${custom.spacing.x4}px`,
+					display: 'flex',
 					'.ss__terms-list__row': {
-						flex: '1 1 0%',
 						'&:first-of-type .ss__terms .ss__terms__title': {
 							marginTop: 0,
 						},
@@ -370,19 +368,11 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 				backgroundColor: custom.colors.white,
 				height: '100%',
 			},
-			'.ss__terms-list': {
-				flexFlow: 'row nowrap',
-				gap: `${custom.spacing.x4}px`,
-				backgroundColor: 'transparent',
-				'.ss__terms-list__row': {
-					flex: '1 1 0%',
-				},
-				'.ss__terms': {
-					'.ss__terms__options': {
-						'.ss__terms__option': {
-							a: {
-								fontSize: custom.utils.convertPxToEm(acType == 'terms' ? 15 : 14),
-							},
+			'.ss__terms': {
+				'.ss__terms__options': {
+					'.ss__terms__option': {
+						a: {
+							fontSize: acType == 'terms' ? custom.utils.convertPxToEm(15) : '',
 						},
 					},
 				},
