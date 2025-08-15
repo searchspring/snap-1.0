@@ -1,9 +1,10 @@
 import { h, Fragment } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge } from '@searchspring/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating, VariantSelection } from '@searchspring/snap-preact/components';
 
 export const CustomResult = (props) => {
 	const { result, controller } = props;
 	const core = result.mappings.core;
+	const variants = result.variants;
 
 	return (
 		<article className="ss__custom-result">
@@ -14,6 +15,7 @@ export const CustomResult = (props) => {
 					</OverlayBadge>
 				</a>
 			</div>
+
 			<div className="ss__custom-result__details">
 				<div className="ss__custom-result__details__title">
 					<a
@@ -23,6 +25,18 @@ export const CustomResult = (props) => {
 						}}
 					/>
 				</div>
+
+				<br />
+				<br />
+
+				{variants?.selections
+					? variants.selections.map((selection) => {
+							return <VariantSelection selection={selection} />;
+					  })
+					: null}
+
+				<br />
+				<br />
 
 				<div className="ss__custom-result__details__pricing">
 					{core.price < core.msrp ? (
@@ -34,6 +48,8 @@ export const CustomResult = (props) => {
 						<Price value={core.price} />
 					)}
 				</div>
+
+				<Rating value={4.35} count={70} />
 
 				<CalloutBadge result={result}></CalloutBadge>
 			</div>
