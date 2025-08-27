@@ -16,7 +16,7 @@ const pikeVariables: ThemeVariables = {
 	},
 };
 
-export const pike: Partial<ThemeComplete> = {
+export const pike: ThemeComplete = {
 	name: 'pike',
 	variables: pikeVariables,
 	components,

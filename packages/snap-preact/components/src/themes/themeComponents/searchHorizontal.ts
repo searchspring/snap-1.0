@@ -5,7 +5,7 @@ export const searchHorizontalThemeComponentProps: ThemeComponent<'searchHorizont
 	default: {
 		searchHorizontal: {
 			hideSidebar: true,
-			className: 'ss__search-horizontal',
+			internalClassName: 'ss__search-horizontal',
 		},
 		'searchHorizontal toolbar.top': {
 			layout: [['banner.header'], ['searchHeader'], ['banner.banner'], ['filterSummary'], ['paginationInfo', '_', 'sortBy', 'perPage']],
@@ -23,15 +23,21 @@ export const searchHorizontalThemeComponentProps: ThemeComponent<'searchHorizont
 
 	mobile: {
 		'searchHorizontal toolbar.top': {
-			layout: [['banner.header'], ['searchHeader'], ['banner.banner'], ['filterSummary'], ['paginationInfo', '_'], ['sortBy', '_', 'perPage']],
+			layout: [['banner.header'], ['searchHeader'], ['banner.banner'], ['paginationInfo', '_'], ['filterSummary'], ['_', 'sortBy', 'perPage']],
 		},
 		'searchHorizontal facetsHorizontal': {
 			limit: 4,
+		},
+		'searchHorizontal results': {
+			columns: 2,
 		},
 	},
 	tablet: {
 		'searchHorizontal facetsHorizontal': {
 			limit: 5,
+		},
+		'searchHorizontal results': {
+			columns: 3,
 		},
 	},
 

@@ -13,6 +13,7 @@ import { Grid, GridProps } from '../Grid';
 import { ImageProps, Image } from '../../Atoms/Image';
 import deepmerge from 'deepmerge';
 import { filters } from '@searchspring/snap-toolbox';
+import Color from 'color';
 
 const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 	return css({
@@ -28,6 +29,15 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 			aspectRatio: '1/1',
 			margin: 'auto',
 			flexDirection: 'column',
+
+			'.ss__swatches__carousel__swatch__inner': {
+				aspectRatio: '1/1',
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				margin: 'auto',
+				height: '100%',
+			},
 
 			'&.ss__swatches__carousel__swatch--selected': {
 				border: `2px solid ${theme?.variables?.colors?.primary || '#333'}`,
@@ -55,6 +65,10 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 			'&.ss__swatches__carousel__swatch--unavailable': {
 				cursor: 'pointer',
 				opacity: 0.5,
+			},
+
+			'&.ss__swatches__carousel__swatch--dark': {
+				color: '#fff',
 			},
 		},
 	});
@@ -109,12 +123,12 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		};
 	}
 
-	const { onSelect, disabled, options, hideLabels, disableStyles, className, type, carousel, grid, treePath } = props;
+	const { onSelect, disabled, options, hideLabels, disableStyles, className, internalClassName, type, carousel, grid, treePath } = props;
 
 	const subProps: SwatchesSubProps = {
 		carousel: {
 			// default props
-			className: 'ss__swatches__carousel',
+			internalClassName: 'ss__swatches__carousel',
 			loop: false,
 			...carousel,
 			// inherited props
@@ -128,7 +142,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		},
 		grid: {
 			// default props
-			className: 'ss__swatches__grid',
+			internalClassName: 'ss__swatches__grid',
 			hideLabels: hideLabels,
 			overflowButtonInGrid: true,
 			disableOverflowAction: true,
@@ -145,7 +159,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		},
 		image: {
 			// default props
-			className: 'ss__swatches__image',
+			internalClassName: 'ss__swatches__image',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -172,37 +186,49 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 
 	return typeof options == 'object' && options?.length ? (
 		<CacheProvider>
-			<div {...styling} className={classnames('ss__swatches', className)}>
+			<div {...styling} className={classnames('ss__swatches', className, internalClassName)}>
 				{type == 'carousel' ? (
 					<Carousel {...subProps.carousel}>
 						{options.map((option) => {
 							const label = option.label;
 							const selected = selection?.value == option.value;
+							let isDark = false;
+							try {
+								const color = new Color(
+									option.background ? option.background.toLowerCase() : option.backgroundImageUrl ? `` : option.value.toString().toLowerCase()
+								);
+								isDark = color.isDark();
+							} catch (err) {}
 
 							return (
 								<div
-									className={classnames(
-										`ss__swatches__carousel__swatch ss__swatches__carousel__swatch--${filters.handleize(option.value?.toString())}`,
-										{
-											'ss__swatches__carousel__swatch--selected': selected,
-											'ss__swatches__carousel__swatch--disabled': option?.disabled,
-											'ss__swatches__carousel__swatch--unavailable': option?.available === false,
-										}
-									)}
+									className={classnames(`ss__swatches__carousel__swatch`, {
+										'ss__swatches__carousel__swatch--selected': selected,
+										'ss__swatches__carousel__swatch--disabled': option?.disabled,
+										'ss__swatches__carousel__swatch--unavailable': option?.available === false,
+										'ss__swatches__carousel__swatch--dark': isDark,
+									})}
 									title={label}
-									style={{ background: option.background ? option.background : option.backgroundImageUrl ? `` : option.value }}
 									onClick={(e) => !disabled && !option?.disabled && makeSelection(e as any, option)}
 									ref={(e) => useA11y(e)}
 									aria-disabled={option.disabled || option?.available === false}
 									role="option"
 									aria-selected={selected}
 								>
-									{!option.background && option.backgroundImageUrl ? (
-										<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value?.toString()} />
-									) : (
-										<Fragment />
-									)}
-									{!hideLabels && <span className="ss__swatches__carousel__swatch__value">{label || option.value}</span>}
+									<div
+										className={classnames(
+											`ss__swatches__carousel__swatch__inner`,
+											`ss__swatches__carousel__swatch__inner--${filters.handleize(option.value?.toString())}`
+										)}
+										style={{ background: option.background ? option.background : option.backgroundImageUrl ? `` : option.value }}
+									>
+										{!option.background && option.backgroundImageUrl ? (
+											<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value?.toString()} />
+										) : (
+											<Fragment />
+										)}
+										{!hideLabels && <span className="ss__swatches__carousel__swatch__value">{label || option.value}</span>}
+									</div>
 								</div>
 							);
 						})}
