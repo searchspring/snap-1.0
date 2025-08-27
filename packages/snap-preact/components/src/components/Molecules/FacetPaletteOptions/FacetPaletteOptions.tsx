@@ -15,6 +15,7 @@ import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
 import { Checkbox, CheckboxProps } from '../Checkbox';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
+import Color from 'color';
 
 const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSize, gapSize, horizontal, theme }) => {
 	return css({
@@ -182,6 +183,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 		horizontal,
 		disableStyles,
 		className,
+		internalClassName,
 		treePath,
 	} = props;
 
@@ -192,7 +194,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 	const subProps: FacetPaletteOptionsSubProps = {
 		icon: {
 			// default props
-			className: 'ss__facet-palette-options__icon',
+			internalClassName: 'ss__facet-palette-options__icon',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -206,7 +208,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 		},
 		checkbox: {
 			// default props
-			className: 'ss__facet-palette-options__checkbox',
+			internalClassName: 'ss__facet-palette-options__checkbox',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -223,7 +225,10 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 
 	return facetValues?.length ? (
 		<CacheProvider>
-			<div {...styling} className={classnames('ss__facet-palette-options', `ss__facet-palette-options--${layout?.toLowerCase()}`, className)}>
+			<div
+				{...styling}
+				className={classnames('ss__facet-palette-options', `ss__facet-palette-options--${layout?.toLowerCase()}`, className, internalClassName)}
+			>
 				{(facetValues as FacetValue[]).map((value) => {
 					//initialize lang
 					const defaultLang = {
@@ -247,12 +252,31 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 						value,
 					});
 
+					let lowerCaseColorMapping;
+					if (colorMapping) {
+						lowerCaseColorMapping = Object.fromEntries(Object.entries(colorMapping).map(([key, value]) => [key.toLowerCase(), value]));
+					}
+
+					const background =
+						lowerCaseColorMapping && lowerCaseColorMapping[value.label.toLowerCase()] && lowerCaseColorMapping[value.label.toLowerCase()].background
+							? lowerCaseColorMapping[value.label.toLowerCase()].background
+							: value.value;
+
+					let isDark = false;
+					if (background) {
+						try {
+							const color = new Color(background.toLowerCase());
+							isDark = color.isDark();
+						} catch (err) {}
+					}
+
 					return (
 						<a
 							key={value.value}
 							className={classnames(
 								'ss__facet-palette-options__option',
 								{ 'ss__facet-palette-options__option--filtered': value.filtered },
+								{ 'ss__facet-palette-options__option--dark': isDark },
 								`ss__facet-palette-options__option--${layout?.toLowerCase()}`
 							)}
 							href={value.url?.link?.href}
@@ -276,10 +300,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 										`ss__facet-palette-options__option__palette--${filters.handleize(value.value)}`
 									)}
 									style={{
-										background:
-											colorMapping && colorMapping[value.label] && colorMapping[value.label].background
-												? colorMapping[value.label].background
-												: value.value,
+										background: background,
 									}}
 								>
 									{!hideIcon && value.filtered && layout?.toLowerCase() == 'grid' && <Icon {...subProps.icon} />}
@@ -287,7 +308,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 							</div>
 							{!hideLabel && (
 								<span className="ss__facet-palette-options__option__value">
-									{colorMapping && colorMapping[value.label] && colorMapping[value.label].label ? colorMapping[value.label].label : value.label}
+									{lowerCaseColorMapping?.[value.label.toLowerCase()]?.label ?? value.label}
 								</span>
 							)}
 							{!hideCount && value?.count > 0 && <span className="ss__facet-palette-options__option__value__count">({value.count})</span>}

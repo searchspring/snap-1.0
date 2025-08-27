@@ -3,8 +3,8 @@ import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import { observer } from 'mobx-react-lite';
 
 import { SnapTemplates, TemplatesStore } from '../../src';
-import { ThemeProvider } from '../src/providers/theme';
 import { base, bocachica, snappy, snapnco, pike } from '../src/themes';
+import { ThemeComplete, ThemeProvider } from '../src/providers/theme';
 
 // custom styles for storybook
 import './styles.scss';
@@ -93,7 +93,7 @@ export const parameters = {
 };
 
 // add the full theme for template stories, and add a "simple" theme for all other stories
-function addTheme(snapTemplates: SnapTemplates, themeName: string, theme: Theme) {
+function addTheme(snapTemplates: SnapTemplates, themeName: string, theme: ThemeComplete) {
 	snapTemplates.templates.addTheme({
 		name: themeName,
 		type: 'library',
@@ -114,13 +114,14 @@ function addTheme(snapTemplates: SnapTemplates, themeName: string, theme: Theme)
 	});
 }
 
-function generateSimpleTheme(theme: Theme): Theme {
+function generateSimpleTheme(theme: ThemeComplete): ThemeComplete {
 	// strip off everything except for stylescripts and variables
 
-	const simpleTheme: Theme = {
+	const simpleTheme: ThemeComplete = {
 		name: theme.name,
 		variables: theme.variables,
 		components: {},
+		responsive: {},
 	};
 
 	for (const componentName in theme.components) {
