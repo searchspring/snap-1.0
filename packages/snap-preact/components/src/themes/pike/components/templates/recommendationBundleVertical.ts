@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundleVertical component
 const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVerticalProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const mobileBp = variables?.breakpoints?.mobile || 767;
@@ -150,20 +149,11 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 	},
 	mobile: {
 		...recommendationBundleVerticalThemeComponentProps.mobile,
-		recommendationBundleVertical: {
-			...(recommendationBundleVerticalThemeComponentProps.mobile?.['recommendationBundleVertical'] || {}),
-		},
 	},
 	tablet: {
 		...recommendationBundleVerticalThemeComponentProps.tablet,
-		recommendationBundleVertical: {
-			...(recommendationBundleVerticalThemeComponentProps.tablet?.['recommendationBundleVertical'] || {}),
-		},
 	},
 	desktop: {
 		...recommendationBundleVerticalThemeComponentProps.desktop,
-		recommendationBundleVertical: {
-			...(recommendationBundleVerticalThemeComponentProps.desktop?.['recommendationBundleVertical'] || {}),
-		},
 	},
 };

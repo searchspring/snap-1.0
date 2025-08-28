@@ -11,8 +11,6 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	const textSelectors = 'a, div, p';
 	const headerSelectors =
 		'.ss__terms-list .ss__terms .ss__terms__title h5, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content, .ss__no-results__recommendations h3';
-	const activeSelectors =
-		'.ss__terms .ss__terms__options .ss__terms__option.ss__terms__option--active a, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more:hover .ss__button__content';
 
 	// check if there is a slideout autocomplete
 	const hasAcSlideout =
@@ -61,10 +59,11 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 			lineHeight: 1.2,
 			color: variables?.colors?.secondary,
 		},
-		[activeSelectors]: {
-			fontWeight: custom.fonts.weight01,
-			color: variables?.colors?.primary,
-		},
+		'.ss__terms .ss__terms__options .ss__terms__option.ss__terms__option--active a, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more:hover .ss__button__content':
+			{
+				fontWeight: custom.fonts.weight01,
+				color: variables?.colors?.primary,
+			},
 		'.ss__autocomplete__row .ss__autocomplete__column .ss__search-input': {
 			background: 'transparent',
 			width: 'auto',

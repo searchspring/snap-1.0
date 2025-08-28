@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Toolbar component
 const toolbarStyleScript = (props: ToolbarProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 

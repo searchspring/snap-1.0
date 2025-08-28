@@ -16,7 +16,6 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 		valuesAlign: 'sides', // alignment of slider values (sides or center)
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const fontColor = props?.valueTextColor || variables?.colors?.text;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);

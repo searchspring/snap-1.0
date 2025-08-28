@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundle component
 const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
@@ -232,27 +231,18 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 	},
 	mobile: {
 		...recommendationBundleThemeComponentProps.mobile,
-		recommendationBundle: {
-			...(recommendationBundleThemeComponentProps.mobile?.['recommendationBundle'] || {}),
-		},
 		'recommendationBundle carousel': {
 			spaceBetween: 0,
 		},
 	},
 	tablet: {
 		...recommendationBundleThemeComponentProps.tablet,
-		recommendationBundle: {
-			...(recommendationBundleThemeComponentProps.tablet?.['recommendationBundle'] || {}),
-		},
 		'recommendationBundle carousel': {
 			spaceBetween: custom.spacing.x4,
 		},
 	},
 	desktop: {
 		...recommendationBundleThemeComponentProps.desktop,
-		recommendationBundle: {
-			...(recommendationBundleThemeComponentProps.desktop?.['recommendationBundle'] || {}),
-		},
 		'recommendationBundle carousel': {
 			spaceBetween: custom.spacing.x4,
 		},

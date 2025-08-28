@@ -6,7 +6,6 @@ import Color from 'color';
 
 // CSS in JS style script for the LayoutSelector component
 const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const activeColor = new Color(variables?.colors?.primary);
 	const activeIconColor =

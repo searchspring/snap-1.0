@@ -5,14 +5,10 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Autocomplete component
 const autocompleteStyleScript = (props: AutocompleteProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
-	const textSelectors = 'a, div, p';
 	const headerSelectors =
 		'.ss__autocomplete__terms .ss__autocomplete__title h5, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__content__info a, .ss__no-results__recommendations h3';
-	const activeSelectors =
-		'.ss__autocomplete__terms .ss__autocomplete__terms__options .ss__autocomplete__terms__option--active a, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__content__info a:hover';
 
 	return css({
 		'&.ss__autocomplete': {
@@ -24,7 +20,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			top: 'auto',
 			margin: `${custom.spacing.x1}px 0 0 0`,
 			gap: `${custom.spacing.x4}px`,
-			[textSelectors]: {
+			'a, div, p': {
 				fontSize: custom.utils.convertPxToEm(12),
 				lineHeight: 1.5,
 				color: variables?.colors?.text,
@@ -46,10 +42,11 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				lineHeight: 1.2,
 				color: variables?.colors?.secondary,
 			},
-			[activeSelectors]: {
-				fontWeight: custom.fonts.weight01,
-				color: variables?.colors?.primary,
-			},
+			'.ss__autocomplete__terms .ss__autocomplete__terms__options .ss__autocomplete__terms__option--active a, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__content__info a:hover':
+				{
+					fontWeight: custom.fonts.weight01,
+					color: variables?.colors?.primary,
+				},
 			'& > div': {
 				minWidth: '1px',
 				maxWidth: 'none',
