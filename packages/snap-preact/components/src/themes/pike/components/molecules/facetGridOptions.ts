@@ -6,7 +6,6 @@ import Color from 'color';
 
 // CSS in JS style script for the FacetGridOptions component
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const activeColor = new Color(variables?.colors?.primary);

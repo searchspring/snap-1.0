@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
 	const mobileBp = variables?.breakpoints?.mobile || 767;

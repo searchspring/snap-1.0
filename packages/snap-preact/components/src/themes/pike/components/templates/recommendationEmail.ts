@@ -42,20 +42,11 @@ export const recommendationEmail: ThemeComponent<'recommendationEmail', Recommen
 	},
 	mobile: {
 		...recommendationEmailThemeComponentProps.mobile,
-		recommendationEmail: {
-			...(recommendationEmailThemeComponentProps.mobile?.['recommendationEmail'] || {}),
-		},
 	},
 	tablet: {
 		...recommendationEmailThemeComponentProps.tablet,
-		recommendationEmail: {
-			...(recommendationEmailThemeComponentProps.tablet?.['recommendationEmail'] || {}),
-		},
 	},
 	desktop: {
 		...recommendationEmailThemeComponentProps.desktop,
-		recommendationEmail: {
-			...(recommendationEmailThemeComponentProps.desktop?.['recommendationEmail'] || {}),
-		},
 	},
 };

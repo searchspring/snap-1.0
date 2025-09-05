@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RadioList component
 const radioListStyleScript = (props: RadioListProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({

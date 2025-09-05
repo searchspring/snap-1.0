@@ -8,22 +8,25 @@ export const searchHorizontalThemeComponentProps: ThemeComponent<'searchHorizont
 			internalClassName: 'ss__search-horizontal',
 		},
 		'searchHorizontal toolbar.top': {
-			layout: [['banner.header'], ['searchHeader'], ['banner.banner'], ['filterSummary'], ['paginationInfo', '_', 'sortBy', 'perPage']],
+			layout: [['searchHeader'], ['banner.header']],
 		},
 		'searchHorizontal toolbar.middle': {
-			layout: ['facetsHorizontal'],
+			layout: [['filterSummary'], ['facetsHorizontal'], ['paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
 		},
 		'searchHorizontal toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination']],
+			layout: [['banner.footer'], ['_', 'pagination', '_']],
 		},
 		'searchHorizontal facetsHorizontal': {
 			limit: 9,
 		},
+		'searchHorizontal mobileSidebar': {
+			layout: ['filterSummary', 'facets', 'banner.left'],
+		},
 	},
 
 	mobile: {
-		'searchHorizontal toolbar.top': {
-			layout: [['banner.header'], ['searchHeader'], ['banner.banner'], ['paginationInfo', '_'], ['filterSummary'], ['_', 'sortBy', 'perPage']],
+		'searchHorizontal toolbar.middle': {
+			layout: [['paginationInfo', '_', 'mobileSidebar'], ['sortBy', 'perPage'], ['banner.banner']],
 		},
 		'searchHorizontal facetsHorizontal': {
 			limit: 4,

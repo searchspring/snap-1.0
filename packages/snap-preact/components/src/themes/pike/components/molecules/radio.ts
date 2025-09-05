@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Radio component
 const radioStyleScript = (props: RadioProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);

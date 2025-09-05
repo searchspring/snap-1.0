@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FacetPaletteOptions component
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
@@ -224,31 +223,16 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 				brown: {
 					background: custom.colors.brown,
 				},
-				Brown: {
-					background: custom.colors.brown,
-				},
 				multi: {
-					background: custom.colors.rainbow,
-				},
-				Multi: {
 					background: custom.colors.rainbow,
 				},
 				'multi-color': {
 					background: custom.colors.rainbow,
 				},
-				'Multi-color': {
-					background: custom.colors.rainbow,
-				},
 				purple: {
 					background: custom.colors.purple,
 				},
-				Purple: {
-					background: custom.colors.purple,
-				},
 				rainbow: {
-					background: custom.colors.rainbow,
-				},
-				Rainbow: {
 					background: custom.colors.rainbow,
 				},
 			},

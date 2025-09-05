@@ -40,7 +40,7 @@ export const custom: {
 		transform: false,
 	},
 	icons: {
-		arrowLeft: 'chevron-left',
+		arrowLeft: 'cog',
 		arrowRight: 'chevron-right',
 		arrowDown: 'chevron-down',
 		arrowUp: 'chevron-up',

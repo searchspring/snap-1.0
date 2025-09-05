@@ -4,7 +4,6 @@ import { ThemeComponent } from '../../../../providers';
 
 // CSS in JS style script for the LoadingBar component
 const loadingBarStyleScript = (props: LoadingBarProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({

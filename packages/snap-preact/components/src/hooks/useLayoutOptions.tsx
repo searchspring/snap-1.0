@@ -37,7 +37,6 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 		},
 	};
 	let shouldUseOverrides = false;
-
 	if (globalTheme.components && props.treePath) {
 		// pull out the template (top level parent) component from the treePath to use in filtering out globalTheme overrides
 		const templateComponent = props.treePath.split(' ')[0];

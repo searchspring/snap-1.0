@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Facets component
 const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 	const tabletBp = variables?.breakpoints?.tablet || 1024;

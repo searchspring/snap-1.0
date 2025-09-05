@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchStyleScript = (props: SearchProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
@@ -56,56 +55,14 @@ export const search: ThemeComponent<'search', SearchProps> = {
 		'search sidebar': {
 			hideTitleText: false,
 		},
-		'search toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'search toolbar.middle': {
-			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
 	},
 	mobile: {
 		...searchThemeComponentProps.mobile,
-		search: {
-			...(searchThemeComponentProps.mobile?.['search'] || {}),
-		},
-		'search toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'search toolbar.middle': {
-			layout: [['paginationInfo', '_', 'mobileSidebar'], ['sortBy', 'perPage'], ['banner.banner']],
-		},
-		'search toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination', '_']],
-		},
-		'search mobileSidebar': {
-			layout: ['filterSummary', 'facets', 'banner.left'],
-		},
 	},
 	tablet: {
 		...searchThemeComponentProps.tablet,
-		search: {
-			...(searchThemeComponentProps.tablet?.['search'] || {}),
-		},
-		'search toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'search toolbar.middle': {
-			layout: [['mobileSidebar', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
-		'search mobileSidebar': {
-			layout: ['filterSummary', 'facets', 'banner.left'],
-		},
 	},
 	desktop: {
 		...searchThemeComponentProps.desktop,
-		search: {
-			...(searchThemeComponentProps.desktop?.['search'] || {}),
-		},
-		'search toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'search toolbar.middle': {
-			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
 	},
 };

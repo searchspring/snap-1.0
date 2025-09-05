@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchsecondaryStylescript = (props: SearchHorizontalProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
@@ -69,62 +68,14 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 		'searchHorizontal button.sidebar-toggle': {
 			icon: custom.icons.filter,
 		},
-		'searchHorizontal toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchHorizontal toolbar.middle': {
-			layout: [['filterSummary'], ['facetsHorizontal'], ['paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
-		'searchHorizontal toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination', '_']],
-		},
-		'searchHorizontal mobileSidebar': {
-			layout: ['filterSummary', 'facets', 'banner.left'],
-		},
 	},
 	mobile: {
 		...searchHorizontalThemeComponentProps.mobile,
-		searchHorizontal: {
-			...(searchHorizontalThemeComponentProps.mobile?.['searchHorizontal'] || {}),
-		},
-		'searchHorizontal toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchHorizontal toolbar.middle': {
-			layout: [['paginationInfo', '_', 'mobileSidebar'], ['sortBy', 'perPage'], ['banner.banner']],
-		},
-		'searchHorizontal toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination', '_']],
-		},
 	},
 	tablet: {
 		...searchHorizontalThemeComponentProps.tablet,
-		searchHorizontal: {
-			...(searchHorizontalThemeComponentProps.tablet?.['searchHorizontal'] || {}),
-		},
-		'searchHorizontal toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchHorizontal toolbar.middle': {
-			layout: [['filterSummary'], ['facetsHorizontal'], ['paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
-		'searchHorizontal toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination', '_']],
-		},
 	},
 	desktop: {
 		...searchHorizontalThemeComponentProps.desktop,
-		searchHorizontal: {
-			...(searchHorizontalThemeComponentProps.desktop?.['searchHorizontal'] || {}),
-		},
-		'searchHorizontal toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchHorizontal toolbar.middle': {
-			layout: [['filterSummary'], ['facetsHorizontal'], ['paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
-		'searchHorizontal toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination', '_']],
-		},
 	},
 };

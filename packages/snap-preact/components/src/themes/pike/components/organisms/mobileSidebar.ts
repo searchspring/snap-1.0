@@ -8,7 +8,6 @@ const enableSummaryList = true;
 
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const headerHeight = 60;
 	const footerHeight = 75;

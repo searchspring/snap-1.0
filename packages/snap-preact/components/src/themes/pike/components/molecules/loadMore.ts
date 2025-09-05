@@ -6,7 +6,6 @@ import Color from 'color';
 
 // CSS in JS style script for the LoadMore component
 const loadMoreStyleScript = (props: LoadMoreProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const indicatorColor = new Color(props?.backgroundColor || custom.colors.gray01);
 	const indicatorBorderColor = new Color(props?.backgroundColor || custom.colors.gray02);
