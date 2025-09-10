@@ -4,11 +4,12 @@ import { observer } from 'mobx-react-lite';
 import { RootNodeProperties } from '../../../types';
 import { CacheProvider } from '../../../providers';
 import { TemplateEditorStore } from '../../../../../src/Templates/Stores/TemplateEditor/TemplateEditorStore';
-import { TemplatesStore, TemplateTypes } from '../../../../../src/Templates/Stores/TemplateStore';
+import { TemplateTypes } from '../../../../../src/Templates/Stores/TemplateStore';
 import { SnapTemplates } from '../../../../../src';
 import { AutocompleteController, SearchController } from '@searchspring/snap-controller';
 import { AthosCommerceLogo } from './Assets';
 import { AbstractedControls } from './Components/AbstractedControls';
+// import { DomSelector } from './Components/DomSelector';
 import { DropdownControl } from './Controls/Dropdown';
 
 const CSS = {
@@ -316,7 +317,7 @@ const CSS = {
 };
 
 export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.Element => {
-	const { onRemoveClick, templatesStore, editorStore, snap } = properties;
+	const { onRemoveClick, editorStore, snap } = properties;
 
 	const styling: RootNodeProperties = {
 		css: [CSS.TemplatesEditor({ ...properties })],
@@ -386,16 +387,16 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 						<div className="tab-view-content">
 							{editorStore.state.activeTab === 'templates' ? (
 								<>
-									<TemplateTargetSettings feature="search" templatesStore={templatesStore} />
+									<TemplateTargetSettings feature="search" editorStore={editorStore} />
 									<AbstractedControls editorStore={editorStore} data={snap.controllers.search as SearchController} feature="controllers/search" />
-									<TemplateTargetSettings feature="autocomplete" templatesStore={templatesStore} />
+									<TemplateTargetSettings feature="autocomplete" editorStore={editorStore} />
 									<AbstractedControls
 										editorStore={editorStore}
 										data={snap.controllers.autocomplete as AutocompleteController}
 										feature="controllers/autocomplete"
 									/>
-									<TemplateTargetSettings feature="recommendation/default" templatesStore={templatesStore} />
-									<TemplateTargetSettings feature="recommendation/bundle" templatesStore={templatesStore} />
+									{/* <TemplateTargetSettings feature="recommendation/default" editorStore={editorStore} />
+									<TemplateTargetSettings feature="recommendation/bundle" editorStore={editorStore} /> */}
 								</>
 							) : (
 								''
@@ -432,18 +433,39 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 
 export interface TemplatesEditorProps {
 	onRemoveClick: () => void;
-	templatesStore: TemplatesStore;
 	editorStore: TemplateEditorStore;
 	snap: SnapTemplates;
 }
 
 type TemplateTargetSettingsProps = {
 	feature: TemplateTypes;
-	templatesStore: TemplatesStore;
+	editorStore: TemplateEditorStore;
 };
 
 const TemplateTargetSettings = observer((props: TemplateTargetSettingsProps) => {
-	const { feature, templatesStore } = props;
+	const { feature, editorStore } = props;
+	const { templatesStore } = editorStore;
+
+	// const { templatesStore, state } = editorStore;
+	// const { activeDomSelector } = state;
+
+	// let targetElementSelectors = 'div, section, article, aside';
+	// if (feature == 'autocomplete') {
+	// 	targetElementSelectors = 'input[type="text"]';
+	// }
+
+	/*
+
+	<DomSelector
+		elementSelector={targetElementSelectors}
+		onSelectHandler={(elemSelector: any) => setAutocompleteSelector(elemSelector)}
+		type="autocomplete"
+		currentSelector={activeDomSelector}
+		setCurrentSelector={(newSelector) => { state.activeDomSelector = newSelector }}
+	/>
+
+	*/
+
 	const [type, recsType = ''] = feature.split('/');
 	const idPrefix = `${type}${recsType ? `-${recsType}` : ''}`;
 
@@ -460,6 +482,13 @@ const TemplateTargetSettings = observer((props: TemplateTargetSettingsProps) => 
 	const showResultTemplateReset =
 		(activeTarget?.resultComponent || DEAFULT_RESULT_COMPONENT) != (configTarget?.resultComponent || DEAFULT_RESULT_COMPONENT);
 
+	const targets = editorStore.getTargets(type as 'search' | 'autocomplete');
+	console.log('targets', targets);
+	const target = targets[0];
+	console.log('target', target);
+
+	// state[(feature+'Selector' as keyof typeof state)] = configTarget.selector;
+
 	return (
 		<div className="template-target-settings">
 			<h3>{type.charAt(0).toUpperCase() + type.slice(1) + (recsType ? ` (${recsType})` : '')}</h3>
@@ -469,7 +498,8 @@ const TemplateTargetSettings = observer((props: TemplateTargetSettingsProps) => 
 					<label htmlFor={`${idPrefix}-target`}>Target</label>
 					<div className="reset"></div>
 					<div className="value">
-						<input id={`${idPrefix}-target`} type="text" placeholder={''} disabled={true} value={configTarget.selector} />
+						{/* <input id={`${idPrefix}-target`} type="text" placeholder={''} disabled={true} value={configTarget.selector} /> */}
+						<input id={`${idPrefix}-target`} type="text" placeholder={''} disabled={true} value={target.selector} />
 					</div>
 				</div>
 			)}

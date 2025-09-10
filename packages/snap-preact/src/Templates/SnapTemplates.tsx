@@ -216,7 +216,6 @@ export class SnapTemplates extends Snap {
 
 							render(
 								<TemplateEditor
-									templatesStore={templatesStore}
 									editorStore={templateEditorStore}
 									snap={this}
 									onRemoveClick={() => {
@@ -283,6 +282,9 @@ export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templ
 
 export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] {
 	const targets = templateConfig.autocomplete?.targets || [];
+
+	// load target override from localstorage OR from the editorStore (would be better);
+
 	return targets.map((target) => {
 		// use theme provided resultComponent if specified
 		if (!target.resultComponent && templateConfig.theme.resultComponent) {
