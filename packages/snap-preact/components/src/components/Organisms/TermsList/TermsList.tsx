@@ -1,5 +1,4 @@
 import { Fragment, h } from 'preact';
-
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -49,6 +48,7 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 	const {
 		layout,
 		historyTitle,
+		verticalOptions,
 		trendingTitle,
 		suggestionTitle,
 		retainHistory,
@@ -62,6 +62,7 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 
 	const subProps: TermsListSubProps = {
 		terms: {
+			vertical: verticalOptions ? true : false,
 			// default props
 			// inherited props
 			...defined({
@@ -178,4 +179,5 @@ export interface TermsListProps extends ComponentProps {
 	trendingTitle?: string;
 	retainHistory?: boolean;
 	retainTrending?: boolean;
+	verticalOptions?: boolean;
 }

@@ -74,11 +74,6 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 						opacity: 1,
 					},
 				},
-				'&:not([style])': {
-					'&:after': {
-						backgroundColor: custom.colors.gray01,
-					},
-				},
 				'&[style*="url"]': {
 					backgroundRepeat: 'no-repeat !important',
 					backgroundSize: 'cover !important',
