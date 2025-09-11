@@ -129,13 +129,20 @@ The `onClick` prop allows for a custom callback function for when a facet value 
 
 
 #### colorMapping
-The colorMapping prop allows for custom color mapping overrides. The object used is keyed by a color label, and can take background and label properties. The color label can be any accepted CSS background property value. So a color, string, hash, RGB, gradiant, or an image URL could be used. The label takes a string value and replaces the color's original label for display.
+The colorMapping prop allows for custom color mapping overrides. The object used is keyed by a color label, and can take background, backgroundImageUrl and label properties. 
+The color label can be any accepted CSS background property value. So a color, string, hash, RGB, gradiant, or an image URL could be used. 
+The label takes a string value and replaces the color's original label for display.
+The backgroundImageUrl will render an actual HTML Image element rather than css background url. 
 
 ```jsx
 const colorMapping = {
 	'Camo': {
 		background: 'brown',
 		label: 'Army'
+	},
+	'Red': {
+		backgroundImageUrl: 'https://s3-figma-hubfile-images-production.figma.com/hub/file/carousel/img/bfbec80cfd07b650c2f02b5f8a8c29b3c726e9da',
+		label: 'Red'
 	},
 	'Striped': {
 		background: "url(https://mysite.com/cdn/shop/files/candy-stripe-square_small.jpg)",

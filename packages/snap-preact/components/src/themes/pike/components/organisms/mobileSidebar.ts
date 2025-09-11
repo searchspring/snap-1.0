@@ -128,7 +128,7 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			icon: custom.icons.close,
 		},
 		'mobileSidebar filterSummary': {
-			className: enableSummaryList ? 'ss__filter-summary--list' : '',
+			type: enableSummaryList ? 'list' : 'inline',
 		},
 	},
 };

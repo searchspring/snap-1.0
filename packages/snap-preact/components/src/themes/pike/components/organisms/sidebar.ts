@@ -54,7 +54,7 @@ export const sidebar: ThemeComponent<'sidebar', SidebarProps> = {
 			themeStyleScript: sidebarStyleScript,
 		},
 		'sidebar filterSummary': {
-			className: enableSummaryList ? 'ss__filter-summary--list' : '',
+			type: enableSummaryList ? 'list' : 'inline',
 		},
 	},
 };

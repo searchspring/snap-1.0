@@ -16,6 +16,7 @@ import { Checkbox, CheckboxProps } from '../Checkbox';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import Color from 'color';
+import { Image, ImageProps } from '../../Atoms/Image';
 
 const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSize, gapSize, horizontal, theme }) => {
 	return css({
@@ -62,6 +63,11 @@ const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSiz
 					strokeWidth: '3px',
 					strokeLinejoin: 'round',
 					opacity: 0,
+				},
+
+				'&.ss__facet-palette-options__option__palette--image': {
+					paddingTop: '0',
+					height: 'auto',
 				},
 			},
 			'.ss__facet-palette-options__option__value': {
@@ -206,6 +212,17 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 			theme: props?.theme,
 			treePath,
 		},
+		image: {
+			// default props
+			internalClassName: 'ss__facet-palette-options__image',
+			// inherited props
+			...defined({
+				disableStyles,
+			}),
+			// component theme overrides
+			theme: props?.theme,
+			treePath,
+		},
 		checkbox: {
 			// default props
 			internalClassName: 'ss__facet-palette-options__checkbox',
@@ -262,6 +279,13 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 							? lowerCaseColorMapping[value.label.toLowerCase()].background
 							: value.value;
 
+					const backgroundImageUrl =
+						lowerCaseColorMapping &&
+						lowerCaseColorMapping[value.label.toLowerCase()] &&
+						lowerCaseColorMapping[value.label.toLowerCase()].backgroundImageUrl
+							? lowerCaseColorMapping[value.label.toLowerCase()].backgroundImageUrl
+							: undefined;
+
 					let isDark = false;
 					if (background) {
 						try {
@@ -297,12 +321,18 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 								<div
 									className={classnames(
 										'ss__facet-palette-options__option__palette',
-										`ss__facet-palette-options__option__palette--${filters.handleize(value.value)}`
+										`ss__facet-palette-options__option__palette--${filters.handleize(value.value)}`,
+										{ 'ss__facet-palette-options__option__palette--image': backgroundImageUrl }
 									)}
 									style={{
 										background: background,
 									}}
 								>
+									{backgroundImageUrl ? (
+										<Image {...subProps.image} src={backgroundImageUrl} alt={value.label || value.value.toString()} />
+									) : (
+										<Fragment />
+									)}
 									{!hideIcon && value.filtered && layout?.toLowerCase() == 'grid' && <Icon {...subProps.icon} />}
 								</div>
 							</div>
@@ -341,6 +371,7 @@ export interface FacetPaletteOptionsProps extends ComponentProps {
 		[name: string]: {
 			label?: string;
 			background?: string;
+			backgroundImageUrl?: string;
 		};
 	};
 	lang?: Partial<FacetPaletteOptionsLang>;
@@ -354,6 +385,7 @@ export interface FacetPaletteOptionsLang {
 }
 
 interface FacetPaletteOptionsSubProps {
-	icon: IconProps;
-	checkbox: CheckboxProps;
+	icon: Partial<IconProps>;
+	checkbox: Partial<CheckboxProps>;
+	image: Partial<ImageProps>;
 }

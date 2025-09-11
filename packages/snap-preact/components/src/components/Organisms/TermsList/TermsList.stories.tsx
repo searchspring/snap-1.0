@@ -87,6 +87,16 @@ export default {
 			},
 			control: { type: 'text' },
 		},
+		verticalOptions: {
+			description: 'boolean to specify if the terms should be displayed vertically',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: undefined },
+			},
+			control: { type: 'boolean' },
+		},
 		suggestionTitle: {
 			description: 'suggested terms title',
 			table: {

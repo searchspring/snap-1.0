@@ -15,7 +15,6 @@ const filterStyleScript = (props: FilterProps) => {
 			height: 'auto',
 			lineHeight: 1.5,
 			padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
-			paddingLeft: `${custom.spacing.x2 + custom.spacing.x1 + 10}px`,
 			fontWeight: 'normal',
 			color: variables?.colors?.text,
 			'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
@@ -23,11 +22,6 @@ const filterStyleScript = (props: FilterProps) => {
 				border: `1px solid ${custom.colors.gray02}`,
 			},
 			'.ss__button__content': {
-				'.ss__icon': {
-					position: 'absolute',
-					top: '10px',
-					left: `${custom.spacing.x2}px`,
-				},
 				'.ss__filter__label': {
 					fontWeight: custom.fonts.weight01,
 				},
