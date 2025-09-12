@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = (props: CheckboxProps) => {
 	const variables = props?.theme?.variables;
-	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	// shared checkbox styles
@@ -50,15 +49,6 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		disabledStyles,
 	]);
 
-	// secondary checkbox styles
-	const secondaryStyles = css([
-		sharedStyles,
-		sharedDefaultStyles,
-		{
-			backgroundColor: custom.colors.white,
-		},
-	]);
-
 	// native checkbox styles
 	const nativeStyles = css([
 		sharedStyles,
@@ -74,8 +64,6 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 	// return checkbox styles
 	if (props?.native) {
 		return nativeStyles;
-	} else if (isSecondary) {
-		return secondaryStyles;
 	} else {
 		return defaultStyles;
 	}

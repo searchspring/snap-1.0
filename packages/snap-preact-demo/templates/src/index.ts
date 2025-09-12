@@ -6,7 +6,7 @@ import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: '8uyt2m', // prvb79 // 8uyt2m // c52bzz (for variant options)
+		siteId: 'c52bzz', // prvb79 // 8uyt2m // c52bzz (for variant options)
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
@@ -18,7 +18,7 @@ let config: SnapTemplatesConfig = {
 	},
 	theme: {
 		extends: 'pike',
-		//resultComponent: 'CustomResult',
+		resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
 				mobile: 767,
@@ -39,8 +39,7 @@ let config: SnapTemplatesConfig = {
 				// 	width: '200px',
 				// },
 				// 'toolbar.top': {
-				// 	className: 'aaa',
-				// 	//layout: ['breadcrumbs']
+				// 	layout: ['facetsHorizontal']
 				// }
 				// 'toolbar.bottom': {
 				// 	layout: ['loadMore']
@@ -70,7 +69,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnappy',
+				component: 'SearchHorizontal',
 			},
 		],
 		settings: {
@@ -86,7 +85,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: 'input.searchspring-ac',
-				component: 'AutocompleteFixed',
+				component: 'AutocompleteSlideout',
 			},
 		],
 	},

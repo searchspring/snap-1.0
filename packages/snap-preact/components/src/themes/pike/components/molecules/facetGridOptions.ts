@@ -7,13 +7,11 @@ import Color from 'color';
 // CSS in JS style script for the FacetGridOptions component
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	const variables = props?.theme?.variables;
-	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const activeColor = new Color(variables?.colors?.primary);
 	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 	const gridSize = props?.gridSize ? props.gridSize : '52px';
 
-	// shared grid styles
-	const sharedStyles = css({
+	return css({
 		gridTemplateColumns: `repeat(auto-fill, minmax(${gridSize}, 1fr))`,
 		gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 		alignItems: 'center',
@@ -38,6 +36,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				right: 0,
 				zIndex: 1,
 				border: `1px solid ${custom.colors.gray02}`,
+				backgroundColor: custom.colors.gray01,
 			},
 			'.ss__facet-grid-options__option__value': {
 				position: 'relative',
@@ -59,32 +58,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			},
 		},
 	});
-
-	// default grid styles
-	const defaultStyles = css([
-		sharedStyles,
-		{
-			'.ss__facet-grid-options__option': {
-				'&:after': {
-					backgroundColor: custom.colors.gray01,
-				},
-			},
-		},
-	]);
-
-	// secondary grid styles
-	const secondaryStyles = css([
-		sharedStyles,
-		{
-			'.ss__facet-grid-options__option': {
-				'&:after': {
-					backgroundColor: custom.colors.white,
-				},
-			},
-		},
-	]);
-
-	return isSecondary ? secondaryStyles : defaultStyles;
 };
 
 // FacetGridOptions component props

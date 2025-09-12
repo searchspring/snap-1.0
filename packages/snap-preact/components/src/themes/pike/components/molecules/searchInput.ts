@@ -6,12 +6,10 @@ import { custom } from '../../custom';
 // CSS in JS style script for the SearchInput component
 const searchInputStyleScript = (props: SearchInputProps) => {
 	const variables = props?.theme?.variables;
-	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const darkPrimary = custom.utils.darkenColor(variables?.colors?.primary, 0.15);
 
-	// shared search input styles
-	const sharedStyles = css({
+	return css({
 		'&.ss__search-input': {
 			margin: `0 0 ${custom.spacing.x2}px`,
 			border: 0,
@@ -39,6 +37,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 			'.ss__search-input__input': {
 				flex: '1 1 0%',
 				border: `1px solid ${custom.colors.gray02}`,
+				backgroundColor: custom.colors.gray01,
 				padding: `0 ${custom.spacing.x2}px`,
 				minHeight: '1px',
 				fontSize: custom.utils.convertPxToEm(14),
@@ -63,32 +62,6 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 			},
 		},
 	});
-
-	// default search input styles
-	const defaultStyles = css([
-		sharedStyles,
-		{
-			'&.ss__search-input': {
-				'.ss__search-input__input': {
-					backgroundColor: `${custom.colors.gray01}`,
-				},
-			},
-		},
-	]);
-
-	// secondary search input styles
-	const secondaryStyles = css([
-		sharedStyles,
-		{
-			'&.ss__search-input': {
-				'.ss__search-input__input': {
-					backgroundColor: `${custom.colors.white}`,
-				},
-			},
-		},
-	]);
-
-	return isSecondary ? secondaryStyles : defaultStyles;
 };
 
 // SearchInput component props

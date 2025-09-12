@@ -46,10 +46,11 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 				},
 				'.swiper-container': {
 					maxWidth: `calc(100% - ${swatchSize * 2 + swatchSpacing * 2}px)`,
-					padding: '0 2px 0 0',
 					'& > .swiper-wrapper': {
 						'& > .swiper-slide': {
 							overflow: 'hidden',
+							width: `${swatchSize}px`,
+							height: `${swatchSize}px`,
 							'&:has(.ss__swatches__carousel__swatch.ss__swatches__carousel__swatch--unavailable)': {
 								'&:before': {
 									content: '""',
@@ -58,7 +59,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 									top: 0,
 									bottom: 0,
 									margin: 'auto',
-									width: '90%',
+									width: '100%',
 									height: '1px',
 									borderTop: `3px solid ${darkGray}`,
 									transform: 'rotate(-45deg)',
@@ -177,19 +178,20 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 	default: {
 		swatches: {
 			themeStyleScript: swatchesStyleScript,
+			type: 'grid',
 		},
 		'swatches carousel': {
 			autoAdjustSlides: false,
 			centerInsufficientSlides: false,
-			slidesPerView: 4,
-			slidesPerGroup: 4,
+			slidesPerView: 'auto',
+			slidesPerGroup: 3,
 			spaceBetween: `${swatchSpacing}px`,
 		},
 	},
 	desktop: {
 		'swatches carousel': {
-			slidesPerView: 3,
-			slidesPerGroup: 3,
+			slidesPerView: 'auto',
+			slidesPerGroup: 2,
 			spaceBetween: `${swatchSpacing}px`,
 		},
 	},

@@ -122,10 +122,20 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 							whiteSpace: 'nowrap',
 						},
 					},
+					'.ss__checkbox, .ss__radio, .ss__search-input .ss__search-input__input': {
+						backgroundColor: custom.colors.white,
+					},
 					'.ss__facet-hierarchy-options': {
 						'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
 							'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
 								paddingLeft: 0,
+							},
+						},
+					},
+					'.ss__facet-grid-options': {
+						'.ss__facet-grid-options__option:not(.ss__facet-grid-options__option--filtered)': {
+							'&:after': {
+								backgroundColor: custom.colors.white,
 							},
 						},
 					},

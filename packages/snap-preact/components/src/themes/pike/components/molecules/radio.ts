@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Radio component
 const radioStyleScript = (props: RadioProps) => {
 	const variables = props?.theme?.variables;
-	const isSecondary = props?.className?.includes('secondary') ? true : false;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	// shared radio styles
@@ -45,14 +44,6 @@ const radioStyleScript = (props: RadioProps) => {
 		disabledStyles,
 	]);
 
-	// secondary radio styles
-	const secondaryStyles = css([
-		sharedDefaultStyles,
-		{
-			backgroundColor: custom.colors.white,
-		},
-	]);
-
 	// native radio styles
 	const nativeStyles = css([
 		{
@@ -70,8 +61,6 @@ const radioStyleScript = (props: RadioProps) => {
 	// return radio styles
 	if (props?.native) {
 		return nativeStyles;
-	} else if (isSecondary) {
-		return secondaryStyles;
 	} else {
 		return defaultStyles;
 	}

@@ -1,6 +1,12 @@
 import { IconType } from '../../components/Atoms/Icon';
 import Color from 'color';
 
+// calculate spacing
+const spacing = 5;
+const spacingCalc = (value: number) => {
+	return spacing * value;
+};
+
 export const custom: {
 	colors: {
 		[key: string]: string;
@@ -40,7 +46,7 @@ export const custom: {
 		transform: false,
 	},
 	icons: {
-		arrowLeft: 'cog',
+		arrowLeft: 'chevron-left',
 		arrowRight: 'chevron-right',
 		arrowDown: 'chevron-down',
 		arrowUp: 'chevron-up',
@@ -63,14 +69,14 @@ export const custom: {
 		icon16: 16,
 	},
 	spacing: {
-		x1: 5,
-		x2: 10,
-		x3: 15,
-		x4: 20,
-		x5: 25,
-		x6: 30,
-		x7: 35,
-		x8: 40,
+		x1: spacing,
+		x2: spacingCalc(2),
+		x3: spacingCalc(3),
+		x4: spacingCalc(4),
+		x5: spacingCalc(5),
+		x6: spacingCalc(6),
+		x7: spacingCalc(7),
+		x8: spacingCalc(8),
 	},
 	utils: {
 		convertPxToEm: (value: number) => {

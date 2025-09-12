@@ -138,6 +138,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 			'.ss__grid__show-more': {
 				fontSize: custom.utils.convertPxToEm(12),
 				fontWeight: custom.fonts.weight01,
+				lineHeight: 1,
 				color: variables?.colors?.primary,
 			},
 		},
