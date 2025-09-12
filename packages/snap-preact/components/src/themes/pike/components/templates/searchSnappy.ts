@@ -56,59 +56,14 @@ export const searchSnappy: ThemeComponent<'searchSnappy', SearchSnappyProps> = {
 		'searchSnappy filterSummary': {
 			hideTitle: false,
 		},
-		'searchSnappy toolbar.top': {
-			layout: [['searchHeader'], ['banner.header'], ['button.sidebar-toggle', '_', 'sortBy', 'perPage', 'layoutSelector'], ['banner.banner']],
-		},
-		'searchSnappy toolbar.bottom': {
-			layout: [['banner.footer'], ['paginationInfo', '_', 'pagination']],
-		},
 	},
 	mobile: {
 		...searchSnappyThemeComponentProps.mobile,
-		searchSnappy: {
-			...(searchSnappyThemeComponentProps.mobile?.['searchSnappy'] || {}),
-		},
-		'searchSnappy toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchSnappy toolbar.middle': {
-			layout: [['mobileSidebar', '_', 'paginationInfo', '_', 'layoutSelector'], ['banner.banner']],
-		},
-		'searchSnappy toolbar.bottom': {
-			layout: [['banner.footer'], ['_', 'pagination', '_']],
-		},
-		'searchSnappy mobileSidebar': {
-			layout: ['filterSummary', 'sortBy', 'perPage', 'facets', 'banner.left'],
-		},
 	},
 	tablet: {
 		...searchSnappyThemeComponentProps.tablet,
-		searchSnappy: {
-			...(searchSnappyThemeComponentProps.tablet?.['searchSnappy'] || {}),
-		},
-		'searchSnappy toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchSnappy toolbar.middle': {
-			layout: [['mobileSidebar', '_', 'sortBy', 'perPage', 'layoutSelector'], ['banner.banner']],
-		},
-		'searchSnappy toolbar.bottom': {
-			layout: [['banner.footer'], ['paginationInfo', '_', 'pagination']],
-		},
-		'searchSnappy mobileSidebar': {
-			layout: ['filterSummary', 'facets', 'banner.left'],
-		},
 	},
 	desktop: {
 		...searchSnappyThemeComponentProps.desktop,
-		searchSnappy: {
-			...(searchSnappyThemeComponentProps.desktop?.['searchSnappy'] || {}),
-		},
-		'searchSnappy toolbar.top': {
-			layout: [['searchHeader'], ['banner.header'], ['button.sidebar-toggle', '_', 'sortBy', 'perPage', 'layoutSelector'], ['banner.banner']],
-		},
-		'searchSnappy toolbar.bottom': {
-			layout: [['banner.footer'], ['paginationInfo', '_', 'pagination']],
-		},
 	},
 };

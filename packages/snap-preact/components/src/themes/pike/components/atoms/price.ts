@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Price component
 const priceStyleScript = (props: PriceProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({

@@ -9,7 +9,6 @@ const gridSize = 52;
 
 // CSS in JS style script for the Grid component
 const gridStyleScript = (props: Partial<GridProps>) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const activeColor = new Color(variables?.colors?.primary);
 	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
@@ -72,11 +71,6 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 				[`&:not([style]), ${lightColors}`]: {
 					'&:after': {
 						opacity: 1,
-					},
-				},
-				'&:not([style])': {
-					'&:after': {
-						backgroundColor: custom.colors.gray01,
 					},
 				},
 				'&[style*="url"]': {

@@ -6,7 +6,6 @@ import Color from 'color';
 
 // CSS in JS style script for the Button component
 const buttonStyleScript = (props: ButtonProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const buttonDisabledSelectors = '&.ss__button--disabled';
 	const buttonSelector = `&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`;

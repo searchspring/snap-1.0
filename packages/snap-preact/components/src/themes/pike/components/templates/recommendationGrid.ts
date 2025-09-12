@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundle component
 const recommendationGridStyleScript = (props: RecommendationGridProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
@@ -70,8 +69,5 @@ export const recommendationGrid: ThemeComponent<'recommendationGrid', Recommenda
 	},
 	desktop: {
 		...recommendationGridThemeComponentProps.desktop,
-		recommendationGrid: {
-			...(recommendationGridThemeComponentProps.desktop?.['recommendationGrid'] || {}),
-		},
 	},
 };

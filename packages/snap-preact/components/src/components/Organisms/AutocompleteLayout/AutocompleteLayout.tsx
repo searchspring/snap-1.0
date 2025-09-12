@@ -306,7 +306,6 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 	const {
 		facetsTitle,
 		contentTitle,
-		layout,
 		column1,
 		column2,
 		column3,
@@ -320,6 +319,8 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		internalClassName,
 		controller,
 	} = props;
+	let layout = props.layout;
+
 	const subProps: AutocompleteSubProps = {
 		button: {
 			internalClassName: 'ss__autocomplete__button--see-more',
@@ -338,6 +339,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		},
 		termsList: {
 			internalClassName: 'ss__autocomplete__terms-list',
+			verticalOptions: props.layout == 'terms' || props.layout == 'mini' ? false : true,
 			// default props
 			controller: controller,
 			// inherited props
@@ -349,6 +351,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		},
 		terms: {
 			internalClassName: 'ss__autocomplete__terms',
+			vertical: props.layout == 'terms' || props.layout == 'mini' ? false : true,
 			// default props
 			controller: controller,
 			// inherited props
@@ -708,12 +711,31 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		}
 	};
 
+	if (typeof props.layout === 'string') {
+		if (props.layout === 'terms') {
+			layout = [['termsList'], ['_', 'button.see-more']];
+		}
+		if (props.layout === 'mini') {
+			layout = [['termsList'], ['content'], ['_', 'button.see-more']];
+		}
+
+		if (props.layout === 'standard') {
+			layout = [['c1', 'c2', 'c3']];
+		}
+	}
+
 	/***************************************/
 	return visible && layout?.length ? (
 		<CacheProvider>
 			<div
 				{...styling}
-				className={classnames('ss__autocomplete', className, internalClassName)}
+				className={classnames(
+					'ss__autocomplete',
+					{ 'ss__autocomplete--terms': props.layout === 'terms' },
+					{ 'ss__autocomplete--mini': props.layout === 'mini' },
+					className,
+					internalClassName
+				)}
 				onClick={(e) => e.stopPropagation()}
 				ref={(e) => useA11y(e, 0, false, reset)}
 			>
@@ -726,7 +748,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 					{...mergedLang.closeButton?.all}
 				></span>
 
-				{layout?.map((module) => {
+				{(layout as ModuleNamesWithColumns[])?.map((module) => {
 					return findModule(module as ModuleNames);
 				})}
 			</div>
@@ -763,6 +785,7 @@ export type ModuleNames =
 	| 'banner.footer'
 	| 'banner.header';
 type ColumnsNames = 'c1' | 'c2' | 'c3' | 'c4';
+type PrebuiltLayouts = 'terms' | 'mini' | 'standard';
 type ModuleNamesWithColumns = ModuleNames | ColumnsNames | ModuleNames[] | ColumnsNames[];
 
 type Column = {
@@ -774,7 +797,7 @@ type Column = {
 export interface AutocompleteLayoutProps extends ComponentProps {
 	input: Element | string;
 	controller: AutocompleteController;
-	layout?: ModuleNamesWithColumns[];
+	layout?: ModuleNamesWithColumns[] | PrebuiltLayouts;
 
 	column1?: Column;
 	column2?: Column;

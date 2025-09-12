@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FilterSummary component
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
@@ -14,9 +13,6 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 		flexFlow: 'row wrap',
 		alignItems: 'center',
 		'&.ss__filter-summary--list': {
-			'&, .ss__filter-summary__filters': {
-				display: 'block',
-			},
 			'.ss__filter-summary__title:after': {
 				display: 'none',
 			},
@@ -27,31 +23,14 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 						marginBottom: 0,
 					},
 					'.ss__filter__button': {
-						padding: `0 0 0 ${16 + custom.spacing.x2}px`,
-						border: 0,
-						'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
-							backgroundColor: 'transparent',
-						},
 						'.ss__button__content': {
-							'&:before, .ss__icon': {
-								top: '1px',
-								left: 0,
-							},
-							'&:before': {
-								content: '""',
-								display: 'block',
-								position: 'absolute',
-								width: `${custom.sizes.icon14}px`,
-								height: `${custom.sizes.icon14}px`,
+							'.ss__filter__button__icon': {
 								backgroundColor: custom.colors.gray01,
 								border: `1px solid ${darkGray}`,
 							},
 							'.ss__icon': {
-								margin: '4px',
 								width: `${custom.sizes.icon08}px`,
 								height: `${custom.sizes.icon08}px`,
-								fill: variables?.colors?.primary,
-								stroke: variables?.colors?.primary,
 							},
 						},
 					},

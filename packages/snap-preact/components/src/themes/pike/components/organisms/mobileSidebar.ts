@@ -8,7 +8,6 @@ const enableSummaryList = true;
 
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const headerHeight = 60;
 	const footerHeight = 75;
@@ -129,7 +128,7 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			icon: custom.icons.close,
 		},
 		'mobileSidebar filterSummary': {
-			className: enableSummaryList ? 'ss__filter-summary--list' : '',
+			type: enableSummaryList ? 'list' : 'inline',
 		},
 	},
 };

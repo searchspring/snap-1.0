@@ -57,47 +57,14 @@ export const searchBoca: ThemeComponent<'searchBoca', SearchBocaProps> = {
 		'searchBoca sidebar': {
 			hideTitleText: true,
 		},
-		'searchBoca toolbar.top': {
-			layout: [['_', 'searchHeader', '_'], ['banner.header']],
-		},
-		'searchBoca toolbar.middle': {
-			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
 	},
 	mobile: {
 		...searchBocaThemeComponentProps.mobile,
-		searchBoca: {
-			...(searchBocaThemeComponentProps.mobile?.['searchBoca'] || {}),
-		},
-		'searchBoca toolbar.top': {
-			layout: [['_', 'searchHeader', '_'], ['banner.header']],
-		},
-		'searchBoca toolbar.middle': {
-			layout: [['mobileSidebar', '_', 'paginationInfo', '_', 'layoutSelector'], ['banner.banner']],
-		},
 	},
 	tablet: {
 		...searchBocaThemeComponentProps.tablet,
-		searchBoca: {
-			...(searchBocaThemeComponentProps.tablet?.['searchBoca'] || {}),
-		},
-		'searchBoca toolbar.top': {
-			layout: [['_', 'searchHeader', '_'], ['banner.header']],
-		},
-		'searchBoca toolbar.middle': {
-			layout: [['mobileSidebar', '_', 'paginationInfo', '_', 'layoutSelector'], ['banner.banner']],
-		},
 	},
 	desktop: {
 		...searchBocaThemeComponentProps.desktop,
-		searchBoca: {
-			...(searchBocaThemeComponentProps.desktop?.['searchBoca'] || {}),
-		},
-		'searchBoca toolbar.top': {
-			layout: [['_', 'searchHeader', '_'], ['banner.header']],
-		},
-		'searchBoca toolbar.middle': {
-			layout: [['button.sidebar-toggle', 'paginationInfo', '_', 'sortBy', 'perPage'], ['banner.banner']],
-		},
 	},
 };

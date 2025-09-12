@@ -49,47 +49,14 @@ export const searchSnapnco: ThemeComponent<'searchSnapnco', SearchSnapncoProps> 
 		'searchSnapnco sidebar': {
 			hideTitleText: true,
 		},
-		'searchSnapnco toolbar.top': {
-			layout: [['banner.header']],
-		},
-		'searchSnapnco toolbar.middle': {
-			layout: [['searchHeader', '_', 'paginationInfo', 'sortBy'], ['banner.banner']],
-		},
 	},
 	mobile: {
 		...searchSnapncoThemeComponentProps.mobile,
-		searchSnapnco: {
-			...(searchSnapncoThemeComponentProps.mobile?.['searchSnapnco'] || {}),
-		},
-		'searchSnapnco toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchSnapnco toolbar.middle': {
-			layout: [['paginationInfo', '_', 'mobileSidebar'], ['banner.banner']],
-		},
 	},
 	tablet: {
 		...searchSnapncoThemeComponentProps.tablet,
-		searchSnapnco: {
-			...(searchSnapncoThemeComponentProps.tablet?.['searchSnapnco'] || {}),
-		},
-		'searchSnapnco toolbar.top': {
-			layout: [['searchHeader'], ['banner.header']],
-		},
-		'searchSnapnco toolbar.middle': {
-			layout: [['paginationInfo', '_', 'mobileSidebar'], ['banner.banner']],
-		},
 	},
 	desktop: {
 		...searchSnapncoThemeComponentProps.desktop,
-		searchSnapnco: {
-			...(searchSnapncoThemeComponentProps.desktop?.['searchSnapnco'] || {}),
-		},
-		'searchSnapnco toolbar.top': {
-			layout: [['banner.header']],
-		},
-		'searchSnapnco toolbar.middle': {
-			layout: [['searchHeader', '_', 'paginationInfo', 'sortBy'], ['banner.banner']],
-		},
 	},
 };
