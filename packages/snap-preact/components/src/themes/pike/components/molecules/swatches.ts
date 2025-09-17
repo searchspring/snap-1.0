@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import type { SwatchesProps } from '../../../../components/Molecules/Swatches';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
+import Color from 'color';
 
 // Swatch carousel sizes and spacing
 const swatchSize = 30;
@@ -11,11 +12,9 @@ const swatchSpacing = custom.spacing.x1;
 const swatchesStyleScript = (props: SwatchesProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const activeColor = new Color(variables?.colors?.primary);
+	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
-
-	// light colors selector
-	const swatchesPrefix = '&.ss__swatches__carousel__swatch';
-	const lightColors = `${swatchesPrefix}--white, ${swatchesPrefix}--ivory, ${swatchesPrefix}--clear, ${swatchesPrefix}--transparent`;
 
 	// shared styles for swatches
 	const sharedStyles = css({
@@ -75,7 +74,10 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 				},
 				'.ss__swatches__carousel__swatch': {
 					position: 'relative',
-					'&, &:before, &:after': {
+					aspectRatio: 1,
+					color: variables?.colors?.text,
+					overflow: 'hidden',
+					'&, &:before, &:after, *': {
 						boxSizing: 'border-box',
 					},
 					'&:before, &:after': {
@@ -90,61 +92,114 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 						right: 0,
 						transform: 'none',
 						opacity: 0,
-						visibility: 'hidden',
 					},
 					'&:before': {
-						border: `1px solid ${custom.colors.black}`,
-					},
-					'&:after': {
 						border: `3px solid ${custom.colors.white}`,
 						margin: '1px',
 					},
-					[`&:not([style]), ${lightColors}`]: {
-						'&:before': {
-							borderColor: custom.colors.gray02,
-							opacity: 1,
-							visibility: 'visible',
-						},
-					},
-					'&[style*="url"]': {
-						backgroundRepeat: 'no-repeat !important',
-						backgroundSize: 'cover !important',
-						backgroundPosition: 'center !important',
-						transition: 'transform 0.5s ease-in-out',
-						'&:hover': {
-							transform: 'scale(1.5)',
-						},
-					},
-				},
-				'.ss__swatches__carousel__swatch--selected': {
-					'&:before, &:after': {
-						visibility: 'visible',
-					},
-					'&:before': {
-						opacity: 0.3,
-					},
 					'&:after': {
-						opacity: 1,
+						border: `1px solid ${custom.colors.black}`,
 					},
-					[`&:not([style]), ${lightColors}`]: {
+					'&:has(.ss__swatches__carousel__swatch__inner .ss__image), &:not(.ss__swatches__carousel__swatch--dark)': {
+						'&:after': {
+							opacity: 0.15,
+						},
+					},
+					'&.ss__swatches__carousel__swatch--dark, &:has(.ss__swatches__carousel__swatch__inner--grey)': {
+						'.ss__swatches__carousel__swatch__inner': {
+							'.ss__swatches__carousel__swatch__value': {
+								color: fontColor.hex(),
+							},
+						},
+					},
+					'&.ss__swatches__carousel__swatch--selected': {
 						'&:before': {
-							borderColor: darkGray,
 							opacity: 1,
 						},
-						'&:after': {
-							borderColor: custom.colors.gray01,
+						'&, &:not(.ss__swatches__carousel__swatch--dark)': {
+							'&:after': {
+								opacity: 0.3,
+							},
+						},
+						'&:has(.ss__swatches__carousel__swatch__inner:not([style]))': {
+							backgroundColor: activeColor.hex(),
+							'&:after': {
+								borderColor: activeColor.hex(),
+								opacity: 1,
+							},
+							'.ss__swatches__carousel__swatch__inner': {
+								'.ss__swatches__carousel__swatch__value': {
+									color: fontColor.hex(),
+								},
+							},
+						},
+						'&:has(.ss__swatches__carousel__swatch__inner .ss__image)': {
+							backgroundColor: 'transparent',
+							'&:after': {
+								borderColor: custom.colors.black,
+								opacity: 0.3,
+							},
+							'.ss__swatches__carousel__swatch__inner': {
+								'.ss__swatches__carousel__swatch__value': {
+									color: variables?.colors?.text,
+								},
+							},
+						},
+						'.ss__swatches__carousel__swatch__inner': {
+							'.ss__swatches__carousel__swatch__value': {
+								fontWeight: custom.fonts.weight01,
+							},
 						},
 					},
-					'&[style*="url"]': {
-						'&:hover': {
-							transform: 'none',
+					'&.ss__swatches__carousel__swatch--disabled, &.ss__swatches__carousel__swatch--unavailable': {
+						opacity: 1,
+						cursor: 'not-allowed',
+						pointerEvents: 'none',
+						'.ss__swatches__carousel__swatch__inner:after': {
+							content: '""',
+							display: 'block',
+							position: 'absolute',
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							zIndex: 3,
+							margin: 'auto',
+							backgroundColor: darkGray.replace('#', ''),
+							backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'center center',
+							backgroundImage: `url("data:image/svg+xml,%3Csvg style=%27transform: rotate%28-45deg%29%27 xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 56 56%27 preserveAspectRatio=%27xMinYMid%27%3E%3Cpath fill=%27%23${darkGray.replace(
+								'#',
+								''
+							)}%27 d=%27M0 23.297h56v9.406h-56v-9.406z%27 /%3E%3C/svg%3E")`,
 						},
 					},
-				},
-				'.ss__swatches__carousel__swatch.ss__swatches__carousel__swatch--unavailable': {
-					opacity: 1,
-					cursor: 'not-allowed',
-					pointerEvents: 'none',
+					'.ss__swatches__carousel__swatch__inner': {
+						'&[style*="url"]': {
+							backgroundRepeat: 'no-repeat !important',
+							backgroundSize: 'cover !important',
+							backgroundPosition: 'center !important',
+						},
+						'.ss__image': {
+							img: {
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								objectPosition: 'center center',
+							},
+						},
+						'.ss__swatches__carousel__swatch__value': {
+							display: 'block',
+							position: 'absolute',
+							zIndex: 2,
+							maxWidth: `calc(100% - ${custom.spacing.x2}px)`,
+							maxHeight: `calc(100% - ${custom.spacing.x2}px)`,
+							overflow: 'hidden',
+							textAlign: 'center',
+							fontSize: custom.utils.convertPxToEm(12),
+							lineHeight: 1,
+						},
+					},
 				},
 			},
 		},
@@ -156,8 +211,8 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 		{
 			'.ss__grid': {
 				'.ss__grid__options': {
-					gridTemplateColumns: `repeat(auto-fill, minmax(${swatchSize}px, 1fr))`,
-					'.ss__grid__option': {
+					'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
+						width: `${swatchSize}px`,
 						maxHeight: `${swatchSize}px`,
 					},
 				},
@@ -178,7 +233,6 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 	default: {
 		swatches: {
 			themeStyleScript: swatchesStyleScript,
-			type: 'grid',
 		},
 		'swatches carousel': {
 			autoAdjustSlides: false,

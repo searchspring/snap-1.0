@@ -6,15 +6,15 @@ import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: 'c52bzz', // prvb79 // 8uyt2m // c52bzz (for variant options)
+		siteId: 'prvb79', // prvb79 // 8uyt2m // c52bzz (for variant options)
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
 	},
 	components: {
-		result: {
-			CustomResult: async () => (await import('./components/Result')).CustomResult,
-		},
+		// result: {
+		// 	CustomResult: async () => (await import('./components/Result')).CustomResult,
+		// },
 	},
 	theme: {
 		extends: 'pike',
@@ -69,7 +69,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchHorizontal',
+				component: 'Search',
 			},
 		],
 		settings: {

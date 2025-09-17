@@ -6,7 +6,6 @@ import { custom } from '../../custom';
 // CSS in JS style script for the FacetPaletteOptions component
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const variables = props?.theme?.variables;
-	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
 
@@ -14,10 +13,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const radius = 0;
 	const radiusUnit = 'px';
 	const paletteRadius = radius ? `${radius}${radiusUnit}` : `0`;
-
-	// light colors selector
-	const palettePrefix = '&.ss__facet-palette-options__option__palette';
-	const lightColors = `${palettePrefix}--white, ${palettePrefix}--ivory, ${palettePrefix}--clear, ${palettePrefix}--transparent`;
 
 	// determine inner border width
 	let innerBorder = 5;
@@ -35,6 +30,23 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					border: 0,
 					borderRadius: 0,
 					padding: 0,
+				},
+			},
+			'&:not(.ss__facet-palette-options__option--dark), &:has(.ss__image)': {
+				'.ss__facet-palette-options__option__wrapper .ss__facet-palette-options__option__palette': {
+					'&:after': {
+						opacity: 0.15,
+					},
+				},
+			},
+			'&.ss__facet-palette-options__option--filtered': {
+				'.ss__facet-palette-options__option__wrapper .ss__facet-palette-options__option__palette': {
+					'&:before': {
+						opacity: 1,
+					},
+					'&:after': {
+						opacity: 0.3,
+					},
 				},
 			},
 			'.ss__facet-palette-options__option__wrapper': {
@@ -55,29 +67,25 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 						content: '""',
 						display: 'block',
 						opacity: 0,
-						visibility: 'hidden',
 					},
 					'&:before': {
-						border: `1px solid ${custom.colors.black}`,
-					},
-					'&:after': {
 						border: `${innerBorder}px solid ${custom.colors.white}`,
 						margin: '1px',
 					},
-					[`&:not([style]), ${lightColors}`]: {
-						'&:before': {
-							borderColor: custom.colors.gray02,
-							opacity: 1,
-							visibility: 'visible',
-						},
+					'&:after': {
+						border: `1px solid ${custom.colors.black}`,
 					},
 					'&[style*="url"]': {
 						backgroundRepeat: 'no-repeat !important',
 						backgroundSize: 'cover !important',
 						backgroundPosition: 'center !important',
-						transition: 'transform 0.5s ease-in-out',
-						'&:hover': {
-							transform: 'scale(1.5)',
+					},
+					'.ss__image': {
+						img: {
+							width: '100%',
+							height: '100%',
+							objectFit: 'cover',
+							objectPosition: 'center center',
 						},
 					},
 				},
@@ -88,37 +96,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				padding: props?.layout == 'list' ? `0 ${custom.spacing.x1}px` : ``,
 				fontSize: custom.utils.convertPxToEm(10),
 				color: lightGray,
-			},
-		},
-		'.ss__facet-palette-options__option.ss__facet-palette-options__option--filtered': {
-			fontWeight: custom.fonts.weight01,
-			color: variables?.colors?.primary,
-			'.ss__facet-palette-options__option__wrapper': {
-				'.ss__facet-palette-options__option__palette': {
-					'&:before, &:after': {
-						visibility: 'visible',
-					},
-					'&:before': {
-						opacity: 0.3,
-					},
-					'&:after': {
-						opacity: 1,
-					},
-					[`&:not([style]), ${lightColors}`]: {
-						'&:before': {
-							borderColor: darkGray,
-							opacity: 1,
-						},
-						'&:after': {
-							borderColor: custom.colors.gray01,
-						},
-					},
-					'&[style*="url"]': {
-						'&:hover': {
-							transform: 'none',
-						},
-					},
-				},
 			},
 		},
 	});
@@ -218,7 +195,6 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 			hideIcon: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
-			layout: 'grid',
 			colorMapping: {
 				brown: {
 					background: custom.colors.brown,

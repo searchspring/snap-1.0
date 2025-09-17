@@ -140,7 +140,6 @@ export const variantSelection: ThemeComponent<'variantSelection', VariantSelecti
 	default: {
 		variantSelection: {
 			themeStyleScript: variantSelectionStyleScript,
-			type: 'swatches',
 		},
 		'variantSelection dropdown icon': {
 			size: `${custom.sizes.icon12}px`,
