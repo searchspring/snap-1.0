@@ -10,6 +10,21 @@ const searchsecondaryStylescript = (props: SearchHorizontalProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
+		'&.ss__search-horizontal--sidebar-open': {
+			'.ss__button': {
+				'.ss__icon--filter': {
+					transform: 'rotate(-180deg)',
+				},
+				'.ss__icon--filters': {
+					circle: {
+						'&:last-child': {
+							transform: 'translateX(-35%)',
+						},
+						transform: 'translateX(35%)',
+					},
+				},
+			},
+		},
 		'.ss__search-horizontal__header-section, .ss__search-horizontal__main-section': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			'.ss__toolbar .ss__layout': {
@@ -64,9 +79,6 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 		searchHorizontal: {
 			...(searchHorizontalThemeComponentProps.default?.['searchHorizontal'] || {}),
 			themeStyleScript: searchsecondaryStylescript,
-		},
-		'searchHorizontal button.sidebar-toggle': {
-			icon: custom.icons.filter,
 		},
 	},
 	mobile: {

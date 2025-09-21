@@ -9,6 +9,10 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
+		'.ss__layout': {
+			gap: `${custom.spacing.x2}px`,
+			margin: 0,
+		},
 		'&[class*="bottom"]': {
 			'.ss__pagination-info': {
 				fontSize: custom.utils.convertPxToEm(14),
@@ -16,10 +20,6 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 		},
 		'.ss__pagination-info': {
 			fontSize: custom.utils.convertPxToEm(16),
-		},
-		'.ss__layout': {
-			gap: `${custom.spacing.x2}px`,
-			margin: 0,
 		},
 		[`@media (max-width: ${mobileBp}px)`]: {
 			'.ss__pagination-info': {
@@ -34,6 +34,10 @@ export const toolbar: ThemeComponent<'toolbar', ToolbarProps> = {
 	default: {
 		toolbar: {
 			themeStyleScript: toolbarStyleScript,
+		},
+		'toolbar filterSummary': {
+			title: `Current Filters:`,
+			className: 'ss__filter-summary--aligned',
 		},
 	},
 };

@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import type { SlideoutProps } from '../../../../components/Molecules/Slideout';
 import { ThemeComponent } from '../../../../providers';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Slideout component
 const slideoutStyleScript = (props: SlideoutProps) => {
@@ -16,6 +17,9 @@ export const slideout: ThemeComponent<'slideout', SlideoutProps> = {
 		slideout: {
 			themeStyleScript: slideoutStyleScript,
 			overlayColor: '',
+		},
+		'slideout button.slideout': {
+			icon: custom.icons.filter,
 		},
 	},
 };

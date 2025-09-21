@@ -7,50 +7,105 @@ import { custom } from '../../custom';
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 	const variables = props?.theme?.variables;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
+	const listSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
-	return css({
-		display: 'flex',
-		flexFlow: 'row wrap',
-		alignItems: 'center',
-		'&.ss__filter-summary--list': {
-			'.ss__filter-summary__title:after': {
-				display: 'none',
+	// shared palette styles
+	const sharedStyles = css({
+		'&.ss__filter-summary--aligned': {
+			display: 'flex',
+			flexFlow: 'row wrap',
+			'.ss__filter-summary__title, .ss__filter-summary__filters': {
+				minWidth: '1px',
+			},
+			'.ss__filter-summary__title': {
+				flex: '0 1 auto',
+				padding: `0 ${custom.spacing.x2}px 0 0`,
 			},
 			'.ss__filter-summary__filters': {
-				'.ss__filter': {
-					margin: `0 0 ${custom.spacing.x1}px 0`,
-					'&:last-of-type': {
-						marginBottom: 0,
+				flex: '1 1 0%',
+			},
+			'&.ss__filter-summary--inline': {
+				'.ss__filter-summary__title': {
+					paddingTop: `${custom.spacing.x1}px`,
+					paddingBottom: `${custom.spacing.x1}px`,
+				},
+			},
+			'&.ss__filter-summary--list': {
+				'.ss__filter-summary__filters': {
+					display: 'flex',
+					flexFlow: 'row wrap',
+					alignItems: 'center',
+					gap: `${custom.spacing.x2}px`,
+					'.ss__filter': {
+						margin: 0,
 					},
-					'.ss__filter__button': {
-						'.ss__button__content': {
-							'.ss__filter__button__icon': {
-								backgroundColor: custom.colors.gray01,
-								border: `1px solid ${darkGray}`,
-							},
-							'.ss__icon': {
-								width: `${custom.sizes.icon08}px`,
-								height: `${custom.sizes.icon08}px`,
+				},
+			},
+		},
+		'.ss__filter-summary__title': {
+			padding: 0,
+			fontSize: custom.utils.convertPxToEm(14),
+			fontWeight: custom.fonts.weight02,
+			color: variables?.colors?.secondary,
+		},
+		'.ss__filter-summary__filters': {
+			margin: 0,
+		},
+	});
+
+	// inline filter summary styles
+	const inlineStyles = css([
+		sharedStyles,
+		{
+			'&.ss__filter-summary--inline': {
+				'.ss__filter-summary__filters': {
+					gap: `${custom.spacing.x1}px`,
+				},
+			},
+		},
+	]);
+
+	// list filter summary styles
+	const listStyles = css([
+		sharedStyles,
+		{
+			'&.ss__filter-summary--list': {
+				'.ss__filter-summary__filters': {
+					'.ss__filter': {
+						margin: `0 0 ${custom.spacing.x1}px 0`,
+						'&:last-of-type': {
+							marginBottom: 0,
+						},
+						'.ss__filter__button': {
+							'.ss__button__content': {
+								position: 'relative',
+								padding: `0 0 0 ${listSpacing}px`,
+								'.ss__filter__button__icon': {
+									position: 'absolute',
+									top: '1.5px',
+									left: 0,
+									padding: '3px',
+									backgroundColor: custom.colors.gray01,
+									border: `1px solid ${darkGray}`,
+									width: `${custom.sizes.icon16}px`,
+									height: `${custom.sizes.icon16}px`,
+									boxSizing: 'border-box',
+								},
+								'.ss__filter__label, .ss__filter__value': {
+									margin: 0,
+								},
+								'.ss__filter__label': {
+									padding: '0 4px 0 0',
+								},
 							},
 						},
 					},
 				},
 			},
 		},
-		'.ss__filter-summary__title': {
-			padding: `0 ${custom.spacing.x1}px 0 0`,
-			fontSize: custom.utils.convertPxToEm(14),
-			fontWeight: custom.fonts.weight02,
-			color: variables?.colors?.secondary,
-			'&:after': {
-				content: '":"',
-			},
-		},
-		'.ss__filter-summary__filters': {
-			gap: `${custom.spacing.x1}px`,
-			margin: 0,
-		},
-	});
+	]);
+
+	return props?.type == 'list' ? listStyles : inlineStyles;
 };
 
 // FilterSummary component props

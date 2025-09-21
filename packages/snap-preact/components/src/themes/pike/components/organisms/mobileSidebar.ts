@@ -3,9 +3,6 @@ import type { MobileSidebarProps } from '../../../../components/Organisms/Mobile
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
-// Flag to determine if filter summary should be list style in sidebar
-const enableSummaryList = true;
-
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	const variables = props?.theme?.variables;
@@ -122,13 +119,13 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 	default: {
 		mobileSidebar: {
 			themeStyleScript: mobileSidebarStyleScript,
-			openButtonIcon: custom.icons.filter,
 		},
 		'mobileSidebar button.close': {
 			icon: custom.icons.close,
 		},
-		'mobileSidebar filterSummary': {
-			type: enableSummaryList ? 'list' : 'inline',
+		'mobileSidebar toolbar filterSummary': {
+			title: 'Current Filters',
+			className: '',
 		},
 	},
 };

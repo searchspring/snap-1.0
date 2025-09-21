@@ -48,7 +48,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 						},
 					},
 					'.ss__variant-selection__icon': {
-						transition: 'transform ease .5s',
+						transition: 'transform ease 0.5s',
 					},
 				},
 				'.ss__dropdown__content': {

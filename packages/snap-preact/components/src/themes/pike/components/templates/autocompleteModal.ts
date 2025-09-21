@@ -17,11 +17,11 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 			},
 			'.ss__modal__content': {
 				backgroundColor: 'transparent',
+				justifyContent: 'center',
 				'&, .ss__autocomplete-modal__inner': {
 					position: 'static',
 					display: 'flex',
 					flexFlow: 'column nowrap',
-					justifyContent: 'center',
 				},
 				'.ss__autocomplete-modal__inner': {
 					width: props?.width,

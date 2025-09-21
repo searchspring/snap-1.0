@@ -10,6 +10,21 @@ const searchStyleScript = (props: SearchProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
 	return css({
+		'&.ss__search--sidebar-open': {
+			'.ss__button': {
+				'.ss__icon--filter': {
+					transform: 'rotate(-180deg)',
+				},
+				'.ss__icon--filters': {
+					circle: {
+						'&:last-child': {
+							transform: 'translateX(-35%)',
+						},
+						transform: 'translateX(35%)',
+					},
+				},
+			},
+		},
 		'.ss__search__header-section, .ss__search__main-section': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			'.ss__toolbar .ss__layout': {
@@ -49,11 +64,8 @@ export const search: ThemeComponent<'search', SearchProps> = {
 			...(searchThemeComponentProps.default?.['search'] || {}),
 			themeStyleScript: searchStyleScript,
 		},
-		'search button.sidebar-toggle': {
-			icon: custom.icons.filter,
-		},
-		'search sidebar': {
-			hideTitleText: false,
+		'search filterSummary': {
+			type: 'list',
 		},
 	},
 	mobile: {

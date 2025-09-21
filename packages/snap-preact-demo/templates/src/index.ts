@@ -34,7 +34,7 @@ let config: SnapTemplatesConfig = {
 		style: globalStyles,
 		overrides: {
 			default: {
-				// 'autocompleteTemplate': {
+				// 'autocompleteLayout': {
 				// 	className: '',
 				// 	width: '200px',
 				// },
@@ -69,7 +69,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'Search',
+				component: 'SearchHorizontal',
 			},
 		],
 		settings: {
@@ -85,7 +85,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: 'input.searchspring-ac',
-				component: 'AutocompleteSlideout',
+				component: 'AutocompleteModal',
 			},
 		],
 	},

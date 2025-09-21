@@ -3,9 +3,6 @@ import type { SidebarProps } from '../../../../components/Organisms/Sidebar';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
-// Flag to determine if filter summary should be list style in sidebar
-const enableSummaryList = true;
-
 // CSS in JS style script for the Sidebar component
 const sidebarStyleScript = (props: SidebarProps) => {
 	const variables = props?.theme?.variables;
@@ -53,8 +50,9 @@ export const sidebar: ThemeComponent<'sidebar', SidebarProps> = {
 		sidebar: {
 			themeStyleScript: sidebarStyleScript,
 		},
-		'sidebar filterSummary': {
-			type: enableSummaryList ? 'list' : 'inline',
+		'sidebar toolbar filterSummary': {
+			title: 'Current Filters',
+			className: '',
 		},
 	},
 };

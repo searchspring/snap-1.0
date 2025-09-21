@@ -28,7 +28,7 @@ const facetStyleScript = (props: FacetProps) => {
 			fontSize: custom.utils.convertPxToEm(16),
 			fontWeight: custom.fonts.weight02,
 			'.ss__icon': {
-				transition: 'transform ease .5s',
+				transition: 'transform ease 0.5s',
 				transform: 'rotate(180deg)',
 				width: `${custom.sizes.icon12}px`,
 				height: `${custom.sizes.icon12}px`,
@@ -75,6 +75,20 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
+			display: {
+				list: {
+					limit: 10,
+				},
+				hierarchy: {
+					limit: 10,
+				},
+				grid: {
+					limit: 12,
+				},
+				palette: {
+					limit: 12,
+				},
+			},
 		},
 	},
 };

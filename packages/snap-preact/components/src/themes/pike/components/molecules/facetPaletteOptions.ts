@@ -32,13 +32,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					padding: 0,
 				},
 			},
-			'&:not(.ss__facet-palette-options__option--dark), &:has(.ss__image)': {
-				'.ss__facet-palette-options__option__wrapper .ss__facet-palette-options__option__palette': {
-					'&:after': {
-						opacity: 0.15,
-					},
-				},
-			},
 			'&.ss__facet-palette-options__option--filtered': {
 				'.ss__facet-palette-options__option__wrapper .ss__facet-palette-options__option__palette': {
 					'&:before': {
@@ -66,14 +59,15 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					'&:before, &:after': {
 						content: '""',
 						display: 'block',
-						opacity: 0,
 					},
 					'&:before': {
 						border: `${innerBorder}px solid ${custom.colors.white}`,
 						margin: '1px',
+						opacity: 0,
 					},
 					'&:after': {
 						border: `1px solid ${custom.colors.black}`,
+						opacity: 0.15,
 					},
 					'&[style*="url"]': {
 						backgroundRepeat: 'no-repeat !important',

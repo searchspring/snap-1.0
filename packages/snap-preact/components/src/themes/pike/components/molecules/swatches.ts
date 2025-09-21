@@ -91,19 +91,15 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 						left: 0,
 						right: 0,
 						transform: 'none',
-						opacity: 0,
 					},
 					'&:before': {
 						border: `3px solid ${custom.colors.white}`,
 						margin: '1px',
+						opacity: 0,
 					},
 					'&:after': {
 						border: `1px solid ${custom.colors.black}`,
-					},
-					'&:has(.ss__swatches__carousel__swatch__inner .ss__image), &:not(.ss__swatches__carousel__swatch--dark)': {
-						'&:after': {
-							opacity: 0.15,
-						},
+						opacity: 0.15,
 					},
 					'&.ss__swatches__carousel__swatch--dark, &:has(.ss__swatches__carousel__swatch__inner--grey)': {
 						'.ss__swatches__carousel__swatch__inner': {
@@ -116,10 +112,8 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 						'&:before': {
 							opacity: 1,
 						},
-						'&, &:not(.ss__swatches__carousel__swatch--dark)': {
-							'&:after': {
-								opacity: 0.3,
-							},
+						'&:after': {
+							opacity: 0.3,
 						},
 						'&:has(.ss__swatches__carousel__swatch__inner:not([style]))': {
 							backgroundColor: activeColor.hex(),

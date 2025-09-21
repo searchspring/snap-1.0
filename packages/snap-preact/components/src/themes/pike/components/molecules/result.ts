@@ -20,6 +20,9 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 			},
 		},
+		'&.ss__result--grid': {
+			display: 'block',
+		},
 		'&.ss__result--list': {
 			display: 'flex',
 			flexFlow: 'row wrap',

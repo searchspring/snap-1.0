@@ -41,7 +41,7 @@ const selectStyleScript = (props: SelectProps) => {
 								fontWeight: 'normal',
 							},
 							'.ss__select__dropdown__button__icon': {
-								transition: 'transform ease .5s',
+								transition: 'transform ease 0.5s',
 							},
 						},
 					},

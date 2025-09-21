@@ -62,12 +62,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 					right: 0,
 					zIndex: 1,
 					border: `1px solid ${custom.colors.black}`,
-					opacity: 0,
-				},
-				'&:has(.ss__grid__option__inner .ss__image), &:not(.ss__grid__option--dark)': {
-					'&:after': {
-						opacity: 0.15,
-					},
+					opacity: 0.15,
 				},
 				'&.ss__grid__option--dark, &:has(.ss__grid__option__inner--grey)': {
 					'.ss__grid__option__inner': {
@@ -77,10 +72,8 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 					},
 				},
 				'&.ss__grid__option--selected': {
-					'&, &:not(.ss__grid__option--dark)': {
-						'&:after': {
-							opacity: 0.3,
-						},
+					'&:after': {
+						opacity: 0.3,
 					},
 					'&:has(.ss__grid__option__inner:not([style]))': {
 						backgroundColor: activeColor.hex(),

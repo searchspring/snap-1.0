@@ -12,7 +12,7 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 		'h1, h2, h3, h4, h5, h6, ul': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
 		},
-		'h1, h2, h3, h4, h5, h6': {
+		'h1, h2, h3, h4, h5, h6, .ss__no-results__recommendations .ss__recommendation .ss__recommendation__title': {
 			fontSize: custom.utils.convertPxToEm(20),
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
@@ -44,7 +44,7 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 			},
 		},
 		[`@media (max-width: ${mobileBp}px)`]: {
-			'h1, h2, h3, h4, h5, h6': {
+			'h1, h2, h3, h4, h5, h6, .ss__no-results__recommendations .ss__recommendation .ss__recommendation__title': {
 				fontSize: custom.utils.convertPxToEm(18),
 			},
 		},

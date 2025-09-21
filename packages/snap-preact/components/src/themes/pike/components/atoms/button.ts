@@ -38,6 +38,11 @@ const buttonStyleScript = (props: ButtonProps) => {
 				border: `1px solid ${buttonColor.hex()}`,
 				backgroundColor: buttonColor.hex(),
 			},
+			'.ss__icon--filters': {
+				circle: {
+					fill: buttonColor.hex(),
+				},
+			},
 		},
 		disabledStyles,
 	]);

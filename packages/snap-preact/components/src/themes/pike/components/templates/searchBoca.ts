@@ -10,6 +10,21 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		'&.ss__search-boca--sidebar-open': {
+			'.ss__button': {
+				'.ss__icon--filter': {
+					transform: 'rotate(-180deg)',
+				},
+				'.ss__icon--filters': {
+					circle: {
+						'&:last-child': {
+							transform: 'translateX(-35%)',
+						},
+						transform: 'translateX(35%)',
+					},
+				},
+			},
+		},
 		'.ss__search-boca__header-section, .ss__search-boca__main-section': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			'.ss__toolbar .ss__layout': {
@@ -51,11 +66,14 @@ export const searchBoca: ThemeComponent<'searchBoca', SearchBocaProps> = {
 			...(searchBocaThemeComponentProps.default?.['searchBoca'] || {}),
 			themeStyleScript: searchBocaStyleScript,
 		},
+		'searchBoca sidebar': {
+			hideTitleText: true,
+		},
 		'searchBoca button.sidebar-toggle': {
 			icon: custom.icons.filter,
 		},
-		'searchBoca sidebar': {
-			hideTitleText: true,
+		'searchBoca filterSummary': {
+			type: 'list',
 		},
 	},
 	mobile: {

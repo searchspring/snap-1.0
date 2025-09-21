@@ -56,6 +56,7 @@ export const custom: {
 		minus: 'minus',
 		plus: 'plus',
 		filter: 'filter',
+		filters: 'filters',
 		search: 'search',
 		sort: 'sort',
 	},

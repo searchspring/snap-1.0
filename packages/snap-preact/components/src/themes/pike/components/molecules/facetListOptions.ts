@@ -7,7 +7,7 @@ import { custom } from '../../custom';
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
-	const checkboxSpacing = 16 + custom.spacing.x2;
+	const checkboxSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
 	return css({
 		'.ss__facet-list-options__option': {

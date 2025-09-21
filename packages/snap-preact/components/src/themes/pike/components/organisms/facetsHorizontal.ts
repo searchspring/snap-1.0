@@ -85,29 +85,13 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 							whiteSpace: 'nowrap',
 						},
 						'.ss__icon': {
-							transition: 'transform ease .5s',
+							transition: 'transform ease 0.5s',
 						},
 					},
 				},
 				'.ss__dropdown__content': {
 					width: 'auto',
 					padding: `${custom.spacing.x2}px`,
-					'.ss__facet__options': {
-						maxHeight: `335px`,
-						overflowY: 'auto',
-						overflowX: 'hidden',
-						paddingRight: `${custom.spacing.x2}px`,
-						'&::-webkit-scrollbar': {
-							width: '8px',
-							height: '8px',
-						},
-						'&::-webkit-scrollbar-track': {
-							backgroundColor: custom.colors.gray01,
-						},
-						'&::-webkit-scrollbar-thumb': {
-							backgroundColor: custom.colors.gray02,
-						},
-					},
 					[columnsSelector]: {
 						display: 'flex',
 						flexFlow: 'row wrap',
@@ -125,6 +109,9 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 					'.ss__checkbox, .ss__radio, .ss__search-input .ss__search-input__input': {
 						backgroundColor: custom.colors.white,
 					},
+					'.ss__facet.ss__facet--showing-all .ss__facet__options': {
+						maxHeight: '360px',
+					},
 					'.ss__facet-hierarchy-options': {
 						'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
 							'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
@@ -140,17 +127,7 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 						},
 					},
 					'.ss__facet__show-more-less': {
-						margin: `${custom.spacing.x2}px 0 0 0`,
-						fontWeight: custom.fonts.weight01,
 						textAlign: 'center',
-						color: variables?.colors?.primary,
-						'.ss__icon': {
-							position: 'relative',
-							top: '-0.5px',
-							marginRight: `${custom.spacing.x1}px`,
-							width: `${custom.sizes.icon10}px`,
-							height: `${custom.sizes.icon10}px`,
-						},
 					},
 				},
 			},
@@ -203,24 +180,42 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		'facetsHorizontal dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,
 		},
-		'facetsHorizontal checkbox': {
-			className: 'ss__secondary',
-		},
-		'facetsHorizontal mobileSidebar checkbox': {
-			className: '',
-		},
-		'facetsHorizontal radio': {
-			className: 'ss__secondary',
-		},
-		'facetsHorizontal mobileSidebar radio': {
-			className: '',
-		},
+		// 'facetsHorizontal dropdown facet': {
+		// 	display: {
+		// 		list: {
+		// 			limit: 32
+		// 		},
+		// 		hierarchy: {
+		// 			limit: 32
+		// 		},
+		// 		grid: {
+		// 			limit: 36
+		// 		},
+		// 		palette: {
+		// 			limit: 36
+		// 		}
+		// 	}
+		// },
+		// 'facetsHorizontal mobileSidebar facet': {
+		// 	display: {
+		// 		list: {
+		// 			limit: 10
+		// 		},
+		// 		hierarchy: {
+		// 			limit: 10
+		// 		},
+		// 		grid: {
+		// 			limit: 12
+		// 		},
+		// 		palette: {
+		// 			limit: 12
+		// 		}
+		// 	}
+		// },
 		'facetsHorizontal facetGridOptions': {
-			className: 'ss__secondary',
 			gridSize: '62px',
 		},
 		'facetsHorizontal mobileSidebar facetGridOptions': {
-			className: '',
 			gridSize: '52px',
 		},
 		'facetsHorizontal facetPaletteOptions': {
@@ -228,12 +223,6 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		},
 		'facetsHorizontal mobileSidebar facetPaletteOptions': {
 			gridSize: '52px',
-		},
-		'facetsHorizontal searchInput': {
-			className: 'ss__secondary',
-		},
-		'facetsHorizontal mobileSidebar searchInput': {
-			className: '',
 		},
 	},
 };
