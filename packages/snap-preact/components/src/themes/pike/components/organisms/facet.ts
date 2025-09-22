@@ -75,20 +75,6 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
-			display: {
-				list: {
-					limit: 10,
-				},
-				hierarchy: {
-					limit: 10,
-				},
-				grid: {
-					limit: 12,
-				},
-				palette: {
-					limit: 12,
-				},
-			},
 		},
 	},
 };

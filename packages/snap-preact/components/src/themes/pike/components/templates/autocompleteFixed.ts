@@ -11,23 +11,21 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 
 	return css({
 		'.ss__modal': {
-			'.ss__slideout__overlay': {
-				display: 'none',
-			},
 			'.ss__modal__content': {
 				'.ss__autocomplete-fixed__inner': {
-					'& > .ss__search-input': {
+					'& > .ss__search-input.autocomplete-fixed__search-input': {
 						height: '40px',
-						margin: `0 0 ${custom.spacing.x1}px 0`,
-						'.ss__search-input__icons .ss__button, .ss__search-input__button--close-search-button': {
+						margin: `0 0 ${custom.spacing.x2}px 0`,
+						'.ss__button, .ss__search-input__button--close-search-button': {
 							width: '40px',
-							padding: 0,
 						},
 					},
 					'.ss__autocomplete-fixed__inner__layout-wrapper': {
-						overflowY: 'visible',
 						maxHeight: 'none',
 						width: 'auto',
+						'&, .ss__autocomplete': {
+							overflowY: 'visible',
+						},
 						'.ss__autocomplete': {
 							maxWidth: 'none',
 							width: props?.width,
@@ -66,26 +64,26 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 			...(autocompleteFixedThemeComponentProps.default?.['autocompleteFixed'] || {}),
 			themeStyleScript: autocompleteFixedStyleScript,
 			width: '900px',
-			layout: [['c1', 'c2', 'c3']],
-			column1: {
-				width: '200px',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '160px',
-				layout: ['facets'],
-			},
-			column3: {
-				width: 'auto',
-				layout: ['content', 'button.see-more'],
-			},
+			// layout: [['c1', 'c2', 'c3']],
+			// column1: {
+			// 	width: '200px',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '160px',
+			// 	layout: ['facets'],
+			// },
+			// column3: {
+			// 	width: 'auto',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
-		'autocompleteFixed searchInput': {
-			className: 'ss__secondary',
-		},
-		'autocompleteFixed facet searchInput': {
-			className: '',
-		},
+		// 'autocompleteFixed searchInput': {
+		// 	className: 'ss__secondary',
+		// },
+		// 'autocompleteFixed facet searchInput': {
+		// 	className: '',
+		// },
 		'autocompleteFixed termsList': {
 			retainHistory: true,
 			retainTrending: true,
@@ -115,15 +113,15 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		autocompleteFixed: {
 			...(autocompleteFixedThemeComponentProps.mobile?.['autocompleteFixed'] || {}),
 			width: 'auto',
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
+			// layout: [['c1', 'c2']],
+			// column1: {
+			// 	width: '100%',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '100%',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
 		'autocompleteFixed results': {
 			rows: 1,
@@ -139,19 +137,19 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		autocompleteFixed: {
 			...(autocompleteFixedThemeComponentProps.tablet?.['autocompleteFixed'] || {}),
 			width: 'auto',
-			layout: [['c1', 'c2', 'c3']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['facets'],
-			},
-			column3: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
+			// layout: [['c1', 'c2', 'c3']],
+			// column1: {
+			// 	width: '100%',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '100%',
+			// 	layout: ['facets'],
+			// },
+			// column3: {
+			// 	width: '100%',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
 		'autocompleteFixed results': {
 			rows: 1,
@@ -166,19 +164,19 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		...autocompleteFixedThemeComponentProps.desktop,
 		autocompleteFixed: {
 			...(autocompleteFixedThemeComponentProps.desktop?.['autocompleteFixed'] || {}),
-			layout: [['c1', 'c2', 'c3']],
-			column1: {
-				width: '200px',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '160px',
-				layout: ['facets'],
-			},
-			column3: {
-				width: 'auto',
-				layout: ['content', 'button.see-more'],
-			},
+			// layout: [['c1', 'c2', 'c3']],
+			// column1: {
+			// 	width: '200px',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '160px',
+			// 	layout: ['facets'],
+			// },
+			// column3: {
+			// 	width: 'auto',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
 		'autocompleteFixed results': {
 			rows: 2,

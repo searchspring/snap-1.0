@@ -4,7 +4,7 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // CSS in JS style script for the Facets component
-const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
+const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 	const tabletBp = variables?.breakpoints?.tablet || 1024;
@@ -172,7 +172,7 @@ const facetssecondaryStylescript = (props: FacetsHorizontalProps) => {
 export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizontalProps> = {
 	default: {
 		facetsHorizontal: {
-			themeStyleScript: facetssecondaryStylescript,
+			themeStyleScript: facetsHorizontalStyleScript,
 			iconExpand: custom.icons.arrowDown,
 			iconCollapse: custom.icons.arrowDown,
 			alwaysShowFiltersButton: true,

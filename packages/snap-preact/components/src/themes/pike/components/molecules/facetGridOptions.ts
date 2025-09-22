@@ -46,6 +46,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				overflow: 'hidden',
 				'&, &.ss__facet-grid-options__option__value--smaller': {
 					fontSize: custom.utils.convertPxToEm(12),
+					lineHeight: 1,
 				},
 			},
 		},

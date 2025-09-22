@@ -24,12 +24,17 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 			'.ss__search-input__icons, .ss__search-input__button--close-search-button': {
 				flex: '0 1 auto',
 			},
-			'.ss__button': {
-				padding: `0 ${custom.spacing.x2}px`,
-				border: 0,
+			'.ss__button, .ss__search-input__button--close-search-button': {
+				width: '35px',
+				boxSizing: 'border-box',
 				justifyContent: 'center',
-				'.ss__icon': {
+				'&, &:hover': {
+					border: 0,
+				},
+				'&, .ss__icon': {
 					padding: 0,
+				},
+				'.ss__icon': {
 					fill: custom.colors.white,
 					stroke: custom.colors.white,
 				},
@@ -53,7 +58,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				},
 			},
 			'.ss__search-input__icons': {
-				gap: '2px',
+				gap: '1px',
 				margin: '0 0 0 -1px',
 				backgroundColor: darkPrimary,
 			},

@@ -12,27 +12,37 @@ const autocompleteSlideoutStyleScript = (props: AutocompleteSlideoutProps) => {
 	return css({
 		border: 0,
 		padding: `${custom.spacing.x4}px`,
-		'&::-webkit-scrollbar': {
-			width: '8px',
-			height: '8px',
-		},
-		'&::-webkit-scrollbar-track': {
-			backgroundColor: custom.colors.gray01,
-		},
-		'&::-webkit-scrollbar-thumb': {
-			backgroundColor: custom.colors.gray02,
-		},
 		'& > *': {
-			'& > div.ss__search-input, & > .ss__search-input': {
+			display: 'flex',
+			flexFlow: 'column nowrap',
+			height: '100%',
+			'& > .ss__search-input.autocomplete-slideout__search-input, .ss__autocomplete': {
+				minHeight: '1px',
+				minWidth: '1px',
+			},
+			'& > .ss__search-input.autocomplete-slideout__search-input': {
+				flex: '0 1 auto',
 				height: '40px',
-				margin: `0 0 ${custom.spacing.x1}px 0`,
-				'.ss__search-input__icons .ss__button, .ss__search-input__button--close-search-button': {
+				margin: `0 0 ${custom.spacing.x2}px 0`,
+				'.ss__button, .ss__search-input__button--close-search-button': {
 					width: '40px',
-					padding: 0,
 				},
 			},
 			'.ss__autocomplete': {
+				flex: '1 1 0%',
+				alignContent: 'flex-start',
 				borderWidth: 0,
+				overflowY: 'auto',
+				'&::-webkit-scrollbar': {
+					width: '8px',
+					height: '8px',
+				},
+				'&::-webkit-scrollbar-track': {
+					backgroundColor: custom.colors.gray01,
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: custom.colors.gray02,
+				},
 				'& > .ss__autocomplete__row .ss__autocomplete__column': {
 					padding: `${custom.spacing.x4}px 0`,
 				},
@@ -51,22 +61,23 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.default?.['autocompleteSlideout'] || {}),
 			themeStyleScript: autocompleteSlideoutStyleScript,
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
+			layout: 'mini',
+			// layout: [['c1', 'c2']],
+			// column1: {
+			// 	width: '100%',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '100%',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
-		'autocompleteSlideout searchInput': {
-			className: 'ss__secondary',
-		},
-		'autocompleteSlideout facet searchInput': {
-			className: '',
-		},
+		// 'autocompleteSlideout searchInput': {
+		// 	className: 'ss__secondary',
+		// },
+		// 'autocompleteSlideout facet searchInput': {
+		// 	className: '',
+		// },
 		'autocompleteSlideout termsList': {
 			retainHistory: true,
 			retainTrending: true,
@@ -95,15 +106,16 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		...autocompleteSlideoutThemeComponentProps.mobile,
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.mobile?.['autocompleteSlideout'] || {}),
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
+			layout: 'mini',
+			// layout: [['c1', 'c2']],
+			// column1: {
+			// 	width: '100%',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '100%',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
@@ -118,15 +130,16 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		...autocompleteSlideoutThemeComponentProps.tablet,
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.tablet?.['autocompleteSlideout'] || {}),
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
+			layout: 'mini',
+			// layout: [['c1', 'c2']],
+			// column1: {
+			// 	width: '100%',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '100%',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
@@ -141,15 +154,16 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		...autocompleteSlideoutThemeComponentProps.desktop,
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.desktop?.['autocompleteSlideout'] || {}),
-			layout: [['c1', 'c2']],
-			column1: {
-				width: '100%',
-				layout: ['termsList'],
-			},
-			column2: {
-				width: '100%',
-				layout: ['content', 'button.see-more'],
-			},
+			layout: 'mini',
+			// layout: [['c1', 'c2']],
+			// column1: {
+			// 	width: '100%',
+			// 	layout: ['termsList'],
+			// },
+			// column2: {
+			// 	width: '100%',
+			// 	layout: ['content', 'button.see-more'],
+			// },
 		},
 		'autocompleteSlideout results': {
 			rows: 2,

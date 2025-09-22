@@ -5,7 +5,7 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
-const searchsecondaryStylescript = (props: SearchHorizontalProps) => {
+const searchHorizontalStyleScript = (props: SearchHorizontalProps) => {
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || 767;
 
@@ -78,7 +78,7 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 		...searchHorizontalThemeComponentProps.default,
 		searchHorizontal: {
 			...(searchHorizontalThemeComponentProps.default?.['searchHorizontal'] || {}),
-			themeStyleScript: searchsecondaryStylescript,
+			themeStyleScript: searchHorizontalStyleScript,
 		},
 	},
 	mobile: {

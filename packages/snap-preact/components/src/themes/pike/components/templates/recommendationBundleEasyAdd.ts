@@ -61,7 +61,7 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 						marginBottom: 0,
 					},
 				},
-				'.icon': {
+				'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__icon__wrapper': {
 					'.ss__icon': {
 						fill: variables?.colors?.secondary,
 						stroke: variables?.colors?.secondary,

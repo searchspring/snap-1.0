@@ -12,19 +12,17 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	const headerSelectors =
 		'.ss__terms-list .ss__terms .ss__terms__title h5, .ss__autocomplete__facets-wrapper .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content-inner .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content, .ss__no-results__recommendations h3';
 
-	// check if there is a slideout autocomplete
-	const hasAcSlideout =
-		document.querySelectorAll('.ss__autocomplete-slideout') && document.querySelectorAll('.ss__autocomplete-slideout').length !== 0 ? true : false;
-
 	// determine autocomplete layout and type
-	let acLayout = 'default';
-	let acType = 'default';
-	if (props?.className?.includes('slim') || hasAcSlideout) {
-		acLayout = 'secondary';
-		acType = 'slim';
-	} else if (props?.className?.includes('terms')) {
-		acLayout = 'secondary';
-		acType = 'terms';
+	let acLayout = 'standard';
+	let acType = 'standard';
+	if (props?.layout) {
+		if (props.layout == 'mini') {
+			acLayout = 'secondary';
+			acType = 'mini';
+		} else if (props.layout == 'terms') {
+			acLayout = 'secondary';
+			acType = 'terms';
+		}
 	}
 
 	// shared autocomplete styles
@@ -413,7 +411,4 @@ export const autocompleteLayout: ThemeComponent<'autocompleteLayout', Autocomple
 			contentTitle: 'Product Suggestions',
 		},
 	},
-	mobile: {},
-	tablet: {},
-	desktop: {},
 };

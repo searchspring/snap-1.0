@@ -11,7 +11,6 @@ const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
-		overflow: 'visible',
 		maxHeight: 'none',
 		'.ss__recommendation-grid__title': {
 			fontSize: custom.utils.convertPxToEm(22),
