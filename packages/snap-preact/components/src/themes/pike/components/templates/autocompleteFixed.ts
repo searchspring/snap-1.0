@@ -64,6 +64,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 			...(autocompleteFixedThemeComponentProps.default?.['autocompleteFixed'] || {}),
 			themeStyleScript: autocompleteFixedStyleScript,
 			width: '900px',
+			layout: 'terms',
 			// layout: [['c1', 'c2', 'c3']],
 			// column1: {
 			// 	width: '200px',

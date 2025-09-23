@@ -59,80 +59,77 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 			},
 		},
 		'.ss__recommendation-bundle-list__wrapper__cta': {
-			'.ss__recommendation-bundle-list__wrapper__cta': {
-				'.ss__recommendation-bundle-list__wrapper__cta__inner': {
+			'.ss__recommendation-bundle-list__wrapper__cta__inner': {
+				'& > *': {
+					margin: `0 0 ${custom.spacing.x4}px 0`,
+					lineHeight: 1,
+				},
+				'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
+					flexFlow: 'row nowrap',
+					gap: `${custom.spacing.x2 + custom.sizes.icon12}px`,
+					'.ss__recommendation-bundle-list__wrapper__cta__inner__image-wrapper': {
+						flex: '1 1 0%',
+						minWidth: '1px',
+						padding: 0,
+						'.ss__icon': {
+							top: 0,
+							bottom: 0,
+							right: `-${custom.spacing.x2 / 2 + custom.sizes.icon12}px`,
+							margin: 'auto 0',
+							fill: variables?.colors?.secondary,
+							stroke: variables?.colors?.secondary,
+						},
+					},
+				},
+				'.ss__recommendation-bundle-list__wrapper__cta__subtotal': {
+					padding: `${custom.spacing.x4}px`,
+					backgroundColor: custom.colors.gray01,
+					border: `1px solid ${custom.colors.gray02}`,
 					'& > *': {
-						margin: `0 0 ${custom.spacing.x4}px 0`,
 						lineHeight: 1,
+						margin: `0 0 ${custom.spacing.x2}px 0`,
+						'&:last-child': {
+							marginBottom: 0,
+						},
 					},
-					'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
-						flexFlow: 'row nowrap',
-						gap: `${custom.spacing.x2 + custom.sizes.icon12}px`,
-						'.ss__recommendation-bundle-list__wrapper__cta__inner__image-wrapper': {
-							flex: '1 1 0%',
-							minWidth: '1px',
+					'.ss__recommendation-bundle-list__wrapper__cta__subtotal__icon__wrapper': {
+						'.ss__icon': {
+							fill: variables?.colors?.secondary,
+							stroke: variables?.colors?.secondary,
+						},
+					},
+					'.ss__recommendation-bundle-list__wrapper__cta__subtotal__title': {
+						display: 'block',
+						fontWeight: custom.fonts.weight02,
+					},
+					'.ss__recommendation-bundle-list__wrapper__cta__subtotal__prices': {
+						margin: `${custom.spacing.x1}px 0 0 0`,
+						label: {
+							margin: 0,
 							padding: 0,
-							'.ss__icon': {
-								top: 0,
-								bottom: 0,
-								right: `-${custom.spacing.x2 / 2 + custom.sizes.icon12}px`,
-								margin: 'auto 0',
-								fill: variables?.colors?.secondary,
-								stroke: variables?.colors?.secondary,
+							'& ~ label': {
+								paddingLeft: `${custom.spacing.x1}px`,
 							},
 						},
-					},
-					'.ss__recommendation-bundle-list__wrapper__cta__subtotal': {
-						padding: `${custom.spacing.x4}px`,
-						backgroundColor: custom.colors.gray01,
-						border: `1px solid ${custom.colors.gray02}`,
-						'& > *': {
-							lineHeight: 1,
-							margin: `0 0 ${custom.spacing.x2}px 0`,
-							'&:last-child': {
-								marginBottom: 0,
+						'.ss__recommendation-bundle-list__wrapper__cta__subtotal__strike': {
+							color: lightGray,
+							'*': {
+								color: 'inherit',
 							},
 						},
-						'.ss__recommendation-bundle-list__wrapper__cta__subtotal__icon__wrapper': {
-							'.ss__icon': {
-								fill: variables?.colors?.secondary,
-								stroke: variables?.colors?.secondary,
-							},
-						},
-						'.ss__recommendation-bundle-list__wrapper__cta__subtotal__title': {
-							display: 'block',
-							fontWeight: custom.fonts.weight02,
-						},
-						'.ss__recommendation-bundle-list__wrapper__cta__subtotal__prices': {
-							margin: `${custom.spacing.x1}px 0 0 0`,
-							label: {
-								margin: 0,
-								padding: 0,
-								'& ~ label': {
-									paddingLeft: `${custom.spacing.x1}px`,
-								},
-							},
-							'.ss__recommendation-bundle-list__wrapper__cta__subtotal__strike': {
-								color: lightGray,
-								'*': {
-									color: 'inherit',
-								},
-							},
-							'.ss__recommendation-bundle-list__wrapper__cta__subtotal__price': {
-								fontSize: custom.utils.convertPxToEm(16),
-								fontWeight: custom.fonts.weight01,
-								color: variables?.colors?.primary,
-								'*': {
-									color: 'inherit',
-								},
+						'.ss__recommendation-bundle-list__wrapper__cta__subtotal__price': {
+							fontSize: custom.utils.convertPxToEm(16),
+							fontWeight: custom.fonts.weight01,
+							color: variables?.colors?.primary,
+							'*': {
+								color: 'inherit',
 							},
 						},
 					},
 				},
-				'.ss__recommendation-bundle-list__wrapper__cta__button': {
-					margin: `${custom.spacing.x4}px 0`,
-					borderWidth: 0,
-				},
+			},
+			'.ss__recommendation-bundle-list__cta__button__wrapper': {
+				margin: `${custom.spacing.x4}px 0`,
 			},
 		},
 		[`@media (max-width: ${mobileBp}px)`]: {

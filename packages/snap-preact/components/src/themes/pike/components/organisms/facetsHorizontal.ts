@@ -212,7 +212,7 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		// 		}
 		// 	}
 		// },
-		'facetsHorizontal facetGridOptions': {
+		'facetsHorizontal dropdown facet facetGridOptions': {
 			gridSize: '62px',
 		},
 		'facetsHorizontal mobileSidebar facetGridOptions': {

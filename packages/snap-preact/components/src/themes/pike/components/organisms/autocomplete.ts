@@ -190,7 +190,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				},
 			},
 			'.ss__autocomplete__content__no-results': {
-				'[ss-lang="noResultsText"]': {
+				'.ss__autocomplete__content__no-results__text': {
 					p: {
 						display: 'inline',
 						margin: 0,

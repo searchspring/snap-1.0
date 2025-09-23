@@ -69,7 +69,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'Search',
+				component: 'SearchSnappy',
 			},
 		],
 		settings: {
