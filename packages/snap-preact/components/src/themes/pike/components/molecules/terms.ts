@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Terms component
 const termsStyleScript = (props: TermsProps) => {
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || 1024;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 
 	return css({
 		width: '100%',

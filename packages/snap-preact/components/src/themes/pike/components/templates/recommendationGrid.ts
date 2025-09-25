@@ -7,7 +7,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the RecommendationBundle component
 const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,

@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Autocomplete component
 const autocompleteStyleScript = (props: AutocompleteProps) => {
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || 1024;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const headerSelectors =
 		'.ss__autocomplete__terms .ss__autocomplete__title h5, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__content__info a, .ss__no-results__recommendations h3';
 	const activeSelectors =
@@ -288,7 +288,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				},
 			},
 		},
-		'@media (max-width: 540px)': {
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'&.ss__autocomplete': {
 				'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__recommendation-grid__results': {
 					gridTemplateColumns: `repeat(2, 1fr)`,

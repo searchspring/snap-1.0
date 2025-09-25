@@ -90,7 +90,7 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 			},
 		},
-		'@media (max-width: 540px)': {
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'&.ss__result--list': {
 				display: 'block',
 				'.ss__result__details': {

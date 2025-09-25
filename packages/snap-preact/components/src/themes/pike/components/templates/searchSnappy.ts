@@ -44,7 +44,7 @@ const searchSnappyStyleScript = (props: SearchSnappyProps) => {
 				gap: `${custom.spacing.x4}px`,
 			},
 		},
-		'@media (max-width: 540px)': {
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__toolbar': {
 				'.ss__pagination-info': {
 					fontSize: custom.utils.convertPxToEm(16),

@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Toolbar component
 const toolbarStyleScript = (props: ToolbarProps) => {
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		'.ss__layout': {

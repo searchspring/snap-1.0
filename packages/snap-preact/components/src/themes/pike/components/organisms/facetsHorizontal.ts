@@ -6,8 +6,8 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Facets component
 const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
-	const tabletBp = variables?.breakpoints?.tablet || 1024;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const columnsSelector = `.ss__facet-hierarchy-options, .ss__facet-list-options, .ss__facet-palette-options.ss__facet-palette-options--list`;
 
 	return css({

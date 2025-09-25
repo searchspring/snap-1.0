@@ -46,10 +46,15 @@ const autocompleteSlideoutStyleScript = (props: AutocompleteSlideoutProps) => {
 				'& > .ss__autocomplete__row .ss__autocomplete__column': {
 					padding: `${custom.spacing.x4}px 0`,
 				},
-				'.ss__autocomplete__content__results .ss__results': {
-					maxHeight: 'none',
-					overflow: 'visible',
+				'.ss__autocomplete__terms-wrapper, .ss__autocomplete__content, .ss__autocomplete__button--see-more': {
+					paddingLeft: 0,
+					paddingRight: 0,
 				},
+				'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
+					{
+						maxHeight: 'none',
+						overflow: 'visible',
+					},
 			},
 		},
 	});
@@ -62,32 +67,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 			...(autocompleteSlideoutThemeComponentProps.default?.['autocompleteSlideout'] || {}),
 			themeStyleScript: autocompleteSlideoutStyleScript,
 			layout: 'mini',
-			// layout: [['c1', 'c2']],
-			// column1: {
-			// 	width: '100%',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '100%',
-			// 	layout: ['content', 'button.see-more'],
-			// },
-		},
-		// 'autocompleteSlideout searchInput': {
-		// 	className: 'ss__secondary',
-		// },
-		// 'autocompleteSlideout facet searchInput': {
-		// 	className: '',
-		// },
-		'autocompleteSlideout termsList': {
-			retainHistory: true,
-			retainTrending: true,
-		},
-		'autocompleteSlideout facetPaletteOptions': {
-			gridSize: '38px',
-			hideLabel: false,
-		},
-		'autocompleteSlideout facetGridOptions': {
-			gridSize: '38px',
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
@@ -107,15 +86,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.mobile?.['autocompleteSlideout'] || {}),
 			layout: 'mini',
-			// layout: [['c1', 'c2']],
-			// column1: {
-			// 	width: '100%',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '100%',
-			// 	layout: ['content', 'button.see-more'],
-			// },
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
@@ -131,15 +101,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.tablet?.['autocompleteSlideout'] || {}),
 			layout: 'mini',
-			// layout: [['c1', 'c2']],
-			// column1: {
-			// 	width: '100%',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '100%',
-			// 	layout: ['content', 'button.see-more'],
-			// },
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
@@ -155,15 +116,6 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.desktop?.['autocompleteSlideout'] || {}),
 			layout: 'mini',
-			// layout: [['c1', 'c2']],
-			// column1: {
-			// 	width: '100%',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '100%',
-			// 	layout: ['content', 'button.see-more'],
-			// },
 		},
 		'autocompleteSlideout results': {
 			rows: 2,

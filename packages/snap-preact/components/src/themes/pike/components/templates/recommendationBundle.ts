@@ -8,8 +8,8 @@ import { custom } from '../../custom';
 const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
-	const tabletBp = variables?.breakpoints?.tablet || 1024;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
@@ -201,7 +201,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				},
 			},
 		},
-		'@media (max-width: 540px)': {
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__recommendation-bundle__title': {
 				fontSize: custom.utils.convertPxToEm(18),
 			},

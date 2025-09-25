@@ -45,6 +45,11 @@ let config: SnapTemplatesConfig = {
 				// 	layout: ['loadMore']
 				// }
 			},
+			// mobile: {
+			// 	'autocompleteFixed': {
+			// 		layout: 'standard'
+			// 	}
+			// }
 		},
 	},
 	recommendation: {
@@ -88,6 +93,16 @@ let config: SnapTemplatesConfig = {
 				component: 'AutocompleteFixed',
 			},
 		],
+		settings: {
+			history: {
+				limit: 6,
+				showResults: true,
+			},
+			trending: {
+				limit: 6,
+				showResults: true,
+			},
+		},
 	},
 };
 

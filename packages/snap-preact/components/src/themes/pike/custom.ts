@@ -8,6 +8,9 @@ const spacingCalc = (value: number) => {
 };
 
 export const custom: {
+	breakpoints: {
+		[key: string]: number;
+	};
 	colors: {
 		[key: string]: string;
 	};
@@ -29,6 +32,12 @@ export const custom: {
 		darkenColor: (color: string | undefined, amount: number) => string;
 	};
 } = {
+	breakpoints: {
+		small: 540,
+		mobile: 767,
+		tablet: 1024,
+		desktop: 1280,
+	},
 	colors: {
 		white: '#ffffff',
 		black: '#000000',

@@ -8,7 +8,7 @@ import { custom } from '../../custom';
 const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVerticalProps) => {
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		margin: `${custom.spacing.x4}px 0`,

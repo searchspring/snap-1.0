@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the NoResults component
 const noResultsStyleScript = (props: NoResultsProps) => {
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		'h1, h2, h3, h4, h5, h6, ul': {

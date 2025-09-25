@@ -7,8 +7,8 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Recommendation component
 const recommendationStyleScript = (props: RecommendationProps) => {
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || 1024;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 	const arrowSizes = {
 		default: 32,
 		tablet: 28,
@@ -63,7 +63,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 				},
 			},
 		},
-		'@media (max-width: 540px)': {
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__recommendation__title': {
 				fontSize: custom.utils.convertPxToEm(18),
 			},

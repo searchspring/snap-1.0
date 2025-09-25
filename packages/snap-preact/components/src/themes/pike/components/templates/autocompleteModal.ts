@@ -7,8 +7,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Search component
 const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || 1024;
-	const mobileBp = variables?.breakpoints?.mobile || 767;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		'.ss__modal': {
@@ -54,23 +53,11 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 						'&::-webkit-scrollbar-thumb': {
 							backgroundColor: custom.colors.gray02,
 						},
-						'.ss__autocomplete__content__results .ss__results': {
-							maxHeight: 'none',
-							overflow: 'visible',
-						},
-					},
-				},
-			},
-		},
-		[`@media (max-width: ${tabletBp}px)`]: {
-			'.ss__modal': {
-				'.ss__modal__content': {
-					'.ss__autocomplete-modal__inner': {
-						'.ss__autocomplete': {
-							'& > .ss__autocomplete__row': {
-								alignContent: 'flex-start',
+						'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
+							{
+								maxHeight: 'none',
+								overflow: 'visible',
 							},
-						},
 					},
 				},
 			},
@@ -85,19 +72,17 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 				},
 			},
 		},
-		'@media (max-width: 540px)': {
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__modal': {
 				'.ss__modal__content': {
 					'.ss__autocomplete-modal__inner': {
 						'.ss__autocomplete': {
-							'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__recommendation-grid__results': {
-								'& > *:nth-of-type(n+3)': {
-									display: 'block',
+							'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
+								{
+									'& > *:nth-of-type(n+5)': {
+										display: 'none',
+									},
 								},
-								'& > *:nth-of-type(n+5)': {
-									display: 'none',
-								},
-							},
 						},
 					},
 				},
@@ -113,29 +98,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 			...(autocompleteModalThemeComponentProps.default?.['autocompleteModal'] || {}),
 			themeStyleScript: autocompleteModalStyleScript,
 			width: '70vw',
-			// layout: [['c1', 'c2', 'c3']],
-			// column1: {
-			// 	width: '200px',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '160px',
-			// 	layout: ['facets'],
-			// },
-			// column3: {
-			// 	width: 'auto',
-			// 	layout: ['content', 'button.see-more'],
-			// },
-		},
-		// 'autocompleteModal searchInput': {
-		// 	className: 'ss__secondary',
-		// },
-		// 'autocompleteModal facet searchInput': {
-		// 	className: '',
-		// },
-		'autocompleteModal termsList': {
-			retainHistory: true,
-			retainTrending: true,
+			layout: 'standard',
 		},
 		'autocompleteModal facetPaletteOptions': {
 			gridSize: '38px',
@@ -143,6 +106,23 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		},
 		'autocompleteModal facetGridOptions': {
 			gridSize: '38px',
+		},
+		'autocompleteModal facet': {
+			...(autocompleteModalThemeComponentProps.default?.['autocompleteModal facet'] || {}),
+			display: {
+				list: {
+					limit: 5,
+				},
+				hierarchy: {
+					limit: 5,
+				},
+				grid: {
+					limit: 6,
+				},
+				palette: {
+					limit: 6,
+				},
+			},
 		},
 		'autocompleteModal results': {
 			rows: 2,
@@ -162,15 +142,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.mobile?.['autocompleteModal'] || {}),
 			width: '100%',
-			// layout: [['c1', 'c2']],
-			// column1: {
-			// 	width: '100%',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '100%',
-			// 	layout: ['content', 'button.see-more'],
-			// },
+			layout: 'mini',
 		},
 		'autocompleteModal results': {
 			rows: 2,
@@ -185,26 +157,31 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		...autocompleteModalThemeComponentProps.tablet,
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.tablet?.['autocompleteModal'] || {}),
-			// layout: [['c1', 'c2', 'c3']],
-			// column1: {
-			// 	width: '100%',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '100%',
-			// 	layout: ['facets'],
-			// },
-			// column3: {
-			// 	width: '100%',
-			// 	layout: ['content', 'button.see-more'],
-			// },
+			width: '80vw',
+			layout: 'standard',
+		},
+		'autocompleteModal facet': {
+			display: {
+				list: {
+					limit: 3,
+				},
+				hierarchy: {
+					limit: 3,
+				},
+				grid: {
+					limit: 4,
+				},
+				palette: {
+					limit: 4,
+				},
+			},
 		},
 		'autocompleteModal results': {
-			rows: 1,
+			rows: 2,
 			columns: 4,
 		},
 		'autocompleteModal recommendationGrid': {
-			rows: 1,
+			rows: 2,
 			columns: 4,
 		},
 	},
@@ -213,19 +190,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.desktop?.['autocompleteModal'] || {}),
 			width: '80vw',
-			// layout: [['c1', 'c2', 'c3']],
-			// column1: {
-			// 	width: '200px',
-			// 	layout: ['termsList'],
-			// },
-			// column2: {
-			// 	width: '160px',
-			// 	layout: ['facets'],
-			// },
-			// column3: {
-			// 	width: 'auto',
-			// 	layout: ['content', 'button.see-more'],
-			// },
+			layout: 'standard',
 		},
 		'autocompleteModal results': {
 			rows: 2,
