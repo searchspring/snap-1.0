@@ -4,13 +4,11 @@ import { observer } from 'mobx-react-lite';
 import { RootNodeProperties } from '../../../types';
 import { CacheProvider } from '../../../providers';
 import { TemplateEditorStore } from '../../../../../src/Templates/Stores/TemplateEditor/TemplateEditorStore';
-import { TemplateTypes } from '../../../../../src/Templates/Stores/TemplateStore';
 import { SnapTemplates } from '../../../../../src';
 import { AutocompleteController, SearchController } from '@searchspring/snap-controller';
 import { AthosCommerceLogo } from './Assets';
 import { AbstractedControls } from './Components/AbstractedControls';
 // import { DomSelector } from './Components/DomSelector';
-import { DropdownControl } from './Controls/Dropdown';
 
 const CSS = {
 	TemplatesEditor: ({}: Partial<TemplatesEditorProps>) =>
@@ -326,7 +324,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 	return (
 		<CacheProvider>
 			<div
-				className={classnames('ss__template-editor', { 'ss__template-editor--collapsed': editorStore.state.hidden })}
+				className={classnames('ss__template-editor', { 'ss__template-editor--collapsed': editorStore.storedState.hidden })}
 				{...styling}
 				onClick={(e) => {
 					e.stopPropagation();
@@ -372,7 +370,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 							return (
 								<div
 									key={i}
-									className={classnames('tab', { active: editorStore.state.activeTab === tab })}
+									className={classnames('tab', { active: editorStore.storedState.activeTab === tab })}
 									onClick={() => {
 										editorStore.switchTabs(tab);
 									}}
@@ -385,23 +383,30 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 					<div className="tab-view">
 						<div className="tab-view-shadow"></div>
 						<div className="tab-view-content">
-							{editorStore.state.activeTab === 'templates' ? (
+							{editorStore.storedState.activeTab === 'templates' ? (
 								<>
-									<TemplateTargetSettings feature="search" editorStore={editorStore} />
+									<h1>Search</h1>
+									<AbstractedControls editorStore={editorStore} data={0} feature="targets/search" />
 									<AbstractedControls editorStore={editorStore} data={snap.controllers.search as SearchController} feature="controllers/search" />
-									<TemplateTargetSettings feature="autocomplete" editorStore={editorStore} />
+
+									<h1>Autocomplete</h1>
+									<AbstractedControls editorStore={editorStore} data={0} feature="targets/autocomplete" />
 									<AbstractedControls
 										editorStore={editorStore}
 										data={snap.controllers.autocomplete as AutocompleteController}
 										feature="controllers/autocomplete"
 									/>
-									{/* <TemplateTargetSettings feature="recommendation/default" editorStore={editorStore} />
-									<TemplateTargetSettings feature="recommendation/bundle" editorStore={editorStore} /> */}
+
+									{/* 
+										// TODO: implement recommendation AbstractedControls
+										<TemplateTargetSettings feature="recommendation/default" editorStore={editorStore} />
+										<TemplateTargetSettings feature="recommendation/bundle" editorStore={editorStore} />
+									*/}
 								</>
 							) : (
 								''
 							)}
-							{editorStore.state.activeTab === 'configuration' ? (
+							{editorStore.storedState.activeTab === 'configuration' ? (
 								<>
 									<AbstractedControls title="Project Configuration" editorStore={editorStore} feature="templates/config" />
 									<AbstractedControls title="Theme Configuration" editorStore={editorStore} feature="templates/theme" />
@@ -436,97 +441,3 @@ export interface TemplatesEditorProps {
 	editorStore: TemplateEditorStore;
 	snap: SnapTemplates;
 }
-
-type TemplateTargetSettingsProps = {
-	feature: TemplateTypes;
-	editorStore: TemplateEditorStore;
-};
-
-const TemplateTargetSettings = observer((props: TemplateTargetSettingsProps) => {
-	const { feature, editorStore } = props;
-	const { templatesStore } = editorStore;
-
-	// const { templatesStore, state } = editorStore;
-	// const { activeDomSelector } = state;
-
-	// let targetElementSelectors = 'div, section, article, aside';
-	// if (feature == 'autocomplete') {
-	// 	targetElementSelectors = 'input[type="text"]';
-	// }
-
-	/*
-
-	<DomSelector
-		elementSelector={targetElementSelectors}
-		onSelectHandler={(elemSelector: any) => setAutocompleteSelector(elemSelector)}
-		type="autocomplete"
-		currentSelector={activeDomSelector}
-		setCurrentSelector={(newSelector) => { state.activeDomSelector = newSelector }}
-	/>
-
-	*/
-
-	const [type, recsType = ''] = feature.split('/');
-	const idPrefix = `${type}${recsType ? `-${recsType}` : ''}`;
-
-	const config = templatesStore.config as any;
-	const configTarget = config[type]?.[recsType]?.[`${recsType.charAt(0).toUpperCase() + recsType.slice(1)}`] || config[type]?.targets?.[0];
-
-	const libraryComponents = templatesStore.library.components as any;
-	const libraryTemplates = recsType ? libraryComponents[type]?.[recsType] : libraryComponents[type];
-	const libraryResultComponents = libraryComponents?.result;
-
-	const DEAFULT_RESULT_COMPONENT = 'Result';
-	const activeTarget = templatesStore.getTarget(feature, configTarget.selector);
-	const showTemplateReset = Boolean(activeTarget?.component) && activeTarget?.component !== configTarget?.component;
-	const showResultTemplateReset =
-		(activeTarget?.resultComponent || DEAFULT_RESULT_COMPONENT) != (configTarget?.resultComponent || DEAFULT_RESULT_COMPONENT);
-
-	const targets = editorStore.getTargets(type as 'search' | 'autocomplete');
-	console.log('targets', targets);
-	const target = targets[0];
-	console.log('target', target);
-
-	// state[(feature+'Selector' as keyof typeof state)] = configTarget.selector;
-
-	return (
-		<div className="template-target-settings">
-			<h3>{type.charAt(0).toUpperCase() + type.slice(1) + (recsType ? ` (${recsType})` : '')}</h3>
-
-			{!recsType && (
-				<div className="option">
-					<label htmlFor={`${idPrefix}-target`}>Target</label>
-					<div className="reset"></div>
-					<div className="value">
-						{/* <input id={`${idPrefix}-target`} type="text" placeholder={''} disabled={true} value={configTarget.selector} /> */}
-						<input id={`${idPrefix}-target`} type="text" placeholder={''} disabled={true} value={target.selector} />
-					</div>
-				</div>
-			)}
-
-			<DropdownControl
-				key={`${idPrefix}-template`}
-				label={'Template'}
-				description={''}
-				showReset={showTemplateReset}
-				options={Object.keys(libraryTemplates)}
-				onReset={() => activeTarget?.setComponent(configTarget?.component)}
-				disabled={false}
-				value={activeTarget?.component}
-				onChange={(value) => activeTarget?.setComponent(`${value}`)}
-			/>
-
-			<DropdownControl
-				key={`${idPrefix}-result-template`}
-				label={'Result Template'}
-				description={''}
-				showReset={showResultTemplateReset}
-				options={Object.keys(libraryResultComponents)}
-				onReset={() => activeTarget?.setResultComponent(configTarget?.resultComponent || DEAFULT_RESULT_COMPONENT)} // TODO: fetch first library.components.result[0] key
-				disabled={false}
-				value={activeTarget?.resultComponent}
-				onChange={(value) => activeTarget?.setResultComponent(`${value}`)}
-			/>
-		</div>
-	);
-});

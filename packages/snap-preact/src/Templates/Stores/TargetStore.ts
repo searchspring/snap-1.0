@@ -1,14 +1,15 @@
 import { observable, makeObservable } from 'mobx';
-import { TemplateTarget, type TemplatesStoreConfigSettings, type TemplatesStoreDependencies, type TemplateThemeTypes } from './TemplateStore';
+import { TemplateTarget, TemplateTypes, type TemplateThemeTypes } from './TemplateStore';
 
 export const GLOBAL_THEME_NAME = 'global';
 
 type TargetStoreConfig = {
 	target: TemplateTarget;
-	dependencies: TemplatesStoreDependencies;
-	settings: TemplatesStoreConfigSettings;
 };
+
 export class TargetStore {
+	public index: number;
+	public type: TemplateTypes;
 	public selector: string;
 	public component: string;
 	public resultComponent: string;
@@ -16,16 +17,16 @@ export class TargetStore {
 		location: TemplateThemeTypes;
 		name: string;
 	};
-	private dependencies: TemplatesStoreDependencies;
 
 	constructor(params: TargetStoreConfig) {
-		const { target, dependencies, settings } = params;
-		this.dependencies = dependencies;
+		const { target } = params;
+
+		this.index = target.index;
+		this.type = target.type;
 		this.selector = target.selector || '';
-		this.component = (settings.editMode && this.dependencies.storage.get(`templates.${this.selector}.component`)) || target.component;
-		this.resultComponent =
-			(settings.editMode && this.dependencies.storage.get(`templates.${this.selector}.resultComponent`)) || target.resultComponent;
-		this.theme = (settings.editMode && this.dependencies.storage.get(`templates.${this.selector}.theme`)) || {
+		this.component = target.component || '';
+		this.resultComponent = (target.resultComponent as string) || 'Result';
+		this.theme = {
 			location: 'local',
 			name: GLOBAL_THEME_NAME,
 		};
@@ -38,14 +39,9 @@ export class TargetStore {
 		});
 	}
 
-	public setComponent(componentName: string) {
-		this.component = componentName;
-		this.dependencies.storage.set(['templates', this.selector, 'component'], this.component);
-	}
-
-	public setResultComponent(resultComponentName: string) {
-		this.resultComponent = resultComponentName;
-		this.dependencies.storage.set(['templates', this.selector, 'resultComponent'], this.resultComponent);
+	public setValue(name: string, value: string) {
+		if (!['selector', 'component', 'resultComponent'].includes(name)) return;
+		this[name as 'selector' | 'component' | 'resultComponent'] = value;
 	}
 
 	public setTheme(themeName: string, location: TemplateThemeTypes) {
@@ -53,6 +49,5 @@ export class TargetStore {
 			location,
 			name: themeName,
 		};
-		this.dependencies.storage.set(['templates', this.selector, 'theme'], this.theme);
 	}
 }

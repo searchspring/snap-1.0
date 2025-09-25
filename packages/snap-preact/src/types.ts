@@ -161,7 +161,7 @@ export interface AbstractedControl<Params, Value = ControlValues> {
 	// A function that's called when the UI control's value is reset. It's responsible
 	onReset: (params?: Params) => void;
 
-	shouldShowReset: () => boolean;
+	shouldShowReset: (params?: Params) => boolean;
 }
 
 // Defines a group of related UI controls that appear together.

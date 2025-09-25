@@ -240,3 +240,114 @@ export async function updateAutocompleteControllerState(controller: Autocomplete
 			controller.store.history[0].preview();
 	}
 }
+
+export function autocompleteTargetUI(store: TemplateEditorStore): AbstractionGroup<number>[] {
+	return [
+		{
+			// title: 'Autocomplete',
+			description: '',
+			collapsible: true,
+			controls: [
+				{
+					type: 'text',
+					label: 'Selector',
+					description: 'Target CSS selector',
+					getValue: (index) => {
+						// all autocomplete targeters are in store.templatesStore.targets.autocomplete
+
+						// TODO: need to handle case where there are no targets
+						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+						return targetAtIndex?.selector;
+					},
+					shouldShowReset: (index) => {
+						// if the override differs from the initial state, show reset
+						const initialTargetAtIndex = store.initial.targets?.autocomplete?.[index as number];
+						const overrideTargetAtIndex = store.overrides.targets?.autocomplete?.[index as number];
+
+						return (
+							Boolean(initialTargetAtIndex?.selector) &&
+							Boolean(overrideTargetAtIndex?.selector) &&
+							initialTargetAtIndex.selector != overrideTargetAtIndex.selector
+						);
+					},
+					onValueChange: (value, index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'selector'], value: value });
+					},
+					onReset: (index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'selector'] });
+					},
+				},
+				{
+					type: 'dropdown',
+					label: 'Component',
+					description: 'Template component to render',
+					getValue: (index) => {
+						// all autocomplete targeters are in store.templatesStore.targets.autocomplete
+
+						// TODO: need to handle case where there are no targets
+						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+						return targetAtIndex?.component;
+					},
+					getOptions: () => {
+						// return list of available templates
+						const templateList = Object.keys(store.templatesStore.library.components.autocomplete).map((name) => ({ value: name }));
+						return [{ options: templateList }];
+					},
+					shouldShowReset: (index) => {
+						// if the override differs from the initial state, show reset
+						const initialTargetAtIndex = store.initial.targets?.autocomplete?.[index as number];
+						const overrideTargetAtIndex = store.overrides.targets?.autocomplete?.[index as number];
+						return (
+							Boolean(initialTargetAtIndex?.component) &&
+							Boolean(overrideTargetAtIndex?.component) &&
+							initialTargetAtIndex.component != overrideTargetAtIndex.component
+						);
+					},
+					onValueChange: (value, index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'component'], value: value });
+					},
+					onReset: (index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'component'] });
+					},
+				},
+				{
+					type: 'dropdown',
+					label: 'Result Component',
+					description: 'Template component to render',
+					getValue: (index) => {
+						// all autocomplete targeters are in store.templatesStore.targets.autocomplete
+
+						// TODO: need to handle case where there are no targets
+						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+						return targetAtIndex?.resultComponent;
+					},
+					getOptions: () => {
+						// return list of available templates
+						const templateList = Object.keys(store.templatesStore.library.components.result).map((name) => ({ value: name }));
+						return [{ options: templateList }];
+					},
+					shouldShowReset: (index) => {
+						// if the override differs from the initial state, show reset
+						const initialTargetAtIndex = store.initial.targets?.autocomplete?.[index as number];
+						const overrideTargetAtIndex = store.overrides.targets?.autocomplete?.[index as number];
+						return initialTargetAtIndex && overrideTargetAtIndex && initialTargetAtIndex.resultComponent != overrideTargetAtIndex.resultComponent;
+					},
+					onValueChange: (value, index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'resultComponent'], value: value });
+					},
+					onReset: (index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'resultComponent'] });
+
+						// if no initial value
+						const initialTargetAtIndex = store.initial.targets?.autocomplete?.[index as number];
+
+						if (!initialTargetAtIndex.resultComponent) {
+							const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+							targetAtIndex?.setValue('resultComponent', 'Result');
+						}
+					},
+				},
+			],
+		},
+	];
+}

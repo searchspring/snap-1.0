@@ -40,8 +40,6 @@ export type TemplateTypes = 'search' | 'autocomplete' | `recommendation/${RecsTe
 export type TemplateCustomComponentTypes = 'result' | 'badge';
 export type RecsTemplateTypes = 'bundle' | 'default' | 'email';
 
-export type TargetMap = { [targetId: string]: TargetStore };
-
 type ComponentLibraryType =
 	| keyof LibraryImports['component']['autocomplete']
 	| keyof LibraryImports['component']['search']
@@ -50,6 +48,8 @@ type ComponentLibraryType =
 	| keyof LibraryImports['component']['recommendation']['email'];
 
 export type TemplateTarget = {
+	index: number;
+	type: TemplateTypes;
 	selector?: string;
 	component: ComponentLibraryType | (string & NonNullable<unknown>);
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
@@ -144,10 +144,10 @@ export class TemplatesStore {
 	dependencies: TemplatesStoreDependencies;
 
 	targets: {
-		search: TargetMap;
-		autocomplete: TargetMap;
+		search: TargetStore[];
+		autocomplete: TargetStore[];
 		recommendation: {
-			[key in RecsTemplateTypes]: TargetMap;
+			[key in RecsTemplateTypes]: TargetStore[];
 		};
 	};
 
@@ -178,12 +178,12 @@ export class TemplatesStore {
 		this.settings = settings || { editMode: false };
 
 		this.targets = {
-			search: {},
-			autocomplete: {},
+			search: [],
+			autocomplete: [],
 			recommendation: {
-				bundle: {},
-				default: {},
-				email: {},
+				bundle: [],
+				default: [],
+				email: [],
 			},
 		};
 
@@ -286,10 +286,11 @@ export class TemplatesStore {
 		});
 	}
 
-	public addTarget(type: TemplateTypes, target: TemplateTarget): string | undefined {
-		const targetId = target.selector || target.component;
-		if (targetId) {
-			const path = type.split('/');
+	public addTarget(target: TemplateTarget): TargetStore | undefined {
+		if (target.selector) {
+			const path = target.type.split('/');
+
+			// TODO: fix typing (remove any)
 			let targetPath: any = this.targets;
 			for (let index = 0; index < path.length; index++) {
 				if (!targetPath[path[index]]) {
@@ -297,23 +298,28 @@ export class TemplatesStore {
 				}
 				targetPath = targetPath[path[index]];
 			}
-			(targetPath as TargetMap)[targetId] = new TargetStore({
+			// // assign index
+			// const index = targetPath.length;
+			// target.index = index;
+			// target.type = type;
+
+			const newTarget = new TargetStore({
 				target,
-				dependencies: this.dependencies,
-				settings: this.settings,
 			});
 
-			if (this.settings.editMode) {
-				// triggers a rerender for TemplateEditor
-				this.targets = { ...this.targets };
-			}
-			return targetId;
+			targetPath.push(newTarget);
+
+			// if (this.settings.editMode) {
+			// 	// triggers a rerender for TemplateEditor
+			// 	this.targets = { ...this.targets };
+			// }
+			return newTarget;
 		}
 	}
 
-	public getTarget(type: TemplateTypes, targetId: string): TargetStore | undefined {
+	public getTarget(type: TemplateTypes, targetIndex: number): TargetStore | undefined {
 		const path = type.split('/');
-		path.push(targetId);
+		// TODO: fix typing (remove any)
 		let targetPath: any = this.targets;
 		for (let index = 0; index < path.length; index++) {
 			if (!targetPath[path[index]]) {
@@ -322,7 +328,7 @@ export class TemplatesStore {
 			targetPath = targetPath[path[index]];
 		}
 
-		return targetPath;
+		return targetPath[targetIndex];
 	}
 
 	public addTheme(config: ThemeStoreThemeConfig) {

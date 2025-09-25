@@ -122,3 +122,13 @@ const isValidHexColor = (color: string): boolean => {
 	}
 	return true;
 };
+
+/*
+	<DomSelector
+		elementSelector={targetElementSelectors}
+		onSelectHandler={(elemSelector: any) => setAutocompleteSelector(elemSelector)}
+		type="autocomplete"
+		currentSelector={activeDomSelector}
+		setCurrentSelector={(newSelector) => { state.activeDomSelector = newSelector }}
+	/>
+*/
