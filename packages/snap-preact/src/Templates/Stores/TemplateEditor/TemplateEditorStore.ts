@@ -323,8 +323,9 @@ export class TemplateEditorStore {
 	// store.setTargetOverride({ path: ['search', '[0]'], value });
 	// store.setTargetOverride({ path: ['search', '[0]', 'selector'], value });
 	// store.setTargetOverride({ path: ['search', '[0]'], value });  --- value = {...}
-	setTargetOverride = (obj: { path: string[]; value?: unknown }) => {
-		const { path, value } = obj;
+	setTargetOverride = (obj: { path: string[]; value: string | undefined }) => {
+		const path = obj.path;
+		let value = obj.value;
 
 		/*
 
@@ -374,7 +375,38 @@ export class TemplateEditorStore {
 			arrayMerge: combineMerge,
 		});
 
-		// TODO: something fancy around refreshing or re-targeting...
+		if (path[path.length - 1] == 'selector' && targetIndex > -1) {
+			// if reset button was clicked value will be undefined
+			if (typeof value == 'undefined') {
+				value = initialValue;
+			}
+
+			// needs to have a value and some actual elem to find
+			if (typeof value == 'string' && value.length > 1 && document.querySelector(value)) {
+				const activeTargeterKey = Object.keys(window.searchspring.controller[targetFeature].targeters)[targetIndex];
+				if (activeTargeterKey) {
+					const oldSelector = window.searchspring.controller[targetFeature].targeters[activeTargeterKey].targets[0].selector;
+					const elem = document.querySelector(oldSelector || '');
+
+					if (elem) {
+						//create clone of elem with all attributes
+						const clonedElement = elem.cloneNode(true);
+						clonedElement.innerHTML = '';
+
+						//inject clone right after elem
+						elem.insertAdjacentElement('afterend', clonedElement);
+
+						//delete elem so targeter can retarget an element thats already been targeted
+						elem.remove();
+					}
+
+					window.searchspring.controller[targetFeature].targeters[activeTargeterKey].targets[0].selector = value;
+					window.searchspring.controller[targetFeature].retarget();
+				} else {
+					console.log('no active targeter key');
+				}
+			}
+		}
 
 		// if the component or resultComponent changed we need to tell the targetStore about it via:
 		const targetFeatureSet = this.templatesStore.targets[targetFeature];

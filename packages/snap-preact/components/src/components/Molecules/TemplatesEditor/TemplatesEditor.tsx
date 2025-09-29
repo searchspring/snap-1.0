@@ -8,6 +8,7 @@ import { SnapTemplates } from '../../../../../src';
 import { AutocompleteController, SearchController } from '@searchspring/snap-controller';
 import { AthosCommerceLogo } from './Assets';
 import { AbstractedControls } from './Components/AbstractedControls';
+import { Icon } from '../../Atoms/Icon';
 // import { DomSelector } from './Components/DomSelector';
 
 const CSS = {
@@ -352,14 +353,24 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 								}
 							}}
 						>
-							Close
+							Stop Editing
+						</button>
+						<button
+							onClick={(e) => {
+								e.stopPropagation();
+								const config = editorStore.generateTemplatesConfig();
+								navigator.clipboard.writeText(JSON.stringify(config, null, 4));
+								alert('Configuration copied to clipboard');
+							}}
+						>
+							Copy
 						</button>
 						<button
 							onClick={() => {
 								editorStore.toggleHide(true);
 							}}
 						>
-							Hide
+							<Icon icon={'angle-right'} color="white" size={10} />
 						</button>
 					</div>
 				</div>
