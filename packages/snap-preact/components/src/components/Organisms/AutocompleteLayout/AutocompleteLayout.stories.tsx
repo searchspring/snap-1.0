@@ -80,7 +80,7 @@ export default {
 			table: {
 				type: {
 					summary:
-						"['c1' | 'c2' | 'c3' | 'c4' | 'termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']",
+						"['c1' | 'c2' | 'c3' | 'c4' | 'termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']",
 				},
 				defaultValue: { summary: "[['c1','c2', 'c3']]" },
 			},
@@ -91,7 +91,7 @@ export default {
 			table: {
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 				defaultValue: {
 					summary: `{
@@ -107,7 +107,7 @@ export default {
 			table: {
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 				defaultValue: {
 					summary: `{
@@ -123,7 +123,7 @@ export default {
 			table: {
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 				defaultValue: {
 					summary: `{
@@ -139,7 +139,7 @@ export default {
 			table: {
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 			},
 			control: 'array',

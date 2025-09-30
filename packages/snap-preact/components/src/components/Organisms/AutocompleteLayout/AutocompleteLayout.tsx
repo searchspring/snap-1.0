@@ -217,11 +217,18 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 			alignContent: 'space-between',
 		},
 		width: '100%',
-		templates: {
-			recommendation: {
-				enabled: true,
-			},
-		},
+		templates:
+			properties.layout == 'terms'
+				? {
+						recommendation: {
+							enabled: false,
+						},
+				  }
+				: {
+						recommendation: {
+							enabled: true,
+						},
+				  },
 	};
 
 	let props = mergeProps('autocompleteLayout', globalTheme, defaultProps, properties);
@@ -261,6 +268,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 					limit: 6,
 					disableOverflow: true,
 					disableCollapse: true,
+					searchable: false,
 				},
 				facetGridOptions: {
 					columns: 3,
@@ -684,6 +692,31 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 			);
 		}
 
+		if (module == 'no-results' && showResults) {
+			return (
+				<div className="ss__autocomplete__content">
+					{results.length == 0 && !loading ? (
+						<div className="ss__autocomplete__content__no-results">
+							<div className="ss__autocomplete__content__no-results__text" {...mergedLang.noResultsText?.all}></div>
+							{RecommendationTemplateComponent && recsController?.store?.loaded ? (
+								<div className="ss__autocomplete__content__no-results__recommendations">
+									<RecommendationTemplateComponent
+										controller={recsController}
+										title={recsController.store?.profile?.display?.templateParameters?.title}
+										resultComponent={RecommendationTemplateResultComponent}
+										name={'noResultsRecommendations'}
+										treePath={properties.treePath}
+									/>
+								</div>
+							) : null}
+						</div>
+					) : (
+						<></>
+					)}
+				</div>
+			);
+		}
+
 		if (module == '_') {
 			return <div className="ss__autocomplete__separator"></div>;
 		}
@@ -713,7 +746,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 
 	if (typeof props.layout === 'string') {
 		if (props.layout === 'terms') {
-			layout = [['termsList'], ['_', 'button.see-more']];
+			layout = [['termsList'], ['no-results'], ['_', 'button.see-more']];
 		}
 		if (props.layout === 'mini') {
 			layout = [['termsList'], ['content'], ['_', 'button.see-more']];
@@ -779,6 +812,7 @@ export type ModuleNames =
 	| 'facetsHorizontal'
 	| 'button.see-more'
 	| 'content'
+	| 'no-results'
 	| '_'
 	| 'banner.left'
 	| 'banner.banner'

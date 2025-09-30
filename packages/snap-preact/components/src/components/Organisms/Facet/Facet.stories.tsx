@@ -327,6 +327,18 @@ export default {
 				type: 'object',
 			},
 		},
+		display: {
+			defaultValue: {},
+			description: 'Change props per facet display type',
+			table: {
+				type: {
+					summary: 'object',
+				},
+			},
+			control: {
+				type: 'object',
+			},
+		},
 		...componentArgs,
 	},
 };

@@ -180,38 +180,40 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		'facetsHorizontal dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,
 		},
-		// 'facetsHorizontal dropdown facet': {
-		// 	display: {
-		// 		list: {
-		// 			limit: 32
-		// 		},
-		// 		hierarchy: {
-		// 			limit: 32
-		// 		},
-		// 		grid: {
-		// 			limit: 36
-		// 		},
-		// 		palette: {
-		// 			limit: 36
-		// 		}
-		// 	}
-		// },
-		// 'facetsHorizontal mobileSidebar facet': {
-		// 	display: {
-		// 		list: {
-		// 			limit: 10
-		// 		},
-		// 		hierarchy: {
-		// 			limit: 10
-		// 		},
-		// 		grid: {
-		// 			limit: 12
-		// 		},
-		// 		palette: {
-		// 			limit: 12
-		// 		}
-		// 	}
-		// },
+		'facetsHorizontal dropdown facet': {
+			statefulOverflow: true,
+			display: {
+				list: {
+					limit: 32,
+				},
+				hierarchy: {
+					limit: 32,
+				},
+				grid: {
+					limit: 36,
+				},
+				palette: {
+					limit: 36,
+				},
+			},
+		},
+		'facetsHorizontal mobileSidebar facet': {
+			statefulOverflow: true,
+			display: {
+				list: {
+					limit: 10,
+				},
+				hierarchy: {
+					limit: 10,
+				},
+				grid: {
+					limit: 12,
+				},
+				palette: {
+					limit: 12,
+				},
+			},
+		},
 		'facetsHorizontal dropdown facet facetGridOptions': {
 			gridSize: '62px',
 		},
