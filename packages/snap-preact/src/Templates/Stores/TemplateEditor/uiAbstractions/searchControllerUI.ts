@@ -1,5 +1,5 @@
 import { SearchController } from '@searchspring/snap-controller';
-import { AbstractionGroup } from '../../../../types';
+import { AbstractionGroup, DomSelectorSelectors } from '../../../../types';
 import { TemplateEditorStore } from '../TemplateEditorStore';
 
 export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<number>[] {
@@ -10,7 +10,7 @@ export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<num
 			collapsible: true,
 			controls: [
 				{
-					type: 'text',
+					type: 'dom-selector',
 					label: 'Selector',
 					description: 'Target CSS selector',
 					getValue: (index) => {
@@ -32,11 +32,14 @@ export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<num
 						);
 					},
 					onValueChange: (value, index) => {
-						store.setTargetOverride({ path: ['search', `[${index}]`, 'selector'], value: value });
+						store.setTargetOverride({ path: ['search', `[${index}]`, 'selector'], value: value as string });
 					},
 					onReset: (index) => {
-						store.setTargetOverride({ path: ['search', `[${index}]`, 'selector'] });
+						store.setTargetOverride({ path: ['search', `[${index}]`, 'selector'], value: undefined });
 					},
+					// DOM Selector specific functions
+					getSelectorId: (index) => `search-selector-${index}`,
+					getDomSelectorSelector: () => DomSelectorSelectors.content,
 				},
 				{
 					type: 'dropdown',
@@ -65,10 +68,10 @@ export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<num
 						);
 					},
 					onValueChange: (value, index) => {
-						store.setTargetOverride({ path: ['search', `[${index}]`, 'component'], value: value });
+						store.setTargetOverride({ path: ['search', `[${index}]`, 'component'], value: value as string });
 					},
 					onReset: (index) => {
-						store.setTargetOverride({ path: ['search', `[${index}]`, 'component'] });
+						store.setTargetOverride({ path: ['search', `[${index}]`, 'component'], value: undefined });
 					},
 				},
 				{
@@ -94,10 +97,10 @@ export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<num
 						return initialTargetAtIndex && overrideTargetAtIndex && initialTargetAtIndex.resultComponent != overrideTargetAtIndex.resultComponent;
 					},
 					onValueChange: (value, index) => {
-						store.setTargetOverride({ path: ['search', `[${index}]`, 'resultComponent'], value: value });
+						store.setTargetOverride({ path: ['search', `[${index}]`, 'resultComponent'], value: value as string });
 					},
 					onReset: (index) => {
-						store.setTargetOverride({ path: ['search', `[${index}]`, 'resultComponent'] });
+						store.setTargetOverride({ path: ['search', `[${index}]`, 'resultComponent'], value: undefined });
 
 						// if no initial value
 						const initialTargetAtIndex = store.initial.targets?.search?.[index as number];

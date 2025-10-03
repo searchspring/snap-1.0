@@ -38,6 +38,8 @@ const THEME_VARIABLE_DEFAULTS: ThemeVariables = {
 
 export type EditorTabs = 'templates' | 'configuration';
 
+// export a drupal called DomSelectorSelectors with the following properties
+
 type EditorStoredState = {
 	hidden: boolean;
 	activeTab: EditorTabs;
@@ -206,6 +208,10 @@ export class TemplateEditorStore {
 	toggleHide(hide: boolean) {
 		this.storedState.hidden = hide;
 		this.storage.set('editor', this.storedState);
+	}
+
+	setActiveDomSelector(selectorId: string | null) {
+		this.state.activeDomSelector = selectorId?.length ? selectorId : '';
 	}
 
 	setConfigOverride(obj: { path: string[]; value: unknown }) {

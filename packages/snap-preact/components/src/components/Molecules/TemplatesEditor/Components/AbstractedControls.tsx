@@ -110,6 +110,11 @@ export const AbstractedControls = observer(<Params,>(properties: AbstractedContr
 									display={control.getDisplayState ? control.getDisplayState(data) : 'visible'}
 									value={control.getValue(data)}
 									options={control.getOptions ? control.getOptions(data) : []}
+									// DOM Selector specific props
+									activeDomSelector={editorStore.state.activeDomSelector}
+									setActiveDomSelector={(selector) => editorStore.setActiveDomSelector(selector)}
+									selectorId={control.getSelectorId ? control.getSelectorId(data) : undefined}
+									elementSelector={control.getDomSelectorSelector ? control.getDomSelectorSelector() : undefined}
 								/>
 							);
 						})}

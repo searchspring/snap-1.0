@@ -121,8 +121,14 @@ export type SnapFeatures = {
 
 // The state of a UI control, which determines how it's rendered.
 export type ControlDisplayState = 'visible' | 'disabled' | 'hidden';
-export type ControlValueTypes = 'dropdown' | 'checkbox' | 'number' | 'text' | 'color' | 'layout';
+export type ControlValueTypes = 'dropdown' | 'checkbox' | 'number' | 'text' | 'color' | 'layout' | 'dom-selector';
 export type ControlValues = string | number | boolean;
+
+export enum DomSelectorSelectors {
+	component = '[ss-path]',
+	content = 'div, section, article, aside',
+	input = 'input[type=text], input[type=searc]',
+}
 
 type ControlOption = {
 	label?: string;
@@ -162,6 +168,10 @@ export interface AbstractedControl<Params, Value = ControlValues> {
 	onReset: (params?: Params) => void;
 
 	shouldShowReset: (params?: Params) => boolean;
+
+	// DOM Selector specific properties
+	getSelectorId?: (params?: Params) => string;
+	getDomSelectorSelector?: () => DomSelectorSelectors;
 }
 
 // Defines a group of related UI controls that appear together.
