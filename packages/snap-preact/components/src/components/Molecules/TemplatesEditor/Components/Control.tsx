@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { useState, useEffect, useCallback } from 'preact/hooks';
+import { useState, useEffect, useCallback, useRef } from 'preact/hooks';
 import { css, Global } from '@emotion/react';
 import { ControlDisplayState, ControlOptions, ControlValues, ControlValueTypes } from '../../../../../../src/types';
 import { Reset, DomSelectorIcon } from '../Assets';
 import { RootNodeProperties } from '../../../../types';
+import { DomSelectorNavigator, getShortestUniqueSelector } from './DomSelectorNavigator';
 
 // CSS styles for DOM selector overlay and tooltip
 const overlayStyles = css`
@@ -110,6 +111,15 @@ export const Control = observer((props: ControlProps) => {
 
 	const [inputValue, setInputValue] = useState(value);
 	const [isSelecting, setIsSelecting] = useState(false);
+	const [navigatorState, setNavigatorState] = useState<{
+		show: boolean;
+		x: number;
+		y: number;
+		targetElement: HTMLElement | null;
+	}>({ show: false, x: 0, y: 0, targetElement: null });
+	const lastMatchedElementRef = useRef<Element | null>(null);
+	const hoverTimeoutRef = useRef<number | null>(null);
+	const pendingHoverDataRef = useRef<{ x: number; y: number; target: HTMLElement; matchedElement: Element } | null>(null);
 
 	const styling: RootNodeProperties = {
 		css: [CSSStyles.Controls({ ...props })],
@@ -180,9 +190,13 @@ export const Control = observer((props: ControlProps) => {
 
 			const target = e.target as HTMLElement;
 
+			// Don't update if hovering over the navigator itself (check this FIRST)
+			if (target.closest('.ss-dom-navigator')) {
+				return;
+			}
+
 			// Prevent hovering over elements within the template editor itself
 			if (target.closest('#searchspring-template-editor')) {
-				cleanupOverlay(); // Remove overlay if we're hovering over the editor
 				return;
 			}
 
@@ -191,29 +205,68 @@ export const Control = observer((props: ControlProps) => {
 
 			const matchedElement = target.closest(elementSelector || '*');
 
-			if (!matchedElement) return;
+			if (!matchedElement) {
+				return;
+			}
 
-			// Remove any existing overlay
+			// Ignore if we're already hovering the same matched element
+			if (lastMatchedElementRef.current === matchedElement) {
+				return;
+			}
+
+			// Clear any pending hover timeout
+			if (hoverTimeoutRef.current) {
+				clearTimeout(hoverTimeoutRef.current);
+				hoverTimeoutRef.current = null;
+			}
+
+			// Show overlay immediately for visual feedback
 			cleanupOverlay();
-
-			// Add visual overlay
 			const overlay = document.createElement('div');
-			overlay.classList.add('ss-selector-overlay');
+			overlay.classList.add('ss-selector-overlay', 'current');
+			overlay.setAttribute('data-overlay-source', 'control-mouseover');
 			const rect = matchedElement.getBoundingClientRect();
-			overlay.style.width = `${rect.width}px`;
-			overlay.style.height = `${rect.height}px`;
-			overlay.style.left = `${rect.left}px`;
-			overlay.style.top = `${rect.top}px`;
-
-			// Add tooltip
-			const tooltip = document.createElement('div');
-			tooltip.classList.add('ss-selector-tooltip');
-			tooltip.style.left = `${rect.left}px`;
-			tooltip.style.top = `${rect.bottom + 5}px`;
-			tooltip.textContent = getShortestUniqueSelector(matchedElement) || 'Element';
-
+			overlay.style.cssText = `
+				position: fixed;
+				pointer-events: none;
+				z-index: 10001;
+				background: rgba(29, 144, 73, 0.2);
+				border: 2px solid #1d9044;
+				width: ${rect.width}px;
+				height: ${rect.height}px;
+				left: ${rect.left}px;
+				top: ${rect.top}px;
+				transition: all 0.1s ease-in-out;
+			`;
 			document.body.appendChild(overlay);
-			document.body.appendChild(tooltip);
+
+			// Store hover data for debounced show
+			pendingHoverDataRef.current = {
+				x: e.clientX,
+				y: e.clientY,
+				target,
+				matchedElement,
+			};
+
+			// Debounce: wait for mouse to rest before showing navigator
+			hoverTimeoutRef.current = window.setTimeout(() => {
+				const hoverData = pendingHoverDataRef.current;
+				if (!hoverData) return;
+
+				// Update the last matched element
+				lastMatchedElementRef.current = hoverData.matchedElement;
+
+				// Pass EXACT mouse position to navigator
+				// Navigator will position itself so mouse is at the appropriate corner
+				setNavigatorState({
+					show: true,
+					x: hoverData.x,
+					y: hoverData.y,
+					targetElement: hoverData.target,
+				});
+
+				hoverTimeoutRef.current = null;
+			}, 600);
 		},
 		[type, activeDomSelector, selectorId, elementSelector]
 	);
@@ -223,22 +276,59 @@ export const Control = observer((props: ControlProps) => {
 			if (type !== 'dom-selector' || activeDomSelector !== selectorId) return;
 
 			const target = e.target as HTMLElement;
-			// Don't process events on the template editor
-			if (target.closest('#searchspring-template-editor')) {
+			const relatedTarget = e.relatedTarget as HTMLElement;
+
+			// Cancel any pending hover timeout
+			if (hoverTimeoutRef.current) {
+				clearTimeout(hoverTimeoutRef.current);
+				hoverTimeoutRef.current = null;
+				pendingHoverDataRef.current = null;
+			}
+
+			// Don't close if moving to the navigator
+			if (relatedTarget?.closest('.ss-dom-navigator')) {
 				return;
 			}
 
-			cleanupOverlay();
+			// Don't close if moving to the template editor
+			if (relatedTarget?.closest('#searchspring-template-editor')) {
+				return;
+			}
+
+			// Don't close if moving to another element within the same matched element
+			const matchedElement = target.closest(elementSelector || '*');
+			if (matchedElement && relatedTarget) {
+				const relatedMatchedElement = relatedTarget.closest(elementSelector || '*');
+				if (relatedMatchedElement === matchedElement) {
+					return;
+				}
+			}
+
+			setNavigatorState({ show: false, x: 0, y: 0, targetElement: null });
+			lastMatchedElementRef.current = null;
 		},
-		[type, activeDomSelector, selectorId]
+		[type, activeDomSelector, selectorId, elementSelector]
 	);
 
 	const cleanupOverlay = () => {
-		document.querySelectorAll('.ss-selector-overlay, .ss-selector-tooltip').forEach((el) => el.remove());
+		const overlays = document.querySelectorAll('.ss-selector-overlay');
+		overlays.forEach((el) => {
+			el.remove();
+		});
 	};
 
 	const cleanupSelection = () => {
 		cleanupOverlay();
+		setNavigatorState({ show: false, x: 0, y: 0, targetElement: null });
+		lastMatchedElementRef.current = null;
+
+		// Clear any pending hover timeout
+		if (hoverTimeoutRef.current) {
+			clearTimeout(hoverTimeoutRef.current);
+			hoverTimeoutRef.current = null;
+		}
+		pendingHoverDataRef.current = null;
+
 		document.removeEventListener('click', handleElementClick, true);
 		document.removeEventListener('mouseover', handleElementMouseOver, true);
 		document.removeEventListener('mouseout', handleElementMouseOut, true);
@@ -288,6 +378,22 @@ export const Control = observer((props: ControlProps) => {
 			setActiveDomSelector(selectorId);
 		}
 	};
+
+	const handleNavigatorClose = useCallback(() => {
+		setNavigatorState({ show: false, x: 0, y: 0, targetElement: null });
+	}, []);
+
+	const handleNavigatorSelect = useCallback(
+		(selector: string) => {
+			onChange(selector);
+			setInputValue(selector);
+			if (setActiveDomSelector) {
+				setActiveDomSelector('');
+			}
+			cleanupSelection();
+		},
+		[onChange, setActiveDomSelector]
+	);
 
 	return display === 'hidden' ? null : (
 		<div className={`control ${type} ${display}`} {...styling}>
@@ -441,6 +547,16 @@ export const Control = observer((props: ControlProps) => {
 					})()}
 				</div>
 			</div>
+			{type === 'dom-selector' && navigatorState.show && navigatorState.targetElement && (
+				<DomSelectorNavigator
+					elementSelector={elementSelector}
+					onChange={handleNavigatorSelect}
+					onClose={handleNavigatorClose}
+					x={navigatorState.x}
+					y={navigatorState.y}
+					targetElement={navigatorState.targetElement}
+				/>
+			)}
 		</div>
 	);
 });
@@ -452,57 +568,3 @@ const isValidHexColor = (color: string): boolean => {
 	}
 	return true;
 };
-
-// Helper function to get the shortest unique selector for an element
-function getShortestUniqueSelector(el: Element | null): string | null {
-	if (!(el instanceof Element)) return null;
-
-	const parts: string[] = [];
-	let current: Element | null = el;
-
-	while (current && current.nodeType === 1) {
-		let selector = current.tagName.toLowerCase();
-
-		// Use ID if present
-		if (current.id) {
-			selector = `#${CSS.escape(current.id)}`;
-			parts.unshift(selector);
-		} else {
-			// Add class-based selector
-			if (current.classList.length > 0) {
-				selector +=
-					'.' +
-					Array.from(current.classList)
-						.map((cls) => CSS.escape(cls))
-						.join('.');
-			}
-
-			// Use :nth-child if needed for uniqueness
-			const siblings = Array.from(current.parentNode?.children || []);
-			const sameTagSiblings = siblings.filter((sib) => sib.tagName === current?.tagName);
-			if (sameTagSiblings.length > 1) {
-				const index = siblings.indexOf(current) + 1;
-				selector += `:nth-child(${index})`;
-			}
-
-			parts.unshift(selector);
-		}
-
-		// Try to build the selector
-		const combinedSelector = parts.join(' > ');
-		const found = document.querySelectorAll(combinedSelector);
-
-		// If it returns exactly the original element, return it
-		if (found.length === 1 && found[0] === el) {
-			return combinedSelector;
-		}
-
-		// Move up
-		current = current.parentElement;
-		if (current === null) {
-			break;
-		}
-	}
-
-	return null;
-}
