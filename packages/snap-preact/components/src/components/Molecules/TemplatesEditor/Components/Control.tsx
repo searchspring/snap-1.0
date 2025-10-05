@@ -6,12 +6,13 @@ import { Reset, DomSelectorIcon } from '../Assets';
 import { RootNodeProperties } from '../../../../types';
 import { DomSelectorNavigator, getShortestUniqueSelector } from './DomSelectorNavigator';
 
-// DOM Selector constants
-const HOVER_DEBOUNCE_MS = 600; // Time to wait before showing navigator on hover
-const OVERLAY_Z_INDEX = 10001; // Z-index for selector overlay
-const TOOLTIP_Z_INDEX = 10002; // Z-index for selector tooltip
+// dom selector constants
+const HOVER_DEBOUNCE_MS = 600; // time to wait before showing navigator on hover
+const VALIDATION_DEBOUNCE_MS = 300; // time to wait before validating selector input
+const OVERLAY_Z_INDEX = 10001; // z-index for selector overlay
+const TOOLTIP_Z_INDEX = 10002; // z-index for selector tooltip
 
-// CSS-in-JS styles using Emotion's object syntax (matches TemplatesEditor.tsx pattern)
+// css-in-js styles using emotion's object syntax
 const CSS = {
 	Controls: ({}: Partial<ControlProps>) =>
 		css({
@@ -22,6 +23,10 @@ const CSS = {
 				width: '100%',
 				input: {
 					flex: 1,
+					'&.invalid': {
+						borderColor: '#cc0000',
+						outline: '1px solid #cc0000',
+					},
 				},
 				'.dom-selector-button': {
 					padding: '4px',
@@ -80,10 +85,7 @@ const CSS = {
 		}),
 };
 
-/**
- * Stores pending hover data for debounced navigator display
- * Used to track mouse position and target element during hover timeout
- */
+// stores pending hover data for debounced navigator display
 interface PendingHoverData {
 	x: number;
 	y: number;
@@ -91,38 +93,21 @@ interface PendingHoverData {
 	matchedElement: Element;
 }
 
-/**
- * Props for the Control component
- * Supports multiple control types including text, number, checkbox, dropdown, color, and dom-selector
- */
 type ControlProps = {
-	/** Type of control to render */
 	type: ControlValueTypes;
-	/** Label text displayed for the control */
 	label: string;
-	/** Optional description shown as title tooltip */
 	description?: string;
-	/** Callback when reset button is clicked */
 	onReset: () => void;
-	/** Display state: normal, disabled, or hidden */
 	display: ControlDisplayState;
-	/** Whether to show the reset button */
 	showReset: boolean;
-	/** Current value of the control */
 	value: ControlValues;
-	/** Options for dropdown type controls */
 	options?: ControlOptions;
-	/** Callback when control value changes */
 	onChange: (value: ControlValues) => void;
 
-	// DOM Selector specific props (required when type is 'dom-selector')
-	/** Currently active DOM selector ID (for mutual exclusivity) */
+	// dom selector specific props
 	activeDomSelector?: string;
-	/** Callback to set the active DOM selector ID */
 	setActiveDomSelector?: (selector: string) => void;
-	/** Unique ID for this DOM selector control */
 	selectorId?: string;
-	/** CSS selector to filter which elements can be selected (e.g., 'input' for autocomplete) */
 	elementSelector?: string;
 };
 
@@ -145,6 +130,7 @@ export const Control = observer((props: ControlProps) => {
 
 	const [inputValue, setInputValue] = useState(value);
 	const [isSelecting, setIsSelecting] = useState(false);
+	const [isSelectorValid, setIsSelectorValid] = useState(true);
 	const [navigatorState, setNavigatorState] = useState<{
 		show: boolean;
 		x: number;
@@ -152,9 +138,9 @@ export const Control = observer((props: ControlProps) => {
 		targetElement: HTMLElement | null;
 	}>({ show: false, x: 0, y: 0, targetElement: null });
 	const lastMatchedElementRef = useRef<Element | null>(null);
-	// Browser setTimeout returns a numeric timer ID
 	const hoverTimeoutRef = useRef<number | null>(null);
 	const pendingHoverDataRef = useRef<PendingHoverData | null>(null);
+	const validationTimeoutRef = useRef<number | null>(null);
 
 	const styling: RootNodeProperties = {
 		css: [CSS.Controls({ ...props })],
@@ -164,15 +150,61 @@ export const Control = observer((props: ControlProps) => {
 		setInputValue(value);
 	}, [value]);
 
-	// DOM Selector specific state and handlers
-	// Sync isSelecting state with activeDomSelector changes
+	// sync isSelecting state with activeDomSelector changes
 	useEffect(() => {
 		if (type === 'dom-selector' && selectorId) {
 			setIsSelecting(activeDomSelector === selectorId);
 		}
 	}, [type, activeDomSelector, selectorId]);
 
-	// Element selection handlers for dom-selector type
+	// validate dom-selector input value with debounce to avoid performance issues during rapid typing
+	useEffect(() => {
+		// clear any pending validation timeout
+		if (validationTimeoutRef.current) {
+			clearTimeout(validationTimeoutRef.current);
+			validationTimeoutRef.current = null;
+		}
+
+		if (type !== 'dom-selector') {
+			setIsSelectorValid(true);
+			return;
+		}
+
+		// debounce all validation to avoid blocking input during rapid typing
+		validationTimeoutRef.current = window.setTimeout(() => {
+			if (!inputValue || typeof inputValue !== 'string') {
+				setIsSelectorValid(true);
+				validationTimeoutRef.current = null;
+				return;
+			}
+
+			// empty selector is valid
+			if (inputValue.trim() === '') {
+				setIsSelectorValid(true);
+				validationTimeoutRef.current = null;
+				return;
+			}
+
+			try {
+				// check if selector matches any elements on the page
+				const matches = document.querySelectorAll(inputValue);
+				setIsSelectorValid(matches.length > 0);
+			} catch (e) {
+				// invalid selector syntax
+				setIsSelectorValid(false);
+			}
+			validationTimeoutRef.current = null;
+		}, VALIDATION_DEBOUNCE_MS);
+
+		return () => {
+			if (validationTimeoutRef.current) {
+				clearTimeout(validationTimeoutRef.current);
+				validationTimeoutRef.current = null;
+			}
+		};
+	}, [type, inputValue]);
+
+	// element selection handlers for dom-selector type
 	const handleElementClick = useCallback(
 		(e: MouseEvent) => {
 			if (type !== 'dom-selector' || activeDomSelector !== selectorId) return;
@@ -220,21 +252,20 @@ export const Control = observer((props: ControlProps) => {
 		[type, activeDomSelector, selectorId, elementSelector, onChange, setActiveDomSelector]
 	);
 
-	// PERFORMANCE: Refs (hoverTimeoutRef, pendingHoverDataRef, lastMatchedElementRef) are intentionally
-	// excluded from dependency array as they don't trigger re-renders and are stable across renders
-	// PERFORMANCE: Early returns prevent unnecessary DOM operations and ref updates
+	// refs excluded from dependency array - they don't trigger re-renders
+	// early returns prevent unnecessary dom operations
 	const handleElementMouseOver = useCallback(
 		(e: MouseEvent) => {
 			if (type !== 'dom-selector' || activeDomSelector !== selectorId) return;
 
 			const target = e.target as HTMLElement;
 
-			// Don't update if hovering over the navigator itself (check this FIRST)
+			// don't update if hovering over the navigator itself
 			if (target.closest('.ss-dom-navigator')) {
 				return;
 			}
 
-			// Prevent hovering over elements within the template editor itself
+			// prevent hovering over elements within the template editor
 			if (target.closest('#searchspring-template-editor')) {
 				return;
 			}
@@ -245,7 +276,7 @@ export const Control = observer((props: ControlProps) => {
 				return;
 			}
 
-			// Ignore if we're already hovering the same matched element
+			// ignore if already hovering the same matched element
 			if (lastMatchedElementRef.current === matchedElement) {
 				return;
 			}
@@ -254,13 +285,13 @@ export const Control = observer((props: ControlProps) => {
 			e.preventDefault();
 			e.stopPropagation();
 
-			// Clear any pending hover timeout
+			// clear any pending hover timeout
 			if (hoverTimeoutRef.current) {
 				clearTimeout(hoverTimeoutRef.current);
 				hoverTimeoutRef.current = null;
 			}
 
-			// Show overlay immediately for visual feedback
+			// show overlay immediately for visual feedback
 			cleanupOverlay();
 			const overlay = document.createElement('div');
 			overlay.classList.add('ss-selector-overlay', 'current');
@@ -280,7 +311,7 @@ export const Control = observer((props: ControlProps) => {
 			`;
 			document.body.appendChild(overlay);
 
-			// Store hover data for debounced show
+			// store hover data for debounced show
 			pendingHoverDataRef.current = {
 				x: e.clientX,
 				y: e.clientY,
@@ -288,16 +319,15 @@ export const Control = observer((props: ControlProps) => {
 				matchedElement,
 			};
 
-			// Debounce: wait for mouse to rest before showing navigator
+			// debounce - wait for mouse to rest before showing navigator
 			hoverTimeoutRef.current = window.setTimeout(() => {
 				const hoverData = pendingHoverDataRef.current;
 				if (!hoverData) return;
 
-				// Update the last matched element
+				// update the last matched element
 				lastMatchedElementRef.current = hoverData.matchedElement;
 
-				// Pass EXACT mouse position to navigator
-				// Navigator will position itself so mouse is at the appropriate corner
+				// pass exact mouse position to navigator
 				setNavigatorState({
 					show: true,
 					x: hoverData.x,
@@ -311,8 +341,7 @@ export const Control = observer((props: ControlProps) => {
 		[type, activeDomSelector, selectorId, elementSelector]
 	);
 
-	// PERFORMANCE: Refs (hoverTimeoutRef, pendingHoverDataRef, lastMatchedElementRef) are intentionally
-	// excluded from dependency array as they don't trigger re-renders and are stable across renders
+	// refs excluded from dependency array - they don't trigger re-renders
 	const handleElementMouseOut = useCallback(
 		(e: MouseEvent) => {
 			if (type !== 'dom-selector' || activeDomSelector !== selectorId) return;
@@ -320,24 +349,24 @@ export const Control = observer((props: ControlProps) => {
 			const target = e.target as HTMLElement;
 			const relatedTarget = e.relatedTarget as HTMLElement;
 
-			// Cancel any pending hover timeout
+			// cancel any pending hover timeout
 			if (hoverTimeoutRef.current) {
 				clearTimeout(hoverTimeoutRef.current);
 				hoverTimeoutRef.current = null;
 				pendingHoverDataRef.current = null;
 			}
 
-			// Don't close if moving to the navigator
+			// don't close if moving to the navigator
 			if (relatedTarget?.closest('.ss-dom-navigator')) {
 				return;
 			}
 
-			// Don't close if moving to the template editor
+			// don't close if moving to the template editor
 			if (relatedTarget?.closest('#searchspring-template-editor')) {
 				return;
 			}
 
-			// Don't close if moving to another element within the same matched element
+			// don't close if moving to another element within the same matched element
 			const matchedElement = target.closest(elementSelector || '*');
 			if (matchedElement && relatedTarget) {
 				const relatedMatchedElement = relatedTarget.closest(elementSelector || '*');
@@ -392,9 +421,8 @@ export const Control = observer((props: ControlProps) => {
 		[type, isSelecting, setActiveDomSelector]
 	);
 
-	// Setup/cleanup selection mode for dom-selector type
-	// PERFORMANCE: Only attach event listeners when THIS specific selector is active
-	// This prevents inactive selectors from executing handler checks on every mouse event
+	// setup/cleanup selection mode for dom-selector type
+	// only attach event listeners when this specific selector is active
 	useEffect(() => {
 		if (type === 'dom-selector' && isSelecting && activeDomSelector === selectorId) {
 			document.addEventListener('click', handleElementClick, true);
@@ -532,6 +560,7 @@ export const Control = observer((props: ControlProps) => {
 									<div className="dom-selector-container">
 										<input
 											type="text"
+											className={!isSelectorValid ? 'invalid' : ''}
 											value={inputValue as string}
 											onChange={(e) => {
 												const newValue = e.target.value;

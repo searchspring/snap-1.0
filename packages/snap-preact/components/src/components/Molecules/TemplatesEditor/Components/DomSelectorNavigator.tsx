@@ -1,13 +1,15 @@
-import { useEffect, useState, useCallback, useRef } from 'preact/hooks';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'preact/hooks';
 import { css, Global } from '@emotion/react';
 
-// DOM Navigator constants
-const MAX_HIERARCHY_LEVELS = 6; // Maximum parent levels to traverse
-const MAX_CHILDREN_SHOWN = 6; // Maximum child elements to display
-const POSITION_MARGIN = 20; // Margin from viewport edges (px)
-const POSITION_OVERLAP = 10; // Overlap for better mouse coverage (px)
+// dom navigator constants
+const MAX_HIERARCHY_LEVELS = 6; // maximum parent levels to traverse
+const MAX_CHILDREN_SHOWN = 6; // maximum child elements to display
+const POSITION_MARGIN = 20; // margin from viewport edges (px)
+const POSITION_OVERLAP = 10; // overlap for better mouse coverage (px)
+const NAVIGATOR_Z_INDEX = 10003; // z-index for navigator panel
+const HOVER_OVERLAY_Z_INDEX = 10001; // z-index for hover preview overlay
 
-// CSS-in-JS styles using Emotion's object syntax (matches TemplatesEditor.tsx pattern)
+// css-in-js styles using emotion's object syntax
 const CSSStyles = {
 	Navigator: () =>
 		css({
@@ -18,7 +20,7 @@ const CSSStyles = {
 				borderRadius: '8px',
 				padding: '12px',
 				boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-				zIndex: 10003,
+				zIndex: NAVIGATOR_Z_INDEX,
 				minWidth: '280px',
 				maxWidth: '400px',
 				fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -176,7 +178,7 @@ const CSSStyles = {
 			'.ss-selector-overlay': {
 				position: 'fixed',
 				pointerEvents: 'none',
-				zIndex: 10001,
+				zIndex: HOVER_OVERLAY_Z_INDEX,
 				transition: 'all 0.1s ease-in-out',
 
 				'&.parent': {
@@ -223,30 +225,30 @@ interface ElementNode {
 
 export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elementSelector, onChange, onClose, x, y, targetElement }) => {
 	const [position, setPosition] = useState({ x, y });
-	const [hierarchy, setHierarchy] = useState<{
-		parents: ElementNode[];
-		current: ElementNode | null;
-		children: ElementNode[];
-	}>({ parents: [], current: null, children: [] });
 	const [previewElement, setPreviewElement] = useState<HTMLElement | null>(null);
-	const [breadcrumb, setBreadcrumb] = useState<string>('');
 	const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 	const navigatorRef = useRef<HTMLDivElement>(null);
 	const parentsScrollRef = useRef<HTMLDivElement>(null);
+	// reuse single overlay element instead of creating/destroying on every hover
+	const hoverOverlayRef = useRef<HTMLDivElement | null>(null);
 
-	// Build element hierarchy
-	useEffect(() => {
-		if (!targetElement) return;
+	// memoize hierarchy building - only recalculates when targetElement or elementSelector changes
+	const hierarchy = useMemo(() => {
+		if (!targetElement) {
+			return { parents: [], current: null, children: [] };
+		}
 
 		const matchedElement = targetElement.closest(elementSelector || '*');
-		if (!matchedElement || !(matchedElement instanceof HTMLElement)) return;
+		if (!matchedElement || !(matchedElement instanceof HTMLElement)) {
+			return { parents: [], current: null, children: [] };
+		}
 
-		// Get parents (up to MAX_HIERARCHY_LEVELS) - only parents that match elementSelector
+		// get parents (up to MAX_HIERARCHY_LEVELS) - only parents that match elementSelector
 		const parents: ElementNode[] = [];
 		let searchElement = matchedElement.parentElement;
 		let level = 0;
 		while (searchElement && level < MAX_HIERARCHY_LEVELS && searchElement.id !== 'searchspring-template-editor') {
-			// Find next parent that matches the selector
+			// find next parent that matches the selector
 			const nextParent = searchElement.closest(elementSelector || '*');
 			if (nextParent && nextParent !== matchedElement && nextParent instanceof HTMLElement) {
 				const selector = getShortestUniqueSelector(nextParent);
@@ -260,16 +262,16 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 						type: 'parent',
 					});
 				}
-				// Move to the parent of this matched element to continue searching
+				// move to the parent of this matched element to continue searching
 				searchElement = nextParent.parentElement;
 				level++;
 			} else {
-				// No more matching parents found
+				// no more matching parents found
 				break;
 			}
 		}
 
-		// Current element
+		// current element
 		const currentSelector = getShortestUniqueSelector(matchedElement);
 		const current: ElementNode = {
 			element: matchedElement,
@@ -280,10 +282,10 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 			type: 'current',
 		};
 
-		// Get children (up to MAX_CHILDREN_SHOWN) - only children that match elementSelector
+		// get children (up to MAX_CHILDREN_SHOWN) - only children that match elementSelector
 		const children: ElementNode[] = [];
 		const matchingChildren = Array.from(matchedElement.querySelectorAll(elementSelector || '*'))
-			.filter((child) => child.parentElement === matchedElement) // Only direct children
+			.filter((child) => child.parentElement === matchedElement) // only direct children
 			.slice(0, MAX_CHILDREN_SHOWN) as HTMLElement[];
 
 		matchingChildren.forEach((child, index) => {
@@ -301,47 +303,52 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 			}
 		});
 
-		setHierarchy({ parents, current, children });
-
-		// Build breadcrumb from all found parents
-		const breadcrumbParts = [...parents.map((p) => p.tag), current.tag];
-		setBreadcrumb(breadcrumbParts.join(' > '));
-
-		// Show overlay for current element when navigator first appears
-		if (current) {
-			// Clean existing overlays
-			const existingOverlays = document.querySelectorAll('.ss-selector-overlay');
-			existingOverlays.forEach((el) => el.remove());
-
-			// Create overlay for current element
-			const overlay = document.createElement('div');
-			overlay.classList.add('ss-selector-overlay', 'current');
-			overlay.setAttribute('data-overlay-source', 'navigator-init');
-			const rect = current.element.getBoundingClientRect();
-			overlay.style.cssText = `
-				position: fixed;
-				pointer-events: none;
-				z-index: 10001;
-				background: rgba(29, 144, 73, 0.2);
-				border: 2px solid #1d9044;
-				width: ${rect.width}px;
-				height: ${rect.height}px;
-				left: ${rect.left}px;
-				top: ${rect.top}px;
-				transition: all 0.1s ease-in-out;
-			`;
-			document.body.appendChild(overlay);
-		}
+		return { parents, current, children };
 	}, [targetElement, elementSelector]);
 
-	// Scroll parents list to bottom so closest parent is visible first
+	// breadcrumb derived from hierarchy
+	const breadcrumb = useMemo(() => {
+		if (!hierarchy.current) return '';
+		const breadcrumbParts = [...hierarchy.parents.map((p) => p.tag), hierarchy.current.tag];
+		return breadcrumbParts.join(' > ');
+	}, [hierarchy]);
+
+	// show overlay for current element when navigator first appears
+	useEffect(() => {
+		if (!hierarchy.current) return;
+
+		// clean existing overlays
+		const existingOverlays = document.querySelectorAll('.ss-selector-overlay');
+		existingOverlays.forEach((el) => el.remove());
+
+		// create overlay for current element
+		const overlay = document.createElement('div');
+		overlay.classList.add('ss-selector-overlay', 'current');
+		overlay.setAttribute('data-overlay-source', 'navigator-init');
+		const rect = hierarchy.current.element.getBoundingClientRect();
+		overlay.style.cssText = `
+			position: fixed;
+			pointer-events: none;
+			z-index: ${HOVER_OVERLAY_Z_INDEX};
+			background: rgba(29, 144, 73, 0.2);
+			border: 2px solid #1d9044;
+			width: ${rect.width}px;
+			height: ${rect.height}px;
+			left: ${rect.left}px;
+			top: ${rect.top}px;
+			transition: all 0.1s ease-in-out;
+		`;
+		document.body.appendChild(overlay);
+	}, [hierarchy.current]);
+
+	// scroll parents list to bottom so closest parent is visible first
 	useEffect(() => {
 		if (parentsScrollRef.current && hierarchy.parents.length > 0) {
 			parentsScrollRef.current.scrollTop = parentsScrollRef.current.scrollHeight;
 		}
 	}, [hierarchy.parents]);
 
-	// Smart positioning: place navigator so mouse is directly at one of its corners
+	// smart positioning - place navigator so mouse is directly at one of its corners
 	useEffect(() => {
 		if (!navigatorRef.current) return;
 
@@ -403,28 +410,39 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 		setPosition({ x: newX, y: newY });
 	}, [x, y]);
 
-	// Handle element preview on hover
+	// handle element preview on hover by reusing a single overlay element
 	const handleItemHover = useCallback((node: ElementNode | null) => {
-		// Remove existing overlays
-		const existingOverlays = document.querySelectorAll('.ss-selector-overlay');
-
-		existingOverlays.forEach((el) => {
-			el.remove();
-		});
+		// clean up existing overlays (for overlays created elsewhere)
+		const existingOverlays = document.querySelectorAll('.ss-selector-overlay:not([data-overlay-source="navigator-hover-reused"])');
+		existingOverlays.forEach((el) => el.remove());
 
 		if (!node) {
 			setPreviewElement(null);
+			// hide overlay instead of removing it
+			if (hoverOverlayRef.current) {
+				hoverOverlayRef.current.style.display = 'none';
+			}
 			return;
 		}
 
 		setPreviewElement(node.element);
 
-		// Create overlay for the hovered element with proper styling
-		const overlay = document.createElement('div');
-		overlay.classList.add('ss-selector-overlay', node.type || 'preview');
+		// create overlay element if it doesn't exist, otherwise reuse it
+		if (!hoverOverlayRef.current) {
+			hoverOverlayRef.current = document.createElement('div');
+			hoverOverlayRef.current.classList.add('ss-selector-overlay');
+			hoverOverlayRef.current.setAttribute('data-overlay-source', 'navigator-hover-reused');
+			hoverOverlayRef.current.style.position = 'fixed';
+			hoverOverlayRef.current.style.pointerEvents = 'none';
+			hoverOverlayRef.current.style.zIndex = String(HOVER_OVERLAY_Z_INDEX);
+			hoverOverlayRef.current.style.transition = 'all 0.1s ease-in-out';
+			document.body.appendChild(hoverOverlayRef.current);
+		}
+
+		const overlay = hoverOverlayRef.current;
 		const rect = node.element.getBoundingClientRect();
 
-		// Get color based on type
+		// get color based on type
 		let backgroundColor, borderColor;
 		if (node.type === 'parent') {
 			backgroundColor = 'rgba(29, 73, 144, 0.15)';
@@ -440,23 +458,17 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 			borderColor = '#901d49';
 		}
 
-		overlay.style.cssText = `
-			position: fixed;
-			pointer-events: none;
-			z-index: 10001;
-			background: ${backgroundColor};
-			border: 2px solid ${borderColor};
-			width: ${rect.width}px;
-			height: ${rect.height}px;
-			left: ${rect.left}px;
-			top: ${rect.top}px;
-			transition: all 0.1s ease-in-out;
-		`;
-		overlay.setAttribute('data-overlay-source', 'navigator-hover');
-		document.body.appendChild(overlay);
+		// update overlay properties (much faster than creating new element)
+		overlay.style.display = 'block';
+		overlay.style.background = backgroundColor;
+		overlay.style.border = `2px solid ${borderColor}`;
+		overlay.style.width = `${rect.width}px`;
+		overlay.style.height = `${rect.height}px`;
+		overlay.style.left = `${rect.left}px`;
+		overlay.style.top = `${rect.top}px`;
 	}, []);
 
-	// Handle element selection
+	// handle element selection
 	const handleItemSelect = useCallback(
 		(node: ElementNode) => {
 			if (node.selector) {
@@ -512,7 +524,7 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 		};
 	}, [onClose, selectedIndex, allNodes, handleItemHover, handleItemSelect]);
 
-	// Cleanup overlays ONLY when component unmounts (not on every re-render)
+	// cleanup overlays only when component unmounts
 	useEffect(() => {
 		return () => {
 			document.querySelectorAll('.ss-selector-overlay').forEach((el) => el.remove());
@@ -610,7 +622,7 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 	);
 };
 
-// Helper function to get the shortest unique selector for an element
+// helper function to get the shortest unique selector for an element
 export function getShortestUniqueSelector(el: Element | null): string | null {
 	if (!(el instanceof Element)) return null;
 
@@ -620,46 +632,52 @@ export function getShortestUniqueSelector(el: Element | null): string | null {
 	while (current && current.nodeType === 1) {
 		let selector = current.tagName.toLowerCase();
 
-		// Use ID if present
+		// use ID if present - IDs are unique, so we can stop here
 		if (current.id) {
 			selector = `#${CSS.escape(current.id)}`;
 			parts.unshift(selector);
-		} else {
-			// Add class-based selector
-			if (current.classList.length > 0) {
-				selector +=
-					'.' +
-					Array.from(current.classList)
-						.map((cls) => CSS.escape(cls))
-						.join('.');
-			}
-
-			// Use :nth-child if needed for uniqueness
-			const siblings = Array.from(current.parentNode?.children || []);
-			const sameTagSiblings = siblings.filter((sib) => sib.tagName === current?.tagName);
-			if (sameTagSiblings.length > 1) {
-				const index = siblings.indexOf(current) + 1;
-				selector += `:nth-child(${index})`;
-			}
-
-			parts.unshift(selector);
+			// early return - ID selectors are unique
+			return parts.join(' > ');
 		}
 
-		// Try to build the selector
+		// add class-based selector
+		if (current.classList.length > 0) {
+			selector +=
+				'.' +
+				Array.from(current.classList)
+					.map((cls) => CSS.escape(cls))
+					.join('.');
+		}
+
+		// use :nth-child if needed for uniqueness
+		const siblings = Array.from(current.parentNode?.children || []);
+		const sameTagSiblings = siblings.filter((sib) => sib.tagName === current?.tagName);
+		if (sameTagSiblings.length > 1) {
+			const index = siblings.indexOf(current) + 1;
+			selector += `:nth-child(${index})`;
+		}
+
+		parts.unshift(selector);
+
+		// check uniqueness across entire document
 		const combinedSelector = parts.join(' > ');
-		const found = document.querySelectorAll(combinedSelector);
 
-		// If it returns exactly the original element, return it
-		if (found.length === 1 && found[0] === el) {
-			return combinedSelector;
+		// use matches() first for quick validation, then check document-wide uniqueness
+		if (el.matches(combinedSelector)) {
+			const allMatches = document.querySelectorAll(combinedSelector);
+			if (allMatches.length === 1 && allMatches[0] === el) {
+				// unique selector found
+				return combinedSelector;
+			}
 		}
 
-		// Move up
+		// move up
 		current = current.parentElement;
 		if (current === null) {
 			break;
 		}
 	}
 
-	return null;
+	// fallback - return the full path selector
+	return parts.join(' > ') || null;
 }
