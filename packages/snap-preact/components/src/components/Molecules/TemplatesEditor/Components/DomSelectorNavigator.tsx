@@ -1,198 +1,206 @@
 import { useEffect, useState, useCallback, useRef } from 'preact/hooks';
 import { css, Global } from '@emotion/react';
 
-// Navigation dialog styling matching template editor theme
-const navigatorStyles = css`
-	.ss-dom-navigator {
-		position: fixed;
-		background: #f2f6fc;
-		border: 1px solid #d0e0f3;
-		border-radius: 8px;
-		padding: 12px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		z-index: 10003;
-		min-width: 280px;
-		max-width: 400px;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-		font-size: 13px;
-		transition: opacity 0.15s ease-in-out;
+// DOM Navigator constants
+const MAX_HIERARCHY_LEVELS = 6; // Maximum parent levels to traverse
+const MAX_CHILDREN_SHOWN = 6; // Maximum child elements to display
+const POSITION_MARGIN = 20; // Margin from viewport edges (px)
+const POSITION_OVERLAP = 10; // Overlap for better mouse coverage (px)
 
-		.nav-breadcrumb {
-			padding: 6px 8px;
-			background: #e8f0fc;
-			border-radius: 4px;
-			margin-bottom: 8px;
-			font-size: 11px;
-			color: #666;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
+// CSS-in-JS styles using Emotion's object syntax (matches TemplatesEditor.tsx pattern)
+const CSSStyles = {
+	Navigator: () =>
+		css({
+			'.ss-dom-navigator': {
+				position: 'fixed',
+				background: '#f2f6fc',
+				border: '1px solid #d0e0f3',
+				borderRadius: '8px',
+				padding: '12px',
+				boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+				zIndex: 10003,
+				minWidth: '280px',
+				maxWidth: '400px',
+				fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+				fontSize: '13px',
+				transition: 'opacity 0.15s ease-in-out',
 
-		.nav-tree {
-			.nav-section {
-				margin: 6px 0;
+				'.nav-breadcrumb': {
+					padding: '6px 8px',
+					background: '#e8f0fc',
+					borderRadius: '4px',
+					marginBottom: '8px',
+					fontSize: '11px',
+					color: '#666',
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+				},
 
-				.nav-section-label {
-					font-size: 10px;
-					text-transform: uppercase;
-					color: #999;
-					margin-bottom: 4px;
-					font-weight: 600;
-					letter-spacing: 0.5px;
-				}
+				'.nav-tree': {
+					'.nav-section': {
+						margin: '6px 0',
 
-				.nav-items {
-					display: flex;
-					flex-direction: column;
-					gap: 2px;
-				}
+						'.nav-section-label': {
+							fontSize: '10px',
+							textTransform: 'uppercase',
+							color: '#999',
+							marginBottom: '4px',
+							fontWeight: 600,
+							letterSpacing: '0.5px',
+						},
 
-				.nav-items-scrollable {
-					max-height: 150px;
-					overflow-y: auto;
-					padding-right: 4px;
+						'.nav-items': {
+							display: 'flex',
+							flexDirection: 'column',
+							gap: '2px',
+						},
 
-					/* Custom scrollbar styling */
-					&::-webkit-scrollbar {
-						width: 6px;
-					}
+						'.nav-items-scrollable': {
+							maxHeight: '150px',
+							overflowY: 'auto',
+							paddingRight: '4px',
 
-					&::-webkit-scrollbar-track {
-						background: #f0f4f8;
-						border-radius: 3px;
-					}
+							'&::-webkit-scrollbar': {
+								width: '6px',
+							},
 
-					&::-webkit-scrollbar-thumb {
-						background: #d0e0f3;
-						border-radius: 3px;
+							'&::-webkit-scrollbar-track': {
+								background: '#f0f4f8',
+								borderRadius: '3px',
+							},
 
-						&:hover {
-							background: #b0d0e8;
-						}
-					}
-				}
+							'&::-webkit-scrollbar-thumb': {
+								background: '#d0e0f3',
+								borderRadius: '3px',
 
-				.nav-item {
-					padding: 6px 8px;
-					background: #fff;
-					border: 1px solid #e0e8f3;
-					border-radius: 4px;
-					cursor: pointer;
-					transition: all 0.15s ease-in-out;
-					display: flex;
-					align-items: center;
-					gap: 8px;
+								'&:hover': {
+									background: '#b0d0e8',
+								},
+							},
+						},
 
-					&:hover {
-						background: #e8f0fc;
-						border-color: #1d4990;
-					}
+						'.nav-item': {
+							padding: '6px 8px',
+							background: '#fff',
+							border: '1px solid #e0e8f3',
+							borderRadius: '4px',
+							cursor: 'pointer',
+							transition: 'all 0.15s ease-in-out',
+							display: 'flex',
+							alignItems: 'center',
+							gap: '8px',
 
-					&.current {
-						background: #d8e8fc;
-						border-color: #1d4990;
-						font-weight: 500;
-					}
+							'&:hover': {
+								background: '#e8f0fc',
+								borderColor: '#1d4990',
+							},
 
-					&.previewing {
-						background: #c8d8ec;
-						border-color: #0d3970;
-					}
+							'&.current': {
+								background: '#d8e8fc',
+								borderColor: '#1d4990',
+								fontWeight: 500,
+							},
 
-					.nav-item-tag {
-						font-weight: 600;
-						color: #1d4990;
-						font-family: 'Monaco', 'Menlo', monospace;
-						font-size: 11px;
-					}
+							'&.previewing': {
+								background: '#c8d8ec',
+								borderColor: '#0d3970',
+							},
 
-					.nav-item-info {
-						display: flex;
-						gap: 4px;
-						flex-wrap: wrap;
-						flex: 1;
-						min-width: 0;
+							'.nav-item-tag': {
+								fontWeight: 600,
+								color: '#1d4990',
+								fontFamily: '"Monaco", "Menlo", monospace',
+								fontSize: '11px',
+							},
 
-						.nav-item-id {
-							color: #0a7d0a;
-							font-family: 'Monaco', 'Menlo', monospace;
-							font-size: 11px;
-						}
+							'.nav-item-info': {
+								display: 'flex',
+								gap: '4px',
+								flexWrap: 'wrap',
+								flex: 1,
+								minWidth: 0,
 
-						.nav-item-class {
-							color: #a030a0;
-							font-family: 'Monaco', 'Menlo', monospace;
-							font-size: 11px;
-							max-width: 150px;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							white-space: nowrap;
-						}
+								'.nav-item-id': {
+									color: '#0a7d0a',
+									fontFamily: '"Monaco", "Menlo", monospace',
+									fontSize: '11px',
+								},
 
-						.nav-item-index {
-							color: #999;
-							font-size: 10px;
-						}
-					}
-				}
-			}
-		}
+								'.nav-item-class': {
+									color: '#a030a0',
+									fontFamily: '"Monaco", "Menlo", monospace',
+									fontSize: '11px',
+									maxWidth: '150px',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+								},
 
-		.nav-footer {
-			margin-top: 8px;
-			padding-top: 8px;
-			border-top: 1px solid #e0e8f3;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			font-size: 11px;
-			color: #666;
+								'.nav-item-index': {
+									color: '#999',
+									fontSize: '10px',
+								},
+							},
+						},
+					},
+				},
 
-			.nav-shortcut {
-				display: flex;
-				align-items: center;
-				gap: 4px;
+				'.nav-footer': {
+					marginTop: '8px',
+					paddingTop: '8px',
+					borderTop: '1px solid #e0e8f3',
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					fontSize: '11px',
+					color: '#666',
 
-				kbd {
-					padding: 2px 4px;
-					background: #fff;
-					border: 1px solid #d0e0f3;
-					border-radius: 3px;
-					font-family: 'Monaco', 'Menlo', monospace;
-					font-size: 10px;
-				}
-			}
-		}
-	}
+					'.nav-shortcut': {
+						display: 'flex',
+						alignItems: 'center',
+						gap: '4px',
 
-	.ss-selector-overlay {
-		position: fixed;
-		pointer-events: none;
-		z-index: 10001;
-		transition: all 0.1s ease-in-out;
+						kbd: {
+							padding: '2px 4px',
+							background: '#fff',
+							border: '1px solid #d0e0f3',
+							borderRadius: '3px',
+							fontFamily: '"Monaco", "Menlo", monospace',
+							fontSize: '10px',
+						},
+					},
+				},
+			},
 
-		&.parent {
-			background: rgba(29, 73, 144, 0.15);
-			border: 2px solid #5080c0;
-		}
+			'.ss-selector-overlay': {
+				position: 'fixed',
+				pointerEvents: 'none',
+				zIndex: 10001,
+				transition: 'all 0.1s ease-in-out',
 
-		&.current {
-			background: rgba(29, 144, 73, 0.2);
-			border: 2px solid #1d9044;
-		}
+				'&.parent': {
+					background: 'rgba(29, 73, 144, 0.15)',
+					border: '2px solid #5080c0',
+				},
 
-		&.child {
-			background: rgba(255, 140, 0, 0.15);
-			border: 2px solid #ff8c00;
-		}
+				'&.current': {
+					background: 'rgba(29, 144, 73, 0.2)',
+					border: '2px solid #1d9044',
+				},
 
-		&.preview {
-			background: rgba(144, 29, 73, 0.15);
-			border: 2px dashed #901d49;
-		}
-	}
-`;
+				'&.child': {
+					background: 'rgba(255, 140, 0, 0.15)',
+					border: '2px solid #ff8c00',
+				},
+
+				'&.preview': {
+					background: 'rgba(144, 29, 73, 0.15)',
+					border: '2px dashed #901d49',
+				},
+			},
+		}),
+};
 
 interface DomSelectorNavigatorProps {
 	elementSelector?: string;
@@ -224,6 +232,7 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 	const [breadcrumb, setBreadcrumb] = useState<string>('');
 	const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 	const navigatorRef = useRef<HTMLDivElement>(null);
+	const parentsScrollRef = useRef<HTMLDivElement>(null);
 
 	// Build element hierarchy
 	useEffect(() => {
@@ -232,11 +241,11 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 		const matchedElement = targetElement.closest(elementSelector || '*');
 		if (!matchedElement || !(matchedElement instanceof HTMLElement)) return;
 
-		// Get parents (up to 6 levels) - only parents that match elementSelector
+		// Get parents (up to MAX_HIERARCHY_LEVELS) - only parents that match elementSelector
 		const parents: ElementNode[] = [];
 		let searchElement = matchedElement.parentElement;
 		let level = 0;
-		while (searchElement && level < 6 && searchElement.id !== 'searchspring-template-editor') {
+		while (searchElement && level < MAX_HIERARCHY_LEVELS && searchElement.id !== 'searchspring-template-editor') {
 			// Find next parent that matches the selector
 			const nextParent = searchElement.closest(elementSelector || '*');
 			if (nextParent && nextParent !== matchedElement && nextParent instanceof HTMLElement) {
@@ -271,11 +280,11 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 			type: 'current',
 		};
 
-		// Get children (up to 6) - only children that match elementSelector
+		// Get children (up to MAX_CHILDREN_SHOWN) - only children that match elementSelector
 		const children: ElementNode[] = [];
 		const matchingChildren = Array.from(matchedElement.querySelectorAll(elementSelector || '*'))
 			.filter((child) => child.parentElement === matchedElement) // Only direct children
-			.slice(0, 6) as HTMLElement[];
+			.slice(0, MAX_CHILDREN_SHOWN) as HTMLElement[];
 
 		matchingChildren.forEach((child, index) => {
 			const selector = getShortestUniqueSelector(child);
@@ -325,6 +334,13 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 		}
 	}, [targetElement, elementSelector]);
 
+	// Scroll parents list to bottom so closest parent is visible first
+	useEffect(() => {
+		if (parentsScrollRef.current && hierarchy.parents.length > 0) {
+			parentsScrollRef.current.scrollTop = parentsScrollRef.current.scrollHeight;
+		}
+	}, [hierarchy.parents]);
+
 	// Smart positioning: place navigator so mouse is directly at one of its corners
 	useEffect(() => {
 		if (!navigatorRef.current) return;
@@ -344,8 +360,8 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 		let newX = x;
 		let newY = y;
 
-		const margin = 20;
-		const overlap = 10; // Extra overlap to ensure mouse is well within navigator
+		const margin = POSITION_MARGIN;
+		const overlap = POSITION_OVERLAP;
 
 		// Horizontal positioning
 		if (isRightHalf) {
@@ -535,7 +551,7 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 
 	return (
 		<>
-			<Global styles={navigatorStyles} />
+			<Global styles={CSSStyles.Navigator()} />
 			<div
 				ref={navigatorRef}
 				className="ss-dom-navigator"
@@ -552,7 +568,9 @@ export const DomSelectorNavigator: React.FC<DomSelectorNavigatorProps> = ({ elem
 					{hierarchy.parents.length > 0 && (
 						<div className="nav-section">
 							<div className="nav-section-label">Parent Elements</div>
-							<div className="nav-items nav-items-scrollable">{hierarchy.parents.map((node, i) => renderElementNode(node, i))}</div>
+							<div ref={parentsScrollRef} className="nav-items nav-items-scrollable">
+								{hierarchy.parents.map((node, i) => renderElementNode(node, i))}
+							</div>
 						</div>
 					)}
 

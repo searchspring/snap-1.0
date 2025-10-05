@@ -6,33 +6,13 @@ import { Reset, DomSelectorIcon } from '../Assets';
 import { RootNodeProperties } from '../../../../types';
 import { DomSelectorNavigator, getShortestUniqueSelector } from './DomSelectorNavigator';
 
-// CSS styles for DOM selector overlay and tooltip
-const overlayStyles = css`
-	.ss-selector-overlay {
-		position: fixed;
-		pointer-events: none;
-		background: rgba(29, 73, 144, 0.2);
-		border: 2px solid #1d4990;
-		z-index: 10001;
-		transition: all 0.1s ease-in-out;
-	}
+// DOM Selector constants
+const HOVER_DEBOUNCE_MS = 600; // Time to wait before showing navigator on hover
+const OVERLAY_Z_INDEX = 10001; // Z-index for selector overlay
+const TOOLTIP_Z_INDEX = 10002; // Z-index for selector tooltip
 
-	.ss-selector-tooltip {
-		position: fixed;
-		background: #333;
-		color: #fff;
-		padding: 4px 8px;
-		border-radius: 3px;
-		font-size: 12px;
-		z-index: 10002;
-		pointer-events: none;
-		max-width: 300px;
-		word-break: break-all;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-	}
-`;
-
-const CSSStyles = {
+// CSS-in-JS styles using Emotion's object syntax (matches TemplatesEditor.tsx pattern)
+const CSS = {
 	Controls: ({}: Partial<ControlProps>) =>
 		css({
 			'.dom-selector-container': {
@@ -73,22 +53,76 @@ const CSSStyles = {
 				},
 			},
 		}),
+	// Global styles for DOM selector overlay and tooltip
+	GlobalOverlayStyles: () =>
+		css({
+			'.ss-selector-overlay': {
+				position: 'fixed',
+				pointerEvents: 'none',
+				background: 'rgba(29, 73, 144, 0.2)',
+				border: '2px solid #1d4990',
+				zIndex: OVERLAY_Z_INDEX,
+				transition: 'all 0.1s ease-in-out',
+			},
+			'.ss-selector-tooltip': {
+				position: 'fixed',
+				background: '#333',
+				color: '#fff',
+				padding: '4px 8px',
+				borderRadius: '3px',
+				fontSize: '12px',
+				zIndex: TOOLTIP_Z_INDEX,
+				pointerEvents: 'none',
+				maxWidth: '300px',
+				wordBreak: 'break-all',
+				boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+			},
+		}),
 };
 
+/**
+ * Stores pending hover data for debounced navigator display
+ * Used to track mouse position and target element during hover timeout
+ */
+interface PendingHoverData {
+	x: number;
+	y: number;
+	target: HTMLElement;
+	matchedElement: Element;
+}
+
+/**
+ * Props for the Control component
+ * Supports multiple control types including text, number, checkbox, dropdown, color, and dom-selector
+ */
 type ControlProps = {
+	/** Type of control to render */
 	type: ControlValueTypes;
+	/** Label text displayed for the control */
 	label: string;
+	/** Optional description shown as title tooltip */
 	description?: string;
+	/** Callback when reset button is clicked */
 	onReset: () => void;
+	/** Display state: normal, disabled, or hidden */
 	display: ControlDisplayState;
+	/** Whether to show the reset button */
 	showReset: boolean;
+	/** Current value of the control */
 	value: ControlValues;
+	/** Options for dropdown type controls */
 	options?: ControlOptions;
+	/** Callback when control value changes */
 	onChange: (value: ControlValues) => void;
-	// DOM Selector specific props
+
+	// DOM Selector specific props (required when type is 'dom-selector')
+	/** Currently active DOM selector ID (for mutual exclusivity) */
 	activeDomSelector?: string;
+	/** Callback to set the active DOM selector ID */
 	setActiveDomSelector?: (selector: string) => void;
+	/** Unique ID for this DOM selector control */
 	selectorId?: string;
+	/** CSS selector to filter which elements can be selected (e.g., 'input' for autocomplete) */
 	elementSelector?: string;
 };
 
@@ -118,11 +152,12 @@ export const Control = observer((props: ControlProps) => {
 		targetElement: HTMLElement | null;
 	}>({ show: false, x: 0, y: 0, targetElement: null });
 	const lastMatchedElementRef = useRef<Element | null>(null);
+	// Browser setTimeout returns a numeric timer ID
 	const hoverTimeoutRef = useRef<number | null>(null);
-	const pendingHoverDataRef = useRef<{ x: number; y: number; target: HTMLElement; matchedElement: Element } | null>(null);
+	const pendingHoverDataRef = useRef<PendingHoverData | null>(null);
 
 	const styling: RootNodeProperties = {
-		css: [CSSStyles.Controls({ ...props })],
+		css: [CSS.Controls({ ...props })],
 	};
 
 	useEffect(() => {
@@ -130,8 +165,9 @@ export const Control = observer((props: ControlProps) => {
 	}, [value]);
 
 	// DOM Selector specific state and handlers
+	// Sync isSelecting state with activeDomSelector changes
 	useEffect(() => {
-		if (type === 'dom-selector' && activeDomSelector && selectorId) {
+		if (type === 'dom-selector' && selectorId) {
 			setIsSelecting(activeDomSelector === selectorId);
 		}
 	}, [type, activeDomSelector, selectorId]);
@@ -184,6 +220,9 @@ export const Control = observer((props: ControlProps) => {
 		[type, activeDomSelector, selectorId, elementSelector, onChange, setActiveDomSelector]
 	);
 
+	// PERFORMANCE: Refs (hoverTimeoutRef, pendingHoverDataRef, lastMatchedElementRef) are intentionally
+	// excluded from dependency array as they don't trigger re-renders and are stable across renders
+	// PERFORMANCE: Early returns prevent unnecessary DOM operations and ref updates
 	const handleElementMouseOver = useCallback(
 		(e: MouseEvent) => {
 			if (type !== 'dom-selector' || activeDomSelector !== selectorId) return;
@@ -200,9 +239,6 @@ export const Control = observer((props: ControlProps) => {
 				return;
 			}
 
-			e.preventDefault();
-			e.stopPropagation();
-
 			const matchedElement = target.closest(elementSelector || '*');
 
 			if (!matchedElement) {
@@ -213,6 +249,10 @@ export const Control = observer((props: ControlProps) => {
 			if (lastMatchedElementRef.current === matchedElement) {
 				return;
 			}
+
+			// At this point we know we'll process the event, prevent default behavior
+			e.preventDefault();
+			e.stopPropagation();
 
 			// Clear any pending hover timeout
 			if (hoverTimeoutRef.current) {
@@ -229,7 +269,7 @@ export const Control = observer((props: ControlProps) => {
 			overlay.style.cssText = `
 				position: fixed;
 				pointer-events: none;
-				z-index: 10001;
+				z-index: ${OVERLAY_Z_INDEX};
 				background: rgba(29, 144, 73, 0.2);
 				border: 2px solid #1d9044;
 				width: ${rect.width}px;
@@ -266,11 +306,13 @@ export const Control = observer((props: ControlProps) => {
 				});
 
 				hoverTimeoutRef.current = null;
-			}, 600);
+			}, HOVER_DEBOUNCE_MS);
 		},
 		[type, activeDomSelector, selectorId, elementSelector]
 	);
 
+	// PERFORMANCE: Refs (hoverTimeoutRef, pendingHoverDataRef, lastMatchedElementRef) are intentionally
+	// excluded from dependency array as they don't trigger re-renders and are stable across renders
 	const handleElementMouseOut = useCallback(
 		(e: MouseEvent) => {
 			if (type !== 'dom-selector' || activeDomSelector !== selectorId) return;
@@ -351,8 +393,10 @@ export const Control = observer((props: ControlProps) => {
 	);
 
 	// Setup/cleanup selection mode for dom-selector type
+	// PERFORMANCE: Only attach event listeners when THIS specific selector is active
+	// This prevents inactive selectors from executing handler checks on every mouse event
 	useEffect(() => {
-		if (type === 'dom-selector' && isSelecting) {
+		if (type === 'dom-selector' && isSelecting && activeDomSelector === selectorId) {
 			document.addEventListener('click', handleElementClick, true);
 			document.addEventListener('mouseover', handleElementMouseOver, true);
 			document.addEventListener('mouseout', handleElementMouseOut, true);
@@ -365,7 +409,7 @@ export const Control = observer((props: ControlProps) => {
 		} else if (type === 'dom-selector') {
 			cleanupSelection();
 		}
-	}, [type, isSelecting, handleElementClick, handleElementMouseOver, handleElementMouseOut, handleEscape]);
+	}, [type, isSelecting, activeDomSelector, selectorId, handleElementClick, handleElementMouseOver, handleElementMouseOut, handleEscape]);
 
 	const toggleDomSelection = () => {
 		if (display === 'disabled' || !setActiveDomSelector || !selectorId) return;
@@ -397,7 +441,7 @@ export const Control = observer((props: ControlProps) => {
 
 	return display === 'hidden' ? null : (
 		<div className={`control ${type} ${display}`} {...styling}>
-			<Global styles={overlayStyles} />
+			<Global styles={CSS.GlobalOverlayStyles()} />
 			<div className="option checkbox">
 				<label>{label}</label>
 				<div className="reset">
@@ -485,10 +529,7 @@ export const Control = observer((props: ControlProps) => {
 									return <input type="text" value={value as string} onChange={(e) => onChange(e.target.value)} disabled={display === 'disabled'} />;
 								}
 								return (
-									<div
-										className="dom-selector-container"
-										// style={{ display: 'flex', gap: '8px', alignItems: 'center', width: '100%' }}
-									>
+									<div className="dom-selector-container">
 										<input
 											type="text"
 											value={inputValue as string}
@@ -499,40 +540,15 @@ export const Control = observer((props: ControlProps) => {
 											}}
 											disabled={display === 'disabled' || isSelecting}
 											placeholder="Enter CSS selector"
-											// style={{ flex: 1 }}
 										/>
 										<button
 											className={'dom-selector-button' + (isSelecting ? ' active' : '')}
-											style={
-												{
-													// padding: '4px',
-													// border: '1px solid #ccc',
-													// borderRadius: '3px',
-													// backgroundColor: isSelecting ? '#1D4990' : '#fff',
-													// color: isSelecting ? '#fff' : '#333',
-													// cursor: display === 'disabled' ? 'not-allowed' : 'pointer',
-													// display: 'flex',
-													// alignItems: 'center',
-													// justifyContent: 'center',
-													// transition: 'all 0.2s',
-													// opacity: display === 'disabled' ? 0.5 : 1,
-													// width: '24px',
-													// height: '24px',
-												}
-											}
 											onClick={toggleDomSelection}
 											disabled={display === 'disabled'}
 											title={isSelecting ? 'Cancel selection' : 'Select element'}
 											type="button"
 										>
-											<span
-												style={{
-													width: '16px',
-													height: '16px',
-													// fill: isSelecting ? '#fff' : '#333'
-												}}
-												className={isSelecting ? 'active' : ''}
-											>
+											<span className={isSelecting ? 'active' : ''}>
 												<DomSelectorIcon />
 											</span>
 										</button>
