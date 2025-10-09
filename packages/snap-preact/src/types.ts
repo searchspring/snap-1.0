@@ -126,7 +126,7 @@ export type ControlValues = string | number | boolean;
 
 export enum DomSelectorSelectors {
 	component = '[ss-path]',
-	content = 'div, section, article, aside',
+	content = 'div:not([ss-path]), section:not([ss-path]), article:not([ss-path]), aside:not([ss-path])',
 	input = 'input[type=text], input[type=searc]',
 }
 

@@ -79,6 +79,7 @@ export class TemplateEditorStore {
 	};
 	state: EditorState = {
 		activeDomSelector: '',
+		// TODO: Juan - are we still using these?
 		searchSelector: '',
 		autocompleteSelector: '',
 	};

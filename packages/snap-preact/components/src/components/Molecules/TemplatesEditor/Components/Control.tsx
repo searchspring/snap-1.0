@@ -549,6 +549,7 @@ export const Control = observer((props: ControlProps) => {
 									</>
 								);
 							}
+							// TODO: Juan - move dom selector to its own component
 							case 'dom-selector': {
 								// These props are required for dom-selector type
 								if (!elementSelector || !selectorId) {
@@ -557,34 +558,45 @@ export const Control = observer((props: ControlProps) => {
 									return <input type="text" value={value as string} onChange={(e) => onChange(e.target.value)} disabled={display === 'disabled'} />;
 								}
 								return (
-									<div className="dom-selector-container">
-										<input
-											type="text"
-											className={!isSelectorValid ? 'invalid' : ''}
-											value={inputValue as string}
-											onChange={(e) => {
-												const newValue = e.target.value;
-												setInputValue(newValue);
-												onChange(newValue);
-											}}
-											disabled={display === 'disabled' || isSelecting}
-											placeholder="Enter CSS selector"
-										/>
-										<button
-											className={'dom-selector-button' + (isSelecting ? ' active' : '')}
-											onClick={toggleDomSelection}
-											disabled={display === 'disabled'}
-											title={isSelecting ? 'Cancel selection' : 'Select element'}
-											type="button"
-										>
-											<span className={isSelecting ? 'active' : ''}>
-												<DomSelectorIcon />
-											</span>
-										</button>
-									</div>
+									<>
+										<div className="dom-selector-container">
+											<input
+												type="text"
+												className={!isSelectorValid ? 'invalid' : ''}
+												value={inputValue as string}
+												onChange={(e) => {
+													const newValue = e.target.value;
+													setInputValue(newValue);
+													onChange(newValue);
+												}}
+												disabled={display === 'disabled' || isSelecting}
+												placeholder="Enter CSS selector"
+											/>
+											<button
+												className={'dom-selector-button' + (isSelecting ? ' active' : '')}
+												onClick={toggleDomSelection}
+												disabled={display === 'disabled'}
+												title={isSelecting ? 'Cancel selection' : 'Select element'}
+												type="button"
+											>
+												<span className={isSelecting ? 'active' : ''}>
+													<DomSelectorIcon />
+												</span>
+											</button>
+										</div>
+										{navigatorState.show && navigatorState.targetElement && (
+											<DomSelectorNavigator
+												elementSelector={elementSelector}
+												onChange={handleNavigatorSelect}
+												onClose={handleNavigatorClose}
+												x={navigatorState.x}
+												y={navigatorState.y}
+												targetElement={navigatorState.targetElement}
+											/>
+										)}
+									</>
 								);
 							}
-
 							default: {
 								return null;
 							}
@@ -592,16 +604,6 @@ export const Control = observer((props: ControlProps) => {
 					})()}
 				</div>
 			</div>
-			{type === 'dom-selector' && navigatorState.show && navigatorState.targetElement && (
-				<DomSelectorNavigator
-					elementSelector={elementSelector}
-					onChange={handleNavigatorSelect}
-					onClose={handleNavigatorClose}
-					x={navigatorState.x}
-					y={navigatorState.y}
-					targetElement={navigatorState.targetElement}
-				/>
-			)}
 		</div>
 	);
 });
