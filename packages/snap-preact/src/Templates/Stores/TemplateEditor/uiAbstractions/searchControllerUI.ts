@@ -20,6 +20,10 @@ export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<num
 						const targetAtIndex = store.templatesStore.targets?.search[index as number];
 						return targetAtIndex?.selector;
 					},
+					isValid: (index) => {
+						const targetAtIndex = store.templatesStore.targets?.search[index as number];
+						return Boolean(document.querySelector(targetAtIndex?.selector));
+					},
 					shouldShowReset: (index) => {
 						// if the override differs from the initial state, show reset
 						const initialTargetAtIndex = store.initial.targets?.search?.[index as number];
@@ -37,9 +41,8 @@ export function searchTargetUI(store: TemplateEditorStore): AbstractionGroup<num
 					onReset: (index) => {
 						store.setTargetOverride({ path: ['search', `[${index}]`, 'selector'], value: undefined });
 					},
-					// DOM Selector specific functions
-					getSelectorId: (index) => `search-selector-${index}`,
-					getDomSelectorSelector: () => DomSelectorSelectors.content,
+					getId: (index) => `search-selector-${index}`,
+					getData: () => DomSelectorSelectors.content,
 				},
 				{
 					type: 'dropdown',

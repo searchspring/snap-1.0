@@ -113,8 +113,11 @@ export const AbstractedControls = observer(<Params,>(properties: AbstractedContr
 									// DOM Selector specific props
 									activeDomSelector={editorStore.state.activeDomSelector}
 									setActiveDomSelector={(selector) => editorStore.setActiveDomSelector(selector)}
-									selectorId={control.getSelectorId ? control.getSelectorId(data) : undefined}
-									elementSelector={control.getDomSelectorSelector ? control.getDomSelectorSelector() : undefined}
+									selectorId={control.getId ? control.getId(data) : undefined}
+									elementSelector={control.getData ? control.getData() : undefined}
+									// Control object and data for validation
+									control={control}
+									data={data}
 								/>
 							);
 						})}

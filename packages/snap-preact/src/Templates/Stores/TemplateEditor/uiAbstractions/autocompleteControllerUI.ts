@@ -259,8 +259,10 @@ export function autocompleteTargetUI(store: TemplateEditorStore): AbstractionGro
 						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
 						return targetAtIndex?.selector;
 					},
-					// TODO: Juan - add a new option to check called isValid to check if the state of the control is valid or not
-					// isValid: (index) => Boolean
+					isValid: (index) => {
+						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+						return Boolean(document.querySelector(targetAtIndex?.selector));
+					},
 					shouldShowReset: (index) => {
 						// if the override differs from the initial state, show reset
 						const initialTargetAtIndex = store.initial.targets?.autocomplete?.[index as number];
@@ -278,12 +280,8 @@ export function autocompleteTargetUI(store: TemplateEditorStore): AbstractionGro
 					onReset: (index) => {
 						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'selector'], value: undefined });
 					},
-					// DOM Selector specific functions
-					// TODO: Juan - change these two to be generic so they can be used for other use cases in the future
-					// getId and getData
-					// getId, getData
-					getSelectorId: (index) => `autocomplete-selector-${index}`,
-					getDomSelectorSelector: () => DomSelectorSelectors.input,
+					getId: (index) => `autocomplete-selector-${index}`,
+					getData: () => DomSelectorSelectors.input,
 				},
 				{
 					type: 'dropdown',

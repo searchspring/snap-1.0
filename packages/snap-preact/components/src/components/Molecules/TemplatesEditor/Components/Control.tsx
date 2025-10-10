@@ -8,7 +8,6 @@ import { DomSelectorNavigator, getShortestUniqueSelector } from './DomSelectorNa
 
 // dom selector constants
 const HOVER_DEBOUNCE_MS = 600; // time to wait before showing navigator on hover
-const VALIDATION_DEBOUNCE_MS = 300; // time to wait before validating selector input
 const OVERLAY_Z_INDEX = 10001; // z-index for selector overlay
 const TOOLTIP_Z_INDEX = 10002; // z-index for selector tooltip
 
@@ -109,6 +108,10 @@ type ControlProps = {
 	setActiveDomSelector?: (selector: string) => void;
 	selectorId?: string;
 	elementSelector?: string;
+
+	// control object and data for validation
+	control?: any;
+	data?: any;
 };
 
 export const Control = observer((props: ControlProps) => {
@@ -126,11 +129,12 @@ export const Control = observer((props: ControlProps) => {
 		setActiveDomSelector,
 		selectorId,
 		elementSelector,
+		control,
+		data,
 	} = props;
 
 	const [inputValue, setInputValue] = useState(value);
 	const [isSelecting, setIsSelecting] = useState(false);
-	const [isSelectorValid, setIsSelectorValid] = useState(true);
 	const [navigatorState, setNavigatorState] = useState<{
 		show: boolean;
 		x: number;
@@ -140,7 +144,6 @@ export const Control = observer((props: ControlProps) => {
 	const lastMatchedElementRef = useRef<Element | null>(null);
 	const hoverTimeoutRef = useRef<number | null>(null);
 	const pendingHoverDataRef = useRef<PendingHoverData | null>(null);
-	const validationTimeoutRef = useRef<number | null>(null);
 
 	const styling: RootNodeProperties = {
 		css: [CSS.Controls({ ...props })],
@@ -157,52 +160,8 @@ export const Control = observer((props: ControlProps) => {
 		}
 	}, [type, activeDomSelector, selectorId]);
 
-	// validate dom-selector input value with debounce to avoid performance issues during rapid typing
-	useEffect(() => {
-		// clear any pending validation timeout
-		if (validationTimeoutRef.current) {
-			clearTimeout(validationTimeoutRef.current);
-			validationTimeoutRef.current = null;
-		}
-
-		if (type !== 'dom-selector') {
-			setIsSelectorValid(true);
-			return;
-		}
-
-		// debounce all validation to avoid blocking input during rapid typing
-		validationTimeoutRef.current = window.setTimeout(() => {
-			if (!inputValue || typeof inputValue !== 'string') {
-				setIsSelectorValid(true);
-				validationTimeoutRef.current = null;
-				return;
-			}
-
-			// empty selector is valid
-			if (inputValue.trim() === '') {
-				setIsSelectorValid(true);
-				validationTimeoutRef.current = null;
-				return;
-			}
-
-			try {
-				// check if selector matches any elements on the page
-				const matches = document.querySelectorAll(inputValue);
-				setIsSelectorValid(matches.length > 0);
-			} catch (e) {
-				// invalid selector syntax
-				setIsSelectorValid(false);
-			}
-			validationTimeoutRef.current = null;
-		}, VALIDATION_DEBOUNCE_MS);
-
-		return () => {
-			if (validationTimeoutRef.current) {
-				clearTimeout(validationTimeoutRef.current);
-				validationTimeoutRef.current = null;
-			}
-		};
-	}, [type, inputValue]);
+	// compute validation state directly from control.isValid
+	const isSelectorValid = type === 'dom-selector' && control?.isValid ? Boolean(control.isValid(data)) : true;
 
 	// element selection handlers for dom-selector type
 	const handleElementClick = useCallback(

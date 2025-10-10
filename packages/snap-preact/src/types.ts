@@ -160,6 +160,9 @@ export interface AbstractedControl<Params, Value = ControlValues> {
 	// A function to read the low-level settings and return the current value for this UI control.
 	getValue: (params?: Params) => Value;
 
+	// A function to validate the current value of the control.
+	isValid?: (params?: Params) => boolean;
+
 	// A function that's called when the UI control's value changes. It's responsible
 	// for updating the necessary low-level settings.
 	onValueChange: (value: Value, params?: Params) => void;
@@ -169,9 +172,10 @@ export interface AbstractedControl<Params, Value = ControlValues> {
 
 	shouldShowReset: (params?: Params) => boolean;
 
-	// DOM Selector specific properties
-	getSelectorId?: (params?: Params) => string;
-	getDomSelectorSelector?: () => DomSelectorSelectors;
+	// Optional function to generate a unique ID for the control instance.
+	getId?: (params?: Params) => string;
+
+	getData?: (params?: Params) => DomSelectorSelectors;
 }
 
 // Defines a group of related UI controls that appear together.
