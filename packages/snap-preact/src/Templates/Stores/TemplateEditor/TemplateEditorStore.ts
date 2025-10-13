@@ -79,9 +79,6 @@ export class TemplateEditorStore {
 	};
 	state: EditorState = {
 		activeDomSelector: '',
-		// TODO: Juan - are we still using these?
-		// searchSelector: '',
-		// autocompleteSelector: '',
 	};
 	overrides: {
 		config: SnapTemplatesConfig['config'];
@@ -392,8 +389,6 @@ export class TemplateEditorStore {
 			if (typeof value == 'string' && value.length > 1 && document.querySelector(value)) {
 				const activeTargeterKey = Object.keys(window.searchspring.controller[targetFeature].targeters)[targetIndex];
 				if (activeTargeterKey) {
-					// TODO: JUAN - BUG - when we load the page and the selector for autocomplete is wrong, there is no searchspring.controller.autocomplete so we get an error
-					// Talk to Kevin about a fix.
 					const oldSelector = window.searchspring.controller[targetFeature].targeters[activeTargeterKey].targets[0].selector;
 					const elem = document.querySelector(oldSelector || '');
 

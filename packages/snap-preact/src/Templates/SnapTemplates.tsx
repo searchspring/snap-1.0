@@ -325,6 +325,7 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 			},
 			props: { target, templatesStore },
 			hideTarget: true,
+			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};
 
 		if (targetConfig.inputSelector) targeter.props!.input = targetConfig.inputSelector;

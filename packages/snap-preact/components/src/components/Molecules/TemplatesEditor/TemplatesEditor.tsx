@@ -6,7 +6,7 @@ import { CacheProvider } from '../../../providers';
 import { TemplateEditorStore } from '../../../../../src/Templates/Stores/TemplateEditor/TemplateEditorStore';
 import { SnapTemplates } from '../../../../../src';
 import { AutocompleteController, SearchController } from '@searchspring/snap-controller';
-import { AthosCommerceLogo } from './Assets';
+import { AthosCommerceLogo, Copy, Power } from './Assets';
 import { AbstractedControls } from './Components/AbstractedControls';
 import { Icon } from '../../Atoms/Icon';
 // import { DomSelector } from './Components/DomSelector';
@@ -62,6 +62,7 @@ const CSS = {
 					gap: '10px',
 					'& button': {
 						width: 'unset',
+						padding: '5px 10px',
 					},
 				},
 			},
@@ -319,7 +320,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 	const { onRemoveClick, editorStore, snap } = properties;
 
 	const styling: RootNodeProperties = {
-		css: [CSS.TemplatesEditor({ ...properties })],
+		css: [CSS.TemplatesEditor(properties)],
 	};
 
 	return (
@@ -345,33 +346,39 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 							editorStore.toggleHide(true);
 						}}
 					>
-						<button
-							onClick={(e) => {
-								e.stopPropagation();
-								if (confirm('Closing the editor will disable modification.')) {
-									onRemoveClick();
-								}
-							}}
-						>
-							Stop Editing
-						</button>
-						<button
-							onClick={(e) => {
-								e.stopPropagation();
-								const config = editorStore.generateTemplatesConfig();
-								navigator.clipboard.writeText(JSON.stringify(config, null, 4));
-								alert('Configuration copied to clipboard');
-							}}
-						>
-							Copy
-						</button>
-						<button
-							onClick={() => {
-								editorStore.toggleHide(true);
-							}}
-						>
-							<Icon icon={'angle-right'} color="white" size={10} />
-						</button>
+						<div className="power">
+							<button
+								onClick={(e) => {
+									e.stopPropagation();
+									if (confirm('Closing the editor will disable modification.')) {
+										onRemoveClick();
+									}
+								}}
+							>
+								<Power size={20} />
+							</button>
+						</div>
+						<div className="copy">
+							<button
+								onClick={(e) => {
+									e.stopPropagation();
+									const config = editorStore.generateTemplatesConfig();
+									navigator.clipboard.writeText(JSON.stringify(config, null, 4));
+									alert('Configuration copied to clipboard');
+								}}
+							>
+								<Copy size={20} />
+							</button>
+						</div>
+						<div className="hide">
+							<button
+								onClick={() => {
+									editorStore.toggleHide(true);
+								}}
+							>
+								<Icon icon={'angle-right'} color="white" size={10} />
+							</button>
+						</div>
 					</div>
 				</div>
 

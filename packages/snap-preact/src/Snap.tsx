@@ -54,6 +54,7 @@ export type ExtendedTarget = Target & {
 	onTarget?: OnTarget;
 	prefetch?: boolean;
 	renderAfterSearch?: boolean;
+	createControllerBeforeTargeting?: boolean;
 };
 
 export type SnapConfigControllerDefinition<ControllerConfig> = {
@@ -739,7 +740,10 @@ export class Snap {
 									}
 								};
 
-								if (!controller?.targeters || controller?.targeters.length === 0) {
+								// createControllerBeforeTargeting
+								const createControllerBeforeTargeting = controller?.targeters?.some((target) => target.createControllerBeforeTargeting);
+
+								if (createControllerBeforeTargeting || !controller?.targeters || controller?.targeters.length === 0) {
 									await this._createController(
 										ControllerTypes.autocomplete,
 										controller.config,
@@ -795,6 +799,12 @@ export class Snap {
 											cntrlr.addTargeter(targeter);
 										}
 									);
+
+									// add targets prior to onTarget
+									const createdController = this.controllers[controller.config.id];
+									if (createControllerBeforeTargeting && createdController) {
+										createdController.addTargeter(targeter);
+									}
 								});
 							} catch (err) {
 								this.logger.error(`Failed to instantiate ${type} controller at index ${index}.`, err);

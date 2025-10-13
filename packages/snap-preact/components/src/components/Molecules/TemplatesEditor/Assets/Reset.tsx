@@ -1,11 +1,11 @@
 export const Reset = () => {
 	return (
-		<svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-			<g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-			<g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-			<g id="SVGRepo_iconCarrier">
+		<svg fill="#000000" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+			<g id="bgCarrier" strokeWidth="0"></g>
+			<g id="tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+			<g id="iconCarrier">
 				<path
-					d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0"
+					d="M28 0v6.223c12.014 0 21.789 9.775 21.789 21.789S40.014 49.801 28 49.801 6.223 40.026 6.223 28c0-5.75 2.29-11.168 6.223-15.208v7.419h4.889V3.111H1.556V8h5.576C2.589 14.427 0 21.048 0 28c0 15.456 12.577 28 28 28s28-12.544 28-28S43.423 0 28 0"
 					fillRule="evenodd"
 				></path>
 			</g>
