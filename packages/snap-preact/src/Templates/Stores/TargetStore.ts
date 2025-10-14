@@ -11,6 +11,7 @@ export class TargetStore {
 	public index: number;
 	public type: TemplateTypes;
 	public selector: string;
+	public triggerSelector?: string;
 	public component: string;
 	public resultComponent: string;
 	public theme: {
@@ -24,6 +25,7 @@ export class TargetStore {
 		this.index = target.index;
 		this.type = target.type;
 		this.selector = target.selector || '';
+		this.triggerSelector = target.triggerSelector || '';
 		this.component = target.component || '';
 		this.resultComponent = (target.resultComponent as string) || 'Result';
 		this.theme = {
@@ -35,13 +37,14 @@ export class TargetStore {
 			component: observable,
 			resultComponent: observable,
 			selector: observable,
+			triggerSelector: observable,
 			theme: observable,
 		});
 	}
 
 	public setValue(name: string, value: string) {
-		if (!['selector', 'component', 'resultComponent'].includes(name)) return;
-		this[name as 'selector' | 'component' | 'resultComponent'] = value;
+		if (!['selector', 'triggerSelector', 'component', 'resultComponent'].includes(name)) return;
+		this[name as 'selector' | 'triggerSelector' | 'component' | 'resultComponent'] = value;
 	}
 
 	public setTheme(themeName: string, location: TemplateThemeTypes) {

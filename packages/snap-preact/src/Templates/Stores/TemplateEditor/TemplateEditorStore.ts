@@ -209,7 +209,13 @@ export class TemplateEditorStore {
 	}
 
 	setActiveDomSelector(selectorId: string | null) {
-		this.state.activeDomSelector = selectorId?.length ? selectorId : '';
+		if (selectorId?.length) {
+			this.state.activeDomSelector = selectorId;
+			this.toggleHide(true);
+		} else {
+			this.state.activeDomSelector = '';
+			this.toggleHide(false);
+		}
 	}
 
 	setConfigOverride(obj: { path: string[]; value: unknown }) {
@@ -379,7 +385,9 @@ export class TemplateEditorStore {
 			arrayMerge: combineMerge,
 		});
 
-		if (path[path.length - 1] == 'selector' && targetIndex > -1) {
+		const finalPath = path[path.length - 1];
+
+		if (finalPath == 'selector' && targetIndex > -1) {
 			// if reset button was clicked value will be undefined
 			if (typeof value == 'undefined') {
 				value = initialValue;
@@ -392,7 +400,7 @@ export class TemplateEditorStore {
 					const oldSelector = window.searchspring.controller[targetFeature].targeters[activeTargeterKey].targets[0].selector;
 					const elem = document.querySelector(oldSelector || '');
 
-					if (elem) {
+					if (targetFeature == 'search' && elem) {
 						//create clone of elem with all attributes
 						const clonedElement = elem.cloneNode(true);
 						clonedElement.innerHTML = '';
@@ -405,11 +413,31 @@ export class TemplateEditorStore {
 					}
 
 					window.searchspring.controller[targetFeature].targeters[activeTargeterKey].targets[0].selector = value;
+
+					/*
+						selector
+						inputSelector
+
+
+					
+						targetSelector -> selector
+						triggerSelector (optional) -> inputSelector
+
+						DomTargeter
+							* selector = selector
+							* props.input = inputSelector (optional)
+
+					*/
+
 					window.searchspring.controller[targetFeature].retarget();
 				} else {
 					console.log('no active targeter key');
 				}
 			}
+		} else if (finalPath == 'triggerSelector' && targetIndex > -1) {
+			const activeTargeterKey = Object.keys(window.searchspring.controller[targetFeature].targeters)[targetIndex];
+			window.searchspring.controller[targetFeature].targeters[activeTargeterKey].targets[0].props.input = value;
+			window.searchspring.controller[targetFeature].retarget();
 		}
 
 		// if the component or resultComponent changed we need to tell the targetStore about it via:

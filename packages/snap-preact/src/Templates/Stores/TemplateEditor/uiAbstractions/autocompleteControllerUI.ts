@@ -250,8 +250,8 @@ export function autocompleteTargetUI(store: TemplateEditorStore): AbstractionGro
 			controls: [
 				{
 					type: 'dom-selector',
-					label: 'Selector',
-					description: 'Target CSS selector',
+					label: 'Target Selector',
+					description: 'CSS selector where we inject the component',
 					getValue: (index) => {
 						// all autocomplete targeters are in store.templatesStore.targets.autocomplete
 
@@ -281,7 +281,46 @@ export function autocompleteTargetUI(store: TemplateEditorStore): AbstractionGro
 						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'selector'], value: undefined });
 					},
 					getId: (index) => `autocomplete-selector-${index}`,
-					getData: () => DomSelectorSelectors.input,
+					getData: () => DomSelectorSelectors.all,
+				},
+				{
+					type: 'dom-selector',
+					label: 'Trigger Selector',
+					description: 'CSS selector that triggers component visibility',
+					getValue: (index) => {
+						// all autocomplete targeters are in store.templatesStore.targets.autocomplete
+
+						// TODO: need to handle case where there are no targets
+						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+						return targetAtIndex?.triggerSelector || '';
+					},
+					isValid: (index) => {
+						const targetAtIndex = store.templatesStore.targets?.autocomplete[index as number];
+						// debugger;
+						if (targetAtIndex?.triggerSelector) {
+							return Boolean(document.querySelector(targetAtIndex?.triggerSelector));
+						} else {
+							return true;
+						}
+					},
+					shouldShowReset: (index) => {
+						// if the override differs from the initial state, show reset
+						const initialTargetAtIndex = store.initial.targets?.autocomplete?.[index as number];
+						const overrideTargetAtIndex = store.overrides.targets?.autocomplete?.[index as number];
+
+						return (
+							// Boolean(initialTargetAtIndex?.triggerSelector) &&
+							Boolean(overrideTargetAtIndex?.triggerSelector) && initialTargetAtIndex.triggerSelector != overrideTargetAtIndex.triggerSelector
+						);
+					},
+					onValueChange: (value, index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'triggerSelector'], value: value as string });
+					},
+					onReset: (index) => {
+						store.setTargetOverride({ path: ['autocomplete', `[${index}]`, 'triggerSelector'], value: '' });
+					},
+					getId: (index) => `autocomplete-triggerselector-${index}`,
+					getData: () => DomSelectorSelectors.inputTrigger,
 				},
 				{
 					type: 'dropdown',

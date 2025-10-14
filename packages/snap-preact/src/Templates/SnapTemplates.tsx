@@ -64,7 +64,7 @@ export type SearchTargetConfig = {
 
 export type AutocompleteTargetConfig = {
 	selector: string;
-	inputSelector?: string;
+	triggerSelector?: string;
 	component: keyof LibraryImports['component']['autocomplete'];
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
@@ -328,7 +328,7 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};
 
-		if (targetConfig.inputSelector) targeter.props!.input = targetConfig.inputSelector;
+		if (targetConfig.triggerSelector) targeter.props!.input = targetConfig.triggerSelector;
 
 		return targeter;
 	});
@@ -451,7 +451,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesS
 			config: {
 				id: 'autocomplete',
 				plugins: createPlugins(templateConfig, templatesStore, 'autocomplete'),
-				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector || target.selector).join(', '),
+				selector: templateConfig.autocomplete.targets.map((target) => target.triggerSelector || target.selector).join(', '),
 				settings: autocompleteControllerSettings,
 			},
 			targeters: createAutocompleteTargeters(templateConfig, templatesStore),

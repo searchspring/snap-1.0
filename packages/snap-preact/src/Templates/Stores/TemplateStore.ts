@@ -51,6 +51,7 @@ export type TemplateTarget = {
 	index: number;
 	type: TemplateTypes;
 	selector?: string;
+	triggerSelector?: string;
 	component: ComponentLibraryType | (string & NonNullable<unknown>);
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };

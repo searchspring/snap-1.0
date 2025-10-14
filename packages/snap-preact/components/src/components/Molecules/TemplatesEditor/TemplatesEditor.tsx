@@ -330,11 +330,16 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 				{...styling}
 				onClick={(e) => {
 					e.stopPropagation();
-					editorStore.toggleHide(false);
 				}}
 			>
 				<div className="ss__template-editor__header">
-					<div className={'logo'}>
+					<div
+						className={'logo'}
+						onClick={(e) => {
+							e.stopPropagation();
+							editorStore.toggleHide(false);
+						}}
+					>
 						<AthosCommerceLogo />
 					</div>
 
@@ -346,7 +351,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 							editorStore.toggleHide(true);
 						}}
 					>
-						<div className="power">
+						<div className="">
 							<button
 								onClick={(e) => {
 									e.stopPropagation();
@@ -358,7 +363,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 								<Power size={20} />
 							</button>
 						</div>
-						<div className="copy">
+						<div className="">
 							<button
 								onClick={(e) => {
 									e.stopPropagation();
@@ -370,7 +375,7 @@ export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.
 								<Copy size={20} />
 							</button>
 						</div>
-						<div className="hide">
+						<div className="">
 							<button
 								onClick={() => {
 									editorStore.toggleHide(true);
