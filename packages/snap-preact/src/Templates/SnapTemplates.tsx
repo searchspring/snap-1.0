@@ -487,6 +487,9 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesS
 			components: createRecommendationComponentMapping(templateConfig, templatesStore),
 			config: {
 				plugins: createPlugins(templateConfig, templatesStore, 'recommendation'),
+				settings: {
+					variants: templateConfig.recommendation?.settings?.variants,
+				},
 				...templateConfig.recommendation?.settings!,
 			},
 		};
