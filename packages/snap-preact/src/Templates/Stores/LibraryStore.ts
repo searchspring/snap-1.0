@@ -86,6 +86,7 @@ export type LibraryImports = {
 		};
 		result: {
 			Result: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			VariantResult: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 			[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 		};
 	};
@@ -295,6 +296,12 @@ export class LibraryStore {
 			result: {
 				Result: async () => {
 					return this.components.result.Result || (this.components.result.Result = (await import('./library/components/Result')).Result);
+				},
+				VariantResult: async () => {
+					return (
+						this.components.result.VariantResult ||
+						(this.components.result.VariantResult = (await import('./library/components/VariantResult')).VariantResult)
+					);
 				},
 			},
 		},

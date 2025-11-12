@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 
-import { Result, ResultProps } from './Result';
+import { VariantResult, VariantResultProps } from './VariantResult';
 import { FALLBACK_IMAGE_URL } from '../../Atoms/Image';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
@@ -12,8 +12,8 @@ import type { SearchController } from '@searchspring/snap-controller';
 import { Product } from '@searchspring/snap-store-mobx';
 
 export default {
-	title: 'Molecules/Result',
-	component: Result,
+	title: 'Molecules/VariantResult',
+	component: VariantResult,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -158,6 +158,16 @@ export default {
 			control: { type: 'none' },
 			action: 'onClick',
 		},
+		hideVariantSelections: {
+			description: 'Hide variant Selections',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: true },
+			},
+			control: { type: 'boolean' },
+		},
 		detailSlot: {
 			description: 'Slot for more product details (under price)',
 			table: {
@@ -219,8 +229,8 @@ export default {
 
 const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: '8uyt2m' } });
 
-export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
+export const Default = (args: VariantResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
+	<VariantResult {...args} result={controller?.store?.results[0] as Product} />
 );
 
 Default.loaders = [
@@ -232,8 +242,8 @@ Default.loaders = [
 	},
 ];
 
-export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
+export const hideSections = (args: VariantResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
+	<VariantResult {...args} result={controller?.store?.results[0] as Product} />
 );
 
 hideSections.loaders = [
@@ -250,8 +260,8 @@ hideSections.args = {
 	hidePricing: true,
 };
 
-export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
+export const truncateTitle = (args: VariantResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
+	<VariantResult {...args} result={controller?.store?.results[0] as Product} />
 );
 
 truncateTitle.loaders = [

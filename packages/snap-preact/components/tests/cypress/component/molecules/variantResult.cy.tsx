@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Result } from '../../../../src/components/Molecules/Result';
+import { VariantResult } from '../../../../src/components/Molecules/VariantResult';
 import { FALLBACK_IMAGE_URL } from '../../../../src/components/Atoms/Image';
 import { ThemeProvider } from '../../../../src/providers';
 import { ResultsLayout } from '../../../../src/types';
@@ -62,7 +62,7 @@ describe('Result Component E2E', () => {
 	});
 
 	it('renders', () => {
-		mount(<Result controller={controller} result={controller.store.results[0]} />);
+		mount(<VariantResult controller={controller} result={controller.store.results[0]} />);
 		cy.get('.ss__result').should('exist');
 	});
 
@@ -72,7 +72,7 @@ describe('Result Component E2E', () => {
 		product.mappings.core!.price = 1.99;
 		product.mappings.core!.msrp = 1.99;
 
-		mount(<Result result={product} />);
+		mount(<VariantResult result={product} />);
 		cy.get('.ss__result').should('exist').and('not.have.class', 'ss__result--sale');
 	});
 
@@ -83,17 +83,17 @@ describe('Result Component E2E', () => {
 		product.mappings.core!.price = 0.99;
 		product.mappings.core!.msrp = 1.99;
 
-		mount(<Result result={product} />);
+		mount(<VariantResult result={product} />);
 		cy.get('.ss__result').should('exist').and('have.class', 'ss__result--sale');
 	});
 
 	it('renders image', () => {
-		mount(<Result controller={controller} result={controller.store.results[0]} />);
+		mount(<VariantResult controller={controller} result={controller.store.results[0]} />);
 		cy.get('.ss__result .ss__result__image-wrapper .ss__image img').should('exist');
 	});
 
 	it('renders title', () => {
-		mount(<Result controller={controller} result={controller.store.results[0]} />);
+		mount(<VariantResult controller={controller} result={controller.store.results[0]} />);
 		cy.get('.ss__result .ss__result__details .ss__result__details__title')
 			.should('exist')
 			.and('contain.text', controller.store.results[0].mappings?.core?.name);
@@ -106,7 +106,7 @@ describe('Result Component E2E', () => {
 		product.mappings.core!.price = 0.99;
 		product.mappings.core!.msrp = 1.99;
 
-		mount(<Result controller={controller} result={product} />);
+		mount(<VariantResult controller={controller} result={product} />);
 		cy.get('.ss__result .ss__result__details__pricing .ss__price').should('exist').and('have.length', 2);
 	});
 
@@ -115,7 +115,7 @@ describe('Result Component E2E', () => {
 			result: controller.store.results[0],
 			detailSlot: <div className="details">Add to cart</div>,
 		};
-		mount(<Result {...args} />);
+		mount(<VariantResult {...args} />);
 		cy.get('.ss__result .ss__result__details .details').should('exist').and('contain.text', 'Add to cart');
 	});
 
@@ -126,7 +126,7 @@ describe('Result Component E2E', () => {
 			hideTitle: true,
 			hidePricing: true,
 		};
-		mount(<Result {...args} />);
+		mount(<VariantResult {...args} />);
 
 		cy.get('.ss__result .ss__result__image-wrapper .ss__badge').should('not.exist');
 		cy.get('.ss__result .ss__result__image-wrapper .ss__overlay-badge').should('not.exist');
@@ -140,18 +140,18 @@ describe('Result Component E2E', () => {
 			result: controller.store.results[0],
 			hideImage: true,
 		};
-		mount(<Result {...args} />);
+		mount(<VariantResult {...args} />);
 		cy.get('.ss__result .ss__result__image-wrapper .ss__image').should('not.exist');
 	});
 
 	it('should display a fallback image', () => {
 		controller.store.results[0].mappings!.core!.imageUrl = '';
-		mount(<Result result={controller.store.results[0]} />);
+		mount(<VariantResult result={controller.store.results[0]} />);
 		cy.get('.ss__result .ss__result__image-wrapper .ss__image img').should('have.attr', 'src', FALLBACK_IMAGE_URL);
 	});
 
 	it('can change the layout', () => {
-		mount(<Result controller={controller} result={controller.store.results[0]} layout={ResultsLayout.list} />);
+		mount(<VariantResult controller={controller} result={controller.store.results[0]} layout={ResultsLayout.list} />);
 		cy.get('.ss__result').should('have.class', `ss__result--${ResultsLayout.list}`);
 	});
 
@@ -163,12 +163,12 @@ describe('Result Component E2E', () => {
 				append: '...',
 			},
 		};
-		mount(<Result {...args} />);
+		mount(<VariantResult {...args} />);
 		cy.get('.ss__result__details__title a').should('exist').and('contain.text', '...').invoke('text').should('have.length.at.most', 6);
 	});
 
 	it('does not render ratings or add to cart buttons by default', () => {
-		mount(<Result result={controller.store.results[0]} />);
+		mount(<VariantResult result={controller.store.results[0]} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__rating').should('not.exist');
@@ -176,7 +176,7 @@ describe('Result Component E2E', () => {
 	});
 
 	it('can render ratings', () => {
-		mount(<Result result={controller.store.results[0]} hideRating={false} />);
+		mount(<VariantResult result={controller.store.results[0]} hideRating={false} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__rating').should('exist');
@@ -187,7 +187,7 @@ describe('Result Component E2E', () => {
 			addToCart: cy.spy().as('addToCartSpy'),
 		};
 
-		mount(<Result controller={_controller as any} result={controller.store.results[0]} hideAddToCartButton={false} />);
+		mount(<VariantResult controller={_controller as any} result={controller.store.results[0]} hideAddToCartButton={false} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__button--addToCart').should('exist').and('contain.text', 'Add To Cart').click();
@@ -209,7 +209,7 @@ describe('Result Component E2E', () => {
 		};
 
 		mount(
-			<Result
+			<VariantResult
 				controller={_controller as any}
 				result={controller.store.results[0]}
 				hideAddToCartButton={false}
@@ -236,7 +236,12 @@ describe('Result Component E2E', () => {
 		};
 
 		mount(
-			<Result onAddToCartClick={customFuncSpy} controller={_controller as any} result={controller.store.results[0]} hideAddToCartButton={false} />
+			<VariantResult
+				onAddToCartClick={customFuncSpy}
+				controller={_controller as any}
+				result={controller.store.results[0]}
+				hideAddToCartButton={false}
+			/>
 		);
 
 		cy.get('.ss__result').should('exist');
@@ -304,7 +309,7 @@ describe('Result Component E2E', () => {
 
 		resultWithVariants.variants?.update(mockVariantData);
 
-		mount(<Result controller={controller} result={controller.store.results[0]} hideVariantSelections={false} />);
+		mount(<VariantResult controller={controller} result={controller.store.results[0]} hideVariantSelections={false} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__details__variant-selection .ss__variant-selection').should('exist');
@@ -368,7 +373,7 @@ describe('Result Component E2E', () => {
 
 		resultWithVariants.variants?.update(mockVariantData);
 
-		mount(<Result controller={controller} result={resultWithVariants} />);
+		mount(<VariantResult controller={controller} result={resultWithVariants} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__details__variant-selection').should('not.exist');
@@ -432,7 +437,7 @@ describe('Result Component E2E', () => {
 
 		resultWithVariants.variants?.update(mockVariantData);
 
-		mount(<Result controller={controller} result={resultWithVariants} hideVariantSelections={true} />);
+		mount(<VariantResult controller={controller} result={resultWithVariants} hideVariantSelections={true} />);
 
 		cy.get('.ss__result').should('exist');
 		// Variant container might still exist but selections should be hidden
@@ -441,13 +446,13 @@ describe('Result Component E2E', () => {
 
 	it('renders with classname', () => {
 		const className = 'classy';
-		mount(<Result result={controller.store.results[0]} className={className} />);
+		mount(<VariantResult result={controller.store.results[0]} className={className} />);
 
 		cy.get('.ss__result').should('exist').and('have.class', className);
 	});
 
 	it('can disable styles', () => {
-		mount(<Result result={controller.store.results[0]} disableStyles={true} />);
+		mount(<VariantResult result={controller.store.results[0]} disableStyles={true} />);
 
 		cy.get('.ss__result')
 			.should('exist')
@@ -496,7 +501,7 @@ describe('Result Lang E2E', () => {
 			},
 		};
 
-		mount(<Result result={controller.store.results[0]} lang={lang} hideAddToCartButton={false} />);
+		mount(<VariantResult result={controller.store.results[0]} lang={lang} hideAddToCartButton={false} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('[ss-lang=addToCartButtonText]')
@@ -519,7 +524,7 @@ describe('Result Lang E2E', () => {
 			},
 		};
 
-		mount(<Result result={controller.store.results[0]} lang={lang} hideAddToCartButton={false} />);
+		mount(<VariantResult result={controller.store.results[0]} lang={lang} hideAddToCartButton={false} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('[ss-lang=addToCartButtonText]').should('exist').and('contain.html', value);
@@ -542,7 +547,7 @@ describe('Result Theming E2E', () => {
 
 		mount(
 			<ThemeProvider theme={globalTheme}>
-				<Result result={controller.store.results[0]} />
+				<VariantResult result={controller.store.results[0]} />
 			</ThemeProvider>
 		);
 
@@ -559,7 +564,7 @@ describe('Result Theming E2E', () => {
 			},
 		};
 
-		mount(<Result result={controller.store.results[0]} theme={propTheme} />);
+		mount(<VariantResult result={controller.store.results[0]} theme={propTheme} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__details__title').should('not.exist');
@@ -584,7 +589,7 @@ describe('Result Theming E2E', () => {
 
 		mount(
 			<ThemeProvider theme={globalTheme}>
-				<Result result={controller.store.results[0]} theme={propTheme} />
+				<VariantResult result={controller.store.results[0]} theme={propTheme} />
 			</ThemeProvider>
 		);
 

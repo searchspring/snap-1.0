@@ -1,11 +1,12 @@
-# Result
+# VariantResult
 
-Renders a single product card. 
+Renders a single product card with variant selections. 
 
 ## Sub-components
 - Badge
 - Price
 - Image
+- VariantSelection
 
 ## Usage
 
@@ -13,49 +14,56 @@ Renders a single product card.
 The required `result` prop specifies a reference to a product object from the `results` store array.
 
 ```jsx
-<Result result={controller.store.results[0]} />
+<VariantResult result={controller.store.results[0]} />
 ```
 
 ### hideBadge
 The `hideBadge` prop will prevent the `<OverlayBadge />` and `<CalloutBadge />` components from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hideBadge={true} />
+<VariantResult result={controller.store.results[0]} hideBadge={true} />
 ```
 
 ### hideTitle
 The `hideTitle` prop will prevent to product title from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hideTitle={true} />
+<VariantResult result={controller.store.results[0]} hideTitle={true} />
 ```
 
 ### hideRating
 The `hideRating` prop will prevent to product rating from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hideRating={true} />
+<VariantResult result={controller.store.results[0]} hideRating={true} />
 ```
 
 ### hideAddToCartButton
 The `hideAddToCartButton` prop will prevent to product add to cart button from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hideAddToCartButton={true} />
+<VariantResult result={controller.store.results[0]} hideAddToCartButton={true} />
 ```
 
 ### addToCartButtonText
 The `addToCartButtonText` prop will will change the text rendered in the add to cart button.
 
 ```jsx
-<Result result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} />
+<VariantResult result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} />
 ```
 
 ### hidePricing
 The `hidePricing` prop will prevent the pricing from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hidePricing={true} />
+<VariantResult result={controller.store.results[0]} hidePricing={true} />
+```
+
+### hideVariantSelections
+The `hideVariantSelections` prop will prevent the VariantSelections components from rendering.
+
+```jsx
+<VariantResult result={controller.store.results[0]} hideVariantSelections={false} />
 ```
 
 ### onAddToCartClick
@@ -67,7 +75,7 @@ const clickFunc = (e, result) => {
 	console.log('added!', e, result);
 }
 
-<Result result={controller.store.results[0]} onAddToCartClick={() => clickFunc} />
+<VariantResult result={controller.store.results[0]} onAddToCartClick={() => clickFunc} />
 ```
 
 
@@ -75,21 +83,21 @@ const clickFunc = (e, result) => {
 The `addToCartButtonSuccessText` prop will change the text rendered in the add to cart button temporarily after clicking.
 
 ```jsx
-<Result result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} addToCartButtonSuccessText={'added!'} />
+<VariantResult result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} addToCartButtonSuccessText={'added!'} />
 ```
 
 ### addToCartButtonSuccessTimeout
 The `addToCartButtonSuccessTimeout` prop specifies the number of ms to show the success text in the add to cart button before reverting back to normal text.
 
 ```jsx
-<Result result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} addToCartButtonSuccessText={'added!'} addToCartButtonSuccessTimeout={4000} />
+<VariantResult result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} addToCartButtonSuccessText={'added!'} addToCartButtonSuccessTimeout={4000} />
 ```
 
 ### hideImage
 The `hideImage` prop will prevent the image from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hideImage={true} />
+<VariantResult result={controller.store.results[0]} hideImage={true} />
 ```
 
 ### detailSlot
@@ -111,33 +119,33 @@ const productDetails = (props) => {
 ```
 
 ```jsx
-<Result result={controller.store.results[0]} detailSlot={<productDetails product={controller.store.results[0]/>} />
+<VariantResult result={controller.store.results[0]} detailSlot={<productDetails product={controller.store.results[0]/>} />
 ```
 
 ### fallback
 The `fallback` prop will be passed to the `<Image />` sub-component. If the primary image does not display, this fallback image will be displayed instead. 
 
 ```jsx
-<Result result={controller.store.results[0]} fallback={'https://www.example.com/imgs/placeholder.jpg'} />
+<VariantResult result={controller.store.results[0]} fallback={'https://www.example.com/imgs/placeholder.jpg'} />
 ```
 
 ### width
 The `width` prop sets the width of this Result.
 
 ```jsx
-<Result result={controller.store.results[0]} width={'25%'} />
+<VariantResult result={controller.store.results[0]} width={'25%'} />
 ```
 
 ### layout
 The `layout` prop specifies if this Result will be contained in a `grid` or `list` layout.
 
 ```jsx
-<Result result={controller.store.results[0]} layout={'grid'} />
+<VariantResult result={controller.store.results[0]} layout={'grid'} />
 ```
 
 ### truncateTitle
 The `truncateTitle` prop utililizes the truncate filter from the snap-toolbox to allow you truncate the product title at a certain character length, and optionally append an additional string such as "..."
 
 ```jsx
-<Result result={controller.store.results[0]} truncateTitle={ limit: 5, append: '...' } />
+<VariantResult result={controller.store.results[0]} truncateTitle={ limit: 5, append: '...' } />
 ```

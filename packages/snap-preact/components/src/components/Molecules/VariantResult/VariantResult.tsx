@@ -10,16 +10,17 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { filters } from '@searchspring/snap-toolbox';
 import { ComponentProps, ResultsLayout, StyleScript } from '../../../types';
-import { CalloutBadge, CalloutBadgeProps } from '../../Molecules/CalloutBadge';
-import { OverlayBadge, OverlayBadgeProps } from '../../Molecules/OverlayBadge';
+import { CalloutBadge, CalloutBadgeProps } from '../CalloutBadge';
+import { OverlayBadge, OverlayBadgeProps } from '../OverlayBadge';
 import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
 import type { Product } from '@searchspring/snap-store-mobx';
 import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import deepmerge from 'deepmerge';
 import { Lang, useLang } from '../../../hooks';
+import { VariantSelection } from '../VariantSelection';
 
-const defaultStyles: StyleScript<ResultProps> = () => {
+const defaultStyles: StyleScript<VariantResultProps> = () => {
 	return css({
 		'&.ss__result--grid': {
 			display: 'flex',
@@ -78,10 +79,10 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 	});
 };
 
-export const Result = observer((properties: ResultProps): JSX.Element => {
+export const VariantResult = observer((properties: VariantResultProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
-	const defaultProps: Partial<ResultProps> = {
+	const defaultProps: Partial<VariantResultProps> = {
 		layout: ResultsLayout.grid,
 		treePath: globalTreePath,
 		addToCartButtonText: 'Add To Cart',
@@ -103,6 +104,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 		fallback,
 		disableStyles,
 		className,
+		hideVariantSelections,
 		internalClassName,
 		layout,
 		onClick,
@@ -213,7 +215,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 		displayName = filters.truncate(core?.name || '', props.truncateTitle.limit, props.truncateTitle.append);
 	}
 
-	const styling = mergeStyles<ResultProps>(props, defaultStyles);
+	const styling = mergeStyles<VariantResultProps>(props, defaultStyles);
 
 	//initialize lang
 	const defaultLang = {
@@ -235,7 +237,14 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 		<CacheProvider>
 			<article
 				{...styling}
-				className={classnames('ss__result', `ss__result--${layout}`, { 'ss__result--sale': isOnSale }, className, internalClassName)}
+				className={classnames(
+					'ss__result',
+					'ss__variant-result',
+					`ss__result--${layout}`,
+					{ 'ss__result--sale': isOnSale },
+					className,
+					internalClassName
+				)}
 				ref={trackingRef}
 			>
 				{!hideImage && (
@@ -300,6 +309,14 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 						</div>
 					)}
 
+					{!hideVariantSelections && (
+						<div className="ss__result__details__variant-selection">
+							{result.variants?.selections.map((selection) => {
+								return <VariantSelection selection={selection} />;
+							})}
+						</div>
+					)}
+
 					{cloneWithProps(detailSlot, { result, treePath })}
 
 					{!hideAddToCartButton && (
@@ -328,7 +345,7 @@ interface TruncateTitleProps {
 	append?: string;
 }
 
-export interface ResultProps extends ComponentProps {
+export interface VariantResultProps extends ComponentProps {
 	result: Product;
 	hideBadge?: boolean;
 	hideTitle?: boolean;
@@ -336,6 +353,7 @@ export interface ResultProps extends ComponentProps {
 	hidePricing?: boolean;
 	hideRating?: boolean;
 	hideAddToCartButton?: boolean;
+	hideVariantSelections?: boolean;
 	addToCartButtonText?: string;
 	onAddToCartClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, result: Product) => void;
 	addToCartButtonSuccessText?: string;
