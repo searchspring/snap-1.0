@@ -187,8 +187,7 @@ describe('Result Component E2E', () => {
 			addToCart: cy.spy().as('addToCartSpy'),
 		};
 
-		// @ts-ignore
-		mount(<Result controller={_controller} result={controller.store.results[0]} hideAddToCartButton={false} />);
+		mount(<Result controller={_controller as any} result={controller.store.results[0]} hideAddToCartButton={false} />);
 
 		cy.get('.ss__result').should('exist');
 		cy.get('.ss__result__button--addToCart').should('exist').and('contain.text', 'Add To Cart').click();
@@ -211,8 +210,7 @@ describe('Result Component E2E', () => {
 
 		mount(
 			<Result
-				// @ts-ignore
-				controller={_controller}
+				controller={_controller as any}
 				result={controller.store.results[0]}
 				hideAddToCartButton={false}
 				addToCartButtonText={normalText}
@@ -238,8 +236,7 @@ describe('Result Component E2E', () => {
 		};
 
 		mount(
-			// @ts-ignore
-			<Result onAddToCartClick={customFuncSpy} controller={_controller} result={controller.store.results[0]} hideAddToCartButton={false} />
+			<Result onAddToCartClick={customFuncSpy} controller={_controller as any} result={controller.store.results[0]} hideAddToCartButton={false} />
 		);
 
 		cy.get('.ss__result').should('exist');
@@ -499,7 +496,6 @@ describe('Result Lang E2E', () => {
 			},
 		};
 
-		// @ts-ignore
 		mount(<Result result={controller.store.results[0]} lang={lang} hideAddToCartButton={false} />);
 
 		cy.get('.ss__result').should('exist');
@@ -523,7 +519,6 @@ describe('Result Lang E2E', () => {
 			},
 		};
 
-		// @ts-ignore
 		mount(<Result result={controller.store.results[0]} lang={lang} hideAddToCartButton={false} />);
 
 		cy.get('.ss__result').should('exist');
