@@ -921,7 +921,6 @@ describe('SearchResultStore', () => {
 			let selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
 
 			expect(selection).toBeDefined();
-			console.log(selection?.selected?.value);
 			expect(selection?.selected?.value).not.toBe(value);
 
 			colorOptionElem.click();
