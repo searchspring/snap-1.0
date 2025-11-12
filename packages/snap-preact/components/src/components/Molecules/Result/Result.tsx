@@ -323,7 +323,7 @@ interface ResultSubProps {
 	rating: RatingProps;
 	button: ButtonProps;
 }
-interface TruncateTitleProps {
+export interface TruncateTitleProps {
 	limit: number;
 	append?: string;
 }

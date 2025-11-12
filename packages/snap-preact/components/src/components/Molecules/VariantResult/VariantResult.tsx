@@ -1,83 +1,13 @@
-import { Fragment, h } from 'preact';
-import { Ref, useState } from 'preact/hooks';
+import { h } from 'preact';
+import { Ref } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
-import { jsx, css } from '@emotion/react';
-import classnames from 'classnames';
-
-import { Image, ImageProps } from '../../Atoms/Image';
-import { Price, PriceProps } from '../../Atoms/Price';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
-import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
-import { filters } from '@searchspring/snap-toolbox';
-import { ComponentProps, ResultsLayout, StyleScript } from '../../../types';
-import { CalloutBadge, CalloutBadgeProps } from '../CalloutBadge';
-import { OverlayBadge, OverlayBadgeProps } from '../OverlayBadge';
+import { defined, mergeProps } from '../../../utilities';
+import { ComponentProps, ResultsLayout } from '../../../types';
 import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
 import type { Product } from '@searchspring/snap-store-mobx';
-import { Rating, RatingProps } from '../Rating';
-import { Button, ButtonProps } from '../../Atoms/Button';
-import deepmerge from 'deepmerge';
-import { Lang, useLang } from '../../../hooks';
 import { VariantSelection } from '../VariantSelection';
-
-const defaultStyles: StyleScript<VariantResultProps> = () => {
-	return css({
-		'&.ss__result--grid': {
-			display: 'flex',
-			flexDirection: 'column',
-			height: '100%',
-			'& .ss__result__image-wrapper': {
-				flex: '1 0 auto',
-				minHeight: '0%',
-			},
-		},
-		'&.ss__result--list': {
-			display: 'flex',
-			flexDirection: 'row',
-			'& .ss__result__image-wrapper': {
-				flex: '0 0 33%',
-			},
-			'& .ss__result__details': {
-				flex: '1 1 auto',
-				textAlign: 'left',
-				marginLeft: '20px',
-				padding: 0,
-			},
-		},
-
-		'& .ss__result__image-wrapper': {
-			position: 'relative',
-			'& .ss__result__badge': {
-				background: 'rgba(255, 255, 255, 0.5)',
-				padding: '10px',
-			},
-		},
-
-		'& .ss__result__details__rating-wrapper': {
-			display: 'flex',
-			justifyContent: 'center',
-		},
-
-		'& .ss__result__details': {
-			padding: '10px',
-			textAlign: 'center',
-
-			'& .ss__result__details__title': {
-				marginBottom: '10px',
-			},
-			'& .ss__result__details__pricing': {
-				marginBottom: '10px',
-
-				'& .ss__result__price': {
-					fontSize: '1.2em',
-				},
-				'& .ss__price--strike': {
-					fontSize: '80%',
-				},
-			},
-		},
-	});
-};
+import { Result, ResultLang, ResultProps, TruncateTitleProps } from '../Result';
 
 export const VariantResult = observer((properties: VariantResultProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
@@ -94,255 +24,39 @@ export const VariantResult = observer((properties: VariantResultProps): JSX.Elem
 
 	const props = mergeProps('result', globalTheme, defaultProps, properties);
 
-	const {
-		result,
-		hideBadge,
-		hideTitle,
-		hidePricing,
-		hideImage,
-		detailSlot,
-		fallback,
-		disableStyles,
-		className,
-		hideVariantSelections,
-		internalClassName,
-		layout,
-		onClick,
-		controller,
-		hideAddToCartButton,
-		onAddToCartClick,
-		addToCartButtonText,
-		addToCartButtonSuccessText,
-		addToCartButtonSuccessTimeout,
-		hideRating,
-		trackingRef,
-		treePath,
-	} = props;
-
-	const core = result?.display?.mappings.core || result?.mappings?.core;
-
-	const [addedToCart, setAddedToCart] = useState(false);
-
-	const subProps: ResultSubProps = {
-		price: {
+	const subProps: VariantResultSubProps = {
+		result: {
 			// global theme
-			internalClassName: 'ss__result__price',
+			internalClassName: 'ss__result__variant-result',
+			result: props.result,
 			...defined({
-				disableStyles,
+				disableStyles: props.disableStyles,
 			}),
 			// component theme overrides
 			theme: props.theme,
-			treePath,
-		},
-		calloutBadge: {
-			// default props
-			internalClassName: 'ss__result__callout-badge',
-			result,
-			// inherited props
-			...defined({
-				disableStyles,
-			}),
-			// component theme overrides
-			theme: props.theme,
-			treePath,
-		},
-		overlayBadge: {
-			// default props
-			internalClassName: 'ss__result__overlay-badge',
-			result,
-			controller: controller as SearchController | AutocompleteController | RecommendationController,
-			// inherited props
-			...defined({
-				disableStyles,
-			}),
-			// component theme overrides
-			theme: props.theme,
-			treePath,
-		},
-		image: {
-			// default props
-			internalClassName: 'ss__result__image',
-			alt: core?.name || '',
-			src: core?.imageUrl || '',
-			// inherited props
-			...defined({
-				disableStyles,
-				fallback: fallback,
-			}),
-			// component theme overrides
-			theme: props.theme,
-			treePath,
-		},
-		rating: {
-			// default props
-			internalClassName: 'ss__result__rating',
-			value: core?.rating || 0,
-			count: Number(core?.ratingCount || 0),
-			// inherited props
-			...defined({
-				disableStyles,
-			}),
-			// component theme overrides
-			theme: props.theme,
-			treePath,
-		},
-		button: {
-			// default props
-			internalClassName: 'ss__result__button--addToCart',
-			onClick: (e) => {
-				setAddedToCart(true);
-
-				if (onAddToCartClick) {
-					onAddToCartClick(e, result);
-				}
-				controller?.addToCart([result]);
-
-				setTimeout(() => setAddedToCart(false), addToCartButtonSuccessTimeout);
-			},
-
-			// inherited props
-			...defined({
-				disableStyles,
-			}),
-			// component theme overrides
-			theme: props.theme,
-			treePath,
+			treePath: props.treePath,
 		},
 	};
 
-	let displayName = core?.name;
-	if (props.truncateTitle) {
-		displayName = filters.truncate(core?.name || '', props.truncateTitle.limit, props.truncateTitle.append);
-	}
-
-	const styling = mergeStyles<VariantResultProps>(props, defaultStyles);
-
-	//initialize lang
-	const defaultLang = {
-		addToCartButtonText: {
-			value: addedToCart ? addToCartButtonSuccessText : addToCartButtonText,
-		},
-	};
-
-	//deep merge with props.lang
-	const lang = deepmerge(defaultLang, props.lang || {});
-	const mergedLang = useLang(lang as any, {
-		result: result,
-		controller: controller,
-	});
-
-	const isOnSale = Boolean(core?.msrp && core?.price && core?.price < core?.msrp);
-
-	return core ? (
-		<CacheProvider>
-			<article
-				{...styling}
-				className={classnames(
-					'ss__result',
-					'ss__variant-result',
-					`ss__result--${layout}`,
-					{ 'ss__result--sale': isOnSale },
-					className,
-					internalClassName
-				)}
-				ref={trackingRef}
-			>
-				{!hideImage && (
-					<div className="ss__result__image-wrapper">
-						<a
-							href={core!.url}
-							onClick={(e: React.MouseEvent<HTMLAnchorElement, Event>) => {
-								onClick && onClick(e);
-							}}
-						>
-							{!hideBadge ? (
-								<OverlayBadge
-									{...subProps.overlayBadge}
-									controller={controller as SearchController | AutocompleteController | RecommendationController}
-								>
-									<Image {...subProps.image} />
-								</OverlayBadge>
-							) : (
-								<Image {...subProps.image} />
-							)}
-						</a>
-					</div>
-				)}
-
-				<div className="ss__result__details">
-					{!hideBadge && (
-						<CalloutBadge
-							{...subProps.calloutBadge}
-							controller={controller as SearchController | AutocompleteController | RecommendationController}
-						/>
-					)}
-					{!hideTitle && (
-						<div className="ss__result__details__title">
-							<a
-								href={core.url}
-								onClick={(e: React.MouseEvent<HTMLAnchorElement, Event>) => {
-									onClick && onClick(e);
-								}}
-								dangerouslySetInnerHTML={{
-									__html: displayName || '',
-								}}
-							/>
-						</div>
-					)}
-					{!hideRating && (
-						<div className="ss__result__details__rating-wrapper">
-							<Rating {...subProps.rating} />
-						</div>
-					)}
-
-					{!hidePricing && (
-						<div className="ss__result__details__pricing">
-							{isOnSale ? (
-								<>
-									<Price {...subProps.price} value={core.msrp} lineThrough={true} name={'msrp'} />
-									&nbsp;
-									<Price {...subProps.price} value={core.price} name={'price'} />
-								</>
-							) : (
-								<Price {...subProps.price} value={core.price!} />
-							)}
-						</div>
-					)}
-
-					{!hideVariantSelections && (
-						<div className="ss__result__details__variant-selection">
-							{result.variants?.selections.map((selection) => {
-								return <VariantSelection selection={selection} />;
-							})}
-						</div>
-					)}
-
-					{cloneWithProps(detailSlot, { result, treePath })}
-
-					{!hideAddToCartButton && (
-						<div className="ss__result__add-to-cart-wrapper">
-							<Button {...subProps.button} content={addToCartButtonText} {...mergedLang.addToCartButtonText.all} />
-						</div>
-					)}
-				</div>
-			</article>
-		</CacheProvider>
+	const variantSelection = !props.hideVariantSelections ? (
+		<div className="ss__result__details__variant-selection">
+			{props.result.variants?.selections.map((selection) => {
+				return <VariantSelection selection={selection} />;
+			})}
+		</div>
 	) : (
-		<Fragment></Fragment>
+		<></>
+	);
+
+	return (
+		<CacheProvider>
+			<Result {...props} {...subProps.result} detailSlot={variantSelection} />
+		</CacheProvider>
 	);
 });
 
-interface ResultSubProps {
-	calloutBadge: CalloutBadgeProps;
-	overlayBadge: Omit<OverlayBadgeProps, 'children'>;
-	price: PriceProps;
-	image: ImageProps;
-	rating: RatingProps;
-	button: ButtonProps;
-}
-interface TruncateTitleProps {
-	limit: number;
-	append?: string;
+interface VariantResultSubProps {
+	result: ResultProps;
 }
 
 export interface VariantResultProps extends ComponentProps {
@@ -367,15 +81,3 @@ export interface VariantResultProps extends ComponentProps {
 	lang?: Partial<ResultLang>;
 	trackingRef?: Ref<HTMLElement | null>;
 }
-
-export interface ResultLang {
-	addToCartButtonText: Lang<ResultPropData>;
-	addToCartButtonSuccessText: Lang<ResultPropData>;
-}
-
-interface ResultPropData {
-	result: Product;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-}
-
-export type ResultNames = 'seed';
