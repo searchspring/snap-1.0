@@ -9,6 +9,8 @@ import {
 	SearchResponseModelSearchMatchTypeEnum,
 	SearchResponseModelMerchandising,
 	SearchResponseModelResultBadges,
+	SearchResponseModelResultMappings,
+	MetaResponseModelBadgeTag,
 } from '@searchspring/snapi-types';
 
 // TODO: Add all core fields
@@ -42,6 +44,7 @@ type sortingOption = {
 
 type rawResult = {
 	badges?: SearchResponseModelResultBadges[];
+	variants?: SearchResponseModelResultVariants;
 	brand?: string;
 	collection_handle?: string[];
 	collection_id?: string[];
@@ -160,8 +163,34 @@ export type searchResponseType = {
 	};
 };
 
+export type ResultBadge = MetaResponseModelBadgeTag & SearchResponseModelResultBadges;
+
+export type VariantData = {
+	mappings: SearchResponseModelResultMappings;
+	attributes: Record<string, unknown>;
+	options: VariantDataOptions;
+	badges: ResultBadge[];
+};
+
+export type VariantDataOptions = Record<
+	string,
+	{
+		value: string;
+		background?: string;
+		backgroundImageUrl?: string;
+		attributeId?: string;
+		optionId?: string;
+		optionValue?: string;
+	}
+>;
+
+type SearchResponseModelResultVariants = {
+	preferences: Record<string, string[]>;
+	data: VariantData[] | null;
+};
+
 class Result implements SearchResponseModelResult {
-	constructor(result: SearchResponseModelResult) {
+	constructor(result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants }) {
 		Object.assign(this, result);
 	}
 }
@@ -217,6 +246,7 @@ transformSearchResponse.result = (rawResult: rawResult, idx: number): SearchResp
 		.filter((k) => CORE_FIELDS.indexOf(k) == -1)
 		// remove 'badges' from attributes - but only if it is an object
 		.filter((k) => !(k == 'badges' && Array.isArray(rawResult[k]) && typeof rawResult[k]?.[0] == 'object'))
+		.filter((k) => !(k == 'variants'))
 		.reduce((attributes, key) => {
 			return {
 				...attributes,
@@ -238,6 +268,24 @@ transformSearchResponse.result = (rawResult: rawResult, idx: number): SearchResp
 			};
 		}) || [];
 
+	if (rawResult.variants && rawResult.variants.data) {
+		rawResult.variants.data.forEach((variant) => {
+			// @ts-ignore - transforming the data
+			if (variant.core) {
+				// @ts-ignore - transforming the data
+				variant.badges = variant.core.badges;
+
+				variant.mappings = {
+					// @ts-ignore - transforming the data
+					core: variant.core,
+				};
+
+				// @ts-ignore - transforming the data
+				delete variant.core;
+			}
+		});
+	}
+
 	return new Result({
 		id: rawResult.uid,
 		position: idx + 1,
@@ -246,6 +294,7 @@ transformSearchResponse.result = (rawResult: rawResult, idx: number): SearchResp
 		},
 		attributes,
 		badges: Array.isArray(rawResult.badges) && typeof rawResult.badges[0] == 'object' ? rawResult.badges : [],
+		variants: typeof rawResult.variants == 'object' ? rawResult.variants : undefined,
 		children,
 	});
 };
@@ -462,7 +511,7 @@ transformSearchResponse.search = (response: searchResponseType, request: SearchR
 };
 
 // used for HTML entities decoding
-function decodeProperty(encoded: string | string[] | SearchResponseModelResultBadges[]) {
+function decodeProperty(encoded: string | string[] | SearchResponseModelResultBadges[] | SearchResponseModelResultVariants) {
 	if (Array.isArray(encoded)) {
 		return encoded.map((item) => {
 			if (typeof item === 'string') {

@@ -18,6 +18,7 @@ import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import deepmerge from 'deepmerge';
 import { Lang, useLang } from '../../../hooks';
+import { VariantSelection } from '../VariantSelection';
 
 const defaultStyles: StyleScript<ResultProps> = () => {
 	return css({
@@ -52,7 +53,7 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 			},
 		},
 
-		'& .ss__result__rating-wrapper': {
+		'& .ss__result__details__rating-wrapper': {
 			display: 'flex',
 			justifyContent: 'center',
 		},
@@ -89,6 +90,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 		addToCartButtonSuccessTimeout: 2000,
 		hideAddToCartButton: true,
 		hideRating: true,
+		hideVariantSelections: true,
 	};
 
 	const props = mergeProps('result', globalTheme, defaultProps, properties);
@@ -103,6 +105,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 		fallback,
 		disableStyles,
 		className,
+		hideVariantSelections,
 		internalClassName,
 		layout,
 		onClick,
@@ -281,7 +284,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 						</div>
 					)}
 					{!hideRating && (
-						<div className="ss__result__rating-wrapper">
+						<div className="ss__result__details__rating-wrapper">
 							<Rating {...subProps.rating} />
 						</div>
 					)}
@@ -299,6 +302,15 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 							)}
 						</div>
 					)}
+
+					{!hideVariantSelections && (
+						<div className="ss__result__details__variant-selection">
+							{result.variants?.selections.map((selection) => {
+								return <VariantSelection selection={selection} />;
+							})}
+						</div>
+					)}
+
 					{cloneWithProps(detailSlot, { result, treePath })}
 
 					{!hideAddToCartButton && (
@@ -335,6 +347,7 @@ export interface ResultProps extends ComponentProps {
 	hidePricing?: boolean;
 	hideRating?: boolean;
 	hideAddToCartButton?: boolean;
+	hideVariantSelections?: boolean;
 	addToCartButtonText?: string;
 	onAddToCartClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, result: Product) => void;
 	addToCartButtonSuccessText?: string;

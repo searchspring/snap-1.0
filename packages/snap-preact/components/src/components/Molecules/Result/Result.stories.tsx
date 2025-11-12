@@ -158,6 +158,16 @@ export default {
 			control: { type: 'none' },
 			action: 'onClick',
 		},
+		hideVariantSelections: {
+			description: 'Hide variant Selections',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: true },
+			},
+			control: { type: 'boolean' },
+		},
 		detailSlot: {
 			description: 'Slot for more product details (under price)',
 			table: {

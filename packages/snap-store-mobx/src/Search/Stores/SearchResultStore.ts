@@ -65,7 +65,7 @@ export class SearchResultStore extends Array<Product | Banner> {
 			// attach click events - ONLY happens once (known limitation)
 			if (!loaded && resultsArr.length) {
 				document.querySelectorAll(`[${VARIANT_ATTRIBUTE}]`).forEach((elem) => {
-					if (variantConfig?.field && !variantConfig?.realtime?.enabled === false) {
+					if (!variantConfig?.realtime?.enabled === false) {
 						elem.addEventListener('click', () => variantOptionClick(elem, variantConfig, resultsArr));
 					}
 				});
@@ -73,7 +73,7 @@ export class SearchResultStore extends Array<Product | Banner> {
 
 			// check for attributes for preselection
 			if (resultsArr.length) {
-				if (variantConfig?.field && !variantConfig?.realtime?.enabled === false) {
+				if (!variantConfig?.realtime?.enabled === false) {
 					const options: Record<string, string[]> = {};
 					// grab values from elements on the page to form preselected elements
 					document.querySelectorAll(`[${VARIANT_ATTRIBUTE_SELECTED}]`).forEach((elem) => {
@@ -160,6 +160,7 @@ export type VariantData = {
 	mappings: SearchResponseModelResultMappings;
 	attributes: Record<string, unknown>;
 	options: VariantDataOptions;
+	badges: ResultBadge[];
 };
 
 export type VariantDataOptions = Record<
@@ -178,6 +179,7 @@ type ProductMinimal = {
 	id: string;
 	attributes: Record<string, unknown>;
 	mappings: SearchResponseModelResultMappings;
+	badges: Badges;
 };
 
 type ProductData = {
@@ -231,12 +233,12 @@ export class Product {
 			try {
 				// parse the field (JSON)
 				const parsedVariants: VariantData[] = JSON.parse(this.attributes[variantsField] as string);
-
 				this.variants = new Variants({
 					config: config.settings?.variants,
 					data: {
 						mask: this.mask,
 						variants: parsedVariants,
+						meta: meta,
 					},
 				});
 			} catch (err) {
@@ -244,13 +246,14 @@ export class Product {
 				console.error(err, `Invalid variant JSON for product id: ${result.id}`);
 			}
 			// default variants field
-		} else if (result.variants) {
+		} else if (result.variants && result.variants.data) {
 			// if variants are already parsed, use them
 			this.variants = new Variants({
 				data: {
 					mask: this.mask,
 					variants: result.variants.data,
 					preferences: result.variants.preferences,
+					meta: meta,
 				},
 				config: (config as SearchStoreConfig)?.settings?.variants,
 			});
@@ -386,6 +389,7 @@ type VariantsData = {
 		mask: ProductMask;
 		variants: VariantData[];
 		preferences?: Record<string, string[]>;
+		meta: MetaResponseModel;
 	};
 };
 
@@ -398,12 +402,18 @@ export class Variants {
 
 	constructor(variantData: VariantsData) {
 		const { config, data } = variantData || {};
-		const { variants, mask } = data || {};
+		const { variants, mask, meta } = data || {};
 		const preferences = variantData?.data?.preferences || {};
 		// setting function in constructor to prevent exposing mask as class property
 		this.setActive = (variant: Variant) => {
 			this.active = variant;
-			mask.set({ mappings: this.active.mappings, attributes: this.active.attributes });
+			const activeBadges = new Badges({
+				data: {
+					meta: meta,
+					result: variant as SearchResponseModelResult,
+				},
+			});
+			mask.set({ mappings: this.active.mappings, attributes: this.active.attributes, badges: activeBadges });
 		};
 
 		if (config) {
@@ -419,7 +429,9 @@ export class Variants {
 
 			// create variants objects
 			this.data = variantData
-				.filter((variant) => variant.attributes.available !== false)
+				// @ts-ignore - snapi types need updated
+				.filter((variant) => this.config?.showDisabledSelections || variant.mappings.core?.available !== false)
+				.filter((variant) => this.config?.showDisabledSelections || variant?.attributes?.available !== false)
 				.map((variant) => {
 					// normalize price fields ensuring they are numbers
 					if (variant.mappings.core?.price) {
@@ -572,6 +584,7 @@ export type VariantSelectionValue = {
 	backgroundImageUrl?: string;
 	background?: string;
 	available?: boolean;
+	disabled?: boolean;
 };
 
 type VariantSelectionData = {
@@ -629,20 +642,21 @@ export class VariantSelection {
 					const value = variant.options[this.field].value;
 
 					const thumbnailImageUrl = variant.mappings.core?.thumbnailImageUrl;
-					const mappedValue: {
-						available: boolean;
-						value: string;
-						label: string;
-						thumbnailImageUrl?: string;
-						background?: string;
-						backgroundImageUrl?: string;
-					} = {
+
+					// A value should only be disabled if there are NO available variants in the entire dataset that have this value for the current field
+					const allAvailableVariants = variants.data.filter((variant) => variant.available);
+					const disabledValue = !allAvailableVariants.some((availableVariant) => {
+						return availableVariant.options[this.field].value === value;
+					});
+
+					const mappedValue: VariantSelectionValue = {
 						value: value,
 						label: value,
 						thumbnailImageUrl: thumbnailImageUrl,
 						available: Boolean(
 							availableVariants.some((availableVariant) => availableVariant.options[this.field].value == variant.options[this.field].value)
 						),
+						disabled: disabledValue,
 					};
 
 					if (this.config.thumbnailBackgroundImages) {
@@ -729,6 +743,7 @@ export class Variant {
 	public available: boolean;
 	public attributes: Record<string, unknown> = {};
 	public options: VariantDataOptions;
+	public badges: ResultBadge[];
 
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -738,10 +753,13 @@ export class Variant {
 	constructor(variantData: { data: { variant: VariantData } }) {
 		const { data } = variantData || {};
 		const { variant } = data || {};
-		this.attributes = variant.attributes;
+		this.attributes = variant.attributes || {};
 		this.mappings = variant.mappings;
 		this.options = variant.options;
-		this.available = (this.attributes.available as boolean) || false;
+		this.badges = variant.badges || [];
+
+		// @ts-ignore - snapi types need updated
+		this.available = (this.attributes.available as boolean) || (this.mappings.core?.available as boolean) || false;
 
 		makeObservable(this, {
 			attributes: observable,

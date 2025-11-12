@@ -27,9 +27,19 @@ const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 			},
 
 			'.ss__dropdown__content': {
+				bottom: '20px',
+				border: '1px solid black',
+				borderBottom: '0px',
 				minWidth: 'auto',
 				left: '0',
 				right: '0',
+				background: 'white',
+				zIndex: 10,
+				position: 'absolute',
+
+				ul: {
+					margin: '0px',
+				},
 
 				'.ss__variant-selection__option': {
 					cursor: 'pointer',
@@ -47,6 +57,7 @@ const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 				'.ss__variant-selection__option--disabled': {
 					pointerEvents: 'none',
 					cursor: 'initial',
+					color: 'red',
 				},
 
 				'.ss__variant-selection__option--disabled, .ss__variant-selection__option--unavailable': {

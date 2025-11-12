@@ -1,8 +1,8 @@
 import deepmerge from 'deepmerge';
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModelResultCoreMappings } from '@searchspring/snapi-types';
+import { SearchResponseModelResult, SearchResponseModelResultCoreMappings } from '@searchspring/snapi-types';
 
-import { Banner, Product, SearchResultStore, ProductMask, Variants, Variant, VariantSelection, VariantData } from './SearchResultStore';
+import { Banner, Product, SearchResultStore, ProductMask, Variants, Variant, VariantSelection, VariantData, Badges } from './SearchResultStore';
 import type { SearchStoreConfig, StoreConfigs, VariantConfig } from '../../types';
 
 const mockData = new MockData();
@@ -464,7 +464,49 @@ describe('SearchResultStore', () => {
 
 				const variants = (result as Product).variants;
 
-				expect(variants?.data.length).toStrictEqual(parsedVariantData.filter((variant: any) => variant.attributes.available !== false).length);
+				expect(variants?.data.length).toStrictEqual(
+					parsedVariantData
+						.filter((variant: any) => variant.attributes.available !== false)
+						.filter((variant: any) => variant.mappings.core?.available !== false).length
+				);
+				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+			});
+		});
+
+		it('can use showDisabledSelections to show all variants selections', () => {
+			const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+
+			const variantSearchConfig = {
+				...searchConfig,
+				settings: {
+					variants: {
+						field: 'ss_variants',
+						showDisabledSelections: true,
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.results?.length);
+
+			results.forEach((result, index) => {
+				const productData = searchData.search.results && searchData.search.results[index];
+				const variantData = productData?.attributes?.ss_variants;
+				expect(variantData).toBeDefined();
+				const parsedVariantData = JSON.parse(variantData as unknown as string);
+
+				const variants = (result as Product).variants;
+
+				expect(variants?.data.length).toStrictEqual(parsedVariantData.length);
 				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
 			});
 		});
@@ -508,7 +550,9 @@ describe('SearchResultStore', () => {
 				expect(variants).toBeDefined();
 
 				expect((result as Product).variants?.data.length).toStrictEqual(
-					parsedVariantData.filter((variant: any) => variant.attributes.available !== false).length
+					parsedVariantData
+						.filter((variant: any) => variant.attributes.available !== false)
+						.filter((variant: any) => variant.mappings.core?.available !== false).length
 				);
 				expect((result as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
 
@@ -517,7 +561,9 @@ describe('SearchResultStore', () => {
 				expect((result as Product).variants).toBeDefined();
 
 				expect((result as Product).variants?.data.length).toStrictEqual(
-					parsedVariantDataToUse.filter((variant: any) => variant.attributes.available !== false).length
+					parsedVariantDataToUse
+						.filter((variant: any) => variant.attributes.available !== false)
+						.filter((variant: any) => variant.mappings.core?.available !== false).length
 				);
 				expect((result as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
 			});
@@ -621,7 +667,9 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData.filter((variant: any) => variant.attributes.available !== false).length
+				parsedVariantData
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
 			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
 
@@ -630,7 +678,9 @@ describe('SearchResultStore', () => {
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData.filter((variant: any) => variant.attributes.available !== false).length
+				parsedVariantData
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
 			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
 
@@ -699,7 +749,9 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData.filter((variant: any) => variant.attributes.available !== false).length
+				parsedVariantData
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
 			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
 
@@ -708,7 +760,9 @@ describe('SearchResultStore', () => {
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantDataToUse.filter((variant: any) => variant.attributes.available !== false).length
+				parsedVariantDataToUse
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
 			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
 
@@ -746,7 +800,9 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData.filter((variant: any) => variant.attributes.available !== false).length
+				parsedVariantData
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
 			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
 
@@ -755,7 +811,9 @@ describe('SearchResultStore', () => {
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantDataToUse.filter((variant: any) => variant.attributes.available !== false).length
+				parsedVariantDataToUse
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
 			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
 
@@ -863,6 +921,7 @@ describe('SearchResultStore', () => {
 			let selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
 
 			expect(selection).toBeDefined();
+			console.log(selection?.selected?.value);
 			expect(selection?.selected?.value).not.toBe(value);
 
 			colorOptionElem.click();
@@ -1177,13 +1236,14 @@ describe('SearchResultStore', () => {
 		describe('variants class', () => {
 			it('requires variants data and a mask to construct', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 
@@ -1194,7 +1254,9 @@ describe('SearchResultStore', () => {
 				expect(variants).toHaveProperty('makeSelections');
 				expect(variants).toHaveProperty('update');
 
-				const filteredParsedVariantsData = parsedVariantData.filter((variant: any) => variant.attributes.available !== false);
+				const filteredParsedVariantsData = parsedVariantData
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false);
 
 				// only uses "available" variants
 				expect(variants?.active).toBe(variants?.data.find((variant) => variant.available));
@@ -1209,13 +1271,14 @@ describe('SearchResultStore', () => {
 
 			it('can set an active variant with `setActive`', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 
@@ -1230,13 +1293,14 @@ describe('SearchResultStore', () => {
 
 			it('can set an active variant with `setActive`', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 
@@ -1251,13 +1315,14 @@ describe('SearchResultStore', () => {
 
 			it('can set an active variant with `setActive`', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 
@@ -1272,13 +1337,14 @@ describe('SearchResultStore', () => {
 
 			it('has selections that it builds and selects from options', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 
@@ -1304,13 +1370,14 @@ describe('SearchResultStore', () => {
 
 			it('will adjust selections based on availability', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 
@@ -1324,13 +1391,14 @@ describe('SearchResultStore', () => {
 
 			it('will use previous selections based on availability', () => {
 				const mask = new ProductMask();
-				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
 					data: {
 						mask,
 						variants: parsedVariantData,
+						meta: data.meta,
 					},
 				});
 				const colorSelector = variants.selections[0];
@@ -1350,6 +1418,1102 @@ describe('SearchResultStore', () => {
 				sizeSelector.select('30');
 				const previouslySelectedSelections = variants.selections.map((selection) => selection.selected?.value);
 				expect(previouslySelectedSelections).toStrictEqual(['Desert', '30', '34']);
+			});
+		});
+	});
+
+	describe('athos api with variants', () => {
+		it('can be configured to construct variants from specified JSON field', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig = {
+				...searchConfig,
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.results?.length);
+
+			results.forEach((result, index) => {
+				const productData = searchData.search.results && searchData.search.results[index];
+				// @ts-ignore
+				const variantData = productData?.variants;
+				expect(variantData).toBeDefined();
+
+				const variants = (result as Product).variants;
+				expect(variants?.data.length).toStrictEqual(variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+			});
+		});
+
+		it('can use showDisabledSelections to show all variants', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: SearchStoreConfig = {
+				...searchConfig,
+				settings: {
+					variants: {
+						showDisabledSelections: true,
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.results?.length);
+
+			results.forEach((result, index) => {
+				const productData = searchData.search.results && searchData.search.results[index];
+				// @ts-ignore
+				const variantData = productData?.variants;
+				expect(variantData).toBeDefined();
+
+				const variants = (result as Product).variants;
+				expect(variants?.data.length).toStrictEqual(variantData.data.length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+			});
+		});
+
+		it('can use variants.update', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig = {
+				...searchConfig,
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			// @ts-ignore
+			const variantDataToUse = results[2].variants;
+
+			results.forEach((result, index) => {
+				const productData = searchData.search.results && searchData.search.results[index];
+				// @ts-ignore
+				const variantData = productData?.variants;
+
+				expect(variantData).toBeDefined();
+
+				const variants = (result as Product).variants;
+
+				expect(variants).toBeDefined();
+
+				expect((result as Product).variants?.data.length).toStrictEqual(
+					variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+				);
+				expect((result as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+
+				(result as Product).variants?.update(variantDataToUse.data);
+
+				expect((result as Product).variants).toBeDefined();
+
+				expect((result as Product).variants?.data.length).toStrictEqual(
+					variantDataToUse.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+				);
+				expect((result as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse.data[0].options).length);
+			});
+		});
+
+		it('can be configured to preselect certain variants', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						options: {
+							swatch: {
+								preSelected: ['black', 'white'],
+							},
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			const colorSelection = resultForTest.variants?.selections.find((selection) => selection.field == 'swatch');
+			expect(colorSelection).toBeDefined();
+
+			const colorSettings =
+				variantSearchConfig.settings?.variants?.options && variantSearchConfig.settings?.variants?.options[colorSelection?.field!].preSelected;
+
+			expect(colorSettings).toContain(colorSelection?.selected?.value?.toLocaleLowerCase());
+		});
+
+		it('uses the original constructed config when calling variants.update', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						options: {
+							swatch: {
+								preSelected: ['black', 'white'],
+							},
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			// @ts-ignore
+			const variantDataToUse = results[0].variants;
+
+			const resultForTest = results[0] as Product;
+
+			const productData = searchData.search.results && searchData.search.results[0];
+			// @ts-ignore
+			const variantData = productData?.variants;
+
+			expect(variantData).toBeDefined();
+
+			const variants = (resultForTest as Product).variants;
+
+			expect(variants).toBeDefined();
+
+			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
+				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+			);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+
+			(resultForTest as Product).variants?.update(variantDataToUse.data);
+
+			expect((resultForTest as Product).variants).toBeDefined();
+
+			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
+				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+			);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+
+			expect(resultForTest).toBeDefined();
+
+			const colorSelection = resultForTest.variants?.selections.find((selection) => selection.field == 'swatch');
+			expect(colorSelection).toBeDefined();
+
+			const colorSettings =
+				variantSearchConfig.settings?.variants?.options && variantSearchConfig.settings?.variants?.options[colorSelection?.field!].preSelected;
+
+			expect(colorSettings).toContain(colorSelection?.selected?.value?.toLocaleLowerCase());
+		});
+
+		it('can use a different config when calling variants.update', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						options: {
+							swatch: {
+								preSelected: ['black', 'white'],
+							},
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			// @ts-ignore
+			const variantDataToUse = results[0].variants;
+
+			const resultForTest = results[0] as Product;
+
+			const productData = searchData.search.results && searchData.search.results[0];
+
+			// @ts-ignore
+			const variantData = productData?.variants;
+
+			expect(variantData).toBeDefined();
+
+			// const parsedVariantData = JSON.parse(variantData as unknown as string);
+
+			const variants = (resultForTest as Product).variants;
+
+			expect(variants).toBeDefined();
+
+			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
+				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+			);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+
+			(resultForTest as Product).variants?.update(variantDataToUse.data);
+
+			expect((resultForTest as Product).variants).toBeDefined();
+
+			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
+				variantDataToUse.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+			);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse.data[0].options).length);
+
+			expect(resultForTest).toBeDefined();
+
+			const colorSelection = resultForTest.variants?.selections.find((selection) => selection.field == 'swatch');
+			expect(colorSelection).toBeDefined();
+
+			const colorSettings =
+				variantSearchConfig.settings?.variants?.options && variantSearchConfig.settings?.variants?.options[colorSelection?.field!].preSelected;
+
+			expect(colorSettings).toContain(colorSelection?.selected?.value?.toLocaleLowerCase());
+
+			//now lets make a new config with different settings and run update with it
+
+			const newVariantsConfig: VariantConfig = {
+				options: {
+					swatch: {
+						preSelected: ['charcoal'],
+					},
+				},
+			};
+
+			expect(variantData).toBeDefined();
+
+			expect(variants).toBeDefined();
+
+			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
+				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+			);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+
+			(resultForTest as Product).variants?.update(variantDataToUse.data, newVariantsConfig);
+
+			expect((resultForTest as Product).variants).toBeDefined();
+
+			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
+				variantDataToUse.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+			);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse.data[0].options).length);
+
+			expect(resultForTest).toBeDefined();
+
+			const newcolorSelection = resultForTest.variants?.selections.find((selection) => selection.field == 'swatch');
+
+			expect(newcolorSelection).toBeDefined();
+
+			const newcolorSettings = newVariantsConfig.options && newVariantsConfig.options[newcolorSelection?.field!]?.preSelected;
+
+			expect(newcolorSettings).toContain(newcolorSelection?.selected?.value?.toLocaleLowerCase());
+		});
+
+		it('grabs selections from dom on load when using realtime', () => {
+			const field = 'swatch';
+			const value = 'Black';
+
+			//add pdp variant option elems to the dom
+			let colorOptionElem = document.createElement('div');
+			colorOptionElem.setAttribute('ss-variant-option', `${field}:${value}`);
+			colorOptionElem.setAttribute('ss-variant-option-selected', 'true');
+			document.body.appendChild(colorOptionElem);
+
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						realtime: {
+							enabled: true,
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			const selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
+			expect(selection).toBeDefined();
+			expect(selection?.selected?.value).toBe(value);
+
+			document.body.removeChild(colorOptionElem);
+		});
+
+		it('updates selections from dom elem onclicks realtime', () => {
+			const field = 'swatch';
+			const value = 'Charcoal';
+
+			//add pdp variant option elems to the dom
+			let colorOptionElem = document.createElement('div');
+			colorOptionElem.setAttribute('ss-variant-option', `${field}:${value}`);
+			document.body.appendChild(colorOptionElem);
+
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						realtime: {
+							enabled: true,
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			let selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
+
+			expect(selection).toBeDefined();
+			expect(selection?.selected?.value).not.toBe(value);
+
+			colorOptionElem.click();
+
+			selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
+
+			// selection?.values.forEach(val => console.log(val.value))
+
+			expect(selection).toBeDefined();
+			expect(selection?.selected?.value).toBe(value);
+
+			document.body.removeChild(colorOptionElem);
+		});
+
+		it('can use filter first when grabbing selections from dom on load', () => {
+			const field = 'swatch';
+			const value = 'Navy';
+
+			//add pdp variant option elems to the dom
+			let colorOptionElem = document.createElement('div');
+			colorOptionElem.setAttribute('ss-variant-option', `${field}:${value}`);
+			colorOptionElem.setAttribute('ss-variant-option-selected', 'true');
+			document.body.appendChild(colorOptionElem);
+
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						realtime: {
+							enabled: true,
+							filters: ['first'],
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			let selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
+
+			expect(selection?.selected?.value).toBe(value);
+
+			const secondResultForTest = results[2] as Product;
+			expect(secondResultForTest).toBeDefined();
+
+			selection = secondResultForTest.variants?.selections.find((selection) => selection.field == field);
+			expect(selection?.values.some((val) => val.value == value)).toBeTruthy();
+
+			expect(selection?.selected?.value).not.toBe(value);
+
+			document.body.removeChild(colorOptionElem);
+		});
+
+		it('can use filter first while updating selections from dom elem onclicks realtime', () => {
+			const field = 'swatch';
+			const value = 'Navy';
+
+			//add pdp variant option elems to the dom
+			let colorOptionElem = document.createElement('div');
+			colorOptionElem.setAttribute('ss-variant-option', `${field}:${value}`);
+			document.body.appendChild(colorOptionElem);
+
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						realtime: {
+							enabled: true,
+							filters: ['first'],
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			const secondResultForTest = results[2] as Product;
+			expect(secondResultForTest).toBeDefined();
+
+			let selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
+			const selection2 = secondResultForTest.variants?.selections.find((selection) => selection.field == field);
+
+			expect(selection?.selected?.value).not.toBe(value);
+
+			colorOptionElem.click();
+
+			expect(selection?.selected?.value).toBe(value);
+
+			expect(selection2?.values.some((val) => val.value == value)).toBeTruthy();
+			expect(selection2?.selected?.value).not.toBe(value);
+
+			document.body.removeChild(colorOptionElem);
+		});
+
+		it('can use filter unaltered while updating selections from dom elem onclicks realtime', () => {
+			const field = 'swatch';
+			const value = 'Navy';
+
+			//add pdp variant option elems to the dom
+			let colorOptionElem = document.createElement('div');
+			colorOptionElem.setAttribute('ss-variant-option', `${field}:${value}`);
+			document.body.appendChild(colorOptionElem);
+
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						realtime: {
+							enabled: true,
+							filters: ['unaltered'],
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			const secondResultForTest = results[2] as Product;
+			expect(secondResultForTest).toBeDefined();
+
+			let selection = resultForTest.variants?.selections.find((selection) => selection.field == field);
+			const selection2 = secondResultForTest.variants?.selections.find((selection) => selection.field == field);
+
+			expect(selection?.selected?.value).not.toBe(value);
+			expect(selection2?.selected?.value).not.toBe(value);
+
+			selection?.select('Charcoal');
+
+			colorOptionElem.click();
+
+			expect(selection?.selected?.value).toBe('Charcoal');
+
+			expect(selection2?.values.some((val) => val.value == value)).toBeTruthy();
+			expect(selection2?.selected?.value).toBe(value);
+
+			document.body.removeChild(colorOptionElem);
+		});
+
+		it('can use the "thumbnailBackgroundImages" option to set the backgroundImageUrl for each variant to the variant thumbnailImageUrl', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						options: {
+							swatch: {
+								thumbnailBackgroundImages: true,
+							},
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			const selection = resultForTest.variants?.selections.find((selection) => selection.field == 'swatch');
+			expect(selection).toBeDefined();
+
+			selection?.values.forEach((value) => {
+				expect(value.backgroundImageUrl).toEqual(value.thumbnailImageUrl);
+			});
+		});
+
+		it('can use variantMappings', () => {
+			const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						options: {
+							swatch: {
+								label: 'myColor',
+								thumbnailBackgroundImages: true,
+								mappings: {
+									['black']: {
+										label: 'notblack',
+										background: 'black',
+										backgroundImageUrl: 'blackBack',
+									},
+								},
+							},
+						},
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.pagination?.pageSize);
+
+			const resultForTest = results[0] as Product;
+			expect(resultForTest).toBeDefined();
+
+			const selection = resultForTest.variants?.selections.find((selection) => selection.field == 'swatch');
+			expect(selection).toBeDefined();
+
+			const settings = variantSearchConfig.settings?.variants?.options && variantSearchConfig.settings?.variants?.options[selection?.field!];
+			expect(selection?.label).toEqual(settings?.label);
+			const selectionValueWithMappings = selection?.values.find((val) => val.value.toLowerCase() == 'black')!;
+
+			const mappedLabel = settings?.mappings && settings.mappings[selectionValueWithMappings?.value.toLowerCase()]?.label;
+			const mappedBackground = settings?.mappings && settings.mappings[selectionValueWithMappings?.value.toLowerCase()]?.background;
+			const mappedBackgroundImageUrl = settings?.mappings && settings.mappings[selectionValueWithMappings?.value.toLowerCase()]?.backgroundImageUrl;
+
+			expect(selectionValueWithMappings?.label).toEqual(mappedLabel);
+			expect(selectionValueWithMappings?.background).toEqual(mappedBackground);
+			expect(selectionValueWithMappings?.backgroundImageUrl).toEqual(mappedBackgroundImageUrl);
+		});
+
+		describe('variant class', () => {
+			it('has specific properties', () => {
+				const mask = new ProductMask();
+				const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+				// @ts-ignore
+				const variantData = searchData.search.results![0].variants.data;
+
+				variantData.forEach((_variantData: any) => {
+					const variant = new Variant({ data: { variant: _variantData } });
+					expect(variant).toHaveProperty('available');
+					expect(variant).toHaveProperty('custom');
+					expect(variant).toHaveProperty('mappings');
+					expect(variant).toHaveProperty('options');
+					expect(variant).toHaveProperty('type');
+					expect(variant).toHaveProperty('badges');
+
+					expect(variant.available).toStrictEqual(_variantData.mappings.core.available);
+					expect(variant.custom).toStrictEqual({});
+					expect(variant.mappings).toStrictEqual(_variantData.mappings);
+					expect(variant.options).toStrictEqual(_variantData.options);
+					expect(variant.badges).toStrictEqual(_variantData.badges);
+					expect(variant.type).toBe('variant');
+				});
+			});
+		});
+
+		describe('variants class', () => {
+			it('requires variants data and a mask to construct', () => {
+				const mask = new ProductMask();
+				const data = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+				// @ts-ignore
+				const variantData = data.search.results![0].variants.data;
+
+				const variants = new Variants({
+					data: {
+						mask,
+						variants: variantData,
+						meta: data.meta,
+					},
+				});
+
+				expect(variants).toHaveProperty('active');
+				expect(variants).toHaveProperty('data');
+				expect(variants).toHaveProperty('selections');
+				expect(variants).toHaveProperty('setActive');
+				expect(variants).toHaveProperty('makeSelections');
+				expect(variants).toHaveProperty('update');
+
+				const filteredParsedVariantsData = variantData.filter((variant: any) => variant.mappings.core?.available !== false);
+
+				// only uses "available" variants
+				expect(variants?.active).toBe(variants?.data.find((variant) => variant.available));
+				expect(variants?.data.length).toStrictEqual(filteredParsedVariantsData.length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData[0].options).length);
+
+				// creates a variant for each available data entry
+				variants.data.forEach((variant, index) => {
+					expect(variant).toStrictEqual(new Variant({ data: { variant: filteredParsedVariantsData[index] } }));
+				});
+			});
+
+			it('can set an active variant with `setActive`', () => {
+				const mask = new ProductMask();
+				const data = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+				// @ts-ignore
+				const variantData = data.search.results![0].variants.data;
+				const variants = new Variants({
+					data: {
+						mask,
+						variants: variantData,
+						meta: data.meta,
+					},
+				});
+
+				// starts with "available" variant
+				expect(variants.active).toBe(variants?.data.find((variant) => variant.available));
+
+				const newActive = variants.data[2];
+				variants.setActive(newActive);
+
+				expect(variants.active).toBe(newActive);
+			});
+
+			it('has selections that it builds and selects from options', () => {
+				const mask = new ProductMask();
+				const data = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+				// @ts-ignore
+				const variantData = data.search.results![0].variants.data;
+				const variants = new Variants({
+					data: {
+						mask,
+						variants: variantData,
+						meta: data.meta,
+					},
+				});
+
+				variants.selections.forEach((selection, index) => {
+					const dataOptionName = Object.keys(variantData[0].options)[index];
+					const firstAvailableOption = selection.values.find((value) => value.available);
+
+					expect(selection).toHaveProperty('field');
+					expect(selection).toHaveProperty('label');
+					expect(selection).toHaveProperty('previouslySelected');
+					expect(selection).toHaveProperty('selected');
+					expect(selection).toHaveProperty('values');
+					expect(selection).toHaveProperty('refineValues');
+					expect(selection).toHaveProperty('reset');
+					expect(selection).toHaveProperty('select');
+
+					expect(selection.field).toBe(dataOptionName);
+					expect(selection.label).toBe(dataOptionName);
+					expect(selection.selected?.value).toBe(firstAvailableOption?.value);
+					expect(selection.previouslySelected).toBe(undefined);
+				});
+			});
+
+			it('will adjust selections based on availability', () => {
+				const mask = new ProductMask();
+				const data = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+				// @ts-ignore
+				const variantData = data.search.results![3].variants.data;
+				const variants = new Variants({
+					data: {
+						mask,
+						variants: variantData,
+						meta: data.meta,
+					},
+				});
+
+				const initialSelectedSelections = variants.selections.map((selection) => selection.selected?.value);
+				//first option is Crimson and unavailable, so it selects next available option black
+				expect(initialSelectedSelections).toStrictEqual(['Black']);
+			});
+
+			it('will use previous selections based on availability', () => {
+				const mask = new ProductMask();
+				const data = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+				// @ts-ignore
+				const variantData = data.search.results![0].variants.data;
+				const variants = new Variants({
+					data: {
+						mask,
+						variants: variantData,
+						meta: data.meta,
+					},
+				});
+				const colorSelector = variants.selections[0];
+				const sizeSelector = variants.selections[1];
+
+				const initialSelectedSelections = variants.selections.map((selection) => selection.selected?.value);
+				expect(initialSelectedSelections).toStrictEqual(['Black', 'small']);
+
+				colorSelector.select('Charcoal');
+				const newSelectedSelections = variants.selections.map((selection) => selection.selected?.value);
+				expect(newSelectedSelections).toStrictEqual(['Charcoal', 'medium']);
+
+				colorSelector.select('Navy');
+				const newerSelectedSelections = variants.selections.map((selection) => selection.selected?.value);
+				expect(newerSelectedSelections).toStrictEqual(['Navy', 'large']);
+
+				sizeSelector.select('small');
+				const previouslySelectedSelections = variants.selections.map((selection) => selection.selected?.value);
+				expect(previouslySelectedSelections).toStrictEqual(['Black', 'small']);
+			});
+		});
+
+		describe('variant badges', () => {
+			it('updates display badges to match the selected variant badges', () => {
+				const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+				const variantSearchConfig = {
+					...searchConfig,
+				};
+
+				const results = new SearchResultStore({
+					config: variantSearchConfig,
+					state: {
+						loaded: false,
+					},
+					data: {
+						search: searchData.search,
+						meta: searchData.meta,
+					},
+				});
+
+				const resultForTest = results[0] as Product;
+				expect(resultForTest).toBeDefined();
+				expect(resultForTest.variants).toBeDefined();
+
+				// Get initial badges from display
+				const initialDisplayBadges = resultForTest.display.badges;
+
+				// Get badges from the initially selected variant
+				const initialVariant = resultForTest.variants?.active;
+				const initialVariantBadges = new Badges({
+					data: {
+						meta: searchData.meta,
+						result: initialVariant as SearchResponseModelResult,
+					},
+				});
+
+				// Display badges should match the active variant badges
+				expect(initialDisplayBadges).toStrictEqual(initialVariantBadges);
+
+				// Select a different variant
+				const colorSelection = resultForTest.variants?.selections.find((selection) => selection.field === 'swatch');
+				expect(colorSelection).toBeDefined();
+
+				// Find a different color option to select
+				const alternativeColor = colorSelection?.values.find((value) => value.value !== colorSelection.selected?.value && value.available);
+				expect(alternativeColor).toBeDefined();
+
+				// Select the alternative color
+				colorSelection?.select(alternativeColor!.value);
+
+				// Get the new active variant and its badges
+				const newActiveVariant = resultForTest.variants?.active;
+
+				const newVariantBadges = new Badges({
+					data: {
+						meta: searchData.meta,
+						result: newActiveVariant as SearchResponseModelResult,
+					},
+				});
+
+				// Display badges should now match the new active variant badges
+				expect(resultForTest.display.badges).toStrictEqual(newVariantBadges);
+				expect(resultForTest.display.badges).not.toStrictEqual(initialDisplayBadges);
+			});
+
+			it('shows no badges when selected variant has no badges', () => {
+				const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+				const variantSearchConfig = {
+					...searchConfig,
+				};
+
+				const results = new SearchResultStore({
+					config: variantSearchConfig,
+					state: {
+						loaded: false,
+					},
+					data: {
+						search: searchData.search,
+						meta: searchData.meta,
+					},
+				});
+
+				const resultForTest = results[0] as Product;
+				expect(resultForTest).toBeDefined();
+
+				// First product in mock has a variant with no badges
+				const variants = resultForTest.variants;
+				expect(variants).toBeDefined();
+
+				// Select different variants and check badge behavior
+				const colorSelection = variants?.selections.find((selection) => selection.field === 'swatch');
+				expect(colorSelection).toBeDefined();
+
+				colorSelection?.values.forEach((colorValue) => {
+					if (colorValue.available) {
+						colorSelection.select(colorValue.value);
+
+						const activeVariant = variants?.active;
+
+						if (!activeVariant?.badges || activeVariant.badges.length === 0) {
+							// If variant has no badges, display should show original product badges
+							expect(resultForTest.display.badges).toEqual({ all: [] });
+						} else {
+							const activeVariantBadges = new Badges({
+								data: {
+									meta: searchData.meta,
+									result: activeVariant as SearchResponseModelResult,
+								},
+							});
+							// If variant has badges, display should show variant badges
+							expect(resultForTest.display.badges).toStrictEqual(activeVariantBadges);
+						}
+					}
+				});
+			});
+
+			it('updates display badges when variant is changed programmatically with setActive', () => {
+				const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+				const variantSearchConfig = {
+					...searchConfig,
+				};
+
+				const results = new SearchResultStore({
+					config: variantSearchConfig,
+					state: {
+						loaded: false,
+					},
+					data: {
+						search: searchData.search,
+						meta: searchData.meta,
+					},
+				});
+
+				const resultForTest = results[0] as Product;
+				const variants = resultForTest.variants;
+				expect(variants).toBeDefined();
+
+				// Get initial state
+				const initialActiveVariant = variants?.active;
+				const initialDisplayBadges = resultForTest.display.badges;
+
+				// Set a different variant as active
+				const differentVariant = variants?.data.find((variant) => variant !== initialActiveVariant);
+				expect(differentVariant).toBeDefined();
+
+				variants?.setActive(differentVariant!);
+
+				const differentVariantBadges = new Badges({
+					data: {
+						meta: searchData.meta,
+						result: differentVariant as SearchResponseModelResult,
+					},
+				});
+				// Display badges should update to match the new active variant
+				const newDisplayBadges = resultForTest.display.badges;
+				expect(newDisplayBadges).toStrictEqual(differentVariantBadges);
+				expect(newDisplayBadges).not.toStrictEqual(initialDisplayBadges);
+			});
+
+			it('maintains badge reactivity during variant selection changes', () => {
+				const searchData = mockData.updateConfig({ siteId: 'atkzs2' }).searchMeta('athos_variants');
+
+				const variantSearchConfig = {
+					...searchConfig,
+				};
+
+				const results = new SearchResultStore({
+					config: variantSearchConfig,
+					state: {
+						loaded: false,
+					},
+					data: {
+						search: searchData.search,
+						meta: searchData.meta,
+					},
+				});
+
+				const resultForTest = results[0] as Product;
+				const variants = resultForTest.variants;
+				expect(variants).toBeDefined();
+
+				const colorSelection = variants?.selections.find((selection) => selection.field === 'swatch');
+				expect(colorSelection).toBeDefined();
+
+				// Track badge changes through multiple selections
+				const badgeHistory: any[] = [];
+
+				//loop through all selections and select each one
+				colorSelection?.values.forEach((colorValue) => {
+					if (colorValue.available) {
+						colorSelection.select(colorValue.value);
+
+						const currentActiveVariant = variants?.active;
+						const currentDisplayBadges = resultForTest.display.badges;
+
+						const currentActiveVariantBadges = new Badges({
+							data: {
+								meta: searchData.meta,
+								result: currentActiveVariant as SearchResponseModelResult,
+							},
+						});
+						// Display badges should always match active variant badges
+						expect(currentDisplayBadges).toStrictEqual(currentActiveVariantBadges);
+
+						badgeHistory.push({
+							color: colorValue.value,
+							badges: currentDisplayBadges,
+							variant: currentActiveVariant,
+						});
+					}
+				});
+
+				// Verify that badges changed when variants changed (if different variants have different badges)
+				const uniqueBadgeSets = new Set(badgeHistory.map((entry) => JSON.stringify(entry.badges)));
+				// If we have variants with different badge sets, we should see changes
+				if (uniqueBadgeSets.size > 1) {
+					expect(badgeHistory.length).toBeGreaterThan(1);
+					// Ensure at least some badge changes occurred
+					const firstBadges = badgeHistory[0].badges;
+					const hasBadgeChanges = badgeHistory.some((entry) => {
+						return JSON.stringify(entry.badges) !== JSON.stringify(firstBadges);
+					});
+					expect(hasBadgeChanges).toBeTruthy();
+				}
 			});
 		});
 	});

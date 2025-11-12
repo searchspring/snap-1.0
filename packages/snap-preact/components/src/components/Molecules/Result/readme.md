@@ -58,6 +58,12 @@ The `hidePricing` prop will prevent the pricing from rendering.
 <Result result={controller.store.results[0]} hidePricing={true} />
 ```
 
+### hideVariantSelections
+The `hideVariantSelections` prop will prevent the VariantSelections components from rendering.
+
+```jsx
+<Result result={controller.store.results[0]} hideVariantSelections={false} />
+```
 
 ### onAddToCartClick
 The `onAddToCartClick` prop is a function to be called on add to cart button click. In addition to the built in platform addToCart function on the controller. 
