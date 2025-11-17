@@ -52,7 +52,6 @@ export const sidebar: ThemeComponent<'sidebar', SidebarProps> = {
 		},
 		'sidebar toolbar filterSummary': {
 			title: 'Current Filters',
-			className: '',
 		},
 	},
 };

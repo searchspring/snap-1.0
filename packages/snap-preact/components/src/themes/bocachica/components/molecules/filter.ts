@@ -7,7 +7,7 @@ import Color from 'color';
 const filterStyleScript = ({ theme }: FilterProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = theme?.variables;
-	const backgroundColor = new Color(variables?.colors.primary);
+	const backgroundColor = new Color(variables?.colors.primary || undefined);
 	const backgroundTextColor = backgroundColor.isDark() ? '#fff' : '#000';
 
 	return css({

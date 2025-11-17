@@ -7,9 +7,9 @@ import Color from 'color';
 // CSS in JS style script for the LoadMore component
 const loadMoreStyleScript = (props: LoadMoreProps) => {
 	const variables = props?.theme?.variables;
-	const indicatorColor = new Color(props?.backgroundColor || custom.colors.gray01);
-	const indicatorBorderColor = new Color(props?.backgroundColor || custom.colors.gray02);
-	const barColor = new Color(props?.color || variables?.colors?.primary);
+	const indicatorColor = new Color(props?.backgroundColor || custom.colors.gray01 || undefined);
+	const indicatorBorderColor = new Color(props?.backgroundColor || custom.colors.gray02 || undefined);
+	const barColor = new Color(props?.color || variables?.colors?.primary || undefined);
 
 	return css({
 		'&.ss__load-more': {

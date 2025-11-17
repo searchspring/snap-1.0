@@ -26,6 +26,38 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 				fontSize: custom.utils.convertPxToEm(18),
 			},
 		},
+
+		'&.ss__filter-summary': {
+			display: 'flex',
+			flexFlow: 'row wrap',
+			'.ss__filter-summary__title, .ss__filter-summary__filters': {
+				minWidth: '1px',
+			},
+			'.ss__filter-summary__title': {
+				flex: '0 1 auto',
+				padding: `0 ${custom.spacing.x2}px 0 0`,
+			},
+			'.ss__filter-summary__filters': {
+				flex: '1 1 0%',
+			},
+			'&.ss__filter-summary--inline': {
+				'.ss__filter-summary__title': {
+					paddingTop: `${custom.spacing.x1}px`,
+					paddingBottom: `${custom.spacing.x1}px`,
+				},
+			},
+			'&.ss__filter-summary--list': {
+				'.ss__filter-summary__filters': {
+					display: 'flex',
+					flexFlow: 'row wrap',
+					alignItems: 'center',
+					gap: `${custom.spacing.x2}px`,
+					'.ss__filter': {
+						margin: 0,
+					},
+				},
+			},
+		},
 	});
 };
 
@@ -37,7 +69,6 @@ export const toolbar: ThemeComponent<'toolbar', ToolbarProps> = {
 		},
 		'toolbar filterSummary': {
 			title: `Current Filters:`,
-			className: 'ss__filter-summary--aligned',
 		},
 	},
 };

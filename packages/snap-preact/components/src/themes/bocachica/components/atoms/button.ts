@@ -6,7 +6,7 @@ import Color from 'color';
 // CSS in JS style script for the Button component
 const buttonStyleScript = ({ backgroundColor, theme }: ButtonProps) => {
 	const variables = theme?.variables;
-	const hoverBackgroundColorObj = new Color(backgroundColor || variables?.colors.primary);
+	const hoverBackgroundColorObj = new Color(backgroundColor || variables?.colors.primary || undefined);
 	const hoverColorObj = hoverBackgroundColorObj.isDark() ? Color('#fff') : Color('#000');
 
 	return css({

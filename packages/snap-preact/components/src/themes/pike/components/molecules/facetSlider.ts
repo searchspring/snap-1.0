@@ -23,9 +23,11 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	const valuesSides = slider.valuesAlign == 'sides' ? true : false;
 	const hasTicks = props?.showTicks ? true : false;
 	const hasStickyHandles = props?.stickyHandleLabel ? true : false;
-	const handleColor = new Color(props?.handleColor || variables?.colors?.primary);
+	const handleColor = new Color(props?.handleColor || variables?.colors?.primary || undefined);
 	const handleInnerColor =
-		handleColor.isDark() || handleColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+		handleColor.isDark() || handleColor.hex().toLowerCase() == '#00aeef'
+			? Color(custom.colors.white || undefined)
+			: Color(custom.colors.black || undefined);
 
 	// values font styles
 	const valuesStyles = css({

@@ -125,7 +125,6 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 		},
 		'mobileSidebar toolbar filterSummary': {
 			title: 'Current Filters',
-			className: '',
 		},
 	},
 };

@@ -9,7 +9,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 	const variables = props?.theme?.variables;
 	const buttonDisabledSelectors = '&.ss__button--disabled';
 	const buttonSelector = `&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`;
-	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary);
+	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary || undefined);
 	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
 	// shared button styles

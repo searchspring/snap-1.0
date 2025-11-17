@@ -7,9 +7,11 @@ import Color from 'color';
 // CSS in JS style script for the LayoutSelector component
 const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary);
+	const activeColor = new Color(variables?.colors?.primary || undefined);
 	const activeIconColor =
-		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef'
+			? Color(custom.colors.white || undefined)
+			: Color(custom.colors.black || undefined);
 
 	// dropdown styles
 	const dropdownStyles = css({

@@ -12,8 +12,11 @@ const swatchSpacing = custom.spacing.x1;
 const swatchesStyleScript = (props: SwatchesProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary);
-	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const activeColor = new Color(variables?.colors?.primary || undefined);
+	const fontColor =
+		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef'
+			? Color(custom.colors.white || undefined)
+			: Color(custom.colors.black || undefined);
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	// shared styles for swatches

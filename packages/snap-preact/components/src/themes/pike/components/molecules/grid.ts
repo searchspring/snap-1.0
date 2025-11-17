@@ -10,8 +10,11 @@ const gridSize = 42;
 // CSS in JS style script for the Grid component
 const gridStyleScript = (props: Partial<GridProps>) => {
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary);
-	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const activeColor = new Color(variables?.colors?.primary || undefined);
+	const fontColor =
+		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef'
+			? Color(custom.colors.white || undefined)
+			: Color(custom.colors.black || undefined);
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 
 	return css({

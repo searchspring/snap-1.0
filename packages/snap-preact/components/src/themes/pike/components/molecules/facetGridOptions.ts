@@ -7,8 +7,11 @@ import Color from 'color';
 // CSS in JS style script for the FacetGridOptions component
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary);
-	const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const activeColor = new Color(variables?.colors?.primary || undefined);
+	const fontColor =
+		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef'
+			? Color(custom.colors.white || undefined)
+			: Color(custom.colors.black || undefined);
 	const gridSize = props?.gridSize ? props.gridSize : '52px';
 
 	return css({
