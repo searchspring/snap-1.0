@@ -3,8 +3,8 @@ import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import { observer } from 'mobx-react-lite';
 
 import { SnapTemplates, TemplatesStore } from '../../src';
-import { base, bocachica, snappy, snapnco, pike } from '../src/themes';
 import { ThemeComplete, ThemeProvider } from '../src/providers/theme';
+import { base, bocachica, snappy, snapnco } from '../src/themes';
 
 // custom styles for storybook
 import './styles.scss';
