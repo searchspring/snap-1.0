@@ -172,6 +172,14 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					'.ss__result': {
 						'.ss__result__details': {
 							gap: `${custom.spacing.x1}px`,
+							'.ss__result__details__pricing': {
+								'.ss__result__price': {
+									fontSize: custom.utils.convertPxToEm(14),
+								},
+								'.ss__price--strike': {
+									fontSize: custom.utils.convertPxToEm(12),
+								},
+							},
 						},
 					},
 					'.ss__inline-banner': {

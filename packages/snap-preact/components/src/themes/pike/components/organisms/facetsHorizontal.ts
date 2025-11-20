@@ -47,15 +47,6 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						right: `${custom.spacing.x1}px`,
 					},
 				},
-				'&.ss__facets-horizontal__header__dropdown--slider': {
-					'.ss__dropdown__content': {
-						'.ss__facet__options': {
-							maxHeight: `none`,
-							overflow: 'visible',
-							paddingRight: 0,
-						},
-					},
-				},
 				'.ss__dropdown__button, .ss__dropdown__content': {
 					border: `1px solid ${custom.colors.gray02}`,
 					backgroundColor: custom.colors.gray01,
@@ -109,8 +100,17 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 					'.ss__checkbox, .ss__radio, .ss__search-input .ss__search-input__input': {
 						backgroundColor: custom.colors.white,
 					},
+					'.ss__facet': {
+						margin: 0,
+					},
 					'.ss__facet.ss__facet--showing-all .ss__facet__options': {
 						maxHeight: '360px',
+					},
+					'.ss__facet-list-options': {
+						marginBottom: `-${custom.spacing.x1}px`,
+						'.ss__facet-list-options__option:last-of-type': {
+							marginBottom: `${custom.spacing.x1}px`,
+						},
 					},
 					'.ss__facet-hierarchy-options': {
 						'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
@@ -123,6 +123,15 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						'.ss__facet-grid-options__option:not(.ss__facet-grid-options__option--filtered)': {
 							'&:after': {
 								backgroundColor: custom.colors.white,
+							},
+						},
+					},
+					'.ss__facet--slider': {
+						'.ss__facet__options': {
+							display: 'flex',
+							minHeight: '100px',
+							'.ss__facet-slider': {
+								width: '100%',
 							},
 						},
 					},
@@ -190,10 +199,10 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 					limit: 32,
 				},
 				grid: {
-					limit: 36,
+					limit: 34,
 				},
 				palette: {
-					limit: 36,
+					limit: 34,
 				},
 			},
 		},
@@ -214,7 +223,7 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 				},
 			},
 		},
-		'facetsHorizontal dropdown facet facetGridOptions': {
+		'facetsHorizontal facetGridOptions': {
 			gridSize: '62px',
 		},
 		'facetsHorizontal mobileSidebar facetGridOptions': {

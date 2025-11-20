@@ -160,16 +160,16 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 			backgroundColor: custom.colors.gray02,
 		},
 		'.ss__result': {
-			'.ss__result__image': {
-				paddingBottom: '125%',
-				img: {
-					objectFit: 'cover',
-					objectPosition: 'center top',
-				},
-			},
 			'.ss__result__details': {
 				gap: `${custom.spacing.x1}px`,
-				textAlign: 'left',
+				'.ss__result__details__pricing': {
+					'.ss__result__price': {
+						fontSize: custom.utils.convertPxToEm(14),
+					},
+					'.ss__price--strike': {
+						fontSize: custom.utils.convertPxToEm(12),
+					},
+				},
 			},
 		},
 	});
@@ -396,10 +396,33 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	const termsStyles = css([
 		sharedStyles,
 		termsWrapperStyles,
+		contentStyles,
+		{
+			'.ss__autocomplete__content__no-results': {
+				'.ss__autocomplete__content__no-results__text': {
+					p: {
+						display: 'inline',
+						margin: 0,
+						padding: 0,
+						fontSize: custom.utils.convertPxToEm(14),
+						'& ~ p': {
+							paddingLeft: '4px',
+						},
+					},
+				},
+			},
+		},
 		seeMoreStyles,
 		{
 			[`@media (max-width: ${tabletBp}px)`]: {
 				'&': sharedTabletStyles,
+				'.ss__autocomplete__content__no-results': {
+					'.ss__autocomplete__content__no-results__text': {
+						p: {
+							fontSize: custom.utils.convertPxToEm(12),
+						},
+					},
+				},
 				'.ss__autocomplete__button--see-more': {
 					...seeMoreTabletStyles,
 				},

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { SnapTemplates, TemplatesStore } from '../../src';
 import { ThemeComplete, ThemeProvider } from '../src/providers/theme';
-import { base, bocachica, snappy, snapnco } from '../src/themes';
+import { base, bocachica, pike, snappy, snapnco } from '../src/themes';
 
 // custom styles for storybook
 import './styles.scss';

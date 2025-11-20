@@ -3,11 +3,11 @@ import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
 import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
-const siteId = 'atkzs2';
+const siteId = 'at3qqg'; // at3qqg // at0wbx (for variant options)
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: siteId, // prvb79 // 8uyt2m // c52bzz (for variant options)
+		siteId: siteId,
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',

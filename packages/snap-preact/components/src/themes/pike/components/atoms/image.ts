@@ -12,7 +12,7 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 			position: 'relative',
 			lineHeight: 0,
 			height: 0,
-			padding: '0 0 150% 0',
+			padding: '0 0 100% 0',
 			overflow: 'hidden',
 			'&, img': {
 				display: 'block',

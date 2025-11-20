@@ -26,8 +26,7 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 				fontSize: custom.utils.convertPxToEm(18),
 			},
 		},
-
-		'&.ss__filter-summary': {
+		'& > .ss__layout > .ss__layout__row > .ss__filter-summary': {
 			display: 'flex',
 			flexFlow: 'row wrap',
 			'.ss__filter-summary__title, .ss__filter-summary__filters': {
