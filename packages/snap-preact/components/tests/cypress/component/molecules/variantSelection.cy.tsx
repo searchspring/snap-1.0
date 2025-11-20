@@ -94,7 +94,7 @@ describe('VariantSelection Component', async () => {
 			selection = controller.store.results[0].variants?.selections[0]!;
 			mount(<VariantSelection selection={selection} type={'swatches'} />);
 			cy.get('.ss__variant-selection__swatches').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', selection.values.length);
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', selection.values.length);
 		});
 	});
 });
