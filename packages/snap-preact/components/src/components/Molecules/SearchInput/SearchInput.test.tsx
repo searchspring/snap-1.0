@@ -58,7 +58,7 @@ describe('SearchInput Component', () => {
 	});
 
 	it('can disable styling', () => {
-		const rendered = render(<SearchInput value={''} />);
+		const rendered = render(<SearchInput value={''} disableStyles={true} />);
 		const searchInput = rendered.container.querySelector('.ss__search-input');
 		expect(searchInput?.classList.length).toBe(2);
 	});

@@ -8,6 +8,7 @@ import Readme from '../Swatches/readme.md';
 export default {
 	title: 'Molecules/Swatches',
 	component: Swatches,
+	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			page: () => (
@@ -28,7 +29,7 @@ export default {
 	},
 	decorators: [
 		(Story: any) => (
-			<div style={{ maxWidth: '350px' }}>
+			<div style={{ maxWidth: '350px', height: '80px' }}>
 				<Story />
 			</div>
 		),
@@ -164,7 +165,7 @@ Disabled.args = {
 		{ value: 'Black', label: 'Black', disabled: false },
 		{ value: 'White', label: 'White', disabled: true },
 	],
-	type: 'carousel',
+	type: 'slideshow',
 } as SwatchesProps;
 
 GradientBackground.args = {

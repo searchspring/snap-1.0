@@ -159,6 +159,7 @@ export interface ButtonProps extends ComponentProps<ButtonProps> {
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	disableA11y?: boolean;
 	lang?: Partial<ButtonLang>;
+	name?: ButtonNames;
 }
 
 export interface ButtonLang {
@@ -172,6 +173,10 @@ export type ButtonNames =
 	| 'slideout'
 	| 'sidebar-toggle'
 	| 'see-more'
+	| 'nextButton'
+	| 'prevButton'
+	| 'pauseButton'
+	| 'paginationButton'
 	| 'close-search'
 	| 'clear-search'
 	| 'submit-search'
