@@ -5,7 +5,6 @@ export const searchHorizontalThemeComponentProps: ThemeComponent<'searchHorizont
 	default: {
 		searchHorizontal: {
 			hideSidebar: true,
-			internalClassName: 'ss__search-horizontal',
 		},
 		'searchHorizontal toolbar.top': {
 			layout: [['searchHeader'], ['banner.header']],
