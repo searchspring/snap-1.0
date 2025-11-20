@@ -27,7 +27,7 @@ export const VariantResult = observer((properties: VariantResultProps): JSX.Elem
 	const subProps: VariantResultSubProps = {
 		result: {
 			// global theme
-			internalClassName: 'ss__result__variant-result',
+			internalClassName: 'ss__result--variant-result',
 			result: props.result,
 			...defined({
 				disableStyles: props.disableStyles,
@@ -50,7 +50,7 @@ export const VariantResult = observer((properties: VariantResultProps): JSX.Elem
 
 	return (
 		<CacheProvider>
-			<Result {...props} {...subProps.result} detailSlot={variantSelection} />
+			<Result detailSlot={variantSelection} {...props} {...subProps.result} />
 		</CacheProvider>
 	);
 });

@@ -15,7 +15,7 @@ import { useState } from 'preact/hooks';
 
 const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 	return css({
-		'.ss__swatches__carousel__swatch': {
+		'.ss__swatches__slideshow__swatch': {
 			boxSizing: 'content-box',
 			cursor: 'pointer',
 			backgroundRepeat: 'no-repeat',
@@ -27,7 +27,7 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 			margin: 'auto',
 			flexDirection: 'column',
 
-			'.ss__swatches__carousel__swatch__inner': {
+			'.ss__swatches__slideshow__swatch__inner': {
 				aspectRatio: '1/1',
 				display: 'flex',
 				justifyContent: 'center',
@@ -36,11 +36,11 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 				height: '100%',
 			},
 
-			'&.ss__swatches__carousel__swatch--selected': {
+			'&.ss__swatches__slideshow__swatch--selected': {
 				border: `2px solid ${theme?.variables?.colors?.primary || '#333'}`,
 			},
 
-			'&.ss__swatches__carousel__swatch--disabled:before, &.ss__swatches__carousel__swatch--unavailable:before': {
+			'&.ss__swatches__slideshow__swatch--disabled:before, &.ss__swatches__slideshow__swatch--unavailable:before': {
 				content: '""',
 				display: 'block',
 				position: 'absolute',
@@ -52,19 +52,19 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 				transform: 'rotate(-45deg)',
 			},
 
-			'&.ss__swatches__carousel__swatch--disabled': {
+			'&.ss__swatches__slideshow__swatch--disabled': {
 				position: 'relative',
 				cursor: 'none',
 				pointerEvents: 'none',
 				opacity: 0.5,
 			},
 
-			'&.ss__swatches__carousel__swatch--unavailable': {
+			'&.ss__swatches__slideshow__swatch--unavailable': {
 				cursor: 'pointer',
 				opacity: 0.5,
 			},
 
-			'&.ss__swatches__carousel__swatch--dark': {
+			'&.ss__swatches__slideshow__swatch--dark': {
 				color: '#fff',
 			},
 		},
@@ -206,11 +206,11 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 					onClick: (e) => !disabled && !option?.disabled && makeSelection(e as any, option),
 					content: (
 						<div
-							className={classnames(`ss__swatches__carousel__swatch`, {
-								'ss__swatches__carousel__swatch--selected': selected,
-								'ss__swatches__carousel__swatch--disabled': option?.disabled,
-								'ss__swatches__carousel__swatch--unavailable': option?.available === false,
-								'ss__swatches__carousel__swatch--dark': isDark,
+							className={classnames(`ss__swatches__slideshow__swatch`, {
+								'ss__swatches__slideshow__swatch--selected': selected,
+								'ss__swatches__slideshow__swatch--disabled': option?.disabled,
+								'ss__swatches__slideshow__swatch--unavailable': option?.available === false,
+								'ss__swatches__slideshow__swatch--dark': isDark,
 							})}
 							title={label}
 							ref={(e) => useA11y(e)}
@@ -220,8 +220,8 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 						>
 							<div
 								className={classnames(
-									`ss__swatches__carousel__swatch__inner`,
-									`ss__swatches__carousel__swatch__inner--${filters.handleize(option.value?.toString())}`
+									`ss__swatches__slideshow__swatch__inner`,
+									`ss__swatches__slideshow__swatch__inner--${filters.handleize(option.value?.toString())}`
 								)}
 								style={{ background: option.background ? option.background : option.backgroundImageUrl ? `` : option.value }}
 							>
@@ -230,7 +230,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 								) : (
 									<Fragment />
 								)}
-								{!hideLabels && <span className="ss__swatches__carousel__swatch__value">{label || option.value}</span>}
+								{!hideLabels && <span className="ss__swatches__slideshow__swatch__value">{label || option.value}</span>}
 							</div>
 						</div>
 					),

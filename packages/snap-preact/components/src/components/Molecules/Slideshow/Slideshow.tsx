@@ -675,6 +675,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 						<div className="ss__slideshow__navigation ss__slideshow__navigation--prev">
 							<Button
 								icon="angle-left"
+								className={'ss__slideshow__prev'}
 								disabled={isPrevDisabled}
 								aria-label={`Previous slides${isPrevDisabled ? ' (disabled)' : ''}`}
 								{...subProps.PrevButton}
@@ -684,6 +685,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 						<div className="ss__slideshow__navigation ss__slideshow__navigation--next">
 							<Button
 								{...subProps.NextButton}
+								className={'ss__slideshow__next'}
 								icon="angle-right"
 								disabled={isNextDisabled}
 								aria-label={`Next slides${isNextDisabled ? ' (disabled)' : ''}`}
