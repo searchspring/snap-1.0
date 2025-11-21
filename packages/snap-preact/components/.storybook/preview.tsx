@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import { SnapTemplates, TemplatesStore } from '../../src';
 import { ThemeComplete, ThemeProvider } from '../src/providers/theme';
-import { base, bocachica, pike, snappy, snapnco } from '../src/themes';
+import { base, bocachica, everest, matterhorn, pike, snappy, snapnco } from '../src/themes';
 
 // custom styles for storybook
 import './styles.scss';
@@ -24,6 +24,8 @@ const snapTemplates = new SnapTemplates({
 // need to add each theme synchronously
 addTheme(snapTemplates, 'base', base);
 addTheme(snapTemplates, 'bocachica', bocachica);
+addTheme(snapTemplates, 'everest', everest);
+addTheme(snapTemplates, 'matterhorn', matterhorn);
 addTheme(snapTemplates, 'pike', pike);
 addTheme(snapTemplates, 'snapnco', snapnco);
 addTheme(snapTemplates, 'snappy', snappy);
@@ -64,6 +66,10 @@ export const decorators = [
 					? snapTemplates.templates.themes.library.bocachica.theme
 					: snapTemplates.templates.themes.local.bocachicaSimple.theme,
 				base: templateStory ? snapTemplates.templates.themes.library.base.theme : snapTemplates.templates.themes.local.baseSimple.theme,
+				everest: templateStory ? snapTemplates.templates.themes.library.everest.theme : snapTemplates.templates.themes.local.everestSimple.theme,
+				matterhorn: templateStory
+					? snapTemplates.templates.themes.library.matterhorn.theme
+					: snapTemplates.templates.themes.local.matterhornSimple.theme,
 				pike: templateStory ? snapTemplates.templates.themes.library.pike.theme : snapTemplates.templates.themes.local.pikeSimple.theme,
 			},
 			defaultTheme: 'base',

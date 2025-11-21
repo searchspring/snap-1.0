@@ -13,9 +13,9 @@ let config: SnapTemplatesConfig = {
 		platform: 'other',
 	},
 	components: {
-		// result: {
-		// 	CustomResult: async () => (await import('./components/Result')).CustomResult,
-		// },
+		result: {
+			CustomResult: async () => (await import('./components/Result')).CustomResult,
+		},
 	},
 	theme: {
 		extends: 'pike',
