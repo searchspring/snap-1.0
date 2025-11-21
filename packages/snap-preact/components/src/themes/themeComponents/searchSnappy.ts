@@ -69,10 +69,10 @@ export const searchSnappyThemeComponentProps: ThemeComponent<'searchSnappy', Sea
 			layout: [['banner.header'], ['searchHeader', '_', 'mobileSidebar'], ['banner.banner']],
 		},
 		'searchSnappy toolbar.middle': {
-			layout: [['sortBy', '_', 'layoutSelector'], ['filterSummary']],
+			layout: [['sortBy', '_', 'layoutSelector']],
 		},
 		'searchSnappy toolbar.bottom': {
-			layout: [['banner.footer'], ['perPage'], ['paginationInfo', '_', 'pagination']],
+			layout: [['banner.footer'], ['paginationInfo', '_', 'perPage'], ['_', 'pagination', '_']],
 		},
 	},
 	tablet: {
@@ -83,7 +83,7 @@ export const searchSnappyThemeComponentProps: ThemeComponent<'searchSnappy', Sea
 			layout: [['banner.header'], ['searchHeader', '_', 'mobileSidebar'], ['banner.banner']],
 		},
 		'searchSnappy toolbar.middle': {
-			layout: [['filterSummary'], ['sortBy', '_', 'layoutSelector']],
+			layout: [['sortBy', '_', 'layoutSelector']],
 		},
 	},
 	desktop: {},
