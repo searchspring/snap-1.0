@@ -83,7 +83,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'History' },
+				defaultValue: { summary: 'Recent Searches' },
 			},
 			control: { type: 'text' },
 		},
@@ -103,7 +103,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'Suggestions' },
+				defaultValue: { summary: 'Search Suggestions' },
 			},
 			control: { type: 'text' },
 		},
@@ -113,7 +113,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'Trending' },
+				defaultValue: { summary: 'Popular Searches' },
 			},
 			control: { type: 'text' },
 		},
