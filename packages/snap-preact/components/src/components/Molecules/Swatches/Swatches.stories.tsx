@@ -8,6 +8,7 @@ import Readme from '../Swatches/readme.md';
 export default {
 	title: 'Molecules/Swatches',
 	component: Swatches,
+	tags: ['autodocs'],
 	parameters: {
 		docs: {
 			page: () => (

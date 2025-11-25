@@ -3,11 +3,11 @@ import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
 import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
-const siteId = 'atkzs2';
+const siteId = 'atkzs2'; // at3qqg // at0wbx (for variant options)
 
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId,
+		siteId: siteId,
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
@@ -19,9 +19,10 @@ let config: SnapTemplatesConfig = {
 	},
 	theme: {
 		extends: 'base',
+		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
-				mobile: 768,
+				mobile: 767,
 				tablet: 1024,
 				desktop: 1280,
 			},
@@ -32,12 +33,31 @@ let config: SnapTemplatesConfig = {
 			// },
 		},
 		style: globalStyles,
-		overrides: {},
+		overrides: {
+			default: {
+				// 'autocompleteLayout': {
+				// 	className: '',
+				// 	width: '200px',
+				// },
+				// 'toolbar.top': {
+				// 	layout: ['facetsHorizontal']
+				// }
+				// 'toolbar.bottom': {
+				// 	layout: ['loadMore']
+				// }
+			},
+			// mobile: {
+			// 	'autocompleteFixed': {
+			// 		layout: 'standard'
+			// 	}
+			// }
+		},
 	},
 	recommendation: {
 		email: {
 			Email: {
 				component: 'RecommendationEmail',
+				//resultComponent: 'EmailResult',
 			},
 		},
 		default: {
@@ -47,7 +67,7 @@ let config: SnapTemplatesConfig = {
 		},
 		bundle: {
 			Bundle: {
-				component: 'RecommendationBundle',
+				component: 'RecommendationBundleList',
 			},
 		},
 	},
@@ -55,9 +75,17 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'Search',
+				component: 'SearchSnappy',
 			},
 		],
+		settings: {
+			variants: {
+				field: 'ss_variants',
+			},
+			// infinite: {
+			// 	backfill: 5,
+			// },
+		},
 	},
 	autocomplete: {
 		targets: [
@@ -66,6 +94,16 @@ let config: SnapTemplatesConfig = {
 				component: 'AutocompleteFixed',
 			},
 		],
+		settings: {
+			history: {
+				limit: 6,
+				showResults: true,
+			},
+			trending: {
+				limit: 6,
+				showResults: true,
+			},
+		},
 	},
 };
 

@@ -44,7 +44,6 @@ const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 
 			'.ss__button': {
 				cursor: 'pointer',
-				border: '1px solid black',
 			},
 			'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
 				display: 'flex',
@@ -202,7 +201,7 @@ export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
 	const mergedLang = useLang(lang as any, {});
 
 	return (
-		<div className={`${classNamePrefix}__wrapper__cta`}>
+		<>
 			<div className={`${classNamePrefix}__wrapper__cta__inner`}>
 				<div className={`${classNamePrefix}__wrapper__cta__inner__images`}>
 					{cartStore.items.map((item: any) => {
@@ -242,13 +241,13 @@ export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
 					</div>
 				</div>
 			</div>
-			<div>
+			<div className={`${classNamePrefix}__cta__button__wrapper`}>
 				<Button
 					{...subProps.button}
 					disabled={cartStore.items.length == 0}
 					disableStyles
-					internalClassName={classNames(`${classNamePrefix}__wrapper__cta__button`, {
-						[`${classNamePrefix}__wrapper__cta__button--added`]: addedToCart,
+					internalClassName={classNames(`${classNamePrefix}__cta__button`, {
+						[`${classNamePrefix}__cta__button--added`]: addedToCart,
 					})}
 					aria-live={addedToCart}
 					onClick={(e) => props.onAddToCart(e)}
@@ -257,6 +256,6 @@ export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
 					{props.addedToCart ? props.ctaButtonSuccessText : props.ctaButtonText}
 				</Button>
 			</div>
-		</div>
+		</>
 	);
 });

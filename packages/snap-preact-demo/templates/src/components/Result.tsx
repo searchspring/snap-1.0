@@ -1,11 +1,19 @@
 import { h, Fragment } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge } from '@searchspring/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating } from '@searchspring/snap-preact/components';
 import { Product } from '@searchspring/snap-store-mobx';
 import type { SearchController } from '@searchspring/snap-controller';
 
 export const CustomResult = (props: { result: Product; controller: SearchController }) => {
 	const { result, controller } = props;
 	const core = result.mappings.core;
+	// const variants = result.variants;
+
+	// const breadcrumbs = [
+	// 	{ url: '/', label: 'Home' },
+	// 	{ url: '/', label: 'Collections' },
+	// 	{ url: '/', label: 'Appliances' },
+	// 	{ label: 'Fridge' }
+	// ]
 
 	return (
 		<article className="ss__custom-result">
@@ -16,6 +24,9 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 					</OverlayBadge>
 				</a>
 			</div>
+
+			{/* <Breadcrumbs data={breadcrumbs} /> */}
+
 			<div className="ss__custom-result__details">
 				<div className="ss__custom-result__details__title">
 					<a
@@ -25,6 +36,18 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 						}}
 					/>
 				</div>
+
+				<br />
+				<br />
+
+				{/* {variants?.selections
+					? variants.selections.map((selection) => {
+							return <VariantSelection selection={selection} />;
+					  })
+					: null}
+
+				<br />
+				<br /> */}
 
 				<div className="ss__custom-result__details__pricing">
 					{core.price < core.msrp ? (
@@ -36,6 +59,8 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 						<Price value={core.price} />
 					)}
 				</div>
+
+				<Rating value={4.35} count={70} />
 
 				<CalloutBadge result={result}></CalloutBadge>
 			</div>

@@ -29,8 +29,11 @@ export type LibraryImports = {
 	theme: {
 		base: (args?: any) => Promise<ThemeComplete>;
 		bocachica: (args?: any) => Promise<ThemeComplete>;
-		snappy: (args?: any) => Promise<ThemeComplete>;
+		everest: (args?: any) => Promise<ThemeComplete>;
+		matterhorn: (args?: any) => Promise<ThemeComplete>;
+		pike: (args?: any) => Promise<ThemeComplete>;
 		snapnco: (args?: any) => Promise<ThemeComplete>;
+		snappy: (args?: any) => Promise<ThemeComplete>;
 	};
 	plugins: {
 		shopify: {
@@ -152,11 +155,20 @@ export class LibraryStore {
 			bocachica: async () => {
 				return this.themes.bocachica || (this.themes.bocachica = (await import('./library/themes/bocachica')).bocachica);
 			},
-			snappy: async () => {
-				return this.themes.snappy || (this.themes.snappy = (await import('./library/themes/snappy')).snappy);
+			everest: async () => {
+				return this.themes.everest || (this.themes.everest = (await import('../../../components/src/themes/everest/everest')).everest);
+			},
+			matterhorn: async () => {
+				return this.themes.matterhorn || (this.themes.matterhorn = (await import('../../../components/src/themes/matterhorn/matterhorn')).matterhorn);
+			},
+			pike: async () => {
+				return this.themes.pike || (this.themes.pike = (await import('../../../components/src/themes/pike/pike')).pike);
 			},
 			snapnco: async () => {
 				return this.themes.snapnco || (this.themes.snapnco = (await import('./library/themes/snapnco')).snapnco);
+			},
+			snappy: async () => {
+				return this.themes.snappy || (this.themes.snappy = (await import('./library/themes/snappy')).snappy);
 			},
 		},
 		plugins: {

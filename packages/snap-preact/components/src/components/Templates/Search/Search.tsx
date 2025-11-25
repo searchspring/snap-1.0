@@ -80,6 +80,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 		mobileDisplayAt,
 		toggleSidebarStartClosed,
 		treePath,
+		alias,
 	} = props;
 
 	let classNamePrefix = 'ss__search';
@@ -96,7 +97,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const isMobile = useMediaQuery(`(max-width: ${mobileDisplayAt})`);
 
-	const [sidebarOpenState, setSidebarOpenState] = useState(Boolean(!toggleSidebarStartClosed));
+	const [sidebarOpenState, setSidebarOpenState] = useState(Boolean(alias !== 'searchHorizontal' && !toggleSidebarStartClosed));
 
 	//initialize lang
 	const defaultLang: Partial<SearchLang> = {
@@ -154,7 +155,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			name: 'middle',
 			internalClassName: `${classNamePrefix}__content__toolbar--middle-toolbar`,
 			layout: isMobile
-				? [['mobileSidebar', '_', 'paginationInfo'], ['filterSummary'], ['banner.banner']]
+				? [['mobileSidebar', '_', 'paginationInfo'], ['banner.banner']]
 				: [['sortBy', 'perPage', '_', 'paginationInfo'], ['banner.banner']],
 			toggleSideBarButton: { ...toggleSidebarButtonProps },
 			// inherited props
@@ -168,7 +169,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			// default props
 			name: 'bottom',
 			internalClassName: `${classNamePrefix}__content__toolbar--bottom-toolbar`,
-			layout: [['banner.footer'], ['_', 'pagination']],
+			layout: [['banner.footer'], ['_', 'pagination', '_']],
 			toggleSideBarButton: { ...toggleSidebarButtonProps },
 			// inherited props
 			...defined({

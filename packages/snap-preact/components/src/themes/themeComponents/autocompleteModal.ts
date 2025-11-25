@@ -39,11 +39,7 @@ export const autocompleteModalThemeComponentProps: ThemeComponent<'autocompleteM
 	},
 	mobile: {
 		autocompleteModal: {
-			layout: [['c1']],
-			column1: {
-				layout: [['termsList'], ['content'], ['_', 'button.see-more']],
-				width: '100%',
-			},
+			layout: 'mini',
 		},
 		'autocompleteModal results': {
 			columns: 2,

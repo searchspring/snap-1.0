@@ -22,6 +22,8 @@ import { useA11y } from '../../../hooks/useA11y';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Button, ButtonProps } from '../../Atoms/Button';
+import { useState } from 'preact/hooks';
+import { useEffect } from 'react';
 
 const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme }) => {
 	return css({
@@ -122,6 +124,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		iconCollapse,
 		iconExpand,
 		limit,
+		statefulOverflow,
 		disableOverflow,
 		iconColor,
 		color,
@@ -280,10 +283,101 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 	};
 
 	let limitedValues: Array<FacetHierarchyValue | FacetValue | FacetRangeValue | undefined>;
-	if ((facet as ValueFacet)?.overflow && limit && Number.isInteger(limit) && !disableOverflow) {
-		(facet as ValueFacet).overflow?.setLimit(limit);
-		limitedValues = (facet as ValueFacet)?.refinedValues;
-	} else if ((facet as ValueFacet)?.overflow && Number.isInteger(limit)) {
+
+	type overflowStateType = {
+		enabled: boolean;
+		limited: boolean;
+		limit: number;
+		remaining: number | undefined;
+		setLimit: (limit: number) => void;
+		toggle: (val?: boolean) => void;
+		calculate: () => void;
+	};
+
+	function escapeRegExp(string: string) {
+		return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+	}
+
+	const [overflowState, setOverflowState] = useState<overflowStateType | undefined>();
+
+	useEffect(() => {
+		if (statefulOverflow) {
+			const interalOverflow: {
+				enabled: boolean;
+				limited: boolean;
+				limit: number;
+				remaining: number | undefined;
+				setLimit: (limit: number) => void;
+				toggle: (val?: boolean) => void;
+				calculate: () => void;
+			} = {
+				enabled: false,
+				limited: true,
+				limit: 0,
+				remaining: undefined,
+				setLimit: function (limit: number) {
+					if (limit != this.limit) {
+						this.enabled = true;
+						this.limit = limit;
+						this.calculate();
+					}
+				},
+				toggle: function (val?: boolean) {
+					if (typeof val != 'undefined') {
+						this.limited = val;
+					} else {
+						this.limited = !this.limited;
+					}
+
+					this.calculate();
+				},
+				calculate: function () {
+					if (this.limit > 0) {
+						const remaining = (facet as ValueFacet)?.values?.length - this.limit;
+
+						if (remaining > 0 && !(facet as ValueFacet)?.search?.input) {
+							this.enabled = true;
+
+							if (this.limited) {
+								this.remaining = remaining;
+							} else {
+								this.remaining = 0;
+							}
+						} else {
+							this.enabled = false;
+						}
+					}
+
+					setOverflowState({ ...this });
+				},
+			};
+
+			setOverflowState(interalOverflow);
+		} else {
+			setOverflowState((facet as ValueFacet).overflow || undefined);
+		}
+	}, []);
+
+	if (overflowState && limit && Number.isInteger(limit) && !disableOverflow) {
+		overflowState?.setLimit(limit);
+
+		if (statefulOverflow) {
+			let values = (facet as ValueFacet)?.values || [];
+
+			if ((facet as ValueFacet)?.search?.input) {
+				const search = new RegExp(escapeRegExp((facet as ValueFacet)?.search?.input), 'i');
+				values = (facet as ValueFacet)?.values.filter((value) => String(value?.label || '').match(search));
+			}
+
+			if (overflowState.enabled && overflowState.limited) {
+				values = values.slice(0, overflowState.limit);
+			}
+
+			limitedValues = values;
+		} else {
+			limitedValues = (facet as ValueFacet)?.refinedValues;
+		}
+	} else if (overflowState && Number.isInteger(limit)) {
 		limitedValues = (facet as ValueFacet)?.values.slice(0, limit);
 	} else {
 		limitedValues = (facet as ValueFacet)?.values;
@@ -293,7 +387,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 
 	// Search within facet
 	const searchableFacet = {
-		allowableTypes: ['list', 'grid', 'palette'],
+		allowableTypes: properties.treePath?.includes('autocomplete') ? [] : ['list', 'grid', 'palette'],
 		searchFilter: (e: React.ChangeEvent<HTMLInputElement>) => {
 			if ((facet as ValueFacet)?.search) {
 				(facet as ValueFacet).search.input = e.target.value;
@@ -308,6 +402,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 
 	const facetContentProps = {
 		limitedValues,
+		overflowState,
 		searchableFacet,
 		subProps,
 		className,
@@ -355,7 +450,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 					className,
 					internalClassName,
 					`${facet.display ? `ss__facet--${facet.display}` : ''}`,
-					((facet as ValueFacet)?.overflow?.remaining || 0) > 0 || facet?.display == 'slider' ? '' : 'ss__facet--showing-all'
+					overflowState && overflowState?.enabled && !overflowState?.remaining ? 'ss__facet--showing-all' : ''
 				)}
 			>
 				{justContent ? (
@@ -429,6 +524,7 @@ const FacetContent = (props: any) => {
 		facet,
 		limit,
 		overflowSlot,
+		overflowState,
 		optionsSlot,
 		searchable,
 		iconOverflowMore,
@@ -504,13 +600,8 @@ const FacetContent = (props: any) => {
 				})()}
 			</div>
 
-			{!disableOverflow && (facet as ValueFacet)?.overflow?.enabled && (
-				<div
-					className="ss__facet__show-more-less"
-					aria-live="polite"
-					onClick={() => (facet as ValueFacet).overflow?.toggle()}
-					ref={(e) => useA11y(e)}
-				>
+			{!disableOverflow && overflowState?.enabled && (
+				<div className="ss__facet__show-more-less" aria-live="polite" onClick={() => overflowState?.toggle()} ref={(e) => useA11y(e)}>
 					{overflowSlot ? (
 						cloneWithProps(overflowSlot, { facet, treePath })
 					) : (
@@ -518,13 +609,11 @@ const FacetContent = (props: any) => {
 							<Icon
 								{...subProps.showMoreLessIcon}
 								treePath={treePath}
-								{...(((facet as ValueFacet).overflow?.remaining || 0) > 0
+								{...((overflowState?.remaining || 0) > 0
 									? { ...(typeof iconOverflowMore == 'string' ? { icon: iconOverflowMore } : (iconOverflowMore as Partial<IconProps>)) }
 									: { ...(typeof iconOverflowLess == 'string' ? { icon: iconOverflowLess } : (iconOverflowLess as Partial<IconProps>)) })}
 							/>
-							{!hideShowMoreLessText && (
-								<span {...(((facet as ValueFacet)?.overflow?.remaining || 0) > 0 ? lang.showMoreText?.all : lang.showLessText?.all)}></span>
-							)}
+							{!hideShowMoreLessText && <span {...((overflowState?.remaining || 0) > 0 ? lang.showMoreText?.all : lang.showLessText?.all)}></span>}
 						</Fragment>
 					)}
 				</div>
@@ -558,6 +647,7 @@ interface OptionalFacetProps extends ComponentProps {
 	iconColor?: string;
 	iconExpand?: IconType | Partial<IconProps>;
 	limit?: number;
+	statefulOverflow?: boolean;
 	overflowSlot?: JSX.Element | JSX.Element[];
 	optionsSlot?: JSX.Element | JSX.Element[];
 	disableOverflow?: boolean;

@@ -770,7 +770,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 										{noResultsSlot ? (
 											cloneWithProps(noResultsSlot, { search, pagination, controller, treePath })
 										) : (
-											<div {...mergedLang.noResultsText?.all}></div>
+											<div className="ss__autocomplete__content__no-results__text" {...mergedLang.noResultsText?.all}></div>
 										)}
 									</div>
 								)}

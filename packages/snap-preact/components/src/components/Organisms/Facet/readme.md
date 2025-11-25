@@ -198,6 +198,32 @@ const fieldsProp = {
 ```
 
 
+### display
+The `display` prop allows you to manually change prop values on a per-facet display type level
+
+```typescript
+const displayProp = {
+	display: {
+		list: {
+			limit: 5,
+		},
+		hierarchy: {
+			limit: 3
+		},
+		grid: {
+			limit: 10
+		},
+		palette: {
+			limit: 20
+		}
+	}
+},
+```
+
+```jsx
+<Facet facet={controller.store.facets[0]} display={displayProp} />
+```
+
 ### optionsSlot
 The `optionsSlot` prop is a JSX element used to manually set the options component used, regardless of the facet.display type. Returns the facet,valueProps, limit, & previewOnFocus prop values.
 

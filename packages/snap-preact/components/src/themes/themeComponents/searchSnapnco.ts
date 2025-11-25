@@ -52,7 +52,7 @@ export const searchSnapncoThemeComponentProps: ThemeComponent<'searchSnapnco', S
 			layout: [['banner.header'], ['searchHeader']],
 		},
 		'searchSnapnco toolbar.middle': {
-			layout: [['banner.banner'], ['paginationInfo', '_', 'mobileSidebar'], ['filterSummary']],
+			layout: [['banner.banner'], ['paginationInfo', '_', 'mobileSidebar']],
 		},
 		'searchSnapnco sidebar': {
 			layout: [['facets'], ['banner.left']],

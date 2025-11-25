@@ -131,7 +131,13 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 									} else {
 										return (
 											<ResultTracker result={result as Product} controller={controller}>
-												<Result key={(result as Product).id} {...subProps.result} result={result as Product} controller={controller} />
+												<Result
+													key={(result as Product).id}
+													{...subProps.result}
+													result={result as Product}
+													controller={controller}
+													treePath={treePath}
+												/>
 											</ResultTracker>
 										);
 									}

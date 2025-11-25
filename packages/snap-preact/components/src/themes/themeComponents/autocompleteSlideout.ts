@@ -43,11 +43,7 @@ export const autocompleteSlideoutThemeComponentProps: ThemeComponent<'autocomple
 	},
 	mobile: {
 		autocompleteSlideout: {
-			layout: [['c1']],
-			column1: {
-				layout: [['button.see-more'], ['termsList'], ['content']],
-				width: '100%',
-			},
+			layout: 'mini',
 		},
 		'autocompleteSlideout recommendationGrid': {
 			columns: 2,

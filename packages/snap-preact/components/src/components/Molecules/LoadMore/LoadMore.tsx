@@ -21,11 +21,8 @@ const defaultStyles: StyleScript<LoadMoreProps> = ({ pagination, progressIndicat
 		flexDirection: 'column',
 		alignItems: 'center',
 		gap: '20px',
-
 		'& .ss__load-more__button--disabled': {
 			opacity: 0.7,
-			borderColor: 'rgba(51,51,51,0.7)',
-			backgroundColor: 'initial',
 			pointerEvents: 'none',
 			'&:hover': {
 				cursor: 'default',
