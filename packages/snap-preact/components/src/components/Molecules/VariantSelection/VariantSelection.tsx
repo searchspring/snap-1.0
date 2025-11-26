@@ -25,47 +25,42 @@ const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 					gap: '5px',
 				},
 			},
-
-			'.ss__dropdown__content': {
-				bottom: '20px',
-				border: '1px solid black',
-				borderBottom: '0px',
-				minWidth: 'auto',
-				left: '0',
-				right: '0',
-				background: 'white',
-				zIndex: 10,
-				position: 'absolute',
-
-				ul: {
-					margin: '0px',
-				},
-
-				'.ss__variant-selection__option': {
-					cursor: 'pointer',
-					position: 'relative',
-				},
-
-				'.ss__variant-selection__option:hover': {
-					fontWeight: 'bold',
-				},
-
-				'.ss__variant-selection__option--selected': {
-					fontWeight: 'bold',
-				},
-
-				'.ss__variant-selection__option--disabled': {
-					pointerEvents: 'none',
-					cursor: 'initial',
-					color: 'red',
-				},
-
-				'.ss__variant-selection__option--disabled, .ss__variant-selection__option--unavailable': {
-					textDecoration: 'line-through',
-					opacity: 0.5,
-				},
-			},
 		},
+	});
+};
+
+const dropdownContentStyles: StyleScript<VariantSelectionProps> = () => {
+	return css({
+		margin: '0px',
+		padding: '5px',
+		background: 'white',
+		zIndex: 10,
+		border: '1px solid black',
+
+		'.ss__variant-selection__option': {
+			cursor: 'pointer',
+			position: 'relative',
+		},
+
+		'.ss__variant-selection__option:hover': {
+			fontWeight: 'bold',
+		},
+
+		'.ss__variant-selection__option--selected': {
+			fontWeight: 'bold',
+		},
+
+		'.ss__variant-selection__option--disabled': {
+			pointerEvents: 'none',
+			cursor: 'initial',
+			color: 'red',
+		},
+
+		'.ss__variant-selection__option--disabled, .ss__variant-selection__option--unavailable': {
+			textDecoration: 'line-through',
+			opacity: 0.5,
+		},
+		// }
 	});
 };
 
@@ -86,6 +81,7 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 	const subProps: VariantSelectionSubProps = {
 		dropdown: {
 			internalClassName: 'ss__variant-selection__dropdown',
+			usePortal: true,
 			// TODO: label doesnt exist on dropdown?
 			// label: selection.label || selection.field,
 			// inherited props
@@ -138,11 +134,13 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 	};
 
 	const styling = mergeStyles<VariantSelectionProps>(props, defaultStyles);
+	//since the dropdown is rendered in a portal, it needs its own emotion styles
+	const dropdownStyles = mergeStyles<VariantSelectionProps>(props, dropdownContentStyles);
 
 	const DropdownContent = (props: any) => {
 		const { toggleOpen } = props;
 		return (
-			<ul className="ss__variant-selection__options" ref={(e) => useA11y(e, -1, true, () => toggleOpen())}>
+			<ul {...dropdownStyles} className="ss__variant-selection__options" ref={(e) => useA11y(e, -1, true, () => toggleOpen())}>
 				{selection.values.map((val: any) => {
 					const selected = selection.selected?.value == val.value;
 					return (
@@ -201,7 +199,7 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 											);
 										};
 
-										return <Dropdown button={<Button />} {...subProps.dropdown} content={<DropdownContent />} />;
+										return <Dropdown button={<Button treePath={treePath} />} {...subProps.dropdown} content={<DropdownContent />} />;
 									})()}
 								</Fragment>
 							);

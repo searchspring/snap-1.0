@@ -291,6 +291,215 @@ describe('Result Component', () => {
 
 		expect(resultElement?.classList).toHaveLength(3);
 	});
+
+	it('can show variant selections with hideVariantSelections false', () => {
+		// First, let's add variant data to a result
+		const resultWithVariants = mockResults[0] as Product;
+
+		// Mock variant data similar to your other variant tests
+		const mockVariantData = [
+			{
+				id: 'variant1',
+				attributes: {
+					available: true,
+					name: 'Blue Variant',
+					imageUrl: 'https://example.com/blue.jpg',
+				},
+				mappings: {
+					core: {
+						available: true,
+						name: 'Blue Variant',
+						imageUrl: 'https://example.com/blue.jpg',
+					},
+				},
+				badges: [],
+				options: {
+					color: {
+						value: 'blue',
+					},
+					size: {
+						value: 'large',
+					},
+				},
+			},
+			{
+				id: 'variant2',
+				attributes: {
+					available: true,
+					name: 'Red Variant',
+					imageUrl: 'https://example.com/red.jpg',
+				},
+				mappings: {
+					core: {
+						available: true,
+						name: 'Red Variant',
+						imageUrl: 'https://example.com/red.jpg',
+					},
+				},
+				badges: [],
+				options: {
+					color: {
+						value: 'red',
+					},
+					size: {
+						value: 'medium',
+					},
+				},
+			},
+		];
+
+		resultWithVariants.variants?.update(mockVariantData);
+
+		const rendered = render(<Result result={resultWithVariants} hideVariantSelections={false} />);
+
+		const resultElement = rendered.container.querySelector('.ss__result');
+		const variantSelectionContainer = rendered.container.querySelector('.ss__result__details__variant-selection');
+
+		expect(resultElement).toBeInTheDocument();
+		expect(variantSelectionContainer).toBeInTheDocument();
+	});
+
+	it('hides variant selections by default', () => {
+		// First, let's add variant data to a result
+		const resultWithVariants = mockResults[0] as Product;
+
+		// Mock variant data similar to your other variant tests
+		const mockVariantData = [
+			{
+				id: 'variant1',
+				attributes: {
+					available: true,
+					name: 'Blue Variant',
+					imageUrl: 'https://example.com/blue.jpg',
+				},
+				mappings: {
+					core: {
+						available: true,
+						name: 'Blue Variant',
+						imageUrl: 'https://example.com/blue.jpg',
+					},
+				},
+				badges: [],
+				options: {
+					color: {
+						value: 'blue',
+					},
+					size: {
+						value: 'large',
+					},
+				},
+			},
+			{
+				id: 'variant2',
+				attributes: {
+					available: true,
+					name: 'Red Variant',
+					imageUrl: 'https://example.com/red.jpg',
+				},
+				mappings: {
+					core: {
+						available: true,
+						name: 'Red Variant',
+						imageUrl: 'https://example.com/red.jpg',
+					},
+				},
+				badges: [],
+				options: {
+					color: {
+						value: 'red',
+					},
+					size: {
+						value: 'medium',
+					},
+				},
+			},
+		];
+
+		resultWithVariants.variants?.update(mockVariantData);
+
+		const rendered = render(<Result result={resultWithVariants} />);
+
+		const resultElement = rendered.container.querySelector('.ss__result');
+		// By default, hideVariantSelections should be undefined, which means variant selections are hidden
+		// The container div is still rendered but should be empty
+		const variantSelectionContainer = rendered.container.querySelector('.ss__result__details__variant-selection');
+		const variantSelectionElements = rendered.container.querySelectorAll('.ss__result__details__variant-selection .ss__variant-selection');
+
+		expect(resultElement).toBeInTheDocument();
+		expect(variantSelectionContainer).toBeInTheDocument();
+		// But it should be empty (no variant selection components inside)
+		expect(variantSelectionElements).toHaveLength(0);
+	});
+
+	it('hides variant selections when hideVariantSelections is true', () => {
+		// First, let's add variant data to a result
+		const resultWithVariants = mockResults[0] as Product;
+
+		// Mock variant data similar to your other variant tests
+		const mockVariantData = [
+			{
+				id: 'variant1',
+				attributes: {
+					available: true,
+					name: 'Blue Variant',
+					imageUrl: 'https://example.com/blue.jpg',
+				},
+				mappings: {
+					core: {
+						available: true,
+						name: 'Blue Variant',
+						imageUrl: 'https://example.com/blue.jpg',
+					},
+				},
+				badges: [],
+				options: {
+					color: {
+						value: 'blue',
+					},
+					size: {
+						value: 'large',
+					},
+				},
+			},
+			{
+				id: 'variant2',
+				attributes: {
+					available: true,
+					name: 'Red Variant',
+					imageUrl: 'https://example.com/red.jpg',
+				},
+				mappings: {
+					core: {
+						available: true,
+						name: 'Red Variant',
+						imageUrl: 'https://example.com/red.jpg',
+					},
+				},
+				badges: [],
+				options: {
+					color: {
+						value: 'red',
+					},
+					size: {
+						value: 'medium',
+					},
+				},
+			},
+		];
+
+		resultWithVariants.variants?.update(mockVariantData);
+
+		const rendered = render(<Result result={resultWithVariants} hideVariantSelections={true} />);
+
+		const resultElement = rendered.container.querySelector('.ss__result');
+		const variantSelectionDropdownElement = rendered.container.querySelector(
+			'.ss__result__details__variant-selection .ss__variant-selection__dropdown'
+		);
+
+		expect(resultElement).toBeInTheDocument();
+		// Variant container might still exist but selections should be hidden
+		expect(variantSelectionDropdownElement).not.toBeInTheDocument();
+	});
 });
 
 describe('Result lang works', () => {

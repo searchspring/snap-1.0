@@ -18,6 +18,7 @@ import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import deepmerge from 'deepmerge';
 import { Lang, useLang } from '../../../hooks';
+import { VariantSelection, VariantSelectionProps } from '../VariantSelection';
 
 const defaultStyles: StyleScript<ResultProps> = () => {
 	return css({
@@ -107,6 +108,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 		layout,
 		onClick,
 		controller,
+		hideVariantSelections,
 		hideAddToCartButton,
 		onAddToCartClick,
 		addToCartButtonText,
@@ -122,6 +124,16 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 	const [addedToCart, setAddedToCart] = useState(false);
 
 	const subProps: ResultSubProps = {
+		variantSelection: {
+			// global theme
+			internalClassName: 'ss__result__variant-selection',
+			...defined({
+				disableStyles,
+			}),
+			// component theme overrides
+			theme: props.theme,
+			treePath,
+		},
 		price: {
 			// global theme
 			internalClassName: 'ss__result__price',
@@ -302,6 +314,14 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 
 					{cloneWithProps(detailSlot, { result, treePath })}
 
+					{!hideVariantSelections && (
+						<div className="ss__result__details__variant-selection">
+							{result.variants?.selections.map((selection) => {
+								return <VariantSelection selection={selection} />;
+							})}
+						</div>
+					)}
+
 					{!hideAddToCartButton && (
 						<div className="ss__result__add-to-cart-wrapper">
 							<Button {...subProps.button} content={addToCartButtonText} {...mergedLang.addToCartButtonText.all} />
@@ -322,6 +342,7 @@ interface ResultSubProps {
 	image: ImageProps;
 	rating: RatingProps;
 	button: ButtonProps;
+	variantSelection: Partial<VariantSelectionProps>;
 }
 export interface TruncateTitleProps {
 	limit: number;
@@ -335,6 +356,7 @@ export interface ResultProps extends ComponentProps {
 	hideImage?: boolean;
 	hidePricing?: boolean;
 	hideRating?: boolean;
+	hideVariantSelections?: boolean;
 	hideAddToCartButton?: boolean;
 	addToCartButtonText?: string;
 	onAddToCartClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, result: Product) => void;

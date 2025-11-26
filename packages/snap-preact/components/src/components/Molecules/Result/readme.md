@@ -70,6 +70,12 @@ const clickFunc = (e, result) => {
 <Result result={controller.store.results[0]} onAddToCartClick={() => clickFunc} />
 ```
 
+### hideVariantSelections
+The `hideVariantSelections` prop will prevent the VariantSelections components from rendering.
+
+```jsx
+<Result result={controller.store.results[0]} hideVariantSelections={false} />
+```
 
 ### addToCartButtonSuccessText
 The `addToCartButtonSuccessText` prop will change the text rendered in the add to cart button temporarily after clicking.

@@ -759,7 +759,7 @@ export class Variant {
 		this.badges = variant.badges || [];
 
 		// @ts-ignore - snapi types need updated
-		this.available = (this.attributes.available as boolean) || (this.mappings.core?.available as boolean) || false;
+		this.available = (this.attributes.available as boolean) ?? (this.mappings.core?.available as boolean) ?? true;
 
 		makeObservable(this, {
 			attributes: observable,

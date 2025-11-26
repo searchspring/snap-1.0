@@ -145,6 +145,16 @@ export default {
 			},
 			action: 'onMouseLeave',
 		},
+		usePortal: {
+			description: 'boolean to specify if the dropdown content should be rendered in a portal.',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
 		onToggle: {
 			description: 'Executes when the internal state changes, gets passed the event and the internal state - used with internal state only',
 			table: {

@@ -70,6 +70,16 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
+		hideVariantSelections: {
+			description: 'Hide variant Selections',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: true },
+			},
+			control: { type: 'boolean' },
+		},
 		hideTitle: {
 			description: 'Hide title',
 			table: {
