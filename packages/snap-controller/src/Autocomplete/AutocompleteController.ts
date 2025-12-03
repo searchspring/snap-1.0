@@ -916,7 +916,7 @@ function getAutocompleteAddtocartSchemaData({
 			results?.map((result: Product): BeaconProduct => {
 				const core = (result as Product).mappings.core!;
 				return {
-					uid: core.uid || '',
+					uid: (result.attributes?.parentId as unknown as string) || core.uid || '',
 					sku: core.sku,
 					price: Number(core.price),
 					qty: result.quantity || 1,
@@ -999,7 +999,7 @@ function getAutocompleteSchemaData({
 				return {
 					type: ItemTypeEnum.Product,
 					position,
-					uid: core.uid || '',
+					uid: (result.attributes?.parentId as unknown as string) || core?.uid || '',
 					sku: core.sku,
 				};
 			}) || [],

@@ -732,7 +732,7 @@ function createResultSchemaMapping({
 				{
 					type: ItemTypeEnum.Product,
 					position: result.position!,
-					uid: result.mappings?.core?.uid || '',
+					uid: (result.attributes?.parentId as unknown as string) || result.mappings?.core?.uid || '',
 					sku: result.mappings?.core?.sku,
 				},
 			],
@@ -812,7 +812,7 @@ function getSearchAddtocartSchemaData({
 			results?.map((result: Product): BeaconProduct => {
 				const core = (result as Product).mappings.core!;
 				return {
-					uid: core.uid || '',
+					uid: (result.attributes?.parentId as unknown as string) || core.uid || '',
 					sku: core.sku,
 					price: Number(core.price),
 					qty: result.quantity || 1,
