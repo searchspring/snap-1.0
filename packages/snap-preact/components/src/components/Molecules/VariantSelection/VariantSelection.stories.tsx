@@ -116,7 +116,7 @@ const values = [
 const config: SearchControllerConfig = {
 	id: 'searchVariants',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 	},
 	settings: {
 		variants: {

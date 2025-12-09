@@ -228,7 +228,6 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 	const ToggleSideBarButton = toggleSideBarButton;
 
 	const hasResults = controller.store.pagination.totalResults > 0;
-
 	function renderModule(module: ModuleNames) {
 		switch (module) {
 			case 'mobileSidebar':
@@ -326,7 +325,7 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 	let separatorIndex = 0;
 
 	useCleanUpEmptyDivs(['.ss__layout__row'], '.ss__layout__separator');
-
+	console.log(layout);
 	return hasChildrenToRender ? (
 		<CacheProvider>
 			<div {...styling} className={classnames('ss__layout', className, internalClassName)}>

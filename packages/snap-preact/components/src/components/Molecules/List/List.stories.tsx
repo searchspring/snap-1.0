@@ -165,7 +165,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'List', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'List', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: ListProps) => <List {...args} />;
 Default.args = {
