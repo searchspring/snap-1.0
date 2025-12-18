@@ -451,7 +451,8 @@ export class Snap {
 				});
 			}
 
-			const trackerConfig = deepmerge({ framework: 'snap/preact', mode: this.mode }, this.config.tracker?.config || {});
+			const initiator = window?.searchspring?.initiator || 'self-snap';
+			const trackerConfig = deepmerge(this.config.tracker?.config || {}, { framework: `${initiator}/preact`, mode: this.mode });
 			this.tracker = services?.tracker || new Tracker(trackerGlobals, trackerConfig);
 
 			// log version

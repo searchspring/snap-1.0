@@ -6,10 +6,10 @@ import { StorageStore, ErrorType } from '@searchspring/snap-store-mobx';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes, PageContextVariable } from '../types';
 
-import type { Product, Banner, SearchStore } from '@searchspring/snap-store-mobx';
+import type { Product, Banner, SearchStore, ValueFacet } from '@searchspring/snap-store-mobx';
 import type {
 	SearchControllerConfig,
-	AfterSearchObj,
+	SearchAfterSearchObj,
 	AfterStoreObj,
 	ControllerServices,
 	ContextVariables,
@@ -18,16 +18,21 @@ import type {
 	BeforeSearchObj,
 } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
-import type {
-	SearchRequestModel,
-	SearchResponseModelResult,
-	SearchRequestModelSearchRedirectResponseEnum,
-	MetaResponseModel,
-	SearchResponseModel,
-	SearchRequestModelFilterRange,
-	SearchRequestModelFilterValue,
-	SearchRequestModelFilter,
+import {
+	type SearchRequestModel,
+	type SearchResponseModelResult,
+	type SearchRequestModelSearchRedirectResponseEnum,
+	type MetaResponseModel,
+	type SearchResponseModel,
+	type SearchRequestModelFilterRange,
+	type SearchRequestModelFilterValue,
+	type SearchRequestModelFilter,
+	type SearchResponseModelFilter,
+	type MetaResponseModelFacetHierarchy,
+	type SearchResponseModelFilterTypeEnum,
+	SearchResponseModelFacetValue,
 } from '@searchspring/snapi-types';
+
 import {
 	type AutocompleteAddtocartSchemaDataBgfilterInner,
 	type AutocompleteAddtocartSchemaDataFilterInner,
@@ -41,7 +46,7 @@ import {
 } from '@searchspring/beacon';
 import { CLICK_DUPLICATION_TIMEOUT, isClickWithinProductLink } from '../utils/isClickWithinProductLink';
 
-const BACKGROUND_FILTER_FIELD_MATCHES = ['collection', 'category', 'categories', 'hierarchy'];
+const BACKGROUND_FILTER_FIELD_MATCHES = ['collection', 'category', 'categories', 'hierarchy', 'brand', 'manufacturer'];
 const BACKGROUND_FILTERS_VALUE_FLAGS = [1, 0, '1', '0', 'true', 'false', true, false];
 
 const defaultConfig: SearchControllerConfig = {
@@ -132,9 +137,6 @@ export class SearchController extends AbstractController {
 			key: `ss-controller-${this.config.id}`,
 		});
 
-		// set last params to undefined for compare in search
-		this.storage.set('lastStringyParams', undefined);
-
 		if (typeof this.context?.page === 'object' && ['search', 'category'].includes(this.context.page.type)) {
 			this.page = deepmerge<PageContextVariable>(this.page, this.context.page);
 		}
@@ -174,7 +176,7 @@ export class SearchController extends AbstractController {
 		});
 
 		// add 'afterSearch' middleware
-		this.eventManager.on('afterSearch', async (search: AfterSearchObj, next: Next): Promise<void | boolean> => {
+		this.eventManager.on('afterSearch', async (search: SearchAfterSearchObj, next: Next): Promise<void | boolean> => {
 			const config = search.controller.config as SearchControllerConfig;
 			const redirectURL = search.response?.search?.merchandising?.redirect;
 			const searchStore = search.controller.store as SearchStore;
@@ -206,6 +208,50 @@ export class SearchController extends AbstractController {
 			this.eventManager.fire('restorePosition', { controller: this, element: elementPosition });
 		});
 
+		const hierarchySettings = this.config.settings?.filters?.hierarchy;
+		if (hierarchySettings && hierarchySettings.enabled) {
+			this.eventManager.on('afterSearch', async (search: SearchAfterSearchObj, next: Next): Promise<void | boolean> => {
+				await next();
+
+				const displayDelimiter = hierarchySettings.displayDelimiter ?? ' / '; // choose delimiter for label
+				const showFullPath = hierarchySettings.showFullPath ?? false; // display full hierarchy path or just the current level
+				// add hierarchy filter to filter summary
+				const facets = search.response.search.facets;
+				if (facets) {
+					facets.forEach((facet: any) => {
+						if (search.response.meta?.facets && facet.field) {
+							const metaFacet = search.response.meta.facets[facet.field];
+							const dataDelimiter = (metaFacet as MetaResponseModelFacetHierarchy)?.hierarchyDelimiter || ' / ';
+
+							if (metaFacet && metaFacet.display === 'hierarchy' && facet.filtered && (facet as ValueFacet).values?.length > 0) {
+								const filteredValues = (facet as SearchResponseModelFacetValue).values?.filter((val) => val?.filtered === true);
+
+								if (filteredValues && filteredValues.length) {
+									const filterToAdd: SearchResponseModelFilter = {
+										field: facet.field,
+										//escape special charactors used in regex
+										label: showFullPath
+											? (filteredValues[0].value ?? filteredValues[0].label ?? '').replace(
+													new RegExp(dataDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+													displayDelimiter
+											  )
+											: filteredValues[0].label,
+										type: 'value' as SearchResponseModelFilterTypeEnum.Value,
+									};
+
+									if (search.response.search.filters) {
+										search.response.search.filters.push(filterToAdd);
+									} else {
+										search.response.search.filters = [filterToAdd];
+									}
+								}
+							}
+						}
+					});
+				}
+			});
+		}
+
 		this.eventManager.on('afterStore', async (search: AfterStoreObj, next: Next): Promise<void | boolean> => {
 			await next();
 			const controller = search.controller as SearchController;
@@ -218,6 +264,7 @@ export class SearchController extends AbstractController {
 				if (products.length === 0 && !response._cached) {
 					// handle no results
 					const data = getSearchSchemaData({ params: search.request, response: response });
+					this.eventManager.fire('track.product.render', { controller: this, trackEvent: data });
 					this.tracker.events[this.page.type].render({ data, siteId: this.config.globals?.siteId });
 				}
 
@@ -225,7 +272,9 @@ export class SearchController extends AbstractController {
 					if (!response._cached) {
 						const data = schemaMap[result.id];
 						this.tracker.events[this.page.type].render({ data, siteId: this.config.globals?.siteId });
+						//todo do i need both of these?
 						this.eventManager.fire('track.product.render', { controller: this, product: result, trackEvent: data });
+						this.track.product.render(result);
 					}
 					this.events.product[result.id] = this.events.product[result.id] || {};
 					this.events.product[result.id].render = true;
@@ -322,8 +371,10 @@ export class SearchController extends AbstractController {
 
 			// fire restorePosition event on 'pageshow' when setting is enabled
 			if (this.config.settings?.restorePosition?.onPageShow) {
-				window.addEventListener('pageshow', () => {
-					this.eventManager.fire('restorePosition', { controller: this, element: {} });
+				window.addEventListener('pageshow', (e) => {
+					if (e.persisted && this.store.loaded) {
+						this.eventManager.fire('restorePosition', { controller: this, element: {} });
+					}
 				});
 			}
 		}
@@ -369,10 +420,10 @@ export class SearchController extends AbstractController {
 				// store position data or empty object
 				this.storage.set('scrollMap', scrollMap);
 				const data = schemaMap[result.id];
+				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
 				this.tracker.events[this.page.type].clickThrough({ data, siteId: this.config.globals?.siteId });
 				this.events.product[result.id] = this.events.product[result.id] || {};
 				this.events.product[result.id].clickThrough = true;
-				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
 			},
 			click: (e: MouseEvent, result): void => {
 				if (this.events.product[result.id]?.click) {
@@ -397,10 +448,10 @@ export class SearchController extends AbstractController {
 				}
 
 				const data = schemaMap[result.id];
+				this.eventManager.fire('track.product.render', { controller: this, product: result, trackEvent: data });
 				this.tracker.events[this.page.type].render({ data, siteId: this.config.globals?.siteId });
 				this.events.product[result.id] = this.events.product[result.id] || {};
 				this.events.product[result.id].render = true;
-				this.eventManager.fire('track.product.render', { controller: this, product: result, trackEvent: data });
 			},
 			impression: (result: Product): void => {
 				if (this.events.product[result.id]?.impression || !this.events.product[result.id]?.render) {
@@ -408,24 +459,24 @@ export class SearchController extends AbstractController {
 				}
 
 				const data = schemaMap[result.id];
+				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
 				this.tracker.events[this.page.type].impression({ data, siteId: this.config.globals?.siteId });
 				this.events.product[result.id] = this.events.product[result.id] || {};
 				this.events.product[result.id].impression = true;
-				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
 			},
 			addToCart: (result: Product): void => {
 				const data = getSearchAddtocartSchemaData({ searchSchemaData: schemaMap[result.id], results: [result] });
+				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
 				this.tracker.events[this.page.type].addToCart({
 					data,
 					siteId: this.config.globals?.siteId,
 				});
-				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
 			},
 		},
 		redirect: (redirectURL: string): void => {
 			const data = getSearchRedirectSchemaData({ redirectURL });
-			this.tracker.events.search.redirect({ data, siteId: this.config.globals?.siteId });
 			this.eventManager.fire('track.product.redirect', { controller: this, redirectURL, trackEvent: data });
+			this.tracker.events.search.redirect({ data, siteId: this.config.globals?.siteId });
 		},
 	};
 
@@ -507,7 +558,7 @@ export class SearchController extends AbstractController {
 
 			const stringyParams = JSON.stringify(getStorableRequestParams(params));
 			const prevStringyParams = this.storage.get('lastStringyParams');
-			if (stringyParams == prevStringyParams) {
+			if (this.store.loaded && stringyParams === prevStringyParams) {
 				// no param change - not searching
 				return;
 			}
@@ -725,13 +776,13 @@ function createResultSchemaMapping({
 		response: search,
 	});
 
-	search.results?.forEach((result) => {
+	search.results?.forEach((result, idx) => {
 		schemaMap[result.id!] = {
 			...schema,
 			results: [
 				{
 					type: ItemTypeEnum.Product,
-					position: result.position!,
+					position: idx + 1,
 					uid: result.mappings?.core?.uid || '',
 					sku: result.mappings?.core?.sku,
 				},

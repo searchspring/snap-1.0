@@ -160,6 +160,42 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - separate recommendation types ([4a03491](https://github.com/searchspring/snap-1.0/commit/4a03491766fd3dbd3eeddf8d91ed4572bd4ae6bf))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
 
+# [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
+
+### Bug Fixes
+
+- **autocomplete:** prevent impressing results when subsequent queries are the same ([2a154b5](https://github.com/searchspring/snap/commit/2a154b5fdecd3d56fbcd122205e16a9edf50b5ec))
+
+## [0.70.1](https://github.com/searchspring/snap/compare/v0.70.0...v0.70.1) (2025-11-17)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.70.0](https://github.com/searchspring/snap/compare/v0.69.2...v0.70.0) (2025-11-13)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.69.2](https://github.com/searchspring/snap/compare/v0.69.1...v0.69.2) (2025-11-04)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.69.1](https://github.com/searchspring/snap/compare/v0.69.0...v0.69.1) (2025-10-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.69.0](https://github.com/searchspring/snap/compare/v0.68.0...v0.69.0) (2025-10-16)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.68.0](https://github.com/searchspring/snap/compare/v0.67.5...v0.68.0) (2025-08-18)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+
+## [0.67.5](https://github.com/searchspring/snap/compare/v0.67.4...v0.67.5) (2025-08-11)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
 ## [0.67.4](https://github.com/searchspring/snap/compare/v0.67.3...v0.67.4) (2025-07-29)
 
 **Note:** Version bump only for package @searchspring/snap-preact-demo

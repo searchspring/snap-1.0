@@ -7,6 +7,9 @@ Renders a recommended bundle of products with seed, carousel of recommendations 
 - Result (default)
 
 ## Usage
+```jsx
+import { RecommendationBundle } from '@searchspring/snap-preact-components';
+```
 
 Additional [Swiper Component Props](https://swiperjs.com/react#swiper-props) can be specified, but may need to be camelCased where appropriate.
 Additional [Swiper Modules](https://swiperjs.com/swiper-api#modules) can be provided via the `modules` prop; these may need additional props and or stylesheets.
@@ -100,10 +103,17 @@ The `nextButton` prop  is a sub prop under the `carousel` prop. It specifies the
 ```
 
 ### title
-The `title` prop specifies the carousel title
+The `title` prop specifies the bundle title
 
 ```jsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} title={'Recommended Bundle'} />
+```
+
+### description
+The `description` prop specifies the bundle description
+
+```jsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} description={'Recommended Bundle products are so awesome!'} />
 ```
 
 ### resultComponent

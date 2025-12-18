@@ -158,7 +158,7 @@ export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element 
 
 	const props = mergeProps('facetSlider', globalTheme, defaultProps, properties);
 
-	const { showTicks, facet, stickyHandleLabel, onChange, onDrag, className, internalClassName } = props;
+	const { showTicks, facet, stickyHandleLabel, separateHandles, onChange, onDrag, className, internalClassName } = props;
 
 	let { tickSize } = props;
 
@@ -172,6 +172,35 @@ export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element 
 	const [values, setValues] = useState([facet.active?.low, facet.active?.high]);
 	const [active, setActive] = useState([facet.active?.low, facet.active?.high]);
 
+	// Helper function to ensure min and max values are not equal
+	const ensureValueSeparation = (val: number[]): number[] => {
+		if (!separateHandles || !facet.step) {
+			return val;
+		}
+
+		const [minVal, maxVal] = val;
+		const rangeMin = facet.range?.low!;
+		const rangeMax = facet.range?.high!;
+		const step = facet.step;
+
+		// If values are equal, separate them by one step
+		if (minVal === maxVal) {
+			// Determine which value to adjust based on range boundaries
+			if (maxVal + step <= rangeMax) {
+				// Prefer to increase max if possible
+				return [minVal, maxVal + step];
+			} else if (minVal - step >= rangeMin) {
+				// Otherwise, decrease min if possible
+				return [minVal - step, maxVal];
+			} else {
+				// If neither is possible (range too small), return original
+				return val;
+			}
+		}
+
+		return val;
+	};
+
 	if (((facet.active?.low || facet.active?.low === 0) && facet.active?.high && values[0] != facet.active?.low) || values[1] != facet.active?.high) {
 		setActive([facet.active?.low, facet.active?.high]);
 		setValues([facet.active?.low, facet.active?.high]);
@@ -180,19 +209,25 @@ export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element 
 	const { getTrackProps, ticks, segments, handles } = useRanger({
 		values: active as number[],
 		onChange: (val: number[]) => {
-			setActive(val);
+			const adjustedVal = ensureValueSeparation(val);
+			setActive(adjustedVal);
+
+			// onChange called prior to urlManager changes to allow for mutation in function
+			onChange && onChange(adjustedVal);
+
 			if (facet?.services?.urlManager) {
-				if (val[0] == facet.range!.low && val[1] == facet.range!.high) {
+				if (adjustedVal[0] == facet.range!.low && adjustedVal[1] == facet.range!.high) {
 					facet.services.urlManager.remove('page').remove(`filter.${facet.field}`).go();
 				} else {
-					facet.services.urlManager.remove('page').set(`filter.${facet.field}`, { low: val[0], high: val[1] }).go();
+					facet.services.urlManager.remove('page').set(`filter.${facet.field}`, { low: adjustedVal[0], high: adjustedVal[1] }).go();
 				}
 			}
 			onChange && onChange(val);
 		},
 		onDrag: (val: number[]) => {
-			setActive(val);
-			onDrag && onDrag(val);
+			const adjustedVal = ensureValueSeparation(val);
+			setActive(adjustedVal);
+			onDrag && onDrag(adjustedVal);
 		},
 		min: facet.range?.low!,
 		max: facet.range?.high!,
@@ -294,6 +329,7 @@ export interface FacetSliderProps extends ComponentProps {
 	tickSize?: number;
 	tickTextColor?: string;
 	stickyHandleLabel?: boolean;
+	separateHandles?: boolean;
 	facet: RangeFacet;
 	onChange?: (values: number[]) => void;
 	onDrag?: (values: number[]) => void;

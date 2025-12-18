@@ -1,12 +1,12 @@
 import { h, Fragment } from 'preact';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { useRef, useEffect, useState } from 'preact/hooks';
+import { useRef, useEffect, useState, useMemo } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
 import deepmerge from 'deepmerge';
 import { Carousel, CarouselProps as CarouselProps } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';
-import { defined, mergeProps, mergeStyles } from '../../../utilities';
+import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript, BreakpointsEntry } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
@@ -15,17 +15,29 @@ import { ResultTracker } from '../../Trackers/ResultTracker';
 import { IconProps, IconType } from '../../Atoms/Icon';
 import type { RecommendationController } from '@searchspring/snap-controller';
 import type { Product } from '@searchspring/snap-store-mobx';
-import { BundleSelector } from './BundleSelector';
+import { BundleSelector, BundleSelectorProps } from './BundleSelector';
 import { BundledCTA, BundledCTAProps } from './BundleCTA';
 import { Lang } from '../../../hooks';
 import { useIntersection } from '../../../hooks';
 import { componentNameToClassName } from '../../../utilities/componentNameToClassName';
 
-const defaultStyles: StyleScript<RecommendationBundleProps> = ({ vertical, separatorIcon, carousel, ctaInline, alias: inherits }) => {
+const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean; carouselEnabled: boolean }> = ({
+	vertical,
+	separatorIcon,
+	carousel,
+	ctaInline,
+	hasSeed,
+	hideSeed,
+	carouselEnabled,
+	limit,
+	alias: inherits,
+}) => {
 	let classNamePrefix = 'ss__recommendation-bundle';
 	if (inherits) {
 		classNamePrefix = `ss__${componentNameToClassName(inherits)}`;
 	}
+
+	const slidesPerView = carousel?.slidesPerView!;
 
 	return css({
 		[`.${classNamePrefix}__wrapper`]: {
@@ -41,12 +53,11 @@ const defaultStyles: StyleScript<RecommendationBundleProps> = ({ vertical, separ
 		},
 
 		[`.${classNamePrefix}__wrapper__seed-container`]: {
-			width: vertical ? '100%' : `calc(100% / ${carousel?.slidesPerView! + (!ctaInline ? 0 : 1)})`,
+			width: vertical ? '100%' : `calc(100% / ${slidesPerView + (!ctaInline ? 0 : 1)})`,
 		},
 
 		[`.${classNamePrefix}__wrapper__cta`]: {
-			width: vertical ? '100%' : `${!ctaInline ? '100%' : `calc(100% / ${carousel?.slidesPerView! + 1})`}`,
-
+			width: vertical ? '100%' : `${!ctaInline ? '100%' : `calc(100% / ${(carouselEnabled ? slidesPerView : limit || 0) + 1})`}`,
 			textAlign: 'center',
 
 			[`.${classNamePrefix}__wrapper__cta__subtotal__prices`]: {
@@ -62,7 +73,7 @@ const defaultStyles: StyleScript<RecommendationBundleProps> = ({ vertical, separ
 
 		[`.${classNamePrefix}__wrapper__carousel`]: {
 			boxSizing: 'border-box',
-			width: vertical ? '100%' : `calc(calc(100% / ${carousel?.slidesPerView! + (!ctaInline ? 0 : 1)}) * ${carousel?.slidesPerView! - 1})`,
+			width: vertical ? '100%' : `calc(calc(100% / ${slidesPerView + (!ctaInline ? 0 : 1)}) * ${slidesPerView - (hasSeed && !hideSeed ? 1 : 0)})`,
 		},
 
 		[`.${classNamePrefix}__wrapper--seed-in-carousel`]: {
@@ -167,6 +178,8 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		ctaInline: true,
 		onAddToCart: (e, items) => controller?.addToCart && controller.addToCart(items),
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
+		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
+
 		...properties,
 		// props
 		...properties.theme?.components?.recommendationBundle,
@@ -200,6 +213,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 
 	const {
 		title,
+		description,
 		controller,
 		breakpoints,
 		results,
@@ -255,7 +269,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	let resultsToRender: Product[] = results || controller.store?.results;
 
 	if (limit) {
-		resultsToRender = resultsToRender.slice(0, hideSeed ? limit + 1 : limit);
+		resultsToRender = resultsToRender.slice(0, hideSeed && resultsToRender.filter((result) => result.bundleSeed == true).length ? limit + 1 : limit);
 	}
 
 	const cartStore = controller.store.cart;
@@ -269,7 +283,9 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		return <Fragment></Fragment>;
 	}
 
-	const seed = results ? results[0] : controller.store?.results[0];
+	const seed = results
+		? results.filter((result) => result.bundleSeed == true).pop()
+		: controller.store?.results?.filter((result) => result.bundleSeed == true).pop();
 
 	const subProps: RecommendationBundleSubProps = {
 		carousel: {
@@ -297,6 +313,8 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		},
 	};
 
+	const hasSeed = Boolean(resultsToRender.filter((result) => result.bundleSeed == true).length);
+
 	let slidesPerView = props.carousel?.slidesPerView || props.slidesPerView;
 	if (!slidesPerView) {
 		slidesPerView = 2;
@@ -304,7 +322,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		slidesPerView = resultsToRender.length;
 	}
 
-	const styling = mergeStyles<RecommendationBundleProps>({ ...props, carousel: { ...mergedCarouselProps, slidesPerView } }, defaultStyles);
+	const styling = mergeStyles<RecommendationBundleProps & { hasSeed: boolean; carouselEnabled: boolean }>(
+		{ ...props, carousel: { ...mergedCarouselProps, slidesPerView }, hasSeed, carouselEnabled },
+		defaultStyles
+	);
 
 	const _preSelectedCount = typeof preselectedCount == 'number' ? preselectedCount : carouselEnabled ? slidesPerView : resultsToRender.length;
 
@@ -327,58 +348,34 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	const modifiedBreakpoints: BreakpointsProps = { ...breakpoints };
 
 	if (carouselEnabled) {
-		const adjustSlides = (obj: BreakpointsEntry) => {
+		Object.keys(props.breakpoints!).forEach((breakpoint: any) => {
+			const currentBreakpoint = props.breakpoints![breakpoint];
+
 			// fallback in case slides per view/group were not provided in breakpoint...
-			const objSlidesPerView = obj.carousel?.slidesPerView || obj.slidesPerView || 2;
-			const objSlidesPerGroup = obj.carousel?.slidesPerGroup || obj.slidesPerGroup || 2;
+			const currentBreakpointSlidesPerView = currentBreakpoint.carousel?.slidesPerView || currentBreakpoint.slidesPerView || 2;
+			const currentBreakpointSlidesPerGroup = currentBreakpoint.carousel?.slidesPerGroup || currentBreakpoint.slidesPerGroup || 2;
 
-			let newSlidesPerView = objSlidesPerView;
-			let newSlidesPerGroup = objSlidesPerGroup;
+			let newSlidesPerView = currentBreakpointSlidesPerView;
+			let newSlidesPerGroup = currentBreakpointSlidesPerGroup;
 
-			const resultCount = seedInCarousel ? resultsToRender.length : resultsToRender.length - 1;
+			const resultCount = !hasSeed || seedInCarousel ? resultsToRender.length : resultsToRender.length - 1;
 
 			if (resultCount) {
-				if (resultCount >= objSlidesPerView) {
-					newSlidesPerView = objSlidesPerView - (!seedInCarousel ? 1 : 0);
+				if (resultCount >= currentBreakpointSlidesPerView) {
+					newSlidesPerView = currentBreakpointSlidesPerView - (!seedInCarousel && hasSeed ? 1 : 0);
 					if (!seedInCarousel) {
-						newSlidesPerGroup = objSlidesPerGroup! - 1 || 1;
+						newSlidesPerGroup = currentBreakpointSlidesPerGroup! - 1 || 1;
 					}
 				} else {
 					(newSlidesPerView = resultCount), (newSlidesPerGroup = resultCount);
 				}
 			}
-
-			return {
+			modifiedBreakpoints[breakpoint] = {
+				...modifiedBreakpoints[breakpoint],
 				slidesPerView: newSlidesPerView,
 				slidesPerGroup: newSlidesPerGroup,
 			};
-		};
-
-		//no breakpoint props allowed in templates
-		if (!(properties.theme?.name || globalTheme.name)) {
-			Object.keys(props.breakpoints!).forEach((breakpoint) => {
-				const obj = props.breakpoints![breakpoint as keyof typeof props.breakpoints];
-
-				const { slidesPerView: adjustedSlidesPerView, slidesPerGroup: adjustedSlidesPerGroup } = adjustSlides(obj);
-
-				modifiedBreakpoints[breakpoint as keyof typeof props.breakpoints] = {
-					...modifiedBreakpoints[breakpoint as keyof typeof props.breakpoints],
-					slidesPerView: adjustedSlidesPerView,
-					slidesPerGroup: adjustedSlidesPerGroup,
-				};
-			});
-		} else {
-			const { slidesPerView: adjustedSlidesPerView, slidesPerGroup: adjustedSlidesPerGroup } = adjustSlides({
-				...mergedCarouselProps,
-				slidesPerView: slidesPerView,
-			});
-
-			displaySettings = {
-				...mergedCarouselProps,
-				slidesPerView: adjustedSlidesPerView,
-				slidesPerGroup: adjustedSlidesPerGroup,
-			};
-		}
+		});
 	}
 
 	const onProductSelect = (product: Product) => {
@@ -389,7 +386,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 				//already selected, deselect it now
 				cartStore.removeItems([product]);
 
-				if (cartStore.items.length == 0) {
+				if (cartStore.items.length == 0 && seed) {
 					//we dont call addItems here to prevent tracking
 					cartStore.items.push(seed);
 				}
@@ -432,6 +429,56 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		setIsVisible(true);
 	}
 
+	const renderedResults = useMemo(() => {
+		return resultsToRender.map((result, idx) => {
+			const isSeed = Boolean(result.bundleSeed);
+			const selected = selectedItems.findIndex((item) => item.id == result.id) > -1;
+
+			let attributes: BundleSelectorProps = {
+				onCheck: (e: any) => {
+					e.stopPropagation();
+					onProductSelect(result);
+				},
+				checked: selected,
+				hideCheckboxes: hideCheckboxes,
+				theme: props.theme,
+				icon: separatorIconSeedOnly ? false : separatorIcon,
+				className: idx + 1 == resultsToRender.length ? 'ss__recommendation-bundle__wrapper__selector--last' : '',
+			};
+
+			if (isSeed) {
+				attributes = {
+					...attributes,
+					seedText: seedText,
+					seed: true,
+					icon: separatorIcon,
+				};
+			}
+			return !isSeed || ((seedInCarousel || carousel?.enabled == false) && isSeed && !hideSeed) ? (
+				<ResultTracker key={result.id} controller={controller} result={result} track={{ impression: Boolean(!isSeed) }}>
+					<BundleSelector {...attributes}>
+						{resultComponent ? (
+							cloneWithProps(resultComponent, { result: result, seed: isSeed, selected, onProductSelect })
+						) : (
+							<Result {...subProps.result} controller={controller} result={result} />
+						)}
+					</BundleSelector>
+				</ResultTracker>
+			) : null;
+		});
+	}, [
+		resultsToRender,
+		selectedItems,
+		hideCheckboxes,
+		separatorIconSeedOnly,
+		separatorIcon,
+		seedInCarousel,
+		hideSeed,
+		resultComponent,
+		props.theme,
+		seedText,
+	]);
+
 	//initialize lang
 	const defaultLang: Partial<RecommendationBundleLang> = {
 		seedText: {
@@ -466,7 +513,11 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 								<span>{title}</span>
 							</h3>
 						)}
-
+						{description && (
+							<h4 className="ss__recommendation-bundle__description">
+								<span>{description}</span>
+							</h4>
+						)}
 						<div
 							className={classnames(`${classNamePrefix}__wrapper`, {
 								[`${classNamePrefix}__wrapper--seed-in-carousel`]: seedInCarousel,
@@ -475,7 +526,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 						>
 							{carouselEnabled ? (
 								<Fragment>
-									{!seedInCarousel && !hideSeed && (
+									{!seedInCarousel && !hideSeed && seed && (
 										<div className={`${classNamePrefix}__wrapper__seed-container`}>
 											<ResultTracker controller={controller} result={seed} track={{ impression: false }}>
 												<BundleSelector
@@ -533,220 +584,12 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 											{...additionalProps}
 											{...displaySettings}
 											ref={carouselRef}
-										>
-											{seedInCarousel
-												? resultsToRender
-														.filter((result, idx) => (hideSeed && idx == 0 ? false : true))
-														.map((result, idx) => {
-															const selected = selectedItems.findIndex((item) => item.id == result.id) > -1;
-
-															if (idx == 0 && !hideSeed) {
-																return (
-																	<ResultTracker controller={controller} result={result} track={{ impression: false }}>
-																		<BundleSelector
-																			seedText={seedText}
-																			seed={true}
-																			title={result.display.mappings.core?.name}
-																			icon={separatorIcon}
-																			onCheck={(e) => {
-																				e.stopPropagation();
-																				onProductSelect(result);
-																			}}
-																			checked={selected}
-																			hideCheckboxes={hideCheckboxes}
-																			theme={props.theme}
-																			treePath={treePath}
-																			classNamePrefix={classNamePrefix}
-																			lang={{ seedText: lang.seedText }}
-																		>
-																			{(() => {
-																				if (resultComponent && controller) {
-																					const ResultComponent = resultComponent;
-																					return (
-																						<ResultComponent
-																							controller={controller}
-																							seed={true}
-																							selected={selected}
-																							onProductSelect={onProductSelect}
-																							result={result}
-																							treePath={treePath}
-																						/>
-																					);
-																				} else {
-																					return <Result {...subProps.result} controller={controller} result={result} />;
-																				}
-																			})()}
-																		</BundleSelector>
-																	</ResultTracker>
-																);
-															} else {
-																return (
-																	<ResultTracker controller={controller} result={result}>
-																		<BundleSelector
-																			icon={separatorIconSeedOnly ? false : separatorIcon}
-																			title={result.display.mappings.core?.name}
-																			onCheck={(e) => {
-																				e.stopPropagation();
-																				onProductSelect(result);
-																			}}
-																			checked={selected}
-																			hideCheckboxes={hideCheckboxes}
-																			theme={props.theme}
-																			treePath={treePath}
-																			classNamePrefix={classNamePrefix}
-																			internalClassName={idx + 1 == resultsToRender.length ? `${classNamePrefix}__wrapper__selector--last` : ''}
-																		>
-																			{(() => {
-																				if (resultComponent && controller) {
-																					const ResultComponent = resultComponent;
-																					return (
-																						<ResultComponent
-																							controller={controller}
-																							seed={false}
-																							selected={selected}
-																							onProductSelect={onProductSelect}
-																							result={result}
-																							treePath={treePath}
-																						/>
-																					);
-																				} else {
-																					return <Result {...subProps.result} controller={controller} result={result} />;
-																				}
-																			})()}
-																		</BundleSelector>
-																	</ResultTracker>
-																);
-															}
-														})
-												: resultsToRender
-														.filter((result, idx) => idx !== 0)
-														.map((result, idx, results) => {
-															const selected = selectedItems.findIndex((item) => item.id == result.id) > -1;
-
-															return (
-																<ResultTracker controller={controller} result={result}>
-																	<BundleSelector
-																		icon={separatorIconSeedOnly ? false : separatorIcon}
-																		title={result.display.mappings.core?.name}
-																		onCheck={(e) => {
-																			e.stopPropagation();
-																			onProductSelect(result);
-																		}}
-																		checked={selected}
-																		hideCheckboxes={hideCheckboxes}
-																		theme={props.theme}
-																		treePath={treePath}
-																		classNamePrefix={classNamePrefix}
-																		internalClassName={idx + 1 == results.length ? `${classNamePrefix}__wrapper__selector--last` : ''}
-																	>
-																		{(() => {
-																			if (resultComponent && controller) {
-																				const ResultComponent = resultComponent;
-																				return (
-																					<ResultComponent
-																						controller={controller}
-																						seed={false}
-																						selected={selected}
-																						onProductSelect={onProductSelect}
-																						result={result}
-																						treePath={treePath}
-																					/>
-																				);
-																			} else {
-																				return <Result {...subProps.result} controller={controller} result={result} />;
-																			}
-																		})()}
-																	</BundleSelector>
-																</ResultTracker>
-															);
-														})}
-										</Carousel>
+											children={renderedResults}
+										/>
 									</div>
 								</Fragment>
 							) : (
-								resultsToRender
-									.filter((result, idx) => (hideSeed && idx == 0 ? false : true))
-									.map((result, idx) => {
-										const selected = selectedItems.findIndex((item) => item.id == result.id) > -1;
-
-										if (idx == 0 && !hideSeed) {
-											return (
-												<ResultTracker controller={controller} result={result} track={{ impression: false }}>
-													<BundleSelector
-														seedText={seedText}
-														seed={true}
-														title={result.display.mappings.core?.name}
-														icon={separatorIcon}
-														onCheck={(e) => {
-															e.stopPropagation();
-															onProductSelect(result);
-														}}
-														checked={selected}
-														hideCheckboxes={hideCheckboxes}
-														theme={props.theme}
-														treePath={treePath}
-														classNamePrefix={classNamePrefix}
-														lang={{ seedText: lang.seedText }}
-													>
-														{(() => {
-															if (resultComponent && controller) {
-																const ResultComponent = resultComponent;
-																return (
-																	<ResultComponent
-																		controller={controller}
-																		seed={true}
-																		selected={selected}
-																		onProductSelect={onProductSelect}
-																		result={result}
-																		treePath={treePath}
-																	/>
-																);
-															} else {
-																return <Result {...subProps.result} controller={controller} result={result} />;
-															}
-														})()}
-													</BundleSelector>
-												</ResultTracker>
-											);
-										} else {
-											return (
-												<ResultTracker controller={controller} result={result}>
-													<BundleSelector
-														icon={separatorIconSeedOnly ? false : separatorIcon}
-														title={result.display.mappings.core?.name}
-														onCheck={(e) => {
-															e.stopPropagation();
-															onProductSelect(result);
-														}}
-														checked={selected}
-														hideCheckboxes={hideCheckboxes}
-														theme={props.theme}
-														treePath={treePath}
-														classNamePrefix={classNamePrefix}
-														internalClassName={idx + 1 == resultsToRender.length ? `${classNamePrefix}__wrapper__selector--last` : ''}
-													>
-														{(() => {
-															if (resultComponent && controller) {
-																const ResultComponent = resultComponent;
-																return (
-																	<ResultComponent
-																		controller={controller}
-																		seed={false}
-																		selected={selected}
-																		onProductSelect={onProductSelect}
-																		result={result}
-																		treePath={treePath}
-																	/>
-																);
-															} else {
-																return <Result {...subProps.result} controller={controller} result={result} />;
-															}
-														})()}
-													</BundleSelector>
-												</ResultTracker>
-											);
-										}
-									})
+								<>{renderedResults}</>
 							)}
 
 							{ctaInline && (
@@ -829,6 +672,7 @@ export interface RecommendationBundleProps extends ComponentProps {
 	separatorIconSeedOnly?: boolean;
 	separatorIcon?: IconType | Partial<IconProps> | false;
 	ctaInline?: boolean;
+	description?: JSX.Element | string;
 	ctaIcon?: IconType | Partial<IconProps> | false;
 	ctaButtonText?: string;
 	ctaButtonSuccessText?: string;
