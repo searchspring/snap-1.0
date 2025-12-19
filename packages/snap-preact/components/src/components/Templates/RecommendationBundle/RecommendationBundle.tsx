@@ -14,7 +14,7 @@ import { RecommendationProfileTracker } from '../../Trackers/Recommendation/Prof
 import { ResultTracker } from '../../Trackers/ResultTracker';
 import { IconProps, IconType } from '../../Atoms/Icon';
 import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { CartStore, Product } from '@searchspring/snap-store-mobx';
 import { BundleSelector, BundleSelectorProps } from './BundleSelector';
 import { BundledCTA, BundledCTAProps } from './BundleCTA';
 import { Lang } from '../../../hooks';
@@ -179,10 +179,6 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		onAddToCart: (e, items) => controller?.addToCart && controller.addToCart(items),
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
 		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
-
-		...properties,
-		// props
-		...properties.theme?.components?.recommendationBundle,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
@@ -348,12 +344,10 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	const modifiedBreakpoints: BreakpointsProps = { ...breakpoints };
 
 	if (carouselEnabled) {
-		Object.keys(props.breakpoints!).forEach((breakpoint: any) => {
-			const currentBreakpoint = props.breakpoints![breakpoint];
-
+		const adjustSlides = (obj: BreakpointsEntry) => {
 			// fallback in case slides per view/group were not provided in breakpoint...
-			const currentBreakpointSlidesPerView = currentBreakpoint.carousel?.slidesPerView || currentBreakpoint.slidesPerView || 2;
-			const currentBreakpointSlidesPerGroup = currentBreakpoint.carousel?.slidesPerGroup || currentBreakpoint.slidesPerGroup || 2;
+			const currentBreakpointSlidesPerView = obj?.slidesPerView || obj.slidesPerView || 2;
+			const currentBreakpointSlidesPerGroup = obj?.slidesPerGroup || obj.slidesPerGroup || 2;
 
 			let newSlidesPerView = currentBreakpointSlidesPerView;
 			let newSlidesPerGroup = currentBreakpointSlidesPerGroup;
@@ -370,12 +364,37 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 					(newSlidesPerView = resultCount), (newSlidesPerGroup = resultCount);
 				}
 			}
-			modifiedBreakpoints[breakpoint] = {
-				...modifiedBreakpoints[breakpoint],
+			return {
 				slidesPerView: newSlidesPerView,
 				slidesPerGroup: newSlidesPerGroup,
 			};
-		});
+		};
+
+		//no breakpoint props allowed in templates
+		if (!(properties.theme?.name || globalTheme.name)) {
+			Object.keys(props.breakpoints!).forEach((breakpoint) => {
+				const obj = props.breakpoints![breakpoint as keyof typeof props.breakpoints];
+
+				const { slidesPerView: adjustedSlidesPerView, slidesPerGroup: adjustedSlidesPerGroup } = adjustSlides(obj);
+
+				modifiedBreakpoints[breakpoint as keyof typeof props.breakpoints] = {
+					...modifiedBreakpoints[breakpoint as keyof typeof props.breakpoints],
+					slidesPerView: adjustedSlidesPerView,
+					slidesPerGroup: adjustedSlidesPerGroup,
+				};
+			});
+		} else {
+			const { slidesPerView: adjustedSlidesPerView, slidesPerGroup: adjustedSlidesPerGroup } = adjustSlides({
+				...mergedCarouselProps,
+				slidesPerView: slidesPerView,
+			});
+
+			displaySettings = {
+				...mergedCarouselProps,
+				slidesPerView: adjustedSlidesPerView,
+				slidesPerGroup: adjustedSlidesPerGroup,
+			};
+		}
 	}
 
 	const onProductSelect = (product: Product) => {
@@ -429,6 +448,25 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		setIsVisible(true);
 	}
 
+	//initialize lang
+	const defaultLang: Partial<RecommendationBundleLang> = {
+		seedText: {
+			value: seedText,
+		},
+		ctaButtonText: {
+			value: ctaButtonText,
+		},
+		ctaButtonSuccessText: {
+			value: ctaButtonSuccessText,
+		},
+		ctaSubtotalTitle: {
+			value: `Subtotal for ${cartStore.count} items`,
+		},
+	};
+
+	//deep merge with props.lang
+	const lang = deepmerge(defaultLang, props.lang || {});
+
 	const renderedResults = useMemo(() => {
 		return resultsToRender.map((result, idx) => {
 			const isSeed = Boolean(result.bundleSeed);
@@ -444,14 +482,16 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 				theme: props.theme,
 				icon: separatorIconSeedOnly ? false : separatorIcon,
 				className: idx + 1 == resultsToRender.length ? 'ss__recommendation-bundle__wrapper__selector--last' : '',
+				classNamePrefix,
+				treePath,
 			};
-
 			if (isSeed) {
 				attributes = {
 					...attributes,
 					seedText: seedText,
 					seed: true,
 					icon: separatorIcon,
+					lang: { seedText: lang.seedText },
 				};
 			}
 			return !isSeed || ((seedInCarousel || carousel?.enabled == false) && isSeed && !hideSeed) ? (
@@ -478,22 +518,6 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		props.theme,
 		seedText,
 	]);
-
-	//initialize lang
-	const defaultLang: Partial<RecommendationBundleLang> = {
-		seedText: {
-			value: seedText,
-		},
-		ctaButtonText: {
-			value: ctaButtonText,
-		},
-		ctaButtonSuccessText: {
-			value: ctaButtonSuccessText,
-		},
-	};
-
-	//deep merge with props.lang
-	const lang = deepmerge(defaultLang, props.lang || {});
 
 	if (hideSeedText) {
 		delete lang.seedText.value;
@@ -606,6 +630,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 									lang={{
 										ctaButtonSuccessText: lang.ctaButtonSuccessText,
 										ctaButtonText: lang.ctaButtonText,
+										ctaSubtotalTitle: lang.ctaSubtotalTitle,
 									}}
 								/>
 							)}
@@ -624,6 +649,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 								lang={{
 									ctaButtonSuccessText: lang.ctaButtonSuccessText,
 									ctaButtonText: lang.ctaButtonText,
+									ctaSubtotalTitle: lang.ctaSubtotalTitle,
 								}}
 							/>
 						)}
@@ -693,6 +719,9 @@ export interface RecommendationBundleLang {
 	seedText: Lang<never>;
 	ctaButtonText: Lang<never>;
 	ctaButtonSuccessText: Lang<never>;
+	ctaSubtotalTitle: Lang<{
+		cartStore: CartStore;
+	}>;
 }
 
 interface RecommendationBundleSubProps {

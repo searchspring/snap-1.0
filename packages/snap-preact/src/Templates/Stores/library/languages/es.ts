@@ -109,6 +109,9 @@ export const es: LangComponents = {
 		ctaButtonSuccessText: {
 			value: '¡Paquete agregado!',
 		},
+		ctaSubtotalTitle: {
+			value: (data) => `Subtotal para ${data.cartStore.count} artículos`,
+		},
 	},
 	mobileSidebar: {
 		openButtonText: {
