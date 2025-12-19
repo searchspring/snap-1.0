@@ -157,10 +157,13 @@ describe('AutocompleteModal Component', () => {
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
 			renderedInput.value = 'dress';
+
+			const leftBanner = rendered.container.querySelector('.ss__autocomplete__facets .ss__banner--left');
 			const bannerBanner = rendered.container.querySelector('.ss__autocomplete__content .ss__banner--banner');
 			const headerBanner = rendered.container.querySelector('.ss__autocomplete__content .ss__banner--header');
 			const footerBanner = rendered.container.querySelector('.ss__autocomplete__content .ss__banner--footer');
 
+			expect(leftBanner).toBeInTheDocument();
 			expect(bannerBanner).toBeInTheDocument();
 			expect(headerBanner).toBeInTheDocument();
 			expect(footerBanner).toBeInTheDocument();

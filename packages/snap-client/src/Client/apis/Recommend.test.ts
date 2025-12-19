@@ -538,11 +538,8 @@ describe('Recommend Api', () => {
 
 		const [response1, response2] = await Promise.all([promise1, promise2]);
 
-		console.log(response1);
-		// @ts-ignore
-		expect(response1[0].results.length).toBe(response[1].results.length);
-		// @ts-ignore
-		expect(response2[0].results.length).toBe(response[0].results.length);
+		expect(response1.results.length).toBe(response[1].results.length);
+		expect(response2.results.length).toBe(response[0].results.length);
 
 		requestMock.mockReset();
 	});
@@ -592,10 +589,8 @@ describe('Recommend Api', () => {
 
 		const [response1, response2] = await Promise.all([promise1, promise2]);
 
-		// @ts-ignore
-		expect(response1[0].results.length).toBe(response[1].results.length);
-		// @ts-ignore
-		expect(response2[0].results.length).toBe(response[0].results.length);
+		expect(response1.results.length).toBe(response[1].results.length);
+		expect(response2.results.length).toBe(response[0].results.length);
 
 		requestMock.mockReset();
 	});

@@ -709,13 +709,12 @@ export class AutocompleteController extends AbstractController {
 
 			const searchProfile = this.profiler.create({ type: 'event', name: 'search', context: params }).start();
 
-			this.events = { product: {} };
 			const { meta, search } = await this.client.autocomplete(params);
 
 			searchProfile.stop();
 			this.log.profile(searchProfile);
 
-			if (search?.autocomplete?.query === this.lastSearchQuery) {
+			if (search?.search?.query === this.lastSearchQuery) {
 				const impressedResultIds = Object.keys(this.events.product).filter((resultId) => this.events.product[resultId]?.impression);
 				this.events = {
 					product: impressedResultIds.reduce<Record<string, { impression: boolean }>>((acc, resultId) => {
@@ -725,7 +724,7 @@ export class AutocompleteController extends AbstractController {
 				};
 			} else {
 				this.events = { product: {} };
-				this.lastSearchQuery = search?.autocomplete?.query;
+				this.lastSearchQuery = search?.search?.query;
 			}
 
 			const afterSearchProfile = this.profiler.create({ type: 'event', name: 'afterSearch', context: params }).start();

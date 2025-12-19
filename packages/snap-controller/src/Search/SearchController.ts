@@ -269,11 +269,7 @@ export class SearchController extends AbstractController {
 				}
 
 				products.forEach((result: Product) => {
-					if (!response._cached) {
-						const data = schemaMap[result.id];
-						this.tracker.events[this.page.type].render({ data, siteId: this.config.globals?.siteId });
-						//todo do i need both of these?
-						this.eventManager.fire('track.product.render', { controller: this, product: result, trackEvent: data });
+					if (!search.response._cached) {
 						this.track.product.render(result);
 					}
 					this.events.product[result.id] = this.events.product[result.id] || {};
