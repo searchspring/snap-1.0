@@ -24,6 +24,13 @@ export type SearchStoreConfigSettings = {
 			[field: string]: FacetStoreConfig;
 		};
 	};
+	filters?: {
+		hierarchy?: {
+			enabled?: boolean;
+			displayDelimiter?: string;
+			showFullPath?: boolean;
+		};
+	};
 	infinite?: {
 		enabled?: boolean;
 		backfill?: number;
@@ -55,7 +62,7 @@ export type VariantConfig = {
 	options?: {
 		[optionField: string]: VariantOptionConfig;
 	};
-	showDisabledSelections?: boolean;
+	showDisabledSelectionValues?: boolean;
 };
 
 export type VariantOptionConfig = {

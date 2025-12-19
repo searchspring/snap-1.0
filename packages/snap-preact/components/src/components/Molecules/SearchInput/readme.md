@@ -6,7 +6,9 @@ Renders an input element
 - Button
 
 ## Usage
-
+```jsx
+import { SearchInput } from '@searchspring/snap-preact-components';
+```
 ```jsx
 <SearchInput onChange={handleChange} placeholderText={"placeholder text"}/>
 ```
