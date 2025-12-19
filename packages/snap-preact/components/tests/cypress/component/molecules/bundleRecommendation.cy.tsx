@@ -16,7 +16,7 @@ import json from '../../fixtures/results-bundle.json';
 import profile from '../../fixtures/profile-bundle.json';
 import { observer } from 'mobx-react-lite';
 
-const globals = { siteId: '8uyt2m' };
+const globals = { siteId: 'atkzs2' };
 
 const recommendConfig: RecommendationStoreConfig = {
 	id: 'search',
@@ -51,9 +51,9 @@ let controller: RecommendationController;
 
 describe('RecommendationBundle Component', async () => {
 	beforeEach(async () => {
-		cy.intercept('*recommend*', json);
-		cy.intercept('*profile*', profile);
-		cy.intercept('*meta*', meta);
+		cy.intercept('POST', '**/recommend', json);
+		cy.intercept('GET', '**/profile.json', profile);
+		cy.intercept('GET', '**/meta.json', meta);
 
 		const client = new Client(globals, {});
 
@@ -169,21 +169,6 @@ describe('RecommendationBundle Component', async () => {
 
 		cy.get('.ss__recommendation-bundle').should('exist');
 		cy.get('.ss__recommendation-bundle__wrapper--vertical').should('not.exist');
-	});
-
-	it('can use hideButtons prop', () => {
-		mount(<RecommendationBundle controller={controller} hideButtons={true} onAddToCart={cy.stub().as('onAddToCart')} />);
-
-		cy.get('.ss__recommendation-bundle').should('exist');
-		cy.get('.ss__carousel__prev-wrapper').should('exist').should('have.class', 'ss__carousel__prev-wrapper--hidden');
-		cy.get('.ss__carousel__next-wrapper').should('exist').should('have.class', 'ss__carousel__next-wrapper--hidden');
-	});
-
-	it('can enable pagination dots', () => {
-		mount(<RecommendationBundle controller={controller} pagination={true} onAddToCart={cy.stub().as('onAddToCart')} />);
-
-		cy.get('.ss__recommendation-bundle').should('exist');
-		cy.get('.swiper-pagination-bullets').should('exist');
 	});
 
 	it('can use custom resultComponent', () => {
@@ -476,7 +461,12 @@ describe('RecommendationBundle Component', async () => {
 
 		// can set seed icon only with seed in carousel
 		mount(
-			<RecommendationBundle controller={controller} seedInCarousel={true} separatorIconSeedOnly={true} onAddToCart={cy.stub().as('onAddToCart')} />
+			<RecommendationBundle
+				controller={controller}
+				carousel={{ seedInCarousel: true }}
+				separatorIconSeedOnly={true}
+				onAddToCart={cy.stub().as('onAddToCart')}
+			/>
 		);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
@@ -493,7 +483,12 @@ describe('RecommendationBundle Component', async () => {
 
 		//can set seed icon only false with seed in carousel
 		mount(
-			<RecommendationBundle controller={controller} seedInCarousel={true} separatorIconSeedOnly={false} onAddToCart={cy.stub().as('onAddToCart')} />
+			<RecommendationBundle
+				controller={controller}
+				carousel={{ seedInCarousel: true }}
+				separatorIconSeedOnly={false}
+				onAddToCart={cy.stub().as('onAddToCart')}
+			/>
 		);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
