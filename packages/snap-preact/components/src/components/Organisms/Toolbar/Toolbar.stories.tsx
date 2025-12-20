@@ -7,7 +7,7 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
 import type { SearchController } from '@searchspring/snap-controller';
 import { Toolbar, ToolbarProps } from './Toolbar';
-import { SearchRequestModelFilterValue } from '@searchspring/snapi-types';
+import { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 
 export default {
 	title: 'Organisms/Toolbar',

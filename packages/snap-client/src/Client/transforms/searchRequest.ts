@@ -6,7 +6,7 @@ import {
 	SearchRequestModelSorts,
 	SearchRequestModelSortsDirectionEnum,
 	SearchRequestModelFilterRangeAllOfValue,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 export const NO_BEACON_PARAM = 'noBeacon';
 export function transformSearchRequest(request: SearchRequestModel): any {
@@ -125,10 +125,6 @@ transformSearchRequest.merchandising = (request: SearchRequestModel = {}) => {
 		merch['tag'] = reqMerch.segments.map((segment) => {
 			return `merch.segment/${segment}`;
 		});
-	}
-
-	if (typeof reqMerch.intellisuggest == 'boolean') {
-		merch['intellisuggest'] = reqMerch.intellisuggest;
 	}
 
 	if (reqMerch.disableInlineBanners) {

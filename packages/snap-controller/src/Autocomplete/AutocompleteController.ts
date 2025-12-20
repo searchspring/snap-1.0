@@ -8,7 +8,7 @@ import { ControllerTypes } from '../types';
 import { AutocompleteStore } from '@searchspring/snap-store-mobx';
 import type { AutocompleteControllerConfig, AutocompleteAfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
-import type { AutocompleteRequestModel, SearchRequestModelFilterRange, SearchRequestModelFilterValue } from '@searchspring/snapi-types';
+import type { AutocompleteRequestModel, SearchRequestModelFilterRange, SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 import {
 	type AutocompleteAddtocartSchemaData,
 	type AutocompleteRedirectSchemaData,

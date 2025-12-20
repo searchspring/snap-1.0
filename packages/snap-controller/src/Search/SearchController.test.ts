@@ -13,7 +13,7 @@ import { MockClient } from '@searchspring/snap-shared';
 
 import { SearchController, getStorableRequestParams, generateHrefSelector } from './SearchController';
 import type { SearchControllerConfig, BeforeSearchObj, RestorePositionObj, ElementPositionObj, AfterSearchObj } from '../types';
-import type { MetaResponseModel, SearchRequestModel, SearchResponseModel } from '@searchspring/snapi-types';
+import type { MetaResponseModel, SearchRequestModel, SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const globals = { siteId: 'ga9kq2' };
 

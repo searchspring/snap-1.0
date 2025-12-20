@@ -1,5 +1,5 @@
 import { transformSearchResponse, searchResponseType } from './searchResponse';
-import { SearchResponseModelSearchMatchTypeEnum } from '@searchspring/snapi-types';
+import { SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 
 const mockSingleResult = {
 	intellisuggestData: 'eJwrLzbIKTBkYGDwCDcyMDC01HXy8db1CGcwBEITIwYjQ2MLhvSizBQAuS0I0Q',

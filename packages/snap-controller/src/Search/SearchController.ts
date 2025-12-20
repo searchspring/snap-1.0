@@ -31,7 +31,7 @@ import {
 	type MetaResponseModelFacetHierarchy,
 	type SearchResponseModelFilterTypeEnum,
 	SearchResponseModelFacetValue,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import {
 	type AutocompleteAddtocartSchemaDataBgfilterInner,

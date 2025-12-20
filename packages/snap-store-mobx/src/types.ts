@@ -6,7 +6,7 @@ import type {
 	SearchRequestModel,
 	MetaResponseModelBadgeTag,
 	SearchResponseModelResultBadges,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 // Abstract
 export type StoreConfig = {

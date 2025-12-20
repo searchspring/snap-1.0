@@ -3,7 +3,7 @@ import type {
 	SearchResponseModelMerchandisingCampaigns,
 	SearchResponseModel,
 	SearchResponseModelMerchandisingExperiments,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 export enum ContentType {
 	HEADER = 'header',

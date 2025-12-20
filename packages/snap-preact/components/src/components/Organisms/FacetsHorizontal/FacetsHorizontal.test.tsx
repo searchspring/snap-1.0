@@ -6,7 +6,7 @@ import { ThemeProvider } from '../../../providers';
 import userEvent from '@testing-library/user-event';
 
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
 const searchResponse: SearchResponseModel = mockData.search();

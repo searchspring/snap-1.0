@@ -10,7 +10,7 @@
 
 import * as fs from 'fs';
 import deepmerge from 'deepmerge';
-import type { MetaResponseModel, SearchResponseModel, AutocompleteResponseModel } from '@searchspring/snapi-types';
+import type { MetaResponseModel, SearchResponseModel, AutocompleteResponseModel } from '@athoscommerce/snapi-types';
 
 type MockDataConfig = {
 	siteId?: string;

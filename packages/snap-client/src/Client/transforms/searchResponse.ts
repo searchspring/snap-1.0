@@ -10,8 +10,9 @@ import {
 	SearchResponseModelMerchandising,
 	SearchResponseModelResultBadges,
 	SearchResponseModelResultMappings,
+	SearchResponseModelResultVariants,
 	MetaResponseModelBadgeTag,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 // TODO: Add all core fields
 const CORE_FIELDS = [
@@ -184,10 +185,10 @@ export type VariantDataOptions = Record<
 	}
 >;
 
-type SearchResponseModelResultVariants = {
-	preferences: Record<string, string[]>;
-	data: VariantData[] | null;
-};
+// type SearchResponseModelResultVariants = {
+// 	preferences: Record<string, string[]>;
+// 	data: VariantData[] | null;
+// };
 
 class Result implements SearchResponseModelResult {
 	constructor(result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants }) {
@@ -254,20 +255,6 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 			};
 		}, {});
 
-	const children =
-		rawResult?.children?.map((child) => {
-			return {
-				attributes: {
-					...Object.keys(child).reduce((attributes, key) => {
-						return {
-							...attributes,
-							[key]: decodeProperty(child[key]),
-						};
-					}, {}),
-				},
-			};
-		}) || [];
-
 	if (rawResult.variants && rawResult.variants.data) {
 		rawResult.variants.data.forEach((variant) => {
 			// @ts-ignore - transforming the data
@@ -294,7 +281,6 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 		attributes,
 		badges: Array.isArray(rawResult.badges) && typeof rawResult.badges[0] == 'object' ? rawResult.badges : [],
 		variants: typeof rawResult.variants == 'object' ? rawResult.variants : undefined,
-		children,
 	});
 };
 

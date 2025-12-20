@@ -1,4 +1,4 @@
-import { SearchRequestModelFilterValue, SearchRequestModelFilterRange, SearchRequestModelFilter } from '@searchspring/snapi-types';
+import { SearchRequestModelFilterValue, SearchRequestModelFilterRange, SearchRequestModelFilter } from '@athoscommerce/snapi-types';
 
 import { NO_BEACON_PARAM, transformSearchRequest } from './searchRequest';
 

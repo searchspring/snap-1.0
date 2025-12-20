@@ -10,7 +10,9 @@ import type {
 	SearchResponseModel,
 	MetaResponseModel,
 	SearchResponseModelPagination,
-} from '@searchspring/snapi-types';
+	SearchResponseModelResultBadges,
+	SearchResponseModelResultVariantsData,
+} from '@athoscommerce/snapi-types';
 
 const VARIANT_ATTRIBUTE = 'ss-variant-option';
 const VARIANT_ATTRIBUTE_SELECTED = 'ss-variant-option-selected';
@@ -149,11 +151,8 @@ export class Banner {
 	}
 }
 
-export type VariantData = {
-	mappings: SearchResponseModelResultMappings;
-	attributes: Record<string, unknown>;
-	options: VariantDataOptions;
-	badges: ResultBadge[];
+export type VariantData = SearchResponseModelResultVariantsData & {
+	attributes?: Record<string, unknown>;
 };
 
 export type VariantDataOptions = Record<
@@ -178,15 +177,10 @@ type ProductMinimal = {
 type ProductData = {
 	config: StoreConfigs;
 	data: {
-		result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants };
+		result: SearchResponseModelResult;
 		meta: MetaResponseModel;
 	};
 	position: number;
-};
-
-type SearchResponseModelResultVariants = {
-	preferences: Record<string, string[]>;
-	data: VariantData[];
 };
 
 export class Product {
@@ -198,7 +192,6 @@ export class Product {
 		core: {},
 	};
 	public custom = {};
-	public children?: Array<Child> = [];
 	public badges: Badges;
 
 	public bundleSeed: boolean | undefined;
@@ -254,23 +247,10 @@ export class Product {
 				data: {
 					mask: this.mask,
 					variants: result.variants.data,
-					preferences: result.variants.preferences,
+					preferences: (result.variants as any)?.preferences, // TODO: fix typing
 					meta: meta,
 				},
 				config: (config as SearchStoreConfig)?.settings?.variants,
-			});
-		}
-
-		if (result.children?.length) {
-			this.children = result.children.map((variant, index) => {
-				return new Child({
-					data: {
-						result: {
-							id: `${result.id}-${index}`,
-							...variant,
-						},
-					},
-				});
 			});
 		}
 
@@ -742,9 +722,9 @@ export class VariantSelection {
 export class Variant {
 	public type = 'variant';
 	public available: boolean;
-	public attributes: Record<string, unknown> = {};
+	public attributes?: Record<string, unknown> = {};
 	public options: VariantDataOptions;
-	public badges: ResultBadge[];
+	public badges: SearchResponseModelResultBadges[];
 
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -757,6 +737,7 @@ export class Variant {
 		this.attributes = variant.attributes || {};
 		this.mappings = variant.mappings;
 		this.options = variant.options;
+		// construct badges from data (need meta)
 		this.badges = variant.badges || [];
 
 		// @ts-ignore - snapi types need updated
@@ -767,30 +748,6 @@ export class Variant {
 			mappings: observable,
 			custom: observable,
 			available: observable,
-		});
-	}
-}
-
-type ChildData = {
-	data: {
-		result: SearchResponseModelResult;
-	};
-};
-class Child {
-	public type = 'child';
-	public id: string;
-	public attributes: Record<string, unknown> = {};
-	public custom = {};
-
-	constructor(childData: ChildData) {
-		const { result } = childData?.data || {};
-		this.id = result.id!;
-		this.attributes = result.attributes!;
-
-		makeObservable(this, {
-			id: observable,
-			attributes: observable,
-			custom: observable,
 		});
 	}
 }

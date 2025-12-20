@@ -9,7 +9,7 @@ import { Snapify } from '../../../utilities/snapify';
 import { FacetType } from '../../../types';
 import Readme from '../Filter/readme.md';
 
-import type { SearchRequestModelFilterValue } from '@searchspring/snapi-types';
+import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 import type { SearchController } from '@searchspring/snap-controller';
 
 export default {
