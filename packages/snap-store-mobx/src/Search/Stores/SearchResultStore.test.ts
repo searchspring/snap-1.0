@@ -1616,7 +1616,7 @@ describe('SearchResultStore', () => {
 					expect(variant).toHaveProperty('type');
 
 					expect(variant.attributes).toStrictEqual(variantData.attributes);
-					expect(variant.available).toStrictEqual(variantData.attributes.available);
+					expect(variant.available).toStrictEqual(variantData.attributes?.available);
 					expect(variant.custom).toStrictEqual({});
 					expect(variant.mappings).toStrictEqual(variantData.mappings);
 					expect(variant.options).toStrictEqual(variantData.options);
@@ -1841,8 +1841,8 @@ describe('SearchResultStore', () => {
 				expect(variantData).toBeDefined();
 
 				const variants = (result as Product).variants;
-				expect(variants?.data.length).toStrictEqual(variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length);
-				expect(variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+				expect(variants?.data.length).toStrictEqual(variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 			});
 		});
 
@@ -1877,8 +1877,8 @@ describe('SearchResultStore', () => {
 				expect(variantData).toBeDefined();
 
 				const variants = (result as Product).variants;
-				expect(variants?.data.length).toStrictEqual(variantData.data.length);
-				expect(variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+				expect(variants?.data.length).toStrictEqual(variantData?.data.length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 			});
 		});
 
@@ -1916,9 +1916,9 @@ describe('SearchResultStore', () => {
 				expect(variants).toBeDefined();
 
 				expect((result as Product).variants?.data.length).toStrictEqual(
-					variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+					variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 				);
-				expect((result as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+				expect((result as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
 				(result as Product).variants?.update(variantDataToUse.data);
 
@@ -2015,18 +2015,18 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
 			(resultForTest as Product).variants?.update(variantDataToUse.data);
 
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
 			expect(resultForTest).toBeDefined();
 
@@ -2086,9 +2086,9 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
 			(resultForTest as Product).variants?.update(variantDataToUse.data);
 
@@ -2124,9 +2124,9 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				variantData.data.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData.data[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
 			(resultForTest as Product).variants?.update(variantDataToUse.data, newVariantsConfig);
 
