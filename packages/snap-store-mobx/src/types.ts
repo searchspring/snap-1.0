@@ -6,7 +6,7 @@ import type {
 	SearchRequestModel,
 	MetaResponseModelBadgeTag,
 	SearchResponseModelResultBadges,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 // Abstract
 export type StoreConfig = {
@@ -22,6 +22,13 @@ export type SearchStoreConfigSettings = {
 	facets?: FacetStoreConfig & {
 		fields?: {
 			[field: string]: FacetStoreConfig;
+		};
+	};
+	filters?: {
+		hierarchy?: {
+			enabled?: boolean;
+			displayDelimiter?: string;
+			showFullPath?: boolean;
 		};
 	};
 	infinite?: {
@@ -55,7 +62,7 @@ export type VariantConfig = {
 	options?: {
 		[optionField: string]: VariantOptionConfig;
 	};
-	showDisabledSelections?: boolean;
+	showDisabledSelectionValues?: boolean;
 };
 
 export type VariantOptionConfig = {

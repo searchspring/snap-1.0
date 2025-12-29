@@ -10,8 +10,9 @@ import {
 	SearchResponseModelMerchandising,
 	SearchResponseModelResultBadges,
 	SearchResponseModelResultMappings,
+	SearchResponseModelResultVariants,
 	MetaResponseModelBadgeTag,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 // TODO: Add all core fields
 const CORE_FIELDS = [
@@ -184,10 +185,10 @@ export type VariantDataOptions = Record<
 	}
 >;
 
-type SearchResponseModelResultVariants = {
-	preferences: Record<string, string[]>;
-	data: VariantData[] | null;
-};
+// type SearchResponseModelResultVariants = {
+// 	preferences: Record<string, string[]>;
+// 	data: VariantData[] | null;
+// };
 
 class Result implements SearchResponseModelResult {
 	constructor(result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants }) {
@@ -228,7 +229,7 @@ transformSearchResponse.results = (response: searchResponseType) => {
 	return { results: results.map(transformSearchResponse.result) };
 };
 
-transformSearchResponse.result = (rawResult: rawResult, idx: number): SearchResponseModelResult => {
+transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResult => {
 	const coreFieldValues: SearchResponseModelResultCoreMappings = CORE_FIELDS.reduce((coreFields, key) => {
 		if (typeof rawResult[key as keyof rawResult] != 'undefined') {
 			return {
@@ -254,20 +255,6 @@ transformSearchResponse.result = (rawResult: rawResult, idx: number): SearchResp
 			};
 		}, {});
 
-	const children =
-		rawResult?.children?.map((child) => {
-			return {
-				attributes: {
-					...Object.keys(child).reduce((attributes, key) => {
-						return {
-							...attributes,
-							[key]: decodeProperty(child[key]),
-						};
-					}, {}),
-				},
-			};
-		}) || [];
-
 	if (rawResult.variants && rawResult.variants.data) {
 		rawResult.variants.data.forEach((variant) => {
 			// @ts-ignore - transforming the data
@@ -288,14 +275,12 @@ transformSearchResponse.result = (rawResult: rawResult, idx: number): SearchResp
 
 	return new Result({
 		id: rawResult.uid,
-		position: idx + 1,
 		mappings: {
 			core: coreFieldValues,
 		},
 		attributes,
 		badges: Array.isArray(rawResult.badges) && typeof rawResult.badges[0] == 'object' ? rawResult.badges : [],
 		variants: typeof rawResult.variants == 'object' ? rawResult.variants : undefined,
-		children,
 	});
 };
 

@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../VariantSelection/readme.md';
 import { Snapify } from '../../../utilities/snapify';
 import { Next } from '@searchspring/snap-event-manager';
-import { SearchResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 export default {
 	title: 'Molecules/VariantSelection',
@@ -62,6 +62,15 @@ export default {
 			// 	type: 'select',
 			// 	options: ['dropdown', 'list', 'swatches'],
 			// },
+		},
+		onSelect: {
+			description: 'onSelect callback',
+			table: {
+				type: {
+					summary: 'function(e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption)',
+				},
+			},
+			action: 'onSelect',
 		},
 		...componentArgs,
 	},

@@ -1,15 +1,7 @@
 import { computed, makeObservable, observable } from 'mobx';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
-import type {
-	SearchStoreConfig,
-	ResultBadge,
-	VariantOptionConfig,
-	VariantConfig,
-	AutocompleteStoreConfig,
-	RecommendationStoreConfig,
-	StoreConfigs,
-} from '../../types';
+import type { SearchStoreConfig, ResultBadge, VariantOptionConfig, VariantConfig, StoreConfigs } from '../../types';
 import type {
 	SearchResponseModelResult,
 	SearchResponseModelResultMappings,
@@ -18,13 +10,15 @@ import type {
 	SearchResponseModel,
 	MetaResponseModel,
 	SearchResponseModelPagination,
-} from '@searchspring/snapi-types';
+	SearchResponseModelResultBadges,
+	SearchResponseModelResultVariantsData,
+} from '@athoscommerce/snapi-types';
 
 const VARIANT_ATTRIBUTE = 'ss-variant-option';
 const VARIANT_ATTRIBUTE_SELECTED = 'ss-variant-option-selected';
 
 type SearchResultStoreConfig = {
-	config: SearchStoreConfig | AutocompleteStoreConfig | RecommendationStoreConfig;
+	config: StoreConfigs;
 	state: {
 		loaded: boolean;
 	};
@@ -51,14 +45,15 @@ export class SearchResultStore extends Array<Product | Banner> {
 
 		const { loaded } = state || {};
 
-		let resultsArr: (Product | Banner)[] = (results || []).map((result) => {
+		let resultsArr: (Product | Banner)[] = (results || []).map((result, idx) => {
 			return new Product({
 				config,
 				data: { result, meta },
+				position: idx + 1,
 			});
 		});
 
-		const variantConfig = config?.settings?.variants;
+		const variantConfig = (config as SearchStoreConfig)?.settings?.variants;
 
 		// preselected variant options
 		if (variantConfig?.realtime?.enabled) {
@@ -156,11 +151,8 @@ export class Banner {
 	}
 }
 
-export type VariantData = {
-	mappings: SearchResponseModelResultMappings;
-	attributes: Record<string, unknown>;
-	options: VariantDataOptions;
-	badges: ResultBadge[];
+export type VariantData = SearchResponseModelResultVariantsData & {
+	attributes?: Record<string, unknown>;
 };
 
 export type VariantDataOptions = Record<
@@ -183,30 +175,26 @@ type ProductMinimal = {
 };
 
 type ProductData = {
-	config: SearchStoreConfig | AutocompleteStoreConfig | RecommendationStoreConfig;
+	config: StoreConfigs;
 	data: {
-		result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants };
+		result: SearchResponseModelResult;
 		meta: MetaResponseModel;
 	};
-};
-
-type SearchResponseModelResultVariants = {
-	preferences: Record<string, string[]>;
-	data: VariantData[];
+	position: number;
 };
 
 export class Product {
 	public type = 'product';
 	public id: string;
-	public position: number = 0;
+	public position: number;
 	public attributes: Record<string, unknown> = {};
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
 	};
 	public custom = {};
-	public children?: Array<Child> = [];
 	public badges: Badges;
 
+	public bundleSeed: boolean | undefined;
 	public quantity = 1;
 	public mask = new ProductMask();
 	public variants?: Variants;
@@ -214,11 +202,12 @@ export class Product {
 	constructor(productData: ProductData) {
 		const { config } = productData || {};
 		const { result, meta } = productData?.data || {};
+
 		this.id = result.id!;
 		this.attributes = result.attributes!;
 
 		this.mappings = result.mappings!;
-		this.position = result.position!;
+		this.position = productData.position!;
 
 		this.badges = new Badges({
 			data: {
@@ -227,14 +216,20 @@ export class Product {
 			},
 		});
 
-		const variantsField = config?.settings?.variants?.field;
+		// @ts-ignore - need to add bundleSeed to snapi-types
+		if (result.bundleSeed) {
+			// @ts-ignore - need to add bundleSeed to snapi-types
+			this.bundleSeed = Boolean(result.bundleSeed);
+		}
+
+		const variantsField = (config as SearchStoreConfig)?.settings?.variants?.field;
 
 		if (config && variantsField && this.attributes && this.attributes[variantsField]) {
 			try {
 				// parse the field (JSON)
 				const parsedVariants: VariantData[] = JSON.parse(this.attributes[variantsField] as string);
 				this.variants = new Variants({
-					config: config.settings?.variants,
+					config: (config as SearchStoreConfig).settings?.variants,
 					data: {
 						mask: this.mask,
 						variants: parsedVariants,
@@ -252,23 +247,10 @@ export class Product {
 				data: {
 					mask: this.mask,
 					variants: result.variants.data,
-					preferences: result.variants.preferences,
+					preferences: (result.variants as any)?.preferences, // TODO: fix typing
 					meta: meta,
 				},
 				config: (config as SearchStoreConfig)?.settings?.variants,
-			});
-		}
-
-		if (result.children?.length) {
-			this.children = result.children.map((variant, index) => {
-				return new Child({
-					data: {
-						result: {
-							id: `${result.id}-${index}`,
-							...variant,
-						},
-					},
-				});
 			});
 		}
 
@@ -430,8 +412,8 @@ export class Variants {
 			// create variants objects
 			this.data = variantData
 				// @ts-ignore - snapi types need updated
-				.filter((variant) => this.config?.showDisabledSelections || variant.mappings.core?.available !== false)
-				.filter((variant) => this.config?.showDisabledSelections || variant?.attributes?.available !== false)
+				.filter((variant) => this.config?.showDisabledSelectionValues || variant.mappings.core?.available !== false)
+				.filter((variant) => this.config?.showDisabledSelectionValues || variant?.attributes?.available !== false)
 				.map((variant) => {
 					// normalize price fields ensuring they are numbers
 					if (variant.mappings.core?.price) {
@@ -625,7 +607,6 @@ export class VariantSelection {
 	public refineValues(variants: Variants) {
 		// current selection should only consider OTHER selections for availability
 		const selectedSelections = variants.selections.filter((selection) => selection.field != this.field && selection.selected);
-
 		let availableVariants = variants.data.filter((variant) => variant.available);
 
 		// loop through selectedSelections and remove products that do not match
@@ -741,9 +722,9 @@ export class VariantSelection {
 export class Variant {
 	public type = 'variant';
 	public available: boolean;
-	public attributes: Record<string, unknown> = {};
+	public attributes?: Record<string, unknown> = {};
 	public options: VariantDataOptions;
-	public badges: ResultBadge[];
+	public badges: SearchResponseModelResultBadges[];
 
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -756,6 +737,7 @@ export class Variant {
 		this.attributes = variant.attributes || {};
 		this.mappings = variant.mappings;
 		this.options = variant.options;
+		// construct badges from data (need meta)
 		this.badges = variant.badges || [];
 
 		// @ts-ignore - snapi types need updated
@@ -766,30 +748,6 @@ export class Variant {
 			mappings: observable,
 			custom: observable,
 			available: observable,
-		});
-	}
-}
-
-type ChildData = {
-	data: {
-		result: SearchResponseModelResult;
-	};
-};
-class Child {
-	public type = 'child';
-	public id: string;
-	public attributes: Record<string, unknown> = {};
-	public custom = {};
-
-	constructor(childData: ChildData) {
-		const { result } = childData?.data || {};
-		this.id = result.id!;
-		this.attributes = result.attributes!;
-
-		makeObservable(this, {
-			id: observable,
-			attributes: observable,
-			custom: observable,
 		});
 	}
 }
@@ -822,7 +780,7 @@ function addBannersToResults(
 	// banners can have an index greater than the total results, these should be injected at the end
 	const bannersToInjectAtEnd = bannersNotInResults.filter((banner) => {
 		const index = banner.config.position!.index!;
-		return index > paginationData.totalResults;
+		return index >= paginationData.totalResults;
 	});
 
 	// inject banners that have index position within current set into the results

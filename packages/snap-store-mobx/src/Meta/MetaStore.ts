@@ -1,4 +1,4 @@
-import type { MetaResponseModel } from '@searchspring/snapi-types';
+import type { MetaResponseModel } from '@athoscommerce/snapi-types';
 
 type MetaStoreConfig = {
 	data: {

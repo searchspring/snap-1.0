@@ -17,7 +17,13 @@ import type { Tracker, ProductViewEvent } from '@searchspring/snap-tracker';
 import type { Profiler } from '@searchspring/snap-profiler';
 import type { UrlManager } from '@searchspring/snap-url-manager';
 import type { Logger } from '@searchspring/snap-logger';
-import type { SearchRequestModel } from '@searchspring/snapi-types';
+import type {
+	AutocompleteRequestModel,
+	// AutocompleteResponseModel,
+	// MetaResponseModel,
+	SearchRequestModel,
+	// SearchResponseModel,
+} from '@athoscommerce/snapi-types';
 // Middleware
 export type PluginFunction = (cntrlr: AbstractController, ...args: any) => Promise<void> | void;
 export type PluginGrouping = [func: PluginFunction, ...args: unknown[]];
@@ -27,11 +33,28 @@ export type BeforeSearchObj = {
 	request: any;
 };
 
-export type AfterSearchObj = {
-	controller: AbstractController;
+export type SearchAfterSearchObj = {
+	controller: SearchController;
+	// response: { search?: SearchResponseModel, meta?: MetaResponseModel };
 	response: any;
 	request: SearchRequestModel;
 };
+
+export type AutocompleteAfterSearchObj = {
+	controller: AutocompleteController;
+	// response: { autocomplete?: AutocompleteResponseModel, meta?: MetaResponseModel };
+	response: any;
+	request: AutocompleteRequestModel;
+};
+
+export type FinderAfterSearchObj = {
+	controller: FinderController;
+	// response: { search?: SearchResponseModel, meta?: MetaResponseModel };
+	response: any;
+	request: SearchRequestModel;
+};
+
+export type AfterSearchObj = SearchAfterSearchObj | AutocompleteAfterSearchObj | FinderAfterSearchObj;
 
 export type AfterStoreObj = {
 	controller: AbstractController;
