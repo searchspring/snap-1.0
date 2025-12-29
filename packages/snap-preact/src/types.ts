@@ -8,7 +8,7 @@ import type {
 	ContextVariables,
 	ConversationalSearchControllerConfig,
 } from '@searchspring/snap-controller';
-import type { SearchStore, AutocompleteStore, FinderStore, RecommendationStore } from '@searchspring/snap-store-mobx';
+import type { SearchStore, AutocompleteStore, FinderStore, RecommendationStore, ConversationalSearchStore } from '@searchspring/snap-store-mobx';
 import type { UrlManager, UrlTranslatorConfig, UrlState } from '@searchspring/snap-url-manager';
 import type { EventManager } from '@searchspring/snap-event-manager';
 import type { Profiler } from '@searchspring/snap-profiler';
@@ -22,7 +22,7 @@ export type IntegrationPlatforms = 'shopify' | 'bigCommerce' | 'magento2' | 'oth
 
 export type SnapControllerServices = {
 	client?: Client;
-	store?: SearchStore | AutocompleteStore | FinderStore | RecommendationStore;
+	store?: SearchStore | AutocompleteStore | FinderStore | RecommendationStore | ConversationalSearchStore;
 	urlManager?: UrlManager;
 	eventManager?: EventManager;
 	profiler?: Profiler;

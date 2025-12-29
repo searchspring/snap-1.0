@@ -164,7 +164,12 @@ export type RecommendationStoreConfig = StoreConfig & {
 	};
 };
 
-export type StoreConfigs = SearchStoreConfig | AutocompleteStoreConfig | FinderStoreConfig | RecommendationStoreConfig;
+export type StoreConfigs =
+	| SearchStoreConfig
+	| AutocompleteStoreConfig
+	| FinderStoreConfig
+	| RecommendationStoreConfig
+	| ConversationalSearchStoreConfig;
 
 export type StoreServices = {
 	urlManager: UrlManager;

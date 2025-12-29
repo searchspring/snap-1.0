@@ -31,60 +31,42 @@ export class ConversationalSearchController extends AbstractController {
 
 		// attach config plugins and event middleware
 		this.use(this.config);
+
+		// initialization - check widget status
+		this.eventManager.on('init', async () => {
+			// TODO: verify status to ensure widget is enabled
+			// const { removeAskloBranding, status } = await this.client.conversationalStatus();
+			// removeAskloBranding: false
+			// status: "ENABLED"
+		});
 	}
 
 	get params(): any {
+		const { userId, shopperId } = this.tracker.getContext();
+
 		const params = {
 			context: {
 				dataProtection: false,
-				sessionId: this.store.sessionId || '',
+				sessionId: this.store.sessionId,
 				klevuApiKey: 'klevu-164270249063714699',
+				visitorId: shopperId || userId,
 			},
 			message: this.store.inputValue,
 		};
-
-		// context
-		// :
-		// {sessionId: "ce777867-da25-4178-8bbb-925f29fc5f78", klevuApiKey: "klevu-164270249063714699",…}
-		// dataProtection
-		// :
-		// true
-		// ipAddressV4
-		// :
-		// "184.144.54.225"
-		// klevuApiKey
-		// :
-		// "klevu-164270249063714699"
-		// klevu_uuid
-		// :
-		// "45752307-f703-4600-b2a5-4f8168112f9d"
-		// sessionId
-		// :
-		// "ce777867-da25-4178-8bbb-925f29fc5f78"
-		// message
-		// :
-		// "show filters"
 		return params;
 	}
 
-	send = async (): Promise<void> => {
-		const value = this.store.inputValue;
-		console.log('Sending message:', value);
-		const params = this.params;
-		const response = await this.client.conversationalSearch(params);
-		this.store.handleResponse(response);
-
-		console.log('send response', response);
-	};
 	search = async (): Promise<void> => {
 		try {
 			if (!this.initialized) {
 				await this.init();
 			}
-			// const params = this.params;
-			// this.store.loading = true;
-			// const response = this.client.search(params);
-			// this.store.update(response as any);
+			// TODO: add middleware
+			const params = this.params;
+			this.store.handleRequest(params);
+			this.store.loading = true;
+			const { search } = await this.client.conversationalSearch(params);
+			this.store.handleResponse(search);
 		} catch (err: any) {
 			if (err) {
 				if (err.err && err.fetchDetails) {

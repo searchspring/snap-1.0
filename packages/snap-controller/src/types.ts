@@ -20,6 +20,7 @@ import type {
 	AutocompleteStoreConfig,
 	RecommendationStoreConfig,
 	ConversationalSearchStoreConfig,
+	ConversationalSearchStore,
 } from '@searchspring/snap-store-mobx';
 import type { Tracker, ProductViewEvent } from '@searchspring/snap-tracker';
 import type { Profiler } from '@searchspring/snap-profiler';
@@ -70,7 +71,7 @@ export type Controllers = SearchController | ConversationalSearchController | Au
 
 export type ControllerServices = {
 	client: Client;
-	store: SearchStore | AutocompleteStore | FinderStore | RecommendationStore;
+	store: SearchStore | AutocompleteStore | FinderStore | RecommendationStore | ConversationalSearchStore;
 	urlManager: UrlManager;
 	eventManager: EventManager;
 	profiler: Profiler;

@@ -14,15 +14,37 @@ import { Button } from '../../Atoms/Button';
 const defaultStyles: StyleScript<ConversationalSearchProps> = () => {
 	return css({
 		position: 'fixed',
+		background: 'white',
+		padding: '1em',
 		right: 0,
 		bottom: '20px',
-		minWidth: '300px',
+		minWidth: '500px',
 		border: '1px solid #ccc',
 		zIndex: 1000,
 		display: 'flex',
 		flexDirection: 'column',
 		'& .ss__conversational-search__header': {},
-		'& .ss__conversational-search__messages': {},
+		'& .ss__conversational-search__messages': {
+			flex: '1 1 auto',
+			overflowY: 'auto',
+			marginBottom: '1em',
+			border: '1px solid #eee',
+			padding: '10px',
+			maxHeight: '400px',
+			'& .ss__conversational-search__message': {
+				marginBottom: '10px',
+				padding: '8px',
+				borderRadius: '4px',
+				'&--user': {
+					backgroundColor: '#d1e7dd',
+					alignSelf: 'flex-end',
+				},
+				'&--bot': {
+					backgroundColor: '#f8d7da',
+					alignSelf: 'flex-start',
+				},
+			},
+		},
 		'& .ss__conversational-search__actions': {},
 		'& .ss__conversational-search__input': {
 			display: 'flex',
@@ -71,7 +93,7 @@ export const ConversationalSearch = observer((properties: ConversationalSearchPr
 		const value = input.value;
 		// handle enter key to submit
 		if (event.keyCode === KEY_ENTER) {
-			controller.send();
+			controller.search();
 		} else {
 			controller.store.inputValue = value;
 		}
@@ -82,12 +104,40 @@ export const ConversationalSearch = observer((properties: ConversationalSearchPr
 	return true ? (
 		<CacheProvider>
 			<div className={classnames('ss__conversational-search', className, internalClassName)} {...styling}>
-				<div className={'ss__conversational-search__header'}>Header</div>
-				<div className={'ss__conversational-search__messages'}>Content</div>
-				<div className={'ss__conversational-search__actions'}>Actions</div>
+				<div className={'ss__conversational-search__header'}>Conversation</div>
+				<div className={'ss__conversational-search__messages'}>
+					{controller.store.chat.map((chatItem, index) => (
+						<div
+							key={index}
+							className={classnames('ss__conversational-search__message', {
+								['ss__conversational-search__message--user']: chatItem.type === 'user',
+								['ss__conversational-search__message--bot']: chatItem.type === 'bot',
+							})}
+						>
+							{chatItem.type}: {chatItem.payload.value}
+						</div>
+					))}
+				</div>
+				<div className={'ss__conversational-search__actions'}>
+					{controller.store.genericOptions.map((option, index) => (
+						<Button
+							key={index}
+							onClick={() => {
+								if (option.type === 'message' && option.chat) {
+									controller.store.inputValue = option.chat;
+									controller.search();
+								} else if (option.type === 'clearChat') {
+									controller.store.chat = [];
+								}
+							}}
+						>
+							{option.name}
+						</Button>
+					))}
+				</div>
 				<div className={'ss__conversational-search__input'}>
 					<input type="text" placeholder="Type your message..." onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} />
-					<Button onClick={() => controller.send()}>Send</Button>
+					<Button onClick={() => controller.search()}>Send</Button>
 				</div>
 			</div>
 		</CacheProvider>

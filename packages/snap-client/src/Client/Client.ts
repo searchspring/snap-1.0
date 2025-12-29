@@ -23,6 +23,7 @@ import type {
 
 import deepmerge from 'deepmerge';
 import { ConversationalSearchAPI } from './apis/ConversationalSearch';
+import { ConversationalRequest } from './transforms/conversationalResponse';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -185,8 +186,12 @@ export class Client {
 		return { meta, search };
 	}
 
-	async conversationalSearch(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
-		params = deepmerge(this.globals, params);
+	async conversationalStatus(params: any = {}): Promise<{ status: any }> {
+		return this.requesters.conversationalSearch.postStatus(params);
+	}
+
+	async conversationalSearch(params: ConversationalRequest & ClientGlobals): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge<ConversationalRequest & ClientGlobals>(this.globals, params);
 
 		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.conversationalSearch.postMessage(params)]);
 		return { meta, search };

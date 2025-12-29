@@ -15,7 +15,7 @@ export class ConversationalSearchStore extends AbstractStore<ConversationalSearc
 	public inputValue: string = '';
 	public chat: Array<any> = [];
 	public genericOptions: Array<GenericOption> = [];
-	public sessionId: string = '';
+	public sessionId: string | undefined;
 
 	// genericOptions
 	// options
@@ -47,6 +47,9 @@ export class ConversationalSearchStore extends AbstractStore<ConversationalSearc
 
 		makeObservable(this, {
 			meta: observable,
+			inputValue: observable,
+			chat: observable,
+			genericOptions: observable,
 		});
 	}
 
@@ -55,8 +58,31 @@ export class ConversationalSearchStore extends AbstractStore<ConversationalSearc
 	}
 
 	public handleResponse(data: any): void {
-		if (data.sessionId) {
-			this.sessionId = data.sessionId;
+		if (data.context?.sessionId) {
+			this.sessionId = data.context.sessionId;
+			// TODO: add check if sessionId is set but different, reset session to new chat (happens after 24hrs)
+		}
+		if (data.message) {
+			data.message.forEach((msg: any) => {
+				this.chat.push({
+					type: 'bot',
+					payload: msg,
+				});
+			});
+		}
+		if (data.genericOptions) {
+			this.genericOptions = data.genericOptions.options;
+		}
+	}
+
+	public handleRequest(request: any): void {
+		if (request.message) {
+			this.chat.push({
+				type: 'user',
+				payload: {
+					value: request.message,
+				},
+			});
 		}
 	}
 
