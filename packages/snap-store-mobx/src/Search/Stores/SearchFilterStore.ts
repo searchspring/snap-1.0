@@ -1,7 +1,7 @@
 import { makeObservable, observable } from 'mobx';
 
 import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { StoreServices } from '../../types';
+import type { AutocompleteStoreConfig, SearchStoreConfig, StoreServices } from '../../types';
 import type {
 	SearchResponseModelFilterRange,
 	SearchResponseModelFilterValue,
@@ -10,9 +10,11 @@ import type {
 	SearchResponseModel,
 	MetaResponseModel,
 } from '@searchspring/snapi-types';
+import { sprintf } from '@searchspring/snap-toolbox';
 
 type SearchFilterStoreConfig = {
 	services: StoreServices;
+	config?: SearchStoreConfig | AutocompleteStoreConfig;
 	data: {
 		search: SearchResponseModel;
 		meta: MetaResponseModel;
@@ -25,7 +27,7 @@ export class SearchFilterStore extends Array<RangeFilter | Filter> {
 	}
 
 	constructor(params: SearchFilterStoreConfig) {
-		const { services, data } = params || {};
+		const { services, data, config } = params || {};
 		const { search, meta } = data || {};
 		const { filters } = search || {};
 
@@ -37,6 +39,10 @@ export class SearchFilterStore extends Array<RangeFilter | Filter> {
 				switch (filter.type) {
 					case 'range':
 						const rangeFilter = filter as SearchResponseModelFilterRange;
+						const format = config?.settings?.facets?.fields?.[filter.field!]?.filterFormatValue;
+						if (format) {
+							rangeFilter.label = sprintf(format, rangeFilter.value?.high, rangeFilter.value?.low);
+						}
 						return new RangeFilter(services, rangeFilter, facetMeta!);
 
 					case 'value':

@@ -173,6 +173,9 @@ export const es: LangComponents = {
 					}`,
 			},
 		},
+		submitRangeButton: {
+			value: 'Entregar',
+		},
 	},
 	select: {
 		buttonLabel: {

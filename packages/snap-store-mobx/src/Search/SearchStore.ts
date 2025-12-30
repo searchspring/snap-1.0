@@ -96,6 +96,7 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 		});
 
 		this.filters = new SearchFilterStore({
+			config: this.config,
 			services: this.services,
 			data: {
 				search,

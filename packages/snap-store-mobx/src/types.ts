@@ -91,6 +91,7 @@ export type FacetStoreConfig = {
 	pinFiltered?: boolean;
 	storeRange?: boolean;
 	autoOpenActive?: boolean;
+	filterFormatValue?: string;
 };
 
 // Finder Config
