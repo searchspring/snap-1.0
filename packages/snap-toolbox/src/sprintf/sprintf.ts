@@ -80,7 +80,7 @@ export function sprintf(...args: any[]) {
 			x = m[5] - String(a).length;
 			p = m[5] ? str_repeat(c, x) : '';
 			o.push(m[4] ? a + p : p + a);
-		} else throw 'Huh ?!';
+		} else throw new Error('sprintf: Invalid format string encountered');
 		f = f.substring(m[0].length);
 	}
 	return o.join('');
