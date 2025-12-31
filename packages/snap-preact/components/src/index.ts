@@ -47,6 +47,7 @@ export * from './components/Molecules/Slideout';
 export * from './components/Molecules/SortBy';
 export * from './components/Molecules/TemplatesEditor';
 export * from './components/Molecules/Swatches';
+export * from './components/Molecules/Slideshow';
 export * from './components/Molecules/VariantSelection';
 export * from './components/Molecules/Terms';
 
