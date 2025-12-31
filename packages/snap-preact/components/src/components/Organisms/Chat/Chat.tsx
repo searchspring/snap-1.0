@@ -8,10 +8,12 @@ import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { ConversationalSearchController } from '@searchspring/snap-controller';
+import type { ChatController } from '@searchspring/snap-controller';
 import { Button } from '../../Atoms/Button';
-
-const defaultStyles: StyleScript<ConversationalSearchProps> = () => {
+import { useRef } from 'preact/hooks';
+import { Image } from '../../Atoms/Image';
+import type { ImageAttachment } from '@searchspring/snap-store-mobx';
+const defaultStyles: StyleScript<ChatProps> = () => {
 	return css({
 		position: 'fixed',
 		background: 'white',
@@ -23,15 +25,15 @@ const defaultStyles: StyleScript<ConversationalSearchProps> = () => {
 		zIndex: 1000,
 		display: 'flex',
 		flexDirection: 'column',
-		'& .ss__conversational-search__header': {},
-		'& .ss__conversational-search__messages': {
+		'& .ss__chat__header': {},
+		'& .ss__chat__messages': {
 			flex: '1 1 auto',
 			overflowY: 'auto',
 			marginBottom: '1em',
 			border: '1px solid #eee',
 			padding: '10px',
 			maxHeight: '400px',
-			'& .ss__conversational-search__message': {
+			'& .ss__chat__message': {
 				marginBottom: '10px',
 				padding: '8px',
 				borderRadius: '4px',
@@ -45,8 +47,8 @@ const defaultStyles: StyleScript<ConversationalSearchProps> = () => {
 				},
 			},
 		},
-		'& .ss__conversational-search__actions': {},
-		'& .ss__conversational-search__input': {
+		'& .ss__chat__actions': {},
+		'& .ss__chat__input': {
 			display: 'flex',
 			'.ss__button': {},
 			'& input': {
@@ -60,17 +62,18 @@ const defaultStyles: StyleScript<ConversationalSearchProps> = () => {
 	});
 };
 
-export const ConversationalSearch = observer((properties: ConversationalSearchProps): JSX.Element => {
+export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
-	const defaultProps: Partial<ConversationalSearchProps> = {
+	const defaultProps: Partial<ChatProps> = {
 		treePath: globalTreePath,
 	};
 
 	let props = mergeProps('facets', globalTheme, defaultProps, properties);
 
 	const { className, internalClassName, controller } = props;
+	const { store } = controller;
 
 	const themeDefaults: Theme = {
 		components: {},
@@ -84,7 +87,9 @@ export const ConversationalSearch = observer((properties: ConversationalSearchPr
 		theme,
 	};
 
-	// const subProps: ConversationalSearchSubProps = {};
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	// const subProps: ChatSubProps = {};
 
 	const KEY_ENTER = 13;
 	const handleOnChange = (event: KeyboardEvent) => {
@@ -99,26 +104,27 @@ export const ConversationalSearch = observer((properties: ConversationalSearchPr
 		}
 	};
 
-	const styling = mergeStyles<ConversationalSearchProps>(props, defaultStyles);
+	const styling = mergeStyles<ChatProps>(props, defaultStyles);
 
 	return true ? (
 		<CacheProvider>
-			<div className={classnames('ss__conversational-search', className, internalClassName)} {...styling}>
-				<div className={'ss__conversational-search__header'}>Conversation</div>
-				<div className={'ss__conversational-search__messages'}>
+			<div className={classnames('ss__chat', className, internalClassName)} {...styling}>
+				<div className={'ss__chat__header'}>Conversation</div>
+				<div className={'ss__chat__messages'}>
 					{controller.store.chat.map((chatItem, index) => (
 						<div
 							key={index}
-							className={classnames('ss__conversational-search__message', {
-								['ss__conversational-search__message--user']: chatItem.type === 'user',
-								['ss__conversational-search__message--bot']: chatItem.type === 'bot',
+							className={classnames('ss__chat__message', {
+								['ss__chat__message--user']: chatItem.type === 'user',
+								['ss__chat__message--bot']: chatItem.type === 'bot',
 							})}
 						>
 							{chatItem.type}: {chatItem.payload.value}
 						</div>
 					))}
 				</div>
-				<div className={'ss__conversational-search__actions'}>
+				{store.loading ? <div>Loading...</div> : null}
+				<div className={'ss__chat__actions'}>
 					{controller.store.genericOptions.map((option, index) => (
 						<Button
 							key={index}
@@ -135,9 +141,34 @@ export const ConversationalSearch = observer((properties: ConversationalSearchPr
 						</Button>
 					))}
 				</div>
-				<div className={'ss__conversational-search__input'}>
+				<div className={'ss__chat__attachments'}>
+					{store.attachments.items.map((item, index) => (
+						<div key={index} className={'ss__chat__attachment'}>
+							{{
+								image: <ImageAttachment attachment={item} controller={controller} />,
+							}[item.type] || <ImageAttachment attachment={item} controller={controller} />}
+						</div>
+					))}
+				</div>
+				<div className={'ss__chat__input'}>
 					<input type="text" placeholder="Type your message..." onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} />
-					<Button onClick={() => controller.search()}>Send</Button>
+					<Button disabled={store.blocked} onClick={() => controller.search()}>
+						Send
+					</Button>
+					<input
+						ref={fileInputRef}
+						onChange={async (e) => {
+							console.log('On change', e.target.files);
+							await controller.upload(e.target.files);
+							// reset value
+							e.target.value = '';
+						}}
+						multiple={true}
+						type="file"
+						accept="image/*"
+						id="ss-image-upload"
+						className="ss__autocomplete__visual-modal__content__body__file-input"
+					/>
 				</div>
 			</div>
 		</CacheProvider>
@@ -146,9 +177,22 @@ export const ConversationalSearch = observer((properties: ConversationalSearchPr
 	);
 });
 
-// interface ConversationalSearchSubProps {
+const ImageAttachment = (props: { attachment: ImageAttachment; controller: ChatController }) => {
+	const { attachment, controller } = props;
+	const chatStore = controller.store;
+
+	const src = attachment.data.base64;
+	return (
+		<div>
+			<Image style={{ height: '50px', width: '50px' }} src={src} alt={''}></Image>
+			<Button onClick={() => chatStore.attachments.remove(attachment.id)}>X</Button>
+		</div>
+	);
+};
+
+// interface ChatSubProps {
 // 	[thing: string]: any;
 // }
-export interface ConversationalSearchProps extends ComponentProps {
-	controller: ConversationalSearchController;
+export interface ChatProps extends ComponentProps {
+	controller: ChatController;
 }

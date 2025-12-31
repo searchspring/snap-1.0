@@ -22,8 +22,8 @@ import type {
 } from '@searchspring/snapi-types';
 
 import deepmerge from 'deepmerge';
-import { ConversationalSearchAPI } from './apis/ConversationalSearch';
-import { ConversationalRequest } from './transforms/conversationalResponse';
+import { ChatAPI, VisualRequestModel, VisualResponseModel } from './apis/Chat';
+import { ChatRequest } from './transforms/chatResponse';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -35,8 +35,8 @@ const defaultConfig: ClientConfig = {
 	search: {
 		// origin: 'https://snapi.kube.athoscommerce.io'
 	},
-	conversationalSearch: {
-		origin: 'https://moi-ai.ksearchnet.com',
+	chat: {
+		origin: 'https://asklo-backend.service-qa.ksearchnet.com',
 	},
 	autocomplete: {
 		// origin: 'https://snapi.kube.athoscommerce.io'
@@ -60,7 +60,7 @@ export class Client {
 		autocomplete: HybridAPI;
 		meta: HybridAPI;
 		search: HybridAPI;
-		conversationalSearch: ConversationalSearchAPI;
+		chat: ChatAPI;
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
 		finder: HybridAPI;
@@ -125,15 +125,15 @@ export class Client {
 					globals: this.config.search?.globals,
 				})
 			),
-			conversationalSearch: new ConversationalSearchAPI(
+			chat: new ChatAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,
 					mode: this.mode,
-					origin: this.config.conversationalSearch?.origin,
-					headers: this.config.conversationalSearch?.headers,
-					cache: this.config.conversationalSearch?.cache,
-					globals: this.config.conversationalSearch?.globals,
+					origin: this.config.chat?.origin,
+					headers: this.config.chat?.headers,
+					cache: this.config.chat?.cache,
+					globals: this.config.chat?.globals,
 				})
 			),
 			finder: new HybridAPI(
@@ -186,14 +186,21 @@ export class Client {
 		return { meta, search };
 	}
 
-	async conversationalStatus(params: any = {}): Promise<{ status: any }> {
-		return this.requesters.conversationalSearch.postStatus(params);
+	async uploadImage(params: VisualRequestModel): Promise<VisualResponseModel> {
+		const image = params.image;
+		params = deepmerge<VisualRequestModel & ClientGlobals>(this.globals, params);
+		params.image = image;
+		return this.requesters.chat.postUploadImage(params);
 	}
 
-	async conversationalSearch(params: ConversationalRequest & ClientGlobals): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
-		params = deepmerge<ConversationalRequest & ClientGlobals>(this.globals, params);
+	async chatStatus(params: any = {}): Promise<{ status: any }> {
+		return this.requesters.chat.postStatus(params);
+	}
 
-		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.conversationalSearch.postMessage(params)]);
+	async chat(params: ChatRequest & ClientGlobals): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge<ChatRequest & ClientGlobals>(this.globals, params);
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.chat.postMessage(params)]);
 		return { meta, search };
 	}
 

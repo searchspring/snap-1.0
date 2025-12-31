@@ -1,21 +1,36 @@
-import { makeObservable, observable } from 'mobx';
-import { ConversationalSearchStoreConfig, StoreServices } from '../types';
+import { makeObservable, observable, computed } from 'mobx';
+import { ChatStoreConfig, StoreServices } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
+import { ChatAttachmentStore } from './Stores/ChatAttachmentStore';
 
 type GenericOption = {
 	name: string;
 	type: 'message' | 'clearChat';
 	chat: string | null;
 };
-export class ConversationalSearchStore extends AbstractStore<ConversationalSearchStoreConfig> {
+
+type Chat = any[];
+
+export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public services: StoreServices;
 	public meta?: MetaStore;
 	public inputValue: string = '';
-	public chat: Array<any> = [];
+	public chat: Chat = [];
 	public genericOptions: Array<GenericOption> = [];
 	public sessionId: string | undefined;
+	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
+
+	get blocked(): boolean {
+		let isBlocked = false;
+
+		const blockedAttachments = this.attachments.items.some((item) => item.error || item.state === 'loading');
+		if (this.loading || blockedAttachments) {
+			isBlocked = true;
+		}
+		return isBlocked;
+	}
 
 	// genericOptions
 	// options
@@ -34,7 +49,7 @@ export class ConversationalSearchStore extends AbstractStore<ConversationalSearc
 	// :
 	// {name: "Products", type: "message", chat: "show products"}
 
-	constructor(config: ConversationalSearchStoreConfig, services: StoreServices) {
+	constructor(config: ChatStoreConfig, services: StoreServices) {
 		super(config);
 
 		if (typeof services != 'object' || typeof services.urlManager?.subscribe != 'function') {
@@ -50,6 +65,7 @@ export class ConversationalSearchStore extends AbstractStore<ConversationalSearc
 			inputValue: observable,
 			chat: observable,
 			genericOptions: observable,
+			blocked: computed,
 		});
 	}
 

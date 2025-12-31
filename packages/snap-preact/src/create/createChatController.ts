@@ -1,15 +1,15 @@
-import { ConversationalSearchController } from '@searchspring/snap-controller';
+import { ChatController } from '@searchspring/snap-controller';
 import { Client } from '@searchspring/snap-client';
-import { ConversationalSearchStore } from '@searchspring/snap-store-mobx';
+import { ChatStore } from '@searchspring/snap-store-mobx';
 import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
 import { EventManager } from '@searchspring/snap-event-manager';
 import { Profiler } from '@searchspring/snap-profiler';
 import { Logger } from '@searchspring/snap-logger';
 import { Tracker } from '@searchspring/snap-tracker';
 
-import type { SnapControllerServices, SnapConversationalSearchControllerConfig } from '../types';
+import type { SnapControllerServices, SnapChatControllerConfig } from '../types';
 
-export default (config: SnapConversationalSearchControllerConfig, services?: SnapControllerServices): ConversationalSearchController => {
+export default (config: SnapChatControllerConfig, services?: SnapControllerServices): ChatController => {
 	const urlManager = services?.urlManager || new UrlManager(new UrlTranslator(config.url), reactLinker);
 
 	// set client mode
@@ -18,11 +18,11 @@ export default (config: SnapConversationalSearchControllerConfig, services?: Sna
 		config.client.config.mode = config.mode;
 	}
 
-	const cntrlr = new ConversationalSearchController(
+	const cntrlr = new ChatController(
 		config.controller,
 		{
 			client: services?.client || new Client(config.client!.globals, config.client!.config),
-			store: services?.store || new ConversationalSearchStore(config.controller, { urlManager }),
+			store: services?.store || new ChatStore(config.controller, { urlManager }),
 			urlManager,
 			eventManager: services?.eventManager || new EventManager(),
 			profiler: services?.profiler || new Profiler(),

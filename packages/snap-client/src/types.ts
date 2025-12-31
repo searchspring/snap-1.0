@@ -23,7 +23,7 @@ export type ClientConfig = {
 	fetchApi?: WindowOrWorkerGlobalScope['fetch'];
 	meta?: RequesterConfig<MetaRequestModel>;
 	search?: RequesterConfig<SearchRequestModel>;
-	conversationalSearch?: RequesterConfig<any>;
+	chat?: RequesterConfig<any>;
 	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: HybridRequesterConfig };
 	finder?: RequesterConfig<SearchRequestModel>;
 	recommend?: RequesterConfig<RecommendRequestModel>;

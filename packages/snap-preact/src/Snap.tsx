@@ -18,13 +18,13 @@ import type {
 	AbstractController,
 	AutocompleteController,
 	SearchControllerConfig,
-	ConversationalSearchControllerConfig,
+	ChatControllerConfig,
 	AutocompleteControllerConfig,
 	FinderControllerConfig,
 	RecommendationControllerConfig,
 	ControllerConfigs,
 	ContextVariables,
-	ConversationalSearchController,
+	ChatController,
 } from '@searchspring/snap-controller';
 import type { TrackerConfig, TrackerGlobals, TrackErrorEvent } from '@searchspring/snap-tracker';
 import type { Target, OnTarget } from '@searchspring/snap-toolbox';
@@ -86,7 +86,7 @@ export type SnapConfig = {
 	};
 	controllers?: {
 		search?: SnapConfigControllerDefinition<SearchControllerConfig>[];
-		conversationalSearch?: SnapConfigControllerDefinition<ConversationalSearchControllerConfig>[];
+		chat?: SnapConfigControllerDefinition<ChatControllerConfig>[];
 		autocomplete?: SnapConfigControllerDefinition<AutocompleteControllerConfig>[];
 		finder?: SnapConfigControllerDefinition<FinderControllerConfig>[];
 		recommendation?: SnapConfigControllerDefinition<RecommendationControllerConfig>[];
@@ -213,8 +213,8 @@ export class Snap {
 			case ControllerTypes.recommendation:
 				importPromise = import('./create/createRecommendationController');
 				break;
-			case ControllerTypes.conversationalSearch:
-				importPromise = import('./create/createConversationalSearchController');
+			case ControllerTypes.chat:
+				importPromise = import('./create/createChatController');
 				break;
 			case ControllerTypes.search:
 			default:
@@ -696,7 +696,7 @@ export class Snap {
 					});
 					break;
 				}
-				case 'conversationalSearch': {
+				case 'chat': {
 					this.config.controllers![type]!.forEach((controller, index) => {
 						if (typeof this._controllerPromises[controller.config.id] != 'undefined') {
 							this.logger.error(`Controller with id '${controller.config.id}' is already defined`);
@@ -718,14 +718,7 @@ export class Snap {
 										const Component = importResolutions[0];
 
 										setTimeout(() => {
-											render(
-												<Component
-													controller={this.controllers[controller.config.id] as ConversationalSearchController}
-													snap={this}
-													{...target.props}
-												/>,
-												elem
-											);
+											render(<Component controller={this.controllers[controller.config.id] as ChatController} snap={this} {...target.props} />, elem);
 										});
 									} catch (err) {
 										this.logger.error(err);
@@ -735,7 +728,7 @@ export class Snap {
 
 								if (!controller?.targeters || controller?.targeters.length === 0) {
 									await this._createController(
-										ControllerTypes.conversationalSearch,
+										ControllerTypes.chat,
 										controller.config,
 										controller.services,
 										controller.url,
@@ -756,7 +749,7 @@ export class Snap {
 
 									const targeter = new DomTargeter([{ ...target }], async (target: Target, elem: Element, originalElem?: Element) => {
 										const cntrlr = await this._createController(
-											ControllerTypes.conversationalSearch,
+											ControllerTypes.chat,
 											controller.config,
 											controller.services,
 											controller.url,

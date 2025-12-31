@@ -72,8 +72,8 @@ export type VariantOptionConfigMappings = {
 	};
 };
 
-// ConversationalSearch Config
-export type ConversationalSearchStoreConfig = StoreConfig & {
+// Chat Config
+export type ChatStoreConfig = StoreConfig & {
 	// globals?: Partial<any>;
 	// settings?: SearchStoreConfigSettings;
 };
@@ -164,12 +164,7 @@ export type RecommendationStoreConfig = StoreConfig & {
 	};
 };
 
-export type StoreConfigs =
-	| SearchStoreConfig
-	| AutocompleteStoreConfig
-	| FinderStoreConfig
-	| RecommendationStoreConfig
-	| ConversationalSearchStoreConfig;
+export type StoreConfigs = SearchStoreConfig | AutocompleteStoreConfig | FinderStoreConfig | RecommendationStoreConfig | ChatStoreConfig;
 
 export type StoreServices = {
 	urlManager: UrlManager;

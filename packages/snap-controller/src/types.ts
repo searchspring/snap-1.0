@@ -4,7 +4,7 @@ import type {
 	SearchController,
 	FinderController,
 	RecommendationController,
-	ConversationalSearchController,
+	ChatController,
 } from './index';
 import type { EventManager, Middleware } from '@searchspring/snap-event-manager';
 
@@ -19,8 +19,8 @@ import type {
 	FinderStoreConfig,
 	AutocompleteStoreConfig,
 	RecommendationStoreConfig,
-	ConversationalSearchStoreConfig,
-	ConversationalSearchStore,
+	ChatStoreConfig,
+	ChatStore,
 } from '@searchspring/snap-store-mobx';
 import type { Tracker, ProductViewEvent } from '@searchspring/snap-tracker';
 import type { Profiler } from '@searchspring/snap-profiler';
@@ -61,17 +61,17 @@ export type ElementPositionObj = {
 
 export enum ControllerTypes {
 	search = 'search',
-	conversationalSearch = 'conversationalSearch',
+	chat = 'chat',
 	autocomplete = 'autocomplete',
 	finder = 'finder',
 	recommendation = 'recommendation',
 }
 
-export type Controllers = SearchController | ConversationalSearchController | AutocompleteController | FinderController | RecommendationController;
+export type Controllers = SearchController | ChatController | AutocompleteController | FinderController | RecommendationController;
 
 export type ControllerServices = {
 	client: Client;
-	store: SearchStore | AutocompleteStore | FinderStore | RecommendationStore | ConversationalSearchStore;
+	store: SearchStore | AutocompleteStore | FinderStore | RecommendationStore | ChatStore;
 	urlManager: UrlManager;
 	eventManager: EventManager;
 	profiler: Profiler;
@@ -105,8 +105,8 @@ export type ControllerConfig = StoreConfig & Attachments;
 
 // Search Config
 export type SearchControllerConfig = ControllerConfig & SearchStoreConfig;
-// ConversationalSearch Config
-export type ConversationalSearchControllerConfig = ControllerConfig & ConversationalSearchStoreConfig;
+// Chat Config
+export type ChatControllerConfig = ControllerConfig & ChatStoreConfig;
 // Finder Config
 export type FinderControllerConfig = ControllerConfig & FinderStoreConfig;
 // Autocomplete config

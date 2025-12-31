@@ -153,17 +153,17 @@ let config: SnapConfig = {
 		},
 	},
 	controllers: {
-		conversationalSearch: [
+		chat: [
 			{
 				config: {
-					id: 'conversationalSearch',
+					id: 'chat',
 				},
 				targeters: [
 					{
-						selector: '#searchspring-conversational-search',
+						selector: '#searchspring-chat',
 						hideTarget: true,
 						component: async () => {
-							return (await import('./components/ConversationalSearch/ConversationalSearch')).ConversationalSearch;
+							return (await import('./components/Chat/Chat')).Chat;
 						},
 					},
 				],

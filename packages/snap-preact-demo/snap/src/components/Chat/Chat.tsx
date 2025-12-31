@@ -7,17 +7,17 @@ import {
 	StoreProvider,
 	ControllerProvider,
 	SnapProvider,
-	ConversationalSearch as LibraryConversationalSearch,
+	Chat as LibraryChat,
 } from '@searchspring/snap-preact/components';
 import type { Snap } from '@searchspring/snap-preact';
-import { ConversationalSearchController } from '@searchspring/snap-controller';
+import { ChatController } from '@searchspring/snap-controller';
 
-type ConversationalSearchProps = {
-	controller?: ConversationalSearchController;
+type ChatProps = {
+	controller?: ChatController;
 	snap?: Snap;
 };
 
-export const ConversationalSearch = observer(({ controller, snap }: ConversationalSearchProps) => {
+export const Chat = observer(({ controller, snap }: ChatProps) => {
 	const store = controller.store;
 	const theme = snap?.templates?.themes.local.global.theme;
 
@@ -26,7 +26,7 @@ export const ConversationalSearch = observer(({ controller, snap }: Conversation
 			<ControllerProvider controller={controller}>
 				<ThemeProvider theme={theme || defaultTheme}>
 					<StoreProvider store={store}>
-						<LibraryConversationalSearch controller={controller} />
+						<LibraryChat controller={controller} />
 					</StoreProvider>
 				</ThemeProvider>
 			</ControllerProvider>
@@ -34,4 +34,4 @@ export const ConversationalSearch = observer(({ controller, snap }: Conversation
 	);
 });
 
-export default ConversationalSearch;
+export default Chat;
