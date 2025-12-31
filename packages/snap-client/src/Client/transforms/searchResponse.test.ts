@@ -6,6 +6,9 @@ const mockSingleResult = {
 	intellisuggestSignature: '73ed9559bc402f46f74ffdac2c207fa4eeaae2342f8cf41c9737d8faf4d62038',
 	image_medium: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_medium.jpg?v=1594226901',
 	variant_images_json: '[]',
+	available: 'true',
+	parentId: '12345',
+	parentImageUrl: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_1024x1024.jpg?v=1594226901',
 	product_price: '8',
 	image_1024x1024: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_1024x1024.jpg?v=1594226901',
 	collection_id: [
