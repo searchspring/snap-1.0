@@ -411,7 +411,6 @@ export class Variants {
 
 			// create variants objects
 			this.data = variantData
-				// @ts-ignore - snapi types need updated
 				.filter((variant) => this.config?.showDisabledSelectionValues || variant.mappings.core?.available !== false)
 				.filter((variant) => this.config?.showDisabledSelectionValues || variant?.attributes?.available !== false)
 				.map((variant) => {
@@ -742,7 +741,6 @@ export class Variant {
 		// construct badges from data (need meta)
 		this.badges = variant.badges || [];
 
-		// @ts-ignore - snapi types need updated
 		this.available = (this.attributes.available as boolean) ?? (this.mappings.core?.available as boolean) ?? true;
 
 		makeObservable(this, {

@@ -60,7 +60,6 @@ const dropdownContentStyles: StyleScript<VariantSelectionProps> = () => {
 			textDecoration: 'line-through',
 			opacity: 0.5,
 		},
-		// }
 	});
 };
 

@@ -9,12 +9,9 @@ import {
 	SearchResponseModelSearchMatchTypeEnum,
 	SearchResponseModelMerchandising,
 	SearchResponseModelResultBadges,
-	SearchResponseModelResultMappings,
 	SearchResponseModelResultVariants,
-	MetaResponseModelBadgeTag,
 } from '@athoscommerce/snapi-types';
 
-// TODO: Add all core fields
 const CORE_FIELDS = [
 	'uid',
 	'sku',
@@ -170,34 +167,8 @@ export type searchResponseType = {
 	};
 };
 
-export type ResultBadge = MetaResponseModelBadgeTag & SearchResponseModelResultBadges;
-
-export type VariantData = {
-	mappings: SearchResponseModelResultMappings;
-	attributes: Record<string, unknown>;
-	options: VariantDataOptions;
-	badges: ResultBadge[];
-};
-
-export type VariantDataOptions = Record<
-	string,
-	{
-		value: string;
-		background?: string;
-		backgroundImageUrl?: string;
-		attributeId?: string;
-		optionId?: string;
-		optionValue?: string;
-	}
->;
-
-// type SearchResponseModelResultVariants = {
-// 	preferences: Record<string, string[]>;
-// 	data: VariantData[] | null;
-// };
-
 class Result implements SearchResponseModelResult {
-	constructor(result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants }) {
+	constructor(result: SearchResponseModelResult) {
 		Object.assign(this, result);
 	}
 }
