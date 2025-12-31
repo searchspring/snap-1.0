@@ -18,7 +18,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 			//arrows are 30px wide each by default
 			width: `calc(100% - ${overlayNavigation ? 0 : 60}px)`,
 			margin: 'auto',
-			height: '100%',
 			overflow: 'hidden',
 			touchAction: 'pan-y pinch-zoom',
 		},
@@ -26,7 +25,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 		'.ss__slideshow__track': {
 			display: 'flex',
 			width: `100%`,
-			height: '100%',
 			transition: 'transform 0.3s ease-in-out',
 
 			// Disable transition during dragging
@@ -40,7 +38,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 			minWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
 			marginLeft: `calc(${gap}px / 2)`,
 			marginRight: `calc(${gap}px / 2)`,
-			height: '100%',
 			position: 'relative',
 			// Prevent text selection during drag
 			userSelect: 'none',
@@ -62,7 +59,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 
 			'> *': {
 				width: '100%',
-				height: '100%',
 			},
 		},
 
@@ -196,9 +192,10 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		disableStyles,
 		treePath,
 		overlayNavigation,
-		touchDragging,
 		dragThreshold,
 	} = props;
+
+	let touchDragging = props.touchDragging;
 
 	const subProps: SlideshowSubProps = {
 		Image: {
@@ -339,6 +336,11 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 			}
 		}
 	}, [isPlaying, autoPlayInterval, normalizedImages.length, slidesToShow, slidesToMove, loop, maxIndex, isDragging]);
+
+	// if all slides are visible, turn off touch dragging.
+	if (totalSlides <= visibleSlides) {
+		touchDragging = false;
+	}
 
 	// Touch/Mouse event handlers for dragging
 	const handleDragStart = (clientX: number) => {

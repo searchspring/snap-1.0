@@ -24,7 +24,6 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 			alignItems: 'center',
 			border: `1px solid ${theme?.variables?.colors?.primary || '#333'}`,
 			aspectRatio: '1/1',
-			margin: 'auto',
 			flexDirection: 'column',
 
 			'.ss__swatches__slideshow__swatch__inner': {
@@ -32,8 +31,7 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				margin: 'auto',
-				height: '100%',
+				width: '100%',
 			},
 
 			'&.ss__swatches__slideshow__swatch--selected': {

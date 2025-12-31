@@ -18,9 +18,12 @@ import {
 const CORE_FIELDS = [
 	'uid',
 	'sku',
+	'available',
 	'name',
 	'url',
 	'addToCartUrl',
+	'parentId',
+	'parentImageUrl',
 	'price',
 	'msrp',
 	'imageUrl',
@@ -44,6 +47,7 @@ type sortingOption = {
 };
 
 type rawResult = {
+	available: string;
 	badges?: SearchResponseModelResultBadges[];
 	variants?: SearchResponseModelResultVariants;
 	brand?: string;
@@ -56,6 +60,8 @@ type rawResult = {
 	intellisuggestSignature?: string;
 	msrp?: string;
 	name: string;
+	parentId: string;
+	parentImageUrl: string;
 	price: string;
 	product_type?: string[];
 	product_type_unigram?: string;
@@ -242,7 +248,11 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 
 	if (coreFieldValues.price) coreFieldValues.price = +coreFieldValues.price;
 	if (coreFieldValues.msrp) coreFieldValues.msrp = +coreFieldValues.msrp;
-
+	if (coreFieldValues.available?.toString() === 'true') {
+		coreFieldValues.available = true;
+	} else if (coreFieldValues.available?.toString() === 'false') {
+		coreFieldValues.available = false;
+	}
 	const attributes = Object.keys(rawResult)
 		.filter((k) => CORE_FIELDS.indexOf(k) == -1)
 		// remove 'badges' from attributes - but only if it is an object

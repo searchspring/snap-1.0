@@ -1,7 +1,7 @@
 import { ResultComponent } from '../../../components/src/types';
 import { LibraryStore } from './LibraryStore';
 
-describe.skip('LibraryStore', () => {
+describe('LibraryStore', () => {
 	it('has expected defaults', () => {
 		const store = new LibraryStore();
 		expect(store).toBeDefined();

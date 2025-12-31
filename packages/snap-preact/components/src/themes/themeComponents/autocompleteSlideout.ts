@@ -35,6 +35,7 @@ export const autocompleteSlideoutThemeComponentProps: ThemeComponent<'autocomple
 		},
 		'autocompleteSlideout result': {
 			hideBadge: true,
+			hideVariantSelections: true,
 		},
 		'autocompleteSlideout recommendationGrid': {
 			columns: 4,

@@ -63,6 +63,7 @@ export type VariantConfig = {
 		[optionField: string]: VariantOptionConfig;
 	};
 	showDisabledSelectionValues?: boolean;
+	autoSelect?: boolean;
 };
 
 export type VariantOptionConfig = {

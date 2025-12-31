@@ -1,4 +1,5 @@
 import { makeObservable, observable } from 'mobx';
+import deepmerge from 'deepmerge';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { Product, SearchResultStore } from '../Search/Stores';
 import { CartStore } from '../Cart/CartStore';
@@ -52,6 +53,18 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 				profile,
 			},
 		});
+
+		if (this.profile.type == 'bundle') {
+			// enable autoSelect for bundles (to ensure selection has been made for add to cart)
+			this.config.settings = deepmerge(this.config.settings || {}, {
+				variants: {
+					autoSelect: true,
+				},
+			});
+
+			// only create a cart store when type is bundle
+			this.cart = new CartStore();
+		}
 		this.results = new SearchResultStore({
 			config: this.config,
 			state: {
@@ -64,11 +77,6 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 				meta: this.meta.data,
 			},
 		}) as Product[];
-
-		// only create a cart store when type is bundle
-		if (this.profile.type == 'bundle') {
-			this.cart = new CartStore();
-		}
 
 		this.loaded = !!profile;
 	}

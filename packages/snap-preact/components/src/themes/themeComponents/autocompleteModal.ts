@@ -31,6 +31,7 @@ export const autocompleteModalThemeComponentProps: ThemeComponent<'autocompleteM
 		},
 		'autocompleteModal result': {
 			hideBadge: true,
+			hideVariantSelections: true,
 		},
 		'autocompleteModal recommendationGrid': {
 			columns: 4,

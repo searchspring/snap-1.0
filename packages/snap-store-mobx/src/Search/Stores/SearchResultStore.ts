@@ -470,8 +470,10 @@ export class Variants {
 				});
 			}
 
-			// select first available
-			this.makeSelections(preselectedOptions);
+			if (config?.autoSelect) {
+				// select first available
+				this.makeSelections(preselectedOptions);
+			}
 		} catch (err) {
 			// failed to parse the variant JSON
 			console.error(err, `Invalid variant JSON for: ${variantData}`);

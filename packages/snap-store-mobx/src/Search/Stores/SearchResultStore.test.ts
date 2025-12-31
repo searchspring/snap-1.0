@@ -440,6 +440,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 					},
 				},
 			};
@@ -481,6 +482,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						showDisabledSelectionValues: true,
 					},
 				},
@@ -511,6 +513,59 @@ describe('SearchResultStore', () => {
 			});
 		});
 
+		it('can turn on autoSelect to select first available variant', () => {
+			const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+
+			const variantSearchConfig = {
+				...searchConfig,
+				settings: {
+					variants: {
+						field: 'ss_variants',
+						autoSelect: true,
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+			expect(results.length).toBe(searchData.search.results?.length);
+
+			results.forEach((result, index) => {
+				const productData = searchData.search.results && searchData.search.results[index];
+				const variantData = productData?.attributes?.ss_variants;
+				expect(variantData).toBeDefined();
+				const parsedVariantData = JSON.parse(variantData as unknown as string);
+
+				const variants = (result as Product).variants;
+
+				const availableParsedVariants = parsedVariantData.filter((variant: any) => {
+					return variant.mappings?.core?.available !== false && variant.attributes?.available !== false;
+				});
+
+				expect(variants?.data.length).toStrictEqual(availableParsedVariants.length);
+				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+
+				const firstAvailableVariant = variants?.data.find((variant) => variant.available);
+				expect(variants?.active).toBe(firstAvailableVariant);
+				expect((result as Product).display.mappings.core?.sku).toBe(firstAvailableVariant?.mappings.core?.sku);
+				expect((result as Product).display.mappings.core?.uid).toBe(firstAvailableVariant?.mappings.core?.uid);
+				if (firstAvailableVariant?.mappings.core?.imageUrl) {
+					expect((result as Product).display.mappings.core?.imageUrl).toBe(firstAvailableVariant?.mappings.core?.imageUrl);
+				}
+				if (firstAvailableVariant?.mappings.core?.price) {
+					expect((result as Product).display.mappings.core?.price).toBe(firstAvailableVariant?.mappings.core?.price);
+				}
+			});
+		});
+
 		it('can use variants.update', () => {
 			const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
@@ -519,6 +574,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 					},
 				},
 			};
@@ -577,6 +633,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						showDisabledSelectionValues: true,
 					},
 				},
@@ -611,11 +668,12 @@ describe('SearchResultStore', () => {
 		it('can be configured to preselect certain variants', () => {
 			const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
-			const variantSearchConfig: StoreConfigs = {
+			const variantSearchConfig: SearchStoreConfig = {
 				...searchConfig,
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						options: {
 							color: {
 								preSelected: ['mirage', 'khaki', 'desert'],
@@ -665,6 +723,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						options: {
 							color: {
 								preSelected: ['mirage', 'khaki', 'desert'],
@@ -747,6 +806,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						options: {
 							color: {
 								preSelected: ['mirage', 'khaki', 'desert'],
@@ -824,6 +884,7 @@ describe('SearchResultStore', () => {
 
 			const newVariantsConfig: VariantConfig = {
 				field: 'ss_variants',
+				autoSelect: true,
 				options: {
 					color: {
 						preSelected: ['scout'],
@@ -888,6 +949,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						realtime: {
 							enabled: true,
 						},
@@ -934,6 +996,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						realtime: {
 							enabled: true,
 						},
@@ -989,6 +1052,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						realtime: {
 							enabled: true,
 							filters: ['first'],
@@ -1044,6 +1108,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						realtime: {
 							enabled: true,
 							filters: ['first'],
@@ -1102,6 +1167,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						realtime: {
 							enabled: true,
 							filters: ['unaltered'],
@@ -1155,6 +1221,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						options: {
 							color: {
 								thumbnailBackgroundImages: true,
@@ -1196,6 +1263,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						field: 'ss_variants',
+						autoSelect: true,
 						options: {
 							color: {
 								label: 'myColor',
@@ -1469,7 +1537,7 @@ describe('SearchResultStore', () => {
 				const mask = new ProductMask();
 
 				// Enable showDisabledSelectionValues to include variant selections with no available options
-				const config = { field: 'ss_variants', showDisabledSelectionValues: true };
+				const config = { field: 'ss_variants', autoSelect: true, showDisabledSelectionValues: true };
 				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
 				const variants = new Variants({
@@ -1557,7 +1625,7 @@ describe('SearchResultStore', () => {
 
 				const mask = new ProductMask();
 				// Enable showDisabledSelectionValues to include variant selections with no available options
-				const config = { field: 'ss_variants', showDisabledSelectionValues: true };
+				const config = { field: 'ss_variants', autoSelect: true, showDisabledSelectionValues: true };
 				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
 				const variants = new Variants({
@@ -1626,12 +1694,52 @@ describe('SearchResultStore', () => {
 		});
 
 		describe('variants class', () => {
+			it('will not set an initial active variant if autoSelect is not true', () => {
+				const mask = new ProductMask();
+				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
+				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				const variants = new Variants({
+					config: {
+						autoSelect: false,
+					},
+					data: {
+						mask,
+						variants: parsedVariantData,
+						meta: data.meta,
+					},
+				});
+
+				expect(variants).not.toHaveProperty('active');
+				expect(variants).toHaveProperty('data');
+				expect(variants).toHaveProperty('selections');
+				expect(variants).toHaveProperty('setActive');
+				expect(variants).toHaveProperty('makeSelections');
+				expect(variants).toHaveProperty('update');
+
+				const filteredParsedVariantsData = parsedVariantData
+					.filter((variant: any) => variant.attributes.available !== false)
+					.filter((variant: any) => variant.mappings.core?.available !== false);
+
+				// only uses "available" variants
+				expect(variants?.data.length).toStrictEqual(filteredParsedVariantsData.length);
+				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+
+				// creates a variant for each available data entry
+				variants.data.forEach((variant, index) => {
+					expect(variant).toStrictEqual(new Variant({ data: { variant: filteredParsedVariantsData[index] } }));
+				});
+			});
+
 			it('requires variants data and a mask to construct', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1667,6 +1775,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1689,6 +1800,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1711,6 +1825,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1733,6 +1850,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1766,6 +1886,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1787,6 +1910,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
 				const parsedVariantData = JSON.parse(variantData) as VariantData[];
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: parsedVariantData,
@@ -1854,6 +1980,7 @@ describe('SearchResultStore', () => {
 				settings: {
 					variants: {
 						showDisabledSelectionValues: true,
+						autoSelect: true,
 					},
 				},
 			};
@@ -1943,6 +2070,7 @@ describe('SearchResultStore', () => {
 								preSelected: ['black', 'white'],
 							},
 						},
+						autoSelect: true,
 					},
 				},
 			};
@@ -1983,6 +2111,7 @@ describe('SearchResultStore', () => {
 								preSelected: ['black', 'white'],
 							},
 						},
+						autoSelect: true,
 					},
 				},
 			};
@@ -2051,6 +2180,7 @@ describe('SearchResultStore', () => {
 								preSelected: ['black', 'white'],
 							},
 						},
+						autoSelect: true,
 					},
 				},
 			};
@@ -2117,6 +2247,7 @@ describe('SearchResultStore', () => {
 						preSelected: ['charcoal'],
 					},
 				},
+				autoSelect: true,
 			};
 
 			expect(variantData).toBeDefined();
@@ -2168,6 +2299,7 @@ describe('SearchResultStore', () => {
 							enabled: true,
 						},
 					},
+					autoSelect: true,
 				},
 			};
 
@@ -2213,6 +2345,7 @@ describe('SearchResultStore', () => {
 							enabled: true,
 						},
 					},
+					autoSelect: true,
 				},
 			};
 
@@ -2270,6 +2403,7 @@ describe('SearchResultStore', () => {
 							filters: ['first'],
 						},
 					},
+					autoSelect: true,
 				},
 			};
 
@@ -2549,6 +2683,9 @@ describe('SearchResultStore', () => {
 				const variantData = data.search.results![0].variants.data;
 
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: variantData,
@@ -2582,6 +2719,9 @@ describe('SearchResultStore', () => {
 				// @ts-ignore
 				const variantData = data.search.results![0].variants.data;
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: variantData,
@@ -2604,6 +2744,9 @@ describe('SearchResultStore', () => {
 				// @ts-ignore
 				const variantData = data.search.results![0].variants.data;
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: variantData,
@@ -2637,6 +2780,9 @@ describe('SearchResultStore', () => {
 				// @ts-ignore
 				const variantData = data.search.results![3].variants.data;
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: variantData,
@@ -2655,6 +2801,9 @@ describe('SearchResultStore', () => {
 				// @ts-ignore
 				const variantData = data.search.results![0].variants.data;
 				const variants = new Variants({
+					config: {
+						autoSelect: true,
+					},
 					data: {
 						mask,
 						variants: variantData,
@@ -2687,6 +2836,11 @@ describe('SearchResultStore', () => {
 
 				const variantSearchConfig = {
 					...searchConfig,
+					settings: {
+						variants: {
+							autoSelect: true,
+						},
+					},
 				};
 
 				const results = new SearchResultStore({
