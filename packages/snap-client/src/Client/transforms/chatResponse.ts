@@ -1,118 +1,87 @@
-// import {
-// 	SearchResponseModelResult,
-// } from '@searchspring/snapi-types';
+import { SearchResponseModelResult } from '@searchspring/snapi-types';
+import type { MoiRequestModel, MoiResponseModel, MoiResponseModelProductSearchResult, MoiResponseModelText } from '../apis/Chat';
 
-type ChatResponse = {
-	data: (ChatContextResponseObject | ChatMessageObject | ChatFilterObject | ChatGenericOptionsObject | ChatProductDataObject)[];
+export type ChatResponseModel = {
+	data: (ChatResponseTextData | ChatResponseProductSearchResultData)[];
 };
 
-type ChatContextResponseObject = {
-	context: {
-		sessionId?: string;
-		klevuApiKey: string;
-		visitorId: string;
-	};
+export type ChatResponseTextData = {
+	messageType: 'text';
+	id: string;
+	collectFeedback: true;
+	text: string;
 };
 
-type ChatMessageObject = {
-	message: {
-		collectFeedback: boolean;
-		explain: string | null;
+export type ChatResponseProductSearchResultData = {
+	messageType: 'productSearchResult';
+	id: string;
+	results: SearchResponseModelResult[];
+	facets: MoiResponseModelProductSearchResult['facets'];
+	collectFeedback: boolean;
+	text: string;
+};
+
+export type ChatRequestModel = {
+	chat: {
 		id: string;
-		note: string | null;
-		type: string;
-		value: string;
+		widgetId: string;
+	};
+	data: MoiRequestModel;
+	tracking: {
+		userId: string;
+		domain: string;
+		sessionId?: string;
+		pageLoadId?: string;
+	};
+	personalization?: {
+		shopper: string;
 	};
 };
 
-type ChatFilterObject = {
-	filter: {
-		note: string;
-		options: Array<{
-			name: string;
-			value: string;
-			selected: boolean;
-			count: string;
-		}>;
-	};
-};
-
-type ChatGenericOptionsObject = {
-	genericOptions: {
-		options: Array<{
-			name: string;
-			type: 'message' | 'clearChat';
-			chat: string | null;
-		}>;
-	};
-};
-
-type ChatProductDataObject = {
-	productData: {
-		facets: any[];
-		products: {
-			currency: null | unknown;
-			id: string;
-			image: string;
-			itemGroupId: null | unknown;
-			name: string;
-			options: unknown[];
-			price: string;
-			salePrice: null | unknown;
-			shortDesc: null | unknown;
-			url: string;
-		}[];
-		note: null;
-		totalResultsFound: null | unknown;
-		typeOfQuery: null | unknown;
-	};
-};
-
-export type ChatRequest = {
-	message: string;
-};
-
-export function transformChatResponse(response: ChatResponse, request: ChatRequest) {
-	console.log('request, response', request, response);
-	return response.data
+export function transformChatResponse(response: MoiResponseModel): ChatResponseModel {
+	const transformedData = response.data
 		.map((data) => {
-			if ((data as any).message !== undefined) {
-				return transformChatResponse.message(data as ChatMessageObject);
-			} else if ((data as any).context !== undefined) {
-				return transformChatResponse.context(data as ChatContextResponseObject);
-			} else if ((data as any).filter !== undefined) {
-				return transformChatResponse.filter(data as ChatFilterObject);
-			} else if ((data as any).genericOptions !== undefined) {
-				return transformChatResponse.genericOptions(data as ChatGenericOptionsObject);
-			} else if ((data as any).productData !== undefined) {
-				return transformChatResponse.productData(data as ChatProductDataObject);
+			if (data.messageType === 'text') {
+				return transformChatResponse.text(data);
+			} else if (data.messageType === 'productSearchResult') {
+				return transformChatResponse.productData(data);
 			}
-			return;
 		})
-		.filter((a) => a);
+		.filter((data) => data !== undefined);
+
+	return {
+		data: (transformedData || []) as ChatResponseModel['data'],
+	};
 }
 
-transformChatResponse.context = (data: ChatContextResponseObject) => {
+transformChatResponse.text = (data: MoiResponseModelText): ChatResponseTextData => {
 	// nothing to transform here yet
 	return data;
 };
 
-transformChatResponse.message = (data: ChatMessageObject) => {
-	// nothing to transform here yet
-	return data;
-};
-
-transformChatResponse.filter = (data: ChatFilterObject) => {
-	// nothing to transform here yet
-	return data;
-};
-
-transformChatResponse.genericOptions = (data: ChatGenericOptionsObject) => {
-	// nothing to transform here yet
-	return data;
-};
-
-transformChatResponse.productData = (data: ChatProductDataObject) => {
-	// nothing to transform here yet
-	return data;
+transformChatResponse.productData = (data: MoiResponseModelProductSearchResult): ChatResponseProductSearchResultData => {
+	return {
+		messageType: data.messageType,
+		id: data.id,
+		collectFeedback: data.collectFeedback,
+		text: data.text,
+		facets: data.facets,
+		results: data.products.map((product) => ({
+			id: product.id,
+			mappings: {
+				core: {
+					uid: product.id,
+					name: product.name,
+					url: product.url,
+					imageUrl: product.image,
+					price: typeof product.price !== 'undefined' ? +product.price : undefined,
+					msrp: typeof product.salePrice !== 'undefined' ? +product.salePrice : undefined,
+					description: product.shortDesc,
+				},
+			},
+			attributes: {
+				currency: product.currency as any,
+			},
+		})),
+	};
 };

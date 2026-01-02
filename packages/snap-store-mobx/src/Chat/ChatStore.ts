@@ -5,29 +5,21 @@ import { MetaResponseModel } from '@searchspring/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { ChatAttachmentStore } from './Stores/ChatAttachmentStore';
 import { v4 as uuidv4 } from 'uuid';
+import type { ChatResponseModel, ChatRequestModel, ChatResponseTextData, ChatResponseProductSearchResultData } from '@searchspring/snap-client';
 
-type GenericOption = {
-	name: string;
-	type: 'message' | 'clearChat';
-	chat: string | null;
-};
-
-type Chat = ChatMessage[];
-
-type ChatMessage = {
-	type: 'user' | 'message';
-	payload: {
-		value: string;
-	};
+type UserChatMessage = {
+	id: string;
+	messageType: 'user';
+	text: string;
 	attachments?: string[];
 };
-
+type ChatMessage = ChatResponseTextData | ChatResponseProductSearchResultData | UserChatMessage;
+type Chat = ChatMessage[];
 export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public services: StoreServices;
 	public meta?: MetaStore;
 	public inputValue: string = '';
 	public chat: Chat = [];
-	public genericOptions: Array<GenericOption> = [];
 	public chatId: string = uuidv4();
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
 
@@ -73,7 +65,6 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			meta: observable,
 			inputValue: observable,
 			chat: observable,
-			genericOptions: observable,
 			blocked: computed,
 		});
 	}
@@ -82,40 +73,24 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		this.update({ search: {}, meta: {} });
 	}
 
-	public handleResponse(response: any): void {
+	public handleResponse(response: ChatResponseModel): void {
 		// if (data.context?.sessionId) {
 		// 	this.sessionId = data.context.sessionId;
 		// 	// TODO: add check if sessionId is set but different, reset session to new chat (happens after 24hrs)
 		// }
 
-		response.forEach((data: any) => {
-			if (data.message) {
-				this.chat.push({
-					type: 'message',
-					payload: data.message,
-				});
-			}
-			if (data.genericOptions) {
-				this.genericOptions = data.genericOptions.options;
-			}
-			// if(data.productData) {
-			// 	const { note, totalResultsFound, typeOfQuery, facets, products } = data.productData;
-			// 	if(products && products.length > 0) {
-			// 		this.chat.push({
-			// 			type: 'productData',
-			// 			payload: data.productData,
-			// 		});
-			// 	}
-			// }
+		response.data.forEach((data) => {
+			this.chat.push(data);
 		});
 	}
 
-	public handleRequest(request: any): void {
-		if (request.message) {
+	public handleRequest(request: ChatRequestModel): void {
+		if (request.data.message) {
 			// check for sent attachments in context
 			const attachments: string[] = [];
-			if (request.attachedImageId) {
-				const attachedImage = this.attachments.attached.find((item) => item.type == 'image' && item.imageId == request.attachedImageId);
+			if (request.data.requestType === 'imageSearch') {
+				const imageId = request.data.attachedImageId;
+				const attachedImage = this.attachments.attached.find((item) => item.type == 'image' && item.imageId == imageId);
 				if (attachedImage) {
 					attachments.push(attachedImage.id);
 
@@ -125,11 +100,10 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			}
 
 			this.chat.push({
-				type: 'user',
+				id: uuidv4(),
+				messageType: 'user',
 				attachments,
-				payload: {
-					value: request.message,
-				},
+				text: request.data.message,
 			});
 		}
 	}

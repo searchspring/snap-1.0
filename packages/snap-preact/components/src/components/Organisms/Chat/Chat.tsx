@@ -21,6 +21,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		right: 0,
 		bottom: '20px',
 		minWidth: '500px',
+		width: '500px',
 		border: '1px solid #ccc',
 		zIndex: 1000,
 		display: 'flex',
@@ -91,19 +92,6 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 
 	// const subProps: ChatSubProps = {};
 
-	const KEY_ENTER = 13;
-	const handleOnChange = (event: KeyboardEvent) => {
-		console.log('handleOnChange', event);
-		const input = event.target as HTMLInputElement;
-		const value = input.value;
-		// handle enter key to submit
-		if (event.keyCode === KEY_ENTER) {
-			controller.search();
-		} else {
-			controller.store.inputValue = value;
-		}
-	};
-
 	const styling = mergeStyles<ChatProps>(props, defaultStyles);
 
 	return true ? (
@@ -115,16 +103,16 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 						<div
 							key={index}
 							className={classnames('ss__chat__message', {
-								['ss__chat__message--user']: chatItem.type === 'user',
-								['ss__chat__message--bot']: chatItem.type === 'message',
+								['ss__chat__message--user']: chatItem.messageType === 'user',
+								['ss__chat__message--bot']: chatItem.messageType !== 'user',
 								// ['ss__chat__message--productData']: chatItem.type === 'productData',
 							})}
 						>
 							{{
 								user: <Message chatItem={chatItem} controller={controller} />,
-								message: <Message chatItem={chatItem} controller={controller} />,
-								// productData: <ProductData chatItem={chatItem} controller={controller} />,
-							}[chatItem.type as 'user' | 'message'] || <Fragment></Fragment>}
+								text: <Message chatItem={chatItem} controller={controller} />,
+								productSearchResult: <Message chatItem={chatItem} controller={controller} />,
+							}[chatItem.messageType] || <Fragment></Fragment>}
 
 							{/* {chatItem.type}: {chatItem.payload.value}
 							{chatItem.attachments && chatItem.attachments.length > 0 ? (
@@ -149,7 +137,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					))}
 				</div>
 				{store.loading ? <div>Loading...</div> : null}
-				<div className={'ss__chat__actions'}>
+				{/* <div className={'ss__chat__actions'}>
 					{controller.store.genericOptions.map((option, index) => (
 						<Button
 							key={index}
@@ -165,7 +153,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 							{option.name}
 						</Button>
 					))}
-				</div>
+				</div> */}
 				<div className={'ss__chat__attachments'}>
 					{store.attachments.attached.map((item) => (
 						<div key={item.id} className={'ss__chat__attachment'}>
@@ -176,14 +164,20 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					))}
 				</div>
 				<div className={'ss__chat__input'}>
-					<input type="text" placeholder="Type your message..." onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} />
+					{/* <input type="text" placeholder="Type your message..." onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} /> */}
+					<input
+						type="text"
+						placeholder="Type your message..."
+						onKeyUp={(e) => controller.handlers.input.input(e as any)}
+						onKeyDown={(e) => controller.handlers.input.enterKey(e as any)}
+						value={controller.store.inputValue}
+					/>
 					<Button disabled={store.blocked} onClick={() => controller.search()}>
 						Send
 					</Button>
 					<input
 						ref={fileInputRef}
 						onChange={async (e) => {
-							console.log('On change', e.target.files);
 							await controller.upload(e.target.files);
 							// reset value
 							e.target.value = '';
@@ -221,7 +215,7 @@ const Message = observer((props: { chatItem: any; controller: ChatController }) 
 
 	return (
 		<div>
-			<span>{chatItem.payload.value}</span>
+			<span>{chatItem.text}</span>
 
 			<ul>
 				{chatItem.attachments?.length

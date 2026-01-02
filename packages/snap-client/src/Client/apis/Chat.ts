@@ -1,6 +1,6 @@
 import { API } from './Abstract';
 import { HTTPHeaders } from '../../types';
-import { transformChatResponse } from '../transforms/chatResponse';
+import { ChatRequestModel, transformChatResponse } from '../transforms/chatResponse';
 
 export type UploadImageRequestModel = {
 	image: Blob;
@@ -22,13 +22,14 @@ export type UploadImageResponseModel = {
 	thumbnailUrl: string;
 };
 
+// DISCRIMINATOR: "requestType" === general, productQuery, productComparison, productSearch, inspiration, imageSearch, content
 export type MoiRequestModel = MoiRequestModelGeneral | MoiRequestModelProductQuery | MoiRequestModelProductComparison | MoiRequestModelImageSearch;
 
 export type MoiRequestModelGeneral = {
 	requestType: 'general';
 	message: string;
 };
-// general, productQuery, productComparison, productSearch, inspiration, imageSearch, content
+
 export type MoiRequestModelProductQuery = {
 	requestType: 'productQuery';
 	message: string;
@@ -47,24 +48,68 @@ export type MoiRequestModelImageSearch = {
 	attachedImageId: string;
 };
 
+// DISCRIMINATOR: "messageType" === text, productAnswer, productRecommendation, productComparison, productSearchResult, suggestedQuestions, content
+export type MoiResponseModel = {
+	data: (MoiResponseModelText | MoiResponseModelProductSearchResult)[];
+};
+
+export type MoiResponseModelText = {
+	messageType: 'text';
+	id: string;
+	collectFeedback: true;
+	text: string;
+};
+
+export type MoiResponseModelProductSearchResult = {
+	messageType: 'productSearchResult';
+	id: string;
+	text: string;
+	totalResultsFound: number;
+	collectFeedback: boolean;
+	facets: {
+		key: string;
+		label: string;
+		options: {
+			key: string;
+			label: string;
+			count: number;
+		}[];
+	}[];
+	products: {
+		id: string;
+		itemGroupId: string;
+		name: string;
+		url: string;
+		image: string;
+		price: string;
+		salePrice: string;
+		currency: string;
+		shortDesc: string;
+		options: {
+			name: string;
+			values: string[];
+		}[];
+	}[];
+};
+
 export class ChatAPI extends API {
-	async postMessage(requestParameters: MoiRequestModel): Promise<any> {
-		const headerParameters: HTTPHeaders = {};
+	async postMessage(requestParameters: ChatRequestModel): Promise<any> {
+		const headerParameters: HTTPHeaders = {
+			'Content-Type': 'application/json',
+			'x-session-id': requestParameters.chat.id,
+			'x-visitor-id': requestParameters.personalization?.shopper || requestParameters.tracking.userId,
+			'x-pqa-widget-id': requestParameters.chat.widgetId,
+		};
 
-		headerParameters['Content-Type'] = 'application/json';
-
-		const response = await this.request<any>(
-			{
-				path: '/chat/send',
-				method: 'POST',
-				headers: headerParameters,
-				body: requestParameters,
-			},
-			JSON.stringify(requestParameters)
-		);
+		const response = await this.request<MoiResponseModel>({
+			path: '/chat/v2/send',
+			method: 'POST',
+			headers: headerParameters,
+			body: requestParameters.data,
+		});
 
 		// transfrorm respose to Snapi types
-		return transformChatResponse(response, requestParameters);
+		return transformChatResponse(response);
 	}
 
 	async postStatus(queryParameters: any): Promise<any> {

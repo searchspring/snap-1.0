@@ -2,6 +2,9 @@ import deepmerge from 'deepmerge';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore, ImageAttachment } from '@searchspring/snap-store-mobx';
+import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
+
+const KEY_ENTER = 13;
 
 type ChatControllerConfig = {
 	id: string;
@@ -41,24 +44,48 @@ export class ChatController extends AbstractController {
 		});
 	}
 
-	get params(): any {
-		const { userId, shopperId } = this.tracker.getContext();
+	get params(): ChatRequestModel {
+		const { userId, shopperId, sessionId, pageLoadId } = this.tracker.getContext();
 
 		const attachedImageIds = this.store.attachments.attached
 			.filter((attachment) => attachment.type === 'image')
 			.map((attachment) => attachment.imageId);
-		const params = {
-			context: {
-				dataProtection: false,
-				sessionId: this.store.chatId,
-				klevuApiKey: 'klevu-164270249063714699',
-				pqaWidgetId: 'test-ss-demo',
-				visitorId: shopperId || userId,
-			},
+
+		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
+		let chatRequest: MoiRequestModel = {
+			requestType: 'general',
 			message: this.store.inputValue,
-			attachedImageId: attachedImageIds.length ? attachedImageIds[0] : undefined,
 		};
-		return params;
+
+		if (attachedImageId) {
+			chatRequest = {
+				requestType: 'imageSearch',
+				message: this.store.inputValue,
+				attachedImageId,
+			};
+		}
+
+		const request: ChatRequestModel = {
+			chat: {
+				id: this.store.chatId,
+				widgetId: 'test-ss-demo',
+			},
+			data: chatRequest,
+			tracking: {
+				userId,
+				domain: window.location.href,
+				sessionId,
+				pageLoadId,
+			},
+		};
+
+		if (shopperId) {
+			request.personalization = {
+				shopper: shopperId,
+			};
+		}
+
+		return request;
 	}
 
 	upload = async (files: FileList | null) => {
@@ -95,6 +122,21 @@ export class ChatController extends AbstractController {
 		}
 	};
 
+	handlers = {
+		input: {
+			enterKey: async (e: KeyboardEvent): Promise<void> => {
+				if (e.keyCode == KEY_ENTER) {
+					this.search();
+				}
+			},
+			input: (e: Event) => {
+				const value = (e.target as HTMLInputElement).value;
+
+				this.store.inputValue = value;
+			},
+		},
+	};
+
 	search = async (): Promise<void> => {
 		try {
 			if (!this.initialized) {
@@ -104,8 +146,12 @@ export class ChatController extends AbstractController {
 			const params = this.params;
 			this.store.handleRequest(params);
 			this.store.loading = true;
-			const { search } = await this.client.chat(params);
-			this.store.handleResponse(search);
+
+			// clear input value
+			this.store.inputValue = '';
+
+			const { chat } = await this.client.chat(params);
+			this.store.handleResponse(chat);
 		} catch (err: any) {
 			if (err) {
 				if (err.err && err.fetchDetails) {
@@ -166,7 +212,5 @@ function convertToBase64(file: File): Promise<string> {
 async function base64ToBlob(base64Image: string): Promise<Blob> {
 	const fetchedImage = await fetch(base64Image);
 	const blob = await fetchedImage.blob();
-	// const file = new File([blob], `searchableimage.jpg`, { type: blob.type });
-	console.log('blob', blob);
 	return blob;
 }

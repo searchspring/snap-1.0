@@ -10,3 +10,6 @@ export {
 	RecommendRequestModel,
 	RecommendationRequestFilterModel,
 } from './types';
+
+export { ChatResponseModel, ChatRequestModel, ChatResponseTextData, ChatResponseProductSearchResultData } from './Client/transforms';
+export { MoiRequestModel } from './Client/apis/Chat';
