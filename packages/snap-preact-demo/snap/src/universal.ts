@@ -17,7 +17,7 @@ Promise.all(promises).then(() => {
 	// @ts-ignore - types not important
 	window.searchspring.build = 'universal';
 	// @ts-ignore - types not important
-	window.searchspring.initiator = 'snap-managed';
+	window.searchspring.managed = true;
 
 	import('./index');
 });
