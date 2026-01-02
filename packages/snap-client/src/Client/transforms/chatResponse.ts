@@ -3,7 +3,7 @@
 // } from '@searchspring/snapi-types';
 
 type ChatResponse = {
-	data: (ChatContextResponseObject | ChatMessageObject | ChatFilterObject | ChatGenericOptionsObject)[];
+	data: (ChatContextResponseObject | ChatMessageObject | ChatFilterObject | ChatGenericOptionsObject | ChatProductDataObject)[];
 };
 
 type ChatContextResponseObject = {
@@ -47,6 +47,27 @@ type ChatGenericOptionsObject = {
 	};
 };
 
+type ChatProductDataObject = {
+	productData: {
+		facets: any[];
+		products: {
+			currency: null | unknown;
+			id: string;
+			image: string;
+			itemGroupId: null | unknown;
+			name: string;
+			options: unknown[];
+			price: string;
+			salePrice: null | unknown;
+			shortDesc: null | unknown;
+			url: string;
+		}[];
+		note: null;
+		totalResultsFound: null | unknown;
+		typeOfQuery: null | unknown;
+	};
+};
+
 export type ChatRequest = {
 	message: string;
 };
@@ -63,6 +84,8 @@ export function transformChatResponse(response: ChatResponse, request: ChatReque
 				return transformChatResponse.filter(data as ChatFilterObject);
 			} else if ((data as any).genericOptions !== undefined) {
 				return transformChatResponse.genericOptions(data as ChatGenericOptionsObject);
+			} else if ((data as any).productData !== undefined) {
+				return transformChatResponse.productData(data as ChatProductDataObject);
 			}
 			return;
 		})
@@ -85,6 +108,11 @@ transformChatResponse.filter = (data: ChatFilterObject) => {
 };
 
 transformChatResponse.genericOptions = (data: ChatGenericOptionsObject) => {
+	// nothing to transform here yet
+	return data;
+};
+
+transformChatResponse.productData = (data: ChatProductDataObject) => {
 	// nothing to transform here yet
 	return data;
 };

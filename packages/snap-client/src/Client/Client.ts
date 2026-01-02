@@ -22,8 +22,7 @@ import type {
 } from '@searchspring/snapi-types';
 
 import deepmerge from 'deepmerge';
-import { ChatAPI, VisualRequestModel, VisualResponseModel } from './apis/Chat';
-import { ChatRequest } from './transforms/chatResponse';
+import { ChatAPI, MoiRequestModel, UploadImageRequestModel, UploadImageResponseModel } from './apis/Chat';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -186,9 +185,9 @@ export class Client {
 		return { meta, search };
 	}
 
-	async uploadImage(params: VisualRequestModel): Promise<VisualResponseModel> {
+	async uploadImage(params: UploadImageRequestModel): Promise<UploadImageResponseModel> {
 		const image = params.image;
-		params = deepmerge<VisualRequestModel & ClientGlobals>(this.globals, params);
+		params = deepmerge<UploadImageRequestModel & ClientGlobals>(this.globals, params);
 		params.image = image;
 		return this.requesters.chat.postUploadImage(params);
 	}
@@ -197,8 +196,8 @@ export class Client {
 		return this.requesters.chat.postStatus(params);
 	}
 
-	async chat(params: ChatRequest & ClientGlobals): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
-		params = deepmerge<ChatRequest & ClientGlobals>(this.globals, params);
+	async chat(params: MoiRequestModel & ClientGlobals): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge<MoiRequestModel & ClientGlobals>(this.globals, params);
 
 		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.chat.postMessage(params)]);
 		return { meta, search };

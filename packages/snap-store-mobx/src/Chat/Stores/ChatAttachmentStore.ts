@@ -3,118 +3,58 @@
 import { v4 as uuidv4 } from 'uuid';
 import { makeObservable, observable, computed } from 'mobx';
 
-/*
-
-store.attachments = {
-	loading: boolean,
-
-	uploading: {
-		type: '',
-		base64?: string, // temporary base64 string before upload
-		error?: string,
-	}
-
-	items: {
-		id: string,
-		conversationId: '',
-		type: 'image',
-		response: {
-			success: boolean,
-			imageId: string,
-			url: '',
-		}
-	}[]
-}
-
-
-add attachment -> adding.loading = true
-on success -> adding = null, items.push(attachment)
-on error -> adding = { ...adding, loading: false, error: 'error message' }
-
-*/
-
 type AttachmentError = {
 	message: string;
 };
 
-// type Attachment = {
-// 	id: string;
-// 	state: 'loading' | 'error' | 'attached' | 'saved';
-// }
-
-/*
-starts as 'loading'
-on success -> 'attached'
-on error -> 'error'
-once message is sent -> 'saved' or keep 'attached' until removed
-*/
-
-// success: boolean,
-// message: string,
-// error?: {
-// 	errorCode: string,
-// 	errorMessage: string,
-// 	field: string,
-// 	expectedValue: string,
-// 	actualValue: string,
-// 	httpStatus: number
-// },
-// imageId: string,
-// imageUrl: string,
-// thumbnailUrl: string
-
-// export type ImageAttachment = Attachment & {
-// 	type: 'image';
-// 	data: {
-// 		base64: string;
-// 	};
-// 	error?: AttachmentError;
-// 	imageId: string,
-// 	imageUrl: string,
-// 	thumbnailUrl: string
-// }
-
 type Attachments = ImageAttachment;
-
-// type FilterAttachment = Attachment & {
-// 	type: 'filter';
-// 	data: {
-// 		field: string;
-// 		value: string;
-// 	}
-// }
 
 abstract class Attachment {
 	public abstract type: string;
+
 	public id: string = uuidv4();
 	public state: 'loading' | 'error' | 'attached' | 'saved' = 'loading';
-	public error?: AttachmentError;
-
-	// public abstract update(): Promise<void>;
+	public error?: AttachmentError = undefined;
 
 	constructor() {
-		// makeObservable(this, {
-		// 	items: observable,
-		// 	attached: computed,
-		// });
+		makeObservable(this, {
+			id: observable,
+			state: observable,
+			error: observable,
+		});
 	}
 
-	// remove() {
+	setError(error: AttachmentError) {
+		this.state = 'error';
+		this.error = error;
+	}
 
-	// }
+	save() {
+		this.state = 'saved';
+	}
+
+	abstract attach(params: any): void;
 }
 
 export class ImageAttachment extends Attachment {
 	public type = 'image';
-	public imageId?: string;
-	public imageUrl?: string;
-	public thumbnailUrl?: string;
-	public base64?: string;
+	public imageId?: string = undefined;
+	public imageUrl?: string = undefined;
+	public thumbnailUrl?: string = undefined;
+	public base64?: string = undefined;
 
-	constructor({ base64 }: { base64?: string }) {
+	constructor({ base64, imageId, imageUrl, thumbnailUrl }: AttachmentAddImage) {
 		super();
 
 		this.base64 = base64;
+
+		// loading from storage with all data present
+		if (imageId && imageUrl && thumbnailUrl) {
+			this.imageId = imageId;
+			this.imageUrl = imageUrl;
+			this.thumbnailUrl = thumbnailUrl;
+			this.state = 'attached';
+		}
 
 		makeObservable(this, {
 			type: observable,
@@ -125,10 +65,16 @@ export class ImageAttachment extends Attachment {
 		});
 	}
 
-	// uploaded = async ({ error, imageId, }): Promise<void> => {
-	// 	console.log();
-	// }
+	attach = async ({ imageId, imageUrl, thumbnailUrl }: { imageId?: string; imageUrl?: string; thumbnailUrl?: string }): Promise<void> => {
+		this.state = 'attached';
+		this.imageId = imageId;
+		this.imageUrl = imageUrl;
+		this.thumbnailUrl = thumbnailUrl;
+	};
 }
+
+type AttachmentAddImage = { type: 'image'; base64?: string; imageId?: string; imageUrl?: string; thumbnailUrl?: string };
+type AttachmentAddAttachment = AttachmentAddImage | /*AttachmentAddFilter |*/ never;
 
 export class ChatAttachmentStore {
 	public items: Attachments[] = [];
@@ -140,43 +86,29 @@ export class ChatAttachmentStore {
 		});
 	}
 
-	/*
-
-	Prior to sending message:
-		* any attachments still pending?
-		* any attachments in error state?
-
-	Attachments that are not currently attached, but need to exist for future reference in chat history
-		* attachments that are "removed"?
-
-	*/
-
 	get attached() {
 		return this.items.filter((item) => item.state === 'attached');
 	}
 
-	add<T extends ImageAttachment>(attachment: Pick<T, 'type' | 'data'>): T {
+	add<T extends Attachments>(attachment: AttachmentAddAttachment): T {
 		switch (attachment.type) {
 			case 'image': {
-				// const newAttachment = {
-				// 	id: uuidv4(),
-				// 	...attachment,
-				// 	state: 'loading',
-				// } as T;
-				// this.items.push(newAttachment);
-				const newAttachment = new ImageAttachment({});
+				const newAttachment = new ImageAttachment(attachment);
 				this.items.push(newAttachment);
-				return newAttachment;
+				return newAttachment as T;
 			}
 		}
 		throw new Error('Unsupported attachment type');
 	}
 
 	remove(id: string) {
-		this.items = this.items.filter((item) => item.id !== id);
+		const index = this.items.findIndex((item) => item.id === id);
+		if (index !== -1) {
+			this.items.splice(index, 1);
+		}
 	}
 
-	// update() {
-
-	// }
+	get(id: string): Attachments | undefined {
+		return this.items.find((item) => item.id === id);
+	}
 }

@@ -2,11 +2,11 @@ import { API } from './Abstract';
 import { HTTPHeaders } from '../../types';
 import { transformChatResponse } from '../transforms/chatResponse';
 
-export type VisualRequestModel = {
+export type UploadImageRequestModel = {
 	image: Blob;
 };
 
-export type VisualResponseModel = {
+export type UploadImageResponseModel = {
 	success: boolean;
 	message: string;
 	error?: {
@@ -21,8 +21,34 @@ export type VisualResponseModel = {
 	imageUrl: string;
 	thumbnailUrl: string;
 };
+
+export type MoiRequestModel = MoiRequestModelGeneral | MoiRequestModelProductQuery | MoiRequestModelProductComparison | MoiRequestModelImageSearch;
+
+export type MoiRequestModelGeneral = {
+	requestType: 'general';
+	message: string;
+};
+// general, productQuery, productComparison, productSearch, inspiration, imageSearch, content
+export type MoiRequestModelProductQuery = {
+	requestType: 'productQuery';
+	message: string;
+	productId: string;
+};
+
+export type MoiRequestModelProductComparison = {
+	requestType: 'productComparison';
+	message: string;
+	productIds: string[];
+};
+
+export type MoiRequestModelImageSearch = {
+	requestType: 'imageSearch';
+	message: string;
+	attachedImageId: string;
+};
+
 export class ChatAPI extends API {
-	async postMessage(requestParameters: any): Promise<any> {
+	async postMessage(requestParameters: MoiRequestModel): Promise<any> {
 		const headerParameters: HTTPHeaders = {};
 
 		headerParameters['Content-Type'] = 'application/json';
@@ -59,14 +85,14 @@ export class ChatAPI extends API {
 		return response;
 	}
 
-	async postUploadImage(requestParameters: VisualRequestModel): Promise<VisualResponseModel> {
+	async postUploadImage(requestParameters: UploadImageRequestModel): Promise<UploadImageResponseModel> {
 		const headerParameters: HTTPHeaders = {
 			'X-Widget-Id': 'test-ss-demo',
 		};
 		const formData = new FormData();
 		formData.append('file', requestParameters.image, 'image.jpg');
 
-		const response = await this.request<VisualResponseModel>(
+		const response = await this.request<UploadImageResponseModel>(
 			{
 				path: '/visual-search/upload-image',
 				method: 'POST',

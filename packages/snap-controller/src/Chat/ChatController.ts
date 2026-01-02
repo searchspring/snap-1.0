@@ -44,16 +44,19 @@ export class ChatController extends AbstractController {
 	get params(): any {
 		const { userId, shopperId } = this.tracker.getContext();
 
+		const attachedImageIds = this.store.attachments.attached
+			.filter((attachment) => attachment.type === 'image')
+			.map((attachment) => attachment.imageId);
 		const params = {
 			context: {
 				dataProtection: false,
-				sessionId: this.store.sessionId,
+				sessionId: this.store.chatId,
 				klevuApiKey: 'klevu-164270249063714699',
+				pqaWidgetId: 'test-ss-demo',
 				visitorId: shopperId || userId,
 			},
 			message: this.store.inputValue,
-
-			// TODO: add attachedImageId: this.store.attachments.items
+			attachedImageId: attachedImageIds.length ? attachedImageIds[0] : undefined,
 		};
 		return params;
 	}
@@ -69,30 +72,25 @@ export class ChatController extends AbstractController {
 				image,
 			};
 
-			const attachment = this.store.attachments.add<ImageAttachment>({ type: 'image', data: { base64: base64Image } });
+			const attachment = this.store.attachments.add<ImageAttachment>({ type: 'image', base64: base64Image });
 
 			try {
-				console.log('attachment', attachment);
 				const response = await this.client.uploadImage(params);
-				console.log('response');
-
 				if (response.success) {
-					attachment.state = 'attached';
-					attachment.imageId = response.imageId;
-					attachment.imageUrl = response.imageUrl;
-					attachment.thumbnailUrl = response.thumbnailUrl;
+					attachment.attach({
+						imageId: response.imageId,
+						imageUrl: response.imageUrl,
+						thumbnailUrl: response.thumbnailUrl,
+					});
 				} else if (response.error) {
-					attachment.state = 'error';
-					attachment.error = {
+					attachment.setError({
 						message: response.error.errorMessage,
-					};
+					});
 				}
 			} catch (err) {
-				console.log(err);
-				attachment.state = 'error';
-				attachment.error = {
+				attachment.setError({
 					message: 'Upload failed',
-				};
+				});
 			}
 		}
 	};

@@ -4,6 +4,7 @@ import { MetaStore } from '../Meta/MetaStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { ChatAttachmentStore } from './Stores/ChatAttachmentStore';
+import { v4 as uuidv4 } from 'uuid';
 
 type GenericOption = {
 	name: string;
@@ -11,7 +12,15 @@ type GenericOption = {
 	chat: string | null;
 };
 
-type Chat = any[];
+type Chat = ChatMessage[];
+
+type ChatMessage = {
+	type: 'user' | 'message';
+	payload: {
+		value: string;
+	};
+	attachments?: string[];
+};
 
 export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public services: StoreServices;
@@ -19,7 +28,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public inputValue: string = '';
 	public chat: Chat = [];
 	public genericOptions: Array<GenericOption> = [];
-	public sessionId: string | undefined;
+	public chatId: string = uuidv4();
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
 
 	get blocked(): boolean {
@@ -73,28 +82,51 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		this.update({ search: {}, meta: {} });
 	}
 
-	public handleResponse(data: any): void {
-		if (data.context?.sessionId) {
-			this.sessionId = data.context.sessionId;
-			// TODO: add check if sessionId is set but different, reset session to new chat (happens after 24hrs)
-		}
-		if (data.message) {
-			data.message.forEach((msg: any) => {
+	public handleResponse(response: any): void {
+		// if (data.context?.sessionId) {
+		// 	this.sessionId = data.context.sessionId;
+		// 	// TODO: add check if sessionId is set but different, reset session to new chat (happens after 24hrs)
+		// }
+
+		response.forEach((data: any) => {
+			if (data.message) {
 				this.chat.push({
-					type: 'bot',
-					payload: msg,
+					type: 'message',
+					payload: data.message,
 				});
-			});
-		}
-		if (data.genericOptions) {
-			this.genericOptions = data.genericOptions.options;
-		}
+			}
+			if (data.genericOptions) {
+				this.genericOptions = data.genericOptions.options;
+			}
+			// if(data.productData) {
+			// 	const { note, totalResultsFound, typeOfQuery, facets, products } = data.productData;
+			// 	if(products && products.length > 0) {
+			// 		this.chat.push({
+			// 			type: 'productData',
+			// 			payload: data.productData,
+			// 		});
+			// 	}
+			// }
+		});
 	}
 
 	public handleRequest(request: any): void {
 		if (request.message) {
+			// check for sent attachments in context
+			const attachments: string[] = [];
+			if (request.attachedImageId) {
+				const attachedImage = this.attachments.attached.find((item) => item.type == 'image' && item.imageId == request.attachedImageId);
+				if (attachedImage) {
+					attachments.push(attachedImage.id);
+
+					// save the attachment (change state to 'saved');
+					attachedImage.save();
+				}
+			}
+
 			this.chat.push({
 				type: 'user',
+				attachments,
 				payload: {
 					value: request.message,
 				},
@@ -110,9 +142,6 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			},
 		});
 
-		if (search?.sessionId) {
-			this.sessionId = search.sessionId;
-		}
 		this.error = undefined;
 		this.loaded = Boolean(search?.pagination);
 	}

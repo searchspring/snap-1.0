@@ -116,10 +116,35 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 							key={index}
 							className={classnames('ss__chat__message', {
 								['ss__chat__message--user']: chatItem.type === 'user',
-								['ss__chat__message--bot']: chatItem.type === 'bot',
+								['ss__chat__message--bot']: chatItem.type === 'message',
+								// ['ss__chat__message--productData']: chatItem.type === 'productData',
 							})}
 						>
-							{chatItem.type}: {chatItem.payload.value}
+							{{
+								user: <Message chatItem={chatItem} controller={controller} />,
+								message: <Message chatItem={chatItem} controller={controller} />,
+								// productData: <ProductData chatItem={chatItem} controller={controller} />,
+							}[chatItem.type as 'user' | 'message'] || <Fragment></Fragment>}
+
+							{/* {chatItem.type}: {chatItem.payload.value}
+							{chatItem.attachments && chatItem.attachments.length > 0 ? (
+								<div>
+									Attachments:
+									<ul>
+										{chatItem.attachments.map((attachmentId: string) => {
+											const attachment = store.attachments.get(attachmentId);
+											switch (attachment?.type) {
+												case 'image':
+													return (
+														<li key={attachment.id}>
+															<Image style={{ height: '50px', width: '50px' }} src={attachment.base64 ||attachment.thumbnailUrl} alt={''}></Image>
+														</li>
+													);
+											}
+										})}
+									</ul>
+								</div>
+							) : null} */}
 						</div>
 					))}
 				</div>
@@ -142,16 +167,16 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					))}
 				</div>
 				<div className={'ss__chat__attachments'}>
-					{store.attachments.items.map((item, index) => (
-						<div key={index} className={'ss__chat__attachment'}>
+					{store.attachments.attached.map((item) => (
+						<div key={item.id} className={'ss__chat__attachment'}>
 							{{
-								image: <ImageAttachment attachment={item} controller={controller} />,
-							}[item.type] || <ImageAttachment attachment={item} controller={controller} />}
+								image: <AttachmentImage attachment={item} controller={controller} />,
+							}[item.type] || <Fragment></Fragment>}
 						</div>
 					))}
 				</div>
 				<div className={'ss__chat__input'}>
-					<input type="text" placeholder="Type your message..." onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} />
+					<input type="text" placeholder="Type your message..." onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} />
 					<Button disabled={store.blocked} onClick={() => controller.search()}>
 						Send
 					</Button>
@@ -177,18 +202,45 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	);
 });
 
-const ImageAttachment = (props: { attachment: ImageAttachment; controller: ChatController }) => {
+const AttachmentImage = observer((props: { attachment: ImageAttachment; controller: ChatController }) => {
 	const { attachment, controller } = props;
 	const chatStore = controller.store;
 
-	const src = attachment.data.base64;
-	return (
+	const src = attachment.base64 || attachment.thumbnailUrl;
+	return src ? (
 		<div>
 			<Image style={{ height: '50px', width: '50px' }} src={src} alt={''}></Image>
 			<Button onClick={() => chatStore.attachments.remove(attachment.id)}>X</Button>
 		</div>
+	) : null;
+});
+
+const Message = observer((props: { chatItem: any; controller: ChatController }) => {
+	const { controller, chatItem } = props;
+	const { store } = controller;
+
+	return (
+		<div>
+			<span>{chatItem.payload.value}</span>
+
+			<ul>
+				{chatItem.attachments?.length
+					? chatItem.attachments?.map((attachmentId: string) => {
+							const attachment = store.attachments.get(attachmentId);
+							switch (attachment?.type) {
+								case 'image':
+									return (
+										<li key={attachment.id}>
+											<Image style={{ height: '50px', width: '50px' }} src={attachment.base64 || attachment.thumbnailUrl || ''} alt={''}></Image>
+										</li>
+									);
+							}
+					  })
+					: null}
+			</ul>
+		</div>
 	);
-};
+});
 
 // interface ChatSubProps {
 // 	[thing: string]: any;
