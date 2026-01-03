@@ -157,6 +157,7 @@ let config: SnapConfig = {
 			{
 				config: {
 					id: 'chat',
+					widgetId: 'test-ss-demo',
 				},
 				targeters: [
 					{

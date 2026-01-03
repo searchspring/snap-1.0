@@ -3,20 +3,67 @@
 import { v4 as uuidv4 } from 'uuid';
 import { makeObservable, observable, computed } from 'mobx';
 
+type AttachmentState = 'loading' | 'error' | 'attached' | 'saved';
 type AttachmentError = {
 	message: string;
 };
 
-type Attachments = ImageAttachment;
+export type ChatAttachmentAddAttachment = ChatAttachmentImageConfig | /*AttachmentAddFilter |*/ never;
 
-abstract class Attachment {
-	public abstract type: string;
-
-	public id: string = uuidv4();
-	public state: 'loading' | 'error' | 'attached' | 'saved' = 'loading';
-	public error?: AttachmentError = undefined;
+export class ChatAttachmentStore {
+	public items: ChatAttachments[] = [];
 
 	constructor() {
+		makeObservable(this, {
+			items: observable,
+			attached: computed,
+		});
+	}
+
+	get attached() {
+		return this.items.filter((item) => item.state === 'attached' || item.state === 'loading' || item.state === 'error');
+	}
+
+	add<T extends ChatAttachments>(attachment: ChatAttachmentAddAttachment): T {
+		switch (attachment.type) {
+			case 'image': {
+				const newAttachment = new ChatAttachmentImage(attachment);
+				this.items.push(newAttachment);
+				return newAttachment as T;
+			}
+		}
+	}
+
+	remove(id: string) {
+		const index = this.items.findIndex((item) => item.id === id);
+		if (index !== -1) {
+			this.items.splice(index, 1);
+		}
+	}
+
+	get(id: string): ChatAttachments | undefined {
+		return this.items.find((item) => item.id === id);
+	}
+
+	reset(): void {
+		this.items = [];
+	}
+}
+
+/* Various Attachment Types */
+
+type ChatAttachments = ChatAttachmentImage;
+
+abstract class ChatAttachment {
+	public abstract type: string;
+
+	public id: string;
+	public state: AttachmentState = 'loading';
+	public error?: AttachmentError = undefined;
+
+	constructor(params: { data?: { id?: string; state?: AttachmentState; error?: AttachmentError } } = {}) {
+		this.id = params.data?.id ?? uuidv4();
+		this.state = params.data?.state ?? 'loading';
 		makeObservable(this, {
 			id: observable,
 			state: observable,
@@ -24,37 +71,38 @@ abstract class Attachment {
 		});
 	}
 
-	setError(error: AttachmentError) {
-		this.state = 'error';
-		this.error = error;
-	}
-
 	save() {
 		this.state = 'saved';
 	}
 
-	abstract attach(params: any): void;
+	abstract update(params: unknown): void;
 }
 
-export class ImageAttachment extends Attachment {
-	public type = 'image';
-	public imageId?: string = undefined;
-	public imageUrl?: string = undefined;
-	public thumbnailUrl?: string = undefined;
-	public base64?: string = undefined;
+type ChatAttachmentImageConfig = {
+	type: 'image';
+	id?: string;
+	base64?: string;
+	imageId?: string;
+	imageUrl?: string;
+	thumbnailUrl?: string;
+	state?: AttachmentState;
+	error?: AttachmentError;
+};
 
-	constructor({ base64, imageId, imageUrl, thumbnailUrl }: AttachmentAddImage) {
-		super();
+export class ChatAttachmentImage extends ChatAttachment {
+	public type: 'image' | never = 'image';
+	public imageId?: string;
+	public imageUrl?: string;
+	public thumbnailUrl?: string;
+	public base64?: string;
+
+	constructor({ id, base64, imageId, imageUrl, thumbnailUrl, state, error }: ChatAttachmentImageConfig) {
+		super({ data: { id, state, error } });
 
 		this.base64 = base64;
-
-		// loading from storage with all data present
-		if (imageId && imageUrl && thumbnailUrl) {
-			this.imageId = imageId;
-			this.imageUrl = imageUrl;
-			this.thumbnailUrl = thumbnailUrl;
-			this.state = 'attached';
-		}
+		this.imageId = imageId;
+		this.imageUrl = imageUrl;
+		this.thumbnailUrl = thumbnailUrl;
 
 		makeObservable(this, {
 			type: observable,
@@ -65,50 +113,26 @@ export class ImageAttachment extends Attachment {
 		});
 	}
 
-	attach = async ({ imageId, imageUrl, thumbnailUrl }: { imageId?: string; imageUrl?: string; thumbnailUrl?: string }): Promise<void> => {
-		this.state = 'attached';
-		this.imageId = imageId;
-		this.imageUrl = imageUrl;
-		this.thumbnailUrl = thumbnailUrl;
+	// used to update attachment after upload or from
+	update = async ({
+		imageId,
+		imageUrl,
+		thumbnailUrl,
+		error,
+	}: {
+		imageId?: string;
+		imageUrl?: string;
+		thumbnailUrl?: string;
+		error?: AttachmentError;
+	}): Promise<void> => {
+		if (imageId && imageUrl && thumbnailUrl) {
+			this.state = 'attached';
+			this.imageId = imageId;
+			this.imageUrl = imageUrl;
+			this.thumbnailUrl = thumbnailUrl;
+		} else if (error) {
+			this.state = 'error';
+			this.error = error;
+		}
 	};
-}
-
-type AttachmentAddImage = { type: 'image'; base64?: string; imageId?: string; imageUrl?: string; thumbnailUrl?: string };
-type AttachmentAddAttachment = AttachmentAddImage | /*AttachmentAddFilter |*/ never;
-
-export class ChatAttachmentStore {
-	public items: Attachments[] = [];
-
-	constructor() {
-		makeObservable(this, {
-			items: observable,
-			attached: computed,
-		});
-	}
-
-	get attached() {
-		return this.items.filter((item) => item.state === 'attached');
-	}
-
-	add<T extends Attachments>(attachment: AttachmentAddAttachment): T {
-		switch (attachment.type) {
-			case 'image': {
-				const newAttachment = new ImageAttachment(attachment);
-				this.items.push(newAttachment);
-				return newAttachment as T;
-			}
-		}
-		throw new Error('Unsupported attachment type');
-	}
-
-	remove(id: string) {
-		const index = this.items.findIndex((item) => item.id === id);
-		if (index !== -1) {
-			this.items.splice(index, 1);
-		}
-	}
-
-	get(id: string): Attachments | undefined {
-		return this.items.find((item) => item.id === id);
-	}
 }

@@ -1,12 +1,27 @@
 import { SearchResponseModelResult } from '@searchspring/snapi-types';
-import type { MoiRequestModel, MoiResponseModel, MoiResponseModelProductSearchResult, MoiResponseModelText } from '../apis/Chat';
+import type {
+	MoiRequestModel,
+	MoiResponseModel,
+	MoiResponseModelContent,
+	MoiResponseModelInspirationResult,
+	MoiResponseModelProduct,
+	MoiResponseModelProductSearchResult,
+	MoiResponseModelText,
+} from '../apis/Chat';
 
 export type ChatResponseModel = {
-	data: (ChatResponseTextData | ChatResponseProductSearchResultData)[];
+	data: (ChatResponseTextData | ChatResponseContentData | ChatResponseProductSearchResultData | ChatResponseInspirationResultData)[];
 };
 
 export type ChatResponseTextData = {
 	messageType: 'text';
+	id: string;
+	collectFeedback: true;
+	text: string;
+};
+
+export type ChatResponseContentData = {
+	messageType: 'content';
 	id: string;
 	collectFeedback: true;
 	text: string;
@@ -17,6 +32,14 @@ export type ChatResponseProductSearchResultData = {
 	id: string;
 	results: SearchResponseModelResult[];
 	facets: MoiResponseModelProductSearchResult['facets'];
+	collectFeedback: boolean;
+	text: string;
+};
+
+export type ChatResponseInspirationResultData = {
+	messageType: 'inspirationResult';
+	id: string;
+	results: SearchResponseModelResult[];
 	collectFeedback: boolean;
 	text: string;
 };
@@ -43,8 +66,12 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 		.map((data) => {
 			if (data.messageType === 'text') {
 				return transformChatResponse.text(data);
+			} else if (data.messageType === 'content') {
+				return transformChatResponse.content(data);
 			} else if (data.messageType === 'productSearchResult') {
 				return transformChatResponse.productData(data);
+			} else if (data.messageType === 'inspirationResult') {
+				return transformChatResponse.inspirationResult(data);
 			}
 		})
 		.filter((data) => data !== undefined);
@@ -59,6 +86,11 @@ transformChatResponse.text = (data: MoiResponseModelText): ChatResponseTextData 
 	return data;
 };
 
+transformChatResponse.content = (data: MoiResponseModelContent): ChatResponseContentData => {
+	// nothing to transform here yet
+	return data;
+};
+
 transformChatResponse.productData = (data: MoiResponseModelProductSearchResult): ChatResponseProductSearchResultData => {
 	return {
 		messageType: data.messageType,
@@ -66,22 +98,34 @@ transformChatResponse.productData = (data: MoiResponseModelProductSearchResult):
 		collectFeedback: data.collectFeedback,
 		text: data.text,
 		facets: data.facets,
-		results: data.products.map((product) => ({
-			id: product.id,
-			mappings: {
-				core: {
-					uid: product.id,
-					name: product.name,
-					url: product.url,
-					imageUrl: product.image,
-					price: typeof product.price !== 'undefined' ? +product.price : undefined,
-					msrp: typeof product.salePrice !== 'undefined' ? +product.salePrice : undefined,
-					description: product.shortDesc,
-				},
-			},
-			attributes: {
-				currency: product.currency as any,
-			},
-		})),
+		results: data.products.map(mapProductToSearchResultProduct),
 	};
 };
+
+transformChatResponse.inspirationResult = (data: MoiResponseModelInspirationResult): ChatResponseInspirationResultData => {
+	return {
+		messageType: data.messageType,
+		id: data.id,
+		collectFeedback: data.collectFeedback,
+		text: data.text,
+		results: data.products.map(mapProductToSearchResultProduct),
+	};
+};
+
+const mapProductToSearchResultProduct = (product: MoiResponseModelProduct): SearchResponseModelResult => ({
+	id: product.id,
+	mappings: {
+		core: {
+			uid: product.id,
+			name: product.name,
+			url: product.url,
+			imageUrl: product.image,
+			price: typeof product.price !== 'undefined' ? +product.price : undefined,
+			msrp: typeof product.salePrice !== 'undefined' ? +product.salePrice : undefined,
+			description: product.shortDesc,
+		},
+	},
+	attributes: {
+		currency: product.currency as any,
+	},
+});

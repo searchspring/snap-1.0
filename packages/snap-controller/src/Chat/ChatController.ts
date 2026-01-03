@@ -8,10 +8,11 @@ const KEY_ENTER = 13;
 
 type ChatControllerConfig = {
 	id: string;
+	widgetId: string;
 	settings?: any;
 };
-const defaultConfig: ChatControllerConfig = {
-	id: 'search',
+const defaultConfig: Partial<ChatControllerConfig> = {
+	id: 'chat',
 	settings: {},
 };
 
@@ -47,7 +48,7 @@ export class ChatController extends AbstractController {
 	get params(): ChatRequestModel {
 		const { userId, shopperId, sessionId, pageLoadId } = this.tracker.getContext();
 
-		const attachedImageIds = this.store.attachments.attached
+		const attachedImageIds = (this.store.currentChat?.attachments.attached || [])
 			.filter((attachment) => attachment.type === 'image')
 			.map((attachment) => attachment.imageId);
 
@@ -57,6 +58,7 @@ export class ChatController extends AbstractController {
 			message: this.store.inputValue,
 		};
 
+		// imageSearch --- if an image is attached, change request type
 		if (attachedImageId) {
 			chatRequest = {
 				requestType: 'imageSearch',
@@ -67,8 +69,8 @@ export class ChatController extends AbstractController {
 
 		const request: ChatRequestModel = {
 			chat: {
-				id: this.store.chatId,
-				widgetId: 'test-ss-demo',
+				id: this.store.currentChatId,
+				widgetId: this.config.widgetId,
 			},
 			data: chatRequest,
 			tracking: {
@@ -99,25 +101,31 @@ export class ChatController extends AbstractController {
 				image,
 			};
 
-			const attachment = this.store.attachments.add<ImageAttachment>({ type: 'image', base64: base64Image });
+			const attachment = this.store.currentChat?.attachments.add<ImageAttachment>({ type: 'image', base64: base64Image });
 
-			try {
-				const response = await this.client.uploadImage(params);
-				if (response.success) {
-					attachment.attach({
-						imageId: response.imageId,
-						imageUrl: response.imageUrl,
-						thumbnailUrl: response.thumbnailUrl,
-					});
-				} else if (response.error) {
-					attachment.setError({
-						message: response.error.errorMessage,
+			if (attachment) {
+				try {
+					const response = await this.client.uploadImage(params);
+					if (response.success) {
+						attachment.update({
+							imageId: response.imageId,
+							imageUrl: response.imageUrl,
+							thumbnailUrl: response.thumbnailUrl,
+						});
+					} else if (response.error) {
+						attachment.update({
+							error: {
+								message: response.error.errorMessage,
+							},
+						});
+					}
+				} catch (err) {
+					attachment.update({
+						error: {
+							message: 'upload failure...',
+						},
 					});
 				}
-			} catch (err) {
-				attachment.setError({
-					message: 'Upload failed',
-				});
 			}
 		}
 	};
@@ -135,6 +143,11 @@ export class ChatController extends AbstractController {
 				this.store.inputValue = value;
 			},
 		},
+		button: {
+			click: () => {
+				this.store.open = !this.store.open;
+			},
+		},
 	};
 
 	search = async (): Promise<void> => {
@@ -142,16 +155,87 @@ export class ChatController extends AbstractController {
 			if (!this.initialized) {
 				await this.init();
 			}
+
+			if (this.store.blocked) {
+				return;
+			}
+
 			// TODO: add middleware
 			const params = this.params;
-			this.store.handleRequest(params);
+
+			try {
+				await this.eventManager.fire('beforeSearch', {
+					controller: this,
+					request: params,
+				});
+			} catch (err: any) {
+				if (err?.message == 'cancelled') {
+					this.log.warn(`'beforeSearch' middleware cancelled`);
+					return;
+				} else {
+					this.log.error(`error in 'beforeSearch' middleware`);
+					throw err;
+				}
+			}
+
+			this.store.request(params);
 			this.store.loading = true;
 
 			// clear input value
 			this.store.inputValue = '';
 
-			const { chat } = await this.client.chat(params);
-			this.store.handleResponse(chat);
+			const searchProfile = this.profiler.create({ type: 'event', name: 'search', context: params }).start();
+
+			const response = await this.client.chat(params);
+
+			searchProfile.stop();
+			this.log.profile(searchProfile);
+
+			const afterSearchProfile = this.profiler.create({ type: 'event', name: 'afterSearch', context: params }).start();
+
+			try {
+				await this.eventManager.fire('afterSearch', {
+					controller: this,
+					request: params,
+					response,
+				});
+			} catch (err: any) {
+				if (err?.message == 'cancelled') {
+					this.log.warn(`'afterSearch' middleware cancelled`);
+					afterSearchProfile.stop();
+					return;
+				} else {
+					this.log.error(`error in 'afterSearch' middleware`);
+					throw err;
+				}
+			}
+
+			afterSearchProfile.stop();
+			this.log.profile(afterSearchProfile);
+
+			this.store.update(response);
+
+			const afterStoreProfile = this.profiler.create({ type: 'event', name: 'afterStore', context: params }).start();
+
+			try {
+				await this.eventManager.fire('afterStore', {
+					controller: this,
+					request: params,
+					response,
+				});
+			} catch (err: any) {
+				if (err?.message == 'cancelled') {
+					this.log.warn(`'afterStore' middleware cancelled`);
+					afterStoreProfile.stop();
+					return;
+				} else {
+					this.log.error(`error in 'afterStore' middleware`);
+					throw err;
+				}
+			}
+
+			afterStoreProfile.stop();
+			this.log.profile(afterStoreProfile);
 		} catch (err: any) {
 			if (err) {
 				if (err.err && err.fetchDetails) {

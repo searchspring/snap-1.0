@@ -50,11 +50,18 @@ export type MoiRequestModelImageSearch = {
 
 // DISCRIMINATOR: "messageType" === text, productAnswer, productRecommendation, productComparison, productSearchResult, suggestedQuestions, content
 export type MoiResponseModel = {
-	data: (MoiResponseModelText | MoiResponseModelProductSearchResult)[];
+	data: (MoiResponseModelText | MoiResponseModelContent | MoiResponseModelProductSearchResult | MoiResponseModelInspirationResult)[];
 };
 
 export type MoiResponseModelText = {
 	messageType: 'text';
+	id: string;
+	collectFeedback: true;
+	text: string;
+};
+
+export type MoiResponseModelContent = {
+	messageType: 'content';
 	id: string;
 	collectFeedback: true;
 	text: string;
@@ -75,20 +82,30 @@ export type MoiResponseModelProductSearchResult = {
 			count: number;
 		}[];
 	}[];
-	products: {
-		id: string;
-		itemGroupId: string;
+	products: MoiResponseModelProduct[];
+};
+
+export type MoiResponseModelInspirationResult = {
+	messageType: 'inspirationResult';
+	id: string;
+	text: string;
+	collectFeedback: boolean;
+	products: MoiResponseModelProduct[];
+};
+
+export type MoiResponseModelProduct = {
+	id: string;
+	itemGroupId: string;
+	name: string;
+	url: string;
+	image: string;
+	price: string;
+	salePrice: string;
+	currency: string;
+	shortDesc: string;
+	options: {
 		name: string;
-		url: string;
-		image: string;
-		price: string;
-		salePrice: string;
-		currency: string;
-		shortDesc: string;
-		options: {
-			name: string;
-			values: string[];
-		}[];
+		values: string[];
 	}[];
 };
 
