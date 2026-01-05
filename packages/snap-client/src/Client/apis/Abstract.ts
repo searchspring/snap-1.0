@@ -64,7 +64,17 @@ export class API {
 
 		try {
 			response = await this.fetchApi(url, init);
+
 			responseJSON = await response?.json();
+
+			// get headers off of response (for chat API)
+			const headers = response.headers;
+			const sessionId = headers.get('x-session-id');
+
+			if (sessionId) {
+				// @ts-ignore - add sessionId to response context
+				responseJSON.context = response.context || { sessionId };
+			}
 
 			if (response.status >= 200 && response.status < 300) {
 				this.retryCount = 0; // reset count and delay incase rate limit occurs again before a page refresh

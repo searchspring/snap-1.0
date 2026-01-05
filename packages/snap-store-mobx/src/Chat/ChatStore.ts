@@ -3,7 +3,6 @@ import { ChatStoreConfig } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
-import { v4 as uuidv4 } from 'uuid';
 import type { ChatResponseModel, ChatRequestModel } from '@searchspring/snap-client';
 import { StorageStore } from '../Storage/StorageStore';
 import { ChatSessionStore } from './Stores/ChatSessionStore';
@@ -34,6 +33,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 					const restoredChat = new ChatSessionStore({
 						data: {
 							id: chatId,
+							sessionId: chatData.sessionId,
 							chat: chatData.chat,
 							attachments: chatData.attachments,
 						},
@@ -94,9 +94,6 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 
 	public newChat(): ChatSessionStore {
 		const newChat = new ChatSessionStore({
-			data: {
-				id: uuidv4(),
-			},
 			stores: {
 				storage: this.storage,
 			},

@@ -68,8 +68,8 @@ export class ChatController extends AbstractController {
 		}
 
 		const request: ChatRequestModel = {
-			chat: {
-				id: this.store.currentChatId,
+			context: {
+				sessionId: this.store.currentChat?.sessionId,
 				widgetId: this.config.widgetId,
 			},
 			data: chatRequest,
@@ -122,7 +122,7 @@ export class ChatController extends AbstractController {
 				} catch (err) {
 					attachment.update({
 						error: {
-							message: 'upload failure...',
+							message: 'Upload Failed',
 						},
 					});
 				}
@@ -146,6 +146,13 @@ export class ChatController extends AbstractController {
 		button: {
 			click: () => {
 				this.store.open = !this.store.open;
+
+				if (this.store.open) {
+					// if there is no current chat sessionId make a new request to get one
+					if (!this.store.currentChat?.sessionId) {
+						this.search();
+					}
+				}
 			},
 		},
 	};
@@ -154,10 +161,6 @@ export class ChatController extends AbstractController {
 		try {
 			if (!this.initialized) {
 				await this.init();
-			}
-
-			if (this.store.blocked) {
-				return;
 			}
 
 			// TODO: add middleware

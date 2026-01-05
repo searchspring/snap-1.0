@@ -11,6 +11,9 @@ import type {
 
 export type ChatResponseModel = {
 	data: (ChatResponseTextData | ChatResponseContentData | ChatResponseProductSearchResultData | ChatResponseInspirationResultData)[];
+	context: {
+		sessionId: string;
+	};
 };
 
 export type ChatResponseTextData = {
@@ -45,8 +48,8 @@ export type ChatResponseInspirationResultData = {
 };
 
 export type ChatRequestModel = {
-	chat: {
-		id: string;
+	context: {
+		sessionId?: string;
 		widgetId: string;
 	};
 	data: MoiRequestModel;
@@ -78,6 +81,7 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 
 	return {
 		data: (transformedData || []) as ChatResponseModel['data'],
+		context: response.context,
 	};
 }
 

@@ -50,6 +50,9 @@ export type MoiRequestModelImageSearch = {
 
 // DISCRIMINATOR: "messageType" === text, productAnswer, productRecommendation, productComparison, productSearchResult, suggestedQuestions, content
 export type MoiResponseModel = {
+	context: {
+		sessionId: string;
+	};
 	data: (MoiResponseModelText | MoiResponseModelContent | MoiResponseModelProductSearchResult | MoiResponseModelInspirationResult)[];
 };
 
@@ -113,10 +116,13 @@ export class ChatAPI extends API {
 	async postMessage(requestParameters: ChatRequestModel): Promise<any> {
 		const headerParameters: HTTPHeaders = {
 			'Content-Type': 'application/json',
-			'x-session-id': requestParameters.chat.id,
 			'x-visitor-id': requestParameters.personalization?.shopper || requestParameters.tracking.userId,
-			'x-pqa-widget-id': requestParameters.chat.widgetId,
+			'x-pqa-widget-id': requestParameters.context.widgetId,
 		};
+
+		if (requestParameters.context.sessionId) {
+			headerParameters['x-session-id'] = requestParameters.context.sessionId;
+		}
 
 		const response = await this.request<MoiResponseModel>({
 			path: '/chat/v2/send',

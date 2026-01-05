@@ -28,8 +28,9 @@ export type ChatMessage =
 	| UserChatMessage;
 
 type ChatSessionStoreConfig = {
-	data: {
-		id: string;
+	data?: {
+		id?: string;
+		sessionId?: string;
 		chat?: ChatMessage[];
 		attachments?: ChatAttachmentAddAttachment[];
 	};
@@ -41,14 +42,16 @@ type ChatSessionStoreConfig = {
 export class ChatSessionStore {
 	public chat: ChatMessage[] = [];
 	public id: string;
+	public sessionId?: string;
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
 	public storage: StorageStore;
 
 	constructor(params: ChatSessionStoreConfig) {
-		const { id, chat, attachments } = params.data;
+		const { id, chat, attachments, sessionId } = params.data || {};
 		const { stores } = params;
 
-		this.id = id;
+		this.id = id || uuidv4();
+		this.sessionId = sessionId;
 		this.storage = stores.storage;
 
 		// if chat and attachments are passed, load them
@@ -74,6 +77,7 @@ export class ChatSessionStore {
 	public save(): void {
 		// TODO: save chat state to storage store (local)
 		this.storage.set(`chats.${this.id}`, {
+			sessionId: this.sessionId,
 			chat: this.chat,
 			attachments: this.attachments.items,
 		});
@@ -105,8 +109,9 @@ export class ChatSessionStore {
 		}
 	}
 
-	public update(data: { chat: ChatResponseModel; meta: MetaResponseModel }): void {
-		data.chat.data.forEach((data) => {
+	public update(data: { response: ChatResponseModel; meta: MetaResponseModel }): void {
+		this.sessionId = data.response.context.sessionId;
+		data.response.data.forEach((data) => {
 			this.chat.push(data);
 		});
 
