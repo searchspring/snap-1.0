@@ -98,6 +98,15 @@ export class ChatSessionStore {
 				}
 			}
 
+			if (request.data.requestType === 'productQuery') {
+				const productId = request.data.productId;
+				const attachedImage = this.attachments.attached.find((item) => item.type == 'product' && item.productId == productId);
+				if (attachedImage) {
+					attachments.push(attachedImage.id);
+					attachedImage.save();
+				}
+			}
+
 			this.chat.push({
 				id: uuidv4(),
 				messageType: 'user',
@@ -109,9 +118,9 @@ export class ChatSessionStore {
 		}
 	}
 
-	public update(data: { response: ChatResponseModel; meta: MetaResponseModel }): void {
-		this.sessionId = data.response.context.sessionId;
-		data.response.data.forEach((data) => {
+	public update(data: { chat: ChatResponseModel; meta: MetaResponseModel }): void {
+		this.sessionId = data.chat.context.sessionId;
+		data.chat.data.forEach((data) => {
 			this.chat.push(data);
 		});
 

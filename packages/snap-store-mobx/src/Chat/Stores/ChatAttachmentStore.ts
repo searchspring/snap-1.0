@@ -8,7 +8,7 @@ type AttachmentError = {
 	message: string;
 };
 
-export type ChatAttachmentAddAttachment = ChatAttachmentImageConfig | /*AttachmentAddFilter |*/ never;
+export type ChatAttachmentAddAttachment = ChatAttachmentImageConfig | ChatAttachmentProductConfig | /*AttachmentAddFilter |*/ never;
 
 export class ChatAttachmentStore {
 	public items: ChatAttachments[] = [];
@@ -25,9 +25,15 @@ export class ChatAttachmentStore {
 	}
 
 	add<T extends ChatAttachments>(attachment: ChatAttachmentAddAttachment): T {
+		// TODO: check if attachment already exists
 		switch (attachment.type) {
 			case 'image': {
 				const newAttachment = new ChatAttachmentImage(attachment);
+				this.items.push(newAttachment);
+				return newAttachment as T;
+			}
+			case 'product': {
+				const newAttachment = new ChatAttachmentProduct(attachment);
 				this.items.push(newAttachment);
 				return newAttachment as T;
 			}
@@ -52,7 +58,7 @@ export class ChatAttachmentStore {
 
 /* Various Attachment Types */
 
-type ChatAttachments = ChatAttachmentImage;
+type ChatAttachments = ChatAttachmentImage | ChatAttachmentProduct;
 
 abstract class ChatAttachment {
 	public abstract type: string;
@@ -89,6 +95,32 @@ type ChatAttachmentImageConfig = {
 	error?: AttachmentError;
 };
 
+type ChatAttachmentProductConfig = {
+	type: 'product';
+	id: string;
+	state?: AttachmentState;
+	error?: AttachmentError;
+};
+
+export class ChatAttachmentProduct extends ChatAttachment {
+	public type: 'product' | never = 'product';
+	public productId: string;
+
+	constructor({ id, state, error }: ChatAttachmentProductConfig) {
+		super({ data: { id, state, error } });
+
+		this.productId = id;
+
+		makeObservable(this, {
+			type: observable,
+			productId: observable,
+		});
+	}
+
+	update = async (): Promise<void> => {
+		this.state = 'attached';
+	};
+}
 export class ChatAttachmentImage extends ChatAttachment {
 	public type: 'image' | never = 'image';
 	public imageId?: string;

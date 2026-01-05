@@ -1,8 +1,32 @@
+/*
+
+	Render product results
+		* use SearchResultStore
+		* should persist on page reload
+	
+	General UI Improvements
+	* reset chat (or start new chat)
+	* view history (view previous chats)
+	
+	Quickview (more info CTA)
+		* simple component
+		* should use slideout (and will support using modal eventually)
+		* should fetch product data using the chat API (productInfo)
+		* client should cache these request/response pairs
+	
+	Chat about product (ask about this CTA)
+		* use the attachments feature to add a product (productId is important to the API request)
+		* when a product is attached the controller should update the request parameters to include the productId in the MoiRequestModel
+		* only makes sense to support 1 at a time here
+
+*/
+
 import deepmerge from 'deepmerge';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ContextVariables, ControllerServices, ControllerTypes } from '../types';
-import { ErrorType, ChatStore, ImageAttachment } from '@searchspring/snap-store-mobx';
+import { ErrorType, ChatStore } from '@searchspring/snap-store-mobx';
 import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
+import type { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
 
 const KEY_ENTER = 13;
 
@@ -50,7 +74,13 @@ export class ChatController extends AbstractController {
 
 		const attachedImageIds = (this.store.currentChat?.attachments.attached || [])
 			.filter((attachment) => attachment.type === 'image')
-			.map((attachment) => attachment.imageId);
+			.map((attachment) => (attachment as ChatAttachmentImage).imageId);
+
+		const attachedProductId =
+			(this.store.currentChat?.attachments.attached || [])
+				.filter((attachment) => attachment.type === 'product')
+				.map((attachment) => (attachment as ChatAttachmentProduct).id)
+				.pop() || '';
 
 		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
 		let chatRequest: MoiRequestModel = {
@@ -64,6 +94,14 @@ export class ChatController extends AbstractController {
 				requestType: 'imageSearch',
 				message: this.store.inputValue,
 				attachedImageId,
+			};
+		}
+
+		if (attachedProductId) {
+			chatRequest = {
+				requestType: 'productQuery',
+				message: this.store.inputValue,
+				productId: attachedProductId,
 			};
 		}
 
@@ -101,7 +139,7 @@ export class ChatController extends AbstractController {
 				image,
 			};
 
-			const attachment = this.store.currentChat?.attachments.add<ImageAttachment>({ type: 'image', base64: base64Image });
+			const attachment = this.store.currentChat?.attachments.add<ChatAttachmentImage>({ type: 'image', base64: base64Image });
 
 			if (attachment) {
 				try {

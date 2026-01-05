@@ -6,6 +6,7 @@ import { AbstractStore } from '../Abstract/AbstractStore';
 import type { ChatResponseModel, ChatRequestModel } from '@searchspring/snap-client';
 import { StorageStore } from '../Storage/StorageStore';
 import { ChatSessionStore } from './Stores/ChatSessionStore';
+import { ChatAttachmentProduct } from './Stores/ChatAttachmentStore';
 
 export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public meta?: MetaStore = undefined;
@@ -14,6 +15,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public storage: StorageStore;
 	public chats: ChatSessionStore[] = [];
 	public currentChatId: string;
+	public quickViewResult: any = {};
 
 	constructor(config: ChatStoreConfig) {
 		super(config);
@@ -62,6 +64,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			open: observable,
 			chats: observable,
 			currentChatId: observable,
+			quickViewResult: observable,
 			blocked: computed,
 			currentChat: computed,
 			chatsIds: computed,
@@ -79,7 +82,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	get blocked(): boolean {
 		let isBlocked = this.inputValue.length === 0;
 
-		const blockedAttachments = this.currentChat?.attachments.items.some((item) => item.error || item.state === 'loading');
+		const blockedAttachments = this.currentChat?.attachments.items.some((item) => item.type === 'image' && (item.error || item.state === 'loading'));
 		if (this.loading || blockedAttachments) {
 			isBlocked = true;
 		}
@@ -109,6 +112,16 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		if (chatExists) {
 			this.currentChatId = id;
 		}
+	}
+
+	public setQuickViewResult(result: any): void {
+		this.quickViewResult = result;
+	}
+
+	public sendProductQuery(result: any): void {
+		const productId = result.id;
+		const productAttachment = this.currentChat?.attachments.add<ChatAttachmentProduct>({ type: 'product', id: productId });
+		productAttachment?.update();
 	}
 
 	public request(request: ChatRequestModel): void {
