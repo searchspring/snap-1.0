@@ -1,5 +1,5 @@
 import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { RecommendRequestModel } from '@searchspring/snap-client';
+import type { ChatRequestModel, RecommendRequestModel } from '@searchspring/snap-client';
 import type {
 	SearchResponseModelFacetValueAllOfValues,
 	AutocompleteRequestModel,
@@ -75,7 +75,13 @@ export type VariantOptionConfigMappings = {
 // Chat Config
 export type ChatStoreConfig = StoreConfig & {
 	widgetId: string;
+	globals?: Partial<ChatRequestModel>;
+	settings?: ChatStoreConfigSettings;
 };
+
+interface ChatStoreConfigSettings {
+	//?todo
+}
 
 // Search Config
 export type SearchStoreConfig = StoreConfig & {

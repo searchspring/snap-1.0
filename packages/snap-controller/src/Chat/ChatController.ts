@@ -29,8 +29,9 @@ import { AbstractController } from '../Abstract/AbstractController';
 import { ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore } from '@searchspring/snap-store-mobx';
 import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
-import type { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
+import type { ChatAttachmentImage, ChatAttachmentProduct, Product } from '@searchspring/snap-store-mobx';
 import { ChatMessage } from '@searchspring/snap-store-mobx/dist/cjs/Chat/Stores/ChatSessionStore';
+import { type Product as BeaconProduct } from '@searchspring/beacon';
 
 const KEY_ENTER = 13;
 
@@ -42,6 +43,16 @@ type ChatControllerConfig = {
 const defaultConfig: Partial<ChatControllerConfig> = {
 	id: 'chat',
 	settings: {},
+};
+
+type chatTrackMethods = {
+	product: {
+		clickThrough: (e: MouseEvent, result: Product) => void;
+		click: (e: MouseEvent, result: Product) => void;
+		render: (result: Product) => void;
+		impression: (result: Product) => void;
+		addToCart: (result: Product) => void;
+	};
 };
 
 export class ChatController extends AbstractController {
@@ -358,6 +369,41 @@ export class ChatController extends AbstractController {
 			this.store.loading = false;
 		}
 	};
+
+	track: chatTrackMethods = {
+		product: {
+			addToCart: (result: Product): any | undefined => {
+				const data = getChatAddtocartSchemaData({ store: this.store, results: [result] });
+				// this.tracker.events.chat.addToCart({ data, siteId: this.config.globals?.siteId });
+				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
+				return data;
+			},
+			clickThrough: (e: MouseEvent, result: Product) => {
+				console.log(e, result);
+			},
+			click: (e: MouseEvent, result: Product) => {
+				console.log(e, result);
+			},
+			render: (result: Product) => {
+				console.log(result);
+			},
+			impression: (result: Product) => {
+				console.log(result);
+			},
+		},
+	};
+
+	addToCart = async (_products: Product[] | Product): Promise<void> => {
+		const products = typeof (_products as Product[]).slice == 'function' ? (_products as Product[]).slice() : [_products];
+
+		//todo add tracking
+		// (products as Product[]).forEach((product) => {
+		// 	this.track.product.addToCart(product);
+		// });
+		if (products.length > 0) {
+			this.eventManager.fire('addToCart', { controller: this, products });
+		}
+	};
 }
 
 function convertToBase64(file: File): Promise<string> {
@@ -373,4 +419,22 @@ async function base64ToBlob(base64Image: string): Promise<Blob> {
 	const fetchedImage = await fetch(base64Image);
 	const blob = await fetchedImage.blob();
 	return blob;
+}
+
+function getChatAddtocartSchemaData({ store, results }: { store: ChatStore; results?: Product[] }): any {
+	console.log(store);
+	// const base = getChatSchemaData({ params, store, results });
+	return {
+		// ...base,
+		results:
+			results?.map((result: Product): BeaconProduct => {
+				const core = (result as Product).mappings.core!;
+				return {
+					uid: core.uid || '',
+					sku: core.sku,
+					price: Number(core.price),
+					qty: result.quantity || 1,
+				};
+			}) || [],
+	};
 }

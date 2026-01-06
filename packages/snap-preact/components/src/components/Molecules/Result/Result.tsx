@@ -12,7 +12,7 @@ import { filters } from '@searchspring/snap-toolbox';
 import { ComponentProps, ResultsLayout, StyleScript } from '../../../types';
 import { CalloutBadge, CalloutBadgeProps } from '../../Molecules/CalloutBadge';
 import { OverlayBadge, OverlayBadgeProps } from '../../Molecules/OverlayBadge';
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
+import type { SearchController, AutocompleteController, RecommendationController, ChatController } from '@searchspring/snap-controller';
 import type { Product } from '@searchspring/snap-store-mobx';
 import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
@@ -344,7 +344,7 @@ export interface ResultProps extends ComponentProps {
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
 	truncateTitle?: TruncateTitleProps;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, Event>) => void;
-	controller?: SearchController | AutocompleteController | RecommendationController;
+	controller?: SearchController | AutocompleteController | RecommendationController | ChatController;
 	lang?: Partial<ResultLang>;
 	trackingRef?: Ref<HTMLElement | null>;
 }
