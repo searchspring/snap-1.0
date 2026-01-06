@@ -6,6 +6,7 @@ import type {
 	MoiResponseModelInspirationResult,
 	MoiResponseModelProduct,
 	MoiResponseModelProductAnswer,
+	MoiResponseModelProductComparison,
 	MoiResponseModelProductSearchResult,
 	MoiResponseModelSuggestedQuestions,
 	MoiResponseModelText,
@@ -69,6 +70,14 @@ export type ChatResponseSuggestedQuestionsData = {
 	questions: string[];
 };
 
+export type ChatResponseProductComparisonData = {
+	messageType: 'productComparison';
+	id: string;
+	collectFeedback: boolean;
+	text: string;
+	results: SearchResponseModelResult[];
+};
+
 export type ChatRequestModel = {
 	context: {
 		sessionId?: string;
@@ -101,6 +110,8 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 				return transformChatResponse.productAnswer(data);
 			} else if (data.messageType === 'suggestedQuestions') {
 				return transformChatResponse.suggestedQuestions(data);
+			} else if (data.messageType === 'productComparison') {
+				return transformChatResponse.productComparison(data);
 			}
 		})
 		.filter((data) => data !== undefined);
@@ -155,6 +166,16 @@ transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): Cha
 transformChatResponse.suggestedQuestions = (data: MoiResponseModelSuggestedQuestions): ChatResponseSuggestedQuestionsData => {
 	// nothing to transform here yet
 	return data;
+};
+
+transformChatResponse.productComparison = (data: MoiResponseModelProductComparison): ChatResponseProductComparisonData => {
+	return {
+		messageType: data.messageType,
+		id: data.id,
+		collectFeedback: data.collectFeedback,
+		text: data.comparisonText,
+		results: data.products.map(mapProductToSearchResultProduct),
+	};
 };
 
 const mapProductToSearchResultProduct = (product: MoiResponseModelProduct): SearchResponseModelResult => ({

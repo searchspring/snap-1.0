@@ -1,28 +1,27 @@
 /*
 	General UI Improvements
-	* reset chat (or start new chat)
-	* view history (view previous chats)
-	
+		* view history (view previous chats)
+
+	Feedback UI
+		* tie into feeback API
+
 	Quickview (more info CTA)
 		* add more display
 		* add "add to cart" button
 		* clean up
-	
-	Chat about product (ask about this CTA)
-		* only makes sense to support 1 at a time here for current 'productQuery' request type
-		* should use 'productComparison' request type if there is more than one product attached
 
-	Image Attachment Improvements
-		* ability to re-attach a previously attached image via '+' button (or similar)
 	
 	Attachments General Improvements
 		* in chat history show which attachments were sent with which messages (add images to product attachments)
 		* for suggested questions, these need to store the productIds associated with them so when clicked the productQuery can be made with the correct product
-
+	
 	Future (after demo)
 		*	Render product results
-				+ use SearchResultStore
-				+ should persist on page reload
+			+ use SearchResultStore
+			+ should persist on page reload
+		* Image Attachment Improvements
+			+ ability to re-attach a previously attached image via '+' button (or similar)
+
 */
 
 import deepmerge from 'deepmerge';

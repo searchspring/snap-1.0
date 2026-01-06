@@ -14,7 +14,6 @@ import { Button } from '../../Atoms/Button';
 import { useRef, useEffect } from 'preact/hooks';
 import { Image } from '../../Atoms/Image';
 import type { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
-import { Result } from '../../Molecules/Result';
 import { Carousel, CarouselProps } from '../../Molecules/Carousel';
 import { Slideout } from '../../Molecules/Slideout';
 import { Price } from '../../Atoms/Price';
@@ -86,6 +85,9 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			margin: 0,
 			padding: 0,
 			maxHeight: 'calc(90vh - 200px)',
+			'.ss__chat__messages__end': {
+				height: '1px',
+			},
 			'.ss__chat__message': {
 				marginBottom: '30px',
 				'.ss__chat__message-user': {
@@ -271,6 +273,14 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		},
 		'.ss__chat__footer': {
 			borderTop: '1px solid #ddd',
+
+			'.ss__chat__suggestions': {
+				display: 'flex',
+				justifyContent: 'flex-start',
+				gap: '5px',
+				flexWrap: 'wrap',
+				margin: '10px 0',
+			},
 		},
 		'.ss__chat__input': {
 			display: 'flex',
@@ -359,11 +369,20 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+	};
 
 	// Auto-scroll to bottom when new messages are added or chat state changes
 	useEffect(() => {
+		// if (store.open && messagesContainerRef.current) {
+		// 	messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+		// }
+
 		if (store.open) {
-			messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+			scrollToBottom();
 		}
 	}, [store.currentChat?.chat.length, store.loading, store.open]);
 
@@ -400,17 +419,17 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									<Button className="ss__chat__close" icon="close-thin" onClick={() => controller.handlers.button.click()} />
 								</div>
 							</div>
-							<div className={'ss__chat__messages'}>
+							<div className={'ss__chat__messages'} ref={messagesContainerRef}>
 								{store.currentChat?.chat.map((chatItem, index) => (
 									<div key={index} className="ss__chat__message">
 										{{
 											user: <MessageUser chatItem={chatItem} controller={controller} />,
-											text: <MessageText chatItem={chatItem} controller={controller} />,
-											content: <MessageText chatItem={chatItem} controller={controller} />,
-											productSearchResult: <MessageText chatItem={chatItem} controller={controller} />,
-											inspirationResult: <MessageText chatItem={chatItem} controller={controller} />,
-											productAnswer: <MessageText chatItem={chatItem} controller={controller} />,
-											suggestedQuestions: <MessageQuestions chatItem={chatItem} controller={controller} />,
+											text: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											content: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											productSearchResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											inspirationResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											productAnswer: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											productComparison: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 										}[chatItem.messageType] || <Fragment></Fragment>}
 									</div>
 								))}
@@ -426,6 +445,22 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								</div>
 							) : null}
 							<div className="ss__chat__footer">
+								{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 && (
+									<div className={'ss__chat__suggestions'}>
+										{store.currentChat?.questions.map((item) => (
+											<div key={item.id} className={classnames('ss__chat__suggestions__item')}>
+												<Button
+													onClick={() => {
+														controller.store.inputValue = item.text;
+														controller.search();
+													}}
+												>
+													{item.text}
+												</Button>
+											</div>
+										))}
+									</div>
+								)}
 								<div className={'ss__chat__attachments'}>
 									{store.currentChat?.attachments.attached.map((item) => (
 										<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
@@ -542,21 +577,21 @@ const AttachmentImage = observer((props: { attachment: ChatAttachmentImage; cont
 	) : null;
 });
 
-const MessageText = observer((props: { chatItem: any; controller: ChatController }) => {
-	const { controller, chatItem } = props;
+const MessageText = observer((props: { chatItem: any; controller: ChatController; scrollToBottom: () => void }) => {
+	const { controller, chatItem, scrollToBottom } = props;
 
 	return (
 		<div className="ss__chat__message-text">
 			<div className="ss__chat__message-text__text-wrapper">
 				<div className="ss__chat__message-text__text-wrapper__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
 			</div>
-			<ResultsDisplay controller={controller} chatItem={chatItem} />
+			<ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />
 		</div>
 	);
 });
 
-const ResultsDisplay = observer((props: { chatItem: any; controller: ChatController }) => {
-	const { chatItem, controller } = props;
+const ResultsDisplay = observer((props: { chatItem: any; controller: ChatController; scrollToBottom: () => void }) => {
+	const { chatItem, controller, scrollToBottom } = props;
 	const carouselProps: Partial<CarouselProps> = {
 		breakpoints: undefined,
 		slidesPerView: 3,
@@ -567,7 +602,7 @@ const ResultsDisplay = observer((props: { chatItem: any; controller: ChatControl
 			<Carousel {...carouselProps}>
 				{chatItem.results.map((result: any) => (
 					<div key={result.id} className="ss__chat__message-text__results__result">
-						<Result result={result} detailSlot={<ResultDetailSlot result={result} controller={controller} />} />
+						<ResultComponent result={result} controller={controller} scrollToBottom={scrollToBottom} />
 					</div>
 				))}
 			</Carousel>
@@ -575,25 +610,28 @@ const ResultsDisplay = observer((props: { chatItem: any; controller: ChatControl
 	) : null;
 });
 
-const ResultDetailSlot = (props: { result: any; controller: ChatController }) => {
-	const { controller, result } = props;
+const ResultComponent = (props: { result: any; controller: ChatController; scrollToBottom: () => void }) => {
+	const { controller, result, scrollToBottom } = props;
 	return (
-		<div className="ss__chat__message-text__results__result__detail-slot">
-			<Button
-				className={'ss__chat__message-text__results__result__detail-slot__more-info-button'}
-				onClick={() => {
-					controller.store.setQuickViewResult(result);
-				}}
-			>
-				More Info
-			</Button>
-			<Button
-				onClick={() => {
-					controller.store.sendProductQuery(result);
-				}}
-			>
-				Discuss
-			</Button>
+		<div className="ss__chat__result">
+			<Image lazy={false} src={result.mappings.core.imageUrl} alt={result.mappings.core.name} onLoad={scrollToBottom} />
+			<div className="ss__chat__result__detail-slot">
+				<Button
+					className={'ss__chat__result__detail-slot__more-info-button'}
+					onClick={() => {
+						controller.store.setQuickViewResult(result);
+					}}
+				>
+					More Info
+				</Button>
+				<Button
+					onClick={() => {
+						controller.store.sendProductQuery(result);
+					}}
+				>
+					Discuss
+				</Button>
+			</div>
 		</div>
 	);
 };
@@ -644,29 +682,6 @@ const MessageUser = observer((props: { chatItem: any; controller: ChatController
 					: null}
 			</ul>
 			<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-		</div>
-	);
-});
-
-const MessageQuestions = observer((props: { chatItem: any; controller: ChatController }) => {
-	const { controller, chatItem } = props;
-
-	return (
-		<div className="ss__chat__message-text">
-			<ul className="ss__chat__message-text__questions">
-				{chatItem.questions.map((question: string, index: number) => (
-					<li key={index}>
-						<Button
-							onClick={() => {
-								controller.store.inputValue = question;
-								controller.search();
-							}}
-						>
-							{question}
-						</Button>
-					</li>
-				))}
-			</ul>
 		</div>
 	);
 });

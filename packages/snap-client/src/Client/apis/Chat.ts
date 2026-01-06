@@ -60,6 +60,7 @@ export type MoiResponseModel = {
 		| MoiResponseModelInspirationResult
 		| MoiResponseModelProductAnswer
 		| MoiResponseModelSuggestedQuestions
+		| MoiResponseModelProductComparison
 	)[];
 };
 
@@ -114,6 +115,13 @@ export type MoiResponseModelProductAnswer = {
 export type MoiResponseModelSuggestedQuestions = {
 	messageType: 'suggestedQuestions';
 	questions: string[];
+};
+export type MoiResponseModelProductComparison = {
+	messageType: 'productComparison';
+	id: string;
+	comparisonText: string;
+	collectFeedback: boolean;
+	products: MoiResponseModelProduct[];
 };
 
 export type MoiResponseModelProduct = {

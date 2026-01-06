@@ -38,6 +38,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 							sessionId: chatData.sessionId,
 							chat: chatData.chat,
 							attachments: chatData.attachments,
+							questions: chatData.questions,
 						},
 						stores: {
 							storage: this.storage,
