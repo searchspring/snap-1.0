@@ -55,7 +55,7 @@ export function withTracking<Props extends WithTrackingProps>(WrappedComponent: 
 		const currentRef = ref.current;
 		if (currentRef) {
 			const handleClick = useCallback((e: MouseEvent) => {
-				controller?.track?.product.click(e, result as Product);
+				controller?.track.product.click(e, result as Product);
 			}, []);
 			currentRef.setAttribute('sstracking', 'true');
 			currentRef.removeEventListener('click', handleClick);
