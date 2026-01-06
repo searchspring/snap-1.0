@@ -61,11 +61,22 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			marginBottom: '1em',
 			fontSize: '18px',
 			fontWeight: 'bold',
-			'.ss__chat__close': {
-				padding: 0,
-				border: 0,
-				'&:hover': {
-					backgroundColor: 'transparent',
+			'.ss__chat__header__buttons': {
+				display: 'flex',
+				gap: '10px',
+				'.ss__chat__close': {
+					padding: 0,
+					border: 0,
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
+				},
+				'.ss__chat__new': {
+					padding: 0,
+					border: 0,
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
 				},
 			},
 		},
@@ -105,11 +116,19 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					flexDirection: 'column',
 					justifyContent: 'flex-start',
 					marginRight: '40px',
-					'.ss__chat__message-text__text': {
-						padding: '8px',
-						borderRadius: '4px',
-						backgroundColor: '#f8d7da',
-						alignSelf: 'flex-end',
+					'.ss__chat__message-text__text-wrapper': {
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'flex-start',
+						'.ss__chat__message-text__text-wrapper__text': {
+							padding: '8px',
+							borderRadius: '4px',
+							backgroundColor: '#f8d7da',
+							alignSelf: 'flex-end',
+						},
+					},
+					'.ss__chat__message-text__results': {
+						marginTop: '12px',
 					},
 				},
 				ul: {
@@ -234,7 +253,6 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					borderRadius: '50%',
 					backgroundColor: '#dc3545',
 					color: 'white',
-					border: '2px solid white',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -266,6 +284,10 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				border: '1px solid #ccc',
 				borderRadius: '4px',
 				fontSize: '14px',
+				'&::placeholder': {
+					color: '#999',
+					opacity: 0.7,
+				},
 				'&:focus': {
 					outline: 'none',
 					borderColor: '#0066cc',
@@ -371,7 +393,12 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					) : (
 						<Fragment>
 							<div className={'ss__chat__header'}>
-								<Button className="ss__chat__close" icon="close-thin" onClick={() => controller.handlers.button.click()} />
+								<div className="ss__chat__header__buttons">
+									{store.currentChat?.chat && store.currentChat.chat.length > 1 && (
+										<Button className="ss__chat__new" icon="plus-thin" onClick={() => controller.startNewChat()} />
+									)}
+									<Button className="ss__chat__close" icon="close-thin" onClick={() => controller.handlers.button.click()} />
+								</div>
 							</div>
 							<div className={'ss__chat__messages'}>
 								{store.currentChat?.chat.map((chatItem, index) => (
@@ -382,27 +409,9 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											content: <MessageText chatItem={chatItem} controller={controller} />,
 											productSearchResult: <MessageText chatItem={chatItem} controller={controller} />,
 											inspirationResult: <MessageText chatItem={chatItem} controller={controller} />,
+											productAnswer: <MessageText chatItem={chatItem} controller={controller} />,
+											suggestedQuestions: <MessageQuestions chatItem={chatItem} controller={controller} />,
 										}[chatItem.messageType] || <Fragment></Fragment>}
-
-										{/* {chatItem.type}: {chatItem.payload.value}
-								{chatItem.attachments && chatItem.attachments.length > 0 ? (
-									<div>
-										Attachments:
-										<ul>
-											{chatItem.attachments.map((attachmentId: string) => {
-												const attachment = store.attachments.get(attachmentId);
-												switch (attachment?.type) {
-													case 'image':
-														return (
-															<li key={attachment.id}>
-																<Image style={{ height: '50px', width: '50px' }} src={attachment.base64 ||attachment.thumbnailUrl} alt={''}></Image>
-															</li>
-														);
-												}
-											})}
-										</ul>
-									</div>
-								) : null} */}
 									</div>
 								))}
 								<div className="ss__chat__messages__end" ref={messagesEndRef} />
@@ -416,23 +425,6 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									</div>
 								</div>
 							) : null}
-							{/* <div className={'ss__chat__actions'}>
-						{controller.store.genericOptions.map((option, index) => (
-							<Button
-								key={index}
-								onClick={() => {
-									if (option.type === 'message' && option.chat) {
-										controller.store.inputValue = option.chat;
-										controller.search();
-									} else if (option.type === 'clearChat') {
-										controller.store.currentChat?.chat = [];
-									}
-								}}
-							>
-								{option.name}
-							</Button>
-						))}
-					</div> */}
 							<div className="ss__chat__footer">
 								<div className={'ss__chat__attachments'}>
 									{store.currentChat?.attachments.attached.map((item) => (
@@ -445,7 +437,6 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									))}
 								</div>
 								<div className={'ss__chat__input'}>
-									{/* <input type="text" placeholder="Type your message..." onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => handleOnChange(e as any)} /> */}
 									<input
 										type="text"
 										name="ss-chat-input"
@@ -454,9 +445,13 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 										onKeyDown={(e) => controller.handlers.input.enterKey(e as any)}
 										value={controller.store.inputValue}
 									/>
-									<div className={'ss__chat__upload-button'} onClick={() => fileInputRef.current?.click()}>
+									<Button
+										className={'ss__chat__upload-button'}
+										disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading')}
+										onClick={() => fileInputRef.current?.click()}
+									>
 										+
-									</div>
+									</Button>
 									<Button className="ss__chat__send-button" disabled={store.blocked} onClick={() => controller.search()}>
 										Send
 									</Button>
@@ -479,7 +474,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					)}
 				</div>
 				<Slideout buttonSelector={'.ss__chat__message-text__results__result__detail-slot__more-info-button'}>
-					<ResultMoreInfoContent result={store.quickViewResult} />
+					<ResultQuickview result={store.quickViewResult} />
 				</Slideout>
 			</Fragment>
 		</CacheProvider>
@@ -490,41 +485,16 @@ const AttachmentProduct = observer((props: { attachment: ChatAttachmentProduct; 
 	const { attachment, controller } = props;
 	const chatStore = controller.store.currentChat;
 
-	const id = attachment.id;
-	const isLoading = attachment.state === 'loading';
-	const hasError = !!attachment.error;
+	const { id, name, thumbnailUrl } = attachment;
 
-	if (hasError) {
-		return (
-			<Fragment>
-				<div className={'ss__chat__attachment__error'}>
-					<div className={'ss__chat__attachment__error-icon'}>⚠</div>
-					<div className={'ss__chat__attachment__error-message'}>{attachment.error?.message || 'upload failed'}</div>
-				</div>
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
-					×
-				</div>
-			</Fragment>
-		);
-	}
-
-	return id || isLoading ? (
+	return id ? (
 		<Fragment>
 			<div className={'ss__chat__attachment__content'}>
-				{id && <div>{id}</div>}
-				{isLoading && (
-					<div className={'ss__chat__attachment__loading'}>
-						<div className={'ss__chat__loading__dot'}></div>
-						<div className={'ss__chat__loading__dot'}></div>
-						<div className={'ss__chat__loading__dot'}></div>
-					</div>
-				)}
+				{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
 			</div>
-			{!isLoading && (
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
-					×
-				</div>
-			)}
+			<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
+				×
+			</div>
 		</Fragment>
 	) : null;
 });
@@ -577,7 +547,9 @@ const MessageText = observer((props: { chatItem: any; controller: ChatController
 
 	return (
 		<div className="ss__chat__message-text">
-			<div className="ss__chat__message-text__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+			<div className="ss__chat__message-text__text-wrapper">
+				<div className="ss__chat__message-text__text-wrapper__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+			</div>
 			<ResultsDisplay controller={controller} chatItem={chatItem} />
 		</div>
 	);
@@ -620,13 +592,13 @@ const ResultDetailSlot = (props: { result: any; controller: ChatController }) =>
 					controller.store.sendProductQuery(result);
 				}}
 			>
-				Ask about this
+				Discuss
 			</Button>
 		</div>
 	);
 };
 
-const ResultMoreInfoContent = observer((props: { result: any }) => {
+const ResultQuickview = observer((props: { result: any }) => {
 	const { result } = props;
 	return (
 		result && (
@@ -676,9 +648,29 @@ const MessageUser = observer((props: { chatItem: any; controller: ChatController
 	);
 });
 
-// interface ChatSubProps {
-// 	[thing: string]: any;
-// }
+const MessageQuestions = observer((props: { chatItem: any; controller: ChatController }) => {
+	const { controller, chatItem } = props;
+
+	return (
+		<div className="ss__chat__message-text">
+			<ul className="ss__chat__message-text__questions">
+				{chatItem.questions.map((question: string, index: number) => (
+					<li key={index}>
+						<Button
+							onClick={() => {
+								controller.store.inputValue = question;
+								controller.search();
+							}}
+						>
+							{question}
+						</Button>
+					</li>
+				))}
+			</ul>
+		</div>
+	);
+});
+
 export interface ChatProps extends ComponentProps {
 	controller: ChatController;
 }

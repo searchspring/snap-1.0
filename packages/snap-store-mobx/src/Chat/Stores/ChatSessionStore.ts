@@ -8,6 +8,8 @@ import type {
 	ChatResponseProductSearchResultData,
 	ChatResponseInspirationResultData,
 	ChatResponseContentData,
+	ChatResponseProductAnswerData,
+	ChatResponseSuggestedQuestionsData,
 } from '@searchspring/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
@@ -25,6 +27,8 @@ export type ChatMessage =
 	| ChatResponseContentData
 	| ChatResponseProductSearchResultData
 	| ChatResponseInspirationResultData
+	| ChatResponseProductAnswerData
+	| ChatResponseSuggestedQuestionsData
 	| UserChatMessage;
 
 type ChatSessionStoreConfig = {
@@ -94,7 +98,7 @@ export class ChatSessionStore {
 					attachments.push(attachedImage.id);
 
 					// save the attachment (change state to 'saved');
-					attachedImage.save();
+					attachedImage.activate();
 				}
 			}
 
@@ -103,7 +107,7 @@ export class ChatSessionStore {
 				const attachedImage = this.attachments.attached.find((item) => item.type == 'product' && item.productId == productId);
 				if (attachedImage) {
 					attachments.push(attachedImage.id);
-					attachedImage.save();
+					attachedImage.activate();
 				}
 			}
 

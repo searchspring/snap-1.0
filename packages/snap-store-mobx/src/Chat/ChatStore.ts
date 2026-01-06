@@ -22,7 +22,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 
 		this.storage = new StorageStore({
 			type: 'local',
-			key: `ss-chat-${this.config.id}`,
+			key: `ss-${this.config.id}-${this.config.widgetId}`,
 		});
 
 		// check for entries in storage
@@ -52,7 +52,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 
 		if (!this.currentChatId) {
 			// create initial chat session
-			const newChat = this.newChat();
+			const newChat = this.createChat();
 
 			this.currentChatId = newChat.id;
 			this.chats.push(newChat);
@@ -92,10 +92,10 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public reset(): void {
 		this.chats = [];
 		this.storage.clear();
-		this.newChat();
+		this.createChat();
 	}
 
-	public newChat(): ChatSessionStore {
+	public createChat(): ChatSessionStore {
 		const newChat = new ChatSessionStore({
 			stores: {
 				storage: this.storage,
@@ -119,8 +119,12 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public sendProductQuery(result: any): void {
-		const productId = result.id;
-		const productAttachment = this.currentChat?.attachments.add<ChatAttachmentProduct>({ type: 'product', id: productId });
+		const productAttachment = this.currentChat?.attachments.add<ChatAttachmentProduct>({
+			type: 'product',
+			productId: result.id,
+			name: result.mappings.core?.name,
+			thumbnailUrl: result.mappings.core?.thumbnailImageUrl || result.mappings.core?.imageUrl,
+		});
 		productAttachment?.update();
 	}
 

@@ -18,5 +18,7 @@ export {
 	ChatResponseContentData,
 	ChatResponseProductSearchResultData,
 	ChatResponseInspirationResultData,
+	ChatResponseProductAnswerData,
+	ChatResponseSuggestedQuestionsData,
 } from './Client/transforms';
 export { MoiRequestModel } from './Client/apis/Chat';

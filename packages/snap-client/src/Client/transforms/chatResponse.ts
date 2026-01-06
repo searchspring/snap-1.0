@@ -5,12 +5,21 @@ import type {
 	MoiResponseModelContent,
 	MoiResponseModelInspirationResult,
 	MoiResponseModelProduct,
+	MoiResponseModelProductAnswer,
 	MoiResponseModelProductSearchResult,
+	MoiResponseModelSuggestedQuestions,
 	MoiResponseModelText,
 } from '../apis/Chat';
 
 export type ChatResponseModel = {
-	data: (ChatResponseTextData | ChatResponseContentData | ChatResponseProductSearchResultData | ChatResponseInspirationResultData)[];
+	data: (
+		| ChatResponseTextData
+		| ChatResponseContentData
+		| ChatResponseProductSearchResultData
+		| ChatResponseInspirationResultData
+		| ChatResponseProductAnswerData
+		| ChatResponseSuggestedQuestionsData
+	)[];
 	context: {
 		sessionId: string;
 	};
@@ -47,6 +56,19 @@ export type ChatResponseInspirationResultData = {
 	text: string;
 };
 
+export type ChatResponseProductAnswerData = {
+	messageType: 'productAnswer';
+	id: string;
+	result: SearchResponseModelResult;
+	collectFeedback: boolean;
+	text: string;
+};
+
+export type ChatResponseSuggestedQuestionsData = {
+	messageType: 'suggestedQuestions';
+	questions: string[];
+};
+
 export type ChatRequestModel = {
 	context: {
 		sessionId?: string;
@@ -75,6 +97,10 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 				return transformChatResponse.productData(data);
 			} else if (data.messageType === 'inspirationResult') {
 				return transformChatResponse.inspirationResult(data);
+			} else if (data.messageType === 'productAnswer') {
+				return transformChatResponse.productAnswer(data);
+			} else if (data.messageType === 'suggestedQuestions') {
+				return transformChatResponse.suggestedQuestions(data);
 			}
 		})
 		.filter((data) => data !== undefined);
@@ -114,6 +140,21 @@ transformChatResponse.inspirationResult = (data: MoiResponseModelInspirationResu
 		text: data.text,
 		results: data.products.map(mapProductToSearchResultProduct),
 	};
+};
+
+transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): ChatResponseProductAnswerData => {
+	return {
+		messageType: data.messageType,
+		id: data.id,
+		collectFeedback: data.collectFeedback,
+		text: data.answer,
+		result: mapProductToSearchResultProduct(data.product),
+	};
+};
+
+transformChatResponse.suggestedQuestions = (data: MoiResponseModelSuggestedQuestions): ChatResponseSuggestedQuestionsData => {
+	// nothing to transform here yet
+	return data;
 };
 
 const mapProductToSearchResultProduct = (product: MoiResponseModelProduct): SearchResponseModelResult => ({

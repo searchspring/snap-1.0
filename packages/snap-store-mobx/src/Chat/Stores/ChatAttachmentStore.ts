@@ -3,7 +3,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { makeObservable, observable, computed } from 'mobx';
 
-type AttachmentState = 'loading' | 'error' | 'attached' | 'saved';
+type AttachmentState = 'loading' | 'error' | 'attached' | 'active' | 'saved';
 type AttachmentError = {
 	message: string;
 };
@@ -21,7 +21,7 @@ export class ChatAttachmentStore {
 	}
 
 	get attached() {
-		return this.items.filter((item) => item.state === 'attached' || item.state === 'loading' || item.state === 'error');
+		return this.items.filter((item) => item.state !== 'saved');
 	}
 
 	add<T extends ChatAttachments>(attachment: ChatAttachmentAddAttachment): T {
@@ -29,12 +29,39 @@ export class ChatAttachmentStore {
 		switch (attachment.type) {
 			case 'image': {
 				const newAttachment = new ChatAttachmentImage(attachment);
+
+				const attachmentsToRemove = this.items.filter((item) => item.type !== 'image');
+				attachmentsToRemove.forEach((item) => {
+					this.remove(item.id);
+				});
+
+				// if there is already an image attachment, remove it
+				const existingImageAttachment = this.items.find((item) => item.type === 'image');
+				if (existingImageAttachment) {
+					this.remove(existingImageAttachment.id);
+				}
+
 				this.items.push(newAttachment);
 				return newAttachment as T;
 			}
 			case 'product': {
+				// check if product is already attached
+				const existingProductAttachment = this.items.find(
+					(item) => item.type === 'product' && (item as ChatAttachmentProduct).productId === attachment.productId
+				);
+				if (existingProductAttachment) {
+					return existingProductAttachment as T;
+				}
+
 				const newAttachment = new ChatAttachmentProduct(attachment);
 				this.items.push(newAttachment);
+
+				// if there are currently image attachments remove them
+				const attachmentsToRemove = this.items.filter((item) => item.type !== 'product');
+				attachmentsToRemove.forEach((item) => {
+					this.remove(item.id);
+				});
+
 				return newAttachment as T;
 			}
 		}
@@ -42,8 +69,14 @@ export class ChatAttachmentStore {
 
 	remove(id: string) {
 		const index = this.items.findIndex((item) => item.id === id);
-		if (index !== -1) {
-			this.items.splice(index, 1);
+		const attachment = this.items[index];
+
+		if (attachment.state === 'active') {
+			attachment.save();
+		} else {
+			if (index !== -1) {
+				this.items.splice(index, 1);
+			}
 		}
 	}
 
@@ -81,6 +114,10 @@ abstract class ChatAttachment {
 		this.state = 'saved';
 	}
 
+	activate() {
+		this.state = 'active';
+	}
+
 	abstract update(params: unknown): void;
 }
 
@@ -97,7 +134,10 @@ type ChatAttachmentImageConfig = {
 
 type ChatAttachmentProductConfig = {
 	type: 'product';
-	id: string;
+	id?: string;
+	productId: string;
+	thumbnailUrl: string;
+	name: string;
 	state?: AttachmentState;
 	error?: AttachmentError;
 };
@@ -105,15 +145,21 @@ type ChatAttachmentProductConfig = {
 export class ChatAttachmentProduct extends ChatAttachment {
 	public type: 'product' | never = 'product';
 	public productId: string;
+	public thumbnailUrl: string;
+	public name: string;
 
-	constructor({ id, state, error }: ChatAttachmentProductConfig) {
+	constructor({ id, productId, thumbnailUrl, name, state, error }: ChatAttachmentProductConfig) {
 		super({ data: { id, state, error } });
 
-		this.productId = id;
+		this.productId = productId;
+		this.thumbnailUrl = thumbnailUrl;
+		this.name = name;
 
 		makeObservable(this, {
 			type: observable,
 			productId: observable,
+			thumbnailUrl: observable,
+			name: observable,
 		});
 	}
 

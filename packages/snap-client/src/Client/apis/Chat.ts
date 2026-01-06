@@ -53,7 +53,14 @@ export type MoiResponseModel = {
 	context: {
 		sessionId: string;
 	};
-	data: (MoiResponseModelText | MoiResponseModelContent | MoiResponseModelProductSearchResult | MoiResponseModelInspirationResult)[];
+	data: (
+		| MoiResponseModelText
+		| MoiResponseModelContent
+		| MoiResponseModelProductSearchResult
+		| MoiResponseModelInspirationResult
+		| MoiResponseModelProductAnswer
+		| MoiResponseModelSuggestedQuestions
+	)[];
 };
 
 export type MoiResponseModelText = {
@@ -94,6 +101,19 @@ export type MoiResponseModelInspirationResult = {
 	text: string;
 	collectFeedback: boolean;
 	products: MoiResponseModelProduct[];
+};
+
+export type MoiResponseModelProductAnswer = {
+	messageType: 'productAnswer';
+	id: string;
+	answer: string;
+	collectFeedback: boolean;
+	product: MoiResponseModelProduct;
+};
+
+export type MoiResponseModelSuggestedQuestions = {
+	messageType: 'suggestedQuestions';
+	questions: string[];
 };
 
 export type MoiResponseModelProduct = {

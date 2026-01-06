@@ -1,24 +1,28 @@
 /*
-
-	Render product results
-		* use SearchResultStore
-		* should persist on page reload
-	
 	General UI Improvements
 	* reset chat (or start new chat)
 	* view history (view previous chats)
 	
 	Quickview (more info CTA)
-		* simple component
-		* should use slideout (and will support using modal eventually)
-		* should fetch product data using the chat API (productInfo)
-		* client should cache these request/response pairs
+		* add more display
+		* add "add to cart" button
+		* clean up
 	
 	Chat about product (ask about this CTA)
-		* use the attachments feature to add a product (productId is important to the API request)
-		* when a product is attached the controller should update the request parameters to include the productId in the MoiRequestModel
-		* only makes sense to support 1 at a time here
+		* only makes sense to support 1 at a time here for current 'productQuery' request type
+		* should use 'productComparison' request type if there is more than one product attached
 
+	Image Attachment Improvements
+		* ability to re-attach a previously attached image via '+' button (or similar)
+	
+	Attachments General Improvements
+		* in chat history show which attachments were sent with which messages (add images to product attachments)
+		* for suggested questions, these need to store the productIds associated with them so when clicked the productQuery can be made with the correct product
+
+	Future (after demo)
+		*	Render product results
+				+ use SearchResultStore
+				+ should persist on page reload
 */
 
 import deepmerge from 'deepmerge';
@@ -76,11 +80,9 @@ export class ChatController extends AbstractController {
 			.filter((attachment) => attachment.type === 'image')
 			.map((attachment) => (attachment as ChatAttachmentImage).imageId);
 
-		const attachedProductId =
-			(this.store.currentChat?.attachments.attached || [])
-				.filter((attachment) => attachment.type === 'product')
-				.map((attachment) => (attachment as ChatAttachmentProduct).id)
-				.pop() || '';
+		const attachedProductIds = (this.store.currentChat?.attachments.attached || [])
+			.filter((attachment) => attachment.type === 'product')
+			.map((attachment) => (attachment as ChatAttachmentProduct).productId);
 
 		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
 		let chatRequest: MoiRequestModel = {
@@ -97,11 +99,17 @@ export class ChatController extends AbstractController {
 			};
 		}
 
-		if (attachedProductId) {
+		if (attachedProductIds.length == 1) {
 			chatRequest = {
 				requestType: 'productQuery',
 				message: this.store.inputValue,
-				productId: attachedProductId,
+				productId: attachedProductIds[0],
+			};
+		} else if (attachedProductIds.length > 1) {
+			chatRequest = {
+				requestType: 'productComparison',
+				message: this.store.inputValue,
+				productIds: attachedProductIds,
 			};
 		}
 
@@ -166,6 +174,11 @@ export class ChatController extends AbstractController {
 				}
 			}
 		}
+	};
+
+	startNewChat = (): void => {
+		this.store.createChat();
+		this.search();
 	};
 
 	handlers = {
