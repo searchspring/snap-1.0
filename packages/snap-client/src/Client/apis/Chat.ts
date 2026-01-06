@@ -1,6 +1,6 @@
 import { API } from './Abstract';
 import { HTTPHeaders } from '../../types';
-import { ChatRequestModel, transformChatResponse } from '../transforms/chatResponse';
+import { ChatRequestModel, FeedbackRequestModel, transformChatResponse } from '../transforms/chatResponse';
 
 export type UploadImageRequestModel = {
 	image: Blob;
@@ -178,6 +178,20 @@ export class ChatAPI extends API {
 			JSON.stringify(queryParameters)
 		);
 
+		return response;
+	}
+
+	async postFeedback(requestParameters: FeedbackRequestModel): Promise<any> {
+		const headerParameters: HTTPHeaders = {
+			'Content-Type': 'application/json',
+		};
+
+		const response = await this.request<MoiResponseModel>({
+			path: '/chat/feedback',
+			method: 'POST',
+			headers: headerParameters,
+			body: requestParameters,
+		});
 		return response;
 	}
 

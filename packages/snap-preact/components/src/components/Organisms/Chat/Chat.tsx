@@ -17,6 +17,7 @@ import type { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/s
 import { Carousel, CarouselProps } from '../../Molecules/Carousel';
 import { Slideout } from '../../Molecules/Slideout';
 import { Price } from '../../Atoms/Price';
+import { Icon } from '../../Atoms/Icon';
 const defaultStyles: StyleScript<ChatProps> = () => {
 	return css({
 		position: 'fixed',
@@ -117,7 +118,6 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'flex-start',
-					marginRight: '40px',
 					'.ss__chat__message-text__text-wrapper': {
 						display: 'flex',
 						flexDirection: 'row',
@@ -127,6 +127,15 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 							borderRadius: '4px',
 							backgroundColor: '#f8d7da',
 							alignSelf: 'flex-end',
+						},
+						'.ss__chat__message-text__text-wrapper__feedback': {
+							display: 'flex',
+							alignItems: 'flex-end',
+							gap: '10px',
+							margin: '0 10px',
+							svg: {
+								cursor: 'pointer',
+							},
 						},
 					},
 					'.ss__chat__message-text__results': {
@@ -584,6 +593,21 @@ const MessageText = observer((props: { chatItem: any; controller: ChatController
 		<div className="ss__chat__message-text">
 			<div className="ss__chat__message-text__text-wrapper">
 				<div className="ss__chat__message-text__text-wrapper__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+				{chatItem.collectFeedback ? (
+					<div className="ss__chat__message-text__text-wrapper__feedback">
+						<span
+							onClick={() => {
+								controller.feedback(chatItem, 'UP');
+								chatItem.feedback = 'UP';
+							}}
+						>
+							<Icon icon="chevron-up" color={chatItem.feedback === 'UP' ? '#000' : '#aaa'} />
+						</span>
+						<span onClick={() => controller.feedback(chatItem, 'DOWN')}>
+							<Icon icon="chevron-down" color={chatItem.feedback === 'DOWN' ? '#000' : '#aaa'} />
+						</span>
+					</div>
+				) : null}
 			</div>
 			<ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />
 		</div>

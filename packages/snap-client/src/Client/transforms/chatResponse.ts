@@ -95,6 +95,19 @@ export type ChatRequestModel = {
 	};
 };
 
+export type FeedbackRequestModel = {
+	context: {
+		pqaWidgetId: string;
+		sessionId?: string;
+		visitorId: string;
+	};
+	feedback: {
+		messageId: string;
+		thumbs: 'UP' | 'DOWN';
+		reason?: string;
+	};
+};
+
 export function transformChatResponse(response: MoiResponseModel): ChatResponseModel {
 	const transformedData = response.data
 		.map((data) => {

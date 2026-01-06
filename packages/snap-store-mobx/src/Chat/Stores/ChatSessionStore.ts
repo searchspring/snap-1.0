@@ -9,6 +9,7 @@ import type {
 	ChatResponseInspirationResultData,
 	ChatResponseContentData,
 	ChatResponseProductAnswerData,
+	FeedbackRequestModel,
 } from '@searchspring/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
@@ -26,13 +27,16 @@ export type ChatQuestion = {
 	text: string;
 };
 
-export type ChatMessage =
+export type ChatFeedbacks = { [messageId: string]: 'UP' | 'DOWN' };
+
+export type ChatMessage = { feedback?: 'UP' | 'DOWN' } & (
 	| ChatResponseTextData
 	| ChatResponseContentData
 	| ChatResponseProductSearchResultData
 	| ChatResponseInspirationResultData
 	| ChatResponseProductAnswerData
-	| UserChatMessage;
+	| UserChatMessage
+);
 
 type ChatSessionStoreConfig = {
 	data?: {
@@ -41,6 +45,7 @@ type ChatSessionStoreConfig = {
 		chat?: ChatMessage[];
 		attachments?: ChatAttachmentAddAttachment[];
 		questions?: ChatQuestion[];
+		feedbacks?: ChatFeedbacks;
 	};
 	stores: {
 		storage: StorageStore;
@@ -54,6 +59,7 @@ export class ChatSessionStore {
 	public sessionId?: string;
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
 	public storage: StorageStore;
+	public feedbacks: ChatFeedbacks = {};
 
 	constructor(params: ChatSessionStoreConfig) {
 		const { id, chat, attachments, questions, sessionId } = params.data || {};
@@ -78,6 +84,7 @@ export class ChatSessionStore {
 			chat: observable,
 			questions: observable,
 			attachments: observable,
+			feedbacks: observable,
 		});
 	}
 
@@ -93,7 +100,14 @@ export class ChatSessionStore {
 			chat: this.chat,
 			attachments: this.attachments.items,
 			questions: this.questions,
+			feedbacks: this.feedbacks,
 		});
+	}
+
+	public feedback(data: { request: FeedbackRequestModel; response: unknown }): void {
+		const messageId = data.request.feedback.messageId;
+		this.feedbacks[messageId] = data.request.feedback.thumbs;
+		this.save();
 	}
 
 	public request(request: ChatRequestModel): void {

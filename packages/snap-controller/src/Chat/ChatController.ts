@@ -30,6 +30,7 @@ import { ContextVariables, ControllerServices, ControllerTypes } from '../types'
 import { ErrorType, ChatStore } from '@searchspring/snap-store-mobx';
 import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
 import type { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
+import { ChatMessage } from '@searchspring/snap-store-mobx/dist/cjs/Chat/Stores/ChatSessionStore';
 
 const KEY_ENTER = 13;
 
@@ -134,6 +135,28 @@ export class ChatController extends AbstractController {
 
 		return request;
 	}
+
+	feedback = async (chatItem: ChatMessage, thumbs: 'UP' | 'DOWN', reason?: string) => {
+		try {
+			const { userId, shopperId } = this.tracker.getContext();
+			const params = {
+				context: {
+					pqaWidgetId: this.config.widgetId,
+					sessionId: this.store.currentChat?.sessionId,
+					visitorId: shopperId || userId,
+				},
+				feedback: {
+					messageId: chatItem.id,
+					thumbs,
+					reason,
+				},
+			};
+			const response = await this.client.chatFeedback(params);
+			this.store.feedback({ response, request: params });
+		} catch (err) {
+			this.log.error('Feedback Error:', err);
+		}
+	};
 
 	upload = async (files: FileList | null) => {
 		if (!files || files.length === 0) return;

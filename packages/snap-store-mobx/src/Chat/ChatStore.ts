@@ -3,7 +3,7 @@ import { ChatStoreConfig } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
-import type { ChatResponseModel, ChatRequestModel } from '@searchspring/snap-client';
+import type { ChatResponseModel, ChatRequestModel, FeedbackRequestModel } from '@searchspring/snap-client';
 import { StorageStore } from '../Storage/StorageStore';
 import { ChatSessionStore } from './Stores/ChatSessionStore';
 import { ChatAttachmentProduct } from './Stores/ChatAttachmentStore';
@@ -34,11 +34,8 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 				if (chatData) {
 					const restoredChat = new ChatSessionStore({
 						data: {
+							...chatData,
 							id: chatId,
-							sessionId: chatData.sessionId,
-							chat: chatData.chat,
-							attachments: chatData.attachments,
-							questions: chatData.questions,
 						},
 						stores: {
 							storage: this.storage,
@@ -88,6 +85,10 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			isBlocked = true;
 		}
 		return isBlocked;
+	}
+
+	public feedback(data: { response: any; request: FeedbackRequestModel }): void {
+		this.currentChat?.feedback(data);
 	}
 
 	public reset(): void {

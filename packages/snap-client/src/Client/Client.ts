@@ -23,7 +23,7 @@ import type {
 
 import deepmerge from 'deepmerge';
 import { ChatAPI, UploadImageRequestModel, UploadImageResponseModel } from './apis/Chat';
-import { ChatRequestModel, ChatResponseModel } from './transforms';
+import { ChatRequestModel, ChatResponseModel, FeedbackRequestModel } from './transforms';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -202,6 +202,10 @@ export class Client {
 
 		const [meta, chat] = await Promise.all([this.meta({ siteId: this.globals.siteId || '' }), this.requesters.chat.postMessage(params)]);
 		return { meta, chat };
+	}
+
+	async chatFeedback(params: FeedbackRequestModel): Promise<void> {
+		return this.requesters.chat.postFeedback(params);
 	}
 
 	async finder(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
