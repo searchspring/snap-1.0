@@ -4,20 +4,18 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 import { observer } from 'mobx-react-lite';
-import { marked } from 'marked';
-
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import type { ChatController } from '@searchspring/snap-controller';
 import { Button } from '../../Atoms/Button';
 import { useRef, useEffect } from 'preact/hooks';
-import { Image } from '../../Atoms/Image';
-import type { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
-import { Carousel, CarouselProps } from '../../Molecules/Carousel';
 import { Slideout } from '../../Molecules/Slideout';
-import { Price } from '../../Atoms/Price';
-import { Icon } from '../../Atoms/Icon';
+import { Quickview } from './Quickview';
+import { MessageUser } from './MessageUser';
+import { MessageText } from './MessageText';
+import { Attachment } from './Attachment';
+
 const defaultStyles: StyleScript<ChatProps> = () => {
 	return css({
 		position: 'fixed',
@@ -473,10 +471,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								<div className={'ss__chat__attachments'}>
 									{store.currentChat?.attachments.attached.map((item) => (
 										<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
-											{{
-												image: <AttachmentImage attachment={item as ChatAttachmentImage} controller={controller} />,
-												product: <AttachmentProduct attachment={item as ChatAttachmentProduct} controller={controller} />,
-											}[item.type] || <Fragment></Fragment>}
+											<Attachment attachment={item} controller={controller} />
 										</div>
 									))}
 								</div>
@@ -517,199 +512,20 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 						</Fragment>
 					)}
 				</div>
-				<Slideout buttonSelector={'.ss__chat__message-text__results__result__detail-slot__more-info-button'}>
-					<ResultQuickview result={store.quickViewResult} />
+				<Slideout buttonSelector={'.ss__chat__result__detail-slot__more-info-button'} width="450px">
+					<Quickview result={store.quickViewResult} controller={controller} />
 				</Slideout>
 			</Fragment>
 		</CacheProvider>
 	);
 });
 
-const AttachmentProduct = observer((props: { attachment: ChatAttachmentProduct; controller: ChatController }) => {
-	const { attachment, controller } = props;
-	const chatStore = controller.store.currentChat;
-
-	const { id, name, thumbnailUrl } = attachment;
-
-	return id ? (
-		<Fragment>
-			<div className={'ss__chat__attachment__content'}>
-				{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
-			</div>
-			<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
-				×
-			</div>
-		</Fragment>
-	) : null;
-});
-
-const AttachmentImage = observer((props: { attachment: ChatAttachmentImage; controller: ChatController }) => {
-	const { attachment, controller } = props;
-	const chatStore = controller.store.currentChat;
-
-	const src = attachment.base64 || attachment.thumbnailUrl;
-	const isLoading = attachment.state === 'loading';
-	const hasError = !!attachment.error;
-
-	if (hasError) {
-		return (
-			<Fragment>
-				<div className={'ss__chat__attachment__error'}>
-					<div className={'ss__chat__attachment__error-icon'}>⚠</div>
-					<div className={'ss__chat__attachment__error-message'}>{attachment.error?.message || 'upload failed'}</div>
-				</div>
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
-					×
-				</div>
-			</Fragment>
-		);
-	}
-
-	return src || isLoading ? (
-		<Fragment>
-			<div className={'ss__chat__attachment__content'}>
-				{src && <Image className={isLoading ? 'loading' : ''} style={{ height: '50px', width: '50px' }} src={src} alt={''} />}
-				{isLoading && (
-					<div className={'ss__chat__attachment__loading'}>
-						<div className={'ss__chat__loading__dot'}></div>
-						<div className={'ss__chat__loading__dot'}></div>
-						<div className={'ss__chat__loading__dot'}></div>
-					</div>
-				)}
-			</div>
-			{!isLoading && (
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
-					×
-				</div>
-			)}
-		</Fragment>
-	) : null;
-});
-
-const MessageText = observer((props: { chatItem: any; controller: ChatController; scrollToBottom: () => void }) => {
-	const { controller, chatItem, scrollToBottom } = props;
-
-	return (
-		<div className="ss__chat__message-text">
-			<div className="ss__chat__message-text__text-wrapper">
-				<div className="ss__chat__message-text__text-wrapper__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-				{chatItem.collectFeedback ? (
-					<div className="ss__chat__message-text__text-wrapper__feedback">
-						<span
-							onClick={() => {
-								controller.feedback(chatItem, 'UP');
-								chatItem.feedback = 'UP';
-							}}
-						>
-							<Icon icon="chevron-up" color={chatItem.feedback === 'UP' ? '#000' : '#aaa'} />
-						</span>
-						<span onClick={() => controller.feedback(chatItem, 'DOWN')}>
-							<Icon icon="chevron-down" color={chatItem.feedback === 'DOWN' ? '#000' : '#aaa'} />
-						</span>
-					</div>
-				) : null}
-			</div>
-			<ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />
-		</div>
-	);
-});
-
-const ResultsDisplay = observer((props: { chatItem: any; controller: ChatController; scrollToBottom: () => void }) => {
-	const { chatItem, controller, scrollToBottom } = props;
-	const carouselProps: Partial<CarouselProps> = {
-		breakpoints: undefined,
-		slidesPerView: 3,
-	};
-
-	return chatItem.results?.length > 0 ? (
-		<div className="ss__chat__message-text__results" style={{ width: '100%' }}>
-			<Carousel {...carouselProps}>
-				{chatItem.results.map((result: any) => (
-					<div key={result.id} className="ss__chat__message-text__results__result">
-						<ResultComponent result={result} controller={controller} scrollToBottom={scrollToBottom} />
-					</div>
-				))}
-			</Carousel>
-		</div>
-	) : null;
-});
-
-const ResultComponent = (props: { result: any; controller: ChatController; scrollToBottom: () => void }) => {
-	const { controller, result, scrollToBottom } = props;
-	return (
-		<div className="ss__chat__result">
-			<Image lazy={false} src={result.mappings.core.imageUrl} alt={result.mappings.core.name} onLoad={scrollToBottom} />
-			<div className="ss__chat__result__detail-slot">
-				<Button
-					className={'ss__chat__result__detail-slot__more-info-button'}
-					onClick={() => {
-						controller.store.setQuickViewResult(result);
-					}}
-				>
-					More Info
-				</Button>
-				<Button
-					onClick={() => {
-						controller.store.sendProductQuery(result);
-					}}
-				>
-					Discuss
-				</Button>
-			</div>
-		</div>
-	);
-};
-
-const ResultQuickview = observer((props: { result: any }) => {
-	const { result } = props;
-	return (
-		result && (
-			<div className="ss__chat__message-text__results__result__detail-slot__more-info-content">
-				<a href={result.mappings?.core?.url}>
-					<Image alt="" src={result?.mappings?.core?.imageUrl} />
-				</a>
-
-				{result.mappings.core.name}
-				<Price value={result.mappings.core.price} />
-			</div>
-		)
-	);
-});
-
-const MessageUser = observer((props: { chatItem: any; controller: ChatController }) => {
-	const { controller, chatItem } = props;
-	const { store } = controller;
-
-	return (
-		<div className="ss__chat__message-user">
-			<ul className="ss__chat__message-user__attachments">
-				{chatItem.attachments?.length
-					? chatItem.attachments?.map((attachmentId: string) => {
-							const attachment = store.currentChat?.attachments.get(attachmentId);
-							switch (attachment?.type) {
-								case 'image':
-									return (
-										<li className="ss__chat__message-user__attachment__image" key={attachment.id}>
-											<Image style={{ height: '200px', width: '200px' }} src={attachment.base64 || attachment.thumbnailUrl || ''} alt={''}></Image>
-										</li>
-									);
-								case 'product':
-									return (
-										<li className="ss__chat__message-user__attachment__product" key={attachment.id}>
-											Product Attachment: {attachment.id}
-										</li>
-									);
-								default:
-									return null;
-							}
-					  })
-					: null}
-			</ul>
-			<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-		</div>
-	);
-});
-
 export interface ChatProps extends ComponentProps {
 	controller: ChatController;
+}
+
+export interface MessageProps {
+	chatItem: any;
+	controller: ChatController;
+	scrollToBottom: () => void;
 }
