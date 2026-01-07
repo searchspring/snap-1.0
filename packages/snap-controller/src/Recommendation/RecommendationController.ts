@@ -357,7 +357,7 @@ function getRecommendationsAddtocartSchemaData({
 			results?.map((result: Product): BeaconProduct => {
 				const core = (result as Product).mappings.core;
 				return {
-					uid: (result.attributes?.parentId as unknown as string) || core?.uid || '',
+					uid: core?.parentId || core?.uid || '',
 					sku: core?.sku,
 					price: Number(core?.price),
 					qty: result.quantity || 1,
@@ -376,7 +376,7 @@ function getRecommendationsSchemaData({ store, results }: { store: Recommendatio
 				return {
 					type: ItemTypeEnum.Product,
 					position,
-					uid: (result.attributes?.parentId as unknown as string) || core?.uid || '',
+					uid: core.parentId || core?.uid || '',
 					sku: core.sku,
 				};
 			}) || [],

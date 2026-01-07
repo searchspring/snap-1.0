@@ -77,7 +77,7 @@ const clickFunc = (e, result) => {
 The `hideVariantSelections` prop will prevent the VariantSelections components from rendering.
 
 ```jsx
-<Result result={controller.store.results[0]} hideVariantSelections={false} />
+<Result result={controller.store.results[0]} hideVariantSelections={true} />
 ```
 
 ### addToCartButtonSuccessText

@@ -64,6 +64,7 @@ describe('addToCart', () => {
 	beforeAll(async () => {
 		searchConfig = { ...searchConfigDefault };
 		controller = new SearchController(searchConfig, controllerServices);
+		(controller.client as MockClient).mockData.updateConfig({ search: 'variants' });
 
 		await controller.search();
 

@@ -10,6 +10,7 @@
       "id": "8318690263298",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8318690263298",
           "sku": "1610060-SCT-32-30",
           "name": "Fort Chino Pants",
@@ -70,6 +71,7 @@
       "id": "8318574559490",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8318574559490",
           "sku": "1610037-FDK-XX-28",
           "name": "S.E.A. Legs Straight",
@@ -156,6 +158,7 @@
       "id": "8318568333570",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8318568333570",
           "sku": "11136415_I-CBM-XX-O/S",
           "name": "Arvin Goods x Outerknown Recycled Wooly Sock",
@@ -209,6 +212,7 @@
       "id": "8307767804162",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8307767804162",
           "sku": "1291014-PCH-XX-S",
           "name": "Apex Tee",
@@ -263,6 +267,7 @@
       "id": "8283519058178",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283519058178",
           "sku": "1630002-FNK-30-28",
           "name": "Ambassador Slim Fit",
@@ -331,6 +336,7 @@
       "id": "8283518140674",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283518140674",
           "sku": "1630004-ISV-30-28",
           "name": "Ambassador Slim Fit: Selvedge",
@@ -402,6 +408,7 @@
       "id": "8283516961026",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283516961026",
           "sku": "1630002-JBL-30-28",
           "name": "Ambassador Slim Fit",
@@ -476,6 +483,7 @@
       "id": "8283514011906",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283514011906",
           "sku": "1630002-INK-30-28",
           "name": "Ambassador Slim Fit",
@@ -550,6 +558,7 @@
       "id": "8283486748930",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283486748930",
           "sku": "1630002-BBL-30-28",
           "name": "Ambassador Slim Fit",
@@ -621,6 +630,7 @@
       "id": "8283422359810",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283422359810",
           "sku": "1630002-WNK-30-28",
           "name": "Ambassador Slim Fit",
@@ -689,6 +699,7 @@
       "id": "8283422097666",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283422097666",
           "sku": "1630002-FDB-30-28",
           "name": "Ambassador Slim Fit - FINAL SALE",
@@ -765,6 +776,7 @@
       "id": "8283388576002",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283388576002",
           "sku": "1810036-PSF-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -818,6 +830,7 @@
       "id": "8283387527426",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283387527426",
           "sku": "1810036-GRH-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -870,6 +883,7 @@
       "id": "8283387494658",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283387494658",
           "sku": "1810036-CHH-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -922,6 +936,7 @@
       "id": "8283386478850",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283386478850",
           "sku": "1810036-BSF-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -974,6 +989,7 @@
       "id": "8283385626882",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283385626882",
           "sku": "1810036-NVH-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -1026,6 +1042,7 @@
       "id": "8283383202050",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283383202050",
           "sku": "1810036-PBK-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -1078,6 +1095,7 @@
       "id": "8283378843906",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283378843906",
           "sku": "1630004-VIS-30-28",
           "name": "Ambassador Slim Fit: Selvedge",
@@ -1149,6 +1167,7 @@
       "id": "8283378024706",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283378024706",
           "sku": "1630002-WGR-30-28",
           "name": "Ambassador Slim Fit",
@@ -1220,6 +1239,7 @@
       "id": "8283338932482",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283338932482",
           "sku": "1520005-HEA-XX-S",
           "name": "Ambassador Blazer - FINAL SALE",
@@ -1276,6 +1296,8 @@
       "id": "8283320615170",
       "mappings": {
         "core": {
+          "available": true,
+          "available": true,
           "uid": "8283320615170",
           "sku": "840040388870",
           "name": "Gift Message",
@@ -1325,6 +1347,7 @@
       "id": "8283320221954",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283320221954",
           "sku": "840040388863",
           "name": "Gift Packaging",
@@ -1373,6 +1396,7 @@
       "id": "8283309605122",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283309605122",
           "sku": "1810038-ATB-XX-28",
           "name": "Apex Hybrid Trunks By Kelly Slater",
@@ -1425,6 +1449,7 @@
       "id": "8283309539586",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283309539586",
           "sku": "1810036-DAB-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -1477,6 +1502,7 @@
       "id": "8283307933954",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283307933954",
           "sku": "1810038-TRG-XX-28",
           "name": "Apex Hybrid Trunks by Kelly Slater - FINAL SALE",
@@ -1536,6 +1562,7 @@
       "id": "8283307802882",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283307802882",
           "sku": "1810038-PCH-XX-28",
           "name": "Apex Hybrid Trunks By Kelly Slater",
@@ -1586,6 +1613,7 @@
       "id": "8283297087746",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283297087746",
           "sku": "1810036-BBK-XX-28",
           "name": "Apex Trunks By Kelly Slater",
@@ -1641,6 +1669,7 @@
       "id": "8283295547650",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283295547650",
           "sku": "1810040-PCH-XX-S",
           "name": "Adventure Shorts",
@@ -1690,6 +1719,7 @@
       "id": "8283241218306",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283241218306",
           "sku": "1520005-CAG-XX-S",
           "name": "Ambassador Blazer - FINAL SALE",
@@ -1747,6 +1777,7 @@
       "id": "8283238957314",
       "mappings": {
         "core": {
+          "available": true,
           "uid": "8283238957314",
           "sku": "1540001-KHK-XX-S",
           "name": "Apex Jacket by Kelly Slater - FINAL SALE",

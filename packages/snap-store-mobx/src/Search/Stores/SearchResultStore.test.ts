@@ -371,10 +371,11 @@ describe('SearchResultStore', () => {
 
 			results.forEach((result, index) => {
 				// check display properties
-				expect(Object.keys((result as Product).display).length).toBe(3);
+				expect(Object.keys((result as Product).display).length).toBe(4);
 				expect((result as Product).display).toHaveProperty('id');
 				expect((result as Product).display).toHaveProperty('mappings');
 				expect((result as Product).display).toHaveProperty('attributes');
+				expect((result as Product).display).toHaveProperty('badges');
 
 				const mask = (result as Product).mask;
 				expect(mask).toHaveProperty('merge');
@@ -1317,8 +1318,11 @@ describe('SearchResultStore', () => {
 				const mockVariantData: VariantData[] = [
 					// Available variants
 					{
-						mappings: { core: {} },
-						attributes: { available: true },
+						mappings: {
+							core: {
+								available: true,
+							},
+						},
 						options: {
 							size: { value: '33' },
 							wash: { value: 'Palm Springs' },
@@ -1326,8 +1330,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: true },
+						mappings: {
+							core: {
+								available: true,
+							},
+						},
 						options: {
 							size: { value: '35' },
 							wash: { value: 'washy' },
@@ -1336,8 +1343,11 @@ describe('SearchResultStore', () => {
 					},
 					// Unavailable variants
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							size: { value: '23' },
 							wash: { value: 'dark blue' },
@@ -1345,8 +1355,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							size: { value: '24' },
 							wash: { value: 'dark blue' },
@@ -1497,8 +1510,11 @@ describe('SearchResultStore', () => {
 				// Mock variant data where all values have no available variants
 				const mockVariantData: VariantData[] = [
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'red' },
 							size: { value: 'small' },
@@ -1506,8 +1522,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'blue' },
 							size: { value: 'medium' },
@@ -1515,8 +1534,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'green' },
 							size: { value: 'large' },
@@ -1524,8 +1546,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'orange' },
 							size: { value: 'small' },
@@ -1586,8 +1611,11 @@ describe('SearchResultStore', () => {
 				// Mock variant data where some values have no available variants
 				const mockVariantData: VariantData[] = [
 					{
-						mappings: { core: {} },
-						attributes: { available: true },
+						mappings: {
+							core: {
+								available: true,
+							},
+						},
 						options: {
 							color: { value: 'red' },
 							size: { value: 'small' },
@@ -1595,8 +1623,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'blue' },
 							size: { value: 'medium' },
@@ -1604,8 +1635,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'green' },
 							size: { value: 'large' },
@@ -1613,8 +1647,11 @@ describe('SearchResultStore', () => {
 						badges: [],
 					},
 					{
-						mappings: { core: {} },
-						attributes: { available: false },
+						mappings: {
+							core: {
+								available: false,
+							},
+						},
 						options: {
 							color: { value: 'orange' },
 							size: { value: 'small' },

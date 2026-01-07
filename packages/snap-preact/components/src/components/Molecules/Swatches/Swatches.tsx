@@ -10,7 +10,7 @@ import { ImageProps, Image } from '../../Atoms/Image';
 import deepmerge from 'deepmerge';
 import { filters } from '@searchspring/snap-toolbox';
 import Color from 'color';
-import { Slideshow, SlideshowImage, SlideshowProps } from '../Slideshow';
+import { Slideshow, SlideshowSlide, SlideshowProps } from '../Slideshow';
 import { useState } from 'preact/hooks';
 
 const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
@@ -185,7 +185,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		setSelection(option);
 	};
 
-	const imagesArray: SlideshowImage[] = [];
+	const slidesArray: SlideshowSlide[] = [];
 
 	if (type == 'slideshow') {
 		{
@@ -200,7 +200,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 					isDark = color.isDark();
 				} catch (err) {}
 
-				imagesArray.push({
+				slidesArray.push({
 					onClick: (e) => !disabled && !option?.disabled && makeSelection(e as any, option),
 					content: (
 						<div
@@ -241,7 +241,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		<CacheProvider>
 			<div {...styling} className={classnames('ss__swatches', className, internalClassName)}>
 				{type == 'slideshow' ? (
-					<Slideshow images={imagesArray} {...subProps.slideshow} />
+					<Slideshow slides={slidesArray} {...subProps.slideshow} />
 				) : (
 					<Grid
 						{...subProps.grid}

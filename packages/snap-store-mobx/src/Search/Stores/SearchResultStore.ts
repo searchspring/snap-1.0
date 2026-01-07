@@ -265,7 +265,9 @@ export class Product {
 	}
 
 	public get display(): ProductMinimal {
-		return deepmerge({ id: this.id, mappings: this.mappings, attributes: this.attributes }, this.mask.data, { isMergeableObject: isPlainObject });
+		return deepmerge({ id: this.id, mappings: this.mappings, attributes: this.attributes, badges: this.badges }, this.mask.data, {
+			isMergeableObject: isPlainObject,
+		});
 	}
 }
 

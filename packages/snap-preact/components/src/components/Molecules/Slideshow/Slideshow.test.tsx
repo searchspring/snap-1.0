@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
-import { Slideshow, SlideshowProps, SlideshowImage } from './Slideshow';
+import { Slideshow, SlideshowProps, SlideshowSlide } from './Slideshow';
 import { ThemeProvider } from '@emotion/react';
 
 // Mock images for testing
@@ -27,7 +27,7 @@ const mockJSXImages = [
 ];
 
 const defaultProps: SlideshowProps = {
-	images: mockImages,
+	slides: mockImages,
 };
 
 // Mock setInterval and clearInterval for autoplay tests
@@ -55,44 +55,45 @@ describe('Slideshow Component', () => {
 		});
 
 		it('renders with custom aria label', () => {
-			const args = {
+			const args: SlideshowProps = {
+				...defaultProps,
 				ariaLabel: 'Product gallery',
 			};
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toHaveAttribute('aria-label', 'Product gallery');
 		});
 
 		it('renders with aria-labelledby', () => {
-			const args = { ariaLabelledBy: 'gallery-title' };
+			const args: SlideshowProps = { ...defaultProps, ariaLabelledBy: 'gallery-title' };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toHaveAttribute('aria-labelledby', 'gallery-title');
 		});
 
 		it('does not render when no images provided', () => {
-			const args = { images: [] };
+			const args: SlideshowProps = { ...defaultProps, slides: [] };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.queryByRole('region');
 			expect(slideshow).not.toBeInTheDocument();
 		});
 
 		it('applies custom className', () => {
-			const args = { className: 'custom-slideshow' };
+			const args: SlideshowProps = { ...defaultProps, className: 'custom-slideshow', slides: mockImages };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toHaveClass('custom-slideshow');
 		});
 
 		it('uses fallback image when src is missing', () => {
-			const imagesWithMissingSrc: SlideshowImage[] = [{ alt: 'Missing image' }];
+			const imagesWithMissingSrc: SlideshowSlide[] = [{ alt: 'Missing image' }];
 
 			//need to disable lazy loading for this test
 			const theme = {
@@ -103,14 +104,15 @@ describe('Slideshow Component', () => {
 				},
 			};
 
-			const args = {
-				images: imagesWithMissingSrc,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: imagesWithMissingSrc,
 				fallbackImage: 'fallback.jpg',
 				slidesToShow: 1,
 				theme,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 			const image = rendered.container.querySelector('img');
 			expect(image).toHaveAttribute('src', 'fallback.jpg');
 		});
@@ -118,39 +120,40 @@ describe('Slideshow Component', () => {
 
 	describe('Slides Configuration', () => {
 		it('renders correct number of visible slides', () => {
-			const args = { slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const images = rendered.getAllByRole('img');
 			expect(images).toHaveLength(2);
 		});
 
 		it('handles single slide display', () => {
-			const args = { slidesToShow: 1 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 1 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const images = rendered.getAllByRole('img');
 			expect(images).toHaveLength(1);
 		});
 
 		it('shows all images when slidesToShow exceeds image count', () => {
-			const args = {
-				images: mockImages.slice(0, 2),
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages.slice(0, 2),
 				slidesToShow: 5,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const images = rendered.getAllByRole('img');
 			expect(images).toHaveLength(2);
 		});
 
 		it('respects gap prop', () => {
-			const args = { gap: 20 };
+			const args: SlideshowProps = { ...defaultProps, gap: 20 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
@@ -159,13 +162,14 @@ describe('Slideshow Component', () => {
 
 	describe('Navigation', () => {
 		it('renders navigation buttons when needed', () => {
-			const args = {
-				images: mockImages,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages,
 				slidesToShow: 2,
 				showNavigation: true,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const prevButton = rendered.queryByLabelText(/previous/i);
 			const nextButton = rendered.queryByLabelText(/next/i);
@@ -175,9 +179,9 @@ describe('Slideshow Component', () => {
 		});
 
 		it('hides navigation when showNavigation is false', () => {
-			const args = { showNavigation: false };
+			const args: SlideshowProps = { ...defaultProps, showNavigation: false };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const prevButton = rendered.queryByLabelText(/previous/i);
 			const nextButton = rendered.queryByLabelText(/next/i);
@@ -187,14 +191,15 @@ describe('Slideshow Component', () => {
 		});
 
 		it('navigates to next slides on button click', async () => {
-			const args = {
-				images: mockImages,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages,
 				slidesToShow: 2,
 				slidesToMove: 1,
 				showNavigation: true,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const nextButton = rendered.getByLabelText(/next/i);
 
@@ -208,14 +213,15 @@ describe('Slideshow Component', () => {
 
 	describe('Pagination', () => {
 		it('renders pagination dots when enabled', () => {
-			const args = {
-				images: mockImages,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages,
 				slidesToShow: 2,
 				slidesToMove: 1,
 				showPagination: true,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const pagination = rendered.queryByRole('tablist');
 			if (pagination) {
@@ -224,9 +230,9 @@ describe('Slideshow Component', () => {
 		});
 
 		it('hides pagination when showPagination is false', () => {
-			const args = { showPagination: false };
+			const args: SlideshowProps = { ...defaultProps, showPagination: false };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const pagination = rendered.queryByRole('tablist');
 			expect(pagination).not.toBeInTheDocument();
@@ -235,18 +241,18 @@ describe('Slideshow Component', () => {
 
 	describe('Keyboard Navigation', () => {
 		it('slideshow is focusable', async () => {
-			const args = { slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toHaveAttribute('tabIndex', '0');
 		});
 
 		it('handles keyboard events', async () => {
-			const args = { slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			slideshow.focus();
@@ -261,9 +267,9 @@ describe('Slideshow Component', () => {
 
 	describe('Auto-play Functionality', () => {
 		it('does not auto-play by default', () => {
-			const args = { slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			// Fast-forward time
 			jest.advanceTimersByTime(5000);
@@ -274,13 +280,14 @@ describe('Slideshow Component', () => {
 		});
 
 		it('auto-plays when enabled', async () => {
-			const args = {
+			const args: SlideshowProps = {
+				...defaultProps,
 				autoPlay: true,
 				autoPlayInterval: 1000,
 				slidesToShow: 2,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			// Fast-forward past interval
 			jest.advanceTimersByTime(1000);
@@ -291,13 +298,14 @@ describe('Slideshow Component', () => {
 		});
 
 		it('pauses on mouse enter', async () => {
-			const args = {
+			const args: SlideshowProps = {
+				...defaultProps,
 				autoPlay: true,
 				autoPlayInterval: 1000,
 				slidesToShow: 2,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 
@@ -315,18 +323,19 @@ describe('Slideshow Component', () => {
 	describe('Clickable Images', () => {
 		it('calls onClick handler when image is clicked', async () => {
 			const mockOnClick = jest.fn();
-			const clickableImage: SlideshowImage = {
+			const clickableImage: SlideshowSlide = {
 				src: 'test.jpg',
 				alt: 'Test Image',
 				onClick: mockOnClick,
 			};
 
-			const args = {
-				images: [clickableImage],
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: [clickableImage],
 				slidesToShow: 1,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const clickableSlide = rendered.container.querySelector('.ss__slideshow__slide--clickable');
 			if (clickableSlide) {
@@ -338,12 +347,13 @@ describe('Slideshow Component', () => {
 		it('mixes clickable and non-clickable images', () => {
 			const mixedImages = ['regular-image.jpg', { src: 'clickable.jpg', onClick: jest.fn() }, 'another-regular.jpg'];
 
-			const args = {
-				images: mixedImages,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mixedImages,
 				slidesToShow: 3,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const imgElements = rendered.container.querySelectorAll('img');
 			expect(imgElements).toHaveLength(3);
@@ -352,12 +362,13 @@ describe('Slideshow Component', () => {
 
 	describe('JSX Content Support', () => {
 		it('renders JSX elements as slides', () => {
-			const args = {
-				images: mockJSXImages,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockJSXImages,
 				slidesToShow: 2,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			expect(rendered.getByText('Custom Slide 1')).toBeInTheDocument();
 			expect(rendered.getByText('Custom Slide 2')).toBeInTheDocument();
@@ -366,24 +377,26 @@ describe('Slideshow Component', () => {
 		it('mixes JSX and image content', () => {
 			const mixedContent = ['image1.jpg', { content: <div key="jsx1">JSX Content</div> }, { src: 'image2.jpg', alt: 'Image 2' }];
 
-			const args = {
-				images: mixedContent,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mixedContent,
 				slidesToShow: 3,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			expect(rendered.getByText('JSX Content')).toBeInTheDocument();
 			expect(rendered.getAllByRole('img')).toHaveLength(2);
 		});
 
 		it('applies content modifier class to JSX slides', () => {
-			const args = {
-				images: [{ content: <div key="jsx">JSX Content</div> }],
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: [{ content: <div key="jsx">JSX Content</div> }],
 				slidesToShow: 1,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const contentSlide = rendered.container.querySelector('.ss__slideshow__slide--content');
 			expect(contentSlide).toBeInTheDocument();
@@ -401,18 +414,18 @@ describe('Slideshow Component', () => {
 		});
 
 		it('sets proper ARIA attributes', () => {
-			const args = { slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toHaveAttribute('aria-roledescription', 'slideshow');
 		});
 
 		it('sets tabIndex correctly for keyboard navigation', () => {
-			const args = { slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toHaveAttribute('tabIndex', '0');
@@ -421,28 +434,30 @@ describe('Slideshow Component', () => {
 
 	describe('Alt Text', () => {
 		it('uses individual image alt text', () => {
-			const imagesWithAlt: SlideshowImage[] = [
+			const imagesWithAlt: SlideshowSlide[] = [
 				{ src: 'img1.jpg', alt: 'Custom Alt 1' },
 				{ src: 'img2.jpg', alt: 'Custom Alt 2' },
 			];
 
-			const args = {
-				images: imagesWithAlt,
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: imagesWithAlt,
 				slidesToShow: 2,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			expect(rendered.getByAltText('Custom Alt 1')).toBeInTheDocument();
 			expect(rendered.getByAltText('Custom Alt 2')).toBeInTheDocument();
 		});
 
 		it('generates default alt text', () => {
-			const args = {
-				images: mockImages.slice(0, 2),
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages.slice(0, 2),
 				slidesToShow: 2,
 			};
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 
 			// Should generate some alt text
 			const images = rendered.container.querySelectorAll('img');
@@ -454,30 +469,33 @@ describe('Slideshow Component', () => {
 
 	describe('Gap Property', () => {
 		it('applies default gap', () => {
-			const args = {
+			const args: SlideshowProps = {
+				...defaultProps,
 				slidesToShow: 3,
 			};
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
 		});
 
 		it('applies custom gap value', () => {
-			const args = {
+			const args: SlideshowProps = {
+				...defaultProps,
 				gap: 25,
 				slidesToShow: 3,
 			};
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
 		});
 
 		it('handles zero gap', () => {
-			const args = {
+			const args: SlideshowProps = {
+				...defaultProps,
 				gap: 0,
 				slidesToShow: 3,
 			};
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
 		});
@@ -485,14 +503,15 @@ describe('Slideshow Component', () => {
 
 	describe('Slide Groups Calculation', () => {
 		it('calculates correct slide groups for pagination', () => {
-			const args = {
-				images: mockImages.slice(0, 8), // 8 images
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages.slice(0, 8), // 8 images
 				slidesToShow: 3,
 				slidesToMove: 2,
 				showPagination: true,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 			const pagination = rendered.queryByRole('tablist');
 			if (pagination) {
 				const dots = rendered.container.querySelectorAll('.ss__slideshow__dot');
@@ -502,14 +521,15 @@ describe('Slideshow Component', () => {
 		});
 
 		it('handles edge case with exact slide divisions', () => {
-			const args = {
-				images: mockImages.slice(0, 6), // 6 images
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages.slice(0, 6), // 6 images
 				slidesToShow: 2,
 				slidesToMove: 2,
 				showPagination: true,
 			};
 
-			const rendered = render(<Slideshow {...defaultProps} {...args} />);
+			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
 		});

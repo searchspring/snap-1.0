@@ -1,12 +1,15 @@
 import { h } from 'preact';
 import { useState, useEffect, useRef } from 'preact/hooks';
-import { jsx, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles, defined } from '../../../utilities';
 import { Image, ImageProps } from '../../Atoms/Image';
 import { Button, ButtonProps } from '../../Atoms/Button';
+import { Lang, useLang } from '../../../hooks';
+import deepmerge from 'deepmerge';
+import { LangAttributes } from '../../../hooks/useLang';
 
 const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16, overlayNavigation = false }) => {
 	return css({
@@ -15,7 +18,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 
 		'.ss__slideshow__container': {
 			position: 'relative',
-			//arrows are 30px wide each by default
 			width: `calc(100% - ${overlayNavigation ? 0 : 60}px)`,
 			margin: 'auto',
 			overflow: 'hidden',
@@ -70,7 +72,7 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 				transition: 'opacity 0.2s ease',
 			},
 
-			'&:focus': {
+			'&:focus-visible': {
 				outline: '2px solid #005fcc',
 				outlineOffset: '2px',
 			},
@@ -83,7 +85,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 			zIndex: 10,
 
 			'.ss__button': {
-				// background: 'rgba(255, 255, 255, 0.9)',
 				border: 'none',
 				borderRadius: '50%',
 				width: '10px',
@@ -102,7 +103,7 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 					cursor: 'not-allowed',
 				},
 
-				'&:focus': {
+				'&:focus-visible': {
 					outline: '2px solid #005fcc',
 					outlineOffset: '2px',
 				},
@@ -178,7 +179,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	const {
 		className,
-		images,
+		slides,
 		fallbackImage,
 		autoPlay,
 		autoPlayInterval,
@@ -211,7 +212,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		NextButton: {
 			// default props
 			backgroundColor: overlayNavigation ? 'rgba(255, 255, 255, 0.9)' : undefined,
-			name: 'nextButton',
+			name: 'next-button',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -222,7 +223,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		PrevButton: {
 			// default props
 			backgroundColor: overlayNavigation ? 'rgba(255, 255, 255, 0.9)' : undefined,
-			name: 'prevButton',
+			name: 'prev-button',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -232,7 +233,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		},
 		PauseButton: {
 			// default props
-			name: 'pauseButton',
+			name: 'pause-button',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -242,7 +243,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		},
 		PaginationButton: {
 			// default props
-			name: 'paginationButton',
+			name: 'pagination-button',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -260,7 +261,6 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(autoPlay);
-	const [announceText, setAnnounceText] = useState('');
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const slideshowRef = useRef<HTMLDivElement>(null);
 	const trackRef = useRef<HTMLDivElement>(null);
@@ -271,31 +271,31 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	const [currentX, setCurrentX] = useState(0);
 	const [dragOffset, setDragOffset] = useState(0);
 
-	// Normalize images to SlideshowImage format
-	const normalizedImages: SlideshowImage[] = images.map((img, index) => {
-		if (typeof img === 'string') {
+	// Normalize slides to SlideshowSlide format
+	const normalizedSlides: SlideshowSlide[] = slides.map((slide, index) => {
+		if (typeof slide === 'string') {
 			// String URL
-			return { src: img };
-		} else if (img && typeof img === 'object' && 'props' in img && 'type' in img) {
+			return { src: slide };
+		} else if (slide && typeof slide === 'object' && 'props' in slide && 'type' in slide) {
 			// This is a JSX element (has props and type properties)
 			return {
-				content: img as JSX.Element,
+				content: slide as JSX.Element,
 				alt: `Slide ${index + 1}`,
 			};
-		} else if (img && typeof img === 'object') {
-			// This is already a SlideshowImage object
-			return img as SlideshowImage;
+		} else if (slide && typeof slide === 'object') {
+			// This is already a SlideshowSlide object
+			return slide as SlideshowSlide;
 		} else {
 			// Fallback for any other type
 			return {
-				content: img as JSX.Element,
+				content: slide as JSX.Element,
 				alt: `Slide ${index + 1}`,
 			};
 		}
 	});
 
 	// slide calculations
-	const totalSlides = normalizedImages.length;
+	const totalSlides = normalizedSlides.length;
 	const visibleSlides = Math.min(slidesToShow!, totalSlides);
 	const maxIndex = Math.max(0, totalSlides - visibleSlides);
 
@@ -309,7 +309,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	// Auto-play functionality
 	useEffect(() => {
-		if (isPlaying && normalizedImages.length > slidesToShow! && !isDragging) {
+		if (isPlaying && normalizedSlides.length > slidesToShow! && !isDragging) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
 					const nextIndex = prevIndex + slidesToMove!;
@@ -335,7 +335,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 				clearInterval(intervalRef.current);
 			}
 		}
-	}, [isPlaying, autoPlayInterval, normalizedImages.length, slidesToShow, slidesToMove, loop, maxIndex, isDragging]);
+	}, [isPlaying, autoPlayInterval, normalizedSlides.length, slidesToShow, slidesToMove, loop, maxIndex, isDragging]);
 
 	// if all slides are visible, turn off touch dragging.
 	if (totalSlides <= visibleSlides) {
@@ -346,6 +346,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	const handleDragStart = (clientX: number) => {
 		if (!touchDragging) return;
 
+		setIsPlaying(false);
 		setIsDragging(true);
 		setStartX(clientX);
 		setCurrentX(clientX);
@@ -385,7 +386,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		setDragOffset(0);
 
 		// Resume autoplay if it was playing
-		if (isPlaying && normalizedImages.length > slidesToShow!) {
+		if (isPlaying && normalizedSlides.length > slidesToShow!) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
 					const nextIndex = prevIndex + slidesToMove!;
@@ -403,47 +404,19 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		}
 	};
 
-	// Touch event handlers
-	const handleTouchStart = (event: TouchEvent) => {
-		const touch = event.touches[0];
-		handleDragStart(touch.clientX);
-	};
-
-	const handleTouchMove = (event: TouchEvent) => {
-		if (isDragging) {
-			event.preventDefault(); // Prevent scrolling while dragging
-		}
-		const touch = event.touches[0];
-		handleDragMove(touch.clientX);
-	};
-
-	const handleTouchEnd = () => {
-		handleDragEnd();
-	};
-
-	// Mouse event handlers (for desktop testing)
-	const handleMouseDown = (event: MouseEvent) => {
-		event.preventDefault();
-		handleDragStart(event.clientX);
-	};
-
 	const handleMouseMove = (event: MouseEvent) => {
 		handleDragMove(event.clientX);
-	};
-
-	const handleMouseUp = () => {
-		handleDragEnd();
 	};
 
 	// Add/remove mouse event listeners
 	useEffect(() => {
 		if (isDragging && touchDragging) {
 			document.addEventListener('mousemove', handleMouseMove);
-			document.addEventListener('mouseup', handleMouseUp);
+			document.addEventListener('mouseup', handleDragEnd);
 
 			return () => {
 				document.removeEventListener('mousemove', handleMouseMove);
-				document.removeEventListener('mouseup', handleMouseUp);
+				document.removeEventListener('mouseup', handleDragEnd);
 			};
 		}
 	}, [isDragging, touchDragging]);
@@ -456,7 +429,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	};
 
 	const handleMouseLeave = () => {
-		if (isPlaying && normalizedImages.length > slidesToShow! && !isDragging) {
+		if (isPlaying && normalizedSlides.length > slidesToShow! && !isDragging) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
 					const nextIndex = prevIndex + slidesToMove!;
@@ -475,17 +448,17 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	};
 
 	// Handle image click
-	const handleImageClick = (image: SlideshowImage, index: number) => {
-		if (image.onClick && !isDragging) {
-			image.onClick(image, index);
+	const handleSlideClick = (slide: SlideshowSlide, index: number) => {
+		if (slide.onClick && !isDragging) {
+			slide.onClick(slide, index);
 		}
 	};
 
 	// Handle image keyboard interaction
-	const handleImageKeyDown = (event: KeyboardEvent, image: SlideshowImage, index: number) => {
+	const handleSlideKeyDown = (event: KeyboardEvent, slide: SlideshowSlide, index: number) => {
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault();
-			handleImageClick(image, index);
+			handleSlideClick(slide, index);
 		}
 	};
 
@@ -503,12 +476,10 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 			case 'Home':
 				event.preventDefault();
 				setCurrentIndex(0);
-				announceSlideChange(1);
 				break;
 			case 'End':
 				event.preventDefault();
 				setCurrentIndex(maxIndex);
-				announceSlideChange(totalDots);
 				break;
 			case ' ':
 			case 'Spacebar':
@@ -522,17 +493,6 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		}
 	};
 
-	const announceSlideChange = (slideGroup: number) => {
-		const startSlide = (slideGroup - 1) * slidesToMove! + 1;
-		const endSlide = Math.min(slideGroup * slidesToMove!, normalizedImages.length);
-
-		if (startSlide === endSlide) {
-			setAnnounceText(`Showing slide ${startSlide} of ${normalizedImages.length}`);
-		} else {
-			setAnnounceText(`Showing slides ${startSlide} to ${endSlide} of ${normalizedImages.length}`);
-		}
-	};
-
 	const goToPrevious = () => {
 		setCurrentIndex((prevIndex) => {
 			let newIndex;
@@ -541,7 +501,6 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 			} else {
 				newIndex = Math.max(0, prevIndex - slidesToMove!);
 			}
-			announceSlideChange(Math.floor(newIndex / slidesToMove!) + 1);
 			return newIndex;
 		});
 	};
@@ -554,7 +513,6 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 			} else {
 				newIndex = Math.min(maxIndex, prevIndex + slidesToMove!);
 			}
-			announceSlideChange(Math.floor(newIndex / slidesToMove!) + 1);
 			return newIndex;
 		});
 	};
@@ -562,18 +520,16 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	const goToSlide = (dotIndex: number) => {
 		const targetIndex = slideGroups[dotIndex] || 0;
 		setCurrentIndex(targetIndex);
-		announceSlideChange(dotIndex + 1);
 	};
 
 	const togglePlayPause = () => {
 		setIsPlaying(!isPlaying);
-		setAnnounceText(isPlaying ? 'Slideshow paused' : 'Slideshow resumed');
 	};
 
 	const styling = mergeStyles<SlideshowProps>(props, defaultStyles);
 
-	// Don't render if no images
-	if (!normalizedImages || normalizedImages.length === 0) {
+	// Don't render if no slides
+	if (!normalizedSlides || normalizedSlides.length === 0) {
 		return <></>;
 	}
 
@@ -593,6 +549,39 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	const isPrevDisabled = !loop && currentIndex === 0;
 	const isNextDisabled = !loop && currentIndex >= maxIndex;
 
+	//initialize lang
+	const defaultLang: Partial<SlideshowLang> = {
+		pauseButton: {
+			value: isPlaying ? 'Pause' : 'Play',
+			attributes: {
+				'aria-label': isPlaying ? 'Pause slideshow' : 'Resume slideshow',
+			},
+		},
+		nextButton: {
+			attributes: {
+				'aria-label': `Next slides${isNextDisabled ? ' (disabled)' : ''}`,
+			},
+		},
+		prevButton: {
+			attributes: {
+				'aria-label': `Previous slides${isPrevDisabled ? ' (disabled)' : ''}`,
+			},
+		},
+		srInstructions: {
+			value: `Use arrow keys to navigate slides. Press spacebar to pause autoplay. Press home or end to go to first or last slide group.${' '}${
+				touchDragging && 'Swipe left or right to navigate on touch devices.'
+			}`,
+		},
+	};
+
+	//deep merge with props.lang
+	const lang = deepmerge(defaultLang, props.lang || {});
+	const mergedLang = useLang(lang as any, {
+		isPlaying,
+		isNextDisabled,
+		isPrevDisabled,
+	});
+
 	return (
 		<CacheProvider>
 			<div
@@ -610,13 +599,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 				tabIndex={0}
 			>
 				{/* Screen reader announcements */}
-				<div className="ss__slideshow__sr-only" aria-live="polite" aria-atomic="true">
-					{announceText}
-				</div>
-				<div className="ss__slideshow__sr-only">
-					Use arrow keys to navigate slides. Press spacebar to pause autoplay. Press home or end to go to first or last slide group.{' '}
-					{touchDragging && 'Swipe left or right to navigate on touch devices.'}
-				</div>
+				<div className="ss__slideshow__sr-only" {...mergedLang.srInstructions.all}></div>
 				{/* END Screen reader announcements */}
 
 				<div className="ss__slideshow__container">
@@ -630,67 +613,100 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 						aria-label={`Slide group ${currentIndex} of ${totalDots}`}
 						// Touch events
 						// @ts-ignore - touch events
-						onTouchStart={touchDragging ? handleTouchStart : undefined}
+						onTouchStart={touchDragging ? (event) => handleDragStart(event.touches[0]) : undefined}
 						// @ts-ignore - touch events
-						onTouchMove={touchDragging ? handleTouchMove : undefined}
-						// @ts-ignore - touch events
-						onTouchEnd={touchDragging ? handleTouchEnd : undefined}
+						onTouchMove={
+							touchDragging
+								? (event: TouchEvent) => {
+										if (isDragging) {
+											event.preventDefault(); // Prevent scrolling while dragging
+										}
+										const touch = event.touches[0];
+										handleDragMove(touch.clientX);
+								  }
+								: undefined
+						}
+						onTouchEnd={touchDragging ? handleDragEnd : undefined}
 						// Mouse events (for desktop dragging)
 						// @ts-ignore - mouse events
-						onMouseDown={touchDragging ? handleMouseDown : undefined}
+						onMouseDown={
+							touchDragging
+								? (event: MouseEvent) => {
+										event.preventDefault();
+										handleDragStart(event.clientX);
+								  }
+								: undefined
+						}
 						// Mouse events (for desktop dragging)
 						// @ts-ignore - mouse events
-						onMouseUp={touchDragging ? handleMouseUp : undefined}
+						onMouseUp={touchDragging ? handleDragEnd : undefined}
 						// Mouse events (for desktop dragging)
 						// @ts-ignore - mouse events
 						onMouseMove={touchDragging ? handleMouseMove : undefined}
 					>
-						{normalizedImages.map((image, index) => {
+						{normalizedSlides.map((slide, index) => {
 							const isVisible = index >= currentIndex && index < currentIndex + slidesToShow!;
-							const hasClickHandler = !!image.onClick;
-							const hasContent = !!image.content;
-							const imageAlt = image.alt || alt || `Image ${index + 1}`;
+							const hasClickHandler = !!slide.onClick;
+							const hasContent = !!slide.content;
+							const imageAlt = slide.alt || alt || `Image ${index + 1}`;
+
+							const defaultLang: Partial<SlideshowLang> = {
+								slide: {
+									attributes: {
+										'aria-label': hasClickHandler ? `Click to view ${imageAlt}` : `${imageAlt} ${index + 1} of ${normalizedSlides.length}`,
+									},
+								},
+							};
+
+							//deep merge with props.lang
+							const slideLang = deepmerge(defaultLang, props.lang || {});
+							const slideLangObj = useLang(slideLang as any, {
+								hasClickHandler,
+								imageAlt,
+								index,
+								slidesLength: normalizedSlides.length,
+							});
 
 							return (
 								<div
 									key={index}
+									{...slideLangObj.slide.all}
 									className={classnames('ss__slideshow__slide', {
 										'ss__slideshow__slide--clickable': hasClickHandler,
 										'ss__slideshow__slide--content': hasContent,
 									})}
 									role={hasClickHandler ? 'button' : hasContent ? 'presentation' : 'img'}
-									aria-label={hasClickHandler ? `Click to view ${imageAlt}` : `${imageAlt} ${index + 1} of ${normalizedImages.length}`}
 									aria-hidden={!isVisible}
 									tabIndex={hasClickHandler && isVisible ? 0 : -1}
-									onClick={hasClickHandler ? () => handleImageClick(image, index) : undefined}
-									onKeyDown={hasClickHandler ? (e: any) => handleImageKeyDown(e, image, index) : undefined}
+									onClick={hasClickHandler ? () => handleSlideClick(slide, index) : undefined}
+									onKeyDown={hasClickHandler ? (e: any) => handleSlideKeyDown(e, slide, index) : undefined}
 								>
-									{hasContent ? image.content : <Image {...subProps.Image} src={image.src || fallbackImage!} alt={isVisible ? imageAlt : ''} />}
+									{hasContent ? slide.content : <Image {...subProps.Image} src={slide.src || fallbackImage!} alt={isVisible ? imageAlt : ''} />}
 								</div>
 							);
 						})}
 					</div>
 				</div>
 
-				{showNavigation && normalizedImages.length > slidesToShow! && (
+				{showNavigation && normalizedSlides.length > slidesToShow! && (
 					<>
 						<div className="ss__slideshow__navigation ss__slideshow__navigation--prev">
 							<Button
 								icon="angle-left"
 								className={'ss__slideshow__prev'}
 								disabled={isPrevDisabled}
-								aria-label={`Previous slides${isPrevDisabled ? ' (disabled)' : ''}`}
+								{...mergedLang.prevButton.all}
 								{...subProps.PrevButton}
 								onClick={goToPrevious}
 							/>
 						</div>
 						<div className="ss__slideshow__navigation ss__slideshow__navigation--next">
 							<Button
-								{...subProps.NextButton}
 								className={'ss__slideshow__next'}
 								icon="angle-right"
 								disabled={isNextDisabled}
-								aria-label={`Next slides${isNextDisabled ? ' (disabled)' : ''}`}
+								{...mergedLang.nextButton.all}
+								{...subProps.NextButton}
 								onClick={goToNext}
 							/>
 						</div>
@@ -699,46 +715,91 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 				{showPagination && totalSlides > visibleSlides && (
 					<div className="ss__slideshow__pagination" role="tablist" aria-label="Slide navigation">
-						{slideGroups.map((_, index: number) => (
-							<Button
-								key={index}
-								className={classnames('ss__slideshow__dot', {
-									ss__active: currentDotIndex === index,
-								})}
-								onClick={() => goToSlide(index)}
-								aria-selected={currentDotIndex === index}
-								aria-label={`Go to slide group ${index + 1} of ${totalDots}`}
-								icon={currentDotIndex === index ? 'bullet-o' : 'bullet'}
-								{...subProps.PaginationButton}
-							/>
-						))}
+						{slideGroups.map((_, index: number) => {
+							const defaultLang: Partial<SlideshowLang> = {
+								paginationButton: {
+									attributes: {
+										'aria-label': `Go to slide group ${index + 1} of ${totalDots}`,
+									},
+								},
+							};
+
+							//deep merge with props.lang
+							const paginationLang = deepmerge(defaultLang, props.lang || {});
+							const paginationLangObj = useLang(paginationLang as any, {
+								index,
+								totalDots,
+							});
+							return (
+								<Button
+									key={index}
+									className={classnames('ss__slideshow__dot', {
+										ss__active: currentDotIndex === index,
+									})}
+									onClick={() => goToSlide(index)}
+									aria-selected={currentDotIndex === index}
+									icon={currentDotIndex === index ? 'bullet-o' : 'bullet'}
+									{...paginationLangObj.paginationButton.all}
+									{...subProps.PaginationButton}
+								/>
+							);
+						})}
 					</div>
 				)}
 
 				{autoPlay && (
-					<Button
-						className="ss__slideshow__sr-only"
-						aria-label={isPlaying ? 'Pause slideshow' : 'Resume slideshow'}
-						{...subProps.PauseButton}
-						onClick={togglePlayPause}
-					>
-						{isPlaying ? 'Pause' : 'Play'}
-					</Button>
+					<Button className="ss__slideshow__sr-only" {...subProps.PauseButton} onClick={togglePlayPause} {...mergedLang.pauseButton.all} />
 				)}
 			</div>
 		</CacheProvider>
 	);
 }
 
-export interface SlideshowImage {
+export interface SlideshowLang {
+	pauseButton: Lang<{
+		isPlaying: boolean;
+		isNextDisabled: boolean;
+		isPrevDisabled: boolean;
+	}>;
+	paginationButton: LangAttributes<{
+		index: number;
+		totalDots: number;
+	}>;
+	nextButton: Lang<{
+		isPlaying: boolean;
+		isNextDisabled: boolean;
+		isPrevDisabled: boolean;
+	}>;
+	prevButton: Lang<{
+		isPlaying: boolean;
+		isNextDisabled: boolean;
+		isPrevDisabled: boolean;
+	}>;
+	slide: LangAttributes<{
+		hasClickHandler: boolean;
+		imageAlt: string;
+		index: number;
+		slidesLength: number;
+	}>;
+	srInstructions: Lang<{
+		touchDragging: boolean;
+	}>;
+	srAnnounceText: Lang<{
+		startSlideIndex: number;
+		endSlideIndex: number;
+		totalSlideslength: number;
+	}>;
+}
+
+export interface SlideshowSlide {
 	src?: string;
 	alt?: string;
-	onClick?: (image: SlideshowImage, index: number) => void;
+	onClick?: (slide: SlideshowSlide, index: number) => void;
 	content?: JSX.Element;
 }
 
 export interface SlideshowProps extends ComponentProps {
-	images: (string | SlideshowImage)[];
+	slides: (string | SlideshowSlide)[];
 	fallbackImage?: string;
 	autoPlay?: boolean;
 	autoPlayInterval?: number;
@@ -754,6 +815,7 @@ export interface SlideshowProps extends ComponentProps {
 	ariaLabelledBy?: string;
 	touchDragging?: boolean;
 	dragThreshold?: number;
+	lang?: Partial<SlideshowLang>;
 }
 
 interface SlideshowSubProps {

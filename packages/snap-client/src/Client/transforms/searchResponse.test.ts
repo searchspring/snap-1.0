@@ -375,7 +375,6 @@ describe('search response transformer result', () => {
 		const result = transformSearchResponse.result(mockSingleResult);
 
 		// TODO: Add all core fields
-
 		expect(result.mappings?.core?.name).toEqual(mockSingleResult.name);
 		expect(result.mappings?.core?.sku).toEqual(mockSingleResult.sku);
 		expect(result.mappings?.core?.imageUrl).toEqual(mockSingleResult.imageUrl);
@@ -384,6 +383,9 @@ describe('search response transformer result', () => {
 		expect(result.mappings?.core?.brand).toEqual(mockSingleResult.brand);
 		expect(result.mappings?.core?.url).toEqual(mockSingleResult.url);
 		expect(result.mappings?.core?.uid).toEqual(mockSingleResult.uid);
+		expect(result.mappings?.core?.available).toEqual(true);
+		expect(result.mappings?.core?.parentId).toEqual(mockSingleResult.parentId);
+		expect(result.mappings?.core?.parentImageUrl).toEqual(mockSingleResult.parentImageUrl);
 	});
 
 	it('leaves core fields out of attributes', () => {

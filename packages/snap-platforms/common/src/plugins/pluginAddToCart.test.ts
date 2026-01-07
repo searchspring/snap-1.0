@@ -45,6 +45,8 @@ describe('common/pluginAddToCart', () => {
 	beforeEach(() => {
 		searchConfig = { ...searchConfigDefault };
 		controller = new SearchController(searchConfig, createControllerServices());
+		(controller.client as MockClient).mockData.updateConfig({ search: 'variants' });
+
 		expect(controller.config.globals).toBeDefined();
 		expect(controller.config.globals!.filters).toEqual([]);
 	});

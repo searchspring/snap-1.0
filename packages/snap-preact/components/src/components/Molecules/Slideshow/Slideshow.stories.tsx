@@ -34,8 +34,8 @@ export default {
 		),
 	],
 	argTypes: {
-		images: {
-			description: 'Array of images to display in the slideshow',
+		slides: {
+			description: 'Array of slides to display in the slideshow',
 			table: {
 				type: {
 					summary: 'string[] | SlideshowImage[]',
@@ -197,12 +197,12 @@ const sampleImages = [
 
 export const Default = (args: SlideshowProps) => <Slideshow {...args} />;
 Default.args = {
-	images: sampleImages,
+	slides: sampleImages,
 };
 
 export const AutoPlay = (args: SlideshowProps) => <Slideshow {...args} />;
 AutoPlay.args = {
-	images: sampleImages,
+	slides: sampleImages,
 	slidesToShow: 3,
 	slidesToMove: 1,
 	autoPlay: true,
@@ -211,7 +211,7 @@ AutoPlay.args = {
 
 export const NoLoop = (args: SlideshowProps) => <Slideshow {...args} />;
 NoLoop.args = {
-	images: sampleImages,
+	slides: sampleImages,
 	slidesToShow: 2,
 	slidesToMove: 1,
 	loop: false,
@@ -219,14 +219,14 @@ NoLoop.args = {
 
 export const NoNavigation = (args: SlideshowProps) => <Slideshow {...args} />;
 NoNavigation.args = {
-	images: sampleImages,
+	slides: sampleImages,
 	slidesToShow: 3,
 	showNavigation: false,
 };
 
 export const ClickableSlides = (args: SlideshowProps) => <Slideshow {...args} />;
 ClickableSlides.args = {
-	images: [
+	slides: [
 		{
 			src: 'https://picsum.photos/400/300?random=10',
 			alt: 'Premium Headphones',

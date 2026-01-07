@@ -15,7 +15,7 @@ import { useA11y } from '../../../hooks/useA11y';
 const defaultStyles: StyleScript<DropdownProps> = ({ disableOverlay }) => {
 	return css({
 		position: 'relative',
-		'&.ss__dropdown--open': {
+		'&.ss__dropdown--open, &.ss__dropdown__portal--open': {
 			'& .ss__dropdown__content': {
 				position: disableOverlay ? 'relative' : undefined,
 				visibility: 'visible',
@@ -230,7 +230,7 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 					  (content || children) &&
 					  createPortal(
 							<div
-								className={classnames('ss__dropdown-portal', className, internalClassName, { 'ss__dropdown--open': dropdownOpen })}
+								className={classnames('ss__dropdown__portal', className, internalClassName, { 'ss__dropdown__portal--open': dropdownOpen })}
 								css={styling.css}
 								style={{
 									position: 'absolute',

@@ -369,8 +369,8 @@ describe('Dropdown Component', () => {
 		const button = rendered.getByText('open me');
 		await userEvent.click(button);
 
-		const childContent = rendered.container.querySelector('.ss__dropdown .ss__dropdown-portal');
-		const portalContent = document.body.querySelector('.ss__dropdown-portal');
+		const childContent = rendered.container.querySelector('.ss__dropdown .ss__dropdown__portal');
+		const portalContent = document.body.querySelector('.ss__dropdown__portal');
 		expect(portalContent).toBeInTheDocument();
 		expect(childContent).not.toBeInTheDocument();
 		expect(portalContent).toHaveTextContent(contentText);

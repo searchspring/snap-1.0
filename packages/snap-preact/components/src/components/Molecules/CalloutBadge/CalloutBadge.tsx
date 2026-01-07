@@ -44,7 +44,7 @@ export const CalloutBadge = observer((properties: CalloutBadgeProps): JSX.Elemen
 
 	const styling = mergeStyles<CalloutBadgeProps>(props, defaultStyles);
 
-	const badges = (result?.display.badges || result.badges)?.atLocation(tag).slice(0, limit);
+	const badges = result?.display.badges?.atLocation(tag).slice(0, limit);
 
 	if (renderEmpty || badges?.length) {
 		return (

@@ -236,24 +236,6 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 			};
 		}, {});
 
-	if (rawResult.variants && rawResult.variants.data) {
-		rawResult.variants.data.forEach((variant) => {
-			// @ts-ignore - transforming the data
-			if (variant.core) {
-				// @ts-ignore - transforming the data
-				variant.badges = variant.core.badges;
-
-				variant.mappings = {
-					// @ts-ignore - transforming the data
-					core: variant.core,
-				};
-
-				// @ts-ignore - transforming the data
-				delete variant.core;
-			}
-		});
-	}
-
 	return new Result({
 		id: rawResult.uid,
 		mappings: {
@@ -261,7 +243,7 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 		},
 		attributes,
 		badges: Array.isArray(rawResult.badges) && typeof rawResult.badges[0] == 'object' ? rawResult.badges : [],
-		variants: typeof rawResult.variants == 'object' ? rawResult.variants : undefined,
+		variants: rawResult.variants,
 	});
 };
 
