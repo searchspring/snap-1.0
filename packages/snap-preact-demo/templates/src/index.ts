@@ -92,6 +92,13 @@ let config: SnapTemplatesConfig = {
 		platform: 'other',
 		client: clientConfig,
 	},
+	plugins: {
+		common: {
+			addToCart: {
+				function: (data) => console.log('added to cart!', data),
+			},
+		},
+	},
 	components: {
 		result: {
 			CustomResult: async () => (await import('./components/Result')).CustomResult,
