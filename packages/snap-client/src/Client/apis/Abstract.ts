@@ -112,9 +112,9 @@ export class API {
 	private createFetchParams(context: RequestOpts) {
 		// grab siteID out of context to generate apiHost fo URL
 		const siteId = context?.body?.siteId || context?.query?.siteId;
-		if (!siteId && !(context.body instanceof FormData) && !(context.origin || this.configuration.origin || '').includes('ksearchnet.com')) {
-			throw new Error(`Request failed. Missing "siteId" parameter.`);
-		}
+		// if (!siteId && !(context.body instanceof FormData) && !(context.origin || this.configuration.origin || '').includes('ksearchnet.com')) {
+		// 	throw new Error(`Request failed. Missing "siteId" parameter.`);
+		// }
 
 		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.io`;
 		const origin = (context.origin || this.configuration.origin || siteIdHost).replace(/\/$/, '');

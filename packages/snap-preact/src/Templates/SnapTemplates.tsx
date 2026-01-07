@@ -411,6 +411,7 @@ export function createRecommendationComponentMapping(
 
 export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): SnapConfig {
 	const snapConfig: SnapConfig = {
+		mode: templateConfig.config.mode,
 		features: templateConfig.features || DEFAULT_FEATURES,
 		client: {
 			globals: {

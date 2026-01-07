@@ -4,7 +4,7 @@ import { SnapTemplatesConfig } from '../SnapTemplates';
 import { ThemeStore, ThemeStoreThemeConfig } from './ThemeStore';
 import { TargetStore } from './TargetStore';
 import { CurrencyCodes, LanguageCodes, LibraryImports, LibraryStore } from './LibraryStore';
-import { debounce } from '@searchspring/snap-toolbox';
+import { AppMode, debounce } from '@searchspring/snap-toolbox';
 import type {
 	PluginAddToCartConfig as PluginShopifyAddToCartConfig,
 	PluginBackgroundFiltersConfig as PluginShopifyBackgroundFiltersConfig,
@@ -116,6 +116,7 @@ export type TemplateStoreConfigConfig = {
 	components?: TemplateStoreComponentConfig;
 	config: {
 		siteId?: string;
+		mode?: keyof typeof AppMode | AppMode;
 		currency?: CurrencyCodes;
 		language?: LanguageCodes;
 		platform?: IntegrationPlatforms;
