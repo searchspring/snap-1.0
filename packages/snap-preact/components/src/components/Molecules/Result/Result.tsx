@@ -161,7 +161,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 			// default props
 			internalClassName: 'ss__result__image',
 			alt: core?.name || '',
-			src: core?.imageUrl || '',
+			src: core?.imageUrl || core?.thumbnailImageUrl || '',
 			// inherited props
 			...defined({
 				disableStyles,

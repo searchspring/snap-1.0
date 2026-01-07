@@ -107,7 +107,7 @@ export type MoiResponseModelInspirationResult = {
 export type MoiResponseModelProductAnswer = {
 	messageType: 'productAnswer';
 	id: string;
-	answer: string;
+	text: string;
 	collectFeedback: boolean;
 	product: MoiResponseModelProduct;
 };
@@ -119,7 +119,7 @@ export type MoiResponseModelSuggestedQuestions = {
 export type MoiResponseModelProductComparison = {
 	messageType: 'productComparison';
 	id: string;
-	comparisonText: string;
+	text: string;
 	collectFeedback: boolean;
 	products: MoiResponseModelProduct[];
 };

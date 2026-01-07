@@ -8,7 +8,7 @@ import { DomTargeter, url, cookies, getContext, version } from '@searchspring/sn
 import { TemplateTarget, TemplatesStore } from './Stores/TemplateStore';
 
 import type { Target } from '@searchspring/snap-toolbox';
-import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings } from '@searchspring/snap-store-mobx';
+import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings, ChatStoreConfigSettings } from '@searchspring/snap-store-mobx';
 import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
 import type { AutocompleteController, PluginGrouping, SearchController } from '@searchspring/snap-controller';
 import type {
@@ -81,6 +81,12 @@ export type RecommendationBundleTargetConfig = {
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 };
 
+export type ChatTargetConfig = {
+	selector: string;
+	component: keyof LibraryImports['component']['chat'];
+	// resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
+};
+
 export type SnapTemplatesConfig = TemplateStoreConfigConfig & {
 	url?: UrlTranslatorConfig;
 	features?: SnapFeatures;
@@ -112,6 +118,11 @@ export type SnapTemplatesConfig = TemplateStoreConfigConfig & {
 		plugins?: PluginsConfigs;
 		// breakpointSettings?: RecommendationInstantiatorConfigSettings[];
 		/* controller settings breakpoints work with caveat of having settings locked to initialized breakpoint */
+	};
+	chat?: {
+		targets: ChatTargetConfig[];
+		settings: ChatStoreConfigSettings;
+		plugins?: PluginsConfigs;
 	};
 };
 
@@ -275,6 +286,33 @@ export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templ
 				return TemplateSelect;
 			},
 			props: { type: 'search', templatesStore, targetId },
+		};
+
+		return targeter;
+	});
+};
+
+export const createChatTargeters = (templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] => {
+	const targets = templateConfig.chat?.targets || [];
+	return targets.map((target) => {
+		// use theme provided resultComponent if specified
+		// if (!target.resultComponent && templateConfig.theme.resultComponent) {
+		// 	target.resultComponent = templateConfig.theme.resultComponent;
+		// }
+		const targetId = templatesStore.addTarget('chat', target);
+		const targeter: ExtendedTarget = {
+			selector: target.selector,
+			hideTarget: true,
+			component: async () => {
+				const componentImportPromises = [];
+				componentImportPromises.push(templatesStore.library.import.component.chat[target.component]());
+				// if (target.resultComponent && templatesStore.library.import.component.result[target.resultComponent]) {
+				// 	componentImportPromises.push(templatesStore.library.import.component.result[target.resultComponent]());
+				// }
+				await Promise.all(componentImportPromises);
+				return TemplateSelect;
+			},
+			props: { type: 'chat', templatesStore, targetId },
 		};
 
 		return targeter;
@@ -507,6 +545,21 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesS
 		snapConfig.instantiators.recommendation = recommendationInstantiatorConfig;
 	}
 
+	/* CHAT CONTROLLER */
+	if (templateConfig.chat && snapConfig.controllers) {
+		const chatControllerConfig = {
+			config: {
+				id: 'chat',
+				widgetId: templateConfig.chat.settings.widgetId,
+				plugins: createPlugins(templateConfig, templatesStore, 'chat'),
+				settings: templateConfig.chat.settings || {},
+			},
+			targeters: createChatTargeters(templateConfig, templatesStore),
+		};
+
+		snapConfig.controllers.chat = [chatControllerConfig];
+	}
+
 	return snapConfig;
 }
 
@@ -514,7 +567,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesS
 function createPlugins(
 	templateConfig: SnapTemplatesConfig,
 	templatesStore: TemplatesStore,
-	controllerType?: 'autocomplete' | 'search' | 'recommendation'
+	controllerType?: 'autocomplete' | 'search' | 'recommendation' | 'chat'
 ): PluginGrouping[] {
 	const plugins: TemplatePluginGrouping = [];
 	let controllerConfig;

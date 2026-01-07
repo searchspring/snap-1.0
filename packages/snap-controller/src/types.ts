@@ -114,4 +114,9 @@ export type AutocompleteControllerConfig = ControllerConfig & AutocompleteStoreC
 // Recommendation config
 export type RecommendationControllerConfig = ControllerConfig & RecommendationStoreConfig;
 
-export type ControllerConfigs = SearchControllerConfig | AutocompleteControllerConfig | FinderControllerConfig | RecommendationControllerConfig;
+export type ControllerConfigs =
+	| SearchControllerConfig
+	| AutocompleteControllerConfig
+	| FinderControllerConfig
+	| RecommendationControllerConfig
+	| ChatControllerConfig;

@@ -171,7 +171,7 @@ transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): Cha
 		messageType: data.messageType,
 		id: data.id,
 		collectFeedback: data.collectFeedback,
-		text: data.answer,
+		text: data.text,
 		result: mapProductToSearchResultProduct(data.product),
 	};
 };
@@ -186,7 +186,7 @@ transformChatResponse.productComparison = (data: MoiResponseModelProductComparis
 		messageType: data.messageType,
 		id: data.id,
 		collectFeedback: data.collectFeedback,
-		text: data.comparisonText,
+		text: data.text,
 		results: data.products.map(mapProductToSearchResultProduct),
 	};
 };

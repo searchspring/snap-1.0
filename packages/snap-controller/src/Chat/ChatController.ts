@@ -26,7 +26,7 @@
 
 import deepmerge from 'deepmerge';
 import { AbstractController } from '../Abstract/AbstractController';
-import { ContextVariables, ControllerServices, ControllerTypes } from '../types';
+import { ChatControllerConfig, ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore } from '@searchspring/snap-store-mobx';
 import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
 import type { ChatAttachmentImage, ChatAttachmentProduct, Product } from '@searchspring/snap-store-mobx';
@@ -35,14 +35,8 @@ import { type Product as BeaconProduct } from '@searchspring/beacon';
 
 const KEY_ENTER = 13;
 
-type ChatControllerConfig = {
-	id: string;
-	widgetId: string;
-	settings?: any;
-};
 const defaultConfig: Partial<ChatControllerConfig> = {
 	id: 'chat',
-	settings: {},
 };
 
 type chatTrackMethods = {
@@ -127,7 +121,7 @@ export class ChatController extends AbstractController {
 		const request: ChatRequestModel = {
 			context: {
 				sessionId: this.store.currentChat?.sessionId,
-				widgetId: this.config.widgetId,
+				widgetId: this.config.settings.widgetId,
 			},
 			data: chatRequest,
 			tracking: {
@@ -152,7 +146,7 @@ export class ChatController extends AbstractController {
 			const { userId, shopperId } = this.tracker.getContext();
 			const params = {
 				context: {
-					pqaWidgetId: this.config.widgetId,
+					pqaWidgetId: this.config.settings.widgetId,
 					sessionId: this.store.currentChat?.sessionId,
 					visitorId: shopperId || userId,
 				},

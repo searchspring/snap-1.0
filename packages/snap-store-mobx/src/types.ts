@@ -74,14 +74,13 @@ export type VariantOptionConfigMappings = {
 
 // Chat Config
 export type ChatStoreConfig = StoreConfig & {
-	widgetId: string;
 	globals?: Partial<ChatRequestModel>;
-	settings?: ChatStoreConfigSettings;
+	settings: ChatStoreConfigSettings;
 };
 
-interface ChatStoreConfigSettings {
-	//?todo
-}
+export type ChatStoreConfigSettings = {
+	widgetId: string;
+};
 
 // Search Config
 export type SearchStoreConfig = StoreConfig & {

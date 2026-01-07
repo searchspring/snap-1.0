@@ -169,7 +169,9 @@ let config: SnapConfig = {
 			{
 				config: {
 					id: 'chat',
-					widgetId: chatWidgetId,
+					settings: {
+						widgetId: chatWidgetId,
+					},
 				},
 				targeters: [
 					{
