@@ -1,16 +1,12 @@
 /*
-	General UI Improvements
-		* view history (view previous chats)
-
 	Feedback UI
-		* tie into feeback API
+		* state not updating after feedback given
 
 	Quickview (more info CTA)
 		* add more display
 		* add "add to cart" button
 		* clean up
 
-	
 	Attachments General Improvements
 		* in chat history show which attachments were sent with which messages (add images to product attachments)
 		* for suggested questions, these need to store the productIds associated with them so when clicked the productQuery can be made with the correct product
@@ -29,7 +25,7 @@ import { AbstractController } from '../Abstract/AbstractController';
 import { ChatControllerConfig, ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore } from '@searchspring/snap-store-mobx';
 import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
-import type { ChatAttachmentImage, ChatAttachmentProduct, Product } from '@searchspring/snap-store-mobx';
+import type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet, Product } from '@searchspring/snap-store-mobx';
 import { ChatMessage } from '@searchspring/snap-store-mobx/dist/cjs/Chat/Stores/ChatSessionStore';
 import { type Product as BeaconProduct } from '@searchspring/beacon';
 
@@ -89,6 +85,33 @@ export class ChatController extends AbstractController {
 			.filter((attachment) => attachment.type === 'product')
 			.map((attachment) => (attachment as ChatAttachmentProduct).productId);
 
+		const searchFilters = (this.store.currentChat?.attachments.attached || [])
+			.filter((attachment) => attachment.type === 'facet')
+			.reduce((filters: any[], attachment) => {
+				const facetAttachment = attachment as ChatAttachmentFacet;
+
+				const exisitingFacet = filters.find((filter) => filter.key === facetAttachment.key);
+				if (exisitingFacet) {
+					exisitingFacet.options.push({
+						key: facetAttachment.value,
+						label: facetAttachment.label,
+						count: facetAttachment.count,
+					});
+				} else {
+					filters.push({
+						key: facetAttachment.key,
+						options: [
+							{
+								key: facetAttachment.value,
+								label: facetAttachment.label,
+								count: facetAttachment.count,
+							},
+						],
+					});
+				}
+				return filters;
+			}, []);
+
 		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
 		let chatRequest: MoiRequestModel = {
 			requestType: 'general',
@@ -115,6 +138,14 @@ export class ChatController extends AbstractController {
 				requestType: 'productComparison',
 				message: this.store.inputValue,
 				productIds: attachedProductIds,
+			};
+		}
+
+		if (searchFilters.length > 0) {
+			chatRequest = {
+				requestType: 'productSearch',
+				message: this.store.inputValue,
+				searchFilters,
 			};
 		}
 

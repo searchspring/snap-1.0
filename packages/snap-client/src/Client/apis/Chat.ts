@@ -23,7 +23,12 @@ export type UploadImageResponseModel = {
 };
 
 // DISCRIMINATOR: "requestType" === general, productQuery, productComparison, productSearch, inspiration, imageSearch, content
-export type MoiRequestModel = MoiRequestModelGeneral | MoiRequestModelProductQuery | MoiRequestModelProductComparison | MoiRequestModelImageSearch;
+export type MoiRequestModel =
+	| MoiRequestModelGeneral
+	| MoiRequestModelProductQuery
+	| MoiRequestModelProductSearch
+	| MoiRequestModelProductComparison
+	| MoiRequestModelImageSearch;
 
 export type MoiRequestModelGeneral = {
 	requestType: 'general';
@@ -34,6 +39,19 @@ export type MoiRequestModelProductQuery = {
 	requestType: 'productQuery';
 	message: string;
 	productId: string;
+};
+
+export type MoiRequestModelProductSearch = {
+	requestType: 'productSearch';
+	message: string;
+	searchFilters: {
+		key: string;
+		options: {
+			key: string;
+			label: string;
+			count: number;
+		}[];
+	}[];
 };
 
 export type MoiRequestModelProductComparison = {

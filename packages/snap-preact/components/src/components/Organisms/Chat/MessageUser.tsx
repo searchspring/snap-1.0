@@ -6,7 +6,6 @@ import { marked } from 'marked';
 export const MessageUser = observer((props: MessageUserProps) => {
 	const { controller, chatItem } = props;
 	const { store } = controller;
-
 	return (
 		<div className="ss__chat__message-user">
 			<ul className="ss__chat__message-user__attachments">
@@ -23,7 +22,16 @@ export const MessageUser = observer((props: MessageUserProps) => {
 								case 'product':
 									return (
 										<li className="ss__chat__message-user__attachment__product" key={attachment.id}>
-											Product Attachment: {attachment.id}
+											<Image style={{ height: '200px', width: '200px' }} src={attachment.thumbnailUrl || ''} alt={attachment.name}></Image>
+											<div className="ss__chat__message-user__attachment__product__name">{attachment.name}</div>
+										</li>
+									);
+								case 'facet':
+									return (
+										<li className="ss__chat__message-user__attachment__facet" key={attachment.id}>
+											<div className="ss__chat__message-user__attachment__facet_name">
+												Filter: {attachment.facetLabel} = {attachment.label}
+											</div>
 										</li>
 									);
 								default:

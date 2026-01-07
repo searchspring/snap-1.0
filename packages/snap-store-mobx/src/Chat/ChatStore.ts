@@ -6,7 +6,7 @@ import { AbstractStore } from '../Abstract/AbstractStore';
 import type { ChatResponseModel, ChatRequestModel, FeedbackRequestModel } from '@searchspring/snap-client';
 import { StorageStore } from '../Storage/StorageStore';
 import { ChatSessionStore } from './Stores/ChatSessionStore';
-import { ChatAttachmentProduct } from './Stores/ChatAttachmentStore';
+import { ChatAttachmentFacet, ChatAttachmentProduct } from './Stores/ChatAttachmentStore';
 
 export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public meta?: MetaStore = undefined;
@@ -53,7 +53,6 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			const newChat = this.createChat();
 
 			this.currentChatId = newChat.id;
-			this.chats.push(newChat);
 		}
 
 		makeObservable(this, {
@@ -128,6 +127,18 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			thumbnailUrl: result.mappings.core?.thumbnailImageUrl || result.mappings.core?.imageUrl,
 		});
 		productAttachment?.update();
+	}
+
+	public sendFacet(facet: any): void {
+		const filterAttachment = this.currentChat?.attachments.add<ChatAttachmentFacet>({
+			type: 'facet',
+			key: facet.key,
+			facetLabel: facet.facetLabel,
+			value: facet.value,
+			label: facet.label,
+			count: facet.count,
+		});
+		filterAttachment?.update();
 	}
 
 	public request(request: ChatRequestModel): void {

@@ -3,7 +3,7 @@ export { AutocompleteStore } from './Autocomplete/AutocompleteStore';
 export { FinderStore } from './Finder/FinderStore';
 export { SearchStore } from './Search/SearchStore';
 export { ChatStore } from './Chat/ChatStore';
-export type { ChatAttachmentImage, ChatAttachmentProduct } from './Chat/Stores/ChatAttachmentStore';
+export type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet } from './Chat/Stores/ChatAttachmentStore';
 
 export * from './Search/Stores/';
 export * from './Autocomplete/Stores/';

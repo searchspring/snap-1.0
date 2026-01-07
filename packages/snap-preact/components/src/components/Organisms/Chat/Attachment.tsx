@@ -1,14 +1,14 @@
 import { h } from 'preact';
 import { jsx } from '@emotion/react';
 import { ChatController } from '@searchspring/snap-controller';
-import { ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
+import { ChatAttachmentFacet, ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
 
 export const Attachment = observer((properties: AttachmentProps): JSX.Element => {
 	const { attachment, controller } = properties;
 
-	const { id, thumbnailUrl } = attachment;
+	const { id } = attachment;
 
 	const type = attachment.type;
 
@@ -27,7 +27,7 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 						<div className={'ss__chat__attachment__error-icon'}>⚠</div>
 						<div className={'ss__chat__attachment__error-message'}>{attachment.error?.message || 'upload failed'}</div>
 					</div>
-					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
+					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 						×
 					</div>
 				</>
@@ -47,7 +47,7 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 					)}
 				</div>
 				{!isLoading && (
-					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
+					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 						×
 					</div>
 				)}
@@ -56,13 +56,27 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 			<></>
 		);
 	} else if (type == 'product') {
-		const { name } = attachment;
+		const { name, thumbnailUrl } = attachment;
 		return id ? (
 			<>
 				<div className={'ss__chat__attachment__content'}>
 					{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
 				</div>
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(attachment.id)}>
+				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
+					×
+				</div>
+			</>
+		) : (
+			<></>
+		);
+	} else if (type == 'facet') {
+		const { facetLabel, label, count } = attachment;
+		return id ? (
+			<>
+				<div className={'ss__chat__attachment__content'}>
+					Filter: {facetLabel} = {label} {count !== undefined ? `(${count})` : ''}
+				</div>
+				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 					×
 				</div>
 			</>
@@ -75,6 +89,6 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 });
 
 interface AttachmentProps {
-	attachment: ChatAttachmentImage | ChatAttachmentProduct;
+	attachment: ChatAttachmentImage | ChatAttachmentProduct | ChatAttachmentFacet;
 	controller: ChatController;
 }

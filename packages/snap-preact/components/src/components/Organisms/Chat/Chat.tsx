@@ -15,6 +15,7 @@ import { Quickview } from './Quickview';
 import { MessageUser } from './MessageUser';
 import { MessageText } from './MessageText';
 import { Attachment } from './Attachment';
+import { useState } from 'react';
 
 const defaultStyles: StyleScript<ChatProps> = () => {
 	return css({
@@ -22,6 +23,11 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		right: '20px',
 		bottom: '20px',
 		zIndex: 1000,
+		'.ss__button': {
+			border: '1px solid #ccc',
+			borderRadius: 5,
+			padding: '0.2em 0.5em',
+		},
 		'&.ss__chat--minimized': {
 			'.ss__chat__bubble': {
 				width: '60px',
@@ -59,23 +65,34 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			marginBottom: '1em',
 			fontSize: '18px',
 			fontWeight: 'bold',
+			position: 'relative',
 			'.ss__chat__header__buttons': {
 				display: 'flex',
 				gap: '10px',
-				'.ss__chat__close': {
+				'.ss__chat__close, .ss__chat__new, .ss__chat__history': {
 					padding: 0,
 					border: 0,
 					'&:hover': {
 						backgroundColor: 'transparent',
 					},
 				},
-				'.ss__chat__new': {
-					padding: 0,
-					border: 0,
-					'&:hover': {
-						backgroundColor: 'transparent',
-					},
-				},
+			},
+			'.ss__chat__header__history': {
+				position: 'absolute',
+				width: 300,
+				minHeight: 170,
+				top: 30,
+				right: 0,
+				background: 'white',
+				zIndex: 2,
+				boxShadow: '-2px 2px 4px 2px rgba(0, 0, 0, 0.2)',
+				borderBottomLeftRadius: 5,
+				borderBottomRightRadius: 5,
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 5,
+				padding: '1em',
+				boxSizing: 'border-box',
 			},
 		},
 		'.ss__chat__messages': {
@@ -138,6 +155,30 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					},
 					'.ss__chat__message-text__results': {
 						marginTop: '12px',
+						'.ss__chat__message-text__results__result': {
+							'.ss__chat__result__detail-slot': {
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'stretch',
+								textAlign: 'center',
+								gap: 5,
+							},
+						},
+					},
+					'.ss__chat__message-text__facets': {
+						display: 'flex',
+						flexWrap: 'wrap',
+						gap: '10px',
+						margin: '10px 0 0 0',
+
+						'.ss__chat__message-text__facets__facet': {
+							display: 'flex',
+							gap: '5px',
+							alignItems: 'baseline',
+							label: {
+								fontWeight: 'bold',
+							},
+						},
 					},
 				},
 				ul: {
@@ -396,6 +437,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	// const subProps: ChatSubProps = {};
 
 	const styling = mergeStyles<ChatProps>(props, defaultStyles);
+	const [isViewingHistory, setIsViewingHistory] = useState(false);
 
 	return (
 		<CacheProvider>
@@ -420,11 +462,46 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 						<Fragment>
 							<div className={'ss__chat__header'}>
 								<div className="ss__chat__header__buttons">
+									{store.chats.length > 1 ? (
+										<Button
+											className="ss__chat__history"
+											icon="eye"
+											onClick={() => {
+												setIsViewingHistory(!isViewingHistory);
+											}}
+										/>
+									) : null}
 									{store.currentChat?.chat && store.currentChat.chat.length > 1 && (
 										<Button className="ss__chat__new" icon="plus-thin" onClick={() => controller.startNewChat()} />
 									)}
 									<Button className="ss__chat__close" icon="close-thin" onClick={() => controller.handlers.button.click()} />
 								</div>
+								{isViewingHistory ? (
+									<div className="ss__chat__header__history">
+										<Button
+											onClick={() => {
+												controller.store.reset();
+												controller.search(); // TODO: combine this elsewhere
+												setIsViewingHistory(false);
+											}}
+										>
+											Clear All
+										</Button>
+										<h4>Chat History</h4>
+										{store.chats.map((chat) => (
+											<div key={chat.id}>
+												<Button
+													onClick={() => {
+														controller.store.switchChat(chat.id);
+														setIsViewingHistory(false);
+													}}
+												>
+													{chat.createdAt.toLocaleString() + (chat.id === store.currentChatId ? ' (current)' : '')}
+												</Button>
+											</div>
+										))}
+									</div>
+								) : null}
 							</div>
 							<div className={'ss__chat__messages'} ref={messagesContainerRef}>
 								{store.currentChat?.chat.map((chatItem, index) => (
@@ -451,64 +528,68 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									</div>
 								</div>
 							) : null}
-							<div className="ss__chat__footer">
-								{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 && (
-									<div className={'ss__chat__suggestions'}>
-										{store.currentChat?.questions.map((item) => (
-											<div key={item.id} className={classnames('ss__chat__suggestions__item')}>
-												<Button
-													onClick={() => {
-														controller.store.inputValue = item.text;
-														controller.search();
-													}}
-												>
-													{item.text}
-												</Button>
+							{!store.currentChat?.isExpired ? (
+								<div className="ss__chat__footer">
+									{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 && (
+										<div className={'ss__chat__suggestions'}>
+											{store.currentChat?.questions.map((item) => (
+												<div key={item.id} className={classnames('ss__chat__suggestions__item')}>
+													<Button
+														onClick={() => {
+															controller.store.inputValue = item.text;
+															controller.search();
+														}}
+													>
+														{item.text}
+													</Button>
+												</div>
+											))}
+										</div>
+									)}
+									<div className={'ss__chat__attachments'}>
+										{store.currentChat?.attachments.attached.map((item) => (
+											<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
+												<Attachment attachment={item} controller={controller} />
 											</div>
 										))}
 									</div>
-								)}
-								<div className={'ss__chat__attachments'}>
-									{store.currentChat?.attachments.attached.map((item) => (
-										<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
-											<Attachment attachment={item} controller={controller} />
-										</div>
-									))}
+									<div className={'ss__chat__input'}>
+										<input
+											type="text"
+											name="ss-chat-input"
+											placeholder="Type your message..."
+											onKeyUp={(e) => controller.handlers.input.input(e as any)}
+											onKeyDown={(e) => controller.handlers.input.enterKey(e as any)}
+											value={controller.store.inputValue}
+										/>
+										<Button
+											className={'ss__chat__upload-button'}
+											disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading')}
+											onClick={() => fileInputRef.current?.click()}
+										>
+											+
+										</Button>
+										<Button className="ss__chat__send-button" disabled={store.blocked} onClick={() => controller.search()}>
+											Send
+										</Button>
+										<input
+											ref={fileInputRef}
+											onChange={async (e) => {
+												await controller.upload(e.target.files);
+												// reset value
+												e.target.value = '';
+											}}
+											multiple={true}
+											type="file"
+											accept="image/*"
+											id="ss-image-upload"
+											className="ss__autocomplete__visual-modal__content__body__file-input"
+										/>
+									</div>
 								</div>
-								<div className={'ss__chat__input'}>
-									<input
-										type="text"
-										name="ss-chat-input"
-										placeholder="Type your message..."
-										onKeyUp={(e) => controller.handlers.input.input(e as any)}
-										onKeyDown={(e) => controller.handlers.input.enterKey(e as any)}
-										value={controller.store.inputValue}
-									/>
-									<Button
-										className={'ss__chat__upload-button'}
-										disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading')}
-										onClick={() => fileInputRef.current?.click()}
-									>
-										+
-									</Button>
-									<Button className="ss__chat__send-button" disabled={store.blocked} onClick={() => controller.search()}>
-										Send
-									</Button>
-									<input
-										ref={fileInputRef}
-										onChange={async (e) => {
-											await controller.upload(e.target.files);
-											// reset value
-											e.target.value = '';
-										}}
-										multiple={true}
-										type="file"
-										accept="image/*"
-										id="ss-image-upload"
-										className="ss__autocomplete__visual-modal__content__body__file-input"
-									/>
-								</div>
-							</div>
+							) : (
+								<div>This chat is expired. Please start a new chat.</div>
+							)}
 						</Fragment>
 					)}
 				</div>

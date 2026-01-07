@@ -60,6 +60,7 @@ export class ChatSessionStore {
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
 	public storage: StorageStore;
 	public feedbacks: ChatFeedbacks = {};
+	public createdAt: Date = new Date();
 
 	constructor(params: ChatSessionStoreConfig) {
 		const { id, chat, attachments, questions, sessionId } = params.data || {};
@@ -86,6 +87,13 @@ export class ChatSessionStore {
 			attachments: observable,
 			feedbacks: observable,
 		});
+	}
+
+	get isExpired(): boolean {
+		const ONE_DAY = 24 * 60 * 60 * 1000;
+		const now = new Date();
+		const diff = now.getTime() - this.createdAt.getTime();
+		return diff > ONE_DAY;
 	}
 
 	public reset(): void {
@@ -134,6 +142,19 @@ export class ChatSessionStore {
 				if (attachedImage) {
 					attachments.push(attachedImage.id);
 					attachedImage.activate();
+				}
+			}
+
+			if (request.data.requestType === 'productSearch') {
+				const searchFilters = request.data.searchFilters;
+				if (searchFilters.length > 0) {
+					searchFilters.forEach((filter) => {
+						const attachedFacet = this.attachments.attached.find((item) => item.type == 'facet' && (item as any).key == filter.key);
+						if (attachedFacet) {
+							attachments.push(attachedFacet.id);
+							attachedFacet.activate();
+						}
+					});
 				}
 			}
 

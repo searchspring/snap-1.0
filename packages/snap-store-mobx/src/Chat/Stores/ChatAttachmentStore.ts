@@ -8,7 +8,7 @@ type AttachmentError = {
 	message: string;
 };
 
-export type ChatAttachmentAddAttachment = ChatAttachmentImageConfig | ChatAttachmentProductConfig | /*AttachmentAddFilter |*/ never;
+export type ChatAttachmentAddAttachment = ChatAttachmentImageConfig | ChatAttachmentProductConfig | ChatAttachmentFacetConfig;
 
 export class ChatAttachmentStore {
 	public items: ChatAttachments[] = [];
@@ -64,6 +64,27 @@ export class ChatAttachmentStore {
 
 				return newAttachment as T;
 			}
+			case 'facet': {
+				// check if product is already attached
+				const existingFacetAttachment = this.items.find(
+					(item) =>
+						item.type === 'facet' && (item as ChatAttachmentFacet).key === attachment.key && (item as ChatAttachmentFacet).value === attachment.value
+				);
+				if (existingFacetAttachment) {
+					return existingFacetAttachment as T;
+				}
+
+				const newAttachment = new ChatAttachmentFacet(attachment);
+				this.items.push(newAttachment);
+
+				// if there are currently facet attachments remove them
+				const attachmentsToRemove = this.items.filter((item) => item.type !== 'facet');
+				attachmentsToRemove.forEach((item) => {
+					this.remove(item.id);
+				});
+
+				return newAttachment as T;
+			}
 		}
 	}
 
@@ -91,7 +112,7 @@ export class ChatAttachmentStore {
 
 /* Various Attachment Types */
 
-type ChatAttachments = ChatAttachmentImage | ChatAttachmentProduct;
+type ChatAttachments = ChatAttachmentImage | ChatAttachmentProduct | ChatAttachmentFacet;
 
 abstract class ChatAttachment {
 	public abstract type: string;
@@ -141,6 +162,17 @@ type ChatAttachmentProductConfig = {
 	state?: AttachmentState;
 	error?: AttachmentError;
 };
+type ChatAttachmentFacetConfig = {
+	type: 'facet';
+	id?: string;
+	key: string;
+	facetLabel: string;
+	value: string;
+	label: string;
+	count: number;
+	state?: AttachmentState;
+	error?: AttachmentError;
+};
 
 export class ChatAttachmentProduct extends ChatAttachment {
 	public type: 'product' | never = 'product';
@@ -160,6 +192,36 @@ export class ChatAttachmentProduct extends ChatAttachment {
 			productId: observable,
 			thumbnailUrl: observable,
 			name: observable,
+		});
+	}
+
+	update = async (): Promise<void> => {
+		this.state = 'attached';
+	};
+}
+export class ChatAttachmentFacet extends ChatAttachment {
+	public type: 'facet' | never = 'facet';
+	public key: string;
+	public facetLabel: string;
+	public value: string;
+	public label: string;
+	public count: number;
+
+	constructor({ id, key, facetLabel, value, label, count, state, error }: ChatAttachmentFacetConfig) {
+		super({ data: { id, state, error } });
+
+		this.key = key;
+		this.facetLabel = facetLabel;
+		this.value = value;
+		this.label = label;
+		this.count = count;
+
+		makeObservable(this, {
+			type: observable,
+			key: observable,
+			facetLabel: observable,
+			value: observable,
+			label: observable,
 		});
 	}
 
