@@ -137,10 +137,10 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'FacetGridOptions', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'FacetGridOptions', globals: { siteId: 'atkzs2' } });
 
 const ObservableFacetGridOptions = observer(({ args, controller }: { args: FacetGridOptionsProps; controller: SearchController }) => {
-	const sizeFacet = controller?.store?.facets.filter((facet) => facet.field == 'size_dress').pop();
+	const sizeFacet = controller?.store?.facets.filter((facet) => facet.field == 'color').pop();
 
 	return <FacetGridOptions {...args} values={sizeFacet.values} />;
 });

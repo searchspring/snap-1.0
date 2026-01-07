@@ -200,10 +200,10 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'FacetPaletteOptions', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'FacetPaletteOptions', globals: { siteId: 'atkzs2' } });
 
 const ObservableFacetPaletteOptions = observer(({ args, controller }: { args: FacetPaletteOptionsProps; controller: SearchController }) => {
-	const sizeFacet = controller?.store?.facets.filter((facet) => facet.field == 'color_family').pop();
+	const sizeFacet = controller?.store?.facets.filter((facet) => facet.field == 'color').pop();
 
 	return <FacetPaletteOptions {...args} values={sizeFacet.values} />;
 });

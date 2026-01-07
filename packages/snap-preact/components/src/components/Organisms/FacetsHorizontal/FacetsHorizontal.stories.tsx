@@ -135,7 +135,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'FacetsHorizontal', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'FacetsHorizontal', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: FacetsHorizontalProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <FacetsHorizontal {...args} controller={controller} />;

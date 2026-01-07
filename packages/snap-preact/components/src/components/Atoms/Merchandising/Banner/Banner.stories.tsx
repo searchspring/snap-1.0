@@ -58,7 +58,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Banner', globals: { siteId: '8uyt2m', search: { query: { string: 'glasses' } } } });
+const snapInstance = Snapify.search({ id: 'Banner', globals: { siteId: 'atkzs2', search: { query: { string: 'jacket' } } } });
 
 export const Header = (args: BannerProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
 	<Banner {...args} content={controller?.store?.merchandising?.content} />

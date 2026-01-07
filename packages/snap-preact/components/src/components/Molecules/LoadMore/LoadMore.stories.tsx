@@ -197,7 +197,7 @@ export default {
 const snapInstance = Snapify.search({
 	id: 'LoadMore',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		filters: [
 			{
 				type: 'value' as SearchRequestModelFilterTypeEnum,
