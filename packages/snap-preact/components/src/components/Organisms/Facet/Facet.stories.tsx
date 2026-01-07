@@ -331,7 +331,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Facet', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'Facet', globals: { siteId: 'atkzs2' } });
 
 // List Facet
 
@@ -380,7 +380,13 @@ Slider.loaders = [
 // Palette Facet
 
 const ObservablePaletteFacet = observer(({ args, controller }: { args: FacetProps; controller: SearchController }) => {
-	return <Facet {...args} facet={controller?.store?.facets.filter((facet) => facet.display === FacetDisplay.PALETTE).shift()} />;
+	const facet = controller?.store?.facets.filter((facet) => facet.display === FacetDisplay.PALETTE).shift();
+	if (facet) {
+		return <Facet {...args} facet={facet} />;
+	}
+
+	// prevent error when no facet is found...
+	return <div></div>;
 });
 
 export const Palette = (args: FacetProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
@@ -399,7 +405,13 @@ Palette.loaders = [
 // Grid Facet
 
 const ObservableGridFacet = observer(({ args, controller }: { args: FacetProps; controller: SearchController }) => {
-	return <Facet {...args} facet={controller?.store?.facets.filter((facet) => facet.field === 'size_dress').pop()} />;
+	const facet = controller?.store?.facets.filter((facet) => facet.field === 'collection_handle').pop();
+	if (facet) {
+		return <Facet {...args} facet={facet} />;
+	}
+
+	// prevent error when no facet is found...
+	return <div></div>;
 });
 
 export const Grid = (args: FacetProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
@@ -418,7 +430,11 @@ Grid.loaders = [
 
 const ObservableHierarchyFacet = observer(({ args, controller }: { args: FacetProps; controller: SearchController }) => {
 	const facet = controller?.store?.facets.filter((facet) => facet.display === FacetDisplay.HIERARCHY).shift();
-	return <Facet {...args} facet={facet} />;
+	if (facet) {
+		return <Facet {...args} facet={facet} />;
+	}
+	// prevent error when no facet is found...
+	return <div></div>;
 });
 
 export const Hierarchy = (args: FacetProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (

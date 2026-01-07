@@ -93,7 +93,7 @@ export default {
 	],
 };
 
-const snapInstance = Snapify.search({ id: 'InlineBanner', globals: { siteId: '8uyt2m', search: { query: { string: 'glasses' } } } });
+const snapInstance = Snapify.search({ id: 'InlineBanner', globals: { siteId: 'atkzs2', search: { query: { string: 'jacket' } } } });
 
 export const Default = (args: InlineBannerProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	const inlineBanners = controller?.store?.results?.filter((result) => result.type === 'banner').pop() as Banner;

@@ -51,6 +51,9 @@ export default {
 						border: '1px solid #3a23ad',
 					}}
 				/>
+				<span style={{ margin: '15px', textAlign: 'center', display: 'block' }}>
+					Storybook bug: if no autocomplete renders. please refresh the page.{' '}
+				</span>
 				<Story />
 			</div>
 		),
@@ -247,7 +250,7 @@ const snapInstance = Snapify.autocomplete({
 	id: 'AutocompleteModal',
 	selector: '#searchInput',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 	},
 	settings: {
 		trending: {

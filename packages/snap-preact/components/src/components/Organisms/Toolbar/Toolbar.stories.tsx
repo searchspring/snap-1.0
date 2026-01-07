@@ -7,7 +7,6 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
 import type { SearchController } from '@searchspring/snap-controller';
 import { Toolbar, ToolbarProps } from './Toolbar';
-import { SearchRequestModelFilterValue } from '@searchspring/snapi-types';
 
 export default {
 	title: 'Organisms/Toolbar',
@@ -81,19 +80,7 @@ export default {
 const snapInstance = Snapify.search({
 	id: 'Toolbar',
 	globals: {
-		siteId: '8uyt2m',
-		filters: [
-			{
-				type: 'value',
-				field: 'color_family',
-				value: 'Blue',
-			} as SearchRequestModelFilterValue,
-			{
-				type: 'value',
-				field: 'size',
-				value: 'Small',
-			} as SearchRequestModelFilterValue,
-		],
+		siteId: 'atkzs2',
 	},
 });
 

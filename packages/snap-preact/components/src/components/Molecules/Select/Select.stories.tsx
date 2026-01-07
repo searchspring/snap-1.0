@@ -276,7 +276,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Select', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'Select', globals: { siteId: 'atkzs2' } });
 
 const ObservableSelect = observer(({ args, controller }: { args: SelectProps; controller: SearchController }) => {
 	return (

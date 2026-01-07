@@ -135,7 +135,7 @@ const snapInstance = Snapify.autocomplete({
 	id: 'Autocomplete-TermsList',
 	selector: '#searchInput',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 	},
 	settings: {
 		trending: {
