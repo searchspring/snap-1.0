@@ -77,7 +77,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	get blocked(): boolean {
-		let isBlocked = this.inputValue.length === 0;
+		let isBlocked = false;
 
 		const blockedAttachments = this.currentChat?.attachments.items.some((item) => item.type === 'image' && (item.error || item.state === 'loading'));
 		if (this.loading || blockedAttachments) {

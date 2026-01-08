@@ -24,11 +24,16 @@ export type UploadImageResponseModel = {
 
 // DISCRIMINATOR: "requestType" === general, productQuery, productComparison, productSearch, inspiration, imageSearch, content
 export type MoiRequestModel =
+	| MoiRequestModelInitChat
 	| MoiRequestModelGeneral
 	| MoiRequestModelProductQuery
 	| MoiRequestModelProductSearch
 	| MoiRequestModelProductComparison
 	| MoiRequestModelImageSearch;
+
+export type MoiRequestModelInitChat = {
+	requestType: 'initChat';
+};
 
 export type MoiRequestModelGeneral = {
 	requestType: 'general';
@@ -79,6 +84,7 @@ export type MoiResponseModel = {
 		| MoiResponseModelProductAnswer
 		| MoiResponseModelSuggestedQuestions
 		| MoiResponseModelProductComparison
+		| MoiResponseModelAction
 	)[];
 };
 
@@ -155,6 +161,15 @@ export type MoiResponseModelProduct = {
 	options: {
 		name: string;
 		values: string[];
+	}[];
+};
+
+export type MoiResponseModelAction = {
+	messageType: 'action';
+	id: string;
+	actions: {
+		message: string;
+		request: MoiRequestModelGeneral;
 	}[];
 };
 

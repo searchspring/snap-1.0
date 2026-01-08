@@ -94,8 +94,6 @@ export class ChatController extends AbstractController {
 				if (exisitingFacet) {
 					exisitingFacet.options.push({
 						key: facetAttachment.value,
-						label: facetAttachment.label,
-						count: facetAttachment.count,
 					});
 				} else {
 					filters.push({
@@ -103,8 +101,6 @@ export class ChatController extends AbstractController {
 						options: [
 							{
 								key: facetAttachment.value,
-								label: facetAttachment.label,
-								count: facetAttachment.count,
 							},
 						],
 					});
@@ -117,6 +113,12 @@ export class ChatController extends AbstractController {
 			requestType: 'general',
 			message: this.store.inputValue,
 		};
+
+		if (this.store.currentChat?.chat.length === 0) {
+			chatRequest = {
+				requestType: 'initChat',
+			};
+		}
 
 		// imageSearch --- if an image is attached, change request type
 		if (attachedImageId) {

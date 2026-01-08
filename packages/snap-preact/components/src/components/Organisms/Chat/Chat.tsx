@@ -530,29 +530,31 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 							) : null}
 							{!store.currentChat?.isExpired ? (
 								<div className="ss__chat__footer">
-									{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 && (
-										<div className={'ss__chat__suggestions'}>
-											{store.currentChat?.questions.map((item) => (
-												<div key={item.id} className={classnames('ss__chat__suggestions__item')}>
+									{store.currentChat?.actions && store.currentChat.actions.length > 0 && (
+										<div className={'ss__chat__actions'}>
+											{store.currentChat?.actions.map((action, index) => (
+												<div key={index} className={classnames('ss__chat__actions__item')}>
 													<Button
 														onClick={() => {
-															controller.store.inputValue = item.text;
+															controller.store.inputValue = action.message;
 															controller.search();
 														}}
 													>
-														{item.text}
+														{action.message}
 													</Button>
 												</div>
 											))}
 										</div>
 									)}
-									<div className={'ss__chat__attachments'}>
-										{store.currentChat?.attachments.attached.map((item) => (
-											<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
-												<Attachment attachment={item} controller={controller} />
-											</div>
-										))}
-									</div>
+									{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 ? (
+										<div className={'ss__chat__attachments'}>
+											{store.currentChat?.attachments.attached.map((item) => (
+												<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
+													<Attachment attachment={item} controller={controller} />
+												</div>
+											))}
+										</div>
+									) : null}
 									<div className={'ss__chat__input'}>
 										<input
 											type="text"

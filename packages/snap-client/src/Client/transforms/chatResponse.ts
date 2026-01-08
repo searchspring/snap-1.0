@@ -2,6 +2,7 @@ import { SearchResponseModelResult } from '@searchspring/snapi-types';
 import type {
 	MoiRequestModel,
 	MoiResponseModel,
+	MoiResponseModelAction,
 	MoiResponseModelContent,
 	MoiResponseModelInspirationResult,
 	MoiResponseModelProduct,
@@ -20,6 +21,7 @@ export type ChatResponseModel = {
 		| ChatResponseInspirationResultData
 		| ChatResponseProductAnswerData
 		| ChatResponseSuggestedQuestionsData
+		| ChatResponseActionData
 	)[];
 	context: {
 		sessionId: string;
@@ -66,8 +68,8 @@ export type ChatResponseProductAnswerData = {
 };
 
 export type ChatResponseSuggestedQuestionsData = {
-	messageType: 'suggestedQuestions';
-	questions: string[];
+	messageType: 'action';
+	action: MoiResponseModelAction['actions'];
 };
 
 export type ChatResponseProductComparisonData = {
@@ -76,6 +78,11 @@ export type ChatResponseProductComparisonData = {
 	collectFeedback: boolean;
 	text: string;
 	results: SearchResponseModelResult[];
+};
+
+export type ChatResponseActionData = {
+	messageType: 'action';
+	action: MoiResponseModelAction['actions'];
 };
 
 export type ChatRequestModel = {
@@ -125,6 +132,8 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 				return transformChatResponse.suggestedQuestions(data);
 			} else if (data.messageType === 'productComparison') {
 				return transformChatResponse.productComparison(data);
+			} else if (data.messageType === 'action') {
+				return transformChatResponse.action(data);
 			}
 		})
 		.filter((data) => data !== undefined);
@@ -177,8 +186,16 @@ transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): Cha
 };
 
 transformChatResponse.suggestedQuestions = (data: MoiResponseModelSuggestedQuestions): ChatResponseSuggestedQuestionsData => {
-	// nothing to transform here yet
-	return data;
+	return {
+		messageType: 'action',
+		action: data.questions.map((question) => ({
+			message: question,
+			request: {
+				requestType: 'general',
+				message: question,
+			},
+		})),
+	};
 };
 
 transformChatResponse.productComparison = (data: MoiResponseModelProductComparison): ChatResponseProductComparisonData => {
@@ -188,6 +205,13 @@ transformChatResponse.productComparison = (data: MoiResponseModelProductComparis
 		collectFeedback: data.collectFeedback,
 		text: data.text,
 		results: data.products.map(mapProductToSearchResultProduct),
+	};
+};
+
+transformChatResponse.action = (data: MoiResponseModelAction): ChatResponseActionData => {
+	return {
+		messageType: data.messageType,
+		action: data.actions,
 	};
 };
 

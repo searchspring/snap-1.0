@@ -10,6 +10,7 @@ import type {
 	ChatResponseContentData,
 	ChatResponseProductAnswerData,
 	FeedbackRequestModel,
+	ChatResponseActionData,
 } from '@searchspring/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
@@ -20,11 +21,6 @@ type UserChatMessage = {
 	messageType: 'user';
 	text: string;
 	attachments?: string[];
-};
-
-export type ChatQuestion = {
-	id: string;
-	text: string;
 };
 
 export type ChatFeedbacks = { [messageId: string]: 'UP' | 'DOWN' };
@@ -44,7 +40,7 @@ type ChatSessionStoreConfig = {
 		sessionId?: string;
 		chat?: ChatMessage[];
 		attachments?: ChatAttachmentAddAttachment[];
-		questions?: ChatQuestion[];
+		actions?: ChatResponseActionData['action'];
 		feedbacks?: ChatFeedbacks;
 	};
 	stores: {
@@ -54,7 +50,7 @@ type ChatSessionStoreConfig = {
 
 export class ChatSessionStore {
 	public chat: ChatMessage[] = [];
-	public questions: ChatQuestion[] = [];
+	public actions: ChatResponseActionData['action'] = [];
 	public id: string;
 	public sessionId?: string;
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
@@ -63,13 +59,13 @@ export class ChatSessionStore {
 	public createdAt: Date = new Date();
 
 	constructor(params: ChatSessionStoreConfig) {
-		const { id, chat, attachments, questions, sessionId } = params.data || {};
+		const { id, chat, attachments, actions, sessionId } = params.data || {};
 		const { stores } = params;
 
 		this.id = id || uuidv4();
 		this.sessionId = sessionId;
 		this.storage = stores.storage;
-		this.questions = questions || [];
+		this.actions = actions || [];
 
 		// if chat and attachments are passed, load them
 		if (chat && chat.length > 0) {
@@ -83,7 +79,7 @@ export class ChatSessionStore {
 
 		makeObservable(this, {
 			chat: observable,
-			questions: observable,
+			actions: observable,
 			attachments: observable,
 			feedbacks: observable,
 		});
@@ -107,7 +103,7 @@ export class ChatSessionStore {
 			sessionId: this.sessionId,
 			chat: this.chat,
 			attachments: this.attachments.items,
-			questions: this.questions,
+			actions: this.actions,
 			feedbacks: this.feedbacks,
 		});
 	}
@@ -120,9 +116,9 @@ export class ChatSessionStore {
 
 	public request(request: ChatRequestModel): void {
 		// clear the questions on new request
-		this.questions = [];
+		this.actions = [];
 
-		if (request.data.message) {
+		if (request.data?.requestType !== 'initChat' && request.data.message) {
 			// check for sent attachments in context
 			const attachments: string[] = [];
 			if (request.data.requestType === 'imageSearch') {
@@ -173,11 +169,8 @@ export class ChatSessionStore {
 		this.sessionId = data.chat.context.sessionId;
 		data.chat.data.forEach((data) => {
 			// check if the data has questions?
-			if (data.messageType === 'suggestedQuestions') {
-				this.questions = data.questions.map((question) => ({
-					id: uuidv4(),
-					text: question,
-				}));
+			if (data.messageType === 'action') {
+				this.actions = data.action;
 				return;
 			}
 

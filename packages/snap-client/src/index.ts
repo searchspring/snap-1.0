@@ -21,5 +21,6 @@ export {
 	ChatResponseProductAnswerData,
 	ChatResponseSuggestedQuestionsData,
 	FeedbackRequestModel,
+	ChatResponseActionData,
 } from './Client/transforms';
 export { MoiRequestModel } from './Client/apis/Chat';
