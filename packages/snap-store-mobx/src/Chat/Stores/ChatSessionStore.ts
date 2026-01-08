@@ -25,14 +25,13 @@ type UserChatMessage = {
 
 export type ChatFeedbacks = { [messageId: string]: 'UP' | 'DOWN' };
 
-export type ChatMessage = { feedback?: 'UP' | 'DOWN' } & (
+export type ChatMessage =
 	| ChatResponseTextData
 	| ChatResponseContentData
 	| ChatResponseProductSearchResultData
 	| ChatResponseInspirationResultData
 	| ChatResponseProductAnswerData
-	| UserChatMessage
-);
+	| UserChatMessage;
 
 type ChatSessionStoreConfig = {
 	data?: {
@@ -42,6 +41,7 @@ type ChatSessionStoreConfig = {
 		attachments?: ChatAttachmentAddAttachment[];
 		actions?: ChatResponseActionData['action'];
 		feedbacks?: ChatFeedbacks;
+		createdAt?: Date;
 	};
 	stores: {
 		storage: StorageStore;
@@ -59,13 +59,15 @@ export class ChatSessionStore {
 	public createdAt: Date = new Date();
 
 	constructor(params: ChatSessionStoreConfig) {
-		const { id, chat, attachments, actions, sessionId } = params.data || {};
+		const { id, sessionId, chat, attachments, actions, feedbacks, createdAt } = params.data || {};
 		const { stores } = params;
 
 		this.id = id || uuidv4();
 		this.sessionId = sessionId;
 		this.storage = stores.storage;
 		this.actions = actions || [];
+		this.createdAt = createdAt ? new Date(createdAt) : new Date();
+		this.feedbacks = feedbacks || {};
 
 		// if chat and attachments are passed, load them
 		if (chat && chat.length > 0) {
@@ -105,6 +107,7 @@ export class ChatSessionStore {
 			attachments: this.attachments.items,
 			actions: this.actions,
 			feedbacks: this.feedbacks,
+			createdAt: this.createdAt,
 		});
 	}
 

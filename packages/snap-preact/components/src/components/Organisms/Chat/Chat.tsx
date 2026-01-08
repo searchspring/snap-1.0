@@ -57,6 +57,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
 			borderRadius: '8px',
 			maxHeight: '90vh',
+			minHeight: '50vh',
 		},
 		'.ss__chat__header': {
 			display: 'flex',
@@ -93,6 +94,23 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				gap: 5,
 				padding: '1em',
 				boxSizing: 'border-box',
+				'.ss__chat__header__history__header': {
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'baseline',
+				},
+				'.ss__chat__header__history__chats': {
+					display: 'flex',
+					flexDirection: 'column-reverse',
+					'.ss__chat__header__history__chats__chat': {
+						display: 'flex',
+						alignItems: 'baseline',
+						justifyContent: 'space-between',
+						'.ss__chat__header__history__chats__chat__date': {
+							fontSize: '70%',
+						},
+					},
+				},
 			},
 		},
 		'.ss__chat__messages': {
@@ -465,7 +483,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									{store.chats.length > 1 ? (
 										<Button
 											className="ss__chat__history"
-											icon="eye"
+											icon="history"
 											onClick={() => {
 												setIsViewingHistory(!isViewingHistory);
 											}}
@@ -478,28 +496,35 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								</div>
 								{isViewingHistory ? (
 									<div className="ss__chat__header__history">
-										<Button
-											onClick={() => {
-												controller.store.reset();
-												controller.search(); // TODO: combine this elsewhere
-												setIsViewingHistory(false);
-											}}
-										>
-											Clear All
-										</Button>
-										<h4>Chat History</h4>
-										{store.chats.map((chat) => (
-											<div key={chat.id}>
-												<Button
-													onClick={() => {
-														controller.store.switchChat(chat.id);
-														setIsViewingHistory(false);
-													}}
-												>
-													{chat.createdAt.toLocaleString() + (chat.id === store.currentChatId ? ' (current)' : '')}
-												</Button>
+										<div className="ss__chat__header__history__header">
+											<h4>Chat History</h4>
+											<Button
+												icon={'trash'}
+												onClick={() => {
+													controller.store.reset();
+													controller.search(); // TODO: combine this elsewhere
+													setIsViewingHistory(false);
+												}}
+											/>
+										</div>
+										{store.chats.length > 0 ? (
+											<div className="ss__chat__header__history__chats">
+												{store.chats.map((chat) => (
+													<div key={chat.id} className="ss__chat__header__history__chats__chat">
+														<Button
+															onClick={() => {
+																controller.store.switchChat(chat.id);
+																setIsViewingHistory(false);
+															}}
+															disabled={chat.id === store.currentChatId}
+														>
+															{chat.id === store.currentChatId ? ' Current' : `Switch`}
+														</Button>
+														<span className="ss__chat__header__history__chats__chat__date">{chat.createdAt.toLocaleString()}</span>
+													</div>
+												))}
 											</div>
-										))}
+										) : null}
 									</div>
 								) : null}
 							</div>
@@ -530,6 +555,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 							) : null}
 							{!store.currentChat?.isExpired ? (
 								<div className="ss__chat__footer">
+									{store.error && <div className="ss__chat__error">{store.error.message}</div>}
 									{store.currentChat?.actions && store.currentChat.actions.length > 0 && (
 										<div className={'ss__chat__actions'}>
 											{store.currentChat?.actions.map((action, index) => (

@@ -1,4 +1,11 @@
 /*
+	
+	- add lastUpdated date or attach dates to each message and use first/last message
+
+	General UI Improvements
+	 * Add more icons that are needed
+	 * Beautify?
+
 	Feedback UI
 		* state not updating after feedback given
 
@@ -9,7 +16,9 @@
 
 	Attachments General Improvements
 		* in chat history show which attachments were sent with which messages (add images to product attachments)
-		* for suggested questions, these need to store the productIds associated with them so when clicked the productQuery can be made with the correct product
+		* product attachments should be more detailed - larger and more obvious because they change the discussion topic (context)
+		 + should show product name, image maybe other details
+		* allow for previous attachments to be re-attached
 	
 	Future (after demo)
 		*	Render product results
@@ -114,13 +123,12 @@ export class ChatController extends AbstractController {
 			message: this.store.inputValue,
 		};
 
-		if (this.store.currentChat?.chat.length === 0) {
-			chatRequest = {
-				requestType: 'initChat',
-			};
-		}
+		// if (this.store.currentChat?.chat.length === 0) {
+		// 	chatRequest = {
+		// 		requestType: 'initChat',
+		// 	};
+		// }
 
-		// imageSearch --- if an image is attached, change request type
 		if (attachedImageId) {
 			chatRequest = {
 				requestType: 'imageSearch',
@@ -176,6 +184,9 @@ export class ChatController extends AbstractController {
 
 	feedback = async (chatItem: ChatMessage, thumbs: 'UP' | 'DOWN', reason?: string) => {
 		try {
+			if (this.store.currentChat?.feedbacks[chatItem.id] === thumbs) {
+				return;
+			}
 			const { userId, shopperId } = this.tracker.getContext();
 			const params = {
 				context: {
@@ -269,6 +280,7 @@ export class ChatController extends AbstractController {
 	};
 
 	search = async (): Promise<void> => {
+		this.store.error = undefined;
 		try {
 			if (!this.initialized) {
 				await this.init();
@@ -358,7 +370,7 @@ export class ChatController extends AbstractController {
 							this.store.error = {
 								code: 429,
 								type: ErrorType.WARNING,
-								message: 'Too many requests try again later',
+								message: 'Too many frequent requests. Please try again later',
 							};
 							break;
 						}
@@ -367,7 +379,7 @@ export class ChatController extends AbstractController {
 							this.store.error = {
 								code: 500,
 								type: ErrorType.ERROR,
-								message: 'Invalid Search Request or Service Unavailable',
+								message: 'An unexpected error occured. Please try again.',
 							};
 							break;
 						}
