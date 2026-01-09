@@ -123,11 +123,11 @@ export class ChatController extends AbstractController {
 			message: this.store.inputValue,
 		};
 
-		// if (this.store.currentChat?.chat.length === 0) {
-		// 	chatRequest = {
-		// 		requestType: 'initChat',
-		// 	};
-		// }
+		if (this.store.currentChat?.chat.length === 0) {
+			chatRequest = {
+				requestType: 'initChat',
+			};
+		}
 
 		if (attachedImageId) {
 			chatRequest = {
@@ -215,6 +215,9 @@ export class ChatController extends AbstractController {
 			const base64Image = await convertToBase64(file);
 			const image = await base64ToBlob(base64Image);
 			const params = {
+				context: {
+					widgetId: this.config.settings.widgetId,
+				},
 				image,
 			};
 

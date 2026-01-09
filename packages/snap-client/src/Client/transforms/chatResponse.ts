@@ -2,7 +2,7 @@ import { SearchResponseModelResult } from '@searchspring/snapi-types';
 import type {
 	MoiRequestModel,
 	MoiResponseModel,
-	MoiResponseModelAction,
+	MoiResponseModelActions,
 	MoiResponseModelContent,
 	MoiResponseModelInspirationResult,
 	MoiResponseModelProduct,
@@ -21,7 +21,7 @@ export type ChatResponseModel = {
 		| ChatResponseInspirationResultData
 		| ChatResponseProductAnswerData
 		| ChatResponseSuggestedQuestionsData
-		| ChatResponseActionData
+		| ChatResponseActionsData
 	)[];
 	context: {
 		sessionId: string;
@@ -68,8 +68,8 @@ export type ChatResponseProductAnswerData = {
 };
 
 export type ChatResponseSuggestedQuestionsData = {
-	messageType: 'action';
-	action: MoiResponseModelAction['actions'];
+	messageType: 'actions';
+	actions: MoiResponseModelActions['actions'];
 };
 
 export type ChatResponseProductComparisonData = {
@@ -80,9 +80,9 @@ export type ChatResponseProductComparisonData = {
 	results: SearchResponseModelResult[];
 };
 
-export type ChatResponseActionData = {
-	messageType: 'action';
-	action: MoiResponseModelAction['actions'];
+export type ChatResponseActionsData = {
+	messageType: 'actions';
+	actions: MoiResponseModelActions['actions'];
 };
 
 export type ChatRequestModel = {
@@ -132,8 +132,8 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 				return transformChatResponse.suggestedQuestions(data);
 			} else if (data.messageType === 'productComparison') {
 				return transformChatResponse.productComparison(data);
-			} else if (data.messageType === 'action') {
-				return transformChatResponse.action(data);
+			} else if (data.messageType === 'actions') {
+				return transformChatResponse.actions(data);
 			}
 		})
 		.filter((data) => data !== undefined);
@@ -187,8 +187,8 @@ transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): Cha
 
 transformChatResponse.suggestedQuestions = (data: MoiResponseModelSuggestedQuestions): ChatResponseSuggestedQuestionsData => {
 	return {
-		messageType: 'action',
-		action: data.questions.map((question) => ({
+		messageType: 'actions',
+		actions: data.questions.map((question) => ({
 			message: question,
 			request: {
 				requestType: 'general',
@@ -208,10 +208,10 @@ transformChatResponse.productComparison = (data: MoiResponseModelProductComparis
 	};
 };
 
-transformChatResponse.action = (data: MoiResponseModelAction): ChatResponseActionData => {
+transformChatResponse.actions = (data: MoiResponseModelActions): ChatResponseActionsData => {
 	return {
 		messageType: data.messageType,
-		action: data.actions,
+		actions: data.actions,
 	};
 };
 

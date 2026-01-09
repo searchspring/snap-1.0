@@ -3,6 +3,9 @@ import { HTTPHeaders } from '../../types';
 import { ChatRequestModel, FeedbackRequestModel, transformChatResponse } from '../transforms/chatResponse';
 
 export type UploadImageRequestModel = {
+	context: {
+		widgetId: string;
+	};
 	image: Blob;
 };
 
@@ -84,7 +87,7 @@ export type MoiResponseModel = {
 		| MoiResponseModelProductAnswer
 		| MoiResponseModelSuggestedQuestions
 		| MoiResponseModelProductComparison
-		| MoiResponseModelAction
+		| MoiResponseModelActions
 	)[];
 };
 
@@ -164,8 +167,8 @@ export type MoiResponseModelProduct = {
 	}[];
 };
 
-export type MoiResponseModelAction = {
-	messageType: 'action';
+export type MoiResponseModelActions = {
+	messageType: 'actions';
 	id: string;
 	actions: {
 		message: string;
@@ -230,7 +233,7 @@ export class ChatAPI extends API {
 
 	async postUploadImage(requestParameters: UploadImageRequestModel): Promise<UploadImageResponseModel> {
 		const headerParameters: HTTPHeaders = {
-			'X-Widget-Id': 'test-ss-demo',
+			'X-Widget-Id': requestParameters.context.widgetId,
 		};
 		const formData = new FormData();
 		formData.append('file', requestParameters.image, 'image.jpg');

@@ -187,9 +187,6 @@ export class Client {
 	}
 
 	async uploadImage(params: UploadImageRequestModel): Promise<UploadImageResponseModel> {
-		const image = params.image;
-		params = deepmerge<UploadImageRequestModel & ClientGlobals>(this.globals, params);
-		params.image = image;
 		return this.requesters.chat.postUploadImage(params);
 	}
 

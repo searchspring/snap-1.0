@@ -10,7 +10,7 @@ import type {
 	ChatResponseContentData,
 	ChatResponseProductAnswerData,
 	FeedbackRequestModel,
-	ChatResponseActionData,
+	ChatResponseActionsData,
 } from '@searchspring/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
@@ -39,7 +39,7 @@ type ChatSessionStoreConfig = {
 		sessionId?: string;
 		chat?: ChatMessage[];
 		attachments?: ChatAttachmentAddAttachment[];
-		actions?: ChatResponseActionData['action'];
+		actions?: ChatResponseActionsData['actions'];
 		feedbacks?: ChatFeedbacks;
 		createdAt?: Date;
 	};
@@ -50,7 +50,7 @@ type ChatSessionStoreConfig = {
 
 export class ChatSessionStore {
 	public chat: ChatMessage[] = [];
-	public actions: ChatResponseActionData['action'] = [];
+	public actions: ChatResponseActionsData['actions'] = [];
 	public id: string;
 	public sessionId?: string;
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
@@ -172,8 +172,8 @@ export class ChatSessionStore {
 		this.sessionId = data.chat.context.sessionId;
 		data.chat.data.forEach((data) => {
 			// check if the data has questions?
-			if (data.messageType === 'action') {
-				this.actions = data.action;
+			if (data.messageType === 'actions') {
+				this.actions = data.actions;
 				return;
 			}
 
