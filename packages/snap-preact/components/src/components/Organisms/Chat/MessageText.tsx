@@ -12,17 +12,17 @@ export const MessageText = observer((props: MessageProps) => {
 		<div className="ss__chat__message-text">
 			<div className="ss__chat__message-text__text-wrapper">
 				<div className="ss__chat__message-text__text-wrapper__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-				{chatItem.collectFeedback ? (
-					<div className="ss__chat__message-text__text-wrapper__feedback">
-						<span onClick={() => controller.feedback(chatItem, 'UP')}>
-							<Icon icon="thumbs-up" color={controller.store.currentChat?.feedbacks[chatItem.id] === 'UP' ? '#000' : '#aaa'} />
-						</span>
-						<span onClick={() => controller.feedback(chatItem, 'DOWN')}>
-							<Icon icon="thumbs-down" color={controller.store.currentChat?.feedbacks[chatItem.id] === 'DOWN' ? '#000' : '#aaa'} />
-						</span>
-					</div>
-				) : null}
 			</div>
+			{chatItem.collectFeedback ? (
+				<div className="ss__chat__message-text__text-wrapper__feedback">
+					<span onClick={() => controller.feedback(chatItem, 'UP')}>
+						<Icon icon="thumbs-up" color={controller.store.currentChat?.feedbacks[chatItem.id] === 'UP' ? '#000' : '#aaa'} />
+					</span>
+					<span onClick={() => controller.feedback(chatItem, 'DOWN')}>
+						<Icon icon="thumbs-down" color={controller.store.currentChat?.feedbacks[chatItem.id] === 'DOWN' ? '#000' : '#aaa'} />
+					</span>
+				</div>
+			) : null}
 			<ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />
 			<FacetsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />
 		</div>
@@ -55,7 +55,7 @@ const FacetsDisplay = observer((props: MessageProps) => {
 								});
 							}}
 						>
-							{option.label} ({option.count})
+							{option.label}
 						</Button>
 					))}
 				</span>

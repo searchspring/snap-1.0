@@ -49,7 +49,6 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		'&.ss__chat--open': {
 			background: 'white',
 			padding: '1em',
-			minWidth: '500px',
 			width: '500px',
 			border: '1px solid #ccc',
 			display: 'flex',
@@ -58,6 +57,8 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			borderRadius: '8px',
 			maxHeight: '90vh',
 			minHeight: '50vh',
+			maxWidth: 'calc(100vw - 1em - 20px - 20px)',
+			boxSizing: 'border-box',
 		},
 		'.ss__chat__header': {
 			display: 'flex',
@@ -130,9 +131,9 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					justifyContent: 'flex-end',
 					marginLeft: '40px',
 					'.ss__chat__message-user__text': {
-						padding: '8px',
-						borderRadius: '4px',
-						backgroundColor: '#d1e7dd',
+						padding: '1em',
+						borderRadius: '1em',
+						backgroundColor: 'rgba(0, 174, 239, 0.2)',
 						alignSelf: 'flex-end',
 					},
 					'.ss__chat__message-user__attachments': {
@@ -156,19 +157,17 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 						flexDirection: 'row',
 						justifyContent: 'flex-start',
 						'.ss__chat__message-text__text-wrapper__text': {
-							padding: '8px',
-							borderRadius: '4px',
-							backgroundColor: '#f8d7da',
+							padding: '1em',
 							alignSelf: 'flex-end',
 						},
-						'.ss__chat__message-text__text-wrapper__feedback': {
-							display: 'flex',
-							alignItems: 'flex-end',
-							gap: '10px',
-							margin: '0 10px',
-							svg: {
-								cursor: 'pointer',
-							},
+					},
+					'.ss__chat__message-text__text-wrapper__feedback': {
+						display: 'flex',
+						alignItems: 'flex-end',
+						gap: '10px',
+						margin: '0 10px',
+						svg: {
+							cursor: 'pointer',
 						},
 					},
 					'.ss__chat__message-text__results': {
@@ -201,6 +200,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				},
 				ul: {
 					margin: 0,
+					listStyle: 'inside',
 				},
 				p: {
 					margin: 0,
@@ -257,6 +257,9 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				borderRadius: '4px',
 				padding: '4px',
 				backgroundColor: '#f9f9f9',
+				'&.ss__chat__attachment--facet': {
+					paddingRight: '15px',
+				},
 				'&.error': {
 					border: '1px solid #dc3545',
 					backgroundColor: '#fff5f5',
@@ -575,9 +578,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 ? (
 										<div className={'ss__chat__attachments'}>
 											{store.currentChat?.attachments.attached.map((item) => (
-												<div key={item.id} className={classnames('ss__chat__attachment', { error: !!item.error })}>
-													<Attachment attachment={item} controller={controller} />
-												</div>
+												<Attachment key={item.id} attachment={item} controller={controller} />
 											))}
 										</div>
 									) : null}

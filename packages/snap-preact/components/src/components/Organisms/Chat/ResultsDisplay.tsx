@@ -8,6 +8,7 @@ export const ResultsDisplay = observer((props: MessageProps) => {
 	const carouselProps: Partial<CarouselProps> = {
 		breakpoints: undefined,
 		slidesPerView: 3,
+		loop: Boolean(chatItem.results?.length > 3),
 	};
 
 	return chatItem.results?.length > 0 ? (

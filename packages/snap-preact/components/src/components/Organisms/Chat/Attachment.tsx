@@ -4,7 +4,7 @@ import { ChatController } from '@searchspring/snap-controller';
 import { ChatAttachmentFacet, ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
-
+import classnames from 'classnames';
 export const Attachment = observer((properties: AttachmentProps): JSX.Element => {
 	const { attachment, controller } = properties;
 
@@ -22,7 +22,7 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 
 		if (hasError) {
 			return (
-				<>
+				<div className={classnames('ss__chat__attachment ss__chat__attachment--image', { error: !!attachment.error })}>
 					<div className={'ss__chat__attachment__error'}>
 						<div className={'ss__chat__attachment__error-icon'}>⚠</div>
 						<div className={'ss__chat__attachment__error-message'}>{attachment.error?.message || 'upload failed'}</div>
@@ -30,12 +30,12 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 						×
 					</div>
-				</>
+				</div>
 			);
 		}
 
 		return src || isLoading ? (
-			<>
+			<div className={classnames('ss__chat__attachment ss__chat__attachment--image', { error: !!attachment.error })}>
 				<div className={'ss__chat__attachment__content'}>
 					{src && <Image className={isLoading ? 'loading' : ''} style={{ height: '50px', width: '50px' }} src={src} alt={''} />}
 					{isLoading && (
@@ -51,35 +51,35 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 						×
 					</div>
 				)}
-			</>
+			</div>
 		) : (
 			<></>
 		);
 	} else if (type == 'product') {
 		const { name, thumbnailUrl } = attachment;
 		return id ? (
-			<>
+			<div className={classnames('ss__chat__attachment ss__chat__attachment--product', { error: !!attachment.error })}>
 				<div className={'ss__chat__attachment__content'}>
 					{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
 				</div>
 				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 					×
 				</div>
-			</>
+			</div>
 		) : (
 			<></>
 		);
 	} else if (type == 'facet') {
-		const { facetLabel, label, count } = attachment;
+		const { facetLabel, label } = attachment;
 		return id ? (
-			<>
+			<div className={classnames('ss__chat__attachment ss__chat__attachment--facet', { error: !!attachment.error })}>
 				<div className={'ss__chat__attachment__content'}>
-					Filter: {facetLabel} = {label} {count !== undefined ? `(${count})` : ''}
+					Filter: {facetLabel} = {label}
 				</div>
 				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 					×
 				</div>
-			</>
+			</div>
 		) : (
 			<></>
 		);
