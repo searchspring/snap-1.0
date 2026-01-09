@@ -65,6 +65,7 @@ import type { SearchLang } from '../components/Templates/Search';
 import { AutocompleteLayoutLang } from '../components/Organisms/AutocompleteLayout';
 import { TermsLang } from '../components/Molecules/Terms';
 import { DeepPartial } from '../../../src/types';
+import { SlideshowLang } from '../components/Molecules/Slideshow';
 
 // type ComponentLang> = Partial<ComponentLang> & { named?: Partial<{ [named?: Partial<string]?: Partial<Partial<ComponentLang> } };
 
@@ -95,6 +96,7 @@ export type LangComponents = {
 	// calloutBadge: CalloutBadgeLang
 	// carousel: CarouselLang
 	checkbox: CheckboxLang;
+	slideshow: SlideshowLang;
 	grid: GridLang;
 	layoutSelector: LayoutSelectorLang;
 	list: ListLang;

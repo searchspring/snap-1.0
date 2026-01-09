@@ -212,7 +212,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		NextButton: {
 			// default props
 			backgroundColor: overlayNavigation ? 'rgba(255, 255, 255, 0.9)' : undefined,
-			name: 'next-button',
+			name: 'next',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -223,7 +223,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		PrevButton: {
 			// default props
 			backgroundColor: overlayNavigation ? 'rgba(255, 255, 255, 0.9)' : undefined,
-			name: 'prev-button',
+			name: 'prev',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -233,7 +233,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		},
 		PauseButton: {
 			// default props
-			name: 'pause-button',
+			name: 'pause',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -243,7 +243,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		},
 		PaginationButton: {
 			// default props
-			name: 'pagination-button',
+			name: 'pagination',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -783,11 +783,6 @@ export interface SlideshowLang {
 	}>;
 	srInstructions: Lang<{
 		touchDragging: boolean;
-	}>;
-	srAnnounceText: Lang<{
-		startSlideIndex: number;
-		endSlideIndex: number;
-		totalSlideslength: number;
 	}>;
 }
 
