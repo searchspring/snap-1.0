@@ -4,6 +4,7 @@ export { FinderStore } from './Finder/FinderStore';
 export { SearchStore } from './Search/SearchStore';
 export { ChatStore } from './Chat/ChatStore';
 export type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet } from './Chat/Stores/ChatAttachmentStore';
+export type { ChatActions, ActionsData, FacetsData } from './Chat/Stores/ChatSessionStore';
 
 export * from './Search/Stores/';
 export * from './Autocomplete/Stores/';

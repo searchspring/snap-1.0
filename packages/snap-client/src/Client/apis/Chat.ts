@@ -51,13 +51,11 @@ export type MoiRequestModelProductQuery = {
 
 export type MoiRequestModelProductSearch = {
 	requestType: 'productSearch';
-	message: string;
+	// message: string;
 	searchFilters: {
 		key: string;
 		options: {
 			key: string;
-			label: string;
-			count: number;
 		}[];
 	}[];
 };

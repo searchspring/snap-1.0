@@ -62,20 +62,7 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 				<div className={'ss__chat__attachment__content'}>
 					{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
 				</div>
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
-					×
-				</div>
-			</div>
-		) : (
-			<></>
-		);
-	} else if (type == 'facet') {
-		const { facetLabel, label } = attachment;
-		return id ? (
-			<div className={classnames('ss__chat__attachment ss__chat__attachment--facet', { error: !!attachment.error })}>
-				<div className={'ss__chat__attachment__content'}>
-					Filter: {facetLabel} = {label}
-				</div>
+				<div className={'ss__chat__attachment__info'}>{name}</div>
 				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 					×
 				</div>

@@ -15,6 +15,7 @@ import type {
 import { ChatAttachmentAddAttachment, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
+import { MoiResponseModelProductSearchResult } from '@searchspring/snap-client/dist/cjs/Client/apis/Chat';
 
 type UserChatMessage = {
 	id: string;
@@ -39,7 +40,7 @@ type ChatSessionStoreConfig = {
 		sessionId?: string;
 		chat?: ChatMessage[];
 		attachments?: ChatAttachmentAddAttachment[];
-		actions?: ChatResponseActionsData['actions'];
+		actions?: ChatActions;
 		feedbacks?: ChatFeedbacks;
 		createdAt?: Date;
 	};
@@ -48,9 +49,20 @@ type ChatSessionStoreConfig = {
 	};
 };
 
+export type FacetsData = {
+	type: 'facets';
+	data: MoiResponseModelProductSearchResult['facets'];
+};
+
+export type ActionsData = {
+	type: 'actions';
+	data: ChatResponseActionsData['actions'];
+};
+export type ChatActions = (FacetsData | ActionsData)[];
+
 export class ChatSessionStore {
 	public chat: ChatMessage[] = [];
-	public actions: ChatResponseActionsData['actions'] = [];
+	public actions: ChatActions = [];
 	public id: string;
 	public sessionId?: string;
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
@@ -121,16 +133,30 @@ export class ChatSessionStore {
 		// clear the questions on new request
 		this.actions = [];
 
-		if (request.data?.requestType !== 'initChat' && request.data.message) {
-			// check for sent attachments in context
-			const attachments: string[] = [];
+		const attachments: string[] = [];
+		if (request.data.requestType === 'productSearch') {
+			const searchFilters = request.data.searchFilters;
+			if (searchFilters.length > 0) {
+				searchFilters.forEach((filter) => {
+					const attachedFacet = this.attachments.attached.find((item) => item.type == 'facet' && (item as any).key == filter.key);
+					if (attachedFacet) {
+						attachments.push(attachedFacet.id);
+						attachedFacet.activate();
+					}
+				});
+				this.chat.push({
+					id: uuidv4(),
+					messageType: 'user',
+					attachments: attachments.length > 0 ? attachments : undefined,
+					text: '',
+				});
+			}
+		} else if (request.data?.requestType !== 'initChat' && request.data.message) {
 			if (request.data.requestType === 'imageSearch') {
 				const imageId = request.data.attachedImageId;
 				const attachedImage = this.attachments.attached.find((item) => item.type == 'image' && item.imageId == imageId);
 				if (attachedImage) {
 					attachments.push(attachedImage.id);
-
-					// save the attachment (change state to 'saved');
 					attachedImage.activate();
 				}
 			}
@@ -143,29 +169,14 @@ export class ChatSessionStore {
 					attachedImage.activate();
 				}
 			}
-
-			if (request.data.requestType === 'productSearch') {
-				const searchFilters = request.data.searchFilters;
-				if (searchFilters.length > 0) {
-					searchFilters.forEach((filter) => {
-						const attachedFacet = this.attachments.attached.find((item) => item.type == 'facet' && (item as any).key == filter.key);
-						if (attachedFacet) {
-							attachments.push(attachedFacet.id);
-							attachedFacet.activate();
-						}
-					});
-				}
-			}
-
 			this.chat.push({
 				id: uuidv4(),
 				messageType: 'user',
 				attachments: attachments.length > 0 ? attachments : undefined,
 				text: request.data.message,
 			});
-
-			this.save();
 		}
+		this.save();
 	}
 
 	public update(data: { chat: ChatResponseModel; meta: MetaResponseModel }): void {
@@ -173,8 +184,18 @@ export class ChatSessionStore {
 		data.chat.data.forEach((data) => {
 			// check if the data has questions?
 			if (data.messageType === 'actions') {
-				this.actions = data.actions;
+				this.actions.push({
+					type: 'actions',
+					data: data.actions,
+				});
 				return;
+			}
+
+			if (data.messageType === 'productSearchResult' && data.facets?.length > 0) {
+				this.actions.push({
+					type: 'facets',
+					data: data.facets,
+				});
 			}
 
 			this.chat.push(data);

@@ -16,6 +16,7 @@ import { MessageUser } from './MessageUser';
 import { MessageText } from './MessageText';
 import { Attachment } from './Attachment';
 import { useState } from 'react';
+import { ActionsData, FacetsData } from '@searchspring/snap-store-mobx';
 
 const defaultStyles: StyleScript<ChatProps> = () => {
 	return css({
@@ -48,9 +49,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		},
 		'&.ss__chat--open': {
 			background: 'white',
-			padding: '1em',
 			width: '500px',
-			border: '1px solid #ccc',
 			display: 'flex',
 			flexDirection: 'column',
 			boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
@@ -62,12 +61,13 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		},
 		'.ss__chat__header': {
 			display: 'flex',
-			justifyContent: 'flex-end',
+			justifyContent: 'space-between',
+			// justifyContent: 'flex-end', use this if no title
 			alignItems: 'center',
-			marginBottom: '1em',
 			fontSize: '18px',
 			fontWeight: 'bold',
 			position: 'relative',
+			padding: '1em',
 			'.ss__chat__header__buttons': {
 				display: 'flex',
 				gap: '10px',
@@ -118,7 +118,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			flex: '1 1 auto',
 			overflowY: 'auto',
 			margin: 0,
-			padding: 0,
+			padding: '1em',
 			maxHeight: 'calc(90vh - 200px)',
 			'.ss__chat__messages__end': {
 				height: '1px',
@@ -342,6 +342,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		},
 		'.ss__chat__footer': {
 			borderTop: '1px solid #ddd',
+			padding: '1em',
 
 			'.ss__chat__suggestions': {
 				display: 'flex',
@@ -482,6 +483,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					) : (
 						<Fragment>
 							<div className={'ss__chat__header'}>
+								<div className="ss__chat__header__title">Chat AI</div>
 								<div className="ss__chat__header__buttons">
 									{store.chats.length > 1 ? (
 										<Button
@@ -562,15 +564,61 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									{store.currentChat?.actions && store.currentChat.actions.length > 0 && (
 										<div className={'ss__chat__actions'}>
 											{store.currentChat?.actions.map((action, index) => (
-												<div key={index} className={classnames('ss__chat__actions__item')}>
-													<Button
-														onClick={() => {
-															controller.store.inputValue = action.message;
-															controller.search();
-														}}
-													>
-														{action.message}
-													</Button>
+												<div key={index} className={classnames('ss__chat__actions__action', `ss__chat__action--${action.type}`)}>
+													{{
+														facets: (
+															<Fragment>
+																<div className="ss__chat__actions__action__header">Filter By:</div>
+																{(action as FacetsData).data.map((act, idx) => (
+																	<div className="ss__chat__actions__action__facet" key={idx}>
+																		<label>{act.label}:</label>
+																		{act.options?.map((option) => (
+																			<Button
+																				key={option.key}
+																				onClick={() => {
+																					controller.store.sendFacet({
+																						key: act.key,
+																						facetLabel: act.label,
+																						value: option.key,
+																						label: option.label,
+																						count: option.count,
+																					});
+																					controller.search();
+																				}}
+																			>
+																				{option.label}
+																			</Button>
+																		))}
+																	</div>
+																))}
+															</Fragment>
+														),
+														actions: (
+															<Fragment>
+																{(action as ActionsData).data.map((act, idx) => (
+																	<Button
+																		key={idx}
+																		onClick={() => {
+																			controller.store.inputValue = act.message;
+																			controller.search();
+																		}}
+																	>
+																		{act.message}
+																	</Button>
+																))}
+															</Fragment>
+															// <div key={index} className={classnames('ss__chat__actions__item')}>
+															// 	<Button
+															// 		onClick={() => {
+															// 			controller.store.inputValue = action.message;
+															// 			controller.search();
+															// 		}}
+															// 	>
+															// 		{action.message}
+															// 	</Button>
+															// </div>
+														),
+													}[action.type] || <Fragment></Fragment>}
 												</div>
 											))}
 										</div>

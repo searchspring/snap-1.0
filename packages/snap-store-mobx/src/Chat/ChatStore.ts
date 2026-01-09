@@ -120,6 +120,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public sendProductQuery(result: any): void {
+		this.currentChat && (this.currentChat.actions = []);
 		const productAttachment = this.currentChat?.attachments.add<ChatAttachmentProduct>({
 			type: 'product',
 			productId: result.id,
@@ -130,6 +131,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public sendFacet(facet: any): void {
+		this.currentChat?.attachments.reset();
 		const filterAttachment = this.currentChat?.attachments.add<ChatAttachmentFacet>({
 			type: 'facet',
 			key: facet.key,

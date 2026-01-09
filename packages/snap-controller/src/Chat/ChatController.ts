@@ -154,7 +154,7 @@ export class ChatController extends AbstractController {
 		if (searchFilters.length > 0) {
 			chatRequest = {
 				requestType: 'productSearch',
-				message: this.store.inputValue,
+				// message: '',
 				searchFilters,
 			};
 		}

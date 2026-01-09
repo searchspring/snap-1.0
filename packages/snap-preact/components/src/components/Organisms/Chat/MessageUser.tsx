@@ -40,7 +40,9 @@ export const MessageUser = observer((props: MessageUserProps) => {
 					  })
 					: null}
 			</ul>
-			<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+			{chatItem.text ? (
+				<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+			) : null}
 		</div>
 	);
 });
