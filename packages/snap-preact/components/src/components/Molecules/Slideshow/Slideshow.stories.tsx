@@ -73,17 +73,28 @@ export default {
 			},
 			control: { type: 'number', min: 1000, max: 10000, step: 500 },
 		},
-		showNavigation: {
-			description: 'Show previous/next navigation buttons',
+		hideButtons: {
+			description: 'Hide previous/next navigation buttons',
 			table: {
 				type: {
 					summary: 'boolean',
 				},
-				defaultValue: { summary: true },
+				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
 		},
-		overlayNavigation: {
+		alwaysShowButtons: {
+			description:
+				'Always show navigation buttons even when slides count is below slidesPerView threshold. Useful for maintaining consistent layout in product card grids.',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		overlayButtons: {
 			description: 'Controls if the previous/next navigation buttons should overlay the images or render outside of them',
 			table: {
 				type: {
@@ -93,7 +104,7 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
-		showPagination: {
+		pagination: {
 			description: 'Show pagination dots at bottom',
 			table: {
 				type: {
@@ -113,7 +124,7 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
-		slidesToShow: {
+		slidesPerView: {
 			description: 'Number of slides visible at once',
 			table: {
 				type: {
@@ -123,7 +134,7 @@ export default {
 			},
 			control: { type: 'number', min: 1, max: 8, step: 1 },
 		},
-		slidesToMove: {
+		slidesPerGroup: {
 			description: 'Number of slides to move on each navigation',
 			table: {
 				type: {
@@ -149,7 +160,15 @@ export default {
 			},
 			control: { type: 'number', min: 0, step: 10 },
 		},
-		alt: {
+		centerInsufficientSlides: {
+			description: 'Center slides when there are fewer slides than slidesPerView',
+			table: {
+				type: { summary: 'boolean' },
+				defaultValue: { summary: true },
+			},
+			control: { type: 'boolean' },
+		},
+		slideImageAlt: {
 			description: 'Provides default alt text for images, which will be appended with the image number for accessibility',
 			table: {
 				type: { summary: 'string' },
@@ -171,7 +190,7 @@ export default {
 			},
 			control: { type: 'text' },
 		},
-		gap: {
+		spaceBetween: {
 			description: 'Sets the spacing between slides in pixels',
 			table: {
 				type: { summary: 'number' },
@@ -203,8 +222,8 @@ Default.args = {
 export const AutoPlay = (args: SlideshowProps) => <Slideshow {...args} />;
 AutoPlay.args = {
 	slides: sampleImages,
-	slidesToShow: 3,
-	slidesToMove: 1,
+	slidesPerView: 3,
+	slidesPerGroup: 1,
 	autoPlay: true,
 	autoPlayInterval: 2000,
 };
@@ -212,16 +231,16 @@ AutoPlay.args = {
 export const NoLoop = (args: SlideshowProps) => <Slideshow {...args} />;
 NoLoop.args = {
 	slides: sampleImages,
-	slidesToShow: 2,
-	slidesToMove: 1,
+	slidesPerView: 2,
+	slidesPerGroup: 1,
 	loop: false,
 };
 
 export const NoNavigation = (args: SlideshowProps) => <Slideshow {...args} />;
 NoNavigation.args = {
 	slides: sampleImages,
-	slidesToShow: 3,
-	showNavigation: false,
+	slidesPerView: 3,
+	hideButtons: true,
 };
 
 export const ClickableSlides = (args: SlideshowProps) => <Slideshow {...args} />;
@@ -265,6 +284,6 @@ ClickableSlides.args = {
 			},
 		},
 	],
-	slidesToShow: 2,
-	slidesToMove: 1,
+	slidesPerView: 2,
+	slidesPerGroup: 1,
 };

@@ -108,7 +108,7 @@ describe('Slideshow Component', () => {
 				...defaultProps,
 				slides: imagesWithMissingSrc,
 				fallbackImage: 'fallback.jpg',
-				slidesToShow: 1,
+				slidesPerView: 1,
 				theme,
 			};
 
@@ -120,7 +120,7 @@ describe('Slideshow Component', () => {
 
 	describe('Slides Configuration', () => {
 		it('renders correct number of visible slides', () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 2 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -129,7 +129,7 @@ describe('Slideshow Component', () => {
 		});
 
 		it('handles single slide display', () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 1 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 1 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -137,11 +137,11 @@ describe('Slideshow Component', () => {
 			expect(images).toHaveLength(1);
 		});
 
-		it('shows all images when slidesToShow exceeds image count', () => {
+		it('shows all images when slidesPerView exceeds image count', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages.slice(0, 2),
-				slidesToShow: 5,
+				slidesPerView: 5,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -150,8 +150,8 @@ describe('Slideshow Component', () => {
 			expect(images).toHaveLength(2);
 		});
 
-		it('respects gap prop', () => {
-			const args: SlideshowProps = { ...defaultProps, gap: 20 };
+		it('respects spaceBetween prop', () => {
+			const args: SlideshowProps = { ...defaultProps, spaceBetween: 20 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -165,8 +165,8 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages,
-				slidesToShow: 2,
-				showNavigation: true,
+				slidesPerView: 2,
+				hideButtons: false,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -178,8 +178,8 @@ describe('Slideshow Component', () => {
 			expect(prevButton || nextButton).toBeTruthy();
 		});
 
-		it('hides navigation when showNavigation is false', () => {
-			const args: SlideshowProps = { ...defaultProps, showNavigation: false };
+		it('hides navigation when hideButtons is true', () => {
+			const args: SlideshowProps = { ...defaultProps, hideButtons: true };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -190,13 +190,48 @@ describe('Slideshow Component', () => {
 			expect(nextButton).not.toBeInTheDocument();
 		});
 
+		it('hides navigation buttons when slides count is below slidesPerView threshold', () => {
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages.slice(0, 2),
+				slidesPerView: 4,
+				hideButtons: false,
+			};
+
+			const rendered = render(<Slideshow {...args} />);
+
+			const prevButton = rendered.queryByLabelText(/previous/i);
+			const nextButton = rendered.queryByLabelText(/next/i);
+
+			expect(prevButton).not.toBeInTheDocument();
+			expect(nextButton).not.toBeInTheDocument();
+		});
+
+		it('shows navigation buttons when alwaysShowButtons is true even with few slides', () => {
+			const args: SlideshowProps = {
+				...defaultProps,
+				slides: mockImages.slice(0, 2),
+				slidesPerView: 4,
+				hideButtons: false,
+				alwaysShowButtons: true,
+			};
+
+			const rendered = render(<Slideshow {...args} />);
+
+			const prevButton = rendered.queryByLabelText(/previous/i);
+			const nextButton = rendered.queryByLabelText(/next/i);
+
+			// Should have navigation buttons even though there are fewer slides than slidesPerView
+			expect(prevButton || nextButton).toBeTruthy();
+		});
+
 		it('navigates to next slides on button click', async () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages,
-				slidesToShow: 2,
-				slidesToMove: 1,
-				showNavigation: true,
+				slidesPerView: 2,
+				slidesPerGroup: 1,
+				hideButtons: false,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -216,9 +251,9 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages,
-				slidesToShow: 2,
-				slidesToMove: 1,
-				showPagination: true,
+				slidesPerView: 2,
+				slidesPerGroup: 1,
+				pagination: true,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -229,8 +264,8 @@ describe('Slideshow Component', () => {
 			}
 		});
 
-		it('hides pagination when showPagination is false', () => {
-			const args: SlideshowProps = { ...defaultProps, showPagination: false };
+		it('hides pagination when pagination is false', () => {
+			const args: SlideshowProps = { ...defaultProps, pagination: false };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -241,7 +276,7 @@ describe('Slideshow Component', () => {
 
 	describe('Keyboard Navigation', () => {
 		it('slideshow is focusable', async () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 2 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -250,7 +285,7 @@ describe('Slideshow Component', () => {
 		});
 
 		it('handles keyboard events', async () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 2 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -267,7 +302,7 @@ describe('Slideshow Component', () => {
 
 	describe('Auto-play Functionality', () => {
 		it('does not auto-play by default', () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 2 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -284,7 +319,7 @@ describe('Slideshow Component', () => {
 				...defaultProps,
 				autoPlay: true,
 				autoPlayInterval: 1000,
-				slidesToShow: 2,
+				slidesPerView: 2,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -302,7 +337,7 @@ describe('Slideshow Component', () => {
 				...defaultProps,
 				autoPlay: true,
 				autoPlayInterval: 1000,
-				slidesToShow: 2,
+				slidesPerView: 2,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -332,7 +367,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: [clickableImage],
-				slidesToShow: 1,
+				slidesPerView: 1,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -350,7 +385,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mixedImages,
-				slidesToShow: 3,
+				slidesPerView: 3,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -365,7 +400,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockJSXImages,
-				slidesToShow: 2,
+				slidesPerView: 2,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -380,7 +415,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mixedContent,
-				slidesToShow: 3,
+				slidesPerView: 3,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -393,7 +428,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: [{ content: <div key="jsx">JSX Content</div> }],
-				slidesToShow: 1,
+				slidesPerView: 1,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -414,7 +449,7 @@ describe('Slideshow Component', () => {
 		});
 
 		it('sets proper ARIA attributes', () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 2 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -423,7 +458,7 @@ describe('Slideshow Component', () => {
 		});
 
 		it('sets tabIndex correctly for keyboard navigation', () => {
-			const args: SlideshowProps = { ...defaultProps, slidesToShow: 2 };
+			const args: SlideshowProps = { ...defaultProps, slidesPerView: 2 };
 
 			const rendered = render(<Slideshow {...args} />);
 
@@ -442,7 +477,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: imagesWithAlt,
-				slidesToShow: 2,
+				slidesPerView: 2,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -455,7 +490,7 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages.slice(0, 2),
-				slidesToShow: 2,
+				slidesPerView: 2,
 			};
 			const rendered = render(<Slideshow {...args} />);
 
@@ -467,33 +502,33 @@ describe('Slideshow Component', () => {
 		});
 	});
 
-	describe('Gap Property', () => {
-		it('applies default gap', () => {
+	describe('spaceBetween Property', () => {
+		it('applies default spaceBetween', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
-				slidesToShow: 3,
+				slidesPerView: 3,
 			};
 			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
 		});
 
-		it('applies custom gap value', () => {
+		it('applies custom spaceBetween value', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
-				gap: 25,
-				slidesToShow: 3,
+				spaceBetween: 25,
+				slidesPerView: 3,
 			};
 			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
 			expect(slideshow).toBeInTheDocument();
 		});
 
-		it('handles zero gap', () => {
+		it('handles zero spaceBetween', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
-				gap: 0,
-				slidesToShow: 3,
+				spaceBetween: 0,
+				slidesPerView: 3,
 			};
 			const rendered = render(<Slideshow {...args} />);
 			const slideshow = rendered.getByRole('region');
@@ -506,9 +541,9 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages.slice(0, 8), // 8 images
-				slidesToShow: 3,
-				slidesToMove: 2,
-				showPagination: true,
+				slidesPerView: 3,
+				slidesPerGroup: 2,
+				pagination: true,
 			};
 
 			const rendered = render(<Slideshow {...args} />);
@@ -524,9 +559,9 @@ describe('Slideshow Component', () => {
 			const args: SlideshowProps = {
 				...defaultProps,
 				slides: mockImages.slice(0, 6), // 6 images
-				slidesToShow: 2,
-				slidesToMove: 2,
-				showPagination: true,
+				slidesPerView: 2,
+				slidesPerGroup: 2,
+				pagination: true,
 			};
 
 			const rendered = render(<Slideshow {...args} />);

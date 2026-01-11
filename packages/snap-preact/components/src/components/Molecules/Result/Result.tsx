@@ -317,7 +317,13 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 					{!hideVariantSelections && (
 						<div className="ss__result__details__variant-selection">
 							{result.variants?.selections.map((selection) => {
-								return <VariantSelection selection={selection} />;
+								return (
+									<VariantSelection
+										type="swatches"
+										theme={{ components: { slideshow: { slidesPerView: 3, alwaysShowButtons: true } } }}
+										selection={selection}
+									/>
+								);
 							})}
 						</div>
 					)}

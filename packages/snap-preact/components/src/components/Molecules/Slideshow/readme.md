@@ -39,25 +39,25 @@ const slidesObjects = [
 <Slideshow slides={slidesObjects} />
 ```
 
-### slidesToShow
-The `slidesToShow` prop specifies the number of slides visible at once in the slideshow.
+### slidesPerView
+The `slidesPerView` prop specifies the number of slides visible at once in the slideshow.
 
 ```jsx
-<Slideshow slides={slidesArray} slidesToShow={4} />
+<Slideshow slides={slidesArray} slidesPerView={4} />
 ```
 
-### slidesToMove
-The `slidesToMove` prop specifies the number of slides to advance when using navigation controls.
+### slidesPerGroup
+The `slidesPerGroup` prop specifies the number of slides to advance when using navigation controls.
 
 ```jsx
-<Slideshow slides={slidesArray} slidesToMove={2} />
+<Slideshow slides={slidesArray} slidesPerGroup={2} />
 ```
 
-### gap
-The `gap` prop sets the spacing between slides in pixels.
+### spaceBetween
+The `spaceBetween` prop sets the spacing between slides in pixels.
 
 ```jsx
-<Slideshow slides={slidesArray} gap={20} />
+<Slideshow slides={slidesArray} spaceBetween={20} />
 ```
 
 ### autoPlay
@@ -74,25 +74,39 @@ The `autoPlayInterval` prop sets the time in milliseconds between automatic slid
 <Slideshow slides={slidesArray} autoPlay={true} autoPlayInterval={5000} />
 ```
 
-### showNavigation
-The `showNavigation` prop controls the visibility of previous/next navigation buttons.
+### hideButtons
+The `hideButtons` prop controls the visibility of previous/next navigation buttons.
 
 ```jsx
-<Slideshow slides={slidesArray} showNavigation={false} />
+<Slideshow slides={slidesArray} hideButtons={true} />
 ```
 
-### showPagination
-The `showPagination` prop controls the visibility of pagination dots at the bottom of the slideshow.
+### alwaysShowButtons
+The `alwaysShowButtons` prop ensures navigation buttons are always displayed and take up space, even when the number of slides is below the `slidesPerView` threshold. This is particularly useful when using the slideshow in a grid of product cards to maintain consistent layout and height across all cards.
 
 ```jsx
-<Slideshow slides={slidesArray} showPagination={false} />
+<Slideshow slides={slidesArray} alwaysShowButtons={true} slidesPerView={4} />
 ```
 
-### overlayNavigation
-The `overlayNavigation` prop controls if the previous/next navigation buttons should overlay the images or render outside of them. 
+### centerInsufficientSlides
+The `centerInsufficientSlides` prop centers slides when there are fewer slides than the `slidesPerView` setting. This is enabled by default.
 
 ```jsx
-<Slideshow slides={slidesArray} overlayNavigation={false} />
+<Slideshow slides={slidesArray} centerInsufficientSlides={true} />
+```
+
+### pagination
+The `pagination` prop controls the visibility of pagination dots at the bottom of the slideshow.
+
+```jsx
+<Slideshow slides={slidesArray} pagination={false} />
+```
+
+### overlayButtons
+The `overlayButtons` prop controls if the previous/next navigation buttons should overlay the images or render outside of them. 
+
+```jsx
+<Slideshow slides={slidesArray} overlayButtons={false} />
 ```
 
 ### touchDragging
@@ -123,11 +137,11 @@ The `fallbackImage` prop specifies a default image URL to display when an image 
 <Slideshow slides={slidesArray} fallbackImage="/path/to/default.jpg" />
 ```
 
-### alt
-The `alt` prop provides default alt text for images, which will be appended with the image number for accessibility.
+### slideImageAlt
+The `slideImageAlt` prop provides default alt text for images, which will be appended with the image number for accessibility.
 
 ```jsx
-<Slideshow slides={slidesArray} alt="Product image" />
+<Slideshow slides={slidesArray} slideImageAlt="Product image" />
 ```
 
 ### ariaLabel

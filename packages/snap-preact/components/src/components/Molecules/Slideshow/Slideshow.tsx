@@ -11,15 +11,23 @@ import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { LangAttributes } from '../../../hooks/useLang';
 
-const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16, overlayNavigation = false }) => {
+const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesPerView = 1, spaceBetween = 16 }) => {
 	return css({
-		position: 'relative',
-		overflow: 'hidden',
+		display: 'flex',
+		justifyContent: 'center',
+
+		'.ss__slideshow__wrapper': {
+			width: '100%',
+			position: 'relative',
+			display: 'flex',
+			alignItems: 'center',
+			overflow: 'hidden',
+		},
 
 		'.ss__slideshow__container': {
 			position: 'relative',
-			width: `calc(100% - ${overlayNavigation ? 0 : 60}px)`,
-			margin: 'auto',
+			width: '100%',
+			flex: 1,
 			overflow: 'hidden',
 			touchAction: 'pan-y pinch-zoom',
 		},
@@ -33,13 +41,18 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 			'&.ss__slideshow__track--dragging': {
 				transition: 'none',
 			},
+
+			// Center slides when there are fewer than slidesPerView
+			'&.ss__slideshow__track--centered': {
+				justifyContent: 'center',
+			},
 		},
 
 		'.ss__slideshow__slide': {
-			maxWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
-			minWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
-			marginLeft: `calc(${gap}px / 2)`,
-			marginRight: `calc(${gap}px / 2)`,
+			maxWidth: `calc((100% - ${slidesPerView * spaceBetween}px) / ${slidesPerView})`,
+			minWidth: `calc((100% - ${slidesPerView * spaceBetween}px) / ${slidesPerView})`,
+			marginLeft: `calc(${spaceBetween}px / 2)`,
+			marginRight: `calc(${spaceBetween}px / 2)`,
 			position: 'relative',
 			// Prevent text selection during drag
 			userSelect: 'none',
@@ -78,25 +91,34 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 			},
 		},
 
-		'.ss__slideshow__navigation': {
-			position: 'absolute',
-			top: '50%',
-			transform: 'translateY(-50%)',
-			zIndex: 10,
-
+		'.ss__slideshow__prev-wrapper, .ss__slideshow__next-wrapper': {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			'&.ss__slideshow__prev-wrapper--hidden, &.ss__slideshow__next-wrapper--hidden': {
+				display: 'none',
+			},
+			'&.ss__slideshow__prev-wrapper--overlay, &.ss__slideshow__next-wrapper--overlay': {
+				position: 'absolute',
+				top: '50%',
+				transform: 'translateY(-50%)',
+				zIndex: 10,
+			},
+		},
+		'.ss__slideshow__prev-wrapper--overlay': {
+			left: '10px',
+		},
+		'.ss__slideshow__next-wrapper--overlay': {
+			right: '10px',
+		},
+		'.ss__slideshow__prev, .ss__slideshow__next': {
 			'.ss__button': {
 				border: 'none',
-				borderRadius: '50%',
-				width: '10px',
+				background: 'none',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 				cursor: 'pointer',
-				transition: 'background 0.2s ease',
-
-				'&:hover': {
-					background: 'rgba(255, 255, 255, 1)',
-				},
 
 				'&:disabled': {
 					opacity: 0.5,
@@ -108,33 +130,29 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 					outlineOffset: '2px',
 				},
 			},
-
-			'&--prev': {
-				left: `${overlayNavigation ? 10 : 0}px`,
-			},
-
-			'&--next': {
-				right: `${overlayNavigation ? 10 : 0}px`,
-			},
 		},
 
 		'.ss__slideshow__pagination': {
 			position: 'relative',
-			margin: 'auto',
+			margin: '10px auto',
 			width: '100%',
-			textAlign: 'center',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			gap: '8px',
 
 			'.ss__slideshow__dot': {
-				width: '10px',
-				height: '10px',
+				width: '8px',
+				height: '8px',
 				borderRadius: '50%',
-				background: 'rgba(255, 255, 255, 0.5)',
+				background: '#000',
+				opacity: '.2',
 				border: 'none',
 				cursor: 'pointer',
-				transition: 'background 0.2s ease',
-
+				padding: 0,
 				'&.ss__active': {
-					background: 'rgba(255, 255, 255, 1)',
+					opacity: '0.8',
+					background: theme?.variables?.colors?.primary || '#000',
 				},
 				'&:focus-visible': {
 					outline: '-webkit-focus-ring-color auto 1px !important',
@@ -165,14 +183,16 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		fallbackImage: '//cdn.searchspring.net/ajax_search/img/default_image.png',
 		autoPlay: false,
 		autoPlayInterval: 3000,
-		showNavigation: true,
-		showPagination: true,
-		slidesToShow: 4,
-		slidesToMove: 1,
-		gap: 10,
+		hideButtons: false,
+		alwaysShowButtons: false,
+		pagination: true,
+		slidesPerView: 4,
+		slidesPerGroup: 1,
+		spaceBetween: 10,
 		ariaLabel: 'slideshow',
 		touchDragging: true,
 		dragThreshold: 50,
+		centerInsufficientSlides: true,
 	};
 
 	const props = mergeProps('slideshow', globalTheme, defaultProps, properties);
@@ -183,17 +203,19 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		fallbackImage,
 		autoPlay,
 		autoPlayInterval,
-		showNavigation,
-		showPagination,
+		hideButtons,
+		alwaysShowButtons,
+		pagination,
 		loop,
-		slidesToShow,
-		alt,
+		slidesPerView,
+		slideImageAlt,
 		ariaLabel,
 		ariaLabelledBy,
 		disableStyles,
 		treePath,
-		overlayNavigation,
+		overlayButtons,
 		dragThreshold,
+		centerInsufficientSlides,
 	} = props;
 
 	let touchDragging = props.touchDragging;
@@ -211,7 +233,6 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		},
 		NextButton: {
 			// default props
-			backgroundColor: overlayNavigation ? 'rgba(255, 255, 255, 0.9)' : undefined,
 			name: 'next',
 			// inherited props
 			...defined({
@@ -222,7 +243,6 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		},
 		PrevButton: {
 			// default props
-			backgroundColor: overlayNavigation ? 'rgba(255, 255, 255, 0.9)' : undefined,
 			name: 'prev',
 			// inherited props
 			...defined({
@@ -241,22 +261,12 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 			theme: props.theme,
 			treePath,
 		},
-		PaginationButton: {
-			// default props
-			name: 'pagination',
-			// inherited props
-			...defined({
-				disableStyles,
-			}),
-			theme: props.theme,
-			treePath,
-		},
 	};
 
-	//fallback in case 0 slidesToMove is passed
-	let slidesToMove = props.slidesToMove;
-	if (!slidesToMove) {
-		slidesToMove = 1;
+	//fallback in case 0 slidesPerGroup is passed
+	let slidesPerGroup = props.slidesPerGroup;
+	if (!slidesPerGroup) {
+		slidesPerGroup = 1;
 	}
 
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -296,23 +306,23 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	// slide calculations
 	const totalSlides = normalizedSlides.length;
-	const visibleSlides = Math.min(slidesToShow!, totalSlides);
+	const visibleSlides = Math.min(slidesPerView!, totalSlides);
 	const maxIndex = Math.max(0, totalSlides - visibleSlides);
 
 	// Calculate slide groups for pagination
 	const slideGroups: number[] = [];
-	for (let i = 0; i <= maxIndex; i += slidesToMove!) {
+	for (let i = 0; i <= maxIndex; i += slidesPerGroup!) {
 		slideGroups.push(i);
 	}
 	const totalDots = slideGroups.length;
-	const currentDotIndex = slideGroups.findIndex((groupStart) => currentIndex >= groupStart && currentIndex < groupStart + slidesToMove!);
+	const currentDotIndex = slideGroups.findIndex((groupStart) => currentIndex >= groupStart && currentIndex < groupStart + slidesPerGroup!);
 
 	// Auto-play functionality
 	useEffect(() => {
-		if (isPlaying && normalizedSlides.length > slidesToShow! && !isDragging) {
+		if (isPlaying && normalizedSlides.length > slidesPerView! && !isDragging) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
-					const nextIndex = prevIndex + slidesToMove!;
+					const nextIndex = prevIndex + slidesPerGroup!;
 					if (loop) {
 						return nextIndex > maxIndex ? 0 : nextIndex;
 					} else {
@@ -335,7 +345,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 				clearInterval(intervalRef.current);
 			}
 		}
-	}, [isPlaying, autoPlayInterval, normalizedSlides.length, slidesToShow, slidesToMove, loop, maxIndex, isDragging]);
+	}, [isPlaying, autoPlayInterval, normalizedSlides.length, slidesPerView, slidesPerGroup, loop, maxIndex, isDragging]);
 
 	// if all slides are visible, turn off touch dragging.
 	if (totalSlides <= visibleSlides) {
@@ -386,10 +396,10 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		setDragOffset(0);
 
 		// Resume autoplay if it was playing
-		if (isPlaying && normalizedSlides.length > slidesToShow!) {
+		if (isPlaying && normalizedSlides.length > slidesPerView!) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
-					const nextIndex = prevIndex + slidesToMove!;
+					const nextIndex = prevIndex + slidesPerGroup!;
 					if (loop) {
 						return nextIndex > maxIndex ? 0 : nextIndex;
 					} else {
@@ -429,10 +439,10 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	};
 
 	const handleMouseLeave = () => {
-		if (isPlaying && normalizedSlides.length > slidesToShow! && !isDragging) {
+		if (isPlaying && normalizedSlides.length > slidesPerView! && !isDragging) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
-					const nextIndex = prevIndex + slidesToMove!;
+					const nextIndex = prevIndex + slidesPerGroup!;
 					if (loop) {
 						return nextIndex > maxIndex ? 0 : nextIndex;
 					} else {
@@ -497,9 +507,9 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		setCurrentIndex((prevIndex) => {
 			let newIndex;
 			if (loop) {
-				newIndex = prevIndex - slidesToMove! < 0 ? maxIndex : prevIndex - slidesToMove!;
+				newIndex = prevIndex - slidesPerGroup! < 0 ? maxIndex : prevIndex - slidesPerGroup!;
 			} else {
-				newIndex = Math.max(0, prevIndex - slidesToMove!);
+				newIndex = Math.max(0, prevIndex - slidesPerGroup!);
 			}
 			return newIndex;
 		});
@@ -509,9 +519,9 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		setCurrentIndex((prevIndex) => {
 			let newIndex;
 			if (loop) {
-				newIndex = prevIndex + slidesToMove! > maxIndex ? 0 : prevIndex + slidesToMove!;
+				newIndex = prevIndex + slidesPerGroup! > maxIndex ? 0 : prevIndex + slidesPerGroup!;
 			} else {
-				newIndex = Math.min(maxIndex, prevIndex + slidesToMove!);
+				newIndex = Math.min(maxIndex, prevIndex + slidesPerGroup!);
 			}
 			return newIndex;
 		});
@@ -602,150 +612,155 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 				<div className="ss__slideshow__sr-only" {...mergedLang.srInstructions.all}></div>
 				{/* END Screen reader announcements */}
 
-				<div className="ss__slideshow__container">
-					<div
-						ref={trackRef}
-						className={classnames('ss__slideshow__track', {
-							'ss__slideshow__track--dragging': isDragging,
-						})}
-						style={{ transform: `translateX(${translateX}%)` }}
-						role="group"
-						aria-label={`Slide group ${currentIndex} of ${totalDots}`}
-						// Touch events
-						// @ts-ignore - touch events
-						onTouchStart={touchDragging ? (event) => handleDragStart(event.touches[0]) : undefined}
-						// @ts-ignore - touch events
-						onTouchMove={
-							touchDragging
-								? (event: TouchEvent) => {
-										if (isDragging) {
-											event.preventDefault(); // Prevent scrolling while dragging
-										}
-										const touch = event.touches[0];
-										handleDragMove(touch.clientX);
-								  }
-								: undefined
-						}
-						onTouchEnd={touchDragging ? handleDragEnd : undefined}
-						// Mouse events (for desktop dragging)
-						// @ts-ignore - mouse events
-						onMouseDown={
-							touchDragging
-								? (event: MouseEvent) => {
-										event.preventDefault();
-										handleDragStart(event.clientX);
-								  }
-								: undefined
-						}
-						// Mouse events (for desktop dragging)
-						// @ts-ignore - mouse events
-						onMouseUp={touchDragging ? handleDragEnd : undefined}
-						// Mouse events (for desktop dragging)
-						// @ts-ignore - mouse events
-						onMouseMove={touchDragging ? handleMouseMove : undefined}
-					>
-						{normalizedSlides.map((slide, index) => {
-							const isVisible = index >= currentIndex && index < currentIndex + slidesToShow!;
-							const hasClickHandler = !!slide.onClick;
-							const hasContent = !!slide.content;
-							const imageAlt = slide.alt || alt || `Image ${index + 1}`;
+				<div className="ss__slideshow__wrapper">
+					{!hideButtons && (alwaysShowButtons || normalizedSlides.length > slidesPerView!) && (
+						<div
+							className={classnames('ss__slideshow__prev-wrapper', {
+								'ss__slideshow__prev-wrapper--hidden': hideButtons,
+								'ss__slideshow__prev-wrapper--overlay': overlayButtons,
+							})}
+						>
+							<div className="ss__slideshow__prev">
+								<Button icon="angle-left" disabled={isPrevDisabled} {...mergedLang.prevButton.all} {...subProps.PrevButton} onClick={goToPrevious} />
+							</div>
+						</div>
+					)}
 
-							const defaultLang: Partial<SlideshowLang> = {
-								slide: {
-									attributes: {
-										'aria-label': hasClickHandler ? `Click to view ${imageAlt}` : `${imageAlt} ${index + 1} of ${normalizedSlides.length}`,
+					<div className="ss__slideshow__container">
+						<div
+							ref={trackRef}
+							className={classnames('ss__slideshow__track', {
+								'ss__slideshow__track--dragging': isDragging,
+								'ss__slideshow__track--centered': centerInsufficientSlides && totalSlides <= slidesPerView!,
+							})}
+							style={{ transform: `translateX(${translateX}%)` }}
+							role="group"
+							aria-label={`Slide group ${currentIndex + 1} of ${totalDots}`}
+							// Touch events
+							// @ts-ignore - touch events
+							onTouchStart={touchDragging ? (event) => handleDragStart(event.touches[0]) : undefined}
+							// @ts-ignore - touch events
+							onTouchMove={
+								touchDragging
+									? (event: TouchEvent) => {
+											if (isDragging) {
+												event.preventDefault(); // Prevent scrolling while dragging
+											}
+											const touch = event.touches[0];
+											handleDragMove(touch.clientX);
+									  }
+									: undefined
+							}
+							onTouchEnd={touchDragging ? handleDragEnd : undefined}
+							// Mouse events (for desktop dragging)
+							// @ts-ignore - mouse events
+							onMouseDown={
+								touchDragging
+									? (event: MouseEvent) => {
+											event.preventDefault();
+											handleDragStart(event.clientX);
+									  }
+									: undefined
+							}
+							// Mouse events (for desktop dragging)
+							// @ts-ignore - mouse events
+							onMouseUp={touchDragging ? handleDragEnd : undefined}
+							// Mouse events (for desktop dragging)
+							// @ts-ignore - mouse events
+							onMouseMove={touchDragging ? handleMouseMove : undefined}
+						>
+							{normalizedSlides.map((slide, index) => {
+								const isVisible = index >= currentIndex && index < currentIndex + slidesPerView!;
+								const hasClickHandler = !!slide.onClick;
+								const hasContent = !!slide.content;
+								const imageAlt = slide.alt || slideImageAlt || `Image ${index + 1}`;
+
+								const defaultLang: Partial<SlideshowLang> = {
+									slide: {
+										attributes: {
+											'aria-label': hasClickHandler ? `Click to view ${imageAlt}` : `${imageAlt} ${index + 1} of ${normalizedSlides.length}`,
+										},
 									},
-								},
-							};
+								};
 
-							//deep merge with props.lang
-							const slideLang = deepmerge(defaultLang, props.lang || {});
-							const slideLangObj = useLang(slideLang as any, {
-								hasClickHandler,
-								imageAlt,
-								index,
-								slidesLength: normalizedSlides.length,
-							});
+								//deep merge with props.lang
+								const slideLang = deepmerge(defaultLang, props.lang || {});
+								const slideLangObj = useLang(slideLang as any, {
+									hasClickHandler,
+									imageAlt,
+									index,
+									slidesLength: normalizedSlides.length,
+								});
 
-							return (
-								<div
-									key={index}
-									{...slideLangObj.slide.all}
-									className={classnames('ss__slideshow__slide', {
-										'ss__slideshow__slide--clickable': hasClickHandler,
-										'ss__slideshow__slide--content': hasContent,
-									})}
-									role={hasClickHandler ? 'button' : hasContent ? 'presentation' : 'img'}
-									aria-hidden={!isVisible}
-									tabIndex={hasClickHandler && isVisible ? 0 : -1}
-									onClick={hasClickHandler ? () => handleSlideClick(slide, index) : undefined}
-									onKeyDown={hasClickHandler ? (e: any) => handleSlideKeyDown(e, slide, index) : undefined}
-								>
-									{hasContent ? slide.content : <Image {...subProps.Image} src={slide.src || fallbackImage!} alt={isVisible ? imageAlt : ''} />}
-								</div>
-							);
-						})}
+								return (
+									<div
+										key={index}
+										{...slideLangObj.slide.all}
+										className={classnames('ss__slideshow__slide', {
+											'ss__slideshow__slide--clickable': hasClickHandler,
+											'ss__slideshow__slide--content': hasContent,
+										})}
+										role={hasClickHandler ? 'button' : hasContent ? 'presentation' : 'img'}
+										aria-hidden={!isVisible}
+										tabIndex={hasClickHandler && isVisible ? 0 : -1}
+										onClick={hasClickHandler ? () => handleSlideClick(slide, index) : undefined}
+										onKeyDown={hasClickHandler ? (e: any) => handleSlideKeyDown(e, slide, index) : undefined}
+									>
+										{hasContent ? slide.content : <Image {...subProps.Image} src={slide.src || fallbackImage!} alt={isVisible ? imageAlt : ''} />}
+									</div>
+								);
+							})}
+						</div>
+
+						{pagination && totalSlides > visibleSlides && (
+							<div className="ss__slideshow__pagination" role="tablist" aria-label="Slide navigation">
+								{slideGroups.map((_, index: number) => {
+									const defaultLang: Partial<SlideshowLang> = {
+										paginationButton: {
+											attributes: {
+												'aria-label': `Go to slide group ${index + 1} of ${totalDots}`,
+											},
+										},
+									};
+
+									//deep merge with props.lang
+									const paginationLang = deepmerge(defaultLang, props.lang || {});
+									const paginationLangObj = useLang(paginationLang as any, {
+										index,
+										totalDots,
+									});
+									return (
+										<button
+											key={index}
+											className={classnames('ss__slideshow__dot', {
+												ss__active: currentDotIndex === index,
+											})}
+											onClick={() => goToSlide(index)}
+											aria-selected={currentDotIndex === index}
+											role="tab"
+											{...paginationLangObj.paginationButton.all}
+										>
+											<span className="ss__slideshow__dot-inner" />
+										</button>
+									);
+								})}
+							</div>
+						)}
 					</div>
+
+					{!hideButtons && (alwaysShowButtons || normalizedSlides.length > slidesPerView!) && (
+						<div
+							className={classnames('ss__slideshow__next-wrapper', {
+								'ss__slideshow__next-wrapper--hidden': hideButtons,
+								'ss__slideshow__next-wrapper--overlay': overlayButtons,
+							})}
+						>
+							<div className="ss__slideshow__next">
+								<Button icon="angle-right" disabled={isNextDisabled} {...mergedLang.nextButton.all} {...subProps.NextButton} onClick={goToNext} />
+							</div>
+						</div>
+					)}
 				</div>
-
-				{showNavigation && normalizedSlides.length > slidesToShow! && (
-					<>
-						<div className="ss__slideshow__navigation ss__slideshow__navigation--prev">
-							<Button
-								icon="angle-left"
-								className={'ss__slideshow__prev'}
-								disabled={isPrevDisabled}
-								{...mergedLang.prevButton.all}
-								{...subProps.PrevButton}
-								onClick={goToPrevious}
-							/>
-						</div>
-						<div className="ss__slideshow__navigation ss__slideshow__navigation--next">
-							<Button
-								className={'ss__slideshow__next'}
-								icon="angle-right"
-								disabled={isNextDisabled}
-								{...mergedLang.nextButton.all}
-								{...subProps.NextButton}
-								onClick={goToNext}
-							/>
-						</div>
-					</>
-				)}
-
-				{showPagination && totalSlides > visibleSlides && (
-					<div className="ss__slideshow__pagination" role="tablist" aria-label="Slide navigation">
-						{slideGroups.map((_, index: number) => {
-							const defaultLang: Partial<SlideshowLang> = {
-								paginationButton: {
-									attributes: {
-										'aria-label': `Go to slide group ${index + 1} of ${totalDots}`,
-									},
-								},
-							};
-
-							//deep merge with props.lang
-							const paginationLang = deepmerge(defaultLang, props.lang || {});
-							const paginationLangObj = useLang(paginationLang as any, {
-								index,
-								totalDots,
-							});
-							return (
-								<Button
-									key={index}
-									className={classnames('ss__slideshow__dot', {
-										ss__active: currentDotIndex === index,
-									})}
-									onClick={() => goToSlide(index)}
-									aria-selected={currentDotIndex === index}
-									icon={currentDotIndex === index ? 'bullet-o' : 'bullet'}
-									{...paginationLangObj.paginationButton.all}
-									{...subProps.PaginationButton}
-								/>
-							);
-						})}
-					</div>
-				)}
 
 				{autoPlay && (
 					<Button className="ss__slideshow__sr-only" {...subProps.PauseButton} onClick={togglePlayPause} {...mergedLang.pauseButton.all} />
@@ -798,18 +813,20 @@ export interface SlideshowProps extends ComponentProps {
 	fallbackImage?: string;
 	autoPlay?: boolean;
 	autoPlayInterval?: number;
-	showNavigation?: boolean;
-	overlayNavigation?: boolean;
-	showPagination?: boolean;
+	hideButtons?: boolean;
+	alwaysShowButtons?: boolean;
+	overlayButtons?: boolean;
+	pagination?: boolean;
 	loop?: boolean;
-	slidesToShow?: number;
-	slidesToMove?: number;
-	gap?: number;
-	alt?: string;
+	slidesPerView?: number;
+	slidesPerGroup?: number;
+	spaceBetween?: number;
+	slideImageAlt?: string;
 	ariaLabel?: string;
 	ariaLabelledBy?: string;
 	touchDragging?: boolean;
 	dragThreshold?: number;
+	centerInsufficientSlides?: boolean;
 	lang?: Partial<SlideshowLang>;
 }
 
@@ -817,6 +834,5 @@ interface SlideshowSubProps {
 	Image: Partial<ImageProps>;
 	PrevButton: Partial<ButtonProps>;
 	NextButton: Partial<ButtonProps>;
-	PaginationButton: Partial<ButtonProps>;
 	PauseButton: Partial<ButtonProps>;
 }

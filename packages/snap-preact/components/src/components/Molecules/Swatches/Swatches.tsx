@@ -125,11 +125,11 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 			// default props
 			internalClassName: 'ss__swatches__slideshow',
 			loop: false,
-			slidesToShow: 6, // Add explicit slidesToShow
-			slidesToMove: 1, // Add explicit slidesToMove
-			gap: 8, // Add smaller gap
-			showNavigation: true, // Enable navigation
-			showPagination: false, // Disable pagination for swatches
+			slidesPerView: 6, // Add explicit slidesPerView
+			slidesPerGroup: 1, // Add explicit slidesPerGroup
+			spaceBetween: 8, // Add smaller gap
+			hideButtons: false, // Enable navigation
+			pagination: false, // Disable pagination for swatches
 			autoPlay: false, // Disable autoplay
 			...slideshow,
 			// inherited props
