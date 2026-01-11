@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import { Carousel, CarouselProps } from '../../Molecules/Carousel';
 import { ChatResult } from './ChatResult';
-import { MessageProps } from './Chat';
+import { ChatController } from '@searchspring/snap-controller';
 
-export const ResultsDisplay = observer((props: MessageProps) => {
+export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 	const { chatItem, controller, scrollToBottom } = props;
 	const carouselProps: Partial<CarouselProps> = {
 		breakpoints: undefined,
@@ -24,3 +24,9 @@ export const ResultsDisplay = observer((props: MessageProps) => {
 		</div>
 	) : null;
 });
+
+export interface ResultsDisplayProps {
+	chatItem: any;
+	controller: ChatController;
+	scrollToBottom: () => void;
+}

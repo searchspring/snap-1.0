@@ -121,18 +121,16 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 
 	public sendProductQuery(result: any): void {
 		this.currentChat && (this.currentChat.actions = []);
-		const productAttachment = this.currentChat?.attachments.add<ChatAttachmentProduct>({
+		this.currentChat?.attachments.add<ChatAttachmentProduct>({
 			type: 'product',
 			productId: result.id,
 			name: result.mappings.core?.name,
 			thumbnailUrl: result.mappings.core?.thumbnailImageUrl || result.mappings.core?.imageUrl,
 		});
-		productAttachment?.update();
 	}
 
-	public sendFacet(facet: any): void {
-		this.currentChat?.attachments.reset();
-		const filterAttachment = this.currentChat?.attachments.add<ChatAttachmentFacet>({
+	public addFacet(facet: any): void {
+		this.currentChat?.attachments.add<ChatAttachmentFacet>({
 			type: 'facet',
 			key: facet.key,
 			facetLabel: facet.facetLabel,
@@ -140,11 +138,16 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			label: facet.label,
 			count: facet.count,
 		});
-		filterAttachment?.update();
 	}
 
 	public request(request: ChatRequestModel): void {
 		this.currentChat?.request(request);
+
+		// remove any facet attachments after request
+		const facetAttachments = this.currentChat?.attachments.attached.filter((item) => item.type === 'facet') || [];
+		facetAttachments.forEach((item) => {
+			this.currentChat?.attachments.remove(item.id);
+		});
 	}
 
 	public update(data: { chat: ChatResponseModel; meta: MetaResponseModel }): void {

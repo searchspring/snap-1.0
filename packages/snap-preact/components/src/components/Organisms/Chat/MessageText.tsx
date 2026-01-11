@@ -1,29 +1,31 @@
 import { observer } from 'mobx-react-lite';
 import { Icon } from '../../Atoms/Icon';
 import { ResultsDisplay } from './ResultsDisplay';
-import { MessageProps } from './Chat';
 import { marked } from 'marked';
+import { ChatController } from '@searchspring/snap-controller';
 // import { Button } from '../../..';
 
-export const MessageText = observer((props: MessageProps) => {
+export const MessageText = observer((props: MessageTextProps) => {
 	const { controller, chatItem, scrollToBottom } = props;
+
+	const feedbackEntry = controller.store.currentChat?.feedbacks.find((fb) => fb.messageId === chatItem.id);
 
 	return (
 		<div className="ss__chat__message-text">
 			<div className="ss__chat__message-text__text-wrapper">
 				<div className="ss__chat__message-text__text-wrapper__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
 			</div>
-			{chatItem.collectFeedback ? (
+			{chatItem?.collectFeedback ? (
 				<div className="ss__chat__message-text__text-wrapper__feedback">
 					<span onClick={() => controller.feedback(chatItem, 'UP')}>
-						<Icon icon="thumbs-up" color={controller.store.currentChat?.feedbacks[chatItem.id] === 'UP' ? '#000' : '#aaa'} />
+						<Icon icon="thumbs-up" color={feedbackEntry?.rating === 'UP' ? '#000' : '#aaa'} />
 					</span>
 					<span onClick={() => controller.feedback(chatItem, 'DOWN')}>
-						<Icon icon="thumbs-down" color={controller.store.currentChat?.feedbacks[chatItem.id] === 'DOWN' ? '#000' : '#aaa'} />
+						<Icon icon="thumbs-down" color={feedbackEntry?.rating === 'DOWN' ? '#000' : '#aaa'} />
 					</span>
 				</div>
 			) : null}
-			<ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />
+			{chatItem && <ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />}
 			{/* <FacetsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} /> */}
 		</div>
 	);
@@ -63,3 +65,9 @@ export const MessageText = observer((props: MessageProps) => {
 // 		</div>
 // 	);
 // });
+
+export interface MessageTextProps {
+	chatItem: any;
+	controller: ChatController;
+	scrollToBottom: () => void;
+}

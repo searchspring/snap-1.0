@@ -127,13 +127,15 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				marginBottom: '30px',
 				'.ss__chat__message-user': {
 					display: 'flex',
-					flexDirection: 'column',
+					flexDirection: 'row',
 					justifyContent: 'flex-end',
+					alignItems: 'center',
 					marginLeft: '40px',
+					gap: '10px',
 					'.ss__chat__message-user__text': {
 						padding: '1em',
 						borderRadius: '1em',
-						backgroundColor: 'rgba(0, 174, 239, 0.2)',
+						backgroundColor: '#00aeef33',
 						alignSelf: 'flex-end',
 					},
 					'.ss__chat__message-user__attachments': {
@@ -142,9 +144,26 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 						margin: 0,
 						display: 'flex',
 						gap: '8px',
-						flexWrap: 'wrap',
+						flexWrap: 'nowrap',
 						justifyContent: 'flex-end',
-						'.ss__chat__message-user__attachment__image': {},
+						'.ss__chat__message-user__attachment__product, .ss__chat__message-user__attachment__image, .ss__chat__message-user__attachment__facet': {
+							width: '40px',
+							height: '40px',
+							borderRadius: '50%',
+							border: '2px solid #00aeef33',
+							overflow: 'hidden',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							'.ss__image': {
+								aspectRatio: '1 / 1',
+								width: '100%',
+								height: '100%',
+							},
+							'.ss__icon': {
+								display: 'flex',
+							},
+						},
 					},
 				},
 
@@ -152,12 +171,12 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'flex-start',
+					gap: '5px',
 					'.ss__chat__message-text__text-wrapper': {
 						display: 'flex',
 						flexDirection: 'row',
 						justifyContent: 'flex-start',
 						'.ss__chat__message-text__text-wrapper__text': {
-							padding: '1em',
 							alignSelf: 'flex-end',
 						},
 					},
@@ -165,7 +184,6 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 						display: 'flex',
 						alignItems: 'flex-end',
 						gap: '10px',
-						margin: '0 10px',
 						svg: {
 							cursor: 'pointer',
 						},
@@ -173,6 +191,9 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					'.ss__chat__message-text__results': {
 						marginTop: '12px',
 						'.ss__chat__message-text__results__result': {
+							'.ss__image': {
+								aspectRatio: '1 / 1',
+							},
 							'.ss__chat__result__detail-slot': {
 								display: 'flex',
 								flexDirection: 'column',
@@ -209,7 +230,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		},
 		'.ss__chat__actions': {},
 		'.ss__chat__loading': {
-			padding: '12px 0',
+			padding: '1em',
 			display: 'flex',
 			alignItems: 'center',
 			gap: '8px',
@@ -246,7 +267,6 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		'.ss__chat__attachments': {
 			display: 'flex',
 			gap: '8px',
-			margin: '8px 0',
 			flexWrap: 'wrap',
 			'.ss__chat__attachment': {
 				position: 'relative',
@@ -343,6 +363,9 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		'.ss__chat__footer': {
 			borderTop: '1px solid #ddd',
 			padding: '1em',
+			display: 'flex',
+			flexDirection: 'column',
+			gap: '8px',
 
 			'.ss__chat__suggestions': {
 				display: 'flex',
@@ -356,7 +379,6 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			display: 'flex',
 			gap: '8px',
 			alignItems: 'center',
-			paddingTop: '10px',
 			'input[type="text"]': {
 				flex: '1 1 auto',
 				boxSizing: 'border-box',
@@ -544,6 +566,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											inspirationResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 											productAnswer: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 											productComparison: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											productRecommendation: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 										}[chatItem.messageType] || <Fragment></Fragment>}
 									</div>
 								))}
@@ -576,7 +599,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																			<Button
 																				key={option.key}
 																				onClick={() => {
-																					controller.store.sendFacet({
+																					controller.store.addFacet({
 																						key: act.key,
 																						facetLabel: act.label,
 																						value: option.key,
@@ -623,13 +646,13 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											))}
 										</div>
 									)}
-									{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 ? (
+									{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 && (
 										<div className={'ss__chat__attachments'}>
 											{store.currentChat?.attachments.attached.map((item) => (
 												<Attachment key={item.id} attachment={item} controller={controller} />
 											))}
 										</div>
-									) : null}
+									)}
 									<div className={'ss__chat__input'}>
 										<input
 											type="text"
@@ -680,10 +703,4 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 
 export interface ChatProps extends ComponentProps {
 	controller: ChatController;
-}
-
-export interface MessageProps {
-	chatItem: any;
-	controller: ChatController;
-	scrollToBottom: () => void;
 }

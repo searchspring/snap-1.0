@@ -5,6 +5,7 @@ import { ChatAttachmentFacet, ChatAttachmentImage, ChatAttachmentProduct } from 
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
 import classnames from 'classnames';
+
 export const Attachment = observer((properties: AttachmentProps): JSX.Element => {
 	const { attachment, controller } = properties;
 
@@ -62,7 +63,12 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 				<div className={'ss__chat__attachment__content'}>
 					{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
 				</div>
-				<div className={'ss__chat__attachment__info'}>{name}</div>
+				<div
+					className={'ss__chat__attachment__info'}
+					dangerouslySetInnerHTML={{
+						__html: name || '',
+					}}
+				/>
 				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
 					×
 				</div>

@@ -23,6 +23,10 @@ export const ChatResult = observer((properties: ChatResultProps): JSX.Element =>
 
 	const { controller, result, scrollToBottom } = props;
 
+	const shouldCompare = controller.store.currentChat?.attachments.items.some(
+		(attachment) => attachment.type === 'product' && attachment.state === 'active' && (attachment as any).productId !== result.id
+	);
+
 	const subProps: ChatResultSubProps = {
 		button: {
 			// component theme overrides
@@ -47,17 +51,17 @@ export const ChatResult = observer((properties: ChatResultProps): JSX.Element =>
 				<Button
 					className={'ss__chat__result__detail-slot__more-info-button'}
 					onClick={() => {
-						controller.store.setQuickViewResult(result);
+						controller.viewProduct(result);
 					}}
 				>
 					More Info
 				</Button>
 				<Button
 					onClick={() => {
-						controller.store.sendProductQuery(result);
+						controller.discussProduct(result);
 					}}
 				>
-					Discuss
+					{shouldCompare ? 'Compare' : 'Discuss'}
 				</Button>
 			</div>
 		</div>

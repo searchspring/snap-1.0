@@ -184,7 +184,8 @@ export class ChatController extends AbstractController {
 
 	feedback = async (chatItem: ChatMessage, thumbs: 'UP' | 'DOWN', reason?: string) => {
 		try {
-			if (this.store.currentChat?.feedbacks[chatItem.id] === thumbs) {
+			const existingFeedback = this.store.currentChat?.feedbacks.find((fb) => fb.messageId === chatItem.id);
+			if (existingFeedback?.rating === thumbs) {
 				return;
 			}
 			const { userId, shopperId } = this.tracker.getContext();
@@ -200,8 +201,12 @@ export class ChatController extends AbstractController {
 					reason,
 				},
 			};
-			const response = await this.client.chatFeedback(params);
-			this.store.feedback({ response, request: params });
+			await this.client.chatFeedback(params);
+			if (existingFeedback) {
+				existingFeedback.rating = thumbs;
+			} else {
+				this.store.currentChat?.feedbacks.push({ messageId: chatItem.id, rating: thumbs });
+			}
 		} catch (err) {
 			this.log.error('Feedback Error:', err);
 		}
@@ -247,6 +252,20 @@ export class ChatController extends AbstractController {
 					});
 				}
 			}
+		}
+	};
+
+	viewProduct = (result: Product): void => {
+		this.store.setQuickViewResult(result);
+	};
+
+	discussProduct = (result: Product): void => {
+		this.store.sendProductQuery(result);
+
+		// focus the input
+		const input = document.querySelector('.ss__chat__footer input[type="text"]') as HTMLInputElement;
+		if (input) {
+			input.focus();
 		}
 	};
 

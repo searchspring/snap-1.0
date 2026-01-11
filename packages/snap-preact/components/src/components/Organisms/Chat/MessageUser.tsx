@@ -2,6 +2,7 @@ import { ChatController } from '@searchspring/snap-controller';
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
 import { marked } from 'marked';
+import { Icon } from '../../Atoms/Icon';
 
 export const MessageUser = observer((props: MessageUserProps) => {
 	const { controller, chatItem } = props;
@@ -23,15 +24,16 @@ export const MessageUser = observer((props: MessageUserProps) => {
 									return (
 										<li className="ss__chat__message-user__attachment__product" key={attachment.id}>
 											<Image style={{ height: '200px', width: '200px' }} src={attachment.thumbnailUrl || ''} alt={attachment.name}></Image>
-											<div className="ss__chat__message-user__attachment__product__name">{attachment.name}</div>
+											{/* <div className="ss__chat__message-user__attachment__product__name">{attachment.name}</div> */}
 										</li>
 									);
 								case 'facet':
 									return (
 										<li className="ss__chat__message-user__attachment__facet" key={attachment.id}>
-											<div className="ss__chat__message-user__attachment__facet_name">
+											<Icon title={`Filter: ${attachment.facetLabel} = ${attachment.label}`} icon="filter-funnel" size={27} />
+											{/* <div className="ss__chat__message-user__attachment__facet_name">
 												Filter: {attachment.facetLabel} = {attachment.label}
-											</div>
+											</div> */}
 										</li>
 									);
 								default:

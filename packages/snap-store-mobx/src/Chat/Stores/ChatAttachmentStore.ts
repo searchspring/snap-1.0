@@ -28,60 +28,56 @@ export class ChatAttachmentStore {
 		// TODO: check if attachment already exists
 		switch (attachment.type) {
 			case 'image': {
-				const newAttachment = new ChatAttachmentImage(attachment);
-
-				const attachmentsToRemove = this.items.filter((item) => item.type !== 'image');
-				attachmentsToRemove.forEach((item) => {
+				// if there are currently any other attachments remove them
+				this.items.forEach((item) => {
 					this.remove(item.id);
 				});
 
-				// if there is already an image attachment, remove it
-				const existingImageAttachment = this.items.find((item) => item.type === 'image');
-				if (existingImageAttachment) {
-					this.remove(existingImageAttachment.id);
-				}
-
+				const newAttachment = new ChatAttachmentImage(attachment);
 				this.items.push(newAttachment);
+
 				return newAttachment as T;
 			}
 			case 'product': {
+				// if there are currently any other attachments remove them
+				this.items.forEach((item) => {
+					if (item.type !== 'product') {
+						this.remove(item.id);
+					}
+				});
+
 				// check if product is already attached
 				const existingProductAttachment = this.items.find(
-					(item) => item.type === 'product' && (item as ChatAttachmentProduct).productId === attachment.productId
+					(item) => item.type === 'product' && item.state === 'active' && (item as ChatAttachmentProduct).productId === attachment.productId
 				);
+
 				if (existingProductAttachment) {
+					existingProductAttachment.activate();
 					return existingProductAttachment as T;
+				} else {
+					// if there are already two product attachments, remove until only one remains
+					const productAttachments = this.items.filter((item) => item.type === 'product' && item.state === 'active');
+					while (productAttachments.length >= 2) {
+						const toRemove = productAttachments.shift();
+						if (toRemove) {
+							this.remove(toRemove.id);
+						}
+					}
 				}
 
 				const newAttachment = new ChatAttachmentProduct(attachment);
-				this.items.push(newAttachment);
-
-				// if there are currently image attachments remove them
-				const attachmentsToRemove = this.items.filter((item) => item.type !== 'product');
-				attachmentsToRemove.forEach((item) => {
-					this.remove(item.id);
-				});
+				this.items.unshift(newAttachment);
 
 				return newAttachment as T;
 			}
 			case 'facet': {
-				// check if product is already attached
-				const existingFacetAttachment = this.items.find(
-					(item) =>
-						item.type === 'facet' && (item as ChatAttachmentFacet).key === attachment.key && (item as ChatAttachmentFacet).value === attachment.value
-				);
-				if (existingFacetAttachment) {
-					return existingFacetAttachment as T;
-				}
+				// if there are currently any other attachments remove them
+				this.items.forEach((item) => {
+					this.remove(item.id);
+				});
 
 				const newAttachment = new ChatAttachmentFacet(attachment);
 				this.items.push(newAttachment);
-
-				// if there are currently facet attachments remove them
-				const attachmentsToRemove = this.items.filter((item) => item.type !== 'facet');
-				attachmentsToRemove.forEach((item) => {
-					this.remove(item.id);
-				});
 
 				return newAttachment as T;
 			}
@@ -92,7 +88,7 @@ export class ChatAttachmentStore {
 		const index = this.items.findIndex((item) => item.id === id);
 		const attachment = this.items[index];
 
-		if (attachment.state === 'active') {
+		if (attachment.state === 'active' || attachment.state === 'saved') {
 			attachment.save();
 		} else {
 			if (index !== -1) {
@@ -138,8 +134,6 @@ abstract class ChatAttachment {
 	activate() {
 		this.state = 'active';
 	}
-
-	abstract update(params: unknown): void;
 }
 
 type ChatAttachmentImageConfig = {
@@ -182,6 +176,7 @@ export class ChatAttachmentProduct extends ChatAttachment {
 
 	constructor({ id, productId, thumbnailUrl, name, state, error }: ChatAttachmentProductConfig) {
 		super({ data: { id, state, error } });
+		this.activate();
 
 		this.productId = productId;
 		this.thumbnailUrl = thumbnailUrl;
@@ -194,10 +189,6 @@ export class ChatAttachmentProduct extends ChatAttachment {
 			name: observable,
 		});
 	}
-
-	update = async (): Promise<void> => {
-		this.state = 'attached';
-	};
 }
 export class ChatAttachmentFacet extends ChatAttachment {
 	public type: 'facet' | never = 'facet';
@@ -209,6 +200,7 @@ export class ChatAttachmentFacet extends ChatAttachment {
 
 	constructor({ id, key, facetLabel, value, label, count, state, error }: ChatAttachmentFacetConfig) {
 		super({ data: { id, state, error } });
+		this.activate();
 
 		this.key = key;
 		this.facetLabel = facetLabel;
@@ -224,10 +216,6 @@ export class ChatAttachmentFacet extends ChatAttachment {
 			label: observable,
 		});
 	}
-
-	update = async (): Promise<void> => {
-		this.state = 'attached';
-	};
 }
 export class ChatAttachmentImage extends ChatAttachment {
 	public type: 'image' | never = 'image';

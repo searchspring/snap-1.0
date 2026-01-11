@@ -8,6 +8,7 @@ import type {
 	MoiResponseModelProduct,
 	MoiResponseModelProductAnswer,
 	MoiResponseModelProductComparison,
+	MoiResponseModelProductRecommendation,
 	MoiResponseModelProductSearchResult,
 	MoiResponseModelSuggestedQuestions,
 	MoiResponseModelText,
@@ -22,6 +23,8 @@ export type ChatResponseModel = {
 		| ChatResponseProductAnswerData
 		| ChatResponseSuggestedQuestionsData
 		| ChatResponseActionsData
+		| ChatResponseProductComparisonData
+		| ChatResponseProductRecommendationData
 	)[];
 	context: {
 		sessionId: string;
@@ -31,14 +34,14 @@ export type ChatResponseModel = {
 export type ChatResponseTextData = {
 	messageType: 'text';
 	id: string;
-	collectFeedback: true;
+	collectFeedback: boolean;
 	text: string;
 };
 
 export type ChatResponseContentData = {
 	messageType: 'content';
 	id: string;
-	collectFeedback: true;
+	collectFeedback: boolean;
 	text: string;
 };
 
@@ -83,6 +86,14 @@ export type ChatResponseProductComparisonData = {
 export type ChatResponseActionsData = {
 	messageType: 'actions';
 	actions: MoiResponseModelActions['actions'];
+};
+
+export type ChatResponseProductRecommendationData = {
+	messageType: 'productRecommendation';
+	id: string;
+	collectFeedback: boolean;
+	text: string;
+	results: SearchResponseModelResult[];
 };
 
 export type ChatRequestModel = {
@@ -134,6 +145,8 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 				return transformChatResponse.productComparison(data);
 			} else if (data.messageType === 'actions') {
 				return transformChatResponse.actions(data);
+			} else if (data.messageType === 'productRecommendation') {
+				return transformChatResponse.productRecommendation(data);
 			}
 		})
 		.filter((data) => data !== undefined);
@@ -212,6 +225,16 @@ transformChatResponse.actions = (data: MoiResponseModelActions): ChatResponseAct
 	return {
 		messageType: data.messageType,
 		actions: data.actions,
+	};
+};
+
+transformChatResponse.productRecommendation = (data: MoiResponseModelProductRecommendation): ChatResponseProductRecommendationData => {
+	return {
+		messageType: data.messageType,
+		id: data.id,
+		collectFeedback: data.collectFeedback,
+		text: data.text,
+		results: data.products.map(mapProductToSearchResultProduct),
 	};
 };
 

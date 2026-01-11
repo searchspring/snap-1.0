@@ -12,27 +12,31 @@ import type {
 	FeedbackRequestModel,
 	ChatResponseActionsData,
 } from '@searchspring/snap-client';
-import { ChatAttachmentAddAttachment, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
+import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
 import { MoiResponseModelProductSearchResult } from '@searchspring/snap-client/dist/cjs/Client/apis/Chat';
+import { ChatResponseProductComparisonData, ChatResponseProductRecommendationData } from '@searchspring/snap-client/dist/cjs/Client/transforms';
 
-type UserChatMessage = {
+export type ChatFeedbacks = { messageId: string; rating: 'UP' | 'DOWN' };
+
+export type ChatUserMessage = {
 	id: string;
 	messageType: 'user';
 	text: string;
 	attachments?: string[];
 };
 
-export type ChatFeedbacks = { [messageId: string]: 'UP' | 'DOWN' };
-
-export type ChatMessage =
+export type ChatSystemMessage =
 	| ChatResponseTextData
 	| ChatResponseContentData
 	| ChatResponseProductSearchResultData
 	| ChatResponseInspirationResultData
 	| ChatResponseProductAnswerData
-	| UserChatMessage;
+	| ChatResponseProductComparisonData
+	| ChatResponseProductRecommendationData;
+
+export type ChatMessage = ChatUserMessage | ChatSystemMessage;
 
 type ChatSessionStoreConfig = {
 	data?: {
@@ -41,7 +45,7 @@ type ChatSessionStoreConfig = {
 		chat?: ChatMessage[];
 		attachments?: ChatAttachmentAddAttachment[];
 		actions?: ChatActions;
-		feedbacks?: ChatFeedbacks;
+		feedbacks?: ChatFeedbacks[];
 		createdAt?: Date;
 	};
 	stores: {
@@ -67,7 +71,7 @@ export class ChatSessionStore {
 	public sessionId?: string;
 	public attachments: ChatAttachmentStore = new ChatAttachmentStore();
 	public storage: StorageStore;
-	public feedbacks: ChatFeedbacks = {};
+	public feedbacks: ChatFeedbacks[] = [];
 	public createdAt: Date = new Date();
 
 	constructor(params: ChatSessionStoreConfig) {
@@ -79,7 +83,7 @@ export class ChatSessionStore {
 		this.storage = stores.storage;
 		this.actions = actions || [];
 		this.createdAt = createdAt ? new Date(createdAt) : new Date();
-		this.feedbacks = feedbacks || {};
+		this.feedbacks = feedbacks || [];
 
 		// if chat and attachments are passed, load them
 		if (chat && chat.length > 0) {
@@ -109,6 +113,7 @@ export class ChatSessionStore {
 	public reset(): void {
 		this.attachments.reset();
 		this.chat = [];
+		this.feedbacks = [];
 	}
 
 	public save(): void {
@@ -125,7 +130,7 @@ export class ChatSessionStore {
 
 	public feedback(data: { request: FeedbackRequestModel; response: unknown }): void {
 		const messageId = data.request.feedback.messageId;
-		this.feedbacks[messageId] = data.request.feedback.thumbs;
+		this.feedbacks.push({ messageId, rating: data.request.feedback.thumbs });
 		this.save();
 	}
 
@@ -137,18 +142,23 @@ export class ChatSessionStore {
 		if (request.data.requestType === 'productSearch') {
 			const searchFilters = request.data.searchFilters;
 			if (searchFilters.length > 0) {
+				const filterTextArray: string[] = [];
+
 				searchFilters.forEach((filter) => {
-					const attachedFacet = this.attachments.attached.find((item) => item.type == 'facet' && (item as any).key == filter.key);
+					const attachedFacet = this.attachments.attached.find(
+						(item) => item.type == 'facet' && (item as any).key == filter.key
+					) as ChatAttachmentFacet;
 					if (attachedFacet) {
 						attachments.push(attachedFacet.id);
 						attachedFacet.activate();
+						filterTextArray.push(`${attachedFacet.facetLabel} ${attachedFacet.label}`);
 					}
 				});
 				this.chat.push({
 					id: uuidv4(),
 					messageType: 'user',
 					attachments: attachments.length > 0 ? attachments : undefined,
-					text: '',
+					text: `Filter by ${filterTextArray.join('and ')}`,
 				});
 			}
 		} else if (request.data?.requestType !== 'initChat' && request.data.message) {
@@ -159,16 +169,24 @@ export class ChatSessionStore {
 					attachments.push(attachedImage.id);
 					attachedImage.activate();
 				}
+			} else if (request.data.requestType === 'productQuery') {
+				const productId = request.data.productId;
+				const attachedProduct = this.attachments.attached.find((item) => item.type == 'product' && item.productId == productId);
+				if (attachedProduct) {
+					attachments.push(attachedProduct.id);
+					attachedProduct.activate();
+				}
+			} else if (request.data.requestType === 'productComparison') {
+				const productIds = request.data.productIds;
+				productIds.forEach((productId) => {
+					const attachedProduct = this.attachments.attached.find((item) => item.type == 'product' && item.productId == productId);
+					if (attachedProduct) {
+						attachments.push(attachedProduct.id);
+						attachedProduct.activate();
+					}
+				});
 			}
 
-			if (request.data.requestType === 'productQuery') {
-				const productId = request.data.productId;
-				const attachedImage = this.attachments.attached.find((item) => item.type == 'product' && item.productId == productId);
-				if (attachedImage) {
-					attachments.push(attachedImage.id);
-					attachedImage.activate();
-				}
-			}
 			this.chat.push({
 				id: uuidv4(),
 				messageType: 'user',

@@ -32,7 +32,8 @@ export type MoiRequestModel =
 	| MoiRequestModelProductQuery
 	| MoiRequestModelProductSearch
 	| MoiRequestModelProductComparison
-	| MoiRequestModelImageSearch;
+	| MoiRequestModelImageSearch
+	| MoiRequestModelProductSimilar;
 
 export type MoiRequestModelInitChat = {
 	requestType: 'initChat';
@@ -72,6 +73,12 @@ export type MoiRequestModelImageSearch = {
 	attachedImageId: string;
 };
 
+export type MoiRequestModelProductSimilar = {
+	requestType: 'productSimilar';
+	message: string;
+	productId: string;
+};
+
 // DISCRIMINATOR: "messageType" === text, productAnswer, productRecommendation, productComparison, productSearchResult, suggestedQuestions, content
 export type MoiResponseModel = {
 	context: {
@@ -86,6 +93,7 @@ export type MoiResponseModel = {
 		| MoiResponseModelSuggestedQuestions
 		| MoiResponseModelProductComparison
 		| MoiResponseModelActions
+		| MoiResponseModelProductRecommendation
 	)[];
 };
 
@@ -172,6 +180,14 @@ export type MoiResponseModelActions = {
 		message: string;
 		request: MoiRequestModelGeneral;
 	}[];
+};
+
+export type MoiResponseModelProductRecommendation = {
+	messageType: 'productRecommendation';
+	id: string;
+	text: string;
+	collectFeedback: boolean;
+	products: MoiResponseModelProduct[];
 };
 
 export class ChatAPI extends API {
