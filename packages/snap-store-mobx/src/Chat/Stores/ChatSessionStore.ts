@@ -11,12 +11,13 @@ import type {
 	ChatResponseProductAnswerData,
 	FeedbackRequestModel,
 	ChatResponseActionsData,
+	MoiResponseModelProductSearchResult,
+	ChatResponseProductComparisonData,
+	ChatResponseProductRecommendationData,
 } from '@searchspring/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
-import { MoiResponseModelProductSearchResult } from '@searchspring/snap-client/dist/cjs/Client/apis/Chat';
-import { ChatResponseProductComparisonData, ChatResponseProductRecommendationData } from '@searchspring/snap-client/dist/cjs/Client/transforms';
 
 export type ChatFeedbacks = { messageId: string; rating: 'UP' | 'DOWN' };
 

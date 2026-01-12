@@ -226,9 +226,33 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				p: {
 					margin: 0,
 				},
+				thead: {
+					backgroundColor: '#eee',
+				},
+				'tbody tr:nth-child(even)': {
+					backgroundColor: '#f5f5f5',
+				},
+				'table th, table td': {
+					padding: '0.2em 0.5em',
+				},
+				'table + h3': {
+					margin: '1em 0 0 0',
+					fontSize: '1.3em',
+				},
 			},
 		},
-		'.ss__chat__actions': {},
+		'.ss__chat__actions': {
+			'.ss__chat__actions__action': {
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '5px',
+			},
+			'.ss__chat__actions__action__facet': {
+				display: 'flex',
+				gap: 5,
+				alignItems: 'baseline',
+			},
+		},
 		'.ss__chat__loading': {
 			padding: '1em',
 			display: 'flex',
@@ -591,7 +615,6 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 													{{
 														facets: (
 															<Fragment>
-																<div className="ss__chat__actions__action__header">Filter By:</div>
 																{(action as FacetsData).data.map((act, idx) => (
 																	<div className="ss__chat__actions__action__facet" key={idx}>
 																		<label>{act.label}:</label>
