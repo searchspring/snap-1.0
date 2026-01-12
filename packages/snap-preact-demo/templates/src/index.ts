@@ -102,15 +102,18 @@ let config: SnapTemplatesConfig = {
 				component: 'Search',
 			},
 		],
-		settings: {
-			// facets: {
-			// 	fields: {
-			// 		'price': {
-			// 			filterFormatValue: '$%01.2f - $%01.2f'
-			// 		}
-			// 	}
-			// },
-		},
+		// settings: {
+		// 	filters: {
+		// 		fields: {
+		// 			'price': {
+		// 				filterFormatValue: '$%01.2f - $%01.2f'
+		// 			},
+		// 			'ss_category_hierarchy': {
+		// 				enabled: true,
+		// 			}
+		// 		}
+		// 	},
+		// },
 	},
 	autocomplete: {
 		targets: [

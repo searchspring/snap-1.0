@@ -39,7 +39,7 @@ export class SearchFilterStore extends Array<RangeFilter | Filter> {
 				switch (filter.type) {
 					case 'range':
 						const rangeFilter = filter as SearchResponseModelFilterRange;
-						const format = config?.settings?.facets?.fields?.[filter.field!]?.filterFormatValue;
+						const format = (config as SearchStoreConfig)?.settings?.filters?.fields?.[filter.field!]?.filterFormatValue;
 						if (format) {
 							rangeFilter.label = sprintf(format, rangeFilter.value?.high, rangeFilter.value?.low);
 						}
