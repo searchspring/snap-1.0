@@ -36,8 +36,7 @@ const defaultStyles: StyleScript<ButtonProps> = ({ native, color, backgroundColo
 			backgroundColor: lightenedPrimaryColorObj.hex() || '#f8f8f8',
 		},
 		'&.ss__button--disabled': {
-			opacity: 0.3,
-			backgroundColor: 'initial',
+			opacity: 0.7,
 			'&:hover': {
 				cursor: 'default',
 			},

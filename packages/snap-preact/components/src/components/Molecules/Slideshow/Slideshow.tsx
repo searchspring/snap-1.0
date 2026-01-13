@@ -11,14 +11,14 @@ import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { LangAttributes } from '../../../hooks/useLang';
 
-const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, gap = 16, overlayNavigation = false }) => {
+const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, gap = 16, overlayNavigation = false, showNavigation }) => {
 	return css({
 		position: 'relative',
 		overflow: 'hidden',
 
 		'.ss__slideshow__container': {
 			position: 'relative',
-			width: `calc(100% - ${overlayNavigation ? 0 : 60}px)`,
+			width: `calc(100% - ${overlayNavigation || !showNavigation ? 0 : 60}px)`,
 			margin: 'auto',
 			overflow: 'hidden',
 			touchAction: 'pan-y pinch-zoom',
@@ -91,7 +91,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 
 			'.ss__button': {
 				border: 'none',
-				borderRadius: '50%',
 				width: '10px',
 				display: 'flex',
 				alignItems: 'center',
@@ -104,7 +103,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 				},
 
 				'&:disabled': {
-					opacity: 0.5,
 					cursor: 'not-allowed',
 				},
 
@@ -176,6 +174,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		autoPlayInterval: 3000,
 		showNavigation: true,
 		showPagination: true,
+		centerInsufficientSlides: true,
 		slidesToShow: 4,
 		slidesToMove: 1,
 		gap: 10,

@@ -109,7 +109,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
-				defaultValue: { summary: true },
+				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
 		},
@@ -228,12 +228,12 @@ AutoPlay.args = {
 	autoPlayInterval: 2000,
 };
 
-export const NoLoop = (args: SlideshowProps) => <Slideshow {...args} />;
-NoLoop.args = {
+export const Loop = (args: SlideshowProps) => <Slideshow {...args} />;
+Loop.args = {
 	slides: sampleImages,
 	slidesToShow: 2,
 	slidesToMove: 1,
-	loop: false,
+	loop: true,
 };
 
 export const NoNavigation = (args: SlideshowProps) => <Slideshow {...args} />;
