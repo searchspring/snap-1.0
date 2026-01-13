@@ -113,6 +113,25 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
+		alwaysShowNavigation: {
+			description:
+				'Always show navigation buttons even when slides count is below slidesPerView threshold. Useful for maintaining consistent layout in product card grids.',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		centerInsufficientSlides: {
+			description: 'Center slides when there are fewer slides than slidesPerView',
+			table: {
+				type: { summary: 'boolean' },
+				defaultValue: { summary: true },
+			},
+			control: { type: 'boolean' },
+		},
 		slidesToShow: {
 			description: 'Number of slides visible at once',
 			table: {
@@ -149,7 +168,7 @@ export default {
 			},
 			control: { type: 'number', min: 0, step: 10 },
 		},
-		alt: {
+		slideImageAlt: {
 			description: 'Provides default alt text for images, which will be appended with the image number for accessibility',
 			table: {
 				type: { summary: 'string' },

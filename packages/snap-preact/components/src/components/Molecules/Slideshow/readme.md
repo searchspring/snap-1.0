@@ -123,11 +123,11 @@ The `fallbackImage` prop specifies a default image URL to display when an image 
 <Slideshow slides={slidesArray} fallbackImage="/path/to/default.jpg" />
 ```
 
-### alt
-The `alt` prop provides default alt text for images, which will be appended with the image number for accessibility.
+### slideImageAlt
+The `slideImageAlt` prop provides default alt text for images, which will be appended with the image number for accessibility.
 
 ```jsx
-<Slideshow slides={slidesArray} alt="Product image" />
+<Slideshow slides={slidesArray} slideImageAlt="Product image" />
 ```
 
 ### ariaLabel
@@ -143,4 +143,18 @@ The `ariaLabelledBy` prop references the ID of an element that labels the slides
 ```jsx
 <h2 id="slideshow-title">Our Products</h2>
 <Slideshow slides={slidesArray} ariaLabelledBy="slideshow-title" />
+```
+
+### alwaysShowNavigation
+The `alwaysShowNavigation` prop ensures navigation buttons are always displayed and take up space, even when the number of slides is below the `slidesPerView` threshold. This is particularly useful when using the slideshow in a grid of product cards to maintain consistent layout and height across all cards.
+
+```jsx
+<Slideshow slides={slidesArray} alwaysShowNavigation={true} />
+```
+
+### centerInsufficientSlides
+The `centerInsufficientSlides` prop centers slides when there are fewer slides than the `slidesToShow` setting. This is enabled by default.
+
+```jsx
+<Slideshow slides={slidesArray} centerInsufficientSlides={true} />
 ```

@@ -177,6 +177,7 @@ export type ButtonNames =
 	| 'prev'
 	| 'pause'
 	| 'pagination'
+	| 'pagination-current'
 	| 'close-search'
 	| 'clear-search'
 	| 'submit-search'

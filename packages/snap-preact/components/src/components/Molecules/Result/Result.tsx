@@ -317,7 +317,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 					{!hideVariantSelections && (
 						<div className="ss__result__details__variant-selection">
 							{result.variants?.selections.map((selection) => {
-								return <VariantSelection selection={selection} />;
+								return <VariantSelection {...subProps.variantSelection} selection={selection} />;
 							})}
 						</div>
 					)}

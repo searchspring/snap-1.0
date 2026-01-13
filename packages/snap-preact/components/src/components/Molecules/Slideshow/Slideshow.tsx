@@ -11,7 +11,7 @@ import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { LangAttributes } from '../../../hooks/useLang';
 
-const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16, overlayNavigation = false }) => {
+const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, gap = 16, overlayNavigation = false }) => {
 	return css({
 		position: 'relative',
 		overflow: 'hidden',
@@ -32,6 +32,11 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 			// Disable transition during dragging
 			'&.ss__slideshow__track--dragging': {
 				transition: 'none',
+			},
+
+			// Center slides when there are fewer than slidesPerView
+			'&.ss__slideshow__track--centered': {
+				justifyContent: 'center',
 			},
 		},
 
@@ -120,21 +125,25 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ slidesToShow = 1, gap = 16
 
 		'.ss__slideshow__pagination': {
 			position: 'relative',
-			margin: 'auto',
+			margin: '10px auto',
 			width: '100%',
-			textAlign: 'center',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			gap: '8px',
 
 			'.ss__slideshow__dot': {
-				width: '10px',
-				height: '10px',
+				width: '8px',
+				height: '8px',
 				borderRadius: '50%',
-				background: 'rgba(255, 255, 255, 0.5)',
+				background: '#000',
+				opacity: '.2',
 				border: 'none',
 				cursor: 'pointer',
-				transition: 'background 0.2s ease',
-
+				padding: 0,
 				'&.ss__active': {
-					background: 'rgba(255, 255, 255, 1)',
+					opacity: '0.8',
+					background: theme?.variables?.colors?.primary || '#000',
 				},
 				'&:focus-visible': {
 					outline: '-webkit-focus-ring-color auto 1px !important',
@@ -186,8 +195,10 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		showNavigation,
 		showPagination,
 		loop,
+		alwaysShowNavigation,
 		slidesToShow,
-		alt,
+		slideImageAlt,
+		centerInsufficientSlides,
 		ariaLabel,
 		ariaLabelledBy,
 		disableStyles,
@@ -244,6 +255,16 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		PaginationButton: {
 			// default props
 			name: 'pagination',
+			// inherited props
+			...defined({
+				disableStyles,
+			}),
+			theme: props.theme,
+			treePath,
+		},
+		PaginationCurrentButton: {
+			// default props
+			name: 'pagination-current',
 			// inherited props
 			...defined({
 				disableStyles,
@@ -607,6 +628,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 						ref={trackRef}
 						className={classnames('ss__slideshow__track', {
 							'ss__slideshow__track--dragging': isDragging,
+							'ss__slideshow__track--centered': centerInsufficientSlides && totalSlides <= slidesToShow!,
 						})}
 						style={{ transform: `translateX(${translateX}%)` }}
 						role="group"
@@ -648,7 +670,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 							const isVisible = index >= currentIndex && index < currentIndex + slidesToShow!;
 							const hasClickHandler = !!slide.onClick;
 							const hasContent = !!slide.content;
-							const imageAlt = slide.alt || alt || `Image ${index + 1}`;
+							const imageAlt = slide.alt || slideImageAlt || `Image ${index + 1}`;
 
 							const defaultLang: Partial<SlideshowLang> = {
 								slide: {
@@ -688,7 +710,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 					</div>
 				</div>
 
-				{showNavigation && normalizedSlides.length > slidesToShow! && (
+				{Boolean(alwaysShowNavigation || (showNavigation && normalizedSlides.length > slidesToShow!)) && (
 					<>
 						<div className="ss__slideshow__navigation ss__slideshow__navigation--prev">
 							<Button
@@ -730,18 +752,21 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 								index,
 								totalDots,
 							});
+							const selected = currentDotIndex === index;
+							const subpropsToUse = selected ? subProps.PaginationCurrentButton : subProps.PaginationButton;
 							return (
 								<Button
 									key={index}
 									className={classnames('ss__slideshow__dot', {
-										ss__active: currentDotIndex === index,
+										ss__active: selected,
 									})}
 									onClick={() => goToSlide(index)}
-									aria-selected={currentDotIndex === index}
-									icon={currentDotIndex === index ? 'bullet-o' : 'bullet'}
+									aria-selected={selected}
 									{...paginationLangObj.paginationButton.all}
-									{...subProps.PaginationButton}
-								/>
+									{...subpropsToUse}
+								>
+									<span className={'ss__slideshow__dot-inner'}></span>
+								</Button>
 							);
 						})}
 					</div>
@@ -800,12 +825,14 @@ export interface SlideshowProps extends ComponentProps {
 	autoPlayInterval?: number;
 	showNavigation?: boolean;
 	overlayNavigation?: boolean;
+	alwaysShowNavigation?: boolean;
+	centerInsufficientSlides?: boolean;
 	showPagination?: boolean;
 	loop?: boolean;
 	slidesToShow?: number;
 	slidesToMove?: number;
 	gap?: number;
-	alt?: string;
+	slideImageAlt?: string;
 	ariaLabel?: string;
 	ariaLabelledBy?: string;
 	touchDragging?: boolean;
@@ -818,5 +845,6 @@ interface SlideshowSubProps {
 	PrevButton: Partial<ButtonProps>;
 	NextButton: Partial<ButtonProps>;
 	PaginationButton: Partial<ButtonProps>;
+	PaginationCurrentButton: Partial<ButtonProps>;
 	PauseButton: Partial<ButtonProps>;
 }
