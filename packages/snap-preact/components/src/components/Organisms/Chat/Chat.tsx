@@ -24,10 +24,15 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 		right: '20px',
 		bottom: '20px',
 		zIndex: 1000,
+		color: '#333',
 		'.ss__button': {
-			border: '1px solid #ccc',
-			borderRadius: 5,
+			border: 'none',
 			padding: '0.2em 0.5em',
+			color: 'inherit',
+			svg: {
+				fill: '#0066cc',
+				stroke: '#0066cc',
+			},
 		},
 		'&.ss__chat--minimized': {
 			'.ss__chat__bubble': {
@@ -193,13 +198,18 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 						'.ss__chat__message-text__results__result': {
 							'.ss__image': {
 								aspectRatio: '1 / 1',
+								cursor: 'pointer',
 							},
 							'.ss__chat__result__detail-slot': {
 								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'stretch',
-								textAlign: 'center',
 								gap: 5,
+								justifyContent: 'center',
+							},
+						},
+						'.ss__carousel__next-wrapper, .ss__carousel__prev-wrapper': {
+							svg: {
+								fill: '#0066cc',
+								stroke: '#0066cc',
 							},
 						},
 					},
@@ -251,6 +261,10 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				display: 'flex',
 				gap: 5,
 				alignItems: 'baseline',
+				'.ss__button': {
+					border: '1px solid #ccc',
+					borderRadius: '0.5em',
+				},
 			},
 		},
 		'.ss__chat__loading': {
@@ -304,9 +318,15 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				'&.ss__chat__attachment--facet': {
 					paddingRight: '15px',
 				},
+				'&.ss__chat__attachment--product': {
+					width: '100%',
+				},
 				'&.error': {
 					border: '1px solid #dc3545',
 					backgroundColor: '#fff5f5',
+				},
+				'.ss__chat__attachment__info': {
+					padding: '0.5em 1em',
 				},
 				'.ss__chat__attachment__content': {
 					position: 'relative',
@@ -378,6 +398,10 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					padding: 0,
 					minWidth: 'auto',
 					boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+					svg: {
+						fill: 'white',
+						stroke: 'white',
+					},
 					'&:hover': {
 						backgroundColor: '#bb2d3b',
 					},
@@ -403,13 +427,18 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			display: 'flex',
 			gap: '8px',
 			alignItems: 'center',
+			padding: '1em 2em',
+			border: '1px solid #ccc',
+			borderRadius: '3em',
+
 			'input[type="text"]': {
 				flex: '1 1 auto',
 				boxSizing: 'border-box',
 				padding: '10px',
-				border: '1px solid #ccc',
-				borderRadius: '4px',
-				fontSize: '14px',
+				borderRadius: '3em',
+				fontSize: '16px',
+				border: 'none',
+
 				'&::placeholder': {
 					color: '#999',
 					opacity: 0.7,
@@ -419,39 +448,46 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					borderColor: '#0066cc',
 				},
 			},
-			'input[type="file"]': {
-				display: 'none',
-			},
-			'.ss__chat__upload-button': {
-				padding: '7px 12px',
-				cursor: 'pointer',
-				border: '1px solid #ccc',
-				borderRadius: '4px',
-				backgroundColor: '#f5f5f5',
-				fontSize: '16px',
+			'.ss__chat__input__actions': {
 				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				minWidth: 'auto',
-				'&:hover': {
-					backgroundColor: '#e8e8e8',
+				gap: '8px',
+				marginRight: '-1em',
+
+				'input[type="file"]': {
+					display: 'none',
 				},
-			},
-			'.ss__chat__send-button': {
-				height: '40px',
-				padding: '0 12px',
-				backgroundColor: '#0066cc',
-				color: 'white',
-				border: 'none',
-				borderRadius: '4px',
-				cursor: 'pointer',
-				fontSize: '14px',
-				'&:hover': {
-					backgroundColor: '#0052a3',
+				'.ss__chat__upload-button': {
+					padding: '7px 12px',
+					cursor: 'pointer',
+					fontSize: '16px',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					minWidth: 'auto',
+					border: 'none',
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
 				},
-				'&:disabled': {
-					backgroundColor: '#cccccc',
-					cursor: 'not-allowed',
+				'.ss__chat__send-button': {
+					height: '40px',
+					padding: '0 12px',
+					backgroundColor: '#0066cc',
+					border: 'none',
+					borderRadius: '3em',
+					cursor: 'pointer',
+					fontSize: '14px',
+					svg: {
+						fill: 'white',
+						stroke: 'white',
+					},
+					'&:hover': {
+						backgroundColor: '#0052a3',
+					},
+					'&:disabled': {
+						backgroundColor: '#cccccc',
+						cursor: 'not-allowed',
+					},
 				},
 			},
 		},
@@ -685,29 +721,29 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											onKeyDown={(e) => controller.handlers.input.enterKey(e as any)}
 											value={controller.store.inputValue}
 										/>
-										<Button
-											className={'ss__chat__upload-button'}
-											disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading')}
-											onClick={() => fileInputRef.current?.click()}
-										>
-											+
-										</Button>
-										<Button className="ss__chat__send-button" disabled={store.blocked} onClick={() => controller.search()}>
-											Send
-										</Button>
-										<input
-											ref={fileInputRef}
-											onChange={async (e) => {
-												await controller.upload(e.target.files);
-												// reset value
-												e.target.value = '';
-											}}
-											multiple={true}
-											type="file"
-											accept="image/*"
-											id="ss-image-upload"
-											className="ss__autocomplete__visual-modal__content__body__file-input"
-										/>
+										<div className={'ss__chat__input__actions'}>
+											<Button
+												className={'ss__chat__upload-button'}
+												disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading') || store.blocked}
+												onClick={() => fileInputRef.current?.click()}
+												icon={'plus-thin'}
+												name={'Upload Image'}
+											/>
+											<Button className="ss__chat__send-button" icon={'send'} disabled={store.blocked} onClick={() => controller.search()} />
+											<input
+												ref={fileInputRef}
+												onChange={async (e) => {
+													await controller.upload(e.target.files);
+													// reset value
+													e.target.value = '';
+												}}
+												multiple={true}
+												type="file"
+												accept="image/*"
+												id="ss-image-upload"
+												className="ss__autocomplete__visual-modal__content__body__file-input"
+											/>
+										</div>
 									</div>
 								</div>
 							) : (
@@ -716,7 +752,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 						</Fragment>
 					)}
 				</div>
-				<Slideout buttonSelector={'.ss__chat__result__detail-slot__more-info-button'} width="450px">
+				<Slideout buttonSelector={'.ss__chat__result__detail-slot__more-info-button, .ss__chat__result__detail-slot__image'} width="450px">
 					<Quickview result={store.quickViewResult} controller={controller} />
 				</Slideout>
 			</Fragment>

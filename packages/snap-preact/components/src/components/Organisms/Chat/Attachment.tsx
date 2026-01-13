@@ -5,6 +5,7 @@ import { ChatAttachmentFacet, ChatAttachmentImage, ChatAttachmentProduct } from 
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
 import classnames from 'classnames';
+import { Button } from '../../..';
 
 export const Attachment = observer((properties: AttachmentProps): JSX.Element => {
 	const { attachment, controller } = properties;
@@ -28,9 +29,14 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 						<div className={'ss__chat__attachment__error-icon'}>⚠</div>
 						<div className={'ss__chat__attachment__error-message'}>{attachment.error?.message || 'upload failed'}</div>
 					</div>
-					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
-						×
-					</div>
+					<Button
+						className={'ss__chat__attachment__remove'}
+						onClick={() => chatStore?.attachments.remove(id)}
+						icon={{
+							icon: 'close-thin',
+							size: '0.6em',
+						}}
+					/>
 				</div>
 			);
 		}
@@ -48,17 +54,22 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 					)}
 				</div>
 				{!isLoading && (
-					<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
-						×
-					</div>
+					<Button
+						className={'ss__chat__attachment__remove'}
+						onClick={() => chatStore?.attachments.remove(id)}
+						icon={{
+							icon: 'close-thin',
+							size: '0.6em',
+						}}
+					/>
 				)}
 			</div>
 		) : (
 			<></>
 		);
 	} else if (type == 'product') {
-		const { name, thumbnailUrl } = attachment;
-		return id ? (
+		const { name, thumbnailUrl, requestType } = attachment;
+		return id && requestType !== 'productSimilar' ? (
 			<div className={classnames('ss__chat__attachment ss__chat__attachment--product', { error: !!attachment.error })}>
 				<div className={'ss__chat__attachment__content'}>
 					{thumbnailUrl && <Image style={{ height: '50px', width: '50px' }} src={thumbnailUrl} alt={name} />}
@@ -69,9 +80,14 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 						__html: name || '',
 					}}
 				/>
-				<div className={'ss__chat__attachment__remove'} onClick={() => chatStore?.attachments.remove(id)}>
-					×
-				</div>
+				<Button
+					className={'ss__chat__attachment__remove'}
+					onClick={() => chatStore?.attachments.remove(id)}
+					icon={{
+						icon: 'close-thin',
+						size: '0.6em',
+					}}
+				/>
 			</div>
 		) : (
 			<></>

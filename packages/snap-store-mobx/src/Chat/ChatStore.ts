@@ -119,10 +119,11 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		this.quickViewResult = result;
 	}
 
-	public sendProductQuery(result: any): void {
+	public sendProductQuery(result: any, options: { requestType: 'productQuery' | 'productSimilar' | 'productComparison' }): void {
 		this.currentChat && (this.currentChat.actions = []);
 		this.currentChat?.attachments.add<ChatAttachmentProduct>({
 			type: 'product',
+			requestType: options.requestType,
 			productId: result.id,
 			name: result.mappings.core?.name,
 			thumbnailUrl: result.mappings.core?.thumbnailImageUrl || result.mappings.core?.imageUrl,
@@ -146,6 +147,15 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		// remove any facet attachments after request
 		const facetAttachments = this.currentChat?.attachments.attached.filter((item) => item.type === 'facet') || [];
 		facetAttachments.forEach((item) => {
+			this.currentChat?.attachments.remove(item.id);
+		});
+
+		// remove any productSimilar attachments after request
+		const productSimilarAttachments =
+			this.currentChat?.attachments.attached.filter(
+				(item) => item.type === 'product' && (item as ChatAttachmentProduct).requestType === 'productSimilar'
+			) || [];
+		productSimilarAttachments.forEach((item) => {
 			this.currentChat?.attachments.remove(item.id);
 		});
 	}

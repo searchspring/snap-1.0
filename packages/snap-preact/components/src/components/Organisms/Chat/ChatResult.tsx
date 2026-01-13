@@ -46,23 +46,39 @@ export const ChatResult = observer((properties: ChatResultProps): JSX.Element =>
 
 	return (
 		<div className="ss__chat__result" {...styling}>
-			<Image alt={result.mappings.core?.name || ''} src={result.mappings.core?.imageUrl || ''} {...subProps.image} />
+			<Image
+				onClick={() => {
+					console.log('got here');
+					controller.viewProduct(result);
+				}}
+				className={'ss__chat__result__detail-slot__image'}
+				alt={result.mappings.core?.name || ''}
+				src={result.mappings.core?.imageUrl || ''}
+				{...subProps.image}
+			/>
 			<div className="ss__chat__result__detail-slot">
 				<Button
 					className={'ss__chat__result__detail-slot__more-info-button'}
 					onClick={() => {
 						controller.viewProduct(result);
 					}}
-				>
-					More Info
-				</Button>
+					icon={'info'}
+					name={'More Info'}
+				/>
 				<Button
 					onClick={() => {
-						controller.discussProduct(result);
+						controller.discussProduct(result, { requestType: shouldCompare ? 'productComparison' : 'productQuery' });
 					}}
-				>
-					{shouldCompare ? 'Compare' : 'Discuss'}
-				</Button>
+					icon={'chat'}
+					name={shouldCompare ? 'Compare' : 'Discuss'}
+				/>
+				<Button
+					onClick={() => {
+						controller.discussProduct(result, { requestType: 'productSimilar' });
+					}}
+					icon={'similar'}
+					name={'Show Similar'}
+				/>
 			</div>
 		</div>
 	);

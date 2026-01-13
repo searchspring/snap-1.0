@@ -39,6 +39,19 @@ export class ChatAttachmentStore {
 				return newAttachment as T;
 			}
 			case 'product': {
+				// if requestType is 'productSimilar', remove all other attachments
+				if (attachment.requestType === 'productSimilar') {
+					this.items.forEach((item) => {
+						this.remove(item.id);
+					});
+
+					const newAttachment = new ChatAttachmentProduct(attachment);
+					this.items.unshift(newAttachment);
+
+					return newAttachment as T;
+				}
+
+				// For 'productQuery' or 'productComparison', continue with existing logic
 				// if there are currently any other attachments remove them
 				this.items.forEach((item) => {
 					if (item.type !== 'product') {
@@ -53,17 +66,22 @@ export class ChatAttachmentStore {
 
 				if (existingProductAttachment) {
 					existingProductAttachment.activate();
+					(existingProductAttachment as ChatAttachmentProduct).requestType = attachment.requestType; // changes existing attachments to the incoming requestType
 					return existingProductAttachment as T;
-				} else {
-					// if there are already two product attachments, remove until only one remains
-					const productAttachments = this.items.filter((item) => item.type === 'product' && item.state === 'active');
-					while (productAttachments.length >= 2) {
-						const toRemove = productAttachments.shift();
-						if (toRemove) {
-							this.remove(toRemove.id);
-						}
+				}
+
+				// if there are already two product attachments, remove until only one remains
+				const productAttachments = this.items.filter((item) => item.type === 'product' && item.state === 'active');
+				while (productAttachments.length >= 2) {
+					const toRemove = productAttachments.shift();
+					if (toRemove) {
+						this.remove(toRemove.id);
 					}
 				}
+
+				this.items.forEach((item) => {
+					(item as ChatAttachmentProduct).requestType = attachment.requestType; // changes existing attachments to the incoming requestType
+				});
 
 				const newAttachment = new ChatAttachmentProduct(attachment);
 				this.items.unshift(newAttachment);
@@ -153,6 +171,7 @@ type ChatAttachmentProductConfig = {
 	productId: string;
 	thumbnailUrl: string;
 	name: string;
+	requestType: 'productQuery' | 'productSimilar' | 'productComparison';
 	state?: AttachmentState;
 	error?: AttachmentError;
 };
@@ -173,20 +192,23 @@ export class ChatAttachmentProduct extends ChatAttachment {
 	public productId: string;
 	public thumbnailUrl: string;
 	public name: string;
+	public requestType: 'productQuery' | 'productSimilar' | 'productComparison';
 
-	constructor({ id, productId, thumbnailUrl, name, state, error }: ChatAttachmentProductConfig) {
+	constructor({ id, productId, thumbnailUrl, name, requestType, state, error }: ChatAttachmentProductConfig) {
 		super({ data: { id, state, error } });
 		this.activate();
 
 		this.productId = productId;
 		this.thumbnailUrl = thumbnailUrl;
 		this.name = name;
+		this.requestType = requestType;
 
 		makeObservable(this, {
 			type: observable,
 			productId: observable,
 			thumbnailUrl: observable,
 			name: observable,
+			requestType: observable,
 		});
 	}
 }

@@ -670,6 +670,17 @@ export class AutocompleteController extends AbstractController {
 		this.store.updateTrendingTerms(trending);
 	};
 
+	openChat = (): void => {
+		// loose focus
+		this.setFocused();
+
+		// fire openChat event
+		window.searchspring.fire('chat/open', {
+			// controllerIds: 'chat', // TODO: add config for which chat controller to open
+			query: this.store.state.input, // TODO: add this ability behind config
+		});
+	};
+
 	search = async (): Promise<void> => {
 		try {
 			if (!this.initialized) {

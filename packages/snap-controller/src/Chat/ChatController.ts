@@ -137,8 +137,13 @@ export class ChatController extends AbstractController {
 		}
 
 		if (attachedProductIds.length == 1) {
+			// chatRequest = {
+			// 	requestType: 'productQuery',
+			// 	message: this.store.inputValue,
+			// 	productId: attachedProductIds[0],
+			// };
 			chatRequest = {
-				requestType: 'productQuery',
+				requestType: 'productSimilar',
 				message: this.store.inputValue,
 				productId: attachedProductIds[0],
 			};
@@ -258,8 +263,11 @@ export class ChatController extends AbstractController {
 		this.store.setQuickViewResult(result);
 	};
 
-	discussProduct = (result: Product): void => {
-		this.store.sendProductQuery(result);
+	discussProduct = (result: Product, options: { requestType: 'productQuery' | 'productSimilar' | 'productComparison' }): void => {
+		this.store.sendProductQuery(result, options);
+		if (options.requestType === 'productSimilar') {
+			this.search();
+		}
 
 		// focus the input
 		const input = document.querySelector('.ss__chat__footer input[type="text"]') as HTMLInputElement;
@@ -298,6 +306,17 @@ export class ChatController extends AbstractController {
 				}
 			},
 		},
+	};
+
+	openChat = (initialMessage?: string): void => {
+		this.store.open = true;
+
+		if (initialMessage) {
+			this.store.inputValue = initialMessage;
+			this.search();
+		} else if (!this.store.currentChat?.sessionId) {
+			this.search();
+		}
 	};
 
 	search = async (): Promise<void> => {

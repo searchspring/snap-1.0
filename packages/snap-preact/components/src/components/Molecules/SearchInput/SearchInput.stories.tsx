@@ -120,6 +120,15 @@ export default {
 			},
 			control: { type: 'object' },
 		},
+		chatButton: {
+			description: 'Button component props for chat open button',
+			table: {
+				type: {
+					summary: `{}`,
+				},
+			},
+			control: { type: 'object' },
+		},
 		placeholderText: {
 			defaultValue: 'Search',
 			description: 'Display placeholder text',
@@ -158,4 +167,5 @@ export const Default = (args: SearchInputProps) => <SearchInput {...args} />;
 Default.args = {
 	submitSearchButton: { icon: 'search' },
 	clearSearchButton: { icon: 'close-thin' },
+	chatButton: { icon: 'chat' },
 };
