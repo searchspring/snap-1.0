@@ -141,7 +141,7 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 				border: 'none',
 				cursor: 'pointer',
 				padding: 0,
-				'&.ss__active': {
+				'&.ss__slideshow__dot--active': {
 					opacity: '0.8',
 					background: theme?.variables?.colors?.primary || '#000',
 				},
@@ -758,7 +758,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 								<Button
 									key={index}
 									className={classnames('ss__slideshow__dot', {
-										ss__active: selected,
+										'ss__slideshow__dot--active': selected,
 									})}
 									onClick={() => goToSlide(index)}
 									aria-selected={selected}
