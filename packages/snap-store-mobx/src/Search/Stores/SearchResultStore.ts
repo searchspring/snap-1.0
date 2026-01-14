@@ -12,6 +12,7 @@ import type {
 	SearchResponseModelPagination,
 	SearchResponseModelResultBadges,
 	SearchResponseModelResultVariantsData,
+	SearchResponseModelResultVariantsOptionConfig,
 } from '@athoscommerce/snapi-types';
 
 const VARIANT_ATTRIBUTE = 'ss-variant-option';
@@ -247,6 +248,7 @@ export class Product {
 				data: {
 					mask: this.mask,
 					variants: result.variants.data,
+					optionConfig: result.variants.optionConfig,
 					preferences: (result.variants as any)?.preferences, // TODO: fix typing
 					meta: meta,
 				},
@@ -374,6 +376,9 @@ type VariantsData = {
 		variants: VariantData[];
 		preferences?: Record<string, string[]>;
 		meta: MetaResponseModel;
+		optionConfig?: {
+			[key: string]: SearchResponseModelResultVariantsOptionConfig;
+		};
 	};
 };
 
@@ -383,6 +388,9 @@ export class Variants {
 	public selections: VariantSelection[] = [];
 	public setActive: (variant: Variant) => void;
 	private config?: VariantConfig;
+	public optionConfig?: {
+		[key: string]: SearchResponseModelResultVariantsOptionConfig;
+	};
 
 	constructor(variantData: VariantsData) {
 		const { config, data } = variantData || {};
@@ -402,6 +410,10 @@ export class Variants {
 
 		if (config) {
 			this.config = config;
+		}
+
+		if (data.optionConfig) {
+			this.optionConfig = data.optionConfig;
 		}
 
 		this.update(variants, config, preferences);
@@ -445,6 +457,7 @@ export class Variants {
 				this.selections.push(
 					new VariantSelection({
 						config: variantOptionConfig,
+						optionConfig: this.optionConfig?.[option],
 						data: {
 							variants: this,
 							selectorField: option,
@@ -574,6 +587,7 @@ export type VariantSelectionValue = {
 
 type VariantSelectionData = {
 	config?: VariantOptionConfig;
+	optionConfig?: SearchResponseModelResultVariantsOptionConfig;
 	data: {
 		variants: Variants;
 		selectorField: string;
@@ -582,6 +596,8 @@ type VariantSelectionData = {
 export class VariantSelection {
 	public field: string;
 	public label: string;
+	public type?: string;
+	public count?: number;
 	public selected?: VariantSelectionValue = undefined;
 	public previouslySelected?: VariantSelectionValue = undefined;
 	public values: VariantSelectionValue[] = [];
@@ -589,9 +605,11 @@ export class VariantSelection {
 	private variantsUpdate: () => void;
 
 	constructor(variantSelectionData: VariantSelectionData) {
-		const { data, config } = variantSelectionData || {};
+		const { data, config, optionConfig } = variantSelectionData || {};
 		const { variants, selectorField } = data || {};
 		this.field = selectorField;
+		this.type = optionConfig?.type;
+		this.count = optionConfig?.count;
 		this.label = config?.label || selectorField;
 		this.config = config || {};
 

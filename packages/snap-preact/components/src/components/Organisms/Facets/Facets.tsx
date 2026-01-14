@@ -82,16 +82,11 @@ export const Facets = observer((properties: FacetsProps): JSX.Element => {
 
 	const styling = mergeStyles<FacetsProps>(props, defaultStyles);
 
-	const fieldNameToComponentName = (fieldName: string) => {
-		// eg. color_family -> color-family
-		return fieldName.replace(/_/g, '-').toLowerCase();
-	};
-
 	return facets && facets?.length > 0 ? (
 		<CacheProvider>
 			<div className={classnames('ss__facets', className, internalClassName)} {...styling}>
 				{facets.map((facet) => (
-					<Facet key={facet.field} {...subProps.facet} facet={facet} name={fieldNameToComponentName(facet.field)} />
+					<Facet key={facet.field} {...subProps.facet} facet={facet} />
 				))}
 			</div>
 		</CacheProvider>

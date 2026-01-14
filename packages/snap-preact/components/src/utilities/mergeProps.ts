@@ -1,7 +1,7 @@
 import type { ComponentProps } from '../types';
 import type { Theme, ThemeComponents } from '../providers';
 
-export function mergeProps<GenericComponentProps = ComponentProps>(
+export function mergeProps<GenericComponentProps extends ComponentProps>(
 	componentType: string,
 	globalTheme: Theme,
 	defaultProps: Partial<GenericComponentProps>,
@@ -27,10 +27,10 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 
 	*/
 
-	const theme = (props as ComponentProps).theme;
-	const componentName = (props as any)?.name;
+	const theme = props.theme;
+	const componentName = props?.name || defaultProps.name;
 
-	let treePath = (props as ComponentProps).treePath || (defaultProps as ComponentProps).treePath || '';
+	let treePath = props.treePath || defaultProps.treePath || '';
 
 	treePath += `${treePath ? ' ' : ''}${componentType}`;
 
@@ -93,7 +93,7 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 		mergedProps = {
 			...mergedProps,
 			theme: {
-				...(mergedProps as ComponentProps).theme,
+				...mergedProps.theme,
 				name: globalTheme.name,
 			},
 			treePath,
@@ -103,8 +103,8 @@ export function mergeProps<GenericComponentProps = ComponentProps>(
 			(mergedProps as any).lang = (props as any).lang;
 		}
 
-		if (globalTheme.variables) {
-			(mergedProps as ComponentProps).theme!.variables = globalTheme.variables;
+		if (globalTheme.variables && mergedProps.theme) {
+			mergedProps.theme.variables = globalTheme.variables;
 		}
 
 		//if custom component, re-spread props again

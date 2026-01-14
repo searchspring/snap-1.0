@@ -11,6 +11,7 @@ import { Swatches, SwatchesProps } from '../Swatches';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import { useA11y } from '../../../hooks';
+import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
 
 const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 	return css({
@@ -69,13 +70,22 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 
 	const defaultProps: Partial<VariantSelectionProps> = {
 		// default props
-		type: 'dropdown',
+		name: fieldNameToComponentName(properties.selection.field),
 		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('variantSelection', globalTheme, defaultProps, properties);
 
-	const { type, selection, onSelect, disableStyles, className, internalClassName, treePath } = props;
+	const { selection, onSelect, disableStyles, className, internalClassName, treePath } = props;
+
+	let type = props.type;
+	if (!type) {
+		if (selection.type == 'swatch') {
+			type = 'swatches';
+		} else {
+			type = 'dropdown';
+		}
+	}
 
 	const onSelectHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption) => {
 		if (onSelect) {
