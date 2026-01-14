@@ -105,7 +105,7 @@ export class SearchFacetStore extends Array {
 
 export class Facet {
 	public services: StoreServices;
-	public type!: string;
+	public type!: 'range' | 'value' | 'range-buckets';
 	public field!: string;
 	public filtered = false;
 	public custom = {};

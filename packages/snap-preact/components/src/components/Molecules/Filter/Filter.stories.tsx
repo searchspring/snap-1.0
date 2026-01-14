@@ -6,7 +6,6 @@ import { Filter, FilterProps } from './Filter';
 import { iconPaths } from '../../Atoms/Icon/paths';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
-import { FacetType } from '../../../types';
 import Readme from '../Filter/readme.md';
 
 import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
@@ -135,10 +134,10 @@ const snapInstance = Snapify.search({
 export const Default = (args: FilterProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
 	<Filter
 		{...args}
-		facetLabel={controller?.store?.facets.filter((facet) => facet.type === FacetType.VALUE).shift().label}
+		facetLabel={controller?.store?.facets.filter((facet) => facet.type === 'value').shift().label}
 		valueLabel={
 			controller?.store?.facets
-				.filter((facet) => facet.type === FacetType.VALUE)
+				.filter((facet) => facet.type === 'value')
 				.shift()
 				.values.shift().value
 		}
@@ -157,10 +156,10 @@ Default.loaders = [
 export const NoFacetLabel = (args: FilterProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
 	<Filter
 		{...args}
-		facetLabel={controller?.store?.facets.filter((facet) => facet.type === FacetType.VALUE).shift().label}
+		facetLabel={controller?.store?.facets.filter((facet) => facet.type === 'value').shift().label}
 		valueLabel={
 			controller?.store?.facets
-				.filter((facet) => facet.type === FacetType.VALUE)
+				.filter((facet) => facet.type === 'value')
 				.shift()
 				.values.shift().value
 		}

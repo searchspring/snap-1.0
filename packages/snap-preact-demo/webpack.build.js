@@ -1,3 +1,4 @@
+/* eslint-disable */
 const modern = require('./snap/webpack.modern.js');
 const modernTemplates = require('./templates/webpack.modern.js');
 const universal = require('./snap/webpack.universal.js');

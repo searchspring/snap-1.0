@@ -205,6 +205,9 @@ export const fr: LangComponents = {
 					}`,
 			},
 		},
+		submitRangeButton: {
+			value: 'Soumettre',
+		},
 	},
 	select: {
 		buttonLabel: {

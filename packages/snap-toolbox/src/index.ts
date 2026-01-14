@@ -12,3 +12,4 @@ export * from './version/version';
 export * from './charsParams/charsParams';
 export * from './types';
 export * from './fieldNameToComponentName/fieldNameToComponentName';
+export * from './sprintf/sprintf';

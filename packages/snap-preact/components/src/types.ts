@@ -74,13 +74,6 @@ export enum ResultsLayout {
 	list = 'list',
 }
 
-// TODO: move to store or use store or snapi types
-export enum FacetType {
-	VALUE = 'value',
-	RANGE = 'range',
-	RANGE_BUCKETS = 'range-buckets',
-}
-
 // TODO: should be added to the Facet type
 export enum FacetDisplay {
 	GRID = 'grid',
