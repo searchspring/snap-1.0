@@ -85,7 +85,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 			display: 'flex',
 			flexDirection: 'column',
 
-			'& label': {
+			'.ss__facet__range-inputs__separator': {
 				margin: '5px',
 			},
 		},
@@ -94,35 +94,28 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'center',
+			'&.ss__facet__range-inputs__row--button-wrapper': {
+				justifyContent: 'center',
+
+				'.ss__facet__range-input__button--submit': {
+					margin: '10px',
+				},
+			},
 		},
 
-		'& .ss__facet__range-input': {
-			width: '100%',
-			maxWidth: '100%',
-			padding: '0 10px',
-			border: '1px solid #ebebeb',
-			borderRadius: '0',
-			height: '35px',
-			lineHeight: '35px',
-			backgroundColor: 'white',
-			color: '#515151',
-			fontSize: '14px',
-			flex: '1 1 0%',
-		},
-
-		'.ss__facet__range-input-wrapper': {
+		'.ss__facet__range-input': {
 			flexDirection: 'row',
 			display: 'flex',
+			border: `1px solid ${theme?.variables?.colors?.secondary || '#ccc'}`,
+			backgroundColor: 'white',
 			alignItems: 'center',
-		},
-
-		'.ss__facet__range-input__row--button-wrapper': {
-			display: 'flex',
-			justifyContent: 'center',
-
-			'.ss__facet__range-input__button--submit': {
-				textAlign: 'center',
-				margin: '10px',
+			'.ss__facet__range-input__prefix': {
+				padding: '0 5px',
+			},
+			'.ss__facet__range-input__input': {
+				width: '100%',
+				border: 'none',
+				minHeight: '35px',
 			},
 		},
 	});
@@ -589,11 +582,11 @@ const FacetContent = (
 			{rangeInputs && (facet.type === 'range' || facet.type === 'range-buckets') && (
 				<div className="ss__facet__range-inputs">
 					<div className="ss__facet__range-inputs__row">
-						<div className="ss__facet__range-input-wrapper ss__facet__range-input-wrapper--low">
+						<div className="ss__facet__range-input ss__facet__range-input--low">
 							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
 							<input
 								type="number"
-								className="ss__facet__range-input"
+								className="ss__facet__range-input__input"
 								value={low}
 								onInput={(e) => setLow(Number(e.currentTarget.value) || 0)}
 								onKeyUp={onKeyUp}
@@ -602,18 +595,18 @@ const FacetContent = (
 
 						<span className="ss__facet__range-inputs__separator">{rangeInputSeparatorText}</span>
 
-						<div className="ss__facet__range-input-wrapper ss__facet__range-input-wrapper--high">
+						<div className="ss__facet__range-input ss__facet__range-input--high">
 							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
 							<input
 								type="number"
-								className="ss__facet__range-input"
+								className="ss__facet__range-input__input"
 								value={high}
 								onInput={(e) => setHigh(Number(e.currentTarget.value) || 0)}
 								onKeyUp={onKeyUp}
 							/>
 						</div>
 					</div>
-					<div className="ss__facet__range-inputs__row ss__facet__range-input__row--button-wrapper">
+					<div className="ss__facet__range-inputs__row ss__facet__range-inputs__row--button-wrapper">
 						<Button
 							internalClassName="ss__facet__range-input__button--submit"
 							ref={submitButtonRef}

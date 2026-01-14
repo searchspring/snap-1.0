@@ -129,8 +129,8 @@ describe('Filter Store', () => {
 		const rangeFilter = filters.find((filter) => filter.facet.field === rangeField);
 		expect(rangeFilter).toBeDefined();
 
-		// If high=100, low=10, it prints "$100.00 - $10.00"
-		const expectedLabel = `$${rangeFilterInput.value?.high?.toFixed(2)} - $${rangeFilterInput.value?.low?.toFixed(2)}`;
+		// If high=100, low=10, it prints "$10.00 - $100.00"
+		const expectedLabel = `$${rangeFilterInput.value?.low?.toFixed(2)} - $${rangeFilterInput.value?.high?.toFixed(2)}`;
 		expect(rangeFilter?.value.label).toBe(expectedLabel);
 	});
 });

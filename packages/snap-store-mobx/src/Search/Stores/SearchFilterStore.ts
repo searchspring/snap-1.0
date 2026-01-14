@@ -43,7 +43,7 @@ export class SearchFilterStore extends Array<RangeFilter | Filter> {
 							(config as SearchStoreConfig)?.settings?.filters?.fields?.[filter.field!]?.rangeFormatValue ||
 							(config as SearchStoreConfig)?.settings?.filters?.rangeFormatValue;
 						if (format) {
-							rangeFilter.label = sprintf(format, rangeFilter.value?.high, rangeFilter.value?.low);
+							rangeFilter.label = sprintf(format, rangeFilter.value?.low, rangeFilter.value?.high);
 						}
 						return new RangeFilter(services, rangeFilter, facetMeta!);
 
