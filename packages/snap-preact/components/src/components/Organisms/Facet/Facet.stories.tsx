@@ -84,6 +84,47 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
+		rangeInputs: {
+			defaultValue: false,
+			description: 'Enables facet range inputs',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		rangeInputSubmitButtonText: {
+			defaultValue: 'Submit',
+			description: 'Range input submit button text',
+			table: {
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: 'Submit' },
+			},
+			control: { type: 'text' },
+		},
+		rangeInputsPrefix: {
+			description: 'Range inputs prefix text',
+			table: {
+				type: {
+					summary: 'string',
+				},
+			},
+			control: { type: 'text' },
+		},
+		rangeInputSeparatorText: {
+			description: 'Range inputs separator text',
+			table: {
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: ' - ' },
+			},
+			control: { type: 'text' },
+		},
 		color: {
 			description: 'Select color',
 			table: {

@@ -390,6 +390,40 @@ describe('Facet Component', () => {
 			const optionsElement = rendered.container.querySelector('.ss__facet__options');
 			expect(optionsElement).toHaveTextContent('Summer');
 		});
+
+		it('rangeInputs, rangeInputSubmitButtonText & rangeInputsPrefix props', () => {
+			const args = {
+				//@ts-ignore
+				facet: { ...sliderFacetMock, display: 'slider', type: 'range' } as RangeFacet,
+				rangeInputs: true,
+				rangeInputSubmitButtonText: 'Go',
+				rangeInputsPrefix: '$',
+				rangeInputSeparatorText: '- to -',
+			};
+			args.facet.collapsed = false;
+
+			const rendered = render(<Facet {...args} />);
+			const facetElement = rendered.container.querySelector('.ss__facet__options')!;
+			expect(facetElement).toBeInTheDocument();
+
+			const rangeInputsElement = rendered.container.querySelector('.ss__facet__range-inputs');
+			expect(rangeInputsElement).toBeInTheDocument();
+
+			const inputs = rangeInputsElement?.querySelectorAll('.ss__facet__range-input');
+			expect(inputs?.length).toBe(2);
+
+			const prefixes = rangeInputsElement?.querySelectorAll('.ss__facet__range-input__prefix');
+			expect(prefixes?.length).toBe(2);
+			expect(prefixes?.[0]).toHaveTextContent(args.rangeInputsPrefix);
+
+			const submitButton = rangeInputsElement?.querySelector('.ss__facet__range-input__button--submit');
+			expect(submitButton).toBeInTheDocument();
+			expect(submitButton).toHaveTextContent(args.rangeInputSubmitButtonText);
+
+			const sepElem = rangeInputsElement?.querySelector('.ss__facet__range-inputs__separator');
+			expect(sepElem).toBeInTheDocument();
+			expect(sepElem).toHaveTextContent(args.rangeInputSeparatorText);
+		});
 	});
 
 	it('renders with classname', () => {
@@ -662,7 +696,7 @@ describe('Facet Component', () => {
 			const propTheme = {
 				components: {
 					facet: {
-						className: 'classy',
+						className: 'test-class',
 					},
 				},
 			};
