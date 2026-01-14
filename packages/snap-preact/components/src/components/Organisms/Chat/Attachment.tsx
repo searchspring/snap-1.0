@@ -44,7 +44,7 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 		return src || isLoading ? (
 			<div className={classnames('ss__chat__attachment ss__chat__attachment--image', { error: !!attachment.error })}>
 				<div className={'ss__chat__attachment__content'}>
-					{src && <Image className={isLoading ? 'loading' : ''} style={{ height: '50px', width: '50px' }} src={src} alt={''} />}
+					{src && <Image className={isLoading ? 'loading' : ''} style={{ height: '100px', width: '100px' }} src={src} alt={''} />}
 					{isLoading && (
 						<div className={'ss__chat__attachment__loading'}>
 							<div className={'ss__chat__loading__dot'}></div>

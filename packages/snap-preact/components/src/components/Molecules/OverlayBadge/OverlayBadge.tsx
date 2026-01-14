@@ -85,7 +85,6 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 
 	const meta = controller?.store?.meta;
 	if (!meta) {
-		controller?.log?.warn('Controller must have a meta store');
 		return <Fragment>{children}</Fragment>;
 	}
 	const group = 'overlay';

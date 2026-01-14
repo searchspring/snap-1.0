@@ -15,7 +15,7 @@ import type {
 	ChatResponseProductComparisonData,
 	ChatResponseProductRecommendationData,
 } from '@searchspring/snap-client';
-import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
+import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentProduct, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
 import { MetaResponseModel } from '@searchspring/snapi-types';
 
@@ -194,6 +194,20 @@ export class ChatSessionStore {
 				attachments: attachments.length > 0 ? attachments : undefined,
 				text: request.data.message,
 			});
+		} else if (request.data?.requestType === 'productSimilar') {
+			const attachedSimilarProduct = this.attachments.attached.find((item) => item.type == 'product' && item.requestType == 'productSimilar');
+			if (attachedSimilarProduct) {
+				attachments.push(attachedSimilarProduct.id);
+				attachedSimilarProduct.activate();
+				this.chat.push({
+					id: uuidv4(),
+					messageType: 'user',
+					attachments: attachments.length > 0 ? attachments : undefined,
+					text: `Show similar products to "${
+						(attachedSimilarProduct as ChatAttachmentProduct).name || (attachedSimilarProduct as ChatAttachmentProduct).productId
+					}"`,
+				});
+			}
 		}
 		this.save();
 	}

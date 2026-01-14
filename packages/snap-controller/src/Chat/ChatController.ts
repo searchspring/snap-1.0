@@ -117,6 +117,9 @@ export class ChatController extends AbstractController {
 			}, []);
 
 		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
+		const similarProducts = this.store.currentChat?.attachments.attached.filter(
+			(attachment) => attachment.type === 'product' && attachment.requestType === 'productSimilar'
+		) as ChatAttachmentProduct[];
 		let chatRequest: MoiRequestModel = {
 			requestType: 'general',
 			message: this.store.inputValue,
@@ -137,13 +140,8 @@ export class ChatController extends AbstractController {
 		}
 
 		if (attachedProductIds.length == 1) {
-			// chatRequest = {
-			// 	requestType: 'productQuery',
-			// 	message: this.store.inputValue,
-			// 	productId: attachedProductIds[0],
-			// };
 			chatRequest = {
-				requestType: 'productSimilar',
+				requestType: 'productQuery',
 				message: this.store.inputValue,
 				productId: attachedProductIds[0],
 			};
@@ -158,8 +156,15 @@ export class ChatController extends AbstractController {
 		if (searchFilters.length > 0) {
 			chatRequest = {
 				requestType: 'productSearch',
-				// message: '',
 				searchFilters,
+			};
+		}
+
+		if (similarProducts?.length === 1) {
+			chatRequest = {
+				requestType: 'productSimilar',
+				message: this.store.inputValue,
+				productId: similarProducts[0].productId,
 			};
 		}
 
@@ -316,6 +321,18 @@ export class ChatController extends AbstractController {
 			this.search();
 		} else if (!this.store.currentChat?.sessionId) {
 			this.search();
+		}
+		if (!initialMessage) {
+			setTimeout(() => {
+				this.focusInput();
+			});
+		}
+	};
+
+	focusInput = (): void => {
+		const input = document.querySelector('.ss__chat__input input[type="text"]') as HTMLInputElement;
+		if (input) {
+			input.focus();
 		}
 	};
 
