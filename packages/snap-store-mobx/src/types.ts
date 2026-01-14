@@ -85,10 +85,12 @@ export type SearchStoreConfig = StoreConfig & {
 };
 
 export type FilterStoreConfig = {
-	filterFormatValue?: string;
-	enabled?: boolean;
-	displayDelimiter?: string;
-	showFullPath?: boolean;
+	rangeFormatValue?: string;
+	hiearchy?: {
+		enabled?: boolean;
+		displayDelimiter?: string;
+		showFullPath?: boolean;
+	};
 };
 
 export type FacetStoreConfig = {

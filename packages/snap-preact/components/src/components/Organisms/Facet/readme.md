@@ -147,6 +147,13 @@ The `rangeInputsPrefix` prop specifies the prefix to render next to the range in
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsPrefix={'$'}/>
 ```
 
+### rangeInputSeparatorText
+The `rangeInputSeparatorText` prop specifies the separator text to render between the range inputs.
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSeparatorText={' to '}/>
+```
+
 ### showClearAllText
 The `showClearAllText` prop specifies if the clear all text should render.
 

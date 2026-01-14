@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import { useState } from 'preact/hooks';
+import { MutableRef, useRef, useState } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -116,9 +116,14 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 			alignItems: 'center',
 		},
 
-		'.ss__facet__range-input__button--submit': {
-			textAlign: 'center',
-			margin: '10px auto',
+		'.ss__facet__range-input__button__wrapper': {
+			display: 'flex',
+			justifyContent: 'center',
+
+			'.ss__facet__range-input__button--submit': {
+				textAlign: 'center',
+				margin: '10px',
+			},
 		},
 	});
 };
@@ -137,6 +142,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		iconOverflowLess: 'minus',
 		clearAllText: 'Clear All',
 		rangeInputSubmitButtonText: 'Submit',
+		rangeInputSeparatorText: ' - ',
 		searchable: false,
 		treePath: globalTreePath,
 	};
@@ -492,6 +498,7 @@ const FacetContent = (
 		previewOnFocus,
 		rangeInputs,
 		rangeInputsPrefix,
+		rangeInputSeparatorText,
 		justContent,
 		valueProps,
 		hideShowMoreLessText,
@@ -506,6 +513,8 @@ const FacetContent = (
 		setLow(vals[0]);
 		setHigh(vals[1]);
 	};
+
+	const submitButtonRef: MutableRef<any> = useRef();
 
 	return (
 		<Fragment>
@@ -576,64 +585,81 @@ const FacetContent = (
 							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
 							<input
 								type="number"
-								className="ss__facet__range-input ss__facet__range-input--low"
+								className="ss__facet__range-input"
 								value={low}
 								onInput={(e) => setLow(Number(e.currentTarget.value) || 0)}
+								onKeyUp={(e) => {
+									if (e.key === 'Enter') {
+										if (low && high) {
+											submitButtonRef.current?.base?.click();
+										}
+									}
+								}}
 							/>
 						</div>
 
-						<label> - </label>
+						<span className="ss__facet__range-inputs__separator">{rangeInputSeparatorText}</span>
 
 						<div className="ss__facet__range-input-wrapper ss__facet__range-input-wrapper--high">
 							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
 							<input
 								type="number"
-								className="ss__facet__range-input ss__facet__range-input--high"
+								className="ss__facet__range-input"
 								value={high}
 								onInput={(e) => setHigh(Number(e.currentTarget.value) || 0)}
+								onKeyUp={(e) => {
+									if (e.key === 'Enter') {
+										if (low && high) {
+											submitButtonRef.current?.base?.click();
+										}
+									}
+								}}
 							/>
 						</div>
 					</div>
-					<Button
-						internalClassName="ss__facet__range-input__button--submit"
-						onClick={() => {
-							if (facet?.services?.urlManager && typeof low === 'number' && typeof high === 'number') {
-								let currentLow = low;
-								let currentHigh = high;
+					<div className="ss__facet__range-input__button__wrapper">
+						<Button
+							internalClassName="ss__facet__range-input__button--submit"
+							ref={submitButtonRef}
+							onClick={() => {
+								if (facet?.services?.urlManager && typeof low === 'number' && typeof high === 'number') {
+									let currentLow = low;
+									let currentHigh = high;
 
-								//adjust ranges if high and low have swapped.
-								if (currentHigh < currentLow) {
-									currentLow = high;
-									currentHigh = low;
-									setLow(currentLow);
-									setHigh(currentHigh);
-								}
+									//adjust ranges if high and low have swapped.
+									if (currentHigh < currentLow) {
+										currentLow = high;
+										currentHigh = low;
+										setLow(currentLow);
+										setHigh(currentHigh);
+									}
 
-								//adjust limits if state is too high or too low
-								if ((facet as RangeFacet)?.range?.low !== undefined && currentLow < (facet as RangeFacet)?.range?.low!) {
-									currentLow = (facet as RangeFacet)?.range?.low!;
-									setLow(currentLow);
-								}
-								if ((facet as RangeFacet)?.range?.high !== undefined && currentLow > (facet as RangeFacet)?.range?.high!) {
-									currentLow = (facet as RangeFacet)?.range?.high!;
-									setLow(currentLow);
-								}
+									//adjust limits if state is too high or too low
+									if ((facet as RangeFacet)?.range?.low !== undefined && currentLow < (facet as RangeFacet)?.range?.low!) {
+										currentLow = (facet as RangeFacet)?.range?.low!;
+										setLow(currentLow);
+									}
+									if ((facet as RangeFacet)?.range?.high !== undefined && currentLow > (facet as RangeFacet)?.range?.high!) {
+										currentLow = (facet as RangeFacet)?.range?.high!;
+										setLow(currentLow);
+									}
 
-								if ((facet as RangeFacet)?.range?.low !== undefined && currentHigh < (facet as RangeFacet)?.range?.low!) {
-									currentHigh = (facet as RangeFacet)?.range?.low!;
-									setHigh(currentHigh);
-								}
-								if ((facet as RangeFacet)?.range?.high !== undefined && currentHigh > (facet as RangeFacet)?.range?.high!) {
-									currentHigh = (facet as RangeFacet)?.range?.high!;
-									setHigh(currentHigh);
-								}
+									if ((facet as RangeFacet)?.range?.low !== undefined && currentHigh < (facet as RangeFacet)?.range?.low!) {
+										currentHigh = (facet as RangeFacet)?.range?.low!;
+										setHigh(currentHigh);
+									}
+									if ((facet as RangeFacet)?.range?.high !== undefined && currentHigh > (facet as RangeFacet)?.range?.high!) {
+										currentHigh = (facet as RangeFacet)?.range?.high!;
+										setHigh(currentHigh);
+									}
 
-								facet.services.urlManager.remove('page').set(`filter.${facet.field}`, { low: currentLow, high: currentHigh }).go();
-							}
-						}}
-					>
-						{mergedLang.submitRangeButton.value ? <label {...mergedLang.submitRangeButton.all}></label> : null}
-					</Button>
+									facet.services.urlManager.remove('page').set(`filter.${facet.field}`, { low: currentLow, high: currentHigh }).go();
+								}
+							}}
+						>
+							{mergedLang.submitRangeButton.value ? <label {...mergedLang.submitRangeButton.all}></label> : null}
+						</Button>
+					</div>
 				</div>
 			)}
 
@@ -714,6 +740,7 @@ interface OptionalFacetProps extends ComponentProps {
 	rangeInputs?: boolean;
 	rangeInputSubmitButtonText?: string;
 	rangeInputsPrefix?: string;
+	rangeInputSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;
 	lang?: Partial<FacetLang>;

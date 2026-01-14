@@ -115,6 +115,16 @@ export default {
 			},
 			control: { type: 'text' },
 		},
+		rangeInputSeparatorText: {
+			description: 'Range inputs separator text',
+			table: {
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: ' - ' },
+			},
+			control: { type: 'text' },
+		},
 		color: {
 			description: 'Select color',
 			table: {

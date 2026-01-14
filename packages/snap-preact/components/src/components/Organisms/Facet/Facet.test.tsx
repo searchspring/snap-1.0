@@ -398,8 +398,10 @@ describe('Facet Component', () => {
 				rangeInputs: true,
 				rangeInputSubmitButtonText: 'Go',
 				rangeInputsPrefix: '$',
+				rangeInputSeparatorText: '- to -',
 			};
 			args.facet.collapsed = false;
+
 			const rendered = render(<Facet {...args} />);
 			const facetElement = rendered.container.querySelector('.ss__facet__options')!;
 			expect(facetElement).toBeInTheDocument();
@@ -417,6 +419,10 @@ describe('Facet Component', () => {
 			const submitButton = rangeInputsElement?.querySelector('.ss__facet__range-input__button--submit');
 			expect(submitButton).toBeInTheDocument();
 			expect(submitButton).toHaveTextContent(args.rangeInputSubmitButtonText);
+
+			const sepElem = rangeInputsElement?.querySelector('.ss__facet__range-inputs__separator');
+			expect(sepElem).toBeInTheDocument();
+			expect(sepElem).toHaveTextContent(args.rangeInputSeparatorText);
 		});
 	});
 
