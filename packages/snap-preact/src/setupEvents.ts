@@ -15,6 +15,12 @@ type ControllerChatOpenData = {
 	query?: string;
 };
 
+type ControllerChatOpenProductQueryData = {
+	controllerIds?: (string | RegExp)[];
+	result?: any;
+	options?: any;
+};
+
 export const setupEvents = () => {
 	const eventManager = new EventManager();
 
@@ -64,6 +70,22 @@ export const setupEvents = () => {
 
 		controllers.map((controller) => {
 			(controller as ChatController).openChat(query);
+		});
+
+		await next();
+	});
+
+	eventManager.on('chat/open/discussProduct', async (data: ControllerChatOpenProductQueryData, next: Next) => {
+		const { controllerIds, result, options } = data || {};
+
+		//filter through all chat controllers for matches with profileIds and realtime config
+		const controllers = matchControllers(controllerIds).filter((controller) => {
+			return Boolean(controller.type === 'chat');
+		});
+
+		controllers.map((controller) => {
+			(controller as ChatController).discussProduct(result, options);
+			(controller as ChatController).openChat();
 		});
 
 		await next();

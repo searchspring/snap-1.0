@@ -162,6 +162,7 @@ let config: SnapTemplatesConfig = {
 			{
 				selector: '#searchspring-layout',
 				component: 'Search',
+				resultComponent: 'CustomResult',
 			},
 		],
 	},
