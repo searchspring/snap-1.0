@@ -90,7 +90,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 			},
 		},
 
-		'.ss__facet__range-inputs--row': {
+		'.ss__facet__range-inputs__row': {
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'center',
@@ -116,7 +116,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 			alignItems: 'center',
 		},
 
-		'.ss__facet__range-input__button__wrapper': {
+		'.ss__facet__range-input__row--button-wrapper': {
 			display: 'flex',
 			justifyContent: 'center',
 
@@ -514,6 +514,14 @@ const FacetContent = (
 		setHigh(vals[1]);
 	};
 
+	const onKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			if (typeof low == 'number' && typeof high == 'number') {
+				submitButtonRef.current?.base?.click();
+			}
+		}
+	};
+
 	const submitButtonRef: MutableRef<any> = useRef();
 
 	return (
@@ -580,7 +588,7 @@ const FacetContent = (
 
 			{rangeInputs && (facet.type === 'range' || facet.type === 'range-buckets') && (
 				<div className="ss__facet__range-inputs">
-					<div className="ss__facet__range-inputs--row">
+					<div className="ss__facet__range-inputs__row">
 						<div className="ss__facet__range-input-wrapper ss__facet__range-input-wrapper--low">
 							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
 							<input
@@ -588,13 +596,7 @@ const FacetContent = (
 								className="ss__facet__range-input"
 								value={low}
 								onInput={(e) => setLow(Number(e.currentTarget.value) || 0)}
-								onKeyUp={(e) => {
-									if (e.key === 'Enter') {
-										if (low && high) {
-											submitButtonRef.current?.base?.click();
-										}
-									}
-								}}
+								onKeyUp={onKeyUp}
 							/>
 						</div>
 
@@ -607,17 +609,11 @@ const FacetContent = (
 								className="ss__facet__range-input"
 								value={high}
 								onInput={(e) => setHigh(Number(e.currentTarget.value) || 0)}
-								onKeyUp={(e) => {
-									if (e.key === 'Enter') {
-										if (low && high) {
-											submitButtonRef.current?.base?.click();
-										}
-									}
-								}}
+								onKeyUp={onKeyUp}
 							/>
 						</div>
 					</div>
-					<div className="ss__facet__range-input__button__wrapper">
+					<div className="ss__facet__range-inputs__row ss__facet__range-input__row--button-wrapper">
 						<Button
 							internalClassName="ss__facet__range-input__button--submit"
 							ref={submitButtonRef}
