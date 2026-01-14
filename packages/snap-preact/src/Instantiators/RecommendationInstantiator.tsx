@@ -8,7 +8,13 @@ import { Tracker } from '@searchspring/snap-tracker';
 
 import type { ClientConfig, ClientGlobals, RecommendRequestModel, RecommendationRequestFilterModel } from '@searchspring/snap-client';
 import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
-import type { AbstractController, RecommendationController, Attachments, ContextVariables } from '@searchspring/snap-controller';
+import type {
+	AbstractController,
+	RecommendationController,
+	Attachments,
+	ContextVariables,
+	RecommendationControllerConfig,
+} from '@searchspring/snap-controller';
 import type { VariantConfig } from '@searchspring/snap-store-mobx';
 import type { Middleware } from '@searchspring/snap-event-manager';
 import type { Target } from '@searchspring/snap-toolbox';
@@ -309,13 +315,17 @@ async function readyTheController(
 		controllerGlobals,
 	]);
 
-	const controllerConfig = {
+	const controllerConfig: RecommendationControllerConfig = {
 		id: `recommend_${tag}_${profileCount[tag] - 1}`,
 		tag,
-		batched: batched ?? true,
-		realtime: Boolean(context.options?.realtime ?? context.profile?.options?.realtime),
+		batched: batched ?? instance.config.config?.batched ?? true,
+		realtime: Boolean(context.options?.realtime ?? context.profile?.options?.realtime ?? instance.config.config?.realtime),
 		batchId: batchId,
-		...instance.config.config,
+		branch: instance.config.config?.branch || 'production',
+		limit: instance.config.config?.limit,
+		settings: {
+			variants: instance.config.config?.variants,
+		},
 		globals,
 	};
 
