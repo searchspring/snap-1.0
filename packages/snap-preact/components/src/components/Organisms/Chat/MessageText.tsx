@@ -18,10 +18,10 @@ export const MessageText = observer((props: MessageTextProps) => {
 			{chatItem?.collectFeedback ? (
 				<div className="ss__chat__message-text__text-wrapper__feedback">
 					<span onClick={() => controller.feedback(chatItem, 'UP')}>
-						<Icon icon="thumbs-up" color={feedbackEntry?.rating === 'UP' ? '#000' : '#aaa'} />
+						<Icon icon={'thumbs-up'} title={'Thumbs Up'} color={feedbackEntry?.rating === 'UP' ? '#000' : '#aaa'} />
 					</span>
 					<span onClick={() => controller.feedback(chatItem, 'DOWN')}>
-						<Icon icon="thumbs-down" color={feedbackEntry?.rating === 'DOWN' ? '#000' : '#aaa'} />
+						<Icon icon={'thumbs-down'} title={'Thumbs Down'} color={feedbackEntry?.rating === 'DOWN' ? '#000' : '#aaa'} />
 					</span>
 				</div>
 			) : null}

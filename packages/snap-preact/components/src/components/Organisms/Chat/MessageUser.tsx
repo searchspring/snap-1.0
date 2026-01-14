@@ -31,9 +31,6 @@ export const MessageUser = observer((props: MessageUserProps) => {
 									return (
 										<li className="ss__chat__message-user__attachment__facet" key={attachment.id}>
 											<Icon title={`Filter: ${attachment.facetLabel} = ${attachment.label}`} icon="filter-funnel" size={27} />
-											{/* <div className="ss__chat__message-user__attachment__facet_name">
-												Filter: {attachment.facetLabel} = {attachment.label}
-											</div> */}
 										</li>
 									);
 								default:

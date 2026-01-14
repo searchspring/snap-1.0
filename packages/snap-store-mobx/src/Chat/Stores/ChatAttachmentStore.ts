@@ -73,7 +73,7 @@ export class ChatAttachmentStore {
 				// if there are already two product attachments, remove until only one remains
 				const productAttachments = this.items.filter((item) => item.type === 'product' && item.state === 'active');
 				while (productAttachments.length >= 2) {
-					const toRemove = productAttachments.shift();
+					const toRemove = productAttachments.pop();
 					if (toRemove) {
 						this.remove(toRemove.id);
 					}

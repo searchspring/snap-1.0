@@ -88,13 +88,12 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				position: 'absolute',
 				width: 300,
 				minHeight: 170,
-				top: 30,
-				right: 0,
+				top: 15,
+				right: 15,
 				background: 'white',
 				zIndex: 2,
-				boxShadow: '-2px 2px 4px 2px rgba(0, 0, 0, 0.2)',
-				borderBottomLeftRadius: 5,
-				borderBottomRightRadius: 5,
+				boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.2)',
+				borderRadius: '8px',
 				display: 'flex',
 				flexDirection: 'column',
 				gap: 5,
@@ -108,12 +107,18 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				'.ss__chat__header__history__chats': {
 					display: 'flex',
 					flexDirection: 'column-reverse',
+					gap: 5,
 					'.ss__chat__header__history__chats__chat': {
 						display: 'flex',
 						alignItems: 'baseline',
 						justifyContent: 'space-between',
 						'.ss__chat__header__history__chats__chat__date': {
 							fontSize: '70%',
+						},
+						'.ss__button': {
+							borderRadius: '8px',
+							border: '1px solid #ccc',
+							fontSize: '14px',
 						},
 					},
 				},
@@ -261,9 +266,19 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				display: 'flex',
 				gap: 5,
 				alignItems: 'baseline',
+			},
+			'.ss__button': {
+				border: '1px solid #ccc',
+				borderRadius: '8px',
+			},
+			'.ss__chat__action--actions': {
+				overflowX: 'scroll',
+				display: 'inline-flex',
+				gap: 5,
+				flexDirection: 'row',
+				paddingBottom: '10px',
 				'.ss__button': {
-					border: '1px solid #ccc',
-					borderRadius: '0.5em',
+					flex: '1 0 auto',
 				},
 			},
 		},
@@ -310,7 +325,7 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 				position: 'relative',
 				display: 'flex',
 				alignItems: 'center',
-				justifyContent: 'center',
+				justifyContent: 'flex-start',
 				border: '1px solid #ddd',
 				borderRadius: '4px',
 				padding: '4px',
@@ -407,9 +422,14 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 					},
 				},
 			},
+			'.ss__chat__attachments__info': {
+				fontSize: '12px',
+				color: '#666',
+				width: '100%',
+				textAlign: 'right',
+			},
 		},
 		'.ss__chat__footer': {
-			borderTop: '1px solid #ddd',
 			padding: '1em',
 			display: 'flex',
 			flexDirection: 'column',
@@ -427,9 +447,9 @@ const defaultStyles: StyleScript<ChatProps> = () => {
 			display: 'flex',
 			gap: '8px',
 			alignItems: 'center',
-			padding: '1em 2em',
+			padding: '0.5em 1.5em',
 			border: '1px solid #ccc',
-			borderRadius: '3em',
+			borderRadius: '8px',
 
 			'input[type="text"]': {
 				flex: '1 1 auto',
@@ -570,29 +590,44 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									{store.chats.length > 1 ? (
 										<Button
 											className="ss__chat__history"
-											icon="history"
+											icon={{
+												icon: 'history',
+												title: 'Chat History',
+											}}
 											onClick={() => {
 												setIsViewingHistory(!isViewingHistory);
 											}}
 										/>
 									) : null}
 									{store.currentChat?.chat && store.currentChat.chat.length > 1 && (
-										<Button className="ss__chat__new" icon="plus-thin" onClick={() => controller.startNewChat()} />
+										<Button className="ss__chat__new" icon={{ icon: 'plus-thin', title: 'New Chat' }} onClick={() => controller.startNewChat()} />
 									)}
-									<Button className="ss__chat__close" icon="close-thin" onClick={() => controller.handlers.button.click()} />
+									<Button
+										className="ss__chat__close"
+										icon={{ icon: 'close-thin', title: 'Close Chat' }}
+										onClick={() => controller.handlers.button.click()}
+									/>
 								</div>
 								{isViewingHistory ? (
 									<div className="ss__chat__header__history">
 										<div className="ss__chat__header__history__header">
 											<h4>Chat History</h4>
-											<Button
-												icon={'trash'}
-												onClick={() => {
-													controller.store.reset();
-													controller.search(); // TODO: combine this elsewhere
-													setIsViewingHistory(false);
-												}}
-											/>
+											<div className="ss__chat__header__history__header__buttons">
+												<Button
+													icon={{ icon: 'trash', title: 'Clear Chat History' }}
+													onClick={() => {
+														controller.store.reset();
+														controller.search();
+														setIsViewingHistory(false);
+													}}
+												/>
+												<Button
+													icon={{ icon: 'close-thin', title: 'Close Chat History' }}
+													onClick={() => {
+														setIsViewingHistory(false);
+													}}
+												/>
+											</div>
 										</div>
 										{store.chats.length > 0 ? (
 											<div className="ss__chat__header__history__chats">
@@ -689,16 +724,6 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																	</Button>
 																))}
 															</Fragment>
-															// <div key={index} className={classnames('ss__chat__actions__item')}>
-															// 	<Button
-															// 		onClick={() => {
-															// 			controller.store.inputValue = action.message;
-															// 			controller.search();
-															// 		}}
-															// 	>
-															// 		{action.message}
-															// 	</Button>
-															// </div>
 														),
 													}[action.type] || <Fragment></Fragment>}
 												</div>
@@ -710,6 +735,14 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											{store.currentChat?.attachments.attached.map((item) => (
 												<Attachment key={item.id} attachment={item} controller={controller} />
 											))}
+											{store.currentChat?.attachments.attached.length === 2 &&
+											store.currentChat?.attachments.attached.every((item) => item.type === 'product') ? (
+												<div className={'ss__chat__attachments__info'}>Compare products (max: 2)</div>
+											) : null}
+											{store.currentChat?.attachments.attached.length === 1 &&
+											store.currentChat?.attachments.attached.every((item) => item.type === 'product') ? (
+												<div className={'ss__chat__attachments__info'}>Ask questions about this product</div>
+											) : null}
 										</div>
 									)}
 									<div className={'ss__chat__input'}>
@@ -726,10 +759,14 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 												className={'ss__chat__upload-button'}
 												disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading') || store.blocked}
 												onClick={() => fileInputRef.current?.click()}
-												icon={'plus-thin'}
-												name={'Upload Image'}
+												icon={{ icon: 'plus-thin', title: 'Upload Image' }}
 											/>
-											<Button className="ss__chat__send-button" icon={'send'} disabled={store.blocked} onClick={() => controller.search()} />
+											<Button
+												className="ss__chat__send-button"
+												icon={{ icon: 'send', title: 'Send Message' }}
+												disabled={store.blocked}
+												onClick={() => controller.search()}
+											/>
 											<input
 												ref={fileInputRef}
 												onChange={async (e) => {
