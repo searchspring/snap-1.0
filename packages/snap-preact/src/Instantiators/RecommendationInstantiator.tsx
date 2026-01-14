@@ -321,6 +321,8 @@ async function readyTheController(
 		batched: batched ?? instance.config.config?.batched ?? true,
 		realtime: Boolean(context.options?.realtime ?? context.profile?.options?.realtime ?? instance.config.config?.realtime),
 		batchId: batchId,
+		middleware: instance.config.config.middleware,
+		plugins: instance.config.config.plugins,
 		branch: instance.config.config?.branch || 'production',
 		limit: instance.config.config?.limit,
 		settings: {
