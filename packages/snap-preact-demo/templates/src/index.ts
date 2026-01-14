@@ -154,6 +154,7 @@ let config: SnapTemplatesConfig = {
 		bundle: {
 			Bundle: {
 				component: 'RecommendationBundle',
+				resultComponent: 'CustomResult',
 			},
 		},
 	},
@@ -182,6 +183,7 @@ let config: SnapTemplatesConfig = {
 			{
 				selector: 'input.searchspring-ac',
 				component: 'AutocompleteFixed',
+				resultComponent: 'CustomResult',
 			},
 		],
 	},

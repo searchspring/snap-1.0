@@ -676,8 +676,7 @@ export class AutocompleteController extends AbstractController {
 
 		// fire openChat event
 		window.searchspring.fire('chat/open', {
-			// controllerIds: 'chat', // TODO: add config for which chat controller to open
-			query: this.store.state.input, // TODO: add this ability behind config
+			query: this.store.state.input,
 		});
 	};
 

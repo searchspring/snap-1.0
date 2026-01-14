@@ -3,13 +3,19 @@ import { Price, Image, OverlayBadge, CalloutBadge, Icon } from '@searchspring/sn
 import { Product } from '@searchspring/snap-store-mobx';
 import type { SearchController } from '@searchspring/snap-controller';
 
-const openChatProductQuery = (result) => {
+const openChatProductQuery = (result, controller) => {
 	const options = { requestType: 'productQuery' };
 	window.searchspring.fire('chat/open/discussProduct', { result, options });
+	if (controller.type === 'autocomplete') {
+		controller.setFocused();
+	}
 };
-const openChatProductSimilar = (result) => {
+const openChatProductSimilar = (result, controller) => {
 	const options = { requestType: 'productSimilar' };
 	window.searchspring.fire('chat/open/discussProduct', { result, options });
+	if (controller.type === 'autocomplete') {
+		controller.setFocused();
+	}
 };
 export const CustomResult = (props: { result: Product; controller: SearchController }) => {
 	const { result, controller } = props;
@@ -28,7 +34,7 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 									onClick={(e) => {
 										e.preventDefault();
 										e.stopPropagation();
-										openChatProductQuery(result);
+										openChatProductQuery(result, controller);
 									}}
 									style={{ position: 'absolute', bottom: '0px', left: '0px', cursor: 'pointer' }}
 								>
@@ -38,7 +44,7 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 									onClick={(e) => {
 										e.preventDefault();
 										e.stopPropagation();
-										openChatProductSimilar(result);
+										openChatProductSimilar(result, controller);
 									}}
 									style={{ position: 'absolute', bottom: '0px', left: '20px', cursor: 'pointer' }}
 								>
