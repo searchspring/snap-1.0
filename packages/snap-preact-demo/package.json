@@ -1,7 +1,7 @@
 {
 	"name": "@searchspring/snap-preact-demo",
 	"private": true,
-	"version": "1.9.2",
+	"version": "1.11.0",
 	"description": "demo store for development and testing",
 	"author": "Searchspring",
 	"license": "MIT",
@@ -22,8 +22,8 @@
 	},
 	"searchspring": {
 		"siteId": {
-			"8uyt2m": {
-				"name": "snap.searchspring.io"
+			"atkzs2": {
+				"name": "snap.athoscommerce.io"
 			}
 		},
 		"framework": "preact",
@@ -34,7 +34,7 @@
 		"scaffold": "snapfu-core"
 	},
 	"dependencies": {
-		"@searchspring/snap-preact": "1.9.2",
+		"@searchspring/snap-preact": "1.11.0",
 		"deepmerge": "4.3.1",
 		"mobx-react": "7.6.0",
 		"preact": "10.9.0"

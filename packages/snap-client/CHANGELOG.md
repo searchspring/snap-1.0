@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+- **networkcache:** bugfix to prevent memoryCache from growing too large, and delete expired entries ([0534b6c](https://github.com/searchspring/snap/commit/0534b6c4ccb62389669c19f8f9f87cbd098fa6a5))
+
+### Features
+
+- **client:** adding support to have separate subdomain in api - using this for recommend requests ([ceb6d65](https://github.com/searchspring/snap/commit/ceb6d6500c2c8a57df0356535d0f74d8d0464fae))
+- **networkcache:** get function no longer accounts for personalization params when backforward nav ([de52d7e](https://github.com/searchspring/snap/commit/de52d7e02c7ed70488a31a4f92bd26820a8f3823))
+
+## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
+
+### Bug Fixes
+
+- **searchresponse.ts:** need to stringify propertys before we unescapeHTML them to ensure we dont end up with [object,object] attributes ([fefa659](https://github.com/searchspring/snap/commit/fefa65925abfec442b086b09d341a5238c83842d))
+
+# [1.10.0](https://github.com/searchspring/snap/compare/v1.9.2...v1.10.0) (2025-10-02)
+
+### Features
+
+- **client:** moving to Athos APIs ([d773390](https://github.com/searchspring/snap/commit/d7733901b97e8fc6e3fa5c6b47dba1401bdff203))
+
 ## [1.9.2](https://github.com/searchspring/snap/compare/v1.9.1...v1.9.2) (2025-08-29)
 
 **Note:** Version bump only for package @searchspring/snap-client
@@ -121,6 +145,40 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @searchspring/snap-client
 
 # [1.1.0](https://github.com/searchspring/snap/compare/v0.60.1...v1.1.0) (2024-09-20)
+
+# [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.70.1](https://github.com/searchspring/snap/compare/v0.70.0...v0.70.1) (2025-11-17)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+# [0.70.0](https://github.com/searchspring/snap/compare/v0.69.2...v0.70.0) (2025-11-13)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.69.2](https://github.com/searchspring/snap/compare/v0.69.1...v0.69.2) (2025-11-04)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.69.1](https://github.com/searchspring/snap/compare/v0.69.0...v0.69.1) (2025-10-23)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+# [0.69.0](https://github.com/searchspring/snap/compare/v0.68.0...v0.69.0) (2025-10-16)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+# [0.68.0](https://github.com/searchspring/snap/compare/v0.67.5...v0.68.0) (2025-08-18)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+
+## [0.67.5](https://github.com/searchspring/snap/compare/v0.67.4...v0.67.5) (2025-08-11)
+
+**Note:** Version bump only for package @searchspring/snap-client
 
 ## [0.67.4](https://github.com/searchspring/snap/compare/v0.67.3...v0.67.4) (2025-07-29)
 

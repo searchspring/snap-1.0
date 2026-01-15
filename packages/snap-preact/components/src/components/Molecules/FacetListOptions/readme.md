@@ -7,6 +7,9 @@ Renders a list of facet options.
 - Radio
 
 ## Usage
+```jsx
+import { FacetListOptions } from '@searchspring/snap-preact-components';
+```
 
 ### values
 The `values` prop specifies all facet values where the facet type is 'list'. Overrides values passed via the facet prop. 

@@ -76,7 +76,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'PerPage', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'PerPage', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: PerPageProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <PerPage {...args} pagination={controller?.store?.pagination} />;
@@ -96,7 +96,7 @@ Default.args = {
 
 const snapInstanceList = Snapify.search({
 	id: 'PerPage-list',
-	globals: { siteId: '8uyt2m' },
+	globals: { siteId: 'atkzs2' },
 	settings: {
 		pagination: {
 			pageSizeOptions: [

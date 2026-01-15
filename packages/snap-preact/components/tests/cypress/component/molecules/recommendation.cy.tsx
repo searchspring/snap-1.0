@@ -6,6 +6,7 @@ import { Profiler } from '@searchspring/snap-profiler';
 import { Logger } from '@searchspring/snap-logger';
 import { Client } from '@searchspring/snap-client';
 import { RecommendationController } from '@searchspring/snap-controller';
+import meta from '../../fixtures/meta.json';
 import json from '../../fixtures/recommend-results-default.json';
 import profile from '../../fixtures/profile-default.json';
 import { Recommendation } from '../../../../src/components/Templates/Recommendation';
@@ -46,15 +47,19 @@ const controller = new RecommendationController(recommendConfig, {
 });
 
 describe('Recommendation Component', async () => {
-	before(async () => {
+	before(() => {
 		cy.spy(controller.tracker.events.recommendations, 'render').as('render');
 		cy.spy(controller.track.product, 'impression').as('impression');
+		cy.intercept('*meta*', meta);
 		cy.intercept('*recommend*', json);
 		cy.intercept('*profile*', profile);
+	});
+
+	before(async () => {
 		await controller.search();
 	});
 
-	it('tracks as expected', () => {
+	it('tracks as expected', async () => {
 		expect(controller.store.loaded).to.be.true;
 		expect(controller.store.results.length).to.be.greaterThan(0);
 
@@ -69,7 +74,8 @@ describe('Recommendation Component', async () => {
 		);
 		cy.get('.ss__recommendation').should('exist');
 		cy.get('.ss__recommendation .findMe .result').should('have.length', controller.store.results.length);
-		cy.get('@render').should('have.been.calledOnce');
+		// should be called 20 times (one for each result rendered)
+		cy.get('@render').its('callCount').should('eq', 20);
 		cy.wait(3000);
 		cy.get('@impression').its('callCount').should('eq', 5);
 	});
@@ -105,23 +111,6 @@ describe('Recommendation Component', async () => {
 		cy.get('.ss__recommendation .ss__recommendation__title').should('not.exist');
 	});
 
-	it('renders custom title', () => {
-		const titleText = 'custom title';
-		mount(
-			<Recommendation title={titleText} controller={controller}>
-				{controller.store.results.map((result, idx) => (
-					<div className="result" key={idx}>
-						{result.mappings.core?.name}
-					</div>
-				))}
-			</Recommendation>
-		);
-
-		cy.get('.ss__recommendation').should('exist');
-		cy.get('.ss__recommendation .ss__recommendation__title').should('exist');
-		cy.get('.ss__recommendation .ss__recommendation__title').should('have.text', titleText);
-	});
-
 	it('can hide title with hideTitle', () => {
 		const titleText = 'custom title';
 		const lang = {
@@ -141,6 +130,16 @@ describe('Recommendation Component', async () => {
 
 		cy.get('.ss__recommendation').should('exist');
 		cy.get('.ss__recommendation .ss__recommendation__title').should('not.exist');
+	});
+
+	it('can use title & description prop', () => {
+		const title = 'some custom title';
+		const description = 'some custom description';
+		mount(<Recommendation controller={controller} title={title} description={description} />);
+
+		cy.get('.ss__recommendation').should('exist');
+		cy.get('.ss__recommendation__title').should('exist').should('have.text', title);
+		cy.get('.ss__recommendation__description').should('exist').should('have.text', description);
 	});
 
 	it('can disable styling', () => {

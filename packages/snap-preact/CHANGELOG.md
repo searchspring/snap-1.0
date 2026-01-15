@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- **preact/components/facet:** adjusting new facet input addition ([9823f76](https://github.com/searchspring/snap/commit/9823f7604db63fd894f9960b01fc94330bdb3626))
+- **recommmendationbundle:** fixing merge conflicts, and bugfix around cta slot not working with lang ([4dc4759](https://github.com/searchspring/snap/commit/4dc4759fb32d6216826b5d71e27683e5b593b8c3))
+- **snap-preact:** adding additional checks around all cookie/storage usage to ensure things work ([0f6d8e7](https://github.com/searchspring/snap/commit/0f6d8e735c3d3c7eea7cfba6cf59509fafb819bb))
+- **storybook:** update all broken stories that use old siteId to new athos siteid ([ec1ac5f](https://github.com/searchspring/snap/commit/ec1ac5fd97726a36e82f17086e449d1672576c79))
+
+### Features
+
+- **preact/components/facet:** adding range facet inputs and the ability to use filterFormatValue for filters ([ef16169](https://github.com/searchspring/snap/commit/ef16169123f749d45cf4ab4c7d29375c06ab16da))
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
+
+## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+# [1.10.0](https://github.com/searchspring/snap/compare/v1.9.2...v1.10.0) (2025-10-02)
+
+### Bug Fixes
+
+- **preact/components/autocomplete:** couple autocomplete bug fixes ([ed5651b](https://github.com/searchspring/snap/commit/ed5651b5fb8c4fa724fc53c495542d919f50c5be))
+
+### Features
+
+- **client:** moving to Athos APIs ([d773390](https://github.com/searchspring/snap/commit/d7733901b97e8fc6e3fa5c6b47dba1401bdff203))
+- **preact/templates:** adding ability (temporarily) to set the client config to allow setting "origin" for hitting alternative API domains ([80409c3](https://github.com/searchspring/snap/commit/80409c32251676e453fd6d3551e34382df29d3b2))
+
 ## [1.9.2](https://github.com/searchspring/snap/compare/v1.9.1...v1.9.2) (2025-08-29)
 
 **Note:** Version bump only for package @searchspring/snap-preact
@@ -236,6 +265,40 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **snap-layout/theming:** work towards theming a snap layout using styleScripts ([b6be05e](https://github.com/searchspring/snap/commit/b6be05eee8fc0a06c9e853a591aa0d380158fc0c))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
 - theme reactivity initial interface ([c017aad](https://github.com/searchspring/snap/commit/c017aadd4add7591bd98fcfbdb8db8985bf2d498))
+
+# [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.70.1](https://github.com/searchspring/snap/compare/v0.70.0...v0.70.1) (2025-11-17)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+# [0.70.0](https://github.com/searchspring/snap/compare/v0.69.2...v0.70.0) (2025-11-13)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.69.2](https://github.com/searchspring/snap/compare/v0.69.1...v0.69.2) (2025-11-04)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.69.1](https://github.com/searchspring/snap/compare/v0.69.0...v0.69.1) (2025-10-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+# [0.69.0](https://github.com/searchspring/snap/compare/v0.68.0...v0.69.0) (2025-10-16)
+
+### Bug Fixes
+
+- **snap-preact:** adding additional checks around all cookie/storage usage to ensure things work ([0f6d8e7](https://github.com/searchspring/snap/commit/0f6d8e735c3d3c7eea7cfba6cf59509fafb819bb))
+
+# [0.68.0](https://github.com/searchspring/snap/compare/v0.67.5...v0.68.0) (2025-08-18)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.67.5](https://github.com/searchspring/snap/compare/v0.67.4...v0.67.5) (2025-08-11)
+
+**Note:** Version bump only for package @searchspring/snap-preact
 
 ## [0.67.4](https://github.com/searchspring/snap/compare/v0.67.3...v0.67.4) (2025-07-29)
 

@@ -77,6 +77,16 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
+		description: {
+			description: 'recommendation description',
+			table: {
+				type: {
+					summary: 'string | JSX Element',
+				},
+				defaultValue: { summary: '' },
+			},
+			control: { type: 'text' },
+		},
 		loop: {
 			defaultValue: true,
 			description: 'Recommendation pagination loops',
@@ -207,7 +217,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.recommendation({ id: 'Recommendation', tag: 'trending', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.recommendation({ id: 'Recommendation', tag: 'trending', globals: { siteId: 'atkzs2' } });
 
 export const Default = (props: RecommendationProps, { loaded: { controller } }: { loaded: { controller: RecommendationController } }) => {
 	return <Recommendation {...props} controller={controller} />;

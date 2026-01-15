@@ -15,6 +15,8 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands';
+import './custom';
+import { ignoredErrors } from './custom';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -22,3 +24,21 @@ import './commands';
 import { mount } from 'cypress/react';
 
 Cypress.Commands.add('mount', mount);
+
+// ignore 3rd party uncaught exceptions - but not bundle exceptions
+Cypress.on('uncaught:exception', (err) => {
+	if (ignoredErrors?.length) {
+		for (let i = 0; i < ignoredErrors.length; i++) {
+			const checkFor = new RegExp(ignoredErrors[i].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+			if (err.stack.match(checkFor)) {
+				return false;
+			}
+		}
+	}
+
+	if (err.stack.match(/\/\/localhost:\d+\/bundle\./)) {
+		return true;
+	}
+
+	return false;
+});

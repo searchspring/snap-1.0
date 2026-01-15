@@ -100,4 +100,37 @@ describe('Filter Store', () => {
 			expect(filter.url.constructor.name).toStrictEqual(services.urlManager.constructor.name);
 		});
 	});
+
+	it('can format the range label using rangeFormatValue config', () => {
+		const rangeFilterInput = searchData.search.filters?.find((filter) => filter.type === 'range') as SearchResponseModelFilterRange;
+		expect(rangeFilterInput).toBeDefined();
+		const rangeField = rangeFilterInput.field!;
+
+		const filters = new SearchFilterStore({
+			services,
+			data: {
+				search: searchData.search,
+				meta: searchData.meta,
+			},
+			config: {
+				id: 'test',
+				settings: {
+					filters: {
+						fields: {
+							[rangeField]: {
+								rangeFormatValue: '$%01.2f - $%01.2f',
+							},
+						},
+					},
+				},
+			},
+		});
+
+		const rangeFilter = filters.find((filter) => filter.facet.field === rangeField);
+		expect(rangeFilter).toBeDefined();
+
+		// If high=100, low=10, it prints "$10.00 - $100.00"
+		const expectedLabel = `$${rangeFilterInput.value?.low?.toFixed(2)} - $${rangeFilterInput.value?.high?.toFixed(2)}`;
+		expect(rangeFilter?.value.label).toBe(expectedLabel);
+	});
 });

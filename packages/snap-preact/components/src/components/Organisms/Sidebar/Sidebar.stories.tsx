@@ -98,7 +98,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Sidebar', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'Sidebar', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: SidebarProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <Sidebar {...args} controller={controller} />;

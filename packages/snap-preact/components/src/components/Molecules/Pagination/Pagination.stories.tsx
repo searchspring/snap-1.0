@@ -192,7 +192,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Pagination', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'Pagination', globals: { siteId: 'atkzs2' } });
 
 const ObservablePagination = observer(({ args, controller }: { args: PaginationProps; controller: SearchController }) => {
 	return <Pagination {...args} pagination={controller?.store?.pagination} />;

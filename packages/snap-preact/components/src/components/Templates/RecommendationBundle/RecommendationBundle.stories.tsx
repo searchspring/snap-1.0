@@ -77,7 +77,17 @@ export default {
 			},
 		},
 		title: {
-			description: 'recommendation title',
+			description: 'recommendation bundle title',
+			table: {
+				type: {
+					summary: 'string | JSX Element',
+				},
+				defaultValue: { summary: '' },
+			},
+			control: { type: 'text' },
+		},
+		description: {
+			description: 'recommendation bundle description',
 			table: {
 				type: {
 					summary: 'string | JSX Element',
@@ -307,7 +317,7 @@ const config: RecommendationControllerConfig = {
 	id: 'RecommendationBundle',
 	tag: 'bundle',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		products: ['C-AD-W1-1869P'],
 	},
 };
@@ -315,7 +325,7 @@ const config: RecommendationControllerConfig = {
 const snapInstance = Snapify.recommendation(config);
 
 export const Default = (props: RecommendationBundleProps, { loaded: { controller } }: { loaded: { controller: RecommendationController } }) => {
-	return <RecommendationBundle {...props} controller={controller} results={controller.store.results.reverse()} />;
+	return <RecommendationBundle {...props} controller={controller} results={controller.store.results} />;
 };
 
 Default.loaders = [

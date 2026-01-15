@@ -3,13 +3,51 @@ import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
 import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
+const siteId = 'atkzs2';
 
+// const siteId = '8uyt2m';
+
+// const clientConfig = {
+// 	meta: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	search: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	autocomplete: {
+// 		requesters: {
+// 			suggest: {
+// 				origin: `https://${siteId}.a.searchspring.io`,
+// 			},
+// 			legacy: {
+// 				origin: `https://${siteId}.a.searchspring.io`,
+// 			},
+// 		},
+// 	},
+// 	finder: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	recommend: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	suggest: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// };
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId: '8uyt2m',
+		siteId,
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
+		// client: clientConfig
+	},
+	plugins: {
+		common: {
+			addToCart: {
+				function: (data) => console.log('added to cart!', data),
+			},
+		},
 	},
 	components: {
 		result: {
@@ -31,7 +69,14 @@ let config: SnapTemplatesConfig = {
 			// },
 		},
 		style: globalStyles,
-		overrides: {},
+		overrides: {
+			// default: {
+			// 	'facet': {
+			// 		rangeInputs: true,
+			// 		rangeInputsPrefix: "$",
+			// 	}
+			// }
+		},
 	},
 	recommendation: {
 		email: {
@@ -57,6 +102,18 @@ let config: SnapTemplatesConfig = {
 				component: 'Search',
 			},
 		],
+		// settings: {
+		// 	filters: {
+		// 		fields: {
+		// 			'price': {
+		// 				filterFormatValue: '$%01.2f - $%01.2f'
+		// 			},
+		// 			'ss_category_hierarchy': {
+		// 				enabled: true,
+		// 			}
+		// 		}
+		// 	},
+		// },
 	},
 	autocomplete: {
 		targets: [
@@ -75,6 +132,7 @@ if (window.mergeSnapConfig) {
 new SnapTemplates(config);
 
 /*
+
 
 Overrides are taking priority over the theme layouts (responsive) specified within the Search component - but they shouldn't be.
 Look into:

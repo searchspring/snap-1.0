@@ -32,7 +32,7 @@ export class Tracker extends Beacon {
 
 	constructor(globals: TrackerGlobals, config?: TrackerConfig & BeaconConfig) {
 		config = deepmerge(defaultConfig, config || {});
-		config.initiator = `searchspring/${config.framework}/${version}`;
+		config.initiator = `athos/${config.framework}/${version}`;
 
 		super(globals, config);
 		if (typeof globals != 'object' || typeof globals.siteId != 'string') {

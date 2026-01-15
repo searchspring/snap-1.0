@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+# [1.10.0](https://github.com/searchspring/snap/compare/v1.9.2...v1.10.0) (2025-10-02)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
 ## [1.9.2](https://github.com/searchspring/snap/compare/v1.9.1...v1.9.2) (2025-08-29)
 
 **Note:** Version bump only for package @searchspring/snap-url-manager
@@ -107,6 +119,38 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @searchspring/snap-url-manager
 
 # [1.1.0](https://github.com/searchspring/snap/compare/v0.60.1...v1.1.0) (2024-09-20)
+
+# [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+## [0.70.1](https://github.com/searchspring/snap/compare/v0.70.0...v0.70.1) (2025-11-17)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+# [0.70.0](https://github.com/searchspring/snap/compare/v0.69.2...v0.70.0) (2025-11-13)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+## [0.69.2](https://github.com/searchspring/snap/compare/v0.69.1...v0.69.2) (2025-11-04)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+## [0.69.1](https://github.com/searchspring/snap/compare/v0.69.0...v0.69.1) (2025-10-23)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+# [0.69.0](https://github.com/searchspring/snap/compare/v0.68.0...v0.69.0) (2025-10-16)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+# [0.68.0](https://github.com/searchspring/snap/compare/v0.67.5...v0.68.0) (2025-08-18)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
+
+## [0.67.5](https://github.com/searchspring/snap/compare/v0.67.4...v0.67.5) (2025-08-11)
+
+**Note:** Version bump only for package @searchspring/snap-url-manager
 
 ## [0.67.4](https://github.com/searchspring/snap/compare/v0.67.3...v0.67.4) (2025-07-29)
 

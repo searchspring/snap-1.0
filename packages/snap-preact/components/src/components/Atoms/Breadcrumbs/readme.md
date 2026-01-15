@@ -3,6 +3,9 @@
 Renders a list of breadcrumbs. 
 
 ## Usage
+```jsx
+import { Breadcrumbs } from '@searchspring/snap-preact-components';
+```
 
 ### data
 The `data` prop specifies an array of breadcrumb objects, or a function that returns an array of breadcrumb objects. The function is passed the controller if available.

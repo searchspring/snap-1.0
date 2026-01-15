@@ -1,4 +1,5 @@
 import { h, Fragment } from 'preact';
+import { MutableRef, useRef, useState } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -22,6 +23,7 @@ import { useA11y } from '../../../hooks/useA11y';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Button, ButtonProps } from '../../Atoms/Button';
+import { LangAttributesObj } from '../../../hooks/useLang';
 
 const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme }) => {
 	return css({
@@ -78,6 +80,44 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 		'& .ss__facet__header__selected-count': {
 			margin: '0px 5px',
 		},
+
+		'.ss__facet__range-inputs': {
+			display: 'flex',
+			flexDirection: 'column',
+
+			'.ss__facet__range-inputs__separator': {
+				margin: '5px',
+			},
+		},
+
+		'.ss__facet__range-inputs__row': {
+			display: 'flex',
+			justifyContent: 'space-between',
+			alignItems: 'center',
+			'&.ss__facet__range-inputs__row--button-wrapper': {
+				justifyContent: 'center',
+
+				'.ss__facet__range-input__button--submit': {
+					margin: '10px',
+				},
+			},
+		},
+
+		'.ss__facet__range-input': {
+			flexDirection: 'row',
+			display: 'flex',
+			border: `1px solid ${theme?.variables?.colors?.secondary || '#ccc'}`,
+			backgroundColor: 'white',
+			alignItems: 'center',
+			'.ss__facet__range-input__prefix': {
+				padding: '0 5px',
+			},
+			'.ss__facet__range-input__input': {
+				width: '100%',
+				border: 'none',
+				minHeight: '35px',
+			},
+		},
 	});
 };
 
@@ -94,6 +134,8 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		iconOverflowMore: 'plus',
 		iconOverflowLess: 'minus',
 		clearAllText: 'Clear All',
+		rangeInputSubmitButtonText: 'Submit',
+		rangeInputSeparatorText: ' - ',
 		searchable: false,
 		treePath: globalTreePath,
 	};
@@ -333,6 +375,9 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		clearAllText: {
 			value: facetContentProps.clearAllText,
 		},
+		submitRangeButton: {
+			value: facetContentProps.rangeInputSubmitButtonText,
+		},
 	};
 
 	//deep merge with props.lang
@@ -340,7 +385,6 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 	const mergedLang = useLang(lang as any, {
 		facet,
 	});
-	facetContentProps.lang = mergedLang;
 
 	const selectedCount = (facet as ValueFacet)?.values?.filter((value) => value?.filtered).length;
 
@@ -359,7 +403,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 				)}
 			>
 				{justContent ? (
-					<FacetContent {...facetContentProps}></FacetContent>
+					<FacetContent {...facetContentProps} mergedLang={mergedLang}></FacetContent>
 				) : (
 					<Dropdown
 						{...subProps.dropdown}
@@ -409,7 +453,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 							</div>
 						}
 					>
-						<FacetContent {...facetContentProps}></FacetContent>
+						<FacetContent {...facetContentProps} mergedLang={mergedLang}></FacetContent>
 					</Dropdown>
 				)}
 			</div>
@@ -419,7 +463,17 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 	);
 });
 
-const FacetContent = (props: any) => {
+const FacetContent = (
+	props: FacetProps & {
+		limitedValues: (FacetHierarchyValue | FacetValue | FacetRangeValue | undefined)[];
+		searchableFacet: {
+			allowableTypes: string[];
+			searchFilter: (e: React.ChangeEvent<HTMLInputElement>) => void;
+		};
+		subProps: FacetSubProps;
+		mergedLang: LangAttributesObj;
+	}
+) => {
 	const {
 		searchableFacet,
 		subProps,
@@ -435,12 +489,33 @@ const FacetContent = (props: any) => {
 		iconOverflowLess,
 		disableOverflow,
 		previewOnFocus,
+		rangeInputs,
+		rangeInputsPrefix,
+		rangeInputSeparatorText,
 		justContent,
 		valueProps,
 		hideShowMoreLessText,
 		treePath,
-		lang,
+		mergedLang,
 	} = props;
+
+	const [low, setLow] = useState<number>();
+	const [high, setHigh] = useState<number>();
+
+	const onDragcb = (vals: number[]) => {
+		setLow(vals[0]);
+		setHigh(vals[1]);
+	};
+
+	const onKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			if (typeof low == 'number' && typeof high == 'number') {
+				submitButtonRef.current?.base?.click();
+			}
+		}
+	};
+
+	const submitButtonRef: MutableRef<any> = useRef();
 
 	return (
 		<Fragment>
@@ -462,7 +537,7 @@ const FacetContent = (props: any) => {
 							// case FacetDisplay.TOGGLE:
 							// 	return <FacetToggle {...subProps.facetToggle} facet={facet as ValueFacet} />;
 							case FacetDisplay.SLIDER:
-								return <FacetSlider {...subProps.facetSlider} facet={facet as RangeFacet} treePath={treePath} />;
+								return <FacetSlider {...subProps.facetSlider} onChange={onDragcb} facet={facet as RangeFacet} treePath={treePath} />;
 							case FacetDisplay.GRID:
 								return (
 									<FacetGridOptions
@@ -504,6 +579,79 @@ const FacetContent = (props: any) => {
 				})()}
 			</div>
 
+			{rangeInputs && (facet.type === 'range' || facet.type === 'range-buckets') && (
+				<div className="ss__facet__range-inputs">
+					<div className="ss__facet__range-inputs__row">
+						<div className="ss__facet__range-input ss__facet__range-input--low">
+							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
+							<input
+								type="number"
+								className="ss__facet__range-input__input"
+								value={low}
+								onInput={(e) => setLow(Number(e.currentTarget.value) || 0)}
+								onKeyUp={onKeyUp}
+							/>
+						</div>
+
+						<span className="ss__facet__range-inputs__separator">{rangeInputSeparatorText}</span>
+
+						<div className="ss__facet__range-input ss__facet__range-input--high">
+							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
+							<input
+								type="number"
+								className="ss__facet__range-input__input"
+								value={high}
+								onInput={(e) => setHigh(Number(e.currentTarget.value) || 0)}
+								onKeyUp={onKeyUp}
+							/>
+						</div>
+					</div>
+					<div className="ss__facet__range-inputs__row ss__facet__range-inputs__row--button-wrapper">
+						<Button
+							internalClassName="ss__facet__range-input__button--submit"
+							ref={submitButtonRef}
+							onClick={() => {
+								if (facet?.services?.urlManager && typeof low === 'number' && typeof high === 'number') {
+									let currentLow = low;
+									let currentHigh = high;
+
+									//adjust ranges if high and low have swapped.
+									if (currentHigh < currentLow) {
+										currentLow = high;
+										currentHigh = low;
+										setLow(currentLow);
+										setHigh(currentHigh);
+									}
+
+									//adjust limits if state is too high or too low
+									if ((facet as RangeFacet)?.range?.low !== undefined && currentLow < (facet as RangeFacet)?.range?.low!) {
+										currentLow = (facet as RangeFacet)?.range?.low!;
+										setLow(currentLow);
+									}
+									if ((facet as RangeFacet)?.range?.high !== undefined && currentLow > (facet as RangeFacet)?.range?.high!) {
+										currentLow = (facet as RangeFacet)?.range?.high!;
+										setLow(currentLow);
+									}
+
+									if ((facet as RangeFacet)?.range?.low !== undefined && currentHigh < (facet as RangeFacet)?.range?.low!) {
+										currentHigh = (facet as RangeFacet)?.range?.low!;
+										setHigh(currentHigh);
+									}
+									if ((facet as RangeFacet)?.range?.high !== undefined && currentHigh > (facet as RangeFacet)?.range?.high!) {
+										currentHigh = (facet as RangeFacet)?.range?.high!;
+										setHigh(currentHigh);
+									}
+
+									facet.services.urlManager.remove('page').set(`filter.${facet.field}`, { low: currentLow, high: currentHigh }).go();
+								}
+							}}
+						>
+							{mergedLang.submitRangeButton.value ? <label {...mergedLang.submitRangeButton.all}></label> : null}
+						</Button>
+					</div>
+				</div>
+			)}
+
 			{!disableOverflow && (facet as ValueFacet)?.overflow?.enabled && (
 				<div
 					className="ss__facet__show-more-less"
@@ -523,7 +671,9 @@ const FacetContent = (props: any) => {
 									: { ...(typeof iconOverflowLess == 'string' ? { icon: iconOverflowLess } : (iconOverflowLess as Partial<IconProps>)) })}
 							/>
 							{!hideShowMoreLessText && (
-								<span {...(((facet as ValueFacet)?.overflow?.remaining || 0) > 0 ? lang.showMoreText?.all : lang.showLessText?.all)}></span>
+								<span
+									{...(((facet as ValueFacet)?.overflow?.remaining || 0) > 0 ? mergedLang!.showMoreText?.all : mergedLang!.showLessText?.all)}
+								></span>
 							)}
 						</Fragment>
 					)}
@@ -576,6 +726,10 @@ interface OptionalFacetProps extends ComponentProps {
 	fields?: FieldProps;
 	display?: FieldProps;
 	searchable?: boolean;
+	rangeInputs?: boolean;
+	rangeInputSubmitButtonText?: string;
+	rangeInputsPrefix?: string;
+	rangeInputSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;
 	lang?: Partial<FacetLang>;
@@ -592,6 +746,9 @@ export interface FacetLang {
 		facet: ValueFacet | RangeFacet;
 	}>;
 	clearAllText: Lang<{
+		facet: ValueFacet | RangeFacet;
+	}>;
+	submitRangeButton: Lang<{
 		facet: ValueFacet | RangeFacet;
 	}>;
 }

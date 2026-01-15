@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+- **controller/search:** quick fix on setting name for hierarchy ([9f336ea](https://github.com/searchspring/snap/commit/9f336eaf08d6eb5f6bfe764fcd57f1bd24c4cf30))
+- fix inline banners in last position and index matches totalResults ([c2da409](https://github.com/searchspring/snap/commit/c2da4095721a5be8cb4467542c5579a0dce2ac95))
+- **preact/components/facet:** adjusting new facet input addition ([9823f76](https://github.com/searchspring/snap/commit/9823f7604db63fd894f9960b01fc94330bdb3626))
+- **searchresultstore:** bugfix for disabled variant selection logic ([0346817](https://github.com/searchspring/snap/commit/03468178b8c49d38cabaae74e3f14569c0186c1e))
+
+### Features
+
+- **preact/components/facet:** adding range facet inputs and the ability to use filterFormatValue for filters ([ef16169](https://github.com/searchspring/snap/commit/ef16169123f749d45cf4ab4c7d29375c06ab16da))
+- **preact/components/recommendationbundle:** api bundleSeed and refactor recommendationBundle ([28a32ce](https://github.com/searchspring/snap/commit/28a32ce34b9bf9f9a120572b006502a6c1ecbec6))
+- **searchcontroller:** adding the ability to show hierarchy filters in the filterSummary ([43c3890](https://github.com/searchspring/snap/commit/43c3890db4f6e6b2ec5edc7f45fe2069a6f4ce20))
+- **searchresultstore:** added config setting to showDisabledSelections for the variants ([918dee6](https://github.com/searchspring/snap/commit/918dee65f4ee323a1dcdd0d7aee34f7d5b0163db))
+
+## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
+# [1.10.0](https://github.com/searchspring/snap/compare/v1.9.2...v1.10.0) (2025-10-02)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
 ## [1.9.2](https://github.com/searchspring/snap/compare/v1.9.1...v1.9.2) (2025-08-29)
 
 **Note:** Version bump only for package @searchspring/snap-store-mobx
@@ -140,6 +165,50 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **preact-components-ss-lang:** adding foundation for multi language support to preact components ([4dce617](https://github.com/searchspring/snap/commit/4dce617ec14fb6897d66278b90b5cc17e97665bd))
 - **preact-components/storybook:** updating storybook to latest version - build stable ([43c598d](https://github.com/searchspring/snap/commit/43c598d0e4d11d76364ff2775ecdcabe489023a8))
 - **preact-components:** making progress toward layout templating support ([92c2ce6](https://github.com/searchspring/snap/commit/92c2ce6b207dcb1e922674d55e289354b71612da))
+
+# [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
+## [0.70.1](https://github.com/searchspring/snap/compare/v0.70.0...v0.70.1) (2025-11-17)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
+# [0.70.0](https://github.com/searchspring/snap/compare/v0.69.2...v0.70.0) (2025-11-13)
+
+### Bug Fixes
+
+- **searchresultstore:** bugfix for disabled variant selection logic ([0346817](https://github.com/searchspring/snap/commit/03468178b8c49d38cabaae74e3f14569c0186c1e))
+
+### Features
+
+- **preact/components/recommendationbundle:** api bundleSeed and refactor recommendationBundle ([28a32ce](https://github.com/searchspring/snap/commit/28a32ce34b9bf9f9a120572b006502a6c1ecbec6))
+- **searchresultstore:** added config setting to showDisabledSelections for the variants ([918dee6](https://github.com/searchspring/snap/commit/918dee65f4ee323a1dcdd0d7aee34f7d5b0163db))
+
+## [0.69.2](https://github.com/searchspring/snap/compare/v0.69.1...v0.69.2) (2025-11-04)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
+## [0.69.1](https://github.com/searchspring/snap/compare/v0.69.0...v0.69.1) (2025-10-23)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
+# [0.69.0](https://github.com/searchspring/snap/compare/v0.68.0...v0.69.0) (2025-10-16)
+
+### Features
+
+- **searchcontroller:** adding the ability to show hierarchy filters in the filterSummary ([43c3890](https://github.com/searchspring/snap/commit/43c3890db4f6e6b2ec5edc7f45fe2069a6f4ce20))
+
+# [0.68.0](https://github.com/searchspring/snap/compare/v0.67.5...v0.68.0) (2025-08-18)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+- fix inline banners in last position and index matches totalResults ([c2da409](https://github.com/searchspring/snap/commit/c2da4095721a5be8cb4467542c5579a0dce2ac95))
+
+## [0.67.5](https://github.com/searchspring/snap/compare/v0.67.4...v0.67.5) (2025-08-11)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
 
 ## [0.67.4](https://github.com/searchspring/snap/compare/v0.67.3...v0.67.4) (2025-07-29)
 

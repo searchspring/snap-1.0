@@ -11,11 +11,12 @@ import { RecommendationBundle } from '../../../../src/components/Templates/Recom
 import { mount } from '@cypress/react';
 import { ThemeProvider } from '../../../../src/providers';
 import { Result } from '../../../../src/components/Molecules/Result';
+import meta from '../../fixtures/meta.json';
 import json from '../../fixtures/results-bundle.json';
 import profile from '../../fixtures/profile-bundle.json';
 import { observer } from 'mobx-react-lite';
 
-const globals = { siteId: '8uyt2m' };
+const globals = { siteId: 'atkzs2' };
 
 const recommendConfig: RecommendationStoreConfig = {
 	id: 'search',
@@ -46,17 +47,16 @@ const theme = {
 	},
 };
 
-const client = new Client(globals, {});
-
-let controller;
+let controller: RecommendationController;
 
 describe('RecommendationBundle Component', async () => {
-	before(() => {
-		cy.intercept('*recommend*', json);
-		cy.intercept('*profile*', profile);
-	});
-
 	beforeEach(async () => {
+		cy.intercept('POST', '**/recommend', json);
+		cy.intercept('GET', '**/profile.json', profile);
+		cy.intercept('GET', '**/meta.json', meta);
+
+		const client = new Client(globals, {});
+
 		controller = new RecommendationController(recommendConfig, {
 			client: client,
 			store: new RecommendationStore(recommendConfig, services),
@@ -66,6 +66,7 @@ describe('RecommendationBundle Component', async () => {
 			logger: new Logger(),
 			tracker: new Tracker(globals, { mode: 'development' }),
 		});
+
 		await controller.search();
 	});
 
@@ -86,7 +87,23 @@ describe('RecommendationBundle Component', async () => {
 		cy.get('.ss__carousel__next').should('exist');
 		cy.get('.ss__recommendation-bundle .ss__result').should('have.length', 5);
 		cy.get('.ss__recommendation-bundle__wrapper__selector--seed').should('exist');
-		cy.get('.ss__recommendation-bundle .ss__result:first .ss__result__details__title a').should('have.text', results[0].mappings.core?.name);
+		cy.get('.ss__recommendation-bundle .ss__result:first .ss__result__details__title a').should(
+			'have.text',
+			results.filter((r) => r.bundleSeed).pop()!.mappings.core?.name
+		);
+	});
+
+	it('ensure the limit is correct, when the seed is hidden', () => {
+		const carouselProps = {
+			enabled: false,
+		};
+		mount(
+			<RecommendationBundle controller={controller} hideSeed={true} carousel={carouselProps} limit={3} onAddToCart={cy.stub().as('onAddToCart')} />
+		);
+
+		cy.get('.ss__recommendation-bundle').should('exist');
+		cy.get('.ss__recommendation-bundle .ss__recommendation-bundle__wrapper__selector--seed').should('not.exist');
+		cy.get('.ss__recommendation-bundle .ss__result').should('have.length', 3);
 	});
 
 	it('can use onAddToCart prop', () => {
@@ -132,12 +149,14 @@ describe('RecommendationBundle Component', async () => {
 			});
 	});
 
-	it('can use title prop', () => {
+	it('can use title & description prop', () => {
 		const title = 'some custom title';
-		mount(<RecommendationBundle controller={controller} title={title} onAddToCart={cy.stub().as('onAddToCart')} />);
+		const description = 'some custom description';
+		mount(<RecommendationBundle controller={controller} title={title} description={description} onAddToCart={cy.stub().as('onAddToCart')} />);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
 		cy.get('.ss__recommendation-bundle__title').should('exist').should('have.text', title);
+		cy.get('.ss__recommendation-bundle__description').should('exist').should('have.text', description);
 	});
 
 	it('can use vertical prop', () => {
@@ -150,21 +169,6 @@ describe('RecommendationBundle Component', async () => {
 
 		cy.get('.ss__recommendation-bundle').should('exist');
 		cy.get('.ss__recommendation-bundle__wrapper--vertical').should('not.exist');
-	});
-
-	it('can use hideButtons prop', () => {
-		mount(<RecommendationBundle controller={controller} hideButtons={true} onAddToCart={cy.stub().as('onAddToCart')} />);
-
-		cy.get('.ss__recommendation-bundle').should('exist');
-		cy.get('.ss__carousel__prev-wrapper').should('exist').should('have.class', 'ss__carousel__prev-wrapper--hidden');
-		cy.get('.ss__carousel__next-wrapper').should('exist').should('have.class', 'ss__carousel__next-wrapper--hidden');
-	});
-
-	it('can enable pagination dots', () => {
-		mount(<RecommendationBundle controller={controller} pagination={true} onAddToCart={cy.stub().as('onAddToCart')} />);
-
-		cy.get('.ss__recommendation-bundle').should('exist');
-		cy.get('.swiper-pagination-bullets').should('exist');
 	});
 
 	it('can use custom resultComponent', () => {
@@ -457,7 +461,12 @@ describe('RecommendationBundle Component', async () => {
 
 		// can set seed icon only with seed in carousel
 		mount(
-			<RecommendationBundle controller={controller} seedInCarousel={true} separatorIconSeedOnly={true} onAddToCart={cy.stub().as('onAddToCart')} />
+			<RecommendationBundle
+				controller={controller}
+				carousel={{ seedInCarousel: true }}
+				separatorIconSeedOnly={true}
+				onAddToCart={cy.stub().as('onAddToCart')}
+			/>
 		);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
@@ -474,7 +483,12 @@ describe('RecommendationBundle Component', async () => {
 
 		//can set seed icon only false with seed in carousel
 		mount(
-			<RecommendationBundle controller={controller} seedInCarousel={true} separatorIconSeedOnly={false} onAddToCart={cy.stub().as('onAddToCart')} />
+			<RecommendationBundle
+				controller={controller}
+				carousel={{ seedInCarousel: true }}
+				separatorIconSeedOnly={false}
+				onAddToCart={cy.stub().as('onAddToCart')}
+			/>
 		);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
