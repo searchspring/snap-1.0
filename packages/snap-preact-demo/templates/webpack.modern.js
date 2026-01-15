@@ -1,11 +1,14 @@
-/* eslint-disable */
-const { merge } = require('webpack-merge');
-const common = require('../webpack.common.js');
-const path = require('path');
-const childProcess = require('child_process');
+import { merge } from 'webpack-merge';
+import common from '../webpack.common.js';
+import path from 'path';
+import childProcess from 'child_process';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const branchName = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
-module.exports = merge(common, {
+export default merge(common, {
 	mode: 'production',
 	entry: './templates/src/modern.ts',
 	output: {

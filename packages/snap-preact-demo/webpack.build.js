@@ -1,7 +1,6 @@
-/* eslint-disable */
-const modern = require('./snap/webpack.modern.js');
-const modernTemplates = require('./templates/webpack.modern.js');
-const universal = require('./snap/webpack.universal.js');
-const universalTemplates = require('./templates/webpack.universal.js');
+import modern from './snap/webpack.modern.js';
+import modernTemplates from './templates/webpack.modern.js';
+import universal from './snap/webpack.universal.js';
+import universalTemplates from './templates/webpack.universal.js';
 
-module.exports = [modern, modernTemplates, universal, universalTemplates];
+export default [modern, modernTemplates, universal, universalTemplates];
