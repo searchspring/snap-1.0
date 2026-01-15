@@ -1,0 +1,37 @@
+import { h } from 'preact';
+import { observer } from 'mobx-react-lite';
+
+import {
+	ThemeProvider,
+	defaultTheme,
+	StoreProvider,
+	ControllerProvider,
+	SnapProvider,
+	Chat as LibraryChat,
+} from '@searchspring/snap-preact/components';
+import type { Snap } from '@searchspring/snap-preact';
+import { ChatController } from '@searchspring/snap-controller';
+
+type ChatProps = {
+	controller?: ChatController;
+	snap?: Snap;
+};
+
+export const Chat = observer(({ controller, snap }: ChatProps) => {
+	const store = controller.store;
+	const theme = snap?.templates?.themes.local.global.theme;
+
+	return (
+		<SnapProvider snap={snap}>
+			<ControllerProvider controller={controller}>
+				<ThemeProvider theme={theme || defaultTheme}>
+					<StoreProvider store={store}>
+						<LibraryChat controller={controller} />
+					</StoreProvider>
+				</ThemeProvider>
+			</ControllerProvider>
+		</SnapProvider>
+	);
+});
+
+export default Chat;

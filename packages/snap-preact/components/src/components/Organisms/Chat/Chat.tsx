@@ -1,0 +1,1077 @@
+import { Fragment, h } from 'preact';
+
+import { jsx, css } from '@emotion/react';
+import classnames from 'classnames';
+import deepmerge from 'deepmerge';
+import { observer } from 'mobx-react-lite';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
+import { mergeProps, mergeStyles } from '../../../utilities';
+import { ComponentProps, StyleScript } from '../../../types';
+import type { ChatController } from '@searchspring/snap-controller';
+import { Button } from '../../Atoms/Button';
+import { useRef, useEffect } from 'preact/hooks';
+import { Slideout } from '../../Molecules/Slideout';
+import { Quickview } from './Quickview';
+import { MessageUser } from './MessageUser';
+import { MessageText } from './MessageText';
+import { Attachment } from './Attachment';
+import { ActionsData, FacetsData } from '@searchspring/snap-store-mobx';
+import { filters } from '@searchspring/snap-toolbox';
+import { Dropdown, Icon, Overlay, useMediaQuery } from '../../..';
+
+const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
+	return css({
+		position: 'fixed',
+		right: '20px',
+		bottom: '20px',
+		zIndex: 1002,
+		color: '#333',
+		'.ss__button': {
+			border: 'none',
+			background: 'none',
+			color: 'inherit',
+			'&:not(.ss__button--disabled):hover': {
+				background: '#dfeaf6',
+			},
+			svg: {
+				fill: '#0066cc',
+				stroke: '#0066cc',
+			},
+		},
+		'&.ss__chat--minimized': {
+			'.ss__chat__bubble': {
+				width: '60px',
+				height: '60px',
+				borderRadius: '50%',
+				background: '#0066cc',
+				color: 'white',
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				cursor: 'pointer',
+				fontSize: '24px',
+				boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+				'&:hover': {
+					background: '#0052a3',
+				},
+				'.ss__icon': {
+					height: '33px',
+					width: '33px',
+					fill: '#fff',
+					stroke: '#fff',
+				},
+			},
+		},
+		'&.ss__chat--open': {
+			right: mobile ? '0' : '20px',
+			bottom: mobile ? '0' : '20px',
+			left: mobile ? '0' : 'auto',
+			top: mobile ? '0' : 'auto',
+			width: mobile ? '100%' : '500px',
+			display: 'flex',
+			flexDirection: 'column',
+			maxHeight: mobile ? '100vh' : '90vh',
+			minHeight: mobile ? '100vh' : '50vh',
+			maxWidth: mobile ? undefined : 'calc(100vw - 1em - 20px - 20px)',
+			boxSizing: 'border-box',
+			justifyContent: 'flex-end',
+		},
+		'.ss__chat__header': {
+			display: 'flex',
+			justifyContent: 'space-between',
+			alignItems: 'center',
+			fontSize: '18px',
+			fontWeight: 'bold',
+			position: 'relative',
+			padding: '10px 15px',
+			color: '#fff',
+			borderTopRightRadius: mobile ? 0 : '12px',
+			borderTopLeftRadius: mobile ? 0 : '12px',
+			border: '1px solid #1d4990',
+			borderTop: 'none',
+			borderBottom: '1px solid #4c3ce2',
+			background: 'linear-gradient(45deg, #4c3ce2 0%, #3a23ad 100%)',
+			'.ss__chat__header__buttons': {
+				display: 'flex',
+				gap: '10px',
+				'.ss__chat__header__button--close, .ss__chat__header__button--new, .ss__chat__header__button--history': {
+					padding: '5px',
+					border: 0,
+					'&:hover': {
+						backgroundColor: 'transparent',
+					},
+					svg: {
+						fill: '#fff',
+						stroke: '#fff',
+					},
+				},
+			},
+			'.ss__chat__header__dropdown-history': {
+				'&.ss__dropdown--open': {
+					'.ss__dropdown__button': {
+						backgroundColor: '#dddddd33',
+						borderRadius: '6px',
+					},
+				},
+				'.ss__dropdown__button': {
+					display: 'flex',
+					alignItems: 'center',
+				},
+			},
+			'.ss__chat__history': {
+				color: '#333',
+				position: 'absolute',
+				width: 300,
+				minHeight: 170,
+				top: 6,
+				right: 0,
+				background: 'white',
+				zIndex: 2,
+				boxShadow: '0px 3px 6px 0px rgba(0, 0, 0, 0.2)',
+				borderRadius: '6px',
+				display: 'flex',
+				flexDirection: 'column',
+				gap: 5,
+				padding: '10px',
+				boxSizing: 'border-box',
+				'.ss__chat__history__header': {
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					h4: {
+						margin: 0,
+						fontSize: '14px',
+					},
+					'.ss__chat__history__header__buttons': {
+						'.ss__button': {
+							fontSize: '14px',
+							color: '#333',
+							'&:hover': {
+								background: 'none',
+								color: '#000',
+							},
+						},
+					},
+				},
+				'.ss__chat__history__chats': {
+					display: 'flex',
+					flexDirection: 'column-reverse',
+					gap: 5,
+					'.ss__chat__history__chats__chat': {
+						'.ss__button': {
+							borderRadius: '12px',
+							width: '100%',
+							border: '1px solid #eee',
+							fontSize: '12px',
+							display: 'flex',
+							flexDirection: 'column',
+							boxSizing: 'border-box',
+							'.ss__chat__history__chat__button__text': {},
+							'.ss__chat__history__chat__button__date': {
+								fontSize: '70%',
+							},
+						},
+					},
+				},
+			},
+		},
+		'.ss__chat__content': {
+			background: '#fff',
+			maxHeight: mobile ? undefined : '90vh',
+			overflow: 'hidden',
+			display: 'flex',
+			flexDirection: 'column',
+			border: '1px solid #0066cc',
+			borderTop: 'none',
+			borderBottomRightRadius: mobile ? 0 : '12px',
+			borderBottomLeftRadius: mobile ? 0 : '12px',
+			flexGrow: 1,
+			'.ss__chat__content__header': {
+				'.ss__chat__attachments': {
+					'.ss__chat__attachment': {
+						borderRadius: 0,
+						borderLeft: 0,
+						borderRight: 0,
+					},
+				},
+			},
+			'.ss__chat__messages': {
+				flex: '1 1 auto',
+				overflowY: 'auto',
+				margin: 0,
+				padding: '20px',
+				maxHeight: '100%',
+				'.ss__chat__messages__end': {
+					height: '1px',
+				},
+				'.ss__chat__message': {
+					marginBottom: '30px',
+					'.ss__chat__message-user': {
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+						alignItems: 'center',
+						marginLeft: '40px',
+						gap: '10px',
+						'.ss__chat__message-user__text': {
+							padding: '1em',
+							borderRadius: '12px',
+							borderBottomRightRadius: 0,
+							backgroundColor: '#00aeef33',
+							alignSelf: 'flex-end',
+						},
+						'.ss__chat__message-user__attachments': {
+							listStyleType: 'none',
+							padding: 0,
+							margin: 0,
+							display: 'flex',
+							gap: '8px',
+							flexWrap: 'nowrap',
+							justifyContent: 'flex-end',
+							'.ss__chat__message-user__attachment__product, .ss__chat__message-user__attachment__image, .ss__chat__message-user__attachment__facet':
+								{
+									width: '40px',
+									height: '40px',
+									borderRadius: '50%',
+									border: '2px solid #eee',
+									overflow: 'hidden',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									'.ss__image': {
+										aspectRatio: '1 / 1',
+										width: '100%',
+										height: '100%',
+									},
+									'.ss__icon': {
+										display: 'flex',
+									},
+								},
+						},
+					},
+
+					'.ss__chat__message-text': {
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'flex-start',
+						gap: '5px',
+						'.ss__chat__message-text__text-wrapper': {
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'flex-start',
+							'.ss__chat__message-text__text-wrapper__text': {
+								alignSelf: 'flex-end',
+							},
+						},
+						'.ss__chat__message-text__text-wrapper__feedback': {
+							display: 'flex',
+							alignItems: 'flex-end',
+							gap: '10px',
+							svg: {
+								cursor: 'pointer',
+							},
+						},
+						'.ss__chat__message-text__results': {
+							marginTop: '12px',
+							'.swiper-container': {
+								alignItems: 'center',
+								gap: '5px',
+								'.swiper-wrapper': {},
+								'.swiper-scrollbar': {
+									position: 'static',
+									width: '95%',
+									height: '6px',
+									borderRadius: '6px',
+									'.swiper-scrollbar-drag': {
+										borderRadius: '6px',
+									},
+								},
+								'.swiper-pagination-lock': {
+									display: 'none !important',
+								},
+							},
+							'.ss__chat__message-text__results__result': {
+								border: '1px solid #eee',
+								boxShadow: '1px 2px 0px #eee',
+								borderRadius: '6px',
+								overflow: 'hidden',
+								margin: '5px 2px',
+								'.ss__image': {
+									aspectRatio: '1 / 1',
+									cursor: 'pointer',
+								},
+								'.ss__chat__result__detail-slot': {
+									borderTop: '1px solid #eee',
+									padding: '5px 0',
+									display: 'flex',
+									alignContent: 'center',
+									justifyContent: 'space-around',
+									'.ss__button': {
+										padding: 0,
+										'&:hover': {
+											background: 'none',
+											svg: {
+												fill: '#0052a3',
+												stroke: '#0052a3',
+											},
+										},
+									},
+								},
+							},
+							'.ss__carousel__next-wrapper, .ss__carousel__prev-wrapper': {
+								svg: {
+									fill: '#0066cc',
+									stroke: '#0066cc',
+								},
+							},
+						},
+						'.ss__chat__message-text__facets': {
+							display: 'flex',
+							flexWrap: 'wrap',
+							gap: '10px',
+							margin: '10px 0 0 0',
+
+							'.ss__chat__message-text__facets__facet': {
+								display: 'flex',
+								gap: '5px',
+								alignItems: 'baseline',
+								label: {
+									fontWeight: 'bold',
+								},
+							},
+						},
+					},
+					ul: {
+						margin: 0,
+						listStyle: 'inside',
+					},
+					p: {
+						margin: 0,
+					},
+					thead: {
+						backgroundColor: '#eee',
+					},
+					'tbody tr:nth-child(even)': {
+						backgroundColor: '#f5f5f5',
+					},
+					'table th, table td': {
+						padding: '0.2em 0.5em',
+					},
+					'table + h3': {
+						margin: '1em 0 0 0',
+						fontSize: '1.3em',
+					},
+				},
+			},
+			'.ss__chat__actions': {
+				'.ss__button': {
+					border: '1px solid #eee',
+					borderRadius: '12px',
+				},
+				'.ss__chat__actions--facets, .ss__chat__actions--suggested': {
+					display: 'inline-flex',
+					gap: 5,
+					flexDirection: 'row',
+					paddingBottom: '10px',
+					'.ss__button': {
+						flex: '1 0 auto',
+					},
+				},
+				'.ss__chat__actions--suggested': {
+					overflowX: 'scroll',
+				},
+				'.ss__chat__actions__facet': {
+					'.ss__dropdown__content': {
+						width: '150px',
+						bottom: '33px',
+						top: 'auto',
+						zIndex: 100,
+						background: 'white',
+						boxShadow: '0px 3px 6px 0px rgba(0, 0, 0, 0.2)',
+						borderRadius: '6px',
+						'.ss__button': {
+							width: '100%',
+							border: 'none',
+							borderRadius: 0,
+							boxSizing: 'border-box',
+						},
+					},
+				},
+				'.ss__chat__actions__facets-dropdown': {
+					'.ss__dropdown__content': {
+						bottom: '0',
+						top: 'auto',
+						left: '-15px',
+						width: mobile ? '100vw' : '500px',
+						zIndex: 100,
+						background: 'white',
+						borderTop: '1px solid #ddd',
+					},
+				},
+			},
+			'.ss__chat__facets': {
+				'.ss__chat__facets__header': {
+					display: 'flex',
+					flexDirection: mobile ? 'column' : 'row',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					padding: '10px',
+					'.ss__chat__facets__header__title': {
+						width: mobile ? '100%' : undefined,
+						fontSize: '18px',
+						fontWeight: 'bold',
+						color: '#333',
+						order: mobile ? 1 : 0,
+						marginTop: mobile ? '10px' : 0,
+					},
+					'.ss__chat__facets__close': {
+						order: mobile ? 0 : 1,
+						display: 'flex',
+						justifyContent: mobile ? 'center' : 'flex-end',
+						'.ss__chat__facets__close__button': {
+							width: mobile ? '100px' : '20px',
+							borderRadius: mobile ? '4px' : undefined,
+							background: mobile ? '#ccc' : 'none',
+							padding: '5px',
+							flexGrow: 0,
+							border: 'none',
+							'.ss__icon': {
+								display: mobile ? 'none' : 'inline',
+							},
+						},
+					},
+				},
+				'.ss__chat__facets__wrapper': {
+					padding: '10px',
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '10px',
+					'.ss__chat__facets__facet': {
+						display: 'flex',
+						justifyContent: 'flex-start',
+						alignItems: 'center',
+						'.ss__chat__facets__facet__label': {
+							fontWeight: 'bold',
+							fontSize: '14px',
+							marginRight: '10px',
+						},
+						'.ss__chat__facets__facet__options': {
+							display: 'flex',
+							gap: '5px',
+							overflowX: 'scroll',
+							'.ss__chat__facets__facet__options__option': {
+								flexGrow: 0,
+							},
+						},
+					},
+				},
+			},
+			'.ss__chat__loading': {
+				padding: '1em',
+				display: 'flex',
+				alignItems: 'center',
+				gap: '8px',
+				color: '#666',
+				fontSize: '14px',
+				'.ss__chat__loading__dots': {
+					display: 'flex',
+					gap: '4px',
+					'.ss__chat__loading__dot': {
+						width: '6px',
+						height: '6px',
+						borderRadius: '50%',
+						backgroundColor: '#999',
+						animation: 'ss-chat-dot-pulse 1.4s infinite ease-in-out both',
+						'&:nth-of-type(1)': {
+							animationDelay: '-0.32s',
+						},
+						'&:nth-of-type(2)': {
+							animationDelay: '-0.16s',
+						},
+					},
+				},
+			},
+			'@keyframes ss-chat-dot-pulse': {
+				'0%, 80%, 100%': {
+					transform: 'scale(0.6)',
+					opacity: 0.5,
+				},
+				'40%': {
+					transform: 'scale(1)',
+					opacity: 1,
+				},
+			},
+			'.ss__chat__attachments': {
+				display: 'flex',
+				gap: '8px',
+				flexWrap: 'wrap',
+				'.ss__chat__attachment': {
+					position: 'relative',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'flex-start',
+					border: '1px solid #ddd',
+					borderRadius: '12px',
+					padding: '4px',
+					backgroundColor: '#f9f9f9',
+					'&.ss__chat__attachment--facet': {
+						paddingRight: '15px',
+					},
+					'&.ss__chat__attachment--product': {
+						width: '100%',
+					},
+					'&.ss__chat__attachment--image': {
+						width: '100%',
+					},
+					'&.error': {
+						border: '1px solid #dc3545',
+						backgroundColor: '#fff5f5',
+						width: '100%',
+						'.ss__chat__attachment__error-icon': {
+							fontSize: '24px',
+							margin: '0 6px',
+							color: '#dc3545',
+						},
+						'.ss__chat__attachment__error-message': {
+							fontSize: '11px',
+							color: '#dc3545',
+							textAlign: 'center',
+							lineHeight: 1.2,
+							flexGrow: 1,
+						},
+						'.ss__button': {
+							svg: {
+								fill: '#dc3545',
+								stroke: '#dc3545',
+							},
+						},
+					},
+					'.ss__chat__attachment__info': {
+						padding: '0.5em 1em',
+						flexGrow: 1,
+					},
+					'.ss__chat__attachment__content': {
+						position: 'relative',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						'.ss__image': {
+							margin: '0 10px',
+						},
+					},
+					'.ss__chat__attachment__error': {
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						gap: '4px',
+						padding: '8px',
+					},
+					'.ss__chat__attachment__loading': {
+						margin: '0 10px',
+						display: 'flex',
+						gap: '4px',
+						'.ss__chat__loading__dot': {
+							width: '8px',
+							height: '8px',
+							borderRadius: '50%',
+							backgroundColor: '#ccc',
+							animation: 'ss-chat-dot-pulse 1.4s infinite ease-in-out both',
+							'&:nth-of-type(1)': {
+								animationDelay: '-0.32s',
+							},
+							'&:nth-of-type(2)': {
+								animationDelay: '-0.16s',
+							},
+						},
+					},
+					img: {
+						borderRadius: '12px',
+						'&.loading': {
+							opacity: 0.3,
+						},
+					},
+					'.ss__chat__attachment__remove': {
+						width: '12px',
+						height: '12px',
+						background: 'none',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						cursor: 'pointer',
+						padding: '20px',
+						minWidth: 'auto',
+						svg: {
+							fill: '#333',
+							stroke: '#333',
+						},
+						'&:hover': {
+							svg: {
+								fill: '#000',
+								stroke: '#000',
+							},
+						},
+					},
+				},
+				'.ss__chat__error': {
+					fontSize: '12px',
+					color: '#666',
+					width: '100%',
+					textAlign: 'right',
+				},
+				'.ss__chat__attachments__info': {
+					fontSize: '12px',
+					color: '#666',
+					width: '100%',
+					textAlign: 'right',
+				},
+			},
+			'.ss__chat__content__footer': {
+				padding: '1em',
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '8px',
+			},
+			'.ss__chat__input': {
+				display: 'flex',
+				gap: '8px',
+				alignItems: 'center',
+				padding: '0.5em',
+				border: '1px solid #d7eefc',
+				borderRadius: '12px',
+
+				'input[type="text"]': {
+					flex: '1 1 auto',
+					boxSizing: 'border-box',
+					padding: '10px',
+					borderRadius: '12px',
+					fontSize: '16px',
+					border: 'none',
+
+					'&::placeholder': {
+						color: '#999',
+						opacity: 0.7,
+					},
+					'&:focus': {
+						outline: 'none',
+						borderColor: '#0066cc',
+					},
+				},
+				'.ss__chat__input__actions': {
+					display: 'flex',
+					gap: '8px',
+
+					'input[type="file"]': {
+						display: 'none',
+					},
+					'.ss__chat__upload-button': {
+						padding: '7px 12px',
+						cursor: 'pointer',
+						fontSize: '16px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						minWidth: 'auto',
+						border: 'none',
+						'&:hover': {
+							backgroundColor: 'transparent',
+						},
+					},
+					'.ss__chat__send-button': {
+						height: '40px',
+						padding: '0 12px',
+						backgroundColor: '#0066cc',
+						border: 'none',
+						borderRadius: '50%',
+						cursor: 'pointer',
+						fontSize: '14px',
+						svg: {
+							fill: 'white',
+							stroke: 'white',
+						},
+						'&:hover': {
+							backgroundColor: '#0052a3',
+						},
+						'&:disabled': {
+							backgroundColor: '#eee',
+							cursor: 'not-allowed',
+						},
+					},
+				},
+			},
+		},
+	});
+};
+
+export const Chat = observer((properties: ChatProps): JSX.Element => {
+	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
+	const isMobile = useMediaQuery('(max-width: 767px)');
+
+	const defaultProps: Partial<ChatProps> = {
+		treePath: globalTreePath,
+	};
+
+	let props = mergeProps('facets', globalTheme, defaultProps, properties);
+
+	const { className, internalClassName, controller } = props;
+	const { store } = controller;
+
+	const themeDefaults: Theme = {
+		components: {},
+	};
+
+	// merge deeply the themeDefaults with the theme props and the displaySettings theme props (do not merge arrays, but replace them)
+	const theme = deepmerge(themeDefaults, props?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });
+
+	props = {
+		...props,
+		theme,
+	};
+
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+	};
+
+	// Auto-scroll to bottom when new messages are added or chat state changes
+	useEffect(() => {
+		// if (store.open && messagesContainerRef.current) {
+		// 	messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+		// }
+
+		if (store.open) {
+			scrollToBottom();
+		}
+	}, [store.currentChat?.chat.length, store.loading, store.open]);
+
+	// const subProps: ChatSubProps = {};
+
+	const styling = mergeStyles<{ mobile: boolean }>({ mobile: isMobile }, defaultStyles);
+
+	const HistoryButton = (props: { disabled?: boolean; open?: boolean }) => (
+		<Button
+			className="ss__chat__header__button--history"
+			disabled={props.disabled}
+			icon={{
+				icon: 'history',
+				title: 'Chat History',
+			}}
+		/>
+	);
+
+	const HistoryPopup = (props: { toggleOpen?: () => void }) => (
+		<div className="ss__chat__history">
+			<div className="ss__chat__history__header">
+				<h4>History</h4>
+				<div className="ss__chat__history__header__buttons">
+					<Button
+						content="clear"
+						onClick={() => {
+							controller.store.reset();
+							controller.search();
+							props.toggleOpen && props.toggleOpen();
+						}}
+					/>
+				</div>
+			</div>
+			{store.chats.length > 0 ? (
+				<div className="ss__chat__history__chats">
+					{store.chats.map((chat) => (
+						<div key={chat.id} className="ss__chat__history__chats__chat">
+							<Button
+								className="ss__chat__history__chat__button"
+								onClick={() => {
+									controller.store.switchChat(chat.id);
+								}}
+								disabled={chat.id === store.currentChatId}
+							>
+								<div className="ss__chat__history__chat__button__text">
+									{chat.chat.length > 1 ? filters.truncate(chat.chat[1].text, 50) : `New Chat`}
+								</div>
+								<div className="ss__chat__history__chat__button__date">{chat.createdAt.toLocaleString()}</div>
+							</Button>
+						</div>
+					))}
+				</div>
+			) : null}
+		</div>
+	);
+
+	const FacetButton = (props: { label: string; open?: boolean }) => <Button icon={props.open ? 'angle-down' : 'angle-up'}>{props.label}</Button>;
+
+	const FacetsPopup = (props: { action: FacetsData; toggleOpen?: () => void }) => (
+		<div className="ss__chat__facets">
+			<div className="ss__chat__facets__header">
+				<div className="ss__chat__facets__close">
+					<Button icon="close-thin" className="ss__chat__facets__close__button" onClick={props.toggleOpen} />
+				</div>
+				<div className="ss__chat__facets__header__title">Filter Results</div>
+			</div>
+			<div className="ss__chat__facets__wrapper">
+				{props.action.data.map((facet, idx) => (
+					<div className="ss__chat__facets__facet" key={idx}>
+						<div className="ss__chat__facets__facet__label">{facet.label}</div>
+						<div className="ss__chat__facets__facet__options">
+							{facet.options?.map((option) => (
+								<Button
+									className="ss__chat__facets__facet__options__option"
+									key={option.key}
+									onClick={() => {
+										controller.store.addFacet({
+											key: facet.key,
+											facetLabel: facet.label,
+											value: option.key,
+											label: option.label,
+											count: option.count,
+										});
+										controller.search();
+									}}
+								>
+									{option.label}
+								</Button>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+
+	return (
+		<CacheProvider>
+			<Fragment>
+				<div
+					className={classnames(
+						'ss__chat',
+						{
+							'ss__chat--open': store.open,
+							'ss__chat--minimized': !store.open,
+						},
+						className,
+						internalClassName
+					)}
+					{...styling}
+				>
+					{!store.open ? (
+						<div className={'ss__chat__bubble'} onClick={() => controller.handlers.button.click()}>
+							<Icon icon="sparkles" title="Open Chat" />
+						</div>
+					) : (
+						<Fragment>
+							<div className={'ss__chat__header'}>
+								<div className="ss__chat__header__title">
+									<Icon color="#fff" icon="sparkles" />
+									Chat AI
+								</div>
+								<div className="ss__chat__header__buttons">
+									<Button
+										disabled={store.currentChat?.chat && store.currentChat.chat.length <= 1}
+										className="ss__chat__header__button--new"
+										icon={{ icon: 'plus-thin', title: 'New Chat' }}
+										onClick={() => controller.startNewChat()}
+									/>
+
+									<Dropdown
+										disabled={store.chats.length == 1 && store.currentChat && store.currentChat.chat.length <= 1}
+										className="ss__chat__header__dropdown-history"
+										button={<HistoryButton />}
+									>
+										<HistoryPopup />
+									</Dropdown>
+
+									<Button
+										className="ss__chat__header__button--close"
+										icon={{ icon: 'close-thin', title: 'Close Chat' }}
+										onClick={() => controller.handlers.button.click()}
+									/>
+								</div>
+							</div>
+							<div className="ss__chat__content">
+								<div className="ss__chat__content__header">
+									<div className="ss__chat__attachments">
+										{store.currentChat?.attachments.attached
+											.filter((item) => item.state === 'active')
+											.map((item) => (
+												<Attachment key={item.id} attachment={item} controller={controller} />
+											))}
+									</div>
+								</div>
+								<div className={'ss__chat__messages'} ref={messagesContainerRef}>
+									{store.currentChat?.chat.map((chatItem, index) => (
+										<div key={index} className="ss__chat__message">
+											{{
+												user: <MessageUser chatItem={chatItem} controller={controller} />,
+												text: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+												content: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+												productSearchResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+												inspirationResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+												productAnswer: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+												productComparison: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+												productRecommendation: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+											}[chatItem.messageType] || <Fragment></Fragment>}
+										</div>
+									))}
+									<div className="ss__chat__messages__end" ref={messagesEndRef} />
+								</div>
+								{store.loading ? (
+									<div className={'ss__chat__loading'}>
+										<div className={'ss__chat__loading__dots'}>
+											<div className={'ss__chat__loading__dot'}></div>
+											<div className={'ss__chat__loading__dot'}></div>
+											<div className={'ss__chat__loading__dot'}></div>
+										</div>
+									</div>
+								) : null}
+								{!store.currentChat?.isExpired ? (
+									<div className="ss__chat__content__footer">
+										{store.error && <div className="ss__chat__error">{store.error.message}</div>}
+										{store.currentChat?.actions && store.currentChat.actions.length > 0 && (
+											<div className={'ss__chat__actions'}>
+												{store.currentChat?.actions.map((action, index) => (
+													<Fragment key={index}>
+														{{
+															facets: (
+																<div className="ss__chat__actions--facets">
+																	<Dropdown
+																		className="ss__chat__actions__facets-dropdown"
+																		button={
+																			<Button className="ss__chat__actions__facets" icon="filters">
+																				Filters
+																			</Button>
+																		}
+																	>
+																		<FacetsPopup action={action as FacetsData} />
+																	</Dropdown>
+																	{(action as FacetsData).data.map((facet, idx) => (
+																		<div className="ss__chat__actions__facet" key={idx}>
+																			<Dropdown key={facet.key} button={<FacetButton label={facet.label} />}>
+																				<div className="ss__chat__actions__facet__options">
+																					{facet.options?.map((option) => (
+																						<Button
+																							key={option.key}
+																							onClick={() => {
+																								controller.store.addFacet({
+																									key: facet.key,
+																									facetLabel: facet.label,
+																									value: option.key,
+																									label: option.label,
+																									count: option.count,
+																								});
+																								controller.search();
+																							}}
+																						>
+																							{option.label}
+																						</Button>
+																					))}
+																				</div>
+																			</Dropdown>
+																		</div>
+																	))}
+																</div>
+															),
+															actions: (
+																<div className="ss__chat__actions--suggested">
+																	{(action as ActionsData).data.map((act, idx) => (
+																		<Button
+																			key={idx}
+																			onClick={() => {
+																				controller.store.inputValue = act.message;
+																				controller.search();
+																			}}
+																		>
+																			{act.message}
+																		</Button>
+																	))}
+																</div>
+															),
+														}[action.type] || <Fragment></Fragment>}
+													</Fragment>
+												))}
+											</div>
+										)}
+										{store.currentChat?.attachments.attached && store.currentChat.attachments.attached.length > 0 && (
+											<div className={'ss__chat__attachments'}>
+												{store.currentChat?.attachments.attached
+													.filter((item) => item.state === 'attached' || item.state === 'loading')
+													.map((item) => (
+														<Attachment key={item.id} attachment={item} controller={controller} />
+													))}
+												{store.currentChat?.attachments.attached.length === 2 &&
+												store.currentChat?.attachments.attached.every((item) => item.type === 'product') ? (
+													<div className={'ss__chat__attachments__info'}>Compare products (max: 2)</div>
+												) : null}
+												{store.currentChat?.attachments.attached.length === 1 &&
+												store.currentChat?.attachments.attached.every((item) => item.type === 'product') ? (
+													<div className={'ss__chat__attachments__info'}>Ask questions about this product</div>
+												) : null}
+												{store.currentChat?.attachments.attached.length === 1 &&
+												store.currentChat?.attachments.attached.every((item) => item.type === 'image' && !item.error) ? (
+													<div className={'ss__chat__attachments__info'}>Find products similar to this image</div>
+												) : null}
+											</div>
+										)}
+										<div className={'ss__chat__input'}>
+											<input
+												type="text"
+												name="ss-chat-input"
+												placeholder="Type your message..."
+												onKeyUp={(e) => controller.handlers.input.input(e as any)}
+												onKeyDown={(e) => controller.handlers.input.enterKey(e as any)}
+												value={controller.store.inputValue}
+											/>
+											<div className={'ss__chat__input__actions'}>
+												<Button
+													className={'ss__chat__upload-button'}
+													disabled={store.currentChat?.attachments.attached.some((attachment) => attachment.state === 'loading') || store.blocked}
+													onClick={() => fileInputRef.current?.click()}
+													icon={{ icon: 'plus-thin', title: 'Upload Image' }}
+												/>
+												<Button
+													className="ss__chat__send-button"
+													icon={{ icon: 'send', title: 'Send Message' }}
+													disabled={store.blocked}
+													onClick={() => controller.search()}
+												/>
+												<input
+													ref={fileInputRef}
+													onChange={async (e) => {
+														await controller.upload(e.target.files);
+														// reset value
+														e.target.value = '';
+													}}
+													multiple={true}
+													type="file"
+													accept="image/*"
+													id="ss-image-upload"
+													className="ss__autocomplete__visual-modal__content__body__file-input"
+												/>
+											</div>
+										</div>
+									</div>
+								) : (
+									<div>This chat is expired. Please start a new chat.</div>
+								)}
+							</div>
+						</Fragment>
+					)}
+				</div>
+				<Overlay style={{ zIndex: 1001 }} color="transparent" active={store.open} onClick={() => controller.handlers.button.click()} />
+				<Slideout
+					slideDirection="right"
+					buttonSelector={'.ss__chat__result__detail-slot__more-info-button, .ss__chat__result__detail-slot__image'}
+					width="450px"
+				>
+					<Quickview result={store.quickViewResult} controller={controller} />
+				</Slideout>
+			</Fragment>
+		</CacheProvider>
+	);
+});
+
+export interface ChatProps extends ComponentProps {
+	controller: ChatController;
+}

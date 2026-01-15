@@ -1,11 +1,11 @@
 import { h, ComponentType, FunctionComponent } from 'preact';
 import type { Product } from '@searchspring/snap-store-mobx';
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
+import type { SearchController, AutocompleteController, RecommendationController, ChatController } from '@searchspring/snap-controller';
 import { createImpressionObserver } from '../utilities';
 import { useEffect, useCallback } from 'preact/hooks';
 
 interface WithTrackingProps {
-	controller?: SearchController | AutocompleteController | RecommendationController;
+	controller?: SearchController | AutocompleteController | RecommendationController | ChatController;
 	result?: Product;
 	[key: string]: any;
 }

@@ -3,7 +3,104 @@ import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
 import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
-const siteId = 'atkzs2';
+import { url } from '@searchspring/snap-toolbox';
+import { StorageStore } from '@searchspring/snap-store-mobx';
+
+// storage for custom configuration
+const configStore = new StorageStore({ type: 'local', key: 'ss-demo-config' });
+
+/*
+	configuration and instantiation
+ */
+
+let siteId = 'ck4bj7';
+let chatWidgetId = 'test-mattel-demo';
+
+// grab siteId out of the URL
+const urlObj = url(window.location.href);
+const urlSiteIdParam = urlObj.params.query.siteId || urlObj.params.query.siteid;
+const urlSearchOriginParam = urlObj.params.query.searchOrigin;
+const urlChatOriginParam = urlObj.params.query.chatOrigin;
+const urlChatWidgetIdParam = urlObj.params.query.chatWidgetId;
+
+// custom siteId
+if (urlSiteIdParam && urlSiteIdParam.match(/[a-zA-Z0-9]{6}/)) {
+	siteId = urlSiteIdParam;
+	configStore.set('siteId', siteId);
+
+	// clear previously stored storage
+	window.localStorage.removeItem('ss-history');
+	window.sessionStorage.removeItem('ss-controller-search');
+	window.sessionStorage.removeItem('ss-controller-autocomplete');
+} else {
+	// use siteId from storage
+	const storedSiteId = configStore.get('siteId');
+	if (storedSiteId) siteId = storedSiteId;
+}
+
+// custom search origin
+let customSearchOrigin = `https://${siteId}.a.searchspring.io`;
+if (urlSearchOriginParam) {
+	customSearchOrigin = urlSearchOriginParam;
+	configStore.set('origin', urlSearchOriginParam);
+} else {
+	const storedOrigin = configStore.get('origin');
+	if (storedOrigin) customSearchOrigin = storedOrigin;
+}
+
+// custom chat origin
+let customChatOrigin;
+if (urlChatOriginParam) {
+	customChatOrigin = urlChatOriginParam;
+	configStore.set('chatOrigin', urlChatOriginParam);
+} else {
+	const storedOrigin = configStore.get('chatOrigin');
+	if (storedOrigin) customChatOrigin = storedOrigin;
+}
+
+// custom chat widget id
+if (urlChatWidgetIdParam) {
+	chatWidgetId = urlChatWidgetIdParam;
+	configStore.set('chatWidgetId', chatWidgetId);
+} else {
+	const storedChatWidgetId = configStore.get('chatWidgetId');
+	if (storedChatWidgetId) chatWidgetId = storedChatWidgetId;
+}
+
+const clientConfig = {
+	meta: {
+		origin: customSearchOrigin,
+	},
+	search: {
+		origin: customSearchOrigin,
+	},
+	autocomplete: {
+		requesters: {
+			suggest: {
+				origin: customSearchOrigin,
+			},
+			legacy: {
+				origin: customSearchOrigin,
+			},
+		},
+	},
+	finder: {
+		origin: customSearchOrigin,
+	},
+	recommend: {
+		origin: customSearchOrigin,
+	},
+	suggest: {
+		origin: customSearchOrigin,
+	},
+	chat: {},
+};
+
+if (customChatOrigin) {
+	clientConfig.chat = {
+		origin: customChatOrigin,
+	};
+}
 
 // const siteId = '8uyt2m';
 
@@ -37,10 +134,11 @@ const siteId = 'atkzs2';
 let config: SnapTemplatesConfig = {
 	config: {
 		siteId,
+		mode: 'development', // should be removed for 'production' usage
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
-		// client: clientConfig
+		client: clientConfig,
 	},
 	plugins: {
 		common: {
@@ -92,6 +190,7 @@ let config: SnapTemplatesConfig = {
 		bundle: {
 			Bundle: {
 				component: 'RecommendationBundle',
+				resultComponent: 'CustomResult',
 			},
 		},
 	},
@@ -100,6 +199,18 @@ let config: SnapTemplatesConfig = {
 			{
 				selector: '#searchspring-layout',
 				component: 'Search',
+				resultComponent: 'CustomResult',
+			},
+		],
+	},
+	chat: {
+		settings: {
+			widgetId: chatWidgetId,
+		},
+		targets: [
+			{
+				selector: '#searchspring-chat',
+				component: 'Chat',
 			},
 		],
 		// settings: {
@@ -120,6 +231,7 @@ let config: SnapTemplatesConfig = {
 			{
 				selector: 'input.searchspring-ac',
 				component: 'AutocompleteFixed',
+				resultComponent: 'CustomResult',
 			},
 		],
 	},

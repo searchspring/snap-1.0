@@ -1,5 +1,5 @@
 import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { RecommendRequestModel } from '@searchspring/snap-client';
+import type { ChatRequestModel, RecommendRequestModel } from '@searchspring/snap-client';
 import type {
 	SearchResponseModelFacetValueAllOfValues,
 	AutocompleteRequestModel,
@@ -76,6 +76,16 @@ export type VariantOptionConfigMappings = {
 		background?: string;
 		backgroundImageUrl?: string;
 	};
+};
+
+// Chat Config
+export type ChatStoreConfig = StoreConfig & {
+	globals?: Partial<ChatRequestModel>;
+	settings: ChatStoreConfigSettings;
+};
+
+export type ChatStoreConfigSettings = {
+	widgetId: string;
 };
 
 // Search Config
@@ -173,7 +183,7 @@ export type RecommendationStoreConfig = StoreConfig & {
 	};
 };
 
-export type StoreConfigs = SearchStoreConfig | AutocompleteStoreConfig | FinderStoreConfig | RecommendationStoreConfig;
+export type StoreConfigs = SearchStoreConfig | AutocompleteStoreConfig | FinderStoreConfig | RecommendationStoreConfig | ChatStoreConfig;
 
 export type StoreServices = {
 	urlManager: UrlManager;

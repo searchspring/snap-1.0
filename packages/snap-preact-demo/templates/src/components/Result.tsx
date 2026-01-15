@@ -1,18 +1,57 @@
 import { h, Fragment } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge } from '@searchspring/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Icon } from '@searchspring/snap-preact/components';
 import { Product } from '@searchspring/snap-store-mobx';
 import type { SearchController } from '@searchspring/snap-controller';
 
+const openChatProductQuery = (result, controller) => {
+	const options = { requestType: 'productQuery' };
+	window.searchspring.fire('chat/open/discussProduct', { result, options });
+	if (controller.type === 'autocomplete') {
+		controller.setFocused();
+	}
+};
+const openChatProductSimilar = (result, controller) => {
+	const options = { requestType: 'productSimilar' };
+	window.searchspring.fire('chat/open/discussProduct', { result, options });
+	if (controller.type === 'autocomplete') {
+		controller.setFocused();
+	}
+};
 export const CustomResult = (props: { result: Product; controller: SearchController }) => {
 	const { result, controller } = props;
 	const core = result.mappings.core;
+	const isChatEnabled = !!window?.searchspring?.controller?.chat;
 
 	return (
 		<article className="ss__custom-result">
-			<div className="ss__custom-result__image-wrapper">
+			<div className="ss__custom-result__image-wrapper" style={{ position: 'relative' }}>
 				<a href={core.url}>
 					<OverlayBadge controller={controller as SearchController} result={result}>
 						<Image src={core.thumbnailImageUrl} alt={core.name} />
+						{isChatEnabled && (
+							<Fragment>
+								<span
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										openChatProductQuery(result, controller);
+									}}
+									style={{ position: 'absolute', bottom: '0px', left: '0px', cursor: 'pointer' }}
+								>
+									<Icon icon={'chat'} title={'Ask about this product'} />
+								</span>
+								<span
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										openChatProductSimilar(result, controller);
+									}}
+									style={{ position: 'absolute', bottom: '0px', left: '20px', cursor: 'pointer' }}
+								>
+									<Icon icon={'similar'} title={'Find similar products'} />
+								</span>
+							</Fragment>
+						)}
 					</OverlayBadge>
 				</a>
 			</div>

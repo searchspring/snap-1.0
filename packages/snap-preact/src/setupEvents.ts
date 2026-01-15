@@ -1,4 +1,4 @@
-import { AbstractController } from '@searchspring/snap-controller';
+import { AbstractController, ChatController } from '@searchspring/snap-controller';
 import { EventManager, Next } from '@searchspring/snap-event-manager';
 import { Product, SearchStore } from '@searchspring/snap-store-mobx';
 
@@ -8,6 +8,17 @@ type ControllerSelectVariantOptionsData = {
 };
 type ControllerRecommendationUpdateData = {
 	controllerIds?: (string | RegExp)[];
+};
+
+type ControllerChatOpenData = {
+	controllerIds?: (string | RegExp)[];
+	query?: string;
+};
+
+type ControllerChatOpenProductQueryData = {
+	controllerIds?: (string | RegExp)[];
+	result?: any;
+	options?: any;
 };
 
 export const setupEvents = () => {
@@ -44,6 +55,37 @@ export const setupEvents = () => {
 
 		controllers.map((controller) => {
 			controller.search();
+		});
+
+		await next();
+	});
+
+	eventManager.on('chat/open', async (data: ControllerChatOpenData, next: Next) => {
+		const { controllerIds, query } = data || {};
+
+		//filter through all chat controllers for matches with profileIds and realtime config
+		const controllers = matchControllers(controllerIds).filter((controller) => {
+			return Boolean(controller.type === 'chat');
+		});
+
+		controllers.map((controller) => {
+			(controller as ChatController).openChat(query);
+		});
+
+		await next();
+	});
+
+	eventManager.on('chat/open/discussProduct', async (data: ControllerChatOpenProductQueryData, next: Next) => {
+		const { controllerIds, result, options } = data || {};
+
+		//filter through all chat controllers for matches with profileIds and realtime config
+		const controllers = matchControllers(controllerIds).filter((controller) => {
+			return Boolean(controller.type === 'chat');
+		});
+
+		controllers.map((controller) => {
+			(controller as ChatController).discussProduct(result, options);
+			(controller as ChatController).openChat();
 		});
 
 		await next();

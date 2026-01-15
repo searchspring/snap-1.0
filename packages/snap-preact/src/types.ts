@@ -6,8 +6,9 @@ import type {
 	FinderControllerConfig,
 	RecommendationControllerConfig,
 	ContextVariables,
+	ChatControllerConfig,
 } from '@searchspring/snap-controller';
-import type { SearchStore, AutocompleteStore, FinderStore, RecommendationStore } from '@searchspring/snap-store-mobx';
+import type { SearchStore, AutocompleteStore, FinderStore, RecommendationStore, ChatStore } from '@searchspring/snap-store-mobx';
 import type { UrlManager, UrlTranslatorConfig, UrlState } from '@searchspring/snap-url-manager';
 import type { EventManager } from '@searchspring/snap-event-manager';
 import type { Profiler } from '@searchspring/snap-profiler';
@@ -21,7 +22,7 @@ export type IntegrationPlatforms = 'shopify' | 'bigCommerce' | 'magento2' | 'oth
 
 export type SnapControllerServices = {
 	client?: Client;
-	store?: SearchStore | AutocompleteStore | FinderStore | RecommendationStore;
+	store?: SearchStore | AutocompleteStore | FinderStore | RecommendationStore | ChatStore;
 	urlManager?: UrlManager;
 	eventManager?: EventManager;
 	profiler?: Profiler;
@@ -67,6 +68,19 @@ export type SnapSearchControllerConfig = {
 		config?: ClientConfig;
 	};
 	controller: SearchControllerConfig;
+	context?: ContextVariables;
+};
+
+export type SnapChatControllerConfig = {
+	mode?: keyof typeof AppMode | AppMode;
+	url?: UrlTranslatorConfig & {
+		initial?: InitialUrlConfig;
+	};
+	client?: {
+		globals: ClientGlobals;
+		config?: ClientConfig;
+	};
+	controller: ChatControllerConfig;
 	context?: ContextVariables;
 };
 

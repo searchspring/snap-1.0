@@ -4,7 +4,7 @@ import { SnapTemplatesConfig } from '../SnapTemplates';
 import { ThemeStore, ThemeStoreThemeConfig } from './ThemeStore';
 import { TargetStore } from './TargetStore';
 import { CurrencyCodes, LanguageCodes, LibraryImports, LibraryStore } from './LibraryStore';
-import { debounce } from '@searchspring/snap-toolbox';
+import { AppMode, debounce } from '@searchspring/snap-toolbox';
 import type {
 	PluginAddToCartConfig as PluginShopifyAddToCartConfig,
 	PluginBackgroundFiltersConfig as PluginShopifyBackgroundFiltersConfig,
@@ -37,7 +37,7 @@ import type { GlobalThemeStyleScript, IntegrationPlatforms } from '../../types';
 import type { ClientConfig } from '@searchspring/snap-client';
 
 export type TemplateThemeTypes = 'library' | 'local';
-export type TemplateTypes = 'search' | 'autocomplete' | `recommendation/${RecsTemplateTypes}`;
+export type TemplateTypes = 'search' | 'autocomplete' | `recommendation/${RecsTemplateTypes}` | 'chat';
 export type TemplateCustomComponentTypes = 'result' | 'badge';
 export type RecsTemplateTypes = 'bundle' | 'default' | 'email';
 
@@ -46,6 +46,7 @@ export type TargetMap = { [targetId: string]: TargetStore };
 type ComponentLibraryType =
 	| keyof LibraryImports['component']['autocomplete']
 	| keyof LibraryImports['component']['search']
+	| keyof LibraryImports['component']['chat']
 	| keyof LibraryImports['component']['recommendation']['default']
 	| keyof LibraryImports['component']['recommendation']['bundle']
 	| keyof LibraryImports['component']['recommendation']['email'];
@@ -115,6 +116,7 @@ export type TemplateStoreConfigConfig = {
 	components?: TemplateStoreComponentConfig;
 	config: {
 		siteId?: string;
+		mode?: keyof typeof AppMode | AppMode;
 		currency?: CurrencyCodes;
 		language?: LanguageCodes;
 		platform?: IntegrationPlatforms;
@@ -148,6 +150,7 @@ export class TemplatesStore {
 	targets: {
 		search: TargetMap;
 		autocomplete: TargetMap;
+		chat: TargetMap;
 		recommendation: {
 			[key in RecsTemplateTypes]: TargetMap;
 		};
@@ -182,6 +185,7 @@ export class TemplatesStore {
 		this.targets = {
 			search: {},
 			autocomplete: {},
+			chat: {},
 			recommendation: {
 				bundle: {},
 				default: {},

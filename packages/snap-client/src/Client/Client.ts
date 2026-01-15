@@ -22,6 +22,8 @@ import type {
 } from '@searchspring/snapi-types';
 
 import deepmerge from 'deepmerge';
+import { ChatAPI, UploadImageRequestModel, UploadImageResponseModel } from './apis/Chat';
+import { ChatRequestModel, ChatResponseModel, FeedbackRequestModel } from './transforms';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -32,6 +34,9 @@ const defaultConfig: ClientConfig = {
 	},
 	search: {
 		// origin: 'https://snapi.kube.athoscommerce.io'
+	},
+	chat: {
+		origin: 'https://asklo-backend.service-qa.ksearchnet.com',
 	},
 	autocomplete: {
 		// origin: 'https://snapi.kube.athoscommerce.io'
@@ -55,6 +60,7 @@ export class Client {
 		autocomplete: HybridAPI;
 		meta: HybridAPI;
 		search: HybridAPI;
+		chat: ChatAPI;
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
 		finder: HybridAPI;
@@ -119,6 +125,17 @@ export class Client {
 					globals: this.config.search?.globals,
 				})
 			),
+			chat: new ChatAPI(
+				new ApiConfiguration({
+					fetchApi: this.config.fetchApi,
+					initiator: this.config.initiator,
+					mode: this.mode,
+					origin: this.config.chat?.origin,
+					headers: this.config.chat?.headers,
+					cache: this.config.chat?.cache,
+					globals: this.config.chat?.globals,
+				})
+			),
 			finder: new HybridAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
@@ -167,6 +184,25 @@ export class Client {
 
 		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.search.getSearch(params)]);
 		return { meta, search };
+	}
+
+	async uploadImage(params: UploadImageRequestModel): Promise<UploadImageResponseModel> {
+		return this.requesters.chat.postUploadImage(params);
+	}
+
+	async chatStatus(params: any = {}): Promise<{ status: any }> {
+		return this.requesters.chat.postStatus(params);
+	}
+
+	async chat(params: ChatRequestModel): Promise<{ meta: MetaResponseModel; chat: ChatResponseModel }> {
+		params = deepmerge<ChatRequestModel & ClientGlobals>(this.globals, params);
+
+		const [meta, chat] = await Promise.all([this.meta({ siteId: this.globals.siteId || '' }), this.requesters.chat.postMessage(params)]);
+		return { meta, chat };
+	}
+
+	async chatFeedback(params: FeedbackRequestModel): Promise<void> {
+		return this.requesters.chat.postFeedback(params);
 	}
 
 	async finder(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {

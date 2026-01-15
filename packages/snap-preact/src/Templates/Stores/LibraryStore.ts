@@ -81,6 +81,9 @@ export type LibraryImports = {
 				RecommendationEmail: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 			};
 		};
+		chat: {
+			Chat: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+		};
 		badge: {
 			[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 		};
@@ -118,6 +121,7 @@ export class LibraryStore {
 			default: LibraryComponentMap;
 			email: LibraryComponentMap;
 		};
+		chat: LibraryComponentMap;
 		badge: LibraryComponentMap;
 		result: LibraryComponentMap;
 	} = {
@@ -128,6 +132,7 @@ export class LibraryStore {
 			default: {},
 			email: {},
 		},
+		chat: {},
 		badge: {},
 		result: {},
 	};
@@ -289,6 +294,11 @@ export class LibraryStore {
 							).RecommendationEmail)
 						);
 					},
+				},
+			},
+			chat: {
+				Chat: async () => {
+					return this.components.chat.Chat || (this.components.chat.Chat = (await import('./library/components/Chat')).Chat);
 				},
 			},
 			badge: {},
