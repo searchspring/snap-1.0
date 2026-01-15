@@ -1036,6 +1036,71 @@ describe('SearchResultStore', () => {
 			document.body.removeChild(colorOptionElem);
 		});
 
+		it('auto-selects remaining options when only one variant is available', () => {
+			const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
+
+			const variantSearchConfig: StoreConfigs = {
+				...searchConfig,
+				settings: {
+					variants: {
+						field: 'ss_variants',
+						autoSelect: false,
+					},
+				},
+			};
+
+			const results = new SearchResultStore({
+				config: variantSearchConfig,
+				state: {
+					loaded: false,
+				},
+				data: {
+					search: searchData.search,
+					meta: searchData.meta,
+				},
+			});
+
+			const resultForTest = results[0] as Product;
+
+			// Mock variant data: Red/Small and Blue/Medium
+			const mockVariants = [
+				{
+					attributes: { available: true },
+					mappings: { core: { available: true, sku: 'sku1' } },
+					options: {
+						color: { value: 'Red', label: 'Red' },
+						size: { value: 'Small', label: 'Small' },
+					},
+				},
+				{
+					attributes: { available: true },
+					mappings: { core: { available: true, sku: 'sku2' } },
+					options: {
+						color: { value: 'Blue', label: 'Blue' },
+						size: { value: 'Medium', label: 'Medium' },
+					},
+				},
+			];
+
+			(resultForTest as Product).variants?.update(mockVariants as any);
+
+			const colorSelection = resultForTest.variants?.selections.find((selection) => selection.field == 'color');
+			const sizeSelection = resultForTest.variants?.selections.find((selection) => selection.field == 'size');
+
+			expect(colorSelection).toBeDefined();
+			expect(sizeSelection).toBeDefined();
+
+			// Initially nothing selected
+			expect(colorSelection?.selected).toBeUndefined();
+			expect(sizeSelection?.selected).toBeUndefined();
+
+			// Select Red -> Should auto-select Small because it's the only remaining option
+			colorSelection?.select('Red');
+
+			expect(colorSelection?.selected?.value).toBe('Red');
+			expect(sizeSelection?.selected?.value).toBe('Small');
+		});
+
 		it('can use filter first when grabbing selections from dom on load', () => {
 			const field = 'color';
 			const value = 'Mirage';

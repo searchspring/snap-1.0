@@ -569,7 +569,18 @@ export class Variants {
 
 			// set active variant
 			if (availableVariants.length == 1) {
-				this.setActive(availableVariants[0]);
+				const variantToSet = availableVariants[0];
+
+				//need to update all unselected selections to match the single result
+				const unselectedSelections = this.selections.filter((selection) => !selection.selected);
+
+				unselectedSelections.forEach((selection) => {
+					const field = selection.field;
+					const valueToSet = variantToSet.options[field].value;
+					selection.select(valueToSet);
+				});
+
+				this.setActive(variantToSet);
 			}
 		}
 	}
