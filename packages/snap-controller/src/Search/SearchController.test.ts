@@ -111,6 +111,7 @@ describe('Search Controller', () => {
 
 		//@ts-ignore
 		delete window.location;
+		//@ts-ignore
 		window.location = {
 			...window.location,
 			replace: jest.fn(),
@@ -257,8 +258,8 @@ describe('Search Controller', () => {
 		});
 
 		controller.on('afterSearch', ({ response }: AfterSearchObj) => {
-			response.search.results[0].mappings.core.name = 'mutated';
-			response.meta.badges = {
+			response.search.results![0].mappings!.core!.name = 'mutated';
+			response.meta!.badges = {
 				locations: {
 					left: [
 						{
@@ -467,6 +468,148 @@ describe('Search Controller', () => {
 
 		clickfn.mockClear();
 		storagefn.mockClear();
+	});
+
+	it('can set enabled for hierarchy filters', async () => {
+		const _config: SearchStoreConfig = {
+			...searchConfig,
+			settings: {
+				...searchConfig.settings,
+				filters: {
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: true,
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const controller = new SearchController(_config, {
+			client: new MockClient(globals, {}),
+			store: new SearchStore(_config, services),
+			urlManager,
+			eventManager: new EventManager(),
+			profiler: new Profiler(),
+			logger: new Logger(),
+			tracker: new Tracker(globals),
+		});
+
+		(controller.client as MockClient).mockData.updateConfig({ search: 'filteredHierarchy', siteId: '8uyt2m' });
+
+		await controller.search();
+
+		expect(controller.store.filters).toHaveLength(1);
+		expect(controller.store.filters[0].label).toBe('Category: Shop by Color');
+	});
+
+	it('can set enabled to false and hide hierarchy filters', async () => {
+		const _config: SearchStoreConfig = {
+			...searchConfig,
+			settings: {
+				...searchConfig.settings,
+				filters: {
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: false,
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const controller = new SearchController(_config, {
+			client: new MockClient(globals, {}),
+			store: new SearchStore(_config, services),
+			urlManager,
+			eventManager: new EventManager(),
+			profiler: new Profiler(),
+			logger: new Logger(),
+			tracker: new Tracker(globals),
+		});
+
+		(controller.client as MockClient).mockData.updateConfig({ search: 'filteredHierarchy', siteId: '8uyt2m' });
+
+		await controller.search();
+
+		expect(controller.store.filters).toHaveLength(0);
+	});
+
+	it('can set enabled to adjust hierarchy filters in summary', async () => {
+		const _config: SearchStoreConfig = {
+			...searchConfig,
+			settings: {
+				...searchConfig.settings,
+				filters: {
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: true,
+								showFullPath: true,
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const controller = new SearchController(_config, {
+			client: new MockClient(globals, {}),
+			store: new SearchStore(_config, services),
+			urlManager,
+			eventManager: new EventManager(),
+			profiler: new Profiler(),
+			logger: new Logger(),
+			tracker: new Tracker(globals),
+		});
+
+		(controller.client as MockClient).mockData.updateConfig({ search: 'filteredHierarchy', siteId: '8uyt2m' });
+
+		await controller.search();
+
+		expect(controller.store.filters).toHaveLength(1);
+		expect(controller.store.filters[0].label).toBe('Category: All Dresses / Shop by Color');
+	});
+
+	it('can set displayDelimiter & showFullPath to adjust hierarchy filters in summary', async () => {
+		const _config: SearchStoreConfig = {
+			...searchConfig,
+			settings: {
+				...searchConfig.settings,
+				filters: {
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: true,
+								displayDelimiter: ' ? ',
+								showFullPath: true,
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const controller = new SearchController(_config, {
+			client: new MockClient(globals, {}),
+			store: new SearchStore(_config, services),
+			urlManager,
+			eventManager: new EventManager(),
+			profiler: new Profiler(),
+			logger: new Logger(),
+			tracker: new Tracker(globals),
+		});
+
+		(controller.client as MockClient).mockData.updateConfig({ search: 'filteredHierarchy', siteId: '8uyt2m' });
+
+		await controller.search();
+
+		expect(controller.store.filters).toHaveLength(1);
+		expect(controller.store.filters[0].label).toBe('Category: All Dresses ? Shop by Color');
 	});
 
 	it('can set personalization cart param', async () => {

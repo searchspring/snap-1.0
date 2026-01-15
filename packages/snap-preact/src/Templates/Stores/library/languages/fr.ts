@@ -99,6 +99,9 @@ export const fr: LangComponents = {
 		ctaButtonSuccessText: {
 			value: 'Offre groupée ajoutée!',
 		},
+		ctaSubtotalTitle: {
+			value: (data) => `Sous-total pour ${data.cartStore.count} articles`,
+		},
 	},
 	mobileSidebar: {
 		openButtonText: {
@@ -166,6 +169,9 @@ export const fr: LangComponents = {
 						(data?.facet as ValueFacet)?.values?.length ? (data?.facet as ValueFacet)?.values?.length + ' choix' : ''
 					}`,
 			},
+		},
+		submitRangeButton: {
+			value: 'Soumettre',
 		},
 	},
 	select: {

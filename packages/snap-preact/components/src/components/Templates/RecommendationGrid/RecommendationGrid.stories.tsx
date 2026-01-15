@@ -148,7 +148,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.recommendation({ id: 'RecommendationList', tag: 'trending', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.recommendation({ id: 'RecommendationList', tag: 'trending', globals: { siteId: 'atkzs2' } });
 
 export const List = (args: RecommendationGridProps, { loaded: { controller } }: { loaded: { controller: RecommendationController } }) => {
 	return <RecommendationGrid {...args} controller={controller} results={controller?.store?.results} />;

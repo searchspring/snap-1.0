@@ -24,6 +24,11 @@ export type SearchStoreConfigSettings = {
 			[field: string]: FacetStoreConfig;
 		};
 	};
+	filters?: FilterStoreConfig & {
+		fields?: {
+			[field: string]: FilterStoreConfig;
+		};
+	};
 	infinite?: {
 		enabled?: boolean;
 		backfill?: number;
@@ -55,6 +60,7 @@ export type VariantConfig = {
 	options?: {
 		[optionField: string]: VariantOptionConfig;
 	};
+	showDisabledSelectionValues?: boolean;
 };
 
 export type VariantOptionConfig = {
@@ -76,6 +82,15 @@ export type VariantOptionConfigMappings = {
 export type SearchStoreConfig = StoreConfig & {
 	globals?: Partial<SearchRequestModel>;
 	settings?: SearchStoreConfigSettings;
+};
+
+export type FilterStoreConfig = {
+	rangeFormatValue?: string;
+	hierarchy?: {
+		enabled?: boolean;
+		displayDelimiter?: string;
+		showFullPath?: boolean;
+	};
 };
 
 export type FacetStoreConfig = {

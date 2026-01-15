@@ -346,6 +346,76 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
 - theme reactivity initial interface ([c017aad](https://github.com/searchspring/snap-1.0/commit/c017aadd4add7591bd98fcfbdb8db8985bf2d498))
 
+# [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
+
+### Bug Fixes
+
+- **autocomplete:** prevent impressing results when subsequent queries are the same ([2a154b5](https://github.com/searchspring/snap/commit/2a154b5fdecd3d56fbcd122205e16a9edf50b5ec))
+- **controller/search:** changing when 'lastStringyParams' is cleared and ensuring persisted pageshow ([7148731](https://github.com/searchspring/snap/commit/71487319cb130af204b833d0ab097694914dd100))
+- **image:** remove visibility style when value is not hidden ([e1e33df](https://github.com/searchspring/snap/commit/e1e33dff124582ac58a88f92cd0ee1be91bd7a71))
+- **preact/withtracking:** refactoring to useEffect and switching to capture for click event handler ([f862978](https://github.com/searchspring/snap/commit/f86297861da17394caa2c0a83886461b3938d959))
+- **useintersectionadvanced:** prevent non-visible elements from being impressed ([74455cf](https://github.com/searchspring/snap/commit/74455cfe340067278b5bcf88b5e0c2415d814510))
+
+### Features
+
+- **preact/components/facetslider:** adding 'separateHandles' prop and adjusting onChange ([dc2f7fc](https://github.com/searchspring/snap/commit/dc2f7fcb1a9a85876d3a235cbf3e83694a5e6a93))
+
+## [0.70.1](https://github.com/searchspring/snap/compare/v0.70.0...v0.70.1) (2025-11-17)
+
+### Bug Fixes
+
+- **preact-components/withtracking:** updating HOC to not send impressions if the product is a seed ([6c30f34](https://github.com/searchspring/snap/commit/6c30f34ab2a86293d0b6d03a04fa93de9f1ad7b9))
+
+# [0.70.0](https://github.com/searchspring/snap/compare/v0.69.2...v0.70.0) (2025-11-13)
+
+### Bug Fixes
+
+- **preact-components/recommendationbundle:** removing default prop values for title and description ([4ea121d](https://github.com/searchspring/snap/commit/4ea121d788312dc0a138e3243089e3867b75841f))
+- **preact/components/recommendationbundle:** fixing impression tracking in bundles ([e42fa30](https://github.com/searchspring/snap/commit/e42fa3076869b6f742ed9f50fb5f2df2c0699daa))
+- **searchresultstore:** bugfix for disabled variant selection logic ([0346817](https://github.com/searchspring/snap/commit/03468178b8c49d38cabaae74e3f14569c0186c1e))
+
+### Features
+
+- **preact/components/recommendationbundle:** api bundleSeed and refactor recommendationBundle ([28a32ce](https://github.com/searchspring/snap/commit/28a32ce34b9bf9f9a120572b006502a6c1ecbec6))
+- **preact/components/recommendations:** adding new description prop to both recs and bundles ([46888c7](https://github.com/searchspring/snap/commit/46888c75851b0156f202cb165229b90581f0a684))
+- **searchresultstore:** added config setting to showDisabledSelections for the variants ([918dee6](https://github.com/searchspring/snap/commit/918dee65f4ee323a1dcdd0d7aee34f7d5b0163db))
+
+## [0.69.2](https://github.com/searchspring/snap/compare/v0.69.1...v0.69.2) (2025-11-04)
+
+**Note:** Version bump only for package @searchspring/snap
+
+## [0.69.1](https://github.com/searchspring/snap/compare/v0.69.0...v0.69.1) (2025-10-23)
+
+**Note:** Version bump only for package @searchspring/snap
+
+# [0.69.0](https://github.com/searchspring/snap/compare/v0.68.0...v0.69.0) (2025-10-16)
+
+### Bug Fixes
+
+- **controller/search:** adding 'brand' and 'manufacturer' to the list of known background filters ([273e5e4](https://github.com/searchspring/snap/commit/273e5e482078a75796ac430e87b9aa30a83c1d9a))
+- **snap-preact:** adding additional checks around all cookie/storage usage to ensure things work ([0f6d8e7](https://github.com/searchspring/snap/commit/0f6d8e735c3d3c7eea7cfba6cf59509fafb819bb))
+- **toolbox/domtargeter:** error handling was supressing errors due to await outside of async ([340f8c2](https://github.com/searchspring/snap/commit/340f8c2c97f625a3784eeea58b59ff23d11864cc))
+- **toolbox/domtargeter:** switching to for..of loop ([dac4096](https://github.com/searchspring/snap/commit/dac40968b36b1d69210842a2811448b660f5dba0))
+
+### Features
+
+- **searchcontroller:** adding the ability to show hierarchy filters in the filterSummary ([43c3890](https://github.com/searchspring/snap/commit/43c3890db4f6e6b2ec5edc7f45fe2069a6f4ce20))
+
+# [0.68.0](https://github.com/searchspring/snap/compare/v0.67.5...v0.68.0) (2025-08-18)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+- fix inline banners in last position and index matches totalResults ([c2da409](https://github.com/searchspring/snap/commit/c2da4095721a5be8cb4467542c5579a0dce2ac95))
+
+### Features
+
+- **preact/components/variantselection:** adding new onSelect prop to variantSelection ([8bf77c7](https://github.com/searchspring/snap/commit/8bf77c7b898c6f6d8e2addcd3b5f6d053841170d))
+
+## [0.67.5](https://github.com/searchspring/snap/compare/v0.67.4...v0.67.5) (2025-08-11)
+
+**Note:** Version bump only for package @searchspring/snap
+
 ## [0.67.4](https://github.com/searchspring/snap/compare/v0.67.3...v0.67.4) (2025-07-29)
 
 ### Bug Fixes

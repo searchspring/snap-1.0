@@ -303,7 +303,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'MobileSidebar', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'MobileSidebar', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: MobileSidebarProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <MobileSidebar {...args} controller={controller} />;

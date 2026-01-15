@@ -1,15 +1,7 @@
 import { computed, makeObservable, observable } from 'mobx';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
-import type {
-	SearchStoreConfig,
-	ResultBadge,
-	VariantOptionConfig,
-	VariantConfig,
-	AutocompleteStoreConfig,
-	RecommendationStoreConfig,
-	StoreConfigs,
-} from '../../types';
+import type { SearchStoreConfig, ResultBadge, VariantOptionConfig, VariantConfig, StoreConfigs } from '../../types';
 import type {
 	SearchResponseModelResult,
 	SearchResponseModelResultMappings,
@@ -24,7 +16,7 @@ const VARIANT_ATTRIBUTE = 'ss-variant-option';
 const VARIANT_ATTRIBUTE_SELECTED = 'ss-variant-option-selected';
 
 type SearchResultStoreConfig = {
-	config: SearchStoreConfig | AutocompleteStoreConfig | RecommendationStoreConfig;
+	config: StoreConfigs;
 	state: {
 		loaded: boolean;
 	};
@@ -51,14 +43,15 @@ export class SearchResultStore extends Array<Product | Banner> {
 
 		const { loaded } = state || {};
 
-		let resultsArr: (Product | Banner)[] = (results || []).map((result) => {
+		let resultsArr: (Product | Banner)[] = (results || []).map((result, idx) => {
 			return new Product({
 				config,
 				data: { result, meta },
+				position: idx + 1,
 			});
 		});
 
-		const variantConfig = config?.settings?.variants;
+		const variantConfig = (config as SearchStoreConfig)?.settings?.variants;
 
 		// preselected variant options
 		if (variantConfig?.realtime?.enabled) {
@@ -181,11 +174,12 @@ type ProductMinimal = {
 };
 
 type ProductData = {
-	config: SearchStoreConfig | AutocompleteStoreConfig | RecommendationStoreConfig;
+	config: StoreConfigs;
 	data: {
 		result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants };
 		meta: MetaResponseModel;
 	};
+	position: number;
 };
 
 type SearchResponseModelResultVariants = {
@@ -196,7 +190,7 @@ type SearchResponseModelResultVariants = {
 export class Product {
 	public type = 'product';
 	public id: string;
-	public position: number = 0;
+	public position: number;
 	public attributes: Record<string, unknown> = {};
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -205,6 +199,7 @@ export class Product {
 	public children?: Array<Child> = [];
 	public badges: Badges;
 
+	public bundleSeed: boolean | undefined;
 	public quantity = 1;
 	public mask = new ProductMask();
 	public variants?: Variants;
@@ -212,11 +207,12 @@ export class Product {
 	constructor(productData: ProductData) {
 		const { config } = productData || {};
 		const { result, meta } = productData?.data || {};
+
 		this.id = result.id!;
 		this.attributes = result.attributes!;
 
 		this.mappings = result.mappings!;
-		this.position = result.position!;
+		this.position = productData.position!;
 
 		this.badges = new Badges({
 			data: {
@@ -225,7 +221,13 @@ export class Product {
 			},
 		});
 
-		const variantsField = config?.settings?.variants?.field;
+		// @ts-ignore - need to add bundleSeed to snapi-types
+		if (result.bundleSeed) {
+			// @ts-ignore - need to add bundleSeed to snapi-types
+			this.bundleSeed = Boolean(result.bundleSeed);
+		}
+
+		const variantsField = (config as SearchStoreConfig)?.settings?.variants?.field;
 
 		if (config && variantsField && this.attributes && this.attributes[variantsField]) {
 			try {
@@ -233,7 +235,7 @@ export class Product {
 				const parsedVariants: VariantData[] = JSON.parse(this.attributes[variantsField] as string);
 
 				this.variants = new Variants({
-					config: config.settings?.variants,
+					config: (config as SearchStoreConfig).settings?.variants,
 					data: {
 						mask: this.mask,
 						variants: parsedVariants,
@@ -419,7 +421,7 @@ export class Variants {
 
 			// create variants objects
 			this.data = variantData
-				.filter((variant) => variant.attributes.available !== false)
+				.filter((variant) => this.config?.showDisabledSelectionValues || variant.attributes.available !== false)
 				.map((variant) => {
 					// normalize price fields ensuring they are numbers
 					if (variant.mappings.core?.price) {
@@ -572,6 +574,7 @@ export type VariantSelectionValue = {
 	backgroundImageUrl?: string;
 	background?: string;
 	available?: boolean;
+	disabled?: boolean;
 };
 
 type VariantSelectionData = {
@@ -612,7 +615,6 @@ export class VariantSelection {
 	public refineValues(variants: Variants) {
 		// current selection should only consider OTHER selections for availability
 		const selectedSelections = variants.selections.filter((selection) => selection.field != this.field && selection.selected);
-
 		let availableVariants = variants.data.filter((variant) => variant.available);
 
 		// loop through selectedSelections and remove products that do not match
@@ -629,20 +631,21 @@ export class VariantSelection {
 					const value = variant.options[this.field].value;
 
 					const thumbnailImageUrl = variant.mappings.core?.thumbnailImageUrl;
-					const mappedValue: {
-						available: boolean;
-						value: string;
-						label: string;
-						thumbnailImageUrl?: string;
-						background?: string;
-						backgroundImageUrl?: string;
-					} = {
+
+					// A value should only be disabled if there are NO available variants in the entire dataset that have this value for the current field
+					const allAvailableVariants = variants.data.filter((variant) => variant.available);
+					const disabledValue = !allAvailableVariants.some((availableVariant) => {
+						return availableVariant.options[this.field].value === value;
+					});
+
+					const mappedValue: VariantSelectionValue = {
 						value: value,
 						label: value,
 						thumbnailImageUrl: thumbnailImageUrl,
 						available: Boolean(
 							availableVariants.some((availableVariant) => availableVariant.options[this.field].value == variant.options[this.field].value)
 						),
+						disabled: disabledValue,
 					};
 
 					if (this.config.thumbnailBackgroundImages) {
@@ -804,7 +807,7 @@ function addBannersToResults(
 	// banners can have an index greater than the total results, these should be injected at the end
 	const bannersToInjectAtEnd = bannersNotInResults.filter((banner) => {
 		const index = banner.config.position!.index!;
-		return index > paginationData.totalResults;
+		return index >= paginationData.totalResults;
 	});
 
 	// inject banners that have index position within current set into the results

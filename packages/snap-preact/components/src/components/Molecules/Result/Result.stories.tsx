@@ -217,7 +217,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
 	<Result {...args} result={controller?.store?.results[0] as Product} />

@@ -63,6 +63,15 @@ export default {
 			// 	options: ['dropdown', 'list', 'swatches'],
 			// },
 		},
+		onSelect: {
+			description: 'onSelect callback',
+			table: {
+				type: {
+					summary: 'function(e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption)',
+				},
+			},
+			action: 'onSelect',
+		},
 		...componentArgs,
 	},
 };
@@ -116,7 +125,7 @@ const values = [
 const config: SearchControllerConfig = {
 	id: 'searchVariants',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 	},
 	settings: {
 		variants: {

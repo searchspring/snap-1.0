@@ -16,6 +16,9 @@ Renders a single complete facet. This includes determining the correct options t
 
 
 ## Usage
+```jsx
+import { Facet } from '@searchspring/snap-preact-components';
+```
 
 ### facet
 The required `facet` prop specifies a reference to any single facet object within the facets store array. 
@@ -121,6 +124,34 @@ The `hideSelectedCountParenthesis` prop specifies if the parenthesis should rend
 
 ```jsx
 <Facet facet={controller.store.facets[0]} hideSelectedCountParenthesis={true} />
+```
+
+### rangeInputs
+The `rangeInputs` prop specifies if the range inputs should render. 
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} />
+```
+
+### rangeInputSubmitButtonText
+The `rangeInputSubmitButtonText` prop specifies the text to be rendered in the range input submit button. 
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSubmitButtonText={'Filter by Price'}/>
+```
+
+### rangeInputsPrefix
+The `rangeInputsPrefix` prop specifies the prefix to render next to the range inputs.
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsPrefix={'$'}/>
+```
+
+### rangeInputSeparatorText
+The `rangeInputSeparatorText` prop specifies the separator text to render between the range inputs.
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSeparatorText={' to '}/>
 ```
 
 ### showClearAllText
