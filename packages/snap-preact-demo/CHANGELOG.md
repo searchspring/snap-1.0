@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap-1.0/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap-1.0/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+- **autocomplete:** prevent impressing results when subsequent queries are the same ([2a154b5](https://github.com/searchspring/snap-1.0/commit/2a154b5fdecd3d56fbcd122205e16a9edf50b5ec))
+
+### Features
+
+- **client:** adding support to have separate subdomain in api - using this for recommend requests ([ceb6d65](https://github.com/searchspring/snap-1.0/commit/ceb6d6500c2c8a57df0356535d0f74d8d0464fae))
+- **preact/components/facet:** adding range facet inputs and the ability to use filterFormatValue for filters ([ef16169](https://github.com/searchspring/snap-1.0/commit/ef16169123f749d45cf4ab4c7d29375c06ab16da))
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap-1.0/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
+
 ## [1.10.1](https://github.com/searchspring/snap-1.0/compare/v1.10.0...v1.10.1) (2025-10-06)
 
 **Note:** Version bump only for package @searchspring/snap-preact-demo
