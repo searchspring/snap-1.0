@@ -24,11 +24,9 @@ export type SearchStoreConfigSettings = {
 			[field: string]: FacetStoreConfig;
 		};
 	};
-	filters?: {
-		hierarchy?: {
-			enabled?: boolean;
-			displayDelimiter?: string;
-			showFullPath?: boolean;
+	filters?: FilterStoreConfig & {
+		fields?: {
+			[field: string]: FilterStoreConfig;
 		};
 	};
 	infinite?: {
@@ -94,6 +92,15 @@ export type ChatStoreConfigSettings = {
 export type SearchStoreConfig = StoreConfig & {
 	globals?: Partial<SearchRequestModel>;
 	settings?: SearchStoreConfigSettings;
+};
+
+export type FilterStoreConfig = {
+	rangeFormatValue?: string;
+	hierarchy?: {
+		enabled?: boolean;
+		displayDelimiter?: string;
+		showFullPath?: boolean;
+	};
 };
 
 export type FacetStoreConfig = {

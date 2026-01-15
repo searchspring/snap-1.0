@@ -476,8 +476,12 @@ describe('Search Controller', () => {
 			settings: {
 				...searchConfig.settings,
 				filters: {
-					hierarchy: {
-						enabled: true,
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: true,
+							},
+						},
 					},
 				},
 			},
@@ -507,8 +511,12 @@ describe('Search Controller', () => {
 			settings: {
 				...searchConfig.settings,
 				filters: {
-					hierarchy: {
-						enabled: false,
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: false,
+							},
+						},
 					},
 				},
 			},
@@ -537,9 +545,13 @@ describe('Search Controller', () => {
 			settings: {
 				...searchConfig.settings,
 				filters: {
-					hierarchy: {
-						enabled: true,
-						showFullPath: true,
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: true,
+								showFullPath: true,
+							},
+						},
 					},
 				},
 			},
@@ -569,10 +581,14 @@ describe('Search Controller', () => {
 			settings: {
 				...searchConfig.settings,
 				filters: {
-					hierarchy: {
-						enabled: true,
-						displayDelimiter: ' ? ',
-						showFullPath: true,
+					fields: {
+						ss_category_hierarchy: {
+							hierarchy: {
+								enabled: true,
+								displayDelimiter: ' ? ',
+								showFullPath: true,
+							},
+						},
 					},
 				},
 			},

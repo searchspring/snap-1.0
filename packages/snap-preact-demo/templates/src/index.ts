@@ -102,6 +102,35 @@ if (customChatOrigin) {
 	};
 }
 
+// const siteId = '8uyt2m';
+
+// const clientConfig = {
+// 	meta: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	search: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	autocomplete: {
+// 		requesters: {
+// 			suggest: {
+// 				origin: `https://${siteId}.a.searchspring.io`,
+// 			},
+// 			legacy: {
+// 				origin: `https://${siteId}.a.searchspring.io`,
+// 			},
+// 		},
+// 	},
+// 	finder: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	recommend: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	suggest: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// };
 let config: SnapTemplatesConfig = {
 	config: {
 		siteId,
@@ -138,7 +167,14 @@ let config: SnapTemplatesConfig = {
 			// },
 		},
 		style: globalStyles,
-		overrides: {},
+		overrides: {
+			// default: {
+			// 	'facet': {
+			// 		rangeInputs: true,
+			// 		rangeInputsPrefix: "$",
+			// 	}
+			// }
+		},
 	},
 	recommendation: {
 		email: {
@@ -177,6 +213,18 @@ let config: SnapTemplatesConfig = {
 				component: 'Chat',
 			},
 		],
+		// settings: {
+		// 	filters: {
+		// 		fields: {
+		// 			'price': {
+		// 				filterFormatValue: '$%01.2f - $%01.2f'
+		// 			},
+		// 			'ss_category_hierarchy': {
+		// 				enabled: true,
+		// 			}
+		// 		}
+		// 	},
+		// },
 	},
 	autocomplete: {
 		targets: [

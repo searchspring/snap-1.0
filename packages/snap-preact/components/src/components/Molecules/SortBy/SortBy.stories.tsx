@@ -85,7 +85,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'SortBy', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'SortBy', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: SortByProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <SortBy {...args} sorting={controller?.store?.sorting} />;

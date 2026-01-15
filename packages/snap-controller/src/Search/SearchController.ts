@@ -6,7 +6,7 @@ import { StorageStore, ErrorType } from '@searchspring/snap-store-mobx';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes, PageContextVariable } from '../types';
 
-import type { Product, Banner, SearchStore, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { Product, Banner, SearchStore, ValueFacet, SearchStoreConfig } from '@searchspring/snap-store-mobx';
 import type {
 	SearchControllerConfig,
 	SearchAfterSearchObj,
@@ -208,49 +208,58 @@ export class SearchController extends AbstractController {
 			this.eventManager.fire('restorePosition', { controller: this, element: elementPosition });
 		});
 
-		const hierarchySettings = this.config.settings?.filters?.hierarchy;
-		if (hierarchySettings && hierarchySettings.enabled) {
-			this.eventManager.on('afterSearch', async (search: SearchAfterSearchObj, next: Next): Promise<void | boolean> => {
-				await next();
+		this.eventManager.on('afterSearch', async (search: SearchAfterSearchObj, next: Next): Promise<void | boolean> => {
+			await next();
 
-				const displayDelimiter = hierarchySettings.displayDelimiter ?? ' / '; // choose delimiter for label
-				const showFullPath = hierarchySettings.showFullPath ?? false; // display full hierarchy path or just the current level
-				// add hierarchy filter to filter summary
-				const facets = search.response.search.facets;
-				if (facets) {
-					facets.forEach((facet: any) => {
-						if (search.response.meta?.facets && facet.field) {
-							const metaFacet = search.response.meta.facets[facet.field];
-							const dataDelimiter = (metaFacet as MetaResponseModelFacetHierarchy)?.hierarchyDelimiter || ' / ';
+			// add hierarchy filter to filter summary
+			const facets = search.response.search.facets;
+			if (facets) {
+				facets.forEach((facet: any) => {
+					if (search.response.meta?.facets && facet.field) {
+						const field = (facet.field as string) || '';
+						const metaFacet = search.response.meta.facets[field];
 
-							if (metaFacet && metaFacet.display === 'hierarchy' && facet.filtered && (facet as ValueFacet).values?.length > 0) {
-								const filteredValues = (facet as SearchResponseModelFacetValue).values?.filter((val) => val?.filtered === true);
+						const dataDelimiter = (metaFacet as MetaResponseModelFacetHierarchy)?.hierarchyDelimiter || ' / ';
+						const filterSettings = (this.config as SearchStoreConfig)?.settings?.filters?.fields
+							? this.config?.settings?.filters?.fields![field]
+							: this.config?.settings?.filters;
 
-								if (filteredValues && filteredValues.length) {
-									const filterToAdd: SearchResponseModelFilter = {
-										field: facet.field,
-										//escape special charactors used in regex
-										label: showFullPath
-											? (filteredValues[0].value ?? filteredValues[0].label ?? '').replace(
-													new RegExp(dataDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
-													displayDelimiter
-											  )
-											: filteredValues[0].label,
-										type: 'value' as SearchResponseModelFilterTypeEnum.Value,
-									};
+						const displayDelimiter = filterSettings?.hierarchy?.displayDelimiter ?? ' / '; // choose delimiter for label
+						const showFullPath = filterSettings?.hierarchy?.showFullPath ?? false; // display full hierarchy path or just the current level
 
-									if (search.response.search.filters) {
-										search.response.search.filters.push(filterToAdd);
-									} else {
-										search.response.search.filters = [filterToAdd];
-									}
+						if (
+							filterSettings?.hierarchy?.enabled &&
+							metaFacet &&
+							metaFacet.display === 'hierarchy' &&
+							facet.filtered &&
+							(facet as ValueFacet).values?.length > 0
+						) {
+							const filteredValues = (facet as SearchResponseModelFacetValue).values?.filter((val) => val?.filtered === true);
+
+							if (filteredValues && filteredValues.length) {
+								const filterToAdd: SearchResponseModelFilter = {
+									field: facet.field,
+									//escape special charactors used in regex
+									label: showFullPath
+										? (filteredValues[0].value ?? filteredValues[0].label ?? '').replace(
+												new RegExp(dataDelimiter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
+												displayDelimiter
+										  )
+										: filteredValues[0].label,
+									type: 'value' as SearchResponseModelFilterTypeEnum.Value,
+								};
+
+								if (search.response.search.filters) {
+									search.response.search.filters.push(filterToAdd);
+								} else {
+									search.response.search.filters = [filterToAdd];
 								}
 							}
 						}
-					});
-				}
-			});
-		}
+					}
+				});
+			}
+		});
 
 		this.eventManager.on('afterStore', async (search: AfterStoreObj, next: Next): Promise<void | boolean> => {
 			await next();

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+- **autocomplete:** prevent impressing results when subsequent queries are the same ([2a154b5](https://github.com/searchspring/snap/commit/2a154b5fdecd3d56fbcd122205e16a9edf50b5ec))
+- **controller/search:** adding 'brand' and 'manufacturer' to the list of known background filters ([273e5e4](https://github.com/searchspring/snap/commit/273e5e482078a75796ac430e87b9aa30a83c1d9a))
+- **controller/search:** changing when 'lastStringyParams' is cleared and ensuring persisted pageshow ([7148731](https://github.com/searchspring/snap/commit/71487319cb130af204b833d0ab097694914dd100))
+- **controller/search:** quick fix on setting name for hierarchy ([9f336ea](https://github.com/searchspring/snap/commit/9f336eaf08d6eb5f6bfe764fcd57f1bd24c4cf30))
+
+### Features
+
+- **searchcontroller:** adding the ability to show hierarchy filters in the filterSummary ([43c3890](https://github.com/searchspring/snap/commit/43c3890db4f6e6b2ec5edc7f45fe2069a6f4ce20))
+
 ## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
 
 **Note:** Version bump only for package @searchspring/snap-controller

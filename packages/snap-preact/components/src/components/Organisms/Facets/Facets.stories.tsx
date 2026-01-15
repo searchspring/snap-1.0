@@ -81,7 +81,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'Facets', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'Facets', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: FacetsProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <Facets {...args} controller={controller} />;

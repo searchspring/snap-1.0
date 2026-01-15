@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- **preact/components/facet:** adjusting new facet input addition ([9823f76](https://github.com/searchspring/snap/commit/9823f7604db63fd894f9960b01fc94330bdb3626))
+- **recommmendationbundle:** fixing merge conflicts, and bugfix around cta slot not working with lang ([4dc4759](https://github.com/searchspring/snap/commit/4dc4759fb32d6216826b5d71e27683e5b593b8c3))
+- **snap-preact:** adding additional checks around all cookie/storage usage to ensure things work ([0f6d8e7](https://github.com/searchspring/snap/commit/0f6d8e735c3d3c7eea7cfba6cf59509fafb819bb))
+- **storybook:** update all broken stories that use old siteId to new athos siteid ([ec1ac5f](https://github.com/searchspring/snap/commit/ec1ac5fd97726a36e82f17086e449d1672576c79))
+
+### Features
+
+- **preact/components/facet:** adding range facet inputs and the ability to use filterFormatValue for filters ([ef16169](https://github.com/searchspring/snap/commit/ef16169123f749d45cf4ab4c7d29375c06ab16da))
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
+
 ## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
 
 **Note:** Version bump only for package @searchspring/snap-preact

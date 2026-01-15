@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+
 ## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
 
 **Note:** Version bump only for package @searchspring/snap-tracker

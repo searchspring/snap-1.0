@@ -229,6 +229,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 		}
 
 		this.filters = new SearchFilterStore({
+			config: this.config,
 			services: this.services,
 			data: {
 				search,

@@ -6,7 +6,7 @@ const branchName = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toSt
 
 module.exports = merge(common, {
 	mode: 'production',
-	entry: './snap/src/index.ts',
+	entry: './snap/src/modern.ts',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',

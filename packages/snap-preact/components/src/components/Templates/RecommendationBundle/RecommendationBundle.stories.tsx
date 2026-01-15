@@ -317,7 +317,7 @@ const config: RecommendationControllerConfig = {
 	id: 'RecommendationBundle',
 	tag: 'bundle',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		products: ['C-AD-W1-1869P'],
 	},
 };
