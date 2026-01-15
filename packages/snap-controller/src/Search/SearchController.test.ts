@@ -478,7 +478,7 @@ describe('Search Controller', () => {
 				filters: {
 					fields: {
 						ss_category_hierarchy: {
-							hiearchy: {
+							hierarchy: {
 								enabled: true,
 							},
 						},
@@ -513,7 +513,7 @@ describe('Search Controller', () => {
 				filters: {
 					fields: {
 						ss_category_hierarchy: {
-							hiearchy: {
+							hierarchy: {
 								enabled: false,
 							},
 						},
@@ -547,7 +547,7 @@ describe('Search Controller', () => {
 				filters: {
 					fields: {
 						ss_category_hierarchy: {
-							hiearchy: {
+							hierarchy: {
 								enabled: true,
 								showFullPath: true,
 							},
@@ -583,7 +583,7 @@ describe('Search Controller', () => {
 				filters: {
 					fields: {
 						ss_category_hierarchy: {
-							hiearchy: {
+							hierarchy: {
 								enabled: true,
 								displayDelimiter: ' ? ',
 								showFullPath: true,

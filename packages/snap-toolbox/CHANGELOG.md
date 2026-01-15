@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
+
+### Bug Fixes
+
+- **controller/search:** quick fix on setting name for hierarchy ([9f336ea](https://github.com/searchspring/snap/commit/9f336eaf08d6eb5f6bfe764fcd57f1bd24c4cf30))
+- **snap-preact:** adding additional checks around all cookie/storage usage to ensure things work ([0f6d8e7](https://github.com/searchspring/snap/commit/0f6d8e735c3d3c7eea7cfba6cf59509fafb819bb))
+- **toolbox/domtargeter:** error handling was supressing errors due to await outside of async ([340f8c2](https://github.com/searchspring/snap/commit/340f8c2c97f625a3784eeea58b59ff23d11864cc))
+- **toolbox/domtargeter:** switching to for..of loop ([dac4096](https://github.com/searchspring/snap/commit/dac40968b36b1d69210842a2811448b660f5dba0))
+
+### Features
+
+- **preact/components/facet:** adding range facet inputs and the ability to use filterFormatValue for filters ([ef16169](https://github.com/searchspring/snap/commit/ef16169123f749d45cf4ab4c7d29375c06ab16da))
+
 ## [1.10.1](https://github.com/searchspring/snap/compare/v1.10.0...v1.10.1) (2025-10-06)
 
 **Note:** Version bump only for package @searchspring/snap-toolbox
