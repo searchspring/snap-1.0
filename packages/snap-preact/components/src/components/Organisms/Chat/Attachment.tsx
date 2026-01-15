@@ -21,13 +21,15 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 
 	if (type == 'image') {
 		const src = (attachment as ChatAttachmentImage).base64 || (attachment as ChatAttachmentImage).thumbnailUrl;
+		const fileName = (attachment as ChatAttachmentImage).fileName || 'Image';
 
 		if (hasError) {
 			return (
 				<div className={classnames('ss__chat__attachment ss__chat__attachment--image', { error: !!attachment.error })}>
-					<div className={'ss__chat__attachment__error'}>
-						<div className={'ss__chat__attachment__error-icon'}>⚠</div>
-						<div className={'ss__chat__attachment__error-message'}>{attachment.error?.message || 'upload failed'}</div>
+					<div className={'ss__chat__attachment__error-icon'}>⚠</div>
+					<div className={'ss__chat__attachment__error-message'}>
+						{' '}
+						{attachment.error?.message || 'Upload Failed'} - {fileName}
 					</div>
 					<Button
 						className={'ss__chat__attachment__remove'}
@@ -44,7 +46,7 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 		return src || isLoading ? (
 			<div className={classnames('ss__chat__attachment ss__chat__attachment--image', { error: !!attachment.error })}>
 				<div className={'ss__chat__attachment__content'}>
-					{src && <Image className={isLoading ? 'loading' : ''} style={{ height: '100px', width: '100px' }} src={src} alt={''} />}
+					{src && <Image className={isLoading ? 'loading' : ''} style={{ height: '50px', width: '50px' }} src={src} alt={''} />}
 					{isLoading && (
 						<div className={'ss__chat__attachment__loading'}>
 							<div className={'ss__chat__loading__dot'}></div>
@@ -53,16 +55,15 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 						</div>
 					)}
 				</div>
-				{!isLoading && (
-					<Button
-						className={'ss__chat__attachment__remove'}
-						onClick={() => chatStore?.attachments.remove(id)}
-						icon={{
-							icon: 'close-thin',
-							size: '0.6em',
-						}}
-					/>
-				)}
+				<div className={'ss__chat__attachment__info'}>{`${fileName}`}</div>
+				<Button
+					className={'ss__chat__attachment__remove'}
+					onClick={() => !isLoading && chatStore?.attachments.remove(id)}
+					icon={{
+						icon: 'close-thin',
+						size: '0.6em',
+					}}
+				/>
 			</div>
 		) : (
 			<></>
@@ -85,7 +86,6 @@ export const Attachment = observer((properties: AttachmentProps): JSX.Element =>
 					onClick={() => chatStore?.attachments.remove(id)}
 					icon={{
 						icon: 'close-thin',
-						size: '0.6em',
 					}}
 				/>
 			</div>

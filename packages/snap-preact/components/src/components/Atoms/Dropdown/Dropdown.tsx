@@ -166,7 +166,7 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 						}, 300);
 					}}
 				>
-					{cloneWithProps(button, { open: dropdownOpen, toggleOpen: toggleOpenDropdown, treePath })}
+					{cloneWithProps(button, { open: dropdownOpen, disabled, toggleOpen: toggleOpenDropdown, treePath })}
 				</div>
 
 				{(content || children) && (

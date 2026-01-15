@@ -226,6 +226,7 @@ export class ChatController extends AbstractController {
 
 		for (let i = 0; i < files.length; i++) {
 			const file = files[i];
+			const fileName = file.name.toLowerCase();
 			const base64Image = await convertToBase64(file);
 			const image = await base64ToBlob(base64Image);
 			const params = {
@@ -235,7 +236,7 @@ export class ChatController extends AbstractController {
 				image,
 			};
 
-			const attachment = this.store.currentChat?.attachments.add<ChatAttachmentImage>({ type: 'image', base64: base64Image });
+			const attachment = this.store.currentChat?.attachments.add<ChatAttachmentImage>({ type: 'image', base64: base64Image, fileName });
 
 			if (attachment) {
 				try {

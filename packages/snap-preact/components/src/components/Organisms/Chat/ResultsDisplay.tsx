@@ -7,9 +7,13 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 	const { chatItem, controller, scrollToBottom } = props;
 	const carouselProps: Partial<CarouselProps> = {
 		breakpoints: undefined,
-		slidesPerView: 3,
+		slidesPerView: 4,
 		slidesPerGroup: 1,
-		loop: Boolean(chatItem.results?.length > 3),
+		loop: false,
+		hideButtons: true,
+		pagination: true,
+		centerInsufficientSlides: false,
+		freeMode: true,
 	};
 
 	return chatItem.results?.length > 0 ? (

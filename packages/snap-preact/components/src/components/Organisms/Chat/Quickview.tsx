@@ -61,4 +61,5 @@ interface QuickviewSubProps {
 interface QuickviewProps extends ComponentProps {
 	result: Product;
 	controller: ChatController;
+	toggleActive?: () => void;
 }
