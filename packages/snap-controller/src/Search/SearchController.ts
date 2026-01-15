@@ -224,11 +224,11 @@ export class SearchController extends AbstractController {
 							? this.config?.settings?.filters?.fields![field]
 							: this.config?.settings?.filters;
 
-						const displayDelimiter = filterSettings?.hiearchy?.displayDelimiter ?? ' / '; // choose delimiter for label
-						const showFullPath = filterSettings?.hiearchy?.showFullPath ?? false; // display full hierarchy path or just the current level
+						const displayDelimiter = filterSettings?.hierarchy?.displayDelimiter ?? ' / '; // choose delimiter for label
+						const showFullPath = filterSettings?.hierarchy?.showFullPath ?? false; // display full hierarchy path or just the current level
 
 						if (
-							filterSettings?.hiearchy?.enabled &&
+							filterSettings?.hierarchy?.enabled &&
 							metaFacet &&
 							metaFacet.display === 'hierarchy' &&
 							facet.filtered &&

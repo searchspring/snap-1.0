@@ -6,7 +6,7 @@ describe('sprintf', () => {
 		expect(sprintf('%s %s', 'Hello', 'World')).toBe('Hello World');
 	});
 
-	it('should percent sign', () => {
+	it('should display percent sign', () => {
 		expect(sprintf('100%%')).toBe('100%');
 	});
 
@@ -72,7 +72,7 @@ describe('sprintf', () => {
 		expect(() => sprintf('%d', 'string')).toThrow('Expecting number but found string');
 	});
 
-	it('should complex combinations', () => {
+	it('should handle complex combinations', () => {
 		// Note: The implementation places the sign after the zero-padding, which is non-standard but tested here for regression.
 		expect(sprintf('%+010d', 123)).toBe('000000+123');
 	});
