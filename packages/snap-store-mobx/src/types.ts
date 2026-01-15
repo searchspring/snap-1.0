@@ -86,7 +86,7 @@ export type SearchStoreConfig = StoreConfig & {
 
 export type FilterStoreConfig = {
 	rangeFormatValue?: string;
-	hiearchy?: {
+	hierarchy?: {
 		enabled?: boolean;
 		displayDelimiter?: string;
 		showFullPath?: boolean;
