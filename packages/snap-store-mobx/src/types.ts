@@ -52,7 +52,6 @@ export type SearchStoreConfigSettings = {
 export type VariantConfigFilterTypes = 'first' | 'unaltered';
 
 export type VariantConfig = {
-	field?: string;
 	realtime?: {
 		enabled: boolean;
 		filters?: VariantConfigFilterTypes[];

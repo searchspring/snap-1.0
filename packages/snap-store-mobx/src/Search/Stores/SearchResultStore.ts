@@ -223,26 +223,7 @@ export class Product {
 			this.bundleSeed = Boolean(result.bundleSeed);
 		}
 
-		const variantsField = (config as SearchStoreConfig)?.settings?.variants?.field;
-
-		if (config && variantsField && this.attributes && this.attributes[variantsField]) {
-			try {
-				// parse the field (JSON)
-				const parsedVariants: VariantData[] = JSON.parse(this.attributes[variantsField] as string);
-				this.variants = new Variants({
-					config: (config as SearchStoreConfig).settings?.variants,
-					data: {
-						mask: this.mask,
-						variants: parsedVariants,
-						meta: meta,
-					},
-				});
-			} catch (err) {
-				// failed to parse the variant JSON
-				console.error(err, `Invalid variant JSON for product id: ${result.id}`);
-			}
-			// default variants field
-		} else if (result.variants && result.variants.data) {
+		if (result.variants && result.variants.data) {
 			// if variants are already parsed, use them
 			this.variants = new Variants({
 				data: {
@@ -426,7 +407,6 @@ export class Variants {
 			// create variants objects
 			this.data = variantData
 				.filter((variant) => this.config?.showDisabledSelectionValues || variant.mappings.core?.available !== false)
-				.filter((variant) => this.config?.showDisabledSelectionValues || variant?.attributes?.available !== false)
 				.map((variant) => {
 					// normalize price fields ensuring they are numbers
 					if (variant.mappings.core?.price) {
@@ -772,7 +752,7 @@ export class Variant {
 		// construct badges from data (need meta)
 		this.badges = variant.badges || [];
 
-		this.available = (this.attributes.available as boolean) ?? (this.mappings.core?.available as boolean) ?? true;
+		this.available = (this.mappings.core?.available as boolean) ?? true;
 
 		makeObservable(this, {
 			attributes: observable,

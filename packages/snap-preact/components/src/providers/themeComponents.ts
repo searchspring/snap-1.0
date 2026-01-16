@@ -199,7 +199,7 @@ export type ThemeComponents =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'slideout'>]?: Partial<SlideoutProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'sortBy'>]?: Partial<SortByProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'swatches'>]?: Partial<SwatchesProps> } &
-	{ [K in ThemeComponentOverridesUnNamedSelectors<'variantSelection'>]?: Partial<VariantSelectionProps> } &
+	{ [K in ThemeComponentOverridesNamedSelectors<'variantSelection', string>]?: Partial<VariantSelectionProps> } &
 	{ [K in ThemeComponentOverridesNamedSelectors<'terms', TermsNames>]?: Partial<TermsProps> } &
 
 	/* ORGANISMS */
@@ -286,7 +286,7 @@ export type ThemeComponentsRestricted =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'slideout'>]?: ThemeComponentRestrictedProps<SlideoutProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'sortBy'>]?: ThemeComponentRestrictedProps<SortByProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'swatches'>]?: ThemeComponentRestrictedProps<SwatchesProps> } &
-	{ [K in ThemeComponentOverridesUnNamedSelectors<'variantSelection'>]?: ThemeComponentRestrictedProps<VariantSelectionProps> } &
+	{ [K in ThemeComponentOverridesNamedSelectors<'variantSelection', string>]?: ThemeComponentRestrictedProps<VariantSelectionProps> } &
 	{ [K in ThemeComponentOverridesNamedSelectors<'terms', TermsNames>]?: ThemeComponentRestrictedProps<TermsProps> } &
 
 	/* ORGANISMS */
@@ -374,7 +374,7 @@ export type ThemeComponentsRestrictedOverrides =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'slideout'>]?: ThemeComponentOverridesRestrictedProps<SlideoutProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'sortBy'>]?: ThemeComponentOverridesRestrictedProps<SortByProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'swatches'>]?: ThemeComponentOverridesRestrictedProps<SwatchesProps> } &
-	{ [K in ThemeComponentOverridesUnNamedSelectors<'variantSelection'>]?: ThemeComponentOverridesRestrictedProps<VariantSelectionProps> } &
+	{ [K in ThemeComponentOverridesNamedSelectors<'variantSelection', string>]?: ThemeComponentOverridesRestrictedProps<VariantSelectionProps> } &
 	{ [K in ThemeComponentOverridesNamedSelectors<'terms', TermsNames>]?: ThemeComponentOverridesRestrictedProps<TermsProps> } &
 
 	/* ORGANISMS */
@@ -464,7 +464,7 @@ export type ThemeComponentTemplateOverrides<Template extends string, Props> =
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'slideout'>]?: ThemeComponentRestrictedProps<SlideoutProps> } &
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'sortBy'>]?: ThemeComponentRestrictedProps<SortByProps> } &
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'swatches'>]?: ThemeComponentRestrictedProps<SwatchesProps> } &
-	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'variantSelection'>]?: ThemeComponentRestrictedProps<VariantSelectionProps> } &
+	{ [K in ThemeComponentNamedSelectorsStartingWithTemplate<Template,'variantSelection', string>]?: ThemeComponentRestrictedProps<VariantSelectionProps> } &
 	{ [K in ThemeComponentNamedSelectorsStartingWithTemplate<Template,'terms', TermsNames>]?: ThemeComponentRestrictedProps<TermsProps> } &
 
 	/* ORGANISMS */

@@ -433,14 +433,13 @@ describe('SearchResultStore', () => {
 	});
 
 	describe('with variants', () => {
-		it('can be configured to construct variants from specified JSON field', () => {
+		it('will construct variants when they appear in the response data', () => {
 			const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
 			const variantSearchConfig = {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 					},
 				},
@@ -460,18 +459,13 @@ describe('SearchResultStore', () => {
 
 			results.forEach((result, index) => {
 				const productData = searchData.search.results && searchData.search.results[index];
-				const variantData = productData?.attributes?.ss_variants;
+				const variantData = productData?.variants;
 				expect(variantData).toBeDefined();
-				const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 				const variants = (result as Product).variants;
 
-				expect(variants?.data.length).toStrictEqual(
-					parsedVariantData
-						.filter((variant: any) => variant.attributes.available !== false)
-						.filter((variant: any) => variant.mappings.core?.available !== false).length
-				);
-				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect(variants?.data.length).toStrictEqual(variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData?.data?.[0].options || {}).length);
 			});
 		});
 
@@ -482,7 +476,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						showDisabledSelectionValues: true,
 					},
@@ -503,14 +496,13 @@ describe('SearchResultStore', () => {
 
 			results.forEach((result, index) => {
 				const productData = searchData.search.results && searchData.search.results[index];
-				const variantData = productData?.attributes?.ss_variants;
+				const variantData = productData?.variants;
 				expect(variantData).toBeDefined();
-				const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 				const variants = (result as Product).variants;
 
-				expect(variants?.data.length).toStrictEqual(parsedVariantData.length);
-				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect(variants?.data.length).toStrictEqual(variantData?.data.length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData?.data[0].options || {}).length);
 			});
 		});
 
@@ -521,7 +513,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 					},
 				},
@@ -541,18 +532,17 @@ describe('SearchResultStore', () => {
 
 			results.forEach((result, index) => {
 				const productData = searchData.search.results && searchData.search.results[index];
-				const variantData = productData?.attributes?.ss_variants;
+				const variantData = productData?.variants;
 				expect(variantData).toBeDefined();
-				const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 				const variants = (result as Product).variants;
 
-				const availableParsedVariants = parsedVariantData.filter((variant: any) => {
+				const availableParsedVariants = variantData?.data.filter((variant: any) => {
 					return variant.mappings?.core?.available !== false && variant.attributes?.available !== false;
 				});
 
-				expect(variants?.data.length).toStrictEqual(availableParsedVariants.length);
-				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect(variants?.data.length).toStrictEqual(availableParsedVariants?.length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData?.data[0].options || {}).length);
 
 				const firstAvailableVariant = variants?.data.find((variant) => variant.available);
 				expect(variants?.active).toBe(firstAvailableVariant);
@@ -574,7 +564,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 					},
 				},
@@ -592,37 +581,33 @@ describe('SearchResultStore', () => {
 			});
 			expect(results.length).toBe(searchData.search.pagination?.pageSize);
 
-			const variantDataToUse = results[2].attributes.ss_variants;
-			const parsedVariantDataToUse = JSON.parse(variantDataToUse as unknown as string);
+			// @ts-ignore
+			const variantDataToUse = results[2].variants;
 
 			results.forEach((result, index) => {
 				const productData = searchData.search.results && searchData.search.results[index];
-				const variantData = productData?.attributes?.ss_variants;
+				// @ts-ignore
+				const variantData = productData?.variants;
 
 				expect(variantData).toBeDefined();
-				const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 				const variants = (result as Product).variants;
 
 				expect(variants).toBeDefined();
 
 				expect((result as Product).variants?.data.length).toStrictEqual(
-					parsedVariantData
-						.filter((variant: any) => variant.attributes.available !== false)
-						.filter((variant: any) => variant.mappings.core?.available !== false).length
+					variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 				);
-				expect((result as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect((result as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
-				(result as Product).variants?.update(parsedVariantDataToUse);
+				(result as Product).variants?.update(variantDataToUse.data);
 
 				expect((result as Product).variants).toBeDefined();
 
 				expect((result as Product).variants?.data.length).toStrictEqual(
-					parsedVariantDataToUse
-						.filter((variant: any) => variant.attributes.available !== false)
-						.filter((variant: any) => variant.mappings.core?.available !== false).length
+					variantDataToUse?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 				);
-				expect((result as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
+				expect((result as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse?.data[0].options!).length);
 			});
 		});
 
@@ -633,7 +618,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						showDisabledSelectionValues: true,
 					},
@@ -655,14 +639,14 @@ describe('SearchResultStore', () => {
 
 			results.forEach((result, index) => {
 				const productData = searchData.search.results && searchData.search.results[index];
-				const variantData = productData?.attributes?.ss_variants;
+				// @ts-ignore
+				const variantData = productData?.variants;
 				expect(variantData).toBeDefined();
-				const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 				const variants = (result as Product).variants;
 
-				expect(variants?.data.length).toStrictEqual(parsedVariantData.length);
-				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect(variants?.data.length).toStrictEqual(variantData?.data.length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 			});
 		});
 
@@ -673,7 +657,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						options: {
 							color: {
@@ -723,7 +706,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						options: {
 							color: {
@@ -749,39 +731,34 @@ describe('SearchResultStore', () => {
 			});
 			expect(results.length).toBe(searchData.search.pagination?.pageSize);
 
-			const variantDataToUse = results[0].attributes.ss_variants as string;
-			const parsedVariantDataToUse = JSON.parse(variantDataToUse);
+			// @ts-ignore
+			const variantDataToUse = results[0].variants;
 
 			const resultForTest = results[0] as Product;
 
 			const productData = searchData.search.results && searchData.search.results[0];
-			const variantData = productData?.attributes?.ss_variants;
+			// @ts-ignore
+			const variantData = productData?.variants;
 
 			expect(variantData).toBeDefined();
-
-			const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 			const variants = (resultForTest as Product).variants;
 
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantDataToUse?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse?.data[0].options!).length);
 
-			(resultForTest as Product).variants?.update(parsedVariantDataToUse);
+			(resultForTest as Product).variants?.update(variantDataToUse.data);
 
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantDataToUse?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse?.data[0].options!).length);
 
 			expect(resultForTest).toBeDefined();
 
@@ -806,7 +783,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						options: {
 							color: {
@@ -832,39 +808,34 @@ describe('SearchResultStore', () => {
 			});
 			expect(results.length).toBe(searchData.search.pagination?.pageSize);
 
-			const variantDataToUse = results[0].attributes.ss_variants as string;
-			const parsedVariantDataToUse = JSON.parse(variantDataToUse);
+			// @ts-ignore
+			const variantDataToUse = results[0].variants;
 
 			const resultForTest = results[0] as Product;
 
 			const productData = searchData.search.results && searchData.search.results[0];
-			const variantData = productData?.attributes?.ss_variants;
+			// @ts-ignore
+			const variantData = productData?.variants;
 
 			expect(variantData).toBeDefined();
-
-			const parsedVariantData = JSON.parse(variantData as unknown as string);
 
 			const variants = (resultForTest as Product).variants;
 
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantDataToUse?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
-			(resultForTest as Product).variants?.update(parsedVariantDataToUse);
+			(resultForTest as Product).variants?.update(variantDataToUse.data);
 
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantDataToUse
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantDataToUse?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantDataToUse?.data[0].options!).length);
 
 			expect(resultForTest).toBeDefined();
 
@@ -884,7 +855,6 @@ describe('SearchResultStore', () => {
 			//now lets make a new config with different settings and run update with it
 
 			const newVariantsConfig: VariantConfig = {
-				field: 'ss_variants',
 				autoSelect: true,
 				options: {
 					color: {
@@ -901,22 +871,18 @@ describe('SearchResultStore', () => {
 			expect(variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantData
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
-			(resultForTest as Product).variants?.update(parsedVariantDataToUse, newVariantsConfig);
+			(resultForTest as Product).variants?.update(variantDataToUse.data, newVariantsConfig);
 
 			expect((resultForTest as Product).variants).toBeDefined();
 
 			expect((resultForTest as Product).variants?.data.length).toStrictEqual(
-				parsedVariantDataToUse
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false).length
+				variantData?.data.filter((variant: any) => variant.mappings.core?.available !== false).length
 			);
-			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(parsedVariantDataToUse[0].options).length);
+			expect((resultForTest as Product).variants?.selections.length).toBe(Object.keys(variantData?.data[0].options!).length);
 
 			expect(resultForTest).toBeDefined();
 
@@ -949,7 +915,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						realtime: {
 							enabled: true,
@@ -996,7 +961,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						realtime: {
 							enabled: true,
@@ -1043,7 +1007,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: false,
 					},
 				},
@@ -1117,7 +1080,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						realtime: {
 							enabled: true,
@@ -1173,7 +1135,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						realtime: {
 							enabled: true,
@@ -1232,7 +1193,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						realtime: {
 							enabled: true,
@@ -1286,7 +1246,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						options: {
 							color: {
@@ -1328,7 +1287,6 @@ describe('SearchResultStore', () => {
 				...searchConfig,
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 						options: {
 							color: {
@@ -1627,7 +1585,7 @@ describe('SearchResultStore', () => {
 				const mask = new ProductMask();
 
 				// Enable showDisabledSelectionValues to include variant selections with no available options
-				const config = { field: 'ss_variants', autoSelect: true, showDisabledSelectionValues: true };
+				const config = { autoSelect: true, showDisabledSelectionValues: true };
 				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
 				const variants = new Variants({
@@ -1727,7 +1685,7 @@ describe('SearchResultStore', () => {
 
 				const mask = new ProductMask();
 				// Enable showDisabledSelectionValues to include variant selections with no available options
-				const config = { field: 'ss_variants', autoSelect: true, showDisabledSelectionValues: true };
+				const config = { autoSelect: true, showDisabledSelectionValues: true };
 				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
 
 				const variants = new Variants({
@@ -1772,10 +1730,10 @@ describe('SearchResultStore', () => {
 			it('has specific properties', () => {
 				const mask = new ProductMask();
 				const searchData = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = searchData.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = searchData.search.results![0].variants?.data as VariantData[];
 
-				parsedVariantData.forEach((variantData) => {
+				variantData.forEach((variantData) => {
 					const variant = new Variant({ data: { variant: variantData } });
 
 					expect(variant).toHaveProperty('attributes');
@@ -1785,8 +1743,8 @@ describe('SearchResultStore', () => {
 					expect(variant).toHaveProperty('options');
 					expect(variant).toHaveProperty('type');
 
-					expect(variant.attributes).toStrictEqual(variantData.attributes);
-					expect(variant.available).toStrictEqual(variantData.attributes?.available);
+					expect(variant.attributes).toStrictEqual(variantData.attributes || {});
+					expect(variant.available).toStrictEqual(variantData.mappings?.core?.available);
 					expect(variant.custom).toStrictEqual({});
 					expect(variant.mappings).toStrictEqual(variantData.mappings);
 					expect(variant.options).toStrictEqual(variantData.options);
@@ -1799,15 +1757,15 @@ describe('SearchResultStore', () => {
 			it('will not set an initial active variant if autoSelect is not true', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: false,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
@@ -1819,13 +1777,11 @@ describe('SearchResultStore', () => {
 				expect(variants).toHaveProperty('makeSelections');
 				expect(variants).toHaveProperty('update');
 
-				const filteredParsedVariantsData = parsedVariantData
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false);
+				const filteredParsedVariantsData = variantData.filter((variant: any) => variant.mappings.core?.available !== false);
 
 				// only uses "available" variants
 				expect(variants?.data.length).toStrictEqual(filteredParsedVariantsData.length);
-				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData[0].options!).length);
 
 				// creates a variant for each available data entry
 				variants.data.forEach((variant, index) => {
@@ -1836,15 +1792,15 @@ describe('SearchResultStore', () => {
 			it('requires variants data and a mask to construct', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
@@ -1856,14 +1812,12 @@ describe('SearchResultStore', () => {
 				expect(variants).toHaveProperty('makeSelections');
 				expect(variants).toHaveProperty('update');
 
-				const filteredParsedVariantsData = parsedVariantData
-					.filter((variant: any) => variant.attributes.available !== false)
-					.filter((variant: any) => variant.mappings.core?.available !== false);
+				const filteredParsedVariantsData = variantData.filter((variant: any) => variant.mappings.core?.available !== false);
 
 				// only uses "available" variants
 				expect(variants?.active).toBe(variants?.data.find((variant) => variant.available));
 				expect(variants?.data.length).toStrictEqual(filteredParsedVariantsData.length);
-				expect(variants?.selections.length).toBe(Object.keys(parsedVariantData[0].options).length);
+				expect(variants?.selections.length).toBe(Object.keys(variantData[0].options!).length);
 
 				// creates a variant for each available data entry
 				variants.data.forEach((variant, index) => {
@@ -1874,15 +1828,15 @@ describe('SearchResultStore', () => {
 			it('can set an active variant with `setActive`', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
@@ -1899,15 +1853,15 @@ describe('SearchResultStore', () => {
 			it('can set an active variant with `setActive`', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
@@ -1924,15 +1878,15 @@ describe('SearchResultStore', () => {
 			it('can set an active variant with `setActive`', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
@@ -1949,21 +1903,21 @@ describe('SearchResultStore', () => {
 			it('has selections that it builds and selects from options', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
 
 				variants.selections.forEach((selection, index) => {
-					const dataOptionName = Object.keys(parsedVariantData[0].options)[index];
+					const dataOptionName = Object.keys(variantData[0].options!)[index];
 					const firstAvailableOption = selection.values.find((value) => value.available);
 
 					expect(selection).toHaveProperty('field');
@@ -1985,15 +1939,15 @@ describe('SearchResultStore', () => {
 			it('will adjust selections based on availability', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});
@@ -2009,15 +1963,15 @@ describe('SearchResultStore', () => {
 			it('will use previous selections based on availability', () => {
 				const mask = new ProductMask();
 				const data = mockData.updateConfig({ siteId: 'z7h1jh' }).searchMeta('variants');
-				const variantData = data.search.results![0].attributes?.ss_variants as unknown as string;
-				const parsedVariantData = JSON.parse(variantData) as VariantData[];
+				// @ts-ignore
+				const variantData = data.search.results![0].variants?.data as VariantData[];
 				const variants = new Variants({
 					config: {
 						autoSelect: true,
 					},
 					data: {
 						mask,
-						variants: parsedVariantData,
+						variants: variantData,
 						meta: data.meta,
 					},
 				});

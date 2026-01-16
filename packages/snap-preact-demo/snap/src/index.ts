@@ -165,9 +165,6 @@ let config: SnapConfig = {
 						redirects: {
 							singleResult: false,
 						},
-						variants: {
-							field: 'ss_variants',
-						},
 						restorePosition: {
 							enabled: true,
 						},
