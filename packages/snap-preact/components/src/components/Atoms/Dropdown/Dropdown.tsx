@@ -1,5 +1,6 @@
 import { ComponentChildren, h } from 'preact';
-import { useState, StateUpdater, MutableRef } from 'preact/hooks';
+import { createPortal } from 'preact/compat';
+import { useState, StateUpdater, MutableRef, useRef, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -14,7 +15,7 @@ import { useA11y } from '../../../hooks/useA11y';
 const defaultStyles: StyleScript<DropdownProps> = ({ disableOverlay }) => {
 	return css({
 		position: 'relative',
-		'&.ss__dropdown--open': {
+		'&.ss__dropdown--open, &.ss__dropdown__portal--open': {
 			'& .ss__dropdown__content': {
 				position: disableOverlay ? 'relative' : undefined,
 				visibility: 'visible',
@@ -67,6 +68,7 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 		className,
 		internalClassName,
 		treePath,
+		usePortal,
 	} = props;
 
 	let dropdownOpen: boolean | undefined, setDropdownOpen: undefined | StateUpdater<boolean | undefined>;
@@ -81,9 +83,16 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 	// state to track touch interactions
 	const [isTouchInteraction, setIsTouchInteraction] = useState(false);
 
+	const buttonRef = useRef<HTMLDivElement | null>(null);
+	const contentRef = useRef<HTMLDivElement | null>(null);
+	const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
+
 	let innerRef: MutableRef<HTMLElement | undefined> | undefined;
 	if (!disableClickOutside) {
 		innerRef = useClickOutside((e) => {
+			if (usePortal && contentRef.current && contentRef.current.contains(e.target as Node)) {
+				return;
+			}
 			if (dropdownOpen) {
 				if (!disabled) {
 					stateful && setDropdownOpen && setDropdownOpen(false);
@@ -92,6 +101,28 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 			}
 		});
 	}
+
+	useEffect(() => {
+		if (usePortal && dropdownOpen) {
+			const updateCoords = () => {
+				if (buttonRef.current) {
+					const rect = buttonRef.current.getBoundingClientRect();
+					setCoords({
+						top: rect.bottom + window.scrollY,
+						left: rect.left + window.scrollX,
+						width: rect.width,
+					});
+				}
+			};
+			updateCoords();
+			window.addEventListener('resize', updateCoords);
+			window.addEventListener('scroll', updateCoords, true);
+			return () => {
+				window.removeEventListener('resize', updateCoords);
+				window.removeEventListener('scroll', updateCoords, true);
+			};
+		}
+	}, [usePortal, dropdownOpen]);
 
 	const toggleOpenDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, state?: boolean) => {
 		if (stateful) {
@@ -136,6 +167,27 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 			}),
 	};
 
+	const contentElement = (
+		<div
+			className={`ss__dropdown__content`}
+			ref={(e) => {
+				contentRef.current = e;
+				if (!disableA11y) {
+					useA11y(e, 0, Boolean(focusTrapContent), (e) => {
+						if (stateful) {
+							toggleOpenDropdown(e);
+						} else {
+							onClick && onClick(e);
+						}
+					});
+				}
+			}}
+		>
+			{cloneWithProps(content, { open: dropdownOpen, toggleOpen: toggleOpenDropdown, treePath })}
+			{cloneWithProps(children, { open: dropdownOpen, toggleOpen: toggleOpenDropdown, treePath })}
+		</div>
+	);
+
 	return (
 		<CacheProvider>
 			<div
@@ -146,7 +198,10 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 			>
 				<div
 					className="ss__dropdown__button"
-					ref={(e) => (!disableA11y ? useA11y(e) : null)}
+					ref={(e) => {
+						buttonRef.current = e;
+						if (!disableA11y) useA11y(e);
+					}}
 					aria-expanded={dropdownOpen}
 					role="button"
 					onTouchStart={() => {
@@ -169,25 +224,26 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 					{cloneWithProps(button, { open: dropdownOpen, toggleOpen: toggleOpenDropdown, treePath })}
 				</div>
 
-				{(content || children) && (
-					<div
-						className={`ss__dropdown__content`}
-						ref={(e) =>
-							!disableA11y
-								? useA11y(e, 0, Boolean(focusTrapContent), (e) => {
-										if (stateful) {
-											toggleOpenDropdown(e);
-										} else {
-											onClick && onClick(e);
-										}
-								  })
-								: null
-						}
-					>
-						{cloneWithProps(content, { open: dropdownOpen, toggleOpen: toggleOpenDropdown, treePath })}
-						{cloneWithProps(children, { open: dropdownOpen, toggleOpen: toggleOpenDropdown, treePath })}
-					</div>
-				)}
+				{!usePortal
+					? (content || children) && contentElement
+					: dropdownOpen &&
+					  (content || children) &&
+					  createPortal(
+							<div
+								className={classnames('ss__dropdown__portal', className, internalClassName, { 'ss__dropdown__portal--open': dropdownOpen })}
+								css={styling.css}
+								style={{
+									position: 'absolute',
+									top: coords.top,
+									left: coords.left,
+									width: coords.width,
+									zIndex: 9999,
+								}}
+							>
+								{contentElement}
+							</div>,
+							document.body
+					  )}
 			</div>
 		</CacheProvider>
 	);
@@ -210,4 +266,5 @@ export interface DropdownProps extends ComponentProps {
 	disableClickOutside?: boolean;
 	focusTrapContent?: boolean;
 	disableA11y?: boolean;
+	usePortal?: boolean;
 }

@@ -5,7 +5,7 @@ import { ThemeProvider } from '../../../providers';
 import { FacetToggle } from './FacetToggle';
 import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@searchspring/snapi-types';
+import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 
 describe('FacetToggle Component', () => {
 	let value: FacetValue;

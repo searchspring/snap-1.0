@@ -23,7 +23,7 @@ import type {
 	// MetaResponseModel,
 	SearchRequestModel,
 	// SearchResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 // Middleware
 export type PluginFunction = (cntrlr: AbstractController, ...args: any) => Promise<void> | void;
 export type PluginGrouping = [func: PluginFunction, ...args: unknown[]];

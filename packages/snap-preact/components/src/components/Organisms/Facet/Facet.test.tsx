@@ -5,7 +5,7 @@ import { ThemeProvider } from '../../../providers';
 
 import userEvent from '@testing-library/user-event';
 import { ValueFacet, RangeFacet, SearchFacetStore, StorageStore } from '@searchspring/snap-store-mobx';
-import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@searchspring/snapi-types';
+import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 import { MockData } from '@searchspring/snap-shared';
 import { QueryStringTranslator, reactLinker, UrlManager } from '@searchspring/snap-url-manager';
 import { IconType } from '../../Atoms/Icon';

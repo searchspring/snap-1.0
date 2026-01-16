@@ -36,8 +36,7 @@ const defaultStyles: StyleScript<ButtonProps> = ({ native, color, backgroundColo
 			backgroundColor: lightenedPrimaryColorObj.hex() || '#f8f8f8',
 		},
 		'&.ss__button--disabled': {
-			opacity: 0.3,
-			backgroundColor: 'initial',
+			opacity: 0.7,
 			'&:hover': {
 				cursor: 'default',
 			},
@@ -159,6 +158,7 @@ export interface ButtonProps extends ComponentProps<ButtonProps> {
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	disableA11y?: boolean;
 	lang?: Partial<ButtonLang>;
+	name?: ButtonNames;
 }
 
 export interface ButtonLang {
@@ -172,6 +172,11 @@ export type ButtonNames =
 	| 'slideout'
 	| 'sidebar-toggle'
 	| 'see-more'
+	| 'next'
+	| 'prev'
+	| 'pause'
+	| 'pagination'
+	| 'pagination-current'
 	| 'close-search'
 	| 'clear-search'
 	| 'submit-search'

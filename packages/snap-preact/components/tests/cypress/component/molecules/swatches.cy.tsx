@@ -22,23 +22,23 @@ const options = [
 ];
 
 describe('Swatches Component', async () => {
-	describe('carousel swatches', () => {
-		it('renders as carousel by default', () => {
+	describe('slideshow swatches', () => {
+		it('renders as slideshow by default', () => {
 			mount(<Swatches options={options} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', options.length);
+			cy.get('.ss__slideshow__prev').should('exist');
+			cy.get('.ss__slideshow__next').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', options.length);
 		});
 
 		it('renders swatch background colors', () => {
 			mount(<Swatches options={options} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', options.length);
+			cy.get('.ss__slideshow__prev').should('exist');
+			cy.get('.ss__slideshow__next').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', options.length);
 
-			cy.get('.ss__swatches__carousel__swatch__inner').should('satisfy', ($el) => {
+			cy.get('.ss__swatches__slideshow__swatch__inner').should('satisfy', ($el) => {
 				for (let i = 0; i < $el.length; i++) {
 					const backgroundStyle = $el[i].style.background;
 					return backgroundStyle == options[i].value.toLowerCase();
@@ -79,11 +79,11 @@ describe('Swatches Component', async () => {
 
 			mount(<Swatches options={optionsWithGradient} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', optionsWithGradient.length);
+			cy.get('.ss__slideshow__prev').should('exist');
+			cy.get('.ss__slideshow__next').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', optionsWithGradient.length);
 
-			cy.get('.ss__swatches__carousel__swatch__inner:first').should('satisfy', ($el) => {
+			cy.get('.ss__swatches__slideshow__swatch__inner:first').should('satisfy', ($el) => {
 				const backgroundStyle = $el[0].style.background;
 				return backgroundStyle.startsWith('linear-gradient');
 			});
@@ -105,39 +105,39 @@ describe('Swatches Component', async () => {
 
 			mount(<Swatches options={optionsWithGradient} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', optionsWithGradient.length);
+			cy.get('.ss__slideshow__prev').should('not.exist');
+			cy.get('.ss__slideshow__next').should('not.exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', optionsWithGradient.length);
 
-			cy.get('.ss__swatches__carousel__swatch:first .ss__image').should('exist');
-			cy.get('.ss__swatches__carousel__swatch:first .ss__image img').should('have.attr', 'src', optionsWithGradient[0].backgroundImageUrl);
+			cy.get('.ss__swatches__slideshow__swatch:first .ss__image').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch:first .ss__image img').should('have.attr', 'src', optionsWithGradient[0].backgroundImageUrl);
 		});
 
 		it('renders without labels when using hideLabels', () => {
 			mount(<Swatches options={options} hideLabels={true} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', options.length);
-			cy.get('.ss__swatches__carousel__swatch__value').should('not.exist');
+			cy.get('.ss__slideshow__prev').should('exist');
+			cy.get('.ss__slideshow__next').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', options.length);
+			cy.get('.ss__swatches__slideshow__swatch__value').should('not.exist');
 		});
 
-		it('renders as carousel with type', () => {
-			mount(<Swatches options={options} type="carousel" />);
+		it('renders as slideshow with type', () => {
+			mount(<Swatches options={options} type="slideshow" />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', options.length);
+			cy.get('.ss__slideshow__prev').should('exist');
+			cy.get('.ss__slideshow__next').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', options.length);
 		});
 
 		it('can pass selected option', () => {
 			mount(<Swatches options={options} selected={options[3]} />);
 
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('exist');
-			cy.get('.ss__carousel__next').should('exist');
-			cy.get('.ss__swatches__carousel__swatch').should('have.length', options.length);
-			cy.get('.ss__swatches__carousel__swatch--selected .ss__swatches__carousel__swatch__inner')
+			cy.get('.ss__slideshow__prev').should('exist');
+			cy.get('.ss__slideshow__next').should('exist');
+			cy.get('.ss__swatches__slideshow__swatch').should('have.length', options.length);
+			cy.get('.ss__swatches__slideshow__swatch--selected .ss__swatches__slideshow__swatch__inner')
 				.should('exist')
 				.should('satisfy', ($el) => {
 					const backgroundStyle = $el[0].style.background;
@@ -149,7 +149,7 @@ describe('Swatches Component', async () => {
 			mount(<Swatches onSelect={cy.stub().as('onClickFunc')} options={options} />);
 			cy.get('.ss__swatches').should('exist');
 			cy.get('@onClickFunc').its('callCount').should('eq', 0);
-			cy.get('.ss__swatches__carousel__swatch:first')
+			cy.get('.ss__swatches__slideshow__swatch:first')
 				.should('exist')
 				.click()
 				.then(() => {
@@ -273,8 +273,8 @@ describe('Swatches Component', async () => {
 		it('renders as grid with type', () => {
 			mount(<Swatches options={options} type="grid" />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('not.exist');
-			cy.get('.ss__carousel__next').should('not.exist');
+			cy.get('.ss__slideshow__prev').should('not.exist');
+			cy.get('.ss__slideshow__next').should('not.exist');
 			cy.get('.ss__swatches__grid').should('exist');
 			cy.get('.ss__grid__option').should('exist');
 		});
@@ -282,8 +282,8 @@ describe('Swatches Component', async () => {
 		it('renders swatch background colors', () => {
 			mount(<Swatches type="grid" options={options} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('not.exist');
-			cy.get('.ss__carousel__next').should('not.exist');
+			cy.get('.ss__slideshow__prev').should('not.exist');
+			cy.get('.ss__slideshow__next').should('not.exist');
 			cy.get('.ss__swatches__grid').should('exist');
 			cy.get('.ss__grid__option').should('have.length', defaultColumns);
 
@@ -298,8 +298,8 @@ describe('Swatches Component', async () => {
 		it('renders without labels when using hideLabels', () => {
 			mount(<Swatches type="grid" options={options} hideLabels={true} />);
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('not.exist');
-			cy.get('.ss__carousel__next').should('not.exist');
+			cy.get('.ss__slideshow__prev').should('not.exist');
+			cy.get('.ss__slideshow__next').should('not.exist');
 			cy.get('.ss__swatches__grid').should('exist');
 			cy.get('.ss__grid__option').should('have.length', defaultColumns);
 			cy.get('.ss__grid__option__label').should('not.exist');
@@ -309,8 +309,8 @@ describe('Swatches Component', async () => {
 			mount(<Swatches type="grid" options={options} selected={options[3]} />);
 
 			cy.get('.ss__swatches').should('exist');
-			cy.get('.ss__carousel__prev').should('not.exist');
-			cy.get('.ss__carousel__next').should('not.exist');
+			cy.get('.ss__slideshow__prev').should('not.exist');
+			cy.get('.ss__slideshow__next').should('not.exist');
 			cy.get('.ss__swatches__grid').should('exist');
 			cy.get('.ss__grid__option').should('have.length', defaultColumns);
 			cy.get('.ss__grid__option--selected')

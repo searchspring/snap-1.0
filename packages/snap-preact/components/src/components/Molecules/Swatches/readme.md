@@ -3,9 +3,9 @@
 Renders a swatch component.
 
 ## Components Used
-- carousel
+- Slideshow
 - Swatches
-- image
+- Image
 
 ## Usage
 ```jsx

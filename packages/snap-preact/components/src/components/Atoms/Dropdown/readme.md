@@ -95,6 +95,13 @@ The `disableClickOutside` prop by default is `false`. Setting this to `true` wil
 <Dropdown disableClickOutside>Hello World!</Dropdown>
 ```
 
+### usePortal
+The `usePortal` prop specifies if the dropdown content should be rendered in a portal. This will render the content directly on the body, and dynamically position itself. This is useful if the dropdown content is being cut off by a parent container with `overflow: hidden`.
+
+```jsx
+<Dropdown usePortal>Hello World!</Dropdown>
+```
+
 ### Events
 
 #### onClick

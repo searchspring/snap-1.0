@@ -23,6 +23,7 @@ import { useA11y } from '../../../hooks/useA11y';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Button, ButtonProps } from '../../Atoms/Button';
+import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
 import { LangAttributesObj } from '../../../hooks/useLang';
 
 const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme }) => {
@@ -124,6 +125,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 export const Facet = observer((properties: FacetProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
+
 	const defaultProps: Partial<FacetProps> = {
 		limit: 12,
 		disableOverflow: false,
@@ -138,6 +140,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		rangeInputSeparatorText: ' - ',
 		searchable: false,
 		treePath: globalTreePath,
+		name: fieldNameToComponentName(properties.facet.field),
 	};
 
 	let props = mergeProps('facet', globalTheme, defaultProps, properties);

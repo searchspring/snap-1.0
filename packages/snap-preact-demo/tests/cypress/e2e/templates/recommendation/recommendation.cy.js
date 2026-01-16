@@ -169,7 +169,7 @@ describe('Recommendations', () => {
 													const newerActiveIndex = doc
 														.querySelector(`${integration?.selectors?.recommendation.activeSlide}`)
 														.getAttribute('data-swiper-slide-index');
-													const storeTitle = store.results[parseInt(newerActiveIndex)].mappings.core.name;
+													const storeTitle = store.results[parseInt(newerActiveIndex)].display.mappings.core.name;
 
 													expect(newActive).to.not.equal(intialActive);
 													expect(newActive).to.equal(storeTitle);

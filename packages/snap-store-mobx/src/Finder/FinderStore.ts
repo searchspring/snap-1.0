@@ -1,6 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 
-import type { SearchResponseModel, MetaResponseModel } from '@searchspring/snapi-types';
+import type { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { SearchPaginationStore } from '../Search/Stores';
 import { StorageStore } from '../Storage/StorageStore';

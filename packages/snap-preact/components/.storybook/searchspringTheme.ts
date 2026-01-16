@@ -1,6 +1,6 @@
 import { create } from '@storybook/theming/create';
 
-import athosLogo from '../src/assets/athos_logo.svg';
+import athosLogo from './athos_logo.svg';
 
 export default create({
 	base: 'light',

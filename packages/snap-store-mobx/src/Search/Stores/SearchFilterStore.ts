@@ -9,7 +9,7 @@ import type {
 	MetaResponseModelFacet,
 	SearchResponseModel,
 	MetaResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 import { sprintf } from '@searchspring/snap-toolbox';
 
 type SearchFilterStoreConfig = {

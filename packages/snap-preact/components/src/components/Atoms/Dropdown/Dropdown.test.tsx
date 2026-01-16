@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { h } from 'preact';
 
 import { render, waitFor } from '@testing-library/preact';
@@ -359,6 +360,20 @@ describe('Dropdown Component', () => {
 		// hovering again will work after touchevents are reset
 		await userEvent.hover(dropdown);
 		expect(dropdown).toHaveClass('ss__dropdown--open');
+	});
+
+	it('renders content in a portal when usePortal is true', async () => {
+		const contentText = 'portal content';
+		const rendered = render(<Dropdown button={'open me'} content={contentText} usePortal />);
+
+		const button = rendered.getByText('open me');
+		await userEvent.click(button);
+
+		const childContent = rendered.container.querySelector('.ss__dropdown .ss__dropdown__portal');
+		const portalContent = document.body.querySelector('.ss__dropdown__portal');
+		expect(portalContent).toBeInTheDocument();
+		expect(childContent).not.toBeInTheDocument();
+		expect(portalContent).toHaveTextContent(contentText);
 	});
 
 	it('disables styles', () => {

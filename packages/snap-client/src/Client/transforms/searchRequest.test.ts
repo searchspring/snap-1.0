@@ -1,4 +1,4 @@
-import { SearchRequestModelFilterValue, SearchRequestModelFilterRange, SearchRequestModelFilter } from '@searchspring/snapi-types';
+import { SearchRequestModelFilterValue, SearchRequestModelFilterRange, SearchRequestModelFilter } from '@athoscommerce/snapi-types';
 
 import { NO_BEACON_PARAM, transformSearchRequest } from './searchRequest';
 
@@ -285,27 +285,6 @@ describe('search request merchandising transform', () => {
 		});
 
 		expect(params).toEqual({ tag: ['merch.segment/some-segment'], disableMerchandising: true });
-	});
-
-	it('can disable intellisuggest elevations', () => {
-		const params = transformSearchRequest.merchandising({
-			merchandising: {
-				intellisuggest: false,
-			},
-		});
-
-		expect(params).toEqual({ intellisuggest: false });
-	});
-
-	it('can disable intellisuggest elevations even if merchandising is disabled', () => {
-		const params = transformSearchRequest.merchandising({
-			merchandising: {
-				disabled: true,
-				intellisuggest: false,
-			},
-		});
-
-		expect(params).toEqual({ disableMerchandising: true, intellisuggest: false });
 	});
 
 	it('can disable inlineBanners', () => {

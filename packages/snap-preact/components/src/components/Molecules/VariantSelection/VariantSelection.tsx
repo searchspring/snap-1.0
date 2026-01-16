@@ -11,6 +11,7 @@ import { Swatches, SwatchesProps } from '../Swatches';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import { useA11y } from '../../../hooks';
+import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
 
 const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 	return css({
@@ -25,35 +26,40 @@ const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 					gap: '5px',
 				},
 			},
+		},
+	});
+};
 
-			'.ss__dropdown__content': {
-				minWidth: 'auto',
-				left: '0',
-				right: '0',
+const dropdownContentStyles: StyleScript<VariantSelectionProps> = () => {
+	return css({
+		margin: '0px',
+		padding: '5px',
+		background: 'white',
+		zIndex: 10,
+		border: '1px solid black',
 
-				'.ss__variant-selection__option': {
-					cursor: 'pointer',
-					position: 'relative',
-				},
+		'.ss__variant-selection__option': {
+			cursor: 'pointer',
+			position: 'relative',
+		},
 
-				'.ss__variant-selection__option:hover': {
-					fontWeight: 'bold',
-				},
+		'.ss__variant-selection__option:hover': {
+			fontWeight: 'bold',
+		},
 
-				'.ss__variant-selection__option--selected': {
-					fontWeight: 'bold',
-				},
+		'.ss__variant-selection__option--selected': {
+			fontWeight: 'bold',
+		},
 
-				'.ss__variant-selection__option--disabled': {
-					pointerEvents: 'none',
-					cursor: 'initial',
-				},
+		'.ss__variant-selection__option--disabled': {
+			pointerEvents: 'none',
+			cursor: 'initial',
+			color: 'red',
+		},
 
-				'.ss__variant-selection__option--disabled, .ss__variant-selection__option--unavailable': {
-					textDecoration: 'line-through',
-					opacity: 0.5,
-				},
-			},
+		'.ss__variant-selection__option--disabled, .ss__variant-selection__option--unavailable': {
+			textDecoration: 'line-through',
+			opacity: 0.5,
 		},
 	});
 };
@@ -64,13 +70,22 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 
 	const defaultProps: Partial<VariantSelectionProps> = {
 		// default props
-		type: 'dropdown',
+		name: fieldNameToComponentName(properties.selection.field),
 		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('variantSelection', globalTheme, defaultProps, properties);
 
-	const { type, selection, onSelect, disableStyles, className, internalClassName, treePath } = props;
+	const { selection, onSelect, disableStyles, className, internalClassName, treePath } = props;
+
+	let type = props.type;
+	if (!type) {
+		if (selection.type == 'swatch') {
+			type = 'swatches';
+		} else {
+			type = 'dropdown';
+		}
+	}
 
 	const onSelectHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption) => {
 		if (onSelect) {
@@ -83,6 +98,7 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 	const subProps: VariantSelectionSubProps = {
 		dropdown: {
 			internalClassName: 'ss__variant-selection__dropdown',
+			usePortal: true,
 			// TODO: label doesnt exist on dropdown?
 			// label: selection.label || selection.field,
 			// inherited props
@@ -135,11 +151,13 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 	};
 
 	const styling = mergeStyles<VariantSelectionProps>(props, defaultStyles);
+	//since the dropdown is rendered in a portal, it needs its own emotion styles
+	const dropdownStyles = mergeStyles<VariantSelectionProps>(props, dropdownContentStyles);
 
 	const DropdownContent = (props: any) => {
 		const { toggleOpen } = props;
 		return (
-			<ul className="ss__variant-selection__options" ref={(e) => useA11y(e, -1, true, () => toggleOpen())}>
+			<ul {...dropdownStyles} className="ss__variant-selection__options" ref={(e) => useA11y(e, -1, true, () => toggleOpen())}>
 				{selection.values.map((val: any) => {
 					const selected = selection.selected?.value == val.value;
 					return (
@@ -198,7 +216,7 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 											);
 										};
 
-										return <Dropdown button={<Button />} {...subProps.dropdown} content={<DropdownContent />} />;
+										return <Dropdown button={<Button treePath={treePath} />} {...subProps.dropdown} content={<DropdownContent />} />;
 									})()}
 								</Fragment>
 							);

@@ -161,12 +161,191 @@
           "11.896",
           "13.383"
         ],
-        "ss_variants": "[{\"mappings\":{\"core\":{\"uid\":4007,\"price\":0.68,\"sku\":\"LS-EEBP-5\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"5 Inch\",\"optionValue\":2900,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":1.05,\"sku\":\"LS-EEBP-6\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"6 Inch\",\"optionValue\":2901,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":1.28,\"sku\":\"LS-EEBP-7\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"7 Inch\",\"optionValue\":2902,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":1.79,\"sku\":\"LS-EEBP-8\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"8 Inch\",\"optionValue\":2903,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":2.35,\"sku\":\"LS-EEBP-9\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"9 Inch\",\"optionValue\":2904,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":3.23,\"sku\":\"LS-EEBP-10\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"10 Inch\",\"optionValue\":2905,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":4.71,\"sku\":\"LS-EEBP-12\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"12 Inch\",\"optionValue\":2906,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":5.65,\"sku\":\"LS-EEBP-14\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"14 Inch\",\"optionValue\":2907,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":9.41,\"sku\":\"LS-EEBP-16\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"16 Inch\",\"optionValue\":2908,\"optionId\":570}}},{\"mappings\":{\"core\":{\"uid\":4007,\"price\":9.41,\"sku\":\"LS-EEBP-18\"}},\"attributes\":{\"quantity\":99999,\"available\":true},\"options\":{\"Size\":{\"value\":\"18 Inch\",\"optionValue\":2909,\"optionId\":570}}}]",
         "ss_visibility": "1",
         "total_sold": "279",
         "width": "0"
       },
-      "children": []
+      "children": [],
+      "variants": {
+        "optionConfig": {
+          "Size": {
+            "count": 10,
+            "type": "list"
+          }
+        },
+        "data": [
+          {
+            "options": {
+              "Size": {
+                "value": "5 Inch",
+                "optionValue": 2900,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 0.68,
+                "sku": "LS-EEBP-5",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "6 Inch",
+                "optionValue": 2901,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 1.05,
+                "sku": "LS-EEBP-6",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "7 Inch",
+                "optionValue": 2902,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 1.28,
+                "sku": "LS-EEBP-7",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "8 Inch",
+                "optionValue": 2903,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 1.79,
+                "sku": "LS-EEBP-8",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "9 Inch",
+                "optionValue": 2904,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 2.35,
+                "sku": "LS-EEBP-9",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "10 Inch",
+                "optionValue": 2905,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 3.23,
+                "sku": "LS-EEBP-10",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "12 Inch",
+                "optionValue": 2906,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 4.71,
+                "sku": "LS-EEBP-12",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "14 Inch",
+                "optionValue": 2907,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 5.65,
+                "sku": "LS-EEBP-14",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "16 Inch",
+                "optionValue": 2908,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 9.41,
+                "sku": "LS-EEBP-16",
+                "available": true
+              }
+            }
+          },
+          {
+            "options": {
+              "Size": {
+                "value": "18 Inch",
+                "optionValue": 2909,
+                "optionId": 570
+              }
+            },
+            "mappings": {
+              "core": {
+                "uid": 4007,
+                "price": 9.41,
+                "sku": "LS-EEBP-18",
+                "available": true
+              }
+            }
+          }
+        ]
+      }
     }
   ],
   "filters": [],

@@ -2,7 +2,7 @@ import { MockData } from '@searchspring/snap-shared';
 
 import { MetaStore } from './MetaStore';
 
-import { MetaResponseModel } from '@searchspring/snapi-types';
+import { MetaResponseModel } from '@athoscommerce/snapi-types';
 
 describe('Meta Store', () => {
 	const mockData = new MockData();

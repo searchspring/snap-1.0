@@ -10,7 +10,7 @@ import {
 	SearchResponseModelFilter,
 	SearchResponseModelFilterRange,
 	SearchResponseModelFilterValue,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 const services = {
 	urlManager: new UrlManager(new UrlTranslator()),
