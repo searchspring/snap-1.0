@@ -104,7 +104,7 @@ var documents = [
 		],
 	},
 	{
-		categoryName: 'Templates',
+		categoryName: 'Templates Integration',
 		links: [
 			{
 				label: 'About',
