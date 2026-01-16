@@ -215,7 +215,6 @@ describe('addToCart', () => {
 						singleResult: false,
 					},
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 					},
 				},
@@ -389,7 +388,6 @@ describe('addToCart', () => {
 						singleResult: false,
 					},
 					variants: {
-						field: 'ss_variants',
 						autoSelect: true,
 					},
 				},

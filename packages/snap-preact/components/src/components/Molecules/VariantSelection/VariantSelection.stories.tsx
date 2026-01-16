@@ -127,11 +127,6 @@ const config: SearchControllerConfig = {
 	globals: {
 		siteId: 'atkzs2',
 	},
-	settings: {
-		variants: {
-			field: 'ss_variants',
-		},
-	},
 };
 
 const snapInstance = Snapify.search(config);
