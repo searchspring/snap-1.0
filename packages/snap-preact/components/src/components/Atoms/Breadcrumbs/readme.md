@@ -16,7 +16,7 @@ The `data` prop specifies an array of breadcrumb objects, or a function that ret
  
 `url` - optional, the URL of this breadcrumb
 
-```typescript
+```js
 const breadcrumbs = [
 	{ url: '/', label: 'Home' },
 	{ url: '/', label: 'Collections' },

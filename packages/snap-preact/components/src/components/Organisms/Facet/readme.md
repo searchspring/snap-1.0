@@ -58,7 +58,7 @@ If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.p
 ### valueProps
 The `valueProps` prop will be spread onto each value's `<a>` element. Typical usage would be to provide custom callback functions when used within Autocomplete.
 
-```typescript
+```js
 const valueProps = {
 	onMouseEnter: (e) => {
 		clearTimeout(delayTimeout);
@@ -195,7 +195,7 @@ The `iconOverflowLess` prop contains the icon name of the facet overflow button 
 ### overflowSlot
 The `overflowSlot` prop is a JSX element used to change the display of the show more/less toggle.
 
-```typescript
+```js
 const Overflow = (props) => {
 	const facet = props.facet;
 	return (
@@ -212,7 +212,7 @@ const Overflow = (props) => {
 ### fields
 The `fields` prop allows you to manually change prop values on a per-facet level, sorted by the facet field.
 
-```typescript
+```js
 const fieldsProp = {
 	Color: {
 		limit: 6,
@@ -232,7 +232,7 @@ const fieldsProp = {
 ### optionsSlot
 The `optionsSlot` prop is a JSX element used to manually set the options component used, regardless of the facet.display type. Returns the facet,valueProps, limit, & previewOnFocus prop values.
 
-```typescript
+```js
 const CustomFacetOptions = (props) => {
 	const facet = props.facet;
 	return (
