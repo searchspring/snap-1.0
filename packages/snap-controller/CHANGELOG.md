@@ -177,6 +177,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 - **preact-components/storybook:** updating storybook to latest version - build stable ([43c598d](https://github.com/searchspring/snap/commit/43c598d0e4d11d76364ff2775ecdcabe489023a8))
 
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-controller
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+**Note:** Version bump only for package @searchspring/snap-controller
+
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 
 ### Bug Fixes

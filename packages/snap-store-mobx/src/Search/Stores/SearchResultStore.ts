@@ -1,7 +1,15 @@
 import { computed, makeObservable, observable } from 'mobx';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
-import type { SearchStoreConfig, ResultBadge, VariantOptionConfig, VariantConfig, StoreConfigs } from '../../types';
+import type {
+	SearchStoreConfig,
+	ResultBadge,
+	VariantOptionConfig,
+	VariantConfig,
+	StoreConfigs,
+	AutocompleteStoreConfig,
+	RecommendationStoreConfig,
+} from '../../types';
 import type {
 	SearchResponseModelResult,
 	SearchResponseModelResultMappings,
@@ -54,36 +62,54 @@ export class SearchResultStore extends Array<Product | Banner> {
 			});
 		});
 
-		const variantConfig = (config as SearchStoreConfig)?.settings?.variants;
-
+		const variantConfig = (config as SearchStoreConfig | AutocompleteStoreConfig | RecommendationStoreConfig)?.settings?.variants;
 		// preselected variant options
 		if (variantConfig?.realtime?.enabled) {
 			// attach click events - ONLY happens once (known limitation)
-			if (!loaded && resultsArr.length) {
+			if (!loaded && resultsArr?.length) {
+				const processedSelects = new Set<Element>();
 				document.querySelectorAll(`[${VARIANT_ATTRIBUTE}]`).forEach((elem) => {
-					if (!variantConfig?.realtime?.enabled === false) {
-						elem.addEventListener('click', () => variantOptionClick(elem, variantConfig, resultsArr));
+					if (elem.tagName == 'OPTION') {
+						const parentSelect = elem.closest('select');
+						if (parentSelect) {
+							if (!processedSelects.has(parentSelect)) {
+								processedSelects.add(parentSelect);
+								parentSelect.addEventListener('change', (e) => {
+									const val = (e.target as HTMLSelectElement)?.value;
+									const clickedOption = Array.from(parentSelect.querySelectorAll(`[${VARIANT_ATTRIBUTE}]`)).filter(
+										(elem) => (elem as HTMLOptionElement).value == val
+									);
+									if (clickedOption.length > 0) {
+										variantOptionClick(clickedOption[0], variantConfig, resultsArr);
+									}
+								});
+							}
+						} else {
+							console.warn('Warning: unable to add realtime variant event listener for element - ', elem);
+						}
+					} else {
+						elem.addEventListener('click', () => {
+							variantOptionClick(elem, variantConfig, resultsArr);
+						});
 					}
 				});
 			}
 
 			// check for attributes for preselection
 			if (resultsArr.length) {
-				if (!variantConfig?.realtime?.enabled === false) {
-					const options: Record<string, string[]> = {};
-					// grab values from elements on the page to form preselected elements
-					document.querySelectorAll(`[${VARIANT_ATTRIBUTE_SELECTED}]`).forEach((elem) => {
-						const attr = elem.getAttribute(VARIANT_ATTRIBUTE);
-						if (attr) {
-							const [option, value] = attr.split(':');
-							if (option && value) {
-								options[option.toLowerCase()] = [value.toLowerCase()];
-							}
+				const options: Record<string, string[]> = {};
+				// grab values from elements on the page to form preselected elements
+				document.querySelectorAll(`[${VARIANT_ATTRIBUTE_SELECTED}]`).forEach((elem) => {
+					const attr = elem.getAttribute(VARIANT_ATTRIBUTE);
+					if (attr) {
+						const [option, value] = attr.split(':');
+						if (option && value) {
+							options[option.toLowerCase()] = [value.toLowerCase()];
 						}
-					});
+					}
+				});
 
-					makeVariantSelections(variantConfig, options, resultsArr);
-				}
+				makeVariantSelections(variantConfig, options, resultsArr);
 			}
 		}
 
@@ -816,9 +842,12 @@ function variantOptionClick(elem: Element, variantConfig: VariantConfig, results
 	const attr = elem.getAttribute(VARIANT_ATTRIBUTE);
 	if (attr) {
 		const [option, value] = attr.split(':');
-		options[option.toLowerCase()] = [value.toLowerCase()];
-
-		makeVariantSelections(variantConfig, options, results);
+		if (!option || !value) {
+			console.error('Error!: realtime variant is missing option or value (option:value)!', elem, attr);
+		} else {
+			options[option.toLowerCase()] = [value.toLowerCase()];
+			makeVariantSelections(variantConfig, options, results);
+		}
 	}
 }
 

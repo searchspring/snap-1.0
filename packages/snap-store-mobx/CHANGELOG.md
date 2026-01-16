@@ -165,6 +165,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **preact-components-ss-lang:** adding foundation for multi language support to preact components ([4dce617](https://github.com/searchspring/snap/commit/4dce617ec14fb6897d66278b90b5cc17e97665bd))
 - **preact-components/storybook:** updating storybook to latest version - build stable ([43c598d](https://github.com/searchspring/snap/commit/43c598d0e4d11d76364ff2775ecdcabe489023a8))
 - **preact-components:** making progress toward layout templating support ([92c2ce6](https://github.com/searchspring/snap/commit/92c2ce6b207dcb1e922674d55e289354b71612da))
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-store-mobx
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Bug Fixes
+
+- **searchresultstore:** adding support for option element to be used in realtime variants ([167f867](https://github.com/searchspring/snap/commit/167f867f12b06a6fb0f8f84f4553a9d9e6b2d884))
 
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 

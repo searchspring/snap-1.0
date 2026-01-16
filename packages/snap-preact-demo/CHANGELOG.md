@@ -172,6 +172,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - responsive themestore and breakpoint props ([d4faf3a](https://github.com/searchspring/snap-1.0/commit/d4faf3acdd2703b0225d4784c078ada967c64527))
 - separate recommendation types ([4a03491](https://github.com/searchspring/snap-1.0/commit/4a03491766fd3dbd3eeddf8d91ed4572bd4ae6bf))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Features
+
+- **client:** adding support to have separate subdomain in api - using this for recommend requests ([ceb6d65](https://github.com/searchspring/snap/commit/ceb6d6500c2c8a57df0356535d0f74d8d0464fae))
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
 
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 
