@@ -184,25 +184,6 @@ export const Bundled = observer((props) => {
 
 	return store.results.length > 0 && <RecommendationBundle controller={controller} onAddToCart={(e, data) => addToCart(data)} title={parameters?.title} />;
 });
-
-
-import { h } from 'preact';
-import { observer } from 'mobx-react';
-
-import { RecommendationBundle } from '@searchspring/snap-preact-components';
-
-export const Bundled = observer((props) => {
-	const controller = props.controller;
-	const store = controller?.store;
-
-	if (!controller.store.loaded && !controller.store.loading) {
-		controller.search();
-	}
-
-	const parameters = store?.profile?.display?.templateParameters;
-
-	return store.results.length > 0 && <RecommendationBundle controller={controller} onAddToCart={(items)=> console.log("need to add these to the platform cart", items)}  title={parameters?.title} />;
-});
 ```
 
 
