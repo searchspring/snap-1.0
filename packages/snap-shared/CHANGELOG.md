@@ -128,6 +128,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.1.0](https://github.com/searchspring/snap-1.0/compare/v0.60.1...v1.1.0) (2024-09-20)
 
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-shared
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+**Note:** Version bump only for package @searchspring/snap-shared
+
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 
 **Note:** Version bump only for package @searchspring/snap-shared

@@ -86,6 +86,7 @@ type ExtendedRecommendaitonProfileTarget = Target & {
 	profile?: ProfileSpecificProfile;
 };
 
+const DEFAULT_BRANCH = 'production';
 export class RecommendationInstantiator {
 	private mode = AppMode.production;
 	public client: Client;
@@ -110,7 +111,8 @@ export class RecommendationInstantiator {
 		}
 
 		if (!this.config.config?.branch) {
-			throw new Error(`Recommendation Instantiator config must contain 'branch' property`);
+			this.config.config = this.config.config || {};
+			this.config.config.branch = DEFAULT_BRANCH;
 		}
 
 		if (!this.config.components || typeof this.config.components != 'object' || !Object.keys(this.config.components).length) {
