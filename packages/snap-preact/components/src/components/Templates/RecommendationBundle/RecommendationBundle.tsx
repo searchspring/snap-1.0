@@ -498,7 +498,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 				<ResultTracker key={result.id} controller={controller} result={result} track={{ impression: Boolean(!isSeed) }}>
 					<BundleSelector {...attributes}>
 						{resultComponent ? (
-							cloneWithProps(resultComponent, { result: result, seed: isSeed, selected, onProductSelect })
+							cloneWithProps(resultComponent, { controller: controller, treePath: treePath, result: result, seed: isSeed, selected, onProductSelect })
 						) : (
 							<Result {...subProps.result} controller={controller} result={result} />
 						)}
