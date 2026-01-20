@@ -20,13 +20,13 @@ An example Snap Integration project can be found [here](https://github.com/searc
 
 Continue by referencing the [Snap Setup](https://searchspring.github.io/snap/snap-setup) section.
 
-<!-- ### Snap Templates Integration
+### Snap Templates Integration
 
 A "Snap Templates Integration" is a project that uses the `SnapTemplates` export from the `@searchspring/snap-preact` package to build a storefront integration. It is an abstraction of the `Snap` integration that limits the available configuration and does not provide access to the entire project markup. 
 
-Instead, it is based on choosing an optimimzed and prebuilt template and theme while only customizing slight layout changes, theme variables, result card markup, and general style declarations. This integration type allows for a rapid integration of Searchspring to your storefront.  -->
+Instead, it is based on choosing an optimimzed and prebuilt template and theme while only customizing slight layout changes, theme variables, result card markup, and general style declarations. This integration type allows for a rapid integration of Searchspring to your storefront.
 
-<!-- Continue by referencing the [Snap Templates Integration](https://searchspring.github.io/snap/snap-templates-overview) documentation. -->
+Continue by referencing the [Snap Templates Integration](https://searchspring.github.io/snap/templates-about) documentation.
 
 ### API Integration
 
