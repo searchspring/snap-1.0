@@ -396,9 +396,9 @@ describe('Facet Component', () => {
 				//@ts-ignore
 				facet: { ...sliderFacetMock, display: 'slider', type: 'range' } as RangeFacet,
 				rangeInputs: true,
-				rangeInputSubmitButtonText: 'Go',
+				rangeInputsSubmitButtonText: 'Go',
 				rangeInputsPrefix: '$',
-				rangeInputSeparatorText: '- to -',
+				rangeInputsSeparatorText: '- to -',
 			};
 			args.facet.collapsed = false;
 
@@ -418,11 +418,11 @@ describe('Facet Component', () => {
 
 			const submitButton = rangeInputsElement?.querySelector('.ss__facet__range-input__button--submit');
 			expect(submitButton).toBeInTheDocument();
-			expect(submitButton).toHaveTextContent(args.rangeInputSubmitButtonText);
+			expect(submitButton).toHaveTextContent(args.rangeInputsSubmitButtonText);
 
 			const sepElem = rangeInputsElement?.querySelector('.ss__facet__range-inputs__separator');
 			expect(sepElem).toBeInTheDocument();
-			expect(sepElem).toHaveTextContent(args.rangeInputSeparatorText);
+			expect(sepElem).toHaveTextContent(args.rangeInputsSeparatorText);
 		});
 
 		it('rangeInputInheritDefaultValues prop initializes inputs with facet range values', () => {
@@ -442,7 +442,7 @@ describe('Facet Component', () => {
 					},
 				} as RangeFacet,
 				rangeInputs: true,
-				rangeInputInheritDefaultValues: true,
+				rangeInputsInheritDefaultValues: true,
 			};
 
 			const rendered = render(<Facet {...args} />);
