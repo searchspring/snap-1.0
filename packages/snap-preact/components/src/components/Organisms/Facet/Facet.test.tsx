@@ -424,6 +424,41 @@ describe('Facet Component', () => {
 			expect(sepElem).toBeInTheDocument();
 			expect(sepElem).toHaveTextContent(args.rangeInputSeparatorText);
 		});
+
+		it('rangeInputInheritDefaultValues prop initializes inputs with facet range values', () => {
+			const args = {
+				facet: {
+					...sliderFacetMock,
+					display: 'slider',
+					collapsed: false,
+					type: 'range',
+					range: {
+						low: 10,
+						high: 100,
+					},
+					active: {
+						low: undefined,
+						high: undefined,
+					},
+				} as RangeFacet,
+				rangeInputs: true,
+				rangeInputInheritDefaultValues: true,
+			};
+
+			const rendered = render(<Facet {...args} />);
+			const rangeInputsElement = rendered.container.querySelector('.ss__facet__range-inputs');
+			expect(rangeInputsElement).toBeInTheDocument();
+
+			const lowInput = rangeInputsElement?.querySelector('.ss__facet__range-input--low .ss__facet__range-input__input') as HTMLInputElement;
+			const highInput = rangeInputsElement?.querySelector('.ss__facet__range-input--high .ss__facet__range-input__input') as HTMLInputElement;
+
+			expect(lowInput).toBeInTheDocument();
+			expect(highInput).toBeInTheDocument();
+
+			// Check that inputs are initialized with the facet's range values
+			expect(lowInput.value).toBe(args.facet.range?.low?.toString());
+			expect(highInput.value).toBe(args.facet.range?.high?.toString());
+		});
 	});
 
 	it('renders with classname', () => {

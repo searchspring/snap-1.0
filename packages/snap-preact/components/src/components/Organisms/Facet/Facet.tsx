@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import { MutableRef, useRef, useState } from 'preact/hooks';
+import { MutableRef, useRef, useState, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -494,6 +494,7 @@ const FacetContent = (
 		previewOnFocus,
 		rangeInputs,
 		rangeInputsPrefix,
+		rangeInputInheritDefaultValues,
 		rangeInputSeparatorText,
 		justContent,
 		valueProps,
@@ -502,8 +503,22 @@ const FacetContent = (
 		mergedLang,
 	} = props;
 
-	const [low, setLow] = useState<number>();
-	const [high, setHigh] = useState<number>();
+	const [low, setLow] = useState<number | undefined>(
+		rangeInputInheritDefaultValues && facet.type === 'range' ? (facet as RangeFacet)?.range?.low : undefined
+	);
+	const [high, setHigh] = useState<number | undefined>(
+		rangeInputInheritDefaultValues && facet.type === 'range' ? (facet as RangeFacet)?.range?.high : undefined
+	);
+
+	useEffect(() => {
+		if (rangeInputInheritDefaultValues && facet.type === 'range' && (facet as RangeFacet)?.active?.high !== high) {
+			setHigh((facet as RangeFacet)?.active?.high);
+		}
+
+		if (rangeInputInheritDefaultValues && facet.type === 'range' && (facet as RangeFacet)?.active?.low !== low) {
+			setLow((facet as RangeFacet)?.active?.low);
+		}
+	}, [facet]);
 
 	const onDragcb = (vals: number[]) => {
 		setLow(vals[0]);
@@ -591,7 +606,7 @@ const FacetContent = (
 								type="number"
 								className="ss__facet__range-input__input"
 								value={low}
-								onInput={(e) => setLow(Number(e.currentTarget.value) || 0)}
+								onInput={(e) => (e.currentTarget.value ? setLow(Number(e.currentTarget.value)) : setLow(undefined))}
 								onKeyUp={onKeyUp}
 							/>
 						</div>
@@ -604,7 +619,7 @@ const FacetContent = (
 								type="number"
 								className="ss__facet__range-input__input"
 								value={high}
-								onInput={(e) => setHigh(Number(e.currentTarget.value) || 0)}
+								onInput={(e) => (e.currentTarget.value ? setHigh(Number(e.currentTarget.value)) : setHigh(undefined))}
 								onKeyUp={onKeyUp}
 							/>
 						</div>
@@ -732,6 +747,7 @@ interface OptionalFacetProps extends ComponentProps {
 	rangeInputs?: boolean;
 	rangeInputSubmitButtonText?: string;
 	rangeInputsPrefix?: string;
+	rangeInputInheritDefaultValues?: boolean;
 	rangeInputSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;

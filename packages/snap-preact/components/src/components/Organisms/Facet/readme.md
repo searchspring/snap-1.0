@@ -154,6 +154,13 @@ The `rangeInputSeparatorText` prop specifies the separator text to render betwee
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSeparatorText={' to '}/>
 ```
 
+### rangeInputInheritDefaultValues
+The `rangeInputInheritDefaultValues` prop enables the facet range input values to default to the facet low and high limits.
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputInheritDefaultValues={true}/>
+```
+
 ### showClearAllText
 The `showClearAllText` prop specifies if the clear all text should render.
 

@@ -115,6 +115,17 @@ export default {
 			},
 			control: { type: 'text' },
 		},
+		rangeInputInheritDefaultValues: {
+			defaultValue: false,
+			description: 'Enables facet range input values to default to the facet low and high limits',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
 		rangeInputSeparatorText: {
 			description: 'Range inputs separator text',
 			table: {
