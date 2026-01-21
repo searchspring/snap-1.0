@@ -136,8 +136,8 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		iconOverflowMore: 'plus',
 		iconOverflowLess: 'minus',
 		clearAllText: 'Clear All',
-		rangeInputSubmitButtonText: 'Submit',
-		rangeInputSeparatorText: ' - ',
+		rangeInputsSubmitButtonText: 'Submit',
+		rangeInputsSeparatorText: ' - ',
 		searchable: false,
 		treePath: globalTreePath,
 		name: fieldNameToComponentName(properties.facet.field),
@@ -379,7 +379,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			value: facetContentProps.clearAllText,
 		},
 		submitRangeButton: {
-			value: facetContentProps.rangeInputSubmitButtonText,
+			value: facetContentProps.rangeInputsSubmitButtonText,
 		},
 	};
 
@@ -494,8 +494,8 @@ const FacetContent = (
 		previewOnFocus,
 		rangeInputs,
 		rangeInputsPrefix,
-		rangeInputInheritDefaultValues,
-		rangeInputSeparatorText,
+		rangeInputsInheritDefaultValues,
+		rangeInputsSeparatorText,
 		justContent,
 		valueProps,
 		hideShowMoreLessText,
@@ -504,18 +504,18 @@ const FacetContent = (
 	} = props;
 
 	const [low, setLow] = useState<number | undefined>(
-		rangeInputInheritDefaultValues && facet.type === 'range' ? (facet as RangeFacet)?.range?.low : undefined
+		rangeInputsInheritDefaultValues && facet.type === 'range' ? (facet as RangeFacet)?.range?.low : undefined
 	);
 	const [high, setHigh] = useState<number | undefined>(
-		rangeInputInheritDefaultValues && facet.type === 'range' ? (facet as RangeFacet)?.range?.high : undefined
+		rangeInputsInheritDefaultValues && facet.type === 'range' ? (facet as RangeFacet)?.range?.high : undefined
 	);
 
 	useEffect(() => {
-		if (rangeInputInheritDefaultValues && facet.type === 'range' && (facet as RangeFacet)?.active?.high !== high) {
+		if (rangeInputsInheritDefaultValues && facet.type === 'range' && (facet as RangeFacet)?.active?.high !== high) {
 			setHigh((facet as RangeFacet)?.active?.high);
 		}
 
-		if (rangeInputInheritDefaultValues && facet.type === 'range' && (facet as RangeFacet)?.active?.low !== low) {
+		if (rangeInputsInheritDefaultValues && facet.type === 'range' && (facet as RangeFacet)?.active?.low !== low) {
 			setLow((facet as RangeFacet)?.active?.low);
 		}
 	}, [facet]);
@@ -611,7 +611,7 @@ const FacetContent = (
 							/>
 						</div>
 
-						<span className="ss__facet__range-inputs__separator">{rangeInputSeparatorText}</span>
+						<span className="ss__facet__range-inputs__separator">{rangeInputsSeparatorText}</span>
 
 						<div className="ss__facet__range-input ss__facet__range-input--high">
 							{rangeInputsPrefix && <span className="ss__facet__range-input__prefix">{rangeInputsPrefix}</span>}
@@ -745,10 +745,10 @@ interface OptionalFacetProps extends ComponentProps {
 	display?: FieldProps;
 	searchable?: boolean;
 	rangeInputs?: boolean;
-	rangeInputSubmitButtonText?: string;
+	rangeInputsSubmitButtonText?: string;
 	rangeInputsPrefix?: string;
-	rangeInputInheritDefaultValues?: boolean;
-	rangeInputSeparatorText?: string;
+	rangeInputsInheritDefaultValues?: boolean;
+	rangeInputsSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;
 	lang?: Partial<FacetLang>;

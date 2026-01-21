@@ -95,7 +95,7 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
-		rangeInputSubmitButtonText: {
+		rangeInputsSubmitButtonText: {
 			defaultValue: 'Submit',
 			description: 'Range input submit button text',
 			table: {
@@ -115,7 +115,7 @@ export default {
 			},
 			control: { type: 'text' },
 		},
-		rangeInputInheritDefaultValues: {
+		rangeInputsInheritDefaultValues: {
 			defaultValue: false,
 			description: 'Enables facet range input values to default to the facet low and high limits',
 			table: {
@@ -126,7 +126,7 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
-		rangeInputSeparatorText: {
+		rangeInputsSeparatorText: {
 			description: 'Range inputs separator text',
 			table: {
 				type: {
