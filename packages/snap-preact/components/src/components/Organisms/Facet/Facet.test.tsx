@@ -396,9 +396,9 @@ describe('Facet Component', () => {
 				//@ts-ignore
 				facet: { ...sliderFacetMock, display: 'slider', type: 'range' } as RangeFacet,
 				rangeInputs: true,
-				rangeInputSubmitButtonText: 'Go',
+				rangeInputsSubmitButtonText: 'Go',
 				rangeInputsPrefix: '$',
-				rangeInputSeparatorText: '- to -',
+				rangeInputsSeparatorText: '- to -',
 			};
 			args.facet.collapsed = false;
 
@@ -418,11 +418,46 @@ describe('Facet Component', () => {
 
 			const submitButton = rangeInputsElement?.querySelector('.ss__facet__range-input__button--submit');
 			expect(submitButton).toBeInTheDocument();
-			expect(submitButton).toHaveTextContent(args.rangeInputSubmitButtonText);
+			expect(submitButton).toHaveTextContent(args.rangeInputsSubmitButtonText);
 
 			const sepElem = rangeInputsElement?.querySelector('.ss__facet__range-inputs__separator');
 			expect(sepElem).toBeInTheDocument();
-			expect(sepElem).toHaveTextContent(args.rangeInputSeparatorText);
+			expect(sepElem).toHaveTextContent(args.rangeInputsSeparatorText);
+		});
+
+		it('rangeInputInheritDefaultValues prop initializes inputs with facet range values', () => {
+			const args = {
+				facet: {
+					...sliderFacetMock,
+					display: 'slider',
+					collapsed: false,
+					type: 'range',
+					range: {
+						low: 10,
+						high: 100,
+					},
+					active: {
+						low: undefined,
+						high: undefined,
+					},
+				} as RangeFacet,
+				rangeInputs: true,
+				rangeInputsInheritDefaultValues: true,
+			};
+
+			const rendered = render(<Facet {...args} />);
+			const rangeInputsElement = rendered.container.querySelector('.ss__facet__range-inputs');
+			expect(rangeInputsElement).toBeInTheDocument();
+
+			const lowInput = rangeInputsElement?.querySelector('.ss__facet__range-input--low .ss__facet__range-input__input') as HTMLInputElement;
+			const highInput = rangeInputsElement?.querySelector('.ss__facet__range-input--high .ss__facet__range-input__input') as HTMLInputElement;
+
+			expect(lowInput).toBeInTheDocument();
+			expect(highInput).toBeInTheDocument();
+
+			// Check that inputs are initialized with the facet's range values
+			expect(lowInput.value).toBe(args.facet.range?.low?.toString());
+			expect(highInput.value).toBe(args.facet.range?.high?.toString());
 		});
 	});
 
