@@ -11,7 +11,7 @@
 		"access": "public"
 	},
 	"scripts": {
-		"build": "rm -rf ./dist && tsc && tsc -p tsconfig.cjs.json",
+		"build": "rm -rf ./dist && tsc & tsc -p tsconfig.cjs.json & wait",
 		"build:docs": "typedoc --out docs src/index.ts",
 		"dev": "tsc --watch",
 		"format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
