@@ -287,7 +287,7 @@ describe('Swatches Component', async () => {
 			cy.get('.ss__swatches__grid').should('exist');
 			cy.get('.ss__grid__option').should('have.length', defaultColumns);
 
-			cy.get('.ss__grid__option').should('satisfy', ($el) => {
+			cy.get('.ss__grid__option .ss__grid__option__inner').should('satisfy', ($el) => {
 				for (let i = 0; i < $el.length; i++) {
 					const backgroundStyle = $el[i].style.background;
 					return backgroundStyle == options[i].value.toLowerCase();
@@ -313,7 +313,7 @@ describe('Swatches Component', async () => {
 			cy.get('.ss__slideshow__next').should('not.exist');
 			cy.get('.ss__swatches__grid').should('exist');
 			cy.get('.ss__grid__option').should('have.length', defaultColumns);
-			cy.get('.ss__grid__option--selected')
+			cy.get('.ss__grid__option--selected .ss__grid__option__inner')
 				.should('exist')
 				.should('satisfy', ($el) => {
 					const backgroundStyle = $el[0].style.background;
