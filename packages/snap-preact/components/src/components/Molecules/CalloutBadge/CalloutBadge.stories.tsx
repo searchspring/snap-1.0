@@ -114,7 +114,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'CalloutBadge', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'CalloutBadge', globals: { siteId: 'atkzs2' } });
 
 const ObservableCalloutBadge = observer(({ args, controller }: { args: CalloutBadgeProps; controller: SearchController }) => {
 	return <CalloutBadge {...args} result={controller?.store?.results[0] as Product} />;

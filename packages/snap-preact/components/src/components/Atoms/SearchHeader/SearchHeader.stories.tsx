@@ -215,7 +215,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'SearchHeader', globals: { siteId: '8uyt2m', search: { query: { string: 'dress' } } } });
+const snapInstance = Snapify.search({ id: 'SearchHeader', globals: { siteId: 'atkzs2', search: { query: { string: 'dress' } } } });
 
 export const Default = (args: SearchHeaderProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	return <SearchHeader {...args} controller={controller} />;
@@ -232,7 +232,7 @@ Default.loaders = [
 
 const NoResultsSnapInstance = Snapify.search({
 	id: 'SearchHeader-noResults',
-	globals: { siteId: '8uyt2m', search: { query: { string: 'pokemon' } } },
+	globals: { siteId: 'atkzs2', search: { query: { string: 'pokemon' } } },
 });
 
 export const NoResults = (args: SearchHeaderProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
@@ -250,7 +250,7 @@ NoResults.loaders = [
 
 const correctedSnapInstance = Snapify.search({
 	id: 'SearchHeader-correctedResults',
-	globals: { siteId: '8uyt2m', search: { query: { string: 'drezz' } } },
+	globals: { siteId: 'atkzs2', search: { query: { string: 'drezz' } } },
 });
 
 export const CorrectedResults = (args: SearchHeaderProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
@@ -268,7 +268,7 @@ CorrectedResults.loaders = [
 
 const dymSnapInstance = Snapify.search({
 	id: 'SearchHeader-dymResults',
-	globals: { siteId: '8uyt2m', search: { query: { string: 'dnfarwts' } } },
+	globals: { siteId: 'atkzs2', search: { query: { string: 'dnfarwts' } } },
 });
 
 export const DidYouMeanResults = (args: SearchHeaderProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {

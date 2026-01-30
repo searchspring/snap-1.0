@@ -5,12 +5,49 @@ import { combineMerge } from '../../snap/src/middleware/functions';
 import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
 const siteId = 'atkzs2'; // at3qqg // at0wbx (for variant options)
 
+// const siteId = '8uyt2m';
+
+// const clientConfig = {
+// 	meta: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	search: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	autocomplete: {
+// 		requesters: {
+// 			suggest: {
+// 				origin: `https://${siteId}.a.searchspring.io`,
+// 			},
+// 			legacy: {
+// 				origin: `https://${siteId}.a.searchspring.io`,
+// 			},
+// 		},
+// 	},
+// 	finder: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	recommend: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// 	suggest: {
+// 		origin: `https://${siteId}.a.searchspring.io`,
+// 	},
+// };
 let config: SnapTemplatesConfig = {
 	config: {
 		siteId: siteId,
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
+		// client: clientConfig
+	},
+	plugins: {
+		common: {
+			addToCart: {
+				function: (data) => console.log('added to cart!', data),
+			},
+		},
 	},
 	components: {
 		result: {
@@ -18,7 +55,7 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'base',
+		extends: 'pike',
 		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
@@ -34,23 +71,7 @@ let config: SnapTemplatesConfig = {
 		},
 		style: globalStyles,
 		overrides: {
-			default: {
-				// 'autocompleteLayout': {
-				// 	className: '',
-				// 	width: '200px',
-				// },
-				// 'toolbar.top': {
-				// 	layout: ['facetsHorizontal']
-				// }
-				// 'toolbar.bottom': {
-				// 	layout: ['loadMore']
-				// }
-			},
-			// mobile: {
-			// 	'autocompleteFixed': {
-			// 		layout: 'standard'
-			// 	}
-			// }
+			default: {},
 		},
 	},
 	recommendation: {
@@ -79,9 +100,6 @@ let config: SnapTemplatesConfig = {
 			},
 		],
 		settings: {
-			variants: {
-				field: 'ss_variants',
-			},
 			// infinite: {
 			// 	backfill: 5,
 			// },

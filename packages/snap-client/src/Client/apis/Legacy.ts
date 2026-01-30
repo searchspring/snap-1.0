@@ -1,4 +1,4 @@
-import { MetaRequestModel, MetaResponseModel } from '@searchspring/snapi-types';
+import { MetaRequestModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 import { API, HTTPQuery } from '.';
 import { HTTPHeaders } from '../../types';

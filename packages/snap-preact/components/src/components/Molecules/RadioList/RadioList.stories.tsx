@@ -134,7 +134,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'RadioList', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'RadioList', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: RadioListProps) => <RadioList {...args} />;
 Default.args = {

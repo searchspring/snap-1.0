@@ -14,6 +14,7 @@ export const BundleSelector = observer((properties: BundleSelectorProps): JSX.El
 	const globalTheme: Theme = useTheme();
 	const defaultProps: Partial<BundleSelectorProps> = {
 		hideCheckboxes: false,
+		classNamePrefix: 'ss__recommendation-bundle',
 	};
 
 	const props = mergeProps('bundleSelector', globalTheme, defaultProps, properties);
@@ -21,7 +22,7 @@ export const BundleSelector = observer((properties: BundleSelectorProps): JSX.El
 	const { children, checked, icon, seedText, seed, hideCheckboxes, onCheck, title, className, internalClassName, treePath, classNamePrefix } = props;
 
 	const lastPath = treePath?.lastIndexOf(' ');
-	const modifiedTreePath = treePath?.slice(0, lastPath);
+	const modifiedTreePath = lastPath !== -1 ? treePath?.slice(0, lastPath) : treePath;
 
 	const subProps: BundleSelectorSubProps = {
 		icon: {
@@ -54,7 +55,6 @@ export const BundleSelector = observer((properties: BundleSelectorProps): JSX.El
 	//deep merge with props.lang
 	const lang = deepmerge({}, props.lang || {});
 	const mergedLang = useLang(lang as any, {});
-
 	return (
 		<div
 			className={classnames(

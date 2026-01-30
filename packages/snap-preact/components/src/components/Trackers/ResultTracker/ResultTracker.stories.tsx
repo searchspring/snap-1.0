@@ -65,7 +65,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'SearchResultTracker', globals: { siteId: '8uyt2m', search: { query: { string: '*' } } } });
+const snapInstance = Snapify.search({ id: 'SearchResultTracker', globals: { siteId: 'atkzs2', search: { query: { string: '*' } } } });
 
 export const Default = (props: ResultTrackerProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
 	const firstResult = controller?.store?.results[0] as Product;

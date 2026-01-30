@@ -5,7 +5,7 @@ import {
 	MetaResponseModel,
 	SearchRequestModel,
 	SearchResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import { API } from '.';
 import { HTTPHeaders } from '../../types';

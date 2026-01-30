@@ -89,14 +89,14 @@ export default {
 const snapInstance = Snapify.search({
 	id: 'search',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 	},
 });
 
 const noresultsInstance = Snapify.search({
 	id: 'noresults',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		search: {
 			query: {
 				string: 'eijworhufsbgd',

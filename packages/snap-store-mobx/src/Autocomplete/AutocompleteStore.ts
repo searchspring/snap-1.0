@@ -20,7 +20,7 @@ import {
 	AutocompleteHistoryStore,
 } from './Stores';
 
-import type { AutocompleteResponseModel, MetaResponseModel } from '@searchspring/snapi-types';
+import type { AutocompleteResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 import type { TrendingResponseModel } from '@searchspring/snap-client';
 import type { AutocompleteStoreConfig, StoreServices } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
@@ -229,6 +229,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 		}
 
 		this.filters = new SearchFilterStore({
+			config: this.config,
 			services: this.services,
 			data: {
 				search,

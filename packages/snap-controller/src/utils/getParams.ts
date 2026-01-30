@@ -3,7 +3,7 @@ import {
 	SearchRequestModelFilterTypeEnum,
 	SearchRequestModelFilterRange,
 	SearchRequestModelFilterValue,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 import type { ImmutableUrlState } from '@searchspring/snap-url-manager';
 
 export function getSearchParams(state: ImmutableUrlState): Record<string, any> {

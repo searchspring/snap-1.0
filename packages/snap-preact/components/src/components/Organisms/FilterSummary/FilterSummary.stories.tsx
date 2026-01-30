@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FilterSummary/readme.md';
 import type { SearchController } from '@searchspring/snap-controller';
-import type { SearchRequestModelFilterValue } from '@searchspring/snapi-types';
+import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 
 export default {
 	title: 'Organisms/FilterSummary',
@@ -183,7 +183,7 @@ export default {
 const snapInstance = Snapify.search({
 	id: 'FilterSummary',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		filters: [
 			{
 				type: 'value',

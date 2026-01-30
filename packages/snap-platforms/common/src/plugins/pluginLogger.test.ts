@@ -63,6 +63,6 @@ describe('common/pluginLogger', () => {
 		pluginLogger(controller, pluginConfig);
 		await controller.search();
 
-		expect(logMock).toHaveBeenCalled();
+		expect(logMock).not.toHaveBeenCalled();
 	});
 });

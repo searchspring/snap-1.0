@@ -14,7 +14,7 @@ import type {
 	MetaResponseModelFacetDefaults,
 	MetaResponseModelFacetSlider,
 	SearchResponseModelFacetRangeBuckets,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 const services = {
 	urlManager: new UrlManager(new UrlTranslator()),

@@ -18,7 +18,7 @@ import type {
 	SearchRequestModelFilterRangeAllOfValue,
 	SearchResponseModel,
 	MetaResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 export type SearchFacetStoreConfig = {
 	config: SearchStoreConfig | AutocompleteStoreConfig;
@@ -105,7 +105,7 @@ export class SearchFacetStore extends Array {
 
 export class Facet {
 	public services: StoreServices;
-	public type!: string;
+	public type!: 'range' | 'value' | 'range-buckets';
 	public field!: string;
 	public filtered = false;
 	public custom = {};
