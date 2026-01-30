@@ -19,7 +19,7 @@ import type {
 	SearchResponseModel,
 	AutocompleteRequestModel,
 	AutocompleteResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import deepmerge from 'deepmerge';
 

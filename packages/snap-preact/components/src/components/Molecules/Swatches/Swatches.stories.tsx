@@ -165,7 +165,7 @@ Disabled.args = {
 		{ value: 'Black', label: 'Black', disabled: false },
 		{ value: 'White', label: 'White', disabled: true },
 	],
-	type: 'carousel',
+	type: 'slideshow',
 } as SwatchesProps;
 
 GradientBackground.args = {

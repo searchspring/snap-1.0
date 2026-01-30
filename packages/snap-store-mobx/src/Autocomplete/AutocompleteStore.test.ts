@@ -2,7 +2,7 @@ import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
 import { MockData } from '@searchspring/snap-shared';
 
 import { AutocompleteStore } from './AutocompleteStore';
-import { AutocompleteResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@searchspring/snapi-types';
+import { AutocompleteResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@athoscommerce/snapi-types';
 
 const services = {
 	urlManager: new UrlManager(new UrlTranslator()).detach(),

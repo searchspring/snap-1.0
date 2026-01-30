@@ -7,6 +7,9 @@ Renders a list of facet options.
 - Radio
 
 ## Usage
+```jsx
+import { FacetListOptions } from '@searchspring/snap-preact-components';
+```
 
 ### values
 The `values` prop specifies all facet values where the facet type is 'list'. Overrides values passed via the facet prop. 
@@ -72,7 +75,7 @@ If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.p
 ### valueProps
 The `valueProps` prop will be spread onto each value's `<a>` element. Typical usage would be to provide custom callback functions when used within Autocomplete.
 
-```typescript
+```js
 const valueProps = {
 	onMouseEnter: (e) => {
 		clearTimeout(delayTimeout);

@@ -40,6 +40,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 		pagination: false,
 		loop: true,
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
+		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
@@ -68,6 +69,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 
 	const {
 		title,
+		description,
 		controller,
 		children,
 		loop,
@@ -167,6 +169,8 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 								{title}
 							</h3>
 						)}
+						{description && <h4 className="ss__recommendation__description">{description}</h4>}
+
 						<Carousel
 							prevButton={prevButton}
 							nextButton={nextButton}
@@ -221,6 +225,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 export type RecommendationProps = {
 	controller: RecommendationController;
 	title?: JSX.Element | string;
+	description?: string;
 	hideTitle?: boolean;
 	breakpoints?: BreakpointsProps;
 	prevButton?: JSX.Element | string;

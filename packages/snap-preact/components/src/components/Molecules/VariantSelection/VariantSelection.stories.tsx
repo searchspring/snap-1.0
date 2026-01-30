@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../VariantSelection/readme.md';
 import { Snapify } from '../../../utilities/snapify';
 import { Next } from '@searchspring/snap-event-manager';
-import { SearchResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 export default {
 	title: 'Molecules/VariantSelection',
@@ -63,6 +63,15 @@ export default {
 			// 	options: ['dropdown', 'list', 'swatches'],
 			// },
 		},
+		onSelect: {
+			description: 'onSelect callback',
+			table: {
+				type: {
+					summary: 'function(e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption)',
+				},
+			},
+			action: 'onSelect',
+		},
 		...componentArgs,
 	},
 };
@@ -116,12 +125,7 @@ const values = [
 const config: SearchControllerConfig = {
 	id: 'searchVariants',
 	globals: {
-		siteId: '8uyt2m',
-	},
-	settings: {
-		variants: {
-			field: 'ss_variants',
-		},
+		siteId: 'atkzs2',
 	},
 };
 

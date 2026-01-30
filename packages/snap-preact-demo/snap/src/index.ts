@@ -144,11 +144,6 @@ let config: SnapConfig = {
 				// branch: BRANCHNAME,
 				branch: 'production',
 				plugins: [[mutateResultsURL]],
-				settings: {
-					variants: {
-						field: 'ss_variants',
-					},
-				},
 			},
 		},
 	},
@@ -164,9 +159,6 @@ let config: SnapConfig = {
 						},
 						redirects: {
 							singleResult: false,
-						},
-						variants: {
-							field: 'ss_variants',
 						},
 						restorePosition: {
 							enabled: true,

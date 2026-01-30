@@ -5,7 +5,7 @@ import { ThemeProvider } from '../../../providers';
 
 import userEvent from '@testing-library/user-event';
 import { ValueFacet, RangeFacet, SearchFacetStore, StorageStore } from '@searchspring/snap-store-mobx';
-import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@searchspring/snapi-types';
+import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 import { MockData } from '@searchspring/snap-shared';
 import { QueryStringTranslator, reactLinker, UrlManager } from '@searchspring/snap-url-manager';
 import { IconType } from '../../Atoms/Icon';
@@ -390,6 +390,75 @@ describe('Facet Component', () => {
 			const optionsElement = rendered.container.querySelector('.ss__facet__options');
 			expect(optionsElement).toHaveTextContent('Summer');
 		});
+
+		it('rangeInputs, rangeInputSubmitButtonText & rangeInputsPrefix props', () => {
+			const args = {
+				//@ts-ignore
+				facet: { ...sliderFacetMock, display: 'slider', type: 'range' } as RangeFacet,
+				rangeInputs: true,
+				rangeInputsSubmitButtonText: 'Go',
+				rangeInputsPrefix: '$',
+				rangeInputsSeparatorText: '- to -',
+			};
+			args.facet.collapsed = false;
+
+			const rendered = render(<Facet {...args} />);
+			const facetElement = rendered.container.querySelector('.ss__facet__options')!;
+			expect(facetElement).toBeInTheDocument();
+
+			const rangeInputsElement = rendered.container.querySelector('.ss__facet__range-inputs');
+			expect(rangeInputsElement).toBeInTheDocument();
+
+			const inputs = rangeInputsElement?.querySelectorAll('.ss__facet__range-input');
+			expect(inputs?.length).toBe(2);
+
+			const prefixes = rangeInputsElement?.querySelectorAll('.ss__facet__range-input__prefix');
+			expect(prefixes?.length).toBe(2);
+			expect(prefixes?.[0]).toHaveTextContent(args.rangeInputsPrefix);
+
+			const submitButton = rangeInputsElement?.querySelector('.ss__facet__range-input__button--submit');
+			expect(submitButton).toBeInTheDocument();
+			expect(submitButton).toHaveTextContent(args.rangeInputsSubmitButtonText);
+
+			const sepElem = rangeInputsElement?.querySelector('.ss__facet__range-inputs__separator');
+			expect(sepElem).toBeInTheDocument();
+			expect(sepElem).toHaveTextContent(args.rangeInputsSeparatorText);
+		});
+
+		it('rangeInputInheritDefaultValues prop initializes inputs with facet range values', () => {
+			const args = {
+				facet: {
+					...sliderFacetMock,
+					display: 'slider',
+					collapsed: false,
+					type: 'range',
+					range: {
+						low: 10,
+						high: 100,
+					},
+					active: {
+						low: undefined,
+						high: undefined,
+					},
+				} as RangeFacet,
+				rangeInputs: true,
+				rangeInputsInheritDefaultValues: true,
+			};
+
+			const rendered = render(<Facet {...args} />);
+			const rangeInputsElement = rendered.container.querySelector('.ss__facet__range-inputs');
+			expect(rangeInputsElement).toBeInTheDocument();
+
+			const lowInput = rangeInputsElement?.querySelector('.ss__facet__range-input--low .ss__facet__range-input__input') as HTMLInputElement;
+			const highInput = rangeInputsElement?.querySelector('.ss__facet__range-input--high .ss__facet__range-input__input') as HTMLInputElement;
+
+			expect(lowInput).toBeInTheDocument();
+			expect(highInput).toBeInTheDocument();
+
+			// Check that inputs are initialized with the facet's range values
+			expect(lowInput.value).toBe(args.facet.range?.low?.toString());
+			expect(highInput.value).toBe(args.facet.range?.high?.toString());
+		});
 	});
 
 	it('renders with classname', () => {
@@ -414,7 +483,7 @@ describe('Facet Component', () => {
 
 		const facetElement = rendered.container.querySelector('.ss__facet');
 
-		expect(facetElement?.classList).toHaveLength(3);
+		expect(facetElement?.classList).toHaveLength(2);
 	});
 
 	describe('Facet lang works', () => {
@@ -662,7 +731,7 @@ describe('Facet Component', () => {
 			const propTheme = {
 				components: {
 					facet: {
-						className: 'classy',
+						className: 'test-class',
 					},
 				},
 			};

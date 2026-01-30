@@ -15,10 +15,16 @@ The `SearchController` is used when making queries to the API `search` endpoint.
 | settings.facets.trim | facets that do not change results will be removed | true |   |
 | settings.facets.autoOpenActive | setting for "auto open" functionality for facets that are filtered (active), collapsed, and have no stored data | true |   |
 | settings.facets.fields | object keyed by individual facet fields for configuration of any settings.facets options | ➖ |   |
+| settings.filters.fields | object keyed by individual filter fields for configuration of any settings.filters options | ➖ |   |
+| settings.filters.hierarchy.enabled | boolean to enable/disable selected hierarchy facets from showing in the filters  | false |   |
+| settings.filters.hierarchy.showFullPath | boolean to show the full hierarchy path in the filter  | false |   |
+| settings.filters.hierarchy.displayDelimiter | string to adjust the delimiter between each level of the full hierarchy path | ' / ' |   |
+| settings.filters.rangeFormatValue | setting to re-format the value of a range filter using sprintf  | false |   |
 | settings.history.max | how many search terms should be kept in the history store | 25 |   | 
 | settings.history.url | allows for adjust the root URL for history store terms (default is relative URLs) | ➖ |   | 
 | settings.pagination.pageSizeOptions | setting to change the page size options available | ➖ |   | 
 | settings.variants.field | used to set the field in which to grab the variant data from | ➖ |   | 
+| settings.variants.showDisabledSelectionValues | determines if completely out of stock (disabled) options should appear in variant selections | false |   | 
 | settings.variants.realtime.enabled | enable real time variant updates | ➖ |   | 
 | settings.variants.realtime.filters | specify which filters to use to determine which results are updated | ➖ |   | 
 | settings.variants.options | object keyed by individual option field values for configuration of any option settings  | ➖ |   | 
@@ -27,62 +33,26 @@ The `SearchController` is used when making queries to the API `search` endpoint.
 | settings.restorePosition.enabled | boolean to enable/disable using `restorePosition` event middleware to restore the window scroll position when navigating back to previous page (when using infinite this is automatically set to true) | false |   |
 | settings.restorePosition.onPageShow | boolean to enable/disable having restorePosition occur on the 'pageshow' window event (requires `restorePosition.enable`) | false |   |
 
-<br>
-
-```typescript
-const searchConfig = {
-	id: 'search',
-	globals: {
-		pagination: {
-			pageSize: 12
-		}
-	}
-};
-```
-## Instantiate
-`SearchController` requires a `SearchControllerConfig` and `ControllerServices` object and is paired with a `SearchStore`. The `SearchStore` takes the same config, and shares the `UrlManager` service with the controller.
-
-```typescript
-import { SearchController } from '@searchspring/snap-controller';
-import { Client } from '@searchspring/snap-client';
-import { SearchStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-
-const searchUrlManager = new UrlManager(new UrlTranslator(), reactLinker);
-const searchController = new SearchController(searchConfig, {
-	client: new Client({ siteId: 'abc123' }),
-	store: new SearchStore(searchConfig, { urlManager: searchUrlManager }),
-	urlManager: searchUrlManager,
-	eventManager: new EventManager(),
-	profiler: new Profiler(),
-	logger: new Logger(),
-	tracker: new Tracker(),
-});
-```
 
 ## Initialize
 Invoking the `init` method is required to subscribe to changes that occur in the UrlManager. This is typically done automatically prior to calling the first `search`.
 
-```typescript
+```js
 searchController.init();
 ```
 
 ## Search
 This will invoke a search request to Searchspring's search API and populate the store with the response.
 
-```typescript
+```js
 searchController.search();
 ```
 
 ## AddToCart
 This will invoke an addToCart event (see below). Takes an array of Products as a parameter. 
 
-```typescript
-searchController.addToCart(products);
+```js
+searchController.addToCart([searchController.store.results[0]]);
 ```
 
 ## Search History
@@ -93,7 +63,7 @@ When `config.settings.infinite` is defined and `store.pagination.next.url.go({ h
 
 If the page has been reloaded, the results will be reset to page 1.
 
-```typescript
+```js
 const searchConfig = {
 	id: 'search',
 	globals: {
@@ -110,7 +80,7 @@ const searchConfig = {
 ### Backfill
 If `config.settings.infinite.backfill` is specified, any page reloads when paginated up to the specified value will fetch previous pages to backfill.
 
-```typescript
+```js
 const searchConfig = {
 	id: 'search',
 	globals: {
@@ -133,7 +103,7 @@ Any time you navigate back to a previous page, this setting will tell the contro
 
 When using infinite scroll, it is recommended to specify a value for `config.settings.infinite.backfill` to ensure that when returning to the product listing page, that the product is there to scroll to.
 
-```typescript
+```js
 const searchConfig = {
 	id: 'search',
 	globals: {
@@ -167,7 +137,7 @@ The optional `pageSizeOptions` property gives the ability to overwrite the defau
 `active` - boolean stating if current page size matches the value of this option
 
 
-```typescript
+```js
 const searchConfig = {
 	id: 'search',
 	settings: {

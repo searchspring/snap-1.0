@@ -1,0 +1,122 @@
+{
+    "facets": {
+        "collection_handle": {
+            "multiple": "or",
+            "display": "grid",
+            "label": "Collection",
+            "collapsed": false
+        },
+        "color": {
+            "multiple": "or",
+            "display": "palette",
+            "label": "Color",
+            "collapsed": false
+        },
+        "price": {
+            "display": "slider",
+            "label": "Price",
+            "collapsed": false,
+            "formatSeparator": "-",
+            "formatValue": ""
+        }
+    },
+    "sortOptions": [
+        {
+            "type": "relevance",
+            "field": "relevance",
+            "direction": "desc",
+            "label": "Best Match"
+        },
+        {
+            "type": "field",
+            "field": "price",
+            "direction": "asc",
+            "label": "Price ($ - $$$)"
+        },
+        {
+            "type": "field",
+            "field": "price",
+            "direction": "desc",
+            "label": "Price ($$$ - $)"
+        },
+        {
+            "type": "field",
+            "field": "title",
+            "direction": "asc",
+            "label": "Name (A - Z)"
+        },
+        {
+            "type": "field",
+            "field": "title",
+            "direction": "desc",
+            "label": "Name (Z - A)"
+        }
+    ],
+    "pagination": {
+        "defaultPageSize": 30
+    },
+    "badges": {
+        "locations": {
+            "callout": [
+                {
+                    "name": "Callout",
+                    "tag": "callout"
+                }
+            ],
+            "left": [
+                {
+                    "name": "Left",
+                    "tag": "left"
+                }
+            ],
+            "right": [
+                {
+                    "name": "Right",
+                    "tag": "right"
+                }
+            ]
+        },
+        "tags": {
+            "all-products": {
+                "enabled": true,
+                "location": "right/right",
+                "priority": 1,
+                "component": "BadgePill",
+                "parameters": {
+                    "color": "#ffffff",
+                    "colorText": "#ff0000"
+                }
+            },
+            "black": {
+                "enabled": true,
+                "location": "left/left",
+                "priority": 1,
+                "component": "BadgePill",
+                "parameters": {
+                    "color": "#000000",
+                    "colorText": "#ffffff"
+                }
+            },
+            "black-callout": {
+                "enabled": true,
+                "location": "callout/callout",
+                "priority": 1,
+                "component": "BadgeRectangle",
+                "parameters": {
+                    "color": "#ff0000",
+                    "colorText": "#000000"
+                }
+            },
+            "sale": {
+                "enabled": true,
+                "location": "left/left",
+                "priority": 2,
+                "component": "BadgePill",
+                "parameters": {
+                    "color": "#f20000",
+                    "colorText": "#000000"
+                }
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ import { FacetHierarchyOptions } from './FacetHierarchyOptions';
 import { SearchFacetStore, StorageStore, type FacetHierarchyValue } from '@searchspring/snap-store-mobx';
 
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@searchspring/snapi-types';
+import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 import { QueryStringTranslator, reactLinker, UrlManager } from '@searchspring/snap-url-manager';
 
 const mockData = new MockData();

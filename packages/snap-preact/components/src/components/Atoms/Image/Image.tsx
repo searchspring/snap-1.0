@@ -43,7 +43,7 @@ export function Image(properties: ImageProps): JSX.Element {
 
 	const props = mergeProps('image', globalTheme, defaultProps, properties);
 
-	const { alt, src, fallback, hoverSrc, lazy, onMouseOver, onMouseOut, onError, onLoad, onClick, className, internalClassName } = props;
+	const { alt, src, fallback, title, hoverSrc, lazy, onMouseOver, onMouseOut, onError, onLoad, onClick, className, internalClassName } = props;
 
 	const [visibile, setVisibile] = useState(false);
 	const [isHovering, setHover] = useState(false);
@@ -64,7 +64,7 @@ export function Image(properties: ImageProps): JSX.Element {
 				<img
 					src={(isHovering ? hoverSrc : src) || fallback}
 					alt={alt}
-					title={alt}
+					title={title || alt}
 					loading={lazy ? 'lazy' : undefined}
 					onLoad={(e: React.MouseEvent<HTMLImageElement>) => {
 						setVisibile(true);
@@ -92,6 +92,7 @@ export function Image(properties: ImageProps): JSX.Element {
 export interface ImageProps extends ComponentProps {
 	alt: string;
 	src: string;
+	title?: string;
 	fallback?: string;
 	height?: string;
 	hoverSrc?: string;
