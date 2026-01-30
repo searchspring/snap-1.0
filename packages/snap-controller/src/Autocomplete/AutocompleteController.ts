@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore, ErrorType, Product, Banner } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, Product, Banner, MerchandisingContentBanner } from '@searchspring/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
@@ -8,19 +8,22 @@ import { ControllerTypes } from '../types';
 import { AutocompleteStore } from '@searchspring/snap-store-mobx';
 import type { AutocompleteControllerConfig, AutocompleteAfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
 import type { Next } from '@searchspring/snap-event-manager';
-import type { AutocompleteRequestModel, SearchRequestModelFilterRange, SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
+import type { AutocompleteRequestModel, AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
 import {
-	type AutocompleteAddtocartSchemaData,
-	type AutocompleteRedirectSchemaData,
-	type AutocompleteSchemaData,
-	type Item,
 	type Product as BeaconProduct,
-	type AutocompleteAddtocartSchemaDataFilterInner,
-	type AutocompleteAddtocartSchemaDataBgfilterInner,
-	type AutocompleteAddtocartSchemaDataSortInnerDirEnum,
-	ItemTypeEnum,
+	ResultsInner,
+	ResultProductType,
+	RenderSchemaData,
+	ImpressionSchemaData,
+	ClickthroughSchemaData,
+	AddtocartSchemaData,
+	RedirectSchemaData,
+	ClickthroughResultsInner,
+	ClickthroughBannersInner,
+	BannersInner,
 } from '@searchspring/beacon';
 import { CLICK_DUPLICATION_TIMEOUT, isClickWithinProductLink } from '../utils/isClickWithinProductLink';
+import { isClickWithinBannerLink } from '../utils/isClickWithinBannerLink';
 
 const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;
@@ -55,14 +58,18 @@ const defaultConfig: AutocompleteControllerConfig = {
 };
 
 type AutocompleteTrackMethods = {
+	banner: {
+		click: (e: MouseEvent, merchandisingBanner: MerchandisingContentBanner) => void;
+		clickThrough: (e: MouseEvent, merchandisingBanner: MerchandisingContentBanner) => void;
+		impression: (merchandisingBanner: MerchandisingContentBanner) => void;
+	};
 	product: {
-		clickThrough: (e: MouseEvent, result: Product) => void;
+		clickThrough: (e: MouseEvent, result: Product | Banner) => void;
 		click: (e: MouseEvent, result: Product | Banner) => void;
-		render: (result: Product) => void;
-		impression: (result: Product) => void;
+		impression: (result: Product | Banner) => void;
 		addToCart: (results: Product) => void;
 	};
-	redirect: (redirectURL: string) => void;
+	redirect: ({ redirectURL, responseId }: { redirectURL: string; responseId: string }) => void;
 };
 
 export class AutocompleteController extends AbstractController {
@@ -72,19 +79,23 @@ export class AutocompleteController extends AbstractController {
 	public storage: StorageStore;
 	private lastSearchQuery: string | undefined;
 
-	events: {
-		product: Record<
-			string,
-			{
-				click?: boolean;
-				clickThrough?: boolean;
-				impression?: boolean;
-				render?: boolean;
-			}
-		>;
-	} = {
-		product: {},
-	};
+	private events: {
+		[responseId: string]: {
+			product: {
+				[id: string]: {
+					inlineBannerClickThrough?: boolean;
+					productClickThrough?: boolean;
+					impression?: boolean;
+				};
+			};
+			banner: {
+				[id: string]: {
+					impression?: boolean;
+					clickThrough?: boolean;
+				};
+			};
+		};
+	} = {};
 
 	constructor(
 		config: AutocompleteControllerConfig,
@@ -138,24 +149,10 @@ export class AutocompleteController extends AbstractController {
 		this.eventManager.on('afterStore', async (search: AfterStoreObj, next: Next): Promise<void | boolean> => {
 			await next();
 			const controller = search.controller as AutocompleteController;
+			const responseId = search.response.search.tracking.responseId;
 			if (controller.store.loaded && !controller.store.error) {
-				const products = controller.store.results.filter((result) => result.type === 'product') as Product[];
-
-				if (products.length === 0 && !search.response._cached) {
-					// handle no results
-					const data = getAutocompleteSchemaData({ params: search.request, store: this.store });
-					this.eventManager.fire('track.product.render', { controller: this, trackEvent: data });
-					this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
-				}
-
-				products.forEach((result) => {
-					if (!search.response._cached) {
-						this.track.product.render(result);
-					} else {
-						this.events.product[result.id] = this.events.product[result.id] || {};
-						this.events.product[result.id].render = true;
-					}
-				});
+				const data: RenderSchemaData = { responseId };
+				this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
 			}
 		});
 
@@ -178,7 +175,7 @@ export class AutocompleteController extends AbstractController {
 			const inputState = (ac.controller as AutocompleteController).store.state.input;
 			const redirectURL = (ac.controller as AutocompleteController).store.merchandising?.redirect;
 			if (this.config?.settings?.redirects?.merchandising && inputState && redirectURL) {
-				this.track.redirect(redirectURL);
+				this.track.redirect({ redirectURL, responseId: (ac.controller as AutocompleteController).store.merchandising?.responseId });
 				window.location.href = redirectURL;
 				return false;
 			}
@@ -199,60 +196,141 @@ export class AutocompleteController extends AbstractController {
 	}
 
 	track: AutocompleteTrackMethods = {
-		product: {
-			clickThrough: (e: MouseEvent, result): void => {
-				if (this.events.product[result.id]?.clickThrough) {
+		banner: {
+			impression: (_banner): void => {
+				const { responseId, uid } = _banner;
+				if (this.events[responseId]?.banner?.[uid]?.impression) {
 					return;
 				}
-				const data = getAutocompleteSchemaData({ params: this.params, store: this.store, results: [result] });
-				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
-				this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
-				this.events.product[result.id] = this.events.product[result.id] || {};
-				this.events.product[result.id].clickThrough = true;
+
+				const banner: BannersInner = { uid };
+				const data: ImpressionSchemaData = {
+					responseId,
+					banners: [banner],
+					results: [],
+				};
+				this.eventManager.fire('track.banner.impression', { controller: this, product: { uid }, trackEvent: data });
+				this.tracker.events.autocomplete.impression({ data, siteId: this.config.globals?.siteId });
+				this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
+				this.events[responseId].banner[uid].impression = true;
 			},
-			click: (e: MouseEvent, result): void => {
-				if (this.events.product[result.id]?.click) {
-					return;
+			click: (e: MouseEvent, banner: MerchandisingContentBanner): void => {
+				const { responseId, uid } = banner;
+				if (isClickWithinBannerLink(e)) {
+					if (this.events?.[responseId]?.banner[uid]?.clickThrough) {
+						return;
+					}
+					this.track.banner.clickThrough(e, banner);
+					this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
+					this.events[responseId].banner[uid].clickThrough = true;
+					setTimeout(() => {
+						this.events[responseId].banner[uid].clickThrough = false;
+					}, CLICK_DUPLICATION_TIMEOUT);
 				}
-
-				if (result.type === 'banner') {
-					return;
-				}
-
-				isClickWithinProductLink(e, result as Product) && this.track.product.clickThrough(e, result as Product);
-
-				this.events.product[result.id] = this.events.product[result.id] || {};
-				this.events.product[result.id].click = true;
+			},
+			clickThrough: (e: MouseEvent, { uid, responseId }): void => {
+				const banner: ClickthroughBannersInner = { uid };
+				const data: ClickthroughSchemaData = {
+					responseId,
+					banners: [banner],
+				};
+				this.eventManager.fire('track.banner.clickThrough', { controller: this, event: e, product: { uid }, trackEvent: data });
+				this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
+				this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
+				this.events[responseId].banner[uid].clickThrough = true;
 				setTimeout(() => {
-					this.events.product[result.id].click = false;
+					this.events[responseId].banner[uid].clickThrough = false;
 				}, CLICK_DUPLICATION_TIMEOUT);
 			},
-			render: (result: Product) => {
-				if (this.events.product[result.id]?.render) return;
+		},
+		product: {
+			clickThrough: (e: MouseEvent, result: Product | Banner): void => {
+				const responseId = result.responseId;
+				const item: ClickthroughResultsInner = {
+					type: result.type as ResultProductType,
+					uid: result.id,
+					parentId: result.id,
+					sku: result.mappings.core?.sku,
+				};
 
-				const data = getAutocompleteSchemaData({ params: this.params, store: this.store, results: result ? [result] : [] });
-				this.eventManager.fire('track.product.render', { controller: this, product: result, trackEvent: data });
-				this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
-				this.events.product[result.id] = this.events.product[result.id] || {};
-				this.events.product[result.id].render = true;
+				const data: ClickthroughSchemaData = {
+					responseId,
+					results: [item],
+				};
+				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
+				this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
 			},
-			impression: (result: Product): void => {
-				if (this.events.product[result.id]?.impression || !this.events.product[result.id]?.render) return;
+			click: (e: MouseEvent, result: Product | Banner): void => {
+				const responseId = result.responseId;
 
-				const data = getAutocompleteSchemaData({ params: this.params, store: this.store, results: [result] });
+				if (result.type === 'banner' && isClickWithinBannerLink(e)) {
+					if (this.events?.[responseId]?.product[result.id]?.inlineBannerClickThrough) {
+						return;
+					}
+					this.track.product.clickThrough(e, result as Banner);
+					this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
+					this.events[responseId].product[result.id].inlineBannerClickThrough = true;
+					setTimeout(() => {
+						this.events[responseId].product[result.id].inlineBannerClickThrough = false;
+					}, CLICK_DUPLICATION_TIMEOUT);
+				} else if (isClickWithinProductLink(e, result as Product)) {
+					if (this.events?.[responseId]?.product[result.id]?.productClickThrough) {
+						return;
+					}
+					this.track.product.clickThrough(e, result as Product);
+					this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
+					this.events[responseId].product[result.id].productClickThrough = true;
+					setTimeout(() => {
+						this.events[responseId].product[result.id].productClickThrough = false;
+					}, CLICK_DUPLICATION_TIMEOUT);
+				}
+			},
+			impression: (result: Product | Banner): void => {
+				const responseId = result.responseId;
+				if (this.events?.[responseId]?.product[result.id]?.impression) {
+					return;
+				}
+				const item: ResultsInner = {
+					type: result.type as ResultProductType,
+					uid: result.id,
+					parentId: result.id,
+					sku: result.mappings.core?.sku,
+				};
+				const data: ImpressionSchemaData = {
+					responseId,
+					results: [item],
+					banners: [],
+				};
 				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
 				this.tracker.events.autocomplete.impression({ data, siteId: this.config.globals?.siteId });
-				this.events.product[result.id] = this.events.product[result.id] || {};
-				this.events.product[result.id].impression = true;
+				console.log(this.events);
+				console.log(responseId, result);
+				console.log(this.events[responseId]);
+				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
+				this.events[responseId].product[result.id].impression = true;
 			},
 			addToCart: (result: Product): void => {
-				const data = getAutocompleteAddtocartSchemaData({ params: this.params, store: this.store, results: [result] });
+				const responseId = result.responseId;
+				const product: BeaconProduct = {
+					parentId: result.id,
+					uid: result.id,
+					sku: result.mappings.core?.sku,
+					qty: result.quantity || 1,
+					price: Number(result.mappings.core?.price),
+				};
+				const data: AddtocartSchemaData = {
+					responseId,
+					results: [product],
+				};
 				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
 				this.tracker.events.autocomplete.addToCart({ data, siteId: this.config.globals?.siteId });
 			},
 		},
-		redirect: (redirectURL: string): void => {
-			const data = getAutocompleteRedirectSchemaData({ redirectURL });
+		redirect: ({ redirectURL, responseId }): void => {
+			const data: RedirectSchemaData = {
+				responseId,
+				redirect: redirectURL,
+			};
 			this.eventManager.fire('track.redirect', { controller: this, redirectURL, trackEvent: data });
 			this.tracker.events.autocomplete.redirect({ data, siteId: this.config.globals?.siteId });
 		},
@@ -276,6 +354,16 @@ export class AutocompleteController extends AbstractController {
 		}
 		if (pageLoadId) {
 			params.tracking!.pageLoadId = pageLoadId;
+		}
+
+		if (this.store.state.input) {
+			params.search = params.search || {};
+			params.search.input = this.store.state.input;
+		}
+
+		if (this.store.state.source) {
+			params.search = params.search || {};
+			params.search.source = this.store.state.source;
 		}
 
 		if (!this.config.globals?.personalization?.disabled) {
@@ -482,6 +570,7 @@ export class AutocompleteController extends AbstractController {
 					return;
 				}
 
+				this.store.state.source = 'input' as AutocompleteRequestModelSearchSourceEnum;
 				this.store.state.input = value;
 
 				// remove merch redirect to prevent race condition
@@ -714,17 +803,23 @@ export class AutocompleteController extends AbstractController {
 			searchProfile.stop();
 			this.log.profile(searchProfile);
 
-			if (search?.search?.query === this.lastSearchQuery) {
-				const impressedResultIds = Object.keys(this.events.product).filter((resultId) => this.events.product[resultId]?.impression);
-				this.events = {
+			const responseId = search.tracking.responseId;
+			this.events[responseId] = this.events[responseId] || { product: {}, banner: {} };
+
+			if (search.search?.query === this.lastSearchQuery) {
+				const impressedResultIds = Object.keys(this.events[responseId].product || {}).filter(
+					(resultId) => this.events[responseId].product?.[resultId]?.impression
+				);
+				this.events[responseId] = {
 					product: impressedResultIds.reduce<Record<string, { impression: boolean }>>((acc, resultId) => {
 						acc[resultId] = { impression: true };
 						return acc;
 					}, {}),
+					banner: this.events[responseId].banner,
 				};
 			} else {
-				this.events = { product: {} };
-				this.lastSearchQuery = search?.search?.query;
+				this.events[responseId] = { product: {}, banner: {} };
+				this.lastSearchQuery = search.search?.query;
 			}
 
 			const afterSearchProfile = this.profiler.create({ type: 'event', name: 'afterSearch', context: params }).start();
@@ -909,116 +1004,4 @@ function unbindFormParameters(form: HTMLFormElement, fn: any): void {
 			}
 		}
 	}
-}
-
-function getAutocompleteRedirectSchemaData({ redirectURL }: { redirectURL: string }): AutocompleteRedirectSchemaData {
-	return {
-		redirect: redirectURL,
-	};
-}
-
-function getAutocompleteAddtocartSchemaData({
-	params,
-	store,
-	results,
-}: {
-	params: AutocompleteRequestModel;
-	store: AutocompleteStore;
-	results?: Product[];
-}): AutocompleteAddtocartSchemaData {
-	const base = getAutocompleteSchemaData({ params, store, results });
-	return {
-		...base,
-		results:
-			results?.map((result: Product): BeaconProduct => {
-				const core = (result as Product).mappings.core!;
-				return {
-					uid: core.parentId || core.uid || '',
-					sku: core.sku,
-					price: Number(core.price),
-					qty: result.quantity || 1,
-				};
-			}) || [],
-	};
-}
-function getAutocompleteSchemaData({
-	params,
-	store,
-	results,
-}: {
-	params: AutocompleteRequestModel;
-	store: AutocompleteStore;
-	results?: Product[];
-}): AutocompleteSchemaData {
-	const filters = params.filters?.reduce<{
-		bgfilter?: Array<AutocompleteAddtocartSchemaDataBgfilterInner>;
-		filter?: Array<AutocompleteAddtocartSchemaDataFilterInner>;
-	}>((acc, filter) => {
-		const key = filter.background ? 'bgfilter' : 'filter';
-		acc[key] = acc[key] || [];
-
-		const value =
-			filter.type === 'range' &&
-			!isNaN((filter as SearchRequestModelFilterRange).value?.low!) &&
-			!isNaN((filter as SearchRequestModelFilterRange).value?.high!)
-				? [`low=${(filter as SearchRequestModelFilterRange).value?.low}`, `high=${(filter as SearchRequestModelFilterRange).value?.high}`]
-				: [`${(filter as SearchRequestModelFilterValue).value}`];
-
-		const existing = acc[key]!.find((item) => item.field === filter.field);
-		if (existing && !existing.value!.includes(value[0])) {
-			existing.value!.push(...value);
-		} else {
-			acc[key]!.push({
-				field: filter.field,
-				value,
-			});
-		}
-
-		return acc;
-	}, {});
-	return {
-		q: store.search?.originalQuery?.string || store.search?.query?.string || '',
-		rq: params.search?.subQuery ? params.search?.subQuery : undefined,
-		correctedQuery: store.search?.originalQuery?.string ? store.search?.query?.string : undefined,
-		matchType: store.search.matchType,
-		...filters,
-		sort: params.sorts?.map((sort) => {
-			return {
-				field: sort.field,
-				dir: sort.direction as AutocompleteAddtocartSchemaDataSortInnerDirEnum,
-			};
-		}),
-		pagination: {
-			totalResults: store.pagination.totalResults,
-			page: store.pagination.page,
-			resultsPerPage: store.pagination.pageSize,
-		},
-		merchandising: {
-			personalized: store.merchandising.personalized,
-			redirect: store.merchandising.redirect,
-			triggeredCampaigns:
-				(store.merchandising.campaigns?.length &&
-					store.merchandising.campaigns?.map((campaign) => {
-						const experiement = store.merchandising.experiments.find((experiment) => experiment.campaignId === campaign.id);
-						return {
-							id: campaign.id,
-							experimentId: experiement?.experimentId,
-							variationId: experiement?.variationId,
-						};
-					})) ||
-				undefined,
-		},
-		banners: [],
-		results:
-			results?.map((result: Product): Item => {
-				const core = result.mappings.core!;
-				const position = result.position;
-				return {
-					type: ItemTypeEnum.Product,
-					position,
-					uid: core.parentId || core?.uid || '',
-					sku: core.sku,
-				};
-			}) || [],
-	};
 }

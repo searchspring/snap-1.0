@@ -6,7 +6,7 @@ import type {
 	AutocompleteRequestModel,
 	MetaResponseModel,
 } from '@athoscommerce/snapi-types';
-import { NO_BEACON_PARAM } from './Client/transforms';
+import { BEACON_PARAM } from './Client/transforms';
 
 export type HTTPHeaders = { [key: string]: string };
 
@@ -150,7 +150,7 @@ export type RecommendPostRequestModel = {
 	withRecInfo?: boolean;
 	blockedItems?: string[];
 	filters?: RecommendPostRequestFiltersModel[];
-	[NO_BEACON_PARAM]?: boolean;
+	[BEACON_PARAM]?: boolean;
 };
 
 export type RecommendPostRequestProfileModel = {
@@ -175,6 +175,7 @@ export type RecommendResponseModel = {
 		tag: string;
 	};
 	results: SearchResponseModelResult[];
+	responseId: string;
 };
 
 export type ProfileRequestModel = {
@@ -220,4 +221,6 @@ type RecommendationRequestValueFilterModel = {
 	value: string | number;
 };
 
-export type RecommendCombinedResponseModel = ProfileResponseModel & { results: SearchResponseModelResult[] } & { meta: MetaResponseModel };
+export type RecommendCombinedResponseModel = ProfileResponseModel & { results: SearchResponseModelResult[] } & { meta: MetaResponseModel } & {
+	responseId: string;
+};

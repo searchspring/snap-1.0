@@ -41,7 +41,11 @@ describe('Filter Store', () => {
 		const filters = new SearchFilterStore({
 			services,
 			data: {
-				search: {},
+				search: {
+					tracking: {
+						responseId: '1234',
+					},
+				},
 				meta: {},
 			},
 		});

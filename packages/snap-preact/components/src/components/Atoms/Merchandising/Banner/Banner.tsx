@@ -3,12 +3,13 @@ import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 
-import { Theme, useTheme, CacheProvider, useTreePath } from '../../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath, withTracking, withController } from '../../../../providers';
 import { mergeProps, mergeStyles } from '../../../../utilities';
 
 import { BannerContent, ContentType } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { AutocompleteController, SearchController } from '@searchspring/snap-controller';
 import { ComponentProps, StyleScript } from '../../../../types';
+import { useCallback } from 'preact/hooks';
 
 const defaultStyles: StyleScript<BannerProps> = () => {
 	return css({
@@ -22,49 +23,57 @@ const defaultStyles: StyleScript<BannerProps> = () => {
 	});
 };
 
-export const Banner = observer((properties: BannerProps): JSX.Element => {
-	const globalTheme: Theme = useTheme();
-	const globalTreePath = useTreePath();
+export const Banner = withController<any>(
+	observer((properties: BannerProps): JSX.Element => {
+		const globalTheme: Theme = useTheme();
+		const globalTreePath = useTreePath();
+		const defaultProps: Partial<BannerProps> = {
+			treePath: globalTreePath,
+		};
 
-	const defaultProps: Partial<BannerProps> = {
-		treePath: globalTreePath,
-	};
+		const props = mergeProps('banner', globalTheme, defaultProps, properties);
 
-	const props = mergeProps('banner', globalTheme, defaultProps, properties);
+		const { controller, type, className, internalClassName } = props;
+		const content = props.content || controller?.store?.merchandising.content;
 
-	const { controller, type, className, internalClassName } = props;
+		if (type === ContentType.INLINE) {
+			console.warn(`BannerType '${ContentType.INLINE}' is not supported in <Banner /> component`);
+			return <Fragment></Fragment>;
+		}
 
-	const content = props.content || controller?.store?.merchandising.content;
+		const styling = mergeStyles<BannerProps>(props, defaultStyles);
 
-	if (type === ContentType.INLINE) {
-		console.warn(`BannerType '${ContentType.INLINE}' is not supported in <Banner /> component`);
-		return <Fragment></Fragment>;
-	}
+		const banner = content?.[type]?.[0];
+		const value = banner?.value;
+		if (!type || !value) {
+			return <Fragment></Fragment>;
+		}
+		const Content = useCallback(
+			withTracking((trackingProps) => {
+				return (
+					<div
+						className={classnames('ss__banner', `ss__banner--${type}`, className, internalClassName)}
+						{...styling}
+						ref={trackingProps.trackingRef}
+						dangerouslySetInnerHTML={{
+							__html: typeof value === 'string' ? value : value.join(''),
+						}}
+					/>
+				);
+			}),
+			[value, type]
+		);
 
-	const styling = mergeStyles<BannerProps>(props, defaultStyles);
-
-	let bannerContent;
-	if (content && content[type]) {
-		bannerContent = content[type] as string[];
-	}
-
-	return bannerContent && bannerContent.length ? (
-		<CacheProvider>
-			<div
-				className={classnames('ss__banner', `ss__banner--${type}`, className, internalClassName)}
-				{...styling}
-				dangerouslySetInnerHTML={{
-					__html: bannerContent.join(''),
-				}}
-			/>
-		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
-});
+		return (
+			<CacheProvider>
+				<Content {...props} />
+			</CacheProvider>
+		);
+	})
+);
 
 export interface BannerProps extends ComponentProps {
-	controller?: SearchController;
+	controller?: SearchController | AutocompleteController;
 	content?: BannerContent;
 	type: ContentType;
 }

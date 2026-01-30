@@ -34,7 +34,7 @@ type FinderSelectionStoreConfig = {
 		loading: boolean;
 	};
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 		selections: SelectedSelection[];
 	};

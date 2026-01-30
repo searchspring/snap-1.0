@@ -1,7 +1,8 @@
 import { h, Fragment } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { withController } from '@searchspring/snap-preact/components';
+import { withController, Banner } from '@searchspring/snap-preact/components';
+import { ContentType } from '@searchspring/snap-store-mobx';
 
 type HeaderProps = {
 	controller?: SearchController;
@@ -14,6 +15,7 @@ export const Header = withController(
 
 		return (
 			<header className="ss-header-container">
+				<Banner type={ContentType.HEADER} content={controller.store.merchandising.content} />
 				{landingPage ? (
 					<h3 className="ss__search-header--landingPageTitle">{landingPage.title}</h3>
 				) : (

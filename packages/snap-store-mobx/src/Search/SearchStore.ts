@@ -17,7 +17,7 @@ import { StorageStore } from '../Storage/StorageStore';
 import { MetaStore } from '../Meta/MetaStore';
 
 export class SearchStore extends AbstractStore<SearchStoreConfig> {
-	private declare previousSearch: SearchResponseModel;
+	private declare previousSearch?: SearchResponseModel;
 	public services: StoreServices;
 	public meta?: MetaStore;
 	public merchandising!: SearchMerchandisingStore;
@@ -46,7 +46,7 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 			config: this.config,
 		});
 
-		this.update({ search: {}, meta: {} });
+		this.update();
 
 		makeObservable(this, {
 			search: observable,
@@ -60,11 +60,11 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 	}
 
 	public reset(): void {
-		this.update({ search: {}, meta: {} });
+		this.update();
 	}
 
-	public update(data: { search: SearchResponseModel; meta: MetaResponseModel }): void {
-		const { search, meta } = data || {};
+	public update(data?: { meta?: MetaResponseModel; search?: SearchResponseModel }): void {
+		const { meta, search } = data || {};
 		this.meta = new MetaStore({
 			data: {
 				meta,
@@ -79,7 +79,7 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 		this.search = new SearchQueryStore({
 			services: this.services,
 			data: {
-				search,
+				search: search,
 			},
 		});
 
@@ -138,7 +138,6 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 
 		this.error = undefined;
 		this.loaded = Boolean(search?.pagination);
-
 		this.previousSearch = search;
 	}
 }
