@@ -2,7 +2,7 @@
 An interface for setting and getting cookies.
 
 ```js
-import { cookies } from '@searchspring/snap-toolbox';
+import { cookies } from '@athoscommerce/snap-toolbox';
 ```
 
 ## `set` function

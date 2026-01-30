@@ -2,10 +2,10 @@ import 'whatwg-fetch';
 import { v4 as uuidv4 } from 'uuid';
 import type { SearchControllerConfig } from '../../../../snap-controller/src/types';
 import { NetworkCache } from '../NetworkCache/NetworkCache';
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 const mockData = new MockData();
-const CACHE_STORAGE_KEY = 'ss-networkcache';
+const CACHE_STORAGE_KEY = 'athos-networkcache';
 
 const typedResponse = mockData.meta() as Response;
 

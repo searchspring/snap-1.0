@@ -1,8 +1,8 @@
 import { observable, makeObservable } from 'mobx';
 
-import { escapeHTML } from '@searchspring/snap-toolbox';
+import { escapeHTML } from '@athoscommerce/snap-toolbox';
 
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import type { StoreServices } from '../../types';
 import type { SearchResponseModel, SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 

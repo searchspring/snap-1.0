@@ -1,4 +1,4 @@
-import type { AbstractController } from '@searchspring/snap-controller';
+import type { AbstractController } from '@athoscommerce/snap-controller';
 
 export function parseProps<T>(controller: AbstractController, props: T): T {
 	const parsedProps: any = props;

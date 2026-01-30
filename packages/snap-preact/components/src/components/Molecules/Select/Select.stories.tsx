@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import { iconPaths } from '../../Atoms/Icon';
 import Readme from '../Select/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { ListOption } from '../../../types';
 
 export default {

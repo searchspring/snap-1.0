@@ -15,7 +15,7 @@ const config = {
 	selectors: {
 		website: {
 			openInputButton: '', // selector for a button to click in order to make the input visible
-			input: '.searchspring-ac', // selector of <input> elements (config.controllers[].autocomplete[].config.selector)
+			input: '.athos-ac', // selector of <input> elements (config.controllers[].autocomplete[].config.selector)
 		},
 		autocomplete: {
 			main: '.ss__autocomplete',
@@ -44,7 +44,7 @@ describe('Autocomplete', () => {
 
 			cy.waitForBundle().then(() => {
 				cy.window().then((window) => {
-					expect(window.searchspring).to.exist;
+					expect(window.athos).to.exist;
 				});
 			});
 

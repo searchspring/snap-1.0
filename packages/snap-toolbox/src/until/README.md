@@ -6,7 +6,7 @@ The function takes a single required parameter containing any function, object, 
 Typical usage may include waiting for a third party function to become available.
 
 ```js
-import { until } from '@searchspring/snap-toolbox';
+import { until } from '@athoscommerce/snap-toolbox';
 const result = await until(window.thirdPartyFn);
 ```
 

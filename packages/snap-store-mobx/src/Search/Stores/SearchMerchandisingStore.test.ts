@@ -1,4 +1,4 @@
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import { SearchMerchandisingStore } from './SearchMerchandisingStore';
 

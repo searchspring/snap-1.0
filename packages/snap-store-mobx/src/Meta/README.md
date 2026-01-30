@@ -1,6 +1,6 @@
 # MetaStore
 
-The `MetaStore` contains the response from the Searchspring meta API which includes information about site configuration and feature settings. A `MetaStore` can be found on each root store's `meta` property. These include: 
+The `MetaStore` contains the response from the Athos meta API which includes information about site configuration and feature settings. A `MetaStore` can be found on each root store's `meta` property. These include: 
 
 - [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search)
 - [AutocompleteStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Autocomplete)

@@ -50,8 +50,12 @@ const JAVASCRIPT_KEYWORDS = new Set([
 
 export function getContext(evaluate: string[] = [], script?: HTMLScriptElement | string): ContextVariables {
 	if (!script || typeof script === 'string') {
-		const scripts = Array.from(document.querySelectorAll((script as string) || 'script[id^=searchspring], script[src*="snapui.searchspring.io"]'));
-
+		const scripts = Array.from(
+			document.querySelectorAll(
+				(script as string) ||
+					'script[id^=searchspring], script[id=athos-context], script[src*="snapui.searchspring.io"], script[src*="snapui.athoscommerce.io"]'
+			)
+		);
 		script = scripts
 			.sort((a, b) => {
 				// order them by innerHTML (so that popped script has innerHTML)
@@ -70,9 +74,11 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 	if (
 		!scriptElem.getAttribute('type')?.match(/^searchspring/i) &&
 		!scriptElem.id?.match(/^searchspring/i) &&
-		!scriptElem.src?.match(/\/\/snapui.searchspring.io/i)
+		!scriptElem.id?.match(/athos-context/) &&
+		!scriptElem.src?.match(/\/\/snapui.searchspring.io/i) &&
+		!scriptElem.src?.match(/\/\/snapui.athoscommerce.io/i)
 	) {
-		throw new Error('getContext: did not find a script from Snap CDN or with attribute (type, id) starting with "searchspring"');
+		throw new Error('getContext: did not find a script from Snap CDN or with attribute (type, id) starting with "athos-context"');
 	}
 
 	if ((evaluate && !Array.isArray(evaluate)) || (evaluate && !evaluate.reduce((accu, name) => accu && typeof name === 'string', true))) {
@@ -142,13 +148,12 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 	if (evaluate.includes(siteIdString)) {
 		// if we didnt find a siteId in the context, lets grab the id from the src url.
 		if (!variables[siteIdString]) {
-			const siteId = script.getAttribute('src')?.match(/.*snapui.searchspring.io\/([a-zA-Z0-9]{6})\//);
+			const siteId = script.getAttribute('src')?.match(/.*snapui.(?:searchspring|athoscommerce).io\/([a-zA-Z0-9]{6})\//);
 			if (siteId && siteId.length > 1) {
 				variables.siteId = siteId[1];
 			}
 		}
 	}
-
 	return variables;
 }
 

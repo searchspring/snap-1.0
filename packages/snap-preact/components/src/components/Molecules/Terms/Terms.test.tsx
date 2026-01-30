@@ -5,20 +5,20 @@ import { render, waitFor } from '@testing-library/preact';
 import { ThemeProvider } from '../../../providers';
 
 import { Terms } from './Terms';
-import { AutocompleteController, AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import { AutocompleteController, AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 import { createAutocompleteController } from '../../../../../src/create';
-import { MockClient } from '@searchspring/snap-shared';
+import { MockClient } from '@athoscommerce/snap-shared';
 import userEvent from '@testing-library/user-event';
 
-import { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 
 describe('Terms Component', () => {
 	const globals = { siteId: '8uyt2m' };
 	let controllerConfigId = uuidv4().split('-').join('');
 	let acConfig: AutocompleteControllerConfig = {
 		id: controllerConfigId,
-		selector: 'input.searchspring-ac',
+		selector: 'input.athos-ac',
 		settings: {
 			trending: {
 				limit: 5,
@@ -108,10 +108,10 @@ describe('Terms Component', () => {
 	});
 
 	it('Can use emify', async () => {
-		document.body.innerHTML = '<div>' + '  <input type="text" class="searchspring-ac">' + '<div id="target"></div></div>';
+		document.body.innerHTML = '<div>' + '  <input type="text" class="athos-ac">' + '<div id="target"></div></div>';
 		mockClient.mockData.updateConfig({ autocomplete: 'default' });
 
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		expect(input).toBeInTheDocument();
 
 		await controller.bind();

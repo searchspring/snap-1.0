@@ -5,9 +5,9 @@ import userEvent from '@testing-library/user-event';
 
 import { InlineBanner } from './InlineBanner';
 import { ThemeProvider } from '../../../../providers';
-import type { Banner } from '@searchspring/snap-store-mobx';
+import type { Banner } from '@athoscommerce/snap-store-mobx';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge';
-import { AppMode, version } from '@searchspring/snap-toolbox';
+import { AppMode, version } from '@athoscommerce/snap-toolbox';
 
 import { fibonacci } from '../utils/fibonacci';
 import { NetworkCache } from '../NetworkCache/NetworkCache';

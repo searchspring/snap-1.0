@@ -7,8 +7,8 @@ import deepmerge from 'deepmerge';
 
 import type { SwiperOptions } from 'swiper/types';
 
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 
 import { Carousel, CarouselProps, defaultCarouselBreakpoints, defaultVerticalCarouselBreakpoints } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';

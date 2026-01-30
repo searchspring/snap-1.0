@@ -8,8 +8,8 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../CalloutBadge/readme.md';
 
-import type { SearchController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 
 export default {
 	title: 'Molecules/CalloutBadge',

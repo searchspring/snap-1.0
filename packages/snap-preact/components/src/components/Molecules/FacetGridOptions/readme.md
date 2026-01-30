@@ -4,7 +4,7 @@ Renders a grid of facet options.
 
 ## Usage
 ```jsx
-import { FacetGridOptions } from '@searchspring/snap-preact-components';
+import { FacetGridOptions } from '@athoscommerce/snap-preact-components';
 ```
 
 ### values

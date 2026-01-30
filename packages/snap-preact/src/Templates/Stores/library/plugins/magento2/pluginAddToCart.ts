@@ -1,1 +1,1 @@
-export { pluginAddToCart } from '@searchspring/snap-platforms/magento2';
+export { pluginAddToCart } from '@athoscommerce/snap-platforms/magento2';

@@ -14,7 +14,7 @@ import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { ComponentProps, FacetDisplay, StyleScript } from '../../../types';
-import type { ValueFacet, RangeFacet, FacetHierarchyValue, FacetValue, FacetRangeValue } from '@searchspring/snap-store-mobx';
+import type { ValueFacet, RangeFacet, FacetHierarchyValue, FacetValue, FacetRangeValue } from '@athoscommerce/snap-store-mobx';
 
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -23,7 +23,7 @@ import { useA11y } from '../../../hooks/useA11y';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Button, ButtonProps } from '../../Atoms/Button';
-import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
+import { fieldNameToComponentName } from '@athoscommerce/snap-toolbox';
 import { LangAttributesObj } from '../../../hooks/useLang';
 
 const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme }) => {

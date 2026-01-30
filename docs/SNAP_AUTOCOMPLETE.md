@@ -14,7 +14,7 @@ However in our example, since they are both the same value, the Autocomplete com
 ```js
 // src/index.js
 
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const snap = new Snap({
     client: {
@@ -42,7 +42,7 @@ const snap = new Snap({
                         selector: 'header input[type="search"]',
                         hideTarget: true,
                         component: async () => {
-                            return (await import('@searchspring/snap-preact-components')).Autocomplete;
+                            return (await import('@athoscommerce/snap-preact-components')).Autocomplete;
                         },
                     },
                 ],
@@ -56,7 +56,7 @@ const snap = new Snap({
 
 ## Autocomplete Store
 
-It is recommended to utilizing the [Autocomplete](https://searchspring.github.io/snap/preact-components?params=?path=/story/organisms-autocomplete--default) component from `@searchspring/snap-preact-components` to display Autocomplete.
+It is recommended to utilizing the [Autocomplete](https://searchspring.github.io/snap/preact-components?params=?path=/story/organisms-autocomplete--default) component from `@athoscommerce/snap-preact-components` to display Autocomplete.
 
 The following properties are specific to an Autocomplete Store via an Autocomplete Controller.
 

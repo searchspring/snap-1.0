@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 import { Client } from './Client';
 import type { ClientConfig } from '../types';
-import { MockData } from '@searchspring/snap-shared';
-import { AppMode, version } from '@searchspring/snap-toolbox';
+import { MockData } from '@athoscommerce/snap-shared';
+import { AppMode, version } from '@athoscommerce/snap-toolbox';
 import { NO_BEACON_PARAM } from './transforms';
 
 const mockData = new MockData();

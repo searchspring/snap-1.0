@@ -6,7 +6,7 @@ import { Banner, BannerProps } from './Banner';
 import { componentArgs, highlightedCode } from '../../../../utilities';
 import { Snapify } from '../../../../utilities/snapify';
 import Readme from './readme.md';
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Atoms/Banner',

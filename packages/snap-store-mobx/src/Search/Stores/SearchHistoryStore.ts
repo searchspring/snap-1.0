@@ -31,7 +31,7 @@ export class SearchHistoryStore {
 
 		this.storage = new StorageStore({
 			type: 'local',
-			key: `ss-history${this.config.globals?.siteId ? `-${this.config.globals?.siteId}` : ``}`,
+			key: `athos-history${this.config.globals?.siteId ? `-${this.config.globals?.siteId}` : ``}`,
 		});
 
 		// reset to zero to clear any potentially existing terms

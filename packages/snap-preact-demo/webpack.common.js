@@ -5,7 +5,7 @@ import childProcess from 'child_process';
 const branchName = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
 // class name for for branch override usage
-const styleClass = 'ss-snap-bundle-styles';
+const styleClass = 'athos-snap-bundle-styles';
 
 export default {
 	stats: {

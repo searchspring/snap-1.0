@@ -8,7 +8,7 @@ import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Grid, GridProps } from '../Grid';
 import { ImageProps, Image } from '../../Atoms/Image';
 import deepmerge from 'deepmerge';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import Color from 'color';
 import { Slideshow, SlideshowSlide, SlideshowProps } from '../Slideshow';
 import { useState } from 'preact/hooks';

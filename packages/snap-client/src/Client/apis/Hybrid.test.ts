@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 import { ApiConfiguration } from './Abstract';
 import { HybridAPI } from './Hybrid';
-import { MockData } from '@searchspring/snap-shared';
-import { version } from '@searchspring/snap-toolbox';
+import { MockData } from '@athoscommerce/snap-shared';
+import { version } from '@athoscommerce/snap-toolbox';
 
 const mockData = new MockData();
 

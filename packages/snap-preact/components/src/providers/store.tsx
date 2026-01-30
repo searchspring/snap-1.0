@@ -1,6 +1,6 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
-import type { AbstractStore } from '@searchspring/snap-store-mobx';
+import type { AbstractStore } from '@athoscommerce/snap-store-mobx';
 
 const StoreContext = createContext<null | AbstractStore>(null);
 

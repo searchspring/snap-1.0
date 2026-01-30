@@ -5,7 +5,7 @@ Renders an image badge. It is expected to be used with `CalloutBadge` and `Overl
 ## Usage
 
 ```jsx
-import { BadgeImage } from '@searchspring/snap-preact-components';
+import { BadgeImage } from '@athoscommerce/snap-preact-components';
 ```
 
 ### url

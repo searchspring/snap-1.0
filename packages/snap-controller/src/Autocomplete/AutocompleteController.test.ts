@@ -1,17 +1,17 @@
 import 'whatwg-fetch';
 import { v4 as uuidv4 } from 'uuid';
 
-import { AutocompleteStore } from '@searchspring/snap-store-mobx';
-import type { AutocompleteStoreConfig, Product } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { Tracker } from '@searchspring/snap-tracker';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
+import { AutocompleteStore } from '@athoscommerce/snap-store-mobx';
+import type { AutocompleteStoreConfig, Product } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
 import { AutocompleteController, INPUT_DELAY as _INPUT_DELAY } from './AutocompleteController';
 import { waitFor } from '@testing-library/preact';
 
-import { MockClient } from '@searchspring/snap-shared';
+import { MockClient } from '@athoscommerce/snap-shared';
 import deepmerge from 'deepmerge';
 
 const KEY_ENTER = 13;

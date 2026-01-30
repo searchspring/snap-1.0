@@ -81,7 +81,7 @@ Consider a website with a different query parameter:
 You would want to override the default `queryParameter` and `urlRoot` options during instantiation of the `QueryStringTranslator`:
 
 ```js
-import { UrlManager, QueryStringTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, QueryStringTranslator } from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(new QueryStringTranslator({ queryParameter: 'search', urlRoot: '/search' }));
 
@@ -96,7 +96,7 @@ console.log(urlManager.href); // /search?search=green%20shirt
 `urlRoot` specifies a root URL to use when URLs are created in the `serialize` method. By default any parameters in the `urlRoot` will be preserved and added to the final serialized URL; this can be disabled by setting the `settings.serializeUrlRoot` configuration to `false`.
 
 ```js
-import { UrlManager, QueryStringTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, QueryStringTranslator } from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(
 	new QueryStringTranslator({

@@ -12,7 +12,7 @@ The autocomplete layout renders terms, facets, banners, and results.
 
 ## Usage
 ```jsx
-import { Autocomplete } from '@searchspring/snap-preact-components';
+import { Autocomplete } from '@athoscommerce/snap-preact-components';
 ```
 
 ### input

@@ -6,8 +6,8 @@ import userEvent from '@testing-library/user-event';
 
 import { ThemeProvider } from '../../../providers';
 import { Autocomplete } from './Autocomplete';
-import { MockClient } from '@searchspring/snap-shared';
-import { AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 import { createAutocompleteController } from '../../../../../src/create';
 import { waitFor } from '@testing-library/preact';
 
@@ -27,12 +27,12 @@ describe('Autocomplete Component', () => {
 	mockClient.mockData.updateConfig({ meta: 'ac.meta' });
 
 	beforeEach(() => {
-		document.body.innerHTML = '<div>' + '  <input type="text" class="searchspring-ac">' + '<div id="target"></div></div>';
+		document.body.innerHTML = '<div>' + '  <input type="text" class="athos-ac">' + '<div id="target"></div></div>';
 		controllerConfigId = uuidv4().split('-').join('');
 
 		acConfig = {
 			id: controllerConfigId,
-			selector: 'input.searchspring-ac',
+			selector: 'input.athos-ac',
 			settings: {
 				trending: {
 					limit: 5,
@@ -48,7 +48,7 @@ describe('Autocomplete Component', () => {
 	});
 
 	it('contains an input element on the page', () => {
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		expect(input).toBeInTheDocument();
 	});
 
@@ -75,7 +75,7 @@ describe('Autocomplete Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		(input as HTMLInputElement).focus();
 
 		const rendered = render(<Autocomplete {...args} />, { container });
@@ -103,7 +103,7 @@ describe('Autocomplete Component', () => {
 			breakpoints,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -125,7 +125,7 @@ describe('Autocomplete Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 		const rendered = render(<Autocomplete {...args} />, { container });
@@ -150,7 +150,7 @@ describe('Autocomplete Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -232,7 +232,7 @@ describe('Autocomplete Component', () => {
 		});
 		global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key]);
 		const historyData = ['dress', 'sleep', 'shirt', 'sandal', 'shoes'];
-		global.localStorage.setItem(`ss-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
+		global.localStorage.setItem(`athos-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
 
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
@@ -263,7 +263,7 @@ describe('Autocomplete Component', () => {
 			retainTrending: true,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -328,7 +328,7 @@ describe('Autocomplete Component', () => {
 			hideBanners: false,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		input.value = 'dress';
@@ -357,7 +357,7 @@ describe('Autocomplete Component', () => {
 		});
 		global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key]);
 		const historyData = ['dress', 'sleep', 'shirt', 'sandal', 'shoes'];
-		global.localStorage.setItem(`ss-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
+		global.localStorage.setItem(`athos-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
 
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
@@ -375,7 +375,7 @@ describe('Autocomplete Component', () => {
 			retainTrending: true,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -411,7 +411,7 @@ describe('Autocomplete Component', () => {
 		});
 		global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key]);
 		const historyData = ['dress', 'sleep', 'shirt', 'sandal', 'shoes'];
-		global.localStorage.setItem(`ss-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
+		global.localStorage.setItem(`athos-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
 
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
@@ -422,7 +422,7 @@ describe('Autocomplete Component', () => {
 			seeMoreButtonText: (controller: any) => `${controller.id} expand search`,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -450,7 +450,7 @@ describe('Autocomplete Component', () => {
 			resultComponent: customResultComponent,
 		};
 
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		(input as HTMLInputElement).focus();
 
 		const rendered = render(<Autocomplete {...args} />, { container });
@@ -475,12 +475,12 @@ describe('Autocomplete Component', () => {
 		});
 		global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key]);
 		const historyData = ['dress', 'sleep', 'shirt', 'sandal', 'shoes'];
-		global.localStorage.setItem(`ss-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
+		global.localStorage.setItem(`athos-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
 
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const args = {
 			controller,
@@ -559,7 +559,7 @@ describe('Autocomplete Component', () => {
 
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.query.blank' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 
 		const rendered = render(<Autocomplete {...args} />, { container });
@@ -583,7 +583,7 @@ describe('Autocomplete Component', () => {
 			linkSlot: <div id="findMe">custom linkSlot</div>,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -620,7 +620,7 @@ describe('Autocomplete Component', () => {
 			contentSlot: <div>Lorem Ipsum</div>,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -645,7 +645,7 @@ describe('Autocomplete Component', () => {
 
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.noresults' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.value = 'efjii4iieiiedid';
 
 		input.focus();
@@ -661,7 +661,7 @@ describe('Autocomplete Component', () => {
 	it('auto selects first trending term', async () => {
 		const trendingACConfig = {
 			id: controllerConfigId,
-			selector: 'input.searchspring-ac',
+			selector: 'input.athos-ac',
 			settings: {
 				trending: {
 					limit: 5,
@@ -678,7 +678,7 @@ describe('Autocomplete Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		(input as HTMLInputElement).focus();
 
 		const rendered = render(<Autocomplete {...args} />, { container });
@@ -714,7 +714,7 @@ describe('Autocomplete Component', () => {
 			width: '100%',
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -753,7 +753,7 @@ describe('Autocomplete Component', () => {
 			breakpoints: customBreakpoints,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -786,7 +786,7 @@ describe('Autocomplete Component', () => {
 		});
 		global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key]);
 		const historyData = ['dress', 'sleep', 'shirt', 'sandal', 'shoes'];
-		global.localStorage.setItem(`ss-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
+		global.localStorage.setItem(`athos-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
 
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
@@ -798,7 +798,7 @@ describe('Autocomplete Component', () => {
 			retainHistory: true,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -880,7 +880,6 @@ describe('Autocomplete Component', () => {
 				expect(autocomplete).toBeInTheDocument();
 
 				const langElems = rendered.container.querySelectorAll(`[ss-lang=${option}]`);
-				console.log(option);
 
 				expect(langElems.length).toBeGreaterThan(0);
 				langElems.forEach((elem) => {
@@ -1001,7 +1000,7 @@ describe('Autocomplete Component', () => {
 
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.noresults' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.value = 'efjii4iieiiedid';
 
 		input.focus();
@@ -1084,7 +1083,7 @@ describe('Autocomplete Component', () => {
 				input: controller.config.selector,
 			};
 
-			const input = document.querySelector('.searchspring-ac');
+			const input = document.querySelector('.athos-ac');
 			(input as HTMLInputElement).focus();
 
 			const rendered = render(
@@ -1122,7 +1121,7 @@ describe('Autocomplete Component', () => {
 				input: controller.config.selector,
 			};
 
-			const input = document.querySelector('.searchspring-ac');
+			const input = document.querySelector('.athos-ac');
 			(input as HTMLInputElement).focus();
 
 			const rendered = render(<Autocomplete {...args} theme={propTheme} />, { container });
@@ -1173,7 +1172,7 @@ describe('Autocomplete Component', () => {
 				input: controller.config.selector,
 			};
 
-			const input = document.querySelector('.searchspring-ac');
+			const input = document.querySelector('.athos-ac');
 			(input as HTMLInputElement).focus();
 
 			const rendered = render(
@@ -1261,7 +1260,7 @@ describe('Autocomplete Component', () => {
 				theme: theme,
 			};
 
-			const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+			const input = document.querySelector('.athos-ac') as HTMLInputElement;
 			input.focus();
 			input.value = 'dress';
 

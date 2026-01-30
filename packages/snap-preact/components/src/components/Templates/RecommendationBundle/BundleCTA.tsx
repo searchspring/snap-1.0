@@ -8,7 +8,7 @@ import { Button, ButtonProps } from '../../Atoms/Button';
 import { Price, PriceProps } from '../../Atoms/Price';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
 import type { ComponentProps } from '../../../types';
-import type { CartStore } from '@searchspring/snap-store-mobx';
+import type { CartStore } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 

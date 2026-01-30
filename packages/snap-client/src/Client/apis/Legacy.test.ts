@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { ApiConfiguration } from './Abstract';
 import { LegacyAPI } from './Legacy';
-import { version } from '@searchspring/snap-toolbox';
+import { version } from '@athoscommerce/snap-toolbox';
 
 describe('Legacy Api', () => {
 	it('has expected default functions', () => {

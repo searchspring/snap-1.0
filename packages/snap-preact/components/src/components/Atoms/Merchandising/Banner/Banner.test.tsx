@@ -3,10 +3,10 @@ import { h } from 'preact';
 import { render } from '@testing-library/preact';
 
 import { Banner } from './Banner';
-import { ContentType } from '@searchspring/snap-store-mobx';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
 import { ThemeProvider } from '../../../../providers';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

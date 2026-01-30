@@ -19,7 +19,7 @@ npm install -g snapfu
 
 This will create a new project with a git repo from a list of available scaffolds. The `[projectname]` argument is optional and will create a directory with the given name. Otherwise the project will be created in the current directory.
 
-During this you will also be prompted for your Site ID and secret key, which you find in the [Searchspring Management Console](https://manage.searchspring.net)
+During this you will also be prompted for your Site ID and secret key, which you find in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 ```sh
 snapfu init [projectname]
@@ -66,7 +66,7 @@ A minimal mockup file (shown below) contains only the necessary script and targe
 		<div id="searchspring-sidebar"></div>
 	</body>
 
-	<script src="bundle.js" id="searchspring-context"></script>
+	<script src="bundle.js" id="athos-context"></script>
 </html>
 ```
 

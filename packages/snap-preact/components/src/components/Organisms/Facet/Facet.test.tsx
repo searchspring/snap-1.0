@@ -4,10 +4,10 @@ import { Facet, FacetProps } from './Facet';
 import { ThemeProvider } from '../../../providers';
 
 import userEvent from '@testing-library/user-event';
-import { ValueFacet, RangeFacet, SearchFacetStore, StorageStore } from '@searchspring/snap-store-mobx';
+import { ValueFacet, RangeFacet, SearchFacetStore, StorageStore } from '@athoscommerce/snap-store-mobx';
 import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
-import { MockData } from '@searchspring/snap-shared';
-import { QueryStringTranslator, reactLinker, UrlManager } from '@searchspring/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
+import { QueryStringTranslator, reactLinker, UrlManager } from '@athoscommerce/snap-url-manager';
 import { IconType } from '../../Atoms/Icon';
 
 const mockData = new MockData();

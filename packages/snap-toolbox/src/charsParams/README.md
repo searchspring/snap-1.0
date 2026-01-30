@@ -2,7 +2,7 @@
 This utility function returns the length (in bytes) of a given object. 
 
 ```js
-import { charsParams } from '@searchspring/snap-toolbox';
+import { charsParams } from '@athoscommerce/snap-toolbox';
 
 const params = { query: "hello" };
 

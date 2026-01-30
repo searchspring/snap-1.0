@@ -2,7 +2,7 @@
 `DomTargeter` is a utility used for rendering components in specified DOM targets. 
 
 ```js
-import { DomTargeter } from '@searchspring/snap-toolbox';
+import { DomTargeter } from '@athoscommerce/snap-toolbox';
 ```
 
 The constructor accepts an array of targets, an onTarget callback function, and optionally the Document.
@@ -262,7 +262,7 @@ const targets = contentTarget.getTargets();
 ## Complete Example
 
 ```js
-import { DomTargeter } from '@searchspring/snap-toolbox';
+import { DomTargeter } from '@athoscommerce/snap-toolbox';
 import { render } from 'preact';
 
 const targeter = new DomTargeter(

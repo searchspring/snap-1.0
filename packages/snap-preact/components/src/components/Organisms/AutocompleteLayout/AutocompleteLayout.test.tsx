@@ -3,8 +3,8 @@ import { h } from 'preact';
 import { v4 as uuidv4 } from 'uuid';
 import { render } from '@testing-library/preact';
 import { AutocompleteLayout, AutocompleteLayoutProps } from './AutocompleteLayout';
-import { MockClient } from '@searchspring/snap-shared';
-import { AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 import { createAutocompleteController } from '../../../../../src/create';
 import { waitFor } from '@testing-library/preact';
 
@@ -24,12 +24,12 @@ describe('AutocompleteLayout Component', () => {
 	mockClient.mockData.updateConfig({ meta: 'ac.meta' });
 
 	beforeEach(() => {
-		document.body.innerHTML = '<div>' + '  <input type="text" class="searchspring-ac">' + '<div id="target"></div></div>';
+		document.body.innerHTML = '<div>' + '  <input type="text" class="athos-ac">' + '<div id="target"></div></div>';
 		controllerConfigId = uuidv4().split('-').join('');
 
 		acConfig = {
 			id: controllerConfigId,
-			selector: 'input.searchspring-ac',
+			selector: 'input.athos-ac',
 			settings: {
 				trending: {
 					limit: 5,
@@ -45,7 +45,7 @@ describe('AutocompleteLayout Component', () => {
 	});
 
 	it('contains an input element on the page', () => {
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		expect(input).toBeInTheDocument();
 	});
 
@@ -72,7 +72,7 @@ describe('AutocompleteLayout Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		(input as HTMLInputElement).focus();
 
 		const rendered = render(<AutocompleteLayout {...args} />, { container });
@@ -92,7 +92,7 @@ describe('AutocompleteLayout Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -128,7 +128,7 @@ describe('AutocompleteLayout Component', () => {
 			contentTitle: 'custom content title',
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -161,7 +161,7 @@ describe('AutocompleteLayout Component', () => {
 			},
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -201,7 +201,7 @@ describe('AutocompleteLayout Component', () => {
 			},
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -240,7 +240,7 @@ describe('AutocompleteLayout Component', () => {
 			},
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -281,7 +281,7 @@ describe('AutocompleteLayout Component', () => {
 			},
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -315,7 +315,7 @@ describe('AutocompleteLayout Component', () => {
 			layout: ['content', ['button.see-more']],
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		input.value = 'dress';
 
@@ -349,7 +349,7 @@ describe('AutocompleteLayout Component', () => {
 			input: controller.config.selector,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		input.value = 'dress';
@@ -379,7 +379,7 @@ describe('AutocompleteLayout Component', () => {
 			layout: ['c1', 'c2', 'c3'],
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		input.value = 'dress';
@@ -409,7 +409,7 @@ describe('AutocompleteLayout Component', () => {
 			excludeBanners: true,
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		input.value = 'dress';
@@ -444,7 +444,7 @@ describe('AutocompleteLayout Component', () => {
 			},
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 		input.focus();
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		input.value = 'dress';

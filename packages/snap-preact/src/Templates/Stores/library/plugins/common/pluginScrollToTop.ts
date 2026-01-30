@@ -1,1 +1,1 @@
-export { pluginScrollToTop } from '@searchspring/snap-platforms/common';
+export { pluginScrollToTop } from '@athoscommerce/snap-platforms/common';

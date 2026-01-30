@@ -1,4 +1,4 @@
-import { AutocompleteController } from '@searchspring/snap-controller';
+import { AutocompleteController } from '@athoscommerce/snap-controller';
 import { AbstractionGroup } from '../../../../types';
 import { TemplateEditorStore } from '../TemplateEditorStore';
 

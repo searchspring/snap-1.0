@@ -1,6 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import type { AutocompleteStoreConfig, SearchStoreConfig, StoreServices } from '../../types';
 import type {
 	SearchResponseModelFilterRange,
@@ -10,7 +10,7 @@ import type {
 	SearchResponseModel,
 	MetaResponseModel,
 } from '@athoscommerce/snapi-types';
-import { sprintf } from '@searchspring/snap-toolbox';
+import { sprintf } from '@athoscommerce/snap-toolbox';
 
 type SearchFilterStoreConfig = {
 	services: StoreServices;

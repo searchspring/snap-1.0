@@ -1,10 +1,10 @@
 # Price
 
-Utilizes `currency` from [@searchspring/snap-preact/toolbox](https://searchspring.github.io/snap/#/package-toolbox) to render a `<span>` containing a formatted number.
+Utilizes `currency` from [@athoscommerce/snap-preact/toolbox](https://searchspring.github.io/snap/#/package-toolbox) to render a `<span>` containing a formatted number.
 
 ## Usage
 ```jsx
-import { Price } from '@searchspring/snap-preact-components';
+import { Price } from '@athoscommerce/snap-preact-components';
 ```
 
 The `Price` component utilizes all props from the `FormattedNumber` component with the following additional prop:

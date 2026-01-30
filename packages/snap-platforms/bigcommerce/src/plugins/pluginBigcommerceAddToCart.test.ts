@@ -1,12 +1,12 @@
 import { pluginBigcommerceAddToCart as pluginAddToCart } from './pluginBigcommerceAddToCart';
-import { MockClient } from '@searchspring/snap-shared';
-import { Product, SearchStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager, Next } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { SearchController } from '@searchspring/snap-controller';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { Product, SearchStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager, Next } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { SearchController } from '@athoscommerce/snap-controller';
 import { PluginBackgroundFilter } from '../../../common/src/types';
 
 const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);

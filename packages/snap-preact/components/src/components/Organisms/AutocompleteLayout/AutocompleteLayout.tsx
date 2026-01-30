@@ -6,8 +6,8 @@ import { css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 
-import type { AutocompleteController, RecommendationController, RecommendationControllerConfig } from '@searchspring/snap-controller';
-import { ContentType } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController, RecommendationController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { Results, ResultsProps } from '../Results';
 import { Banner, BannerProps } from '../../Atoms/Merchandising/Banner';

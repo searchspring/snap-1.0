@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../../providers';
 import { mergeProps, mergeStyles } from '../../../../utilities';
-import type { Banner } from '@searchspring/snap-store-mobx';
+import type { Banner } from '@athoscommerce/snap-store-mobx';
 import { useA11y } from '../../../../hooks/useA11y';
 import { ComponentProps, StyleScript, ResultsLayout } from '../../../../types';
 

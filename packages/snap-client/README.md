@@ -1,16 +1,16 @@
 # Snap Javascript Client
 
-Simple Javascript client for communicating with the Searchspring Snap API.
+Simple Javascript client for communicating with the Athos Snap API.
 
 ## Installation
 
 ```bash
-npm install --save @searchspring/snap-client
+npm install --save @athoscommerce/snap-client
 ```
 
 ## Import
 ```js
-import { Client } from '@searchspring/snap-client';
+import { Client } from '@athoscommerce/snap-client';
 ```
 
 ## Global Config
@@ -165,7 +165,7 @@ const { meta, results } = await client.search({
 ```
 
 ## `search` method
-Makes a request to the Searchspring Search API and returns a promise.  
+Makes a request to the Athos Search API and returns a promise.  
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -180,7 +180,7 @@ const { meta, results } = await client.search({
 ```
 
 ## `autocomplete` method
-Makes a request to the Searchspring Autocomplete API and returns a promise.  
+Makes a request to the Athos Autocomplete API and returns a promise.  
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -199,7 +199,7 @@ const { meta, results } = await client.autocomplete({
 ```
 
 ## `meta` method
-Makes a request to the Searchspring Search API to fetch meta properties, it returns a promise. The `search` method utilizes this method.
+Makes a request to the Athos Search API to fetch meta properties, it returns a promise. The `search` method utilizes this method.
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -207,7 +207,7 @@ const meta = await client.meta();
 ```
 
 ## `trending` method
-Makes a request to the Searchspring Trending API and returns a promise.
+Makes a request to the Athos Trending API and returns a promise.
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -218,7 +218,7 @@ const results = await client.trending({
 ```
 
 ## `finder` method
-Makes a request to the Searchspring finder API and returns a promise.
+Makes a request to the Athos finder API and returns a promise.
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -233,7 +233,7 @@ const { meta, results } = await client.finder({
 ```
 
 ## `recommend` method
-Makes a request to the Searchspring Recommend API and returns a promise.
+Makes a request to the Athos Recommend API and returns a promise.
 
 ```js
 const client = new Client(globals, clientConfig);

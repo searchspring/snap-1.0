@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge';
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelResult, SearchResponseModelResultCoreMappings } from '@athoscommerce/snapi-types';
 
 import { Banner, Product, SearchResultStore, ProductMask, Variants, Variant, VariantSelection, VariantData, Badges } from './SearchResultStore';

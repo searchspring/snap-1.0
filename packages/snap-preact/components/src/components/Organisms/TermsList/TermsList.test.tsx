@@ -5,18 +5,18 @@ import { render } from '@testing-library/preact';
 import { ThemeProvider } from '../../../providers';
 
 import { TermsList } from './TermsList';
-import { AutocompleteController, AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import { AutocompleteController, AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 import { createAutocompleteController } from '../../../../../src/create';
-import { MockClient } from '@searchspring/snap-shared';
-import { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 
 describe('termsList Component', () => {
 	const globals = { siteId: '8uyt2m' };
 	let controllerConfigId = uuidv4().split('-').join('');
 	let acConfig: AutocompleteControllerConfig = {
 		id: controllerConfigId,
-		selector: 'input.searchspring-ac',
+		selector: 'input.athos-ac',
 		settings: {
 			trending: {
 				limit: 5,

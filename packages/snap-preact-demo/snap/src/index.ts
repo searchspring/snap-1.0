@@ -1,10 +1,10 @@
 import deepmerge from 'deepmerge';
 
-// import { Snap, TemplatesStore } from '@searchspring/snap-preact';
-import { Snap } from '@searchspring/snap-preact';
+// import { Snap, TemplatesStore } from '@athoscommerce/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
-import { StorageStore } from '@searchspring/snap-store-mobx';
-import { url, getContext } from '@searchspring/snap-toolbox';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
+import { url, getContext } from '@athoscommerce/snap-toolbox';
 // import { afterSearch } from './middleware/plugins/afterSearch';
 import { afterStore, mutateResultsURL } from './middleware/plugins/afterStore';
 import { combineMerge } from './middleware/functions';
@@ -12,10 +12,10 @@ import { ContentSkel } from './components/Content/Skel';
 import { SidebarSkel } from './components/Sidebar/Skel';
 
 import './styles/custom.scss';
-import type { ClientConfig } from '@searchspring/snap-client';
+import type { ClientConfig } from '@athoscommerce/snap-client';
 
 // storage for custom configuration
-const configStore = new StorageStore({ type: 'local', key: 'ss-demo-config' });
+const configStore = new StorageStore({ type: 'local', key: 'athos-demo-config' });
 
 const context = getContext(['collection']);
 const backgroundFilters = [];
@@ -51,9 +51,9 @@ if (urlSiteIdParam && urlSiteIdParam.match(/[a-zA-Z0-9]{6}/)) {
 	configStore.set('siteId', siteId);
 
 	// clear previously stored storage
-	window.localStorage.removeItem('ss-history');
-	window.sessionStorage.removeItem('ss-controller-search');
-	window.sessionStorage.removeItem('ss-controller-autocomplete');
+	window.localStorage.removeItem('athos-history');
+	window.sessionStorage.removeItem('athos-controller-search');
+	window.sessionStorage.removeItem('athos-controller-autocomplete');
 } else {
 	// use siteId from storage
 	const storedSiteId = configStore.get('siteId');
@@ -214,7 +214,7 @@ let config: SnapConfig = {
 			{
 				config: {
 					id: 'autocomplete',
-					selector: 'input.searchspring-ac',
+					selector: 'input.athos-ac',
 					plugins: [[mutateResultsURL]],
 					settings: {
 						trending: {
@@ -227,7 +227,7 @@ let config: SnapConfig = {
 				},
 				targeters: [
 					{
-						selector: 'input.searchspring-ac',
+						selector: 'input.athos-ac',
 						hideTarget: true,
 						component: async () => {
 							return (await import('./components/Autocomplete/Autocomplete')).Autocomplete;

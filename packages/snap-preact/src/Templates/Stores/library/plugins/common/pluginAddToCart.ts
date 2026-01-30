@@ -1,1 +1,1 @@
-export { pluginAddToCart } from '@searchspring/snap-platforms/common';
+export { pluginAddToCart } from '@athoscommerce/snap-platforms/common';

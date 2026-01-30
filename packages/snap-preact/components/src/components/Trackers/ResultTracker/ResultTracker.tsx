@@ -2,9 +2,9 @@
 import { h, ComponentChildren } from 'preact';
 import { jsx, css } from '@emotion/react';
 import { observer } from 'mobx-react';
-import type { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
+import type { AutocompleteController, RecommendationController, SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StylingCSS } from '../../../types';
-import type { Banner, Product } from '@searchspring/snap-store-mobx';
+import type { Banner, Product } from '@athoscommerce/snap-store-mobx';
 import classnames from 'classnames';
 import { Theme, useTheme } from '../../../providers';
 import { createImpressionObserver, mergeProps } from '../../../utilities';

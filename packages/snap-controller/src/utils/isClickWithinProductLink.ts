@@ -1,4 +1,4 @@
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 
 export const CLICK_DUPLICATION_TIMEOUT = 300;
 export const CLICK_THROUGH_CLOSEST_MAX_LEVELS = 12;

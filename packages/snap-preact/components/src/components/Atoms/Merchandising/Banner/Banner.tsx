@@ -6,8 +6,8 @@ import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../../providers';
 import { mergeProps, mergeStyles } from '../../../../utilities';
 
-import { BannerContent, ContentType } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import { BannerContent, ContentType } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../../types';
 
 const defaultStyles: StyleScript<BannerProps> = () => {

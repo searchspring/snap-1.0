@@ -1,8 +1,8 @@
-import { SnapTemplates } from '@searchspring/snap-preact';
+import { SnapTemplates } from '@athoscommerce/snap-preact';
 import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
-import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
 const siteId = 'atkzs2';
 
 // const siteId = '8uyt2m';
@@ -101,7 +101,7 @@ let config: SnapTemplatesConfig = {
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.searchspring-ac',
+				selector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
 			},
 		],

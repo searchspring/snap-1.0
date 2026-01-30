@@ -1,1 +1,1 @@
-export { pluginBackgroundFilters } from '@searchspring/snap-platforms/common';
+export { pluginBackgroundFilters } from '@athoscommerce/snap-platforms/common';

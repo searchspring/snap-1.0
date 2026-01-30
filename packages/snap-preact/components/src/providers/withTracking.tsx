@@ -1,6 +1,6 @@
 import { h, ComponentType, FunctionComponent } from 'preact';
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
 import { createImpressionObserver } from '../utilities';
 import { useEffect, useCallback } from 'preact/hooks';
 

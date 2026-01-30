@@ -1,4 +1,4 @@
-import { TrendingResponseModel } from '@searchspring/snap-client';
+import { TrendingResponseModel } from '@athoscommerce/snap-client';
 import { Term, TermData } from './AutocompleteTermStore';
 
 type AutocompleteTrendingStoreConfig = Omit<TermData, 'data'> & {

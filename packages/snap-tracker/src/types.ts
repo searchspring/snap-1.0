@@ -1,4 +1,4 @@
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import type { ContextCurrency, Product } from '@searchspring/beacon';
 
 export type TrackerGlobals = {
@@ -87,5 +87,6 @@ export interface TrackMethods {
 declare global {
 	interface Window {
 		searchspring?: any;
+		athos?: any;
 	}
 }

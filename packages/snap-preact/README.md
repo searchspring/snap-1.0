@@ -1,6 +1,6 @@
 # Snap Preact
 
-Snap Preact is an abstraction layer that provides a config based interface for creating a Searchspring integration quickly.
+Snap Preact is an abstraction layer that provides a config based interface for creating a athos integration quickly.
 
 
 ## Installation
@@ -8,13 +8,13 @@ Snap Preact is an abstraction layer that provides a config based interface for c
 To install the `snap-preact` package and it's dependencies:
 
 ```bash
-npm install --save @searchspring/snap-preact
+npm install --save @athoscommerce/snap-preact
 ```
 
 ## Instantiation
 
 ```js
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const snap = new Snap(config);
 ```
@@ -68,7 +68,7 @@ const config = {
 			{
 				config: {
 					id: 'autocomplete',
-					selector: 'input.searchspring-ac',
+					selector: 'input.athos-ac',
 					settings: {
 						trending: {
 							limit: 5,
@@ -77,7 +77,7 @@ const config = {
 				},
 				targets: [
 					{
-						selector: 'input.searchspring-ac',
+						selector: 'input.athos-ac',
 						component: () => Autocomplete,
 						hideTarget: true,
 					},
@@ -95,7 +95,7 @@ Optional `Context` object to be used to set the global context. If no context is
 ### config.client
 A single client instance will be created and shared across all services using the provided config. 
 
-See [@searchspring/snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) documentation for full client config options.
+See [@athoscommerce/snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) documentation for full client config options.
 
 ```js
 const config = {
@@ -255,19 +255,19 @@ const { search } = snap.controllers;
 After instantiating an instance of Snap, the following properties can be accessed. 
 
 ### eventManager 
-A reference to the shared [@searchspring/snap-event-manager](https://github.com/searchspring/snap/tree/main/packages/snap-event-manager) instance. 
+A reference to the shared [@athoscommerce/snap-event-manager](https://github.com/searchspring/snap/tree/main/packages/snap-event-manager) instance. 
 
 ### config
 A reference to the config that was provided.
 
 ### logger
-A reference to the shared [@searchspring/snap-logger](https://github.com/searchspring/snap/tree/main/packages/snap-logger) instance used by each controller.
+A reference to the shared [@athoscommerce/snap-logger](https://github.com/searchspring/snap/tree/main/packages/snap-logger) instance used by each controller.
 
 ### client
-A reference to the shared [@searchspring/snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) instance used by each controller.
+A reference to the shared [@athoscommerce/snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) instance used by each controller.
 
 ### tracker
-A reference to the shared [@searchspring/snap-tracker](https://github.com/searchspring/snap/tree/main/packages/snap-tracker) instance used by each controller.
+A reference to the shared [@athoscommerce/snap-tracker](https://github.com/searchspring/snap/tree/main/packages/snap-tracker) instance used by each controller.
 
 ### controllers
 An object containing all controllers that have been created. 
@@ -282,7 +282,7 @@ A reference to `RecommendationInstantiator` instance if creating recommendation 
 Snap Preact provides various polyfills to ensure legacy browser support.
 
 ```js
-import { polyfills } from '@searchspring/snap-preact';
+import { polyfills } from '@athoscommerce/snap-preact';
 
 polyfills.then(() => {
 	import('./index');

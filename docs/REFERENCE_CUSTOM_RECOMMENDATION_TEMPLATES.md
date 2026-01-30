@@ -4,7 +4,7 @@ Let's look at how to setup a custom recommendation template using the Snapfu CLI
 
 There are three steps required for adding recommendations:
 - Creating the local template files
-- Syncing the template to the Searchspring Management Console
+- Syncing the template to the Athos Search & Product Discovery Console
 - Updating our Snap config (see instantiator config above)
 
 ### Creating a new recommendation template
@@ -19,10 +19,10 @@ In this example, we'll create a new template with a name of "DefaultRecommendati
 This will generate three files which should be committed to your repository: 
 - The `.jsx` file (/src/components/Recommendations/Default.jsx) is the template itself containing our component.
 - The `.scss` file (/src/components/Recommendations/DefaultRecommendations.scss) is imported by the `.jsx` template file and optional CSS styling can be defined here.
-- The `.json` file (/src/components/Recommendations/DefaultRecommendations.json) contains various meta data for this template and is used when running `snapfu recs sync` to sync this template to Searchspring's Management Console API. See syncing documentation below. 
+- The `.json` file (/src/components/Recommendations/DefaultRecommendations.json) contains various meta data for this template and is used when running `snapfu recs sync` to sync this template to Athos' Search & Product Discovery API. See syncing documentation below. 
 
 #### `.json` file parameters
-The `.json` file allows template parameters to be specified. Template parameters are returned in the Recommendations API and accessible in your recommendation components via `controller.store.profile.display.templateParameters`. Template parameters can be set in the Searchspring Management Console after the template has been synced. 
+The `.json` file allows template parameters to be specified. Template parameters are returned in the Recommendations API and accessible in your recommendation components via `controller.store.profile.display.templateParameters`. Template parameters can be set in the Athos Search & Product Discovery Console after the template has been synced. 
 
 Example:
 ```json
@@ -48,7 +48,7 @@ At this point, you can customize the `.jsx` template to your requirements. By de
 
 ### Syncing Templates
 
-Syncing custom templates to Searchspring's Management Console is required before they can be used. This is due to the recommendations API that returns the template's component name defined for the profile we set in the `.json` file above. 
+Syncing custom templates to Athos' Search & Product Discovery Console is required before they can be used. This is due to the recommendations API that returns the template's component name defined for the profile we set in the `.json` file above. 
 
 Templates also support branching. For production-ready templates, please ensure you are on the repository's default branch (typically `production`) before running `snapfu recs sync`
 

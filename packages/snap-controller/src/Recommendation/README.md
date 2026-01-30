@@ -28,7 +28,7 @@ recommendationController.init();
 ```
 
 ## Search
-This will invoke a search request to Searchspring's search API and populate the store with the response.
+This will invoke a search request to Athos's search API and populate the store with the response.
 
 ```js
 recommendationController.search();

@@ -1,8 +1,8 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore } from '@searchspring/snap-store-mobx';
-import { version, DomTargeter, getContext } from '@searchspring/snap-toolbox';
-import { AppMode } from '@searchspring/snap-toolbox';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
+import { version, DomTargeter, getContext } from '@athoscommerce/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { Beacon } from '@searchspring/beacon';
 import type { Item, OrderTransactionSchemaData, Product, BeaconConfig } from '@searchspring/beacon';
 
@@ -49,15 +49,15 @@ export class Tracker extends Beacon {
 
 		this.localStorage = new StorageStore({
 			type: 'local',
-			key: `ss-${this.config.id}`,
+			key: `athos-${this.config.id}`,
 		});
 
 		this.localStorage.set('siteId', this.globals.siteId);
 
-		if (!window.searchspring?.tracker) {
-			window.searchspring = window.searchspring || {};
-			window.searchspring.tracker = this;
-			window.searchspring.version = version;
+		if (!window.athos?.tracker) {
+			window.athos = window.athos || {};
+			window.athos.tracker = this;
+			window.athos.version = version;
 		}
 
 		// since this is in the constructor, setTimeout is required for jest.spyOn
@@ -226,7 +226,12 @@ export class Tracker extends Beacon {
 			const { pageUrl } = this.getContext();
 
 			// prevent sending of errors when on localhost or CDN
-			if (message?.includes('Profile is currently paused') || pageUrl.includes('//localhost') || pageUrl.includes('//snapui.searchspring.io/')) {
+			if (
+				message?.includes('Profile is currently paused') ||
+				pageUrl.includes('//localhost') ||
+				pageUrl.includes('//snapui.searchspring.io/') ||
+				pageUrl.includes('//snapui.athoscommerce.io/')
+			) {
 				return;
 			}
 

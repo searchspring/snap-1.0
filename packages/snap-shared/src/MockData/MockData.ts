@@ -11,6 +11,7 @@
 import * as fs from 'fs';
 import deepmerge from 'deepmerge';
 import type { MetaResponseModel, SearchResponseModel, AutocompleteResponseModel } from '@athoscommerce/snapi-types';
+import { RecommendCombinedResponseModel } from '@athoscommerce/snap-client';
 
 type MockDataConfig = {
 	siteId?: string;
@@ -117,14 +118,14 @@ export class MockData {
 		}
 	}
 
-	recommend(files?: { profileFile?: string; resultsFile?: string }) {
+	recommend(files?: { profileFile?: string; resultsFile?: string }): RecommendCombinedResponseModel {
 		const profileFile = `${__dirname}/recommend/profile/${this.config.siteId}/${files?.profileFile || this.config.recommend?.profile}.json`;
 		const resultsFile = `${__dirname}/recommend/results/${this.config.siteId}/${files?.resultsFile || this.config.recommend?.results}.json`;
 		try {
 			return {
 				meta: this.meta(),
 				profile: getJSON(profileFile),
-				recommend: getJSON(resultsFile)[0],
+				results: getJSON(resultsFile)[0],
 			};
 		} catch (err) {
 			throw `Recommend JSON not found. Profile: '${profileFile}', Results: '${resultsFile}'`;

@@ -71,8 +71,8 @@ A `skeleton` component can be defined to render inside the target until search i
 A [Skeleton component](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-skeleton--default) is available in the components package.
 
 ```jsx
-import { Snap } from '@searchspring/snap-preact';
-import { Skeleton } from '@searchspring/snap-preact-components';
+import { Snap } from '@athoscommerce/snap-preact';
+import { Skeleton } from '@athoscommerce/snap-preact-components';
 
 const ContentSkeleton = () => {
   return (<Skeleton height="300px" width="250px" />);

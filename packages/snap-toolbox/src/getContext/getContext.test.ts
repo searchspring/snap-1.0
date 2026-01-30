@@ -77,10 +77,37 @@ describe('getContext', () => {
 		}).not.toThrow();
 	});
 
+	it(`automatically finds script in document when it has an 'id' that starts with "athos-context"`, () => {
+		expect(() => {
+			const id = 'athos-context';
+			const scriptTag = document.createElement('script');
+			scriptTag.id = id;
+
+			document.body.appendChild(scriptTag);
+
+			const context = getContext();
+			expect(context).toStrictEqual({});
+		}).not.toThrow();
+	});
+
 	it(`automatically finds script in document when it has a 'src' that matches "snapui.searchspring.io"`, () => {
 		const siteId = 'y56s6x';
 		expect(() => {
 			const src = `https://snapui.searchspring.io/${siteId}/test/bundle.js`;
+			const scriptTag = document.createElement('script');
+			scriptTag.src = src;
+
+			document.body.appendChild(scriptTag);
+
+			const context = getContext();
+			expect(context).toStrictEqual({});
+		}).not.toThrow();
+	});
+
+	it(`automatically finds script in document when it has a 'src' that matches "snapui.athoscommerce.io"`, () => {
+		const siteId = 'y56s6x';
+		expect(() => {
+			const src = `https://snapui.athoscommerce.io/${siteId}/test/bundle.js`;
 			const scriptTag = document.createElement('script');
 			scriptTag.src = src;
 
@@ -123,7 +150,7 @@ describe('getContext', () => {
 	});
 
 	it('when multiple possible context scripts are found automatically, it uses the one with innerHTML', () => {
-		const id = 'searchspring-context';
+		const id = 'athos-context';
 		const shopperObject = {
 			id: 'snaptest',
 		};
@@ -170,7 +197,7 @@ describe('getContext', () => {
 
 		expect(() => {
 			const scriptTag = document.createElement('script');
-			scriptTag.id = 'searchspring-context';
+			scriptTag.id = 'athos-context';
 
 			getContext([], scriptTag);
 		}).not.toThrow();
@@ -199,12 +226,12 @@ describe('getContext', () => {
 
 	it('can get context from script attributes if requested', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.id = 'searchspring-context';
+		scriptTag.id = 'athos-context';
 		scriptTag.setAttribute('profile', 'trending');
 
 		const vars = getContext(['id', 'profile'], scriptTag);
 
-		expect(vars).toHaveProperty('id', 'searchspring-context');
+		expect(vars).toHaveProperty('id', 'athos-context');
 		expect(vars).toHaveProperty('profile', 'trending');
 	});
 

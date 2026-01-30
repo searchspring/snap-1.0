@@ -1,6 +1,6 @@
 import { observable, computed, makeObservable } from 'mobx';
 
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import type { StoreServices } from '../../types';
 import type { MetaResponseModel, MetaResponseModelSortOption, SearchResponseModel } from '@athoscommerce/snapi-types';
 

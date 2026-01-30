@@ -1,7 +1,7 @@
 import { observable, action, computed, makeObservable } from 'mobx';
 
 import type { StoreServices, SearchStoreConfig } from '../../types';
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import { MetaResponseModel, SearchResponseModel } from '@athoscommerce/snapi-types';
 
 type SearchPaginationStoreConfig = {

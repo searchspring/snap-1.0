@@ -1,5 +1,5 @@
 import { observable, makeObservable } from 'mobx';
-import type { ProfileResponseModel } from '@searchspring/snap-client';
+import type { ProfileResponseModel } from '@athoscommerce/snap-client';
 
 type RecommendationProfileStoreConfig = {
 	data: {

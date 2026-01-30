@@ -23,7 +23,7 @@ describe('getBundleDetails function', () => {
 	afterAll(() => jest.clearAllMocks);
 
 	it('fetches bundle details from requested bundle URL', () => {
-		const url = 'https://snapui.searchspring.io/siteId/next/bundle.js';
+		const url = 'https://snapui.athoscommerce.io/siteId/next/bundle.js';
 
 		const fetchPromise = getBundleDetails(url).then((details) => {
 			expect(details.lastModified).toBe('07 Jan 2022 22:42:39 GMT');
@@ -37,7 +37,7 @@ describe('getBundleDetails function', () => {
 	});
 
 	it('rejects when bundle is not found', async () => {
-		const url = 'https://snapui.searchspring.io/siteId/dne/bundle.js';
+		const url = 'https://snapui.athoscommerce.io/siteId/dne/bundle.js';
 		// @ts-ignore
 		xhrMock.status = 403;
 

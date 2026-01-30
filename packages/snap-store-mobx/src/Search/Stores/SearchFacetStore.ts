@@ -1,7 +1,7 @@
 import deepmerge from 'deepmerge';
 import { makeObservable, observable, action, computed, reaction } from 'mobx';
 
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import type { StorageStore } from '../../Storage/StorageStore';
 import type { AutocompleteStoreConfig, SearchStoreConfig, StoreServices, FacetStoreConfig } from '../../types';
 import type {

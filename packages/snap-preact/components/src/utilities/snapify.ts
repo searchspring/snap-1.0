@@ -1,15 +1,15 @@
 import { configure as configureMobx } from 'mobx';
-import { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
-import { Client } from '@searchspring/snap-client';
-import { SearchStore, AutocompleteStore, RecommendationStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
+import { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
+import { Client } from '@athoscommerce/snap-client';
+import { SearchStore, AutocompleteStore, RecommendationStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
 
-import type { ClientConfig, ClientGlobals } from '@searchspring/snap-client';
-import type { SearchControllerConfig, AutocompleteControllerConfig, RecommendationControllerConfig } from '@searchspring/snap-controller';
+import type { ClientConfig, ClientGlobals } from '@athoscommerce/snap-client';
+import type { SearchControllerConfig, AutocompleteControllerConfig, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
 
 type CreateConfig = {
 	client: {

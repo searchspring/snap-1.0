@@ -6,9 +6,9 @@ import { ThemeProvider } from '../../../providers';
 
 import { FacetSlider } from './FacetSlider';
 import { sprintf } from '../../../utilities';
-import type { RangeFacet } from '@searchspring/snap-store-mobx';
+import type { RangeFacet } from '@athoscommerce/snap-store-mobx';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelFacet, SearchResponseModelFacetRangeAllOf } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

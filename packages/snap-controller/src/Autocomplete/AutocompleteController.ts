@@ -1,13 +1,13 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore, ErrorType, Product, Banner } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, Product, Banner } from '@athoscommerce/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
 
-import { AutocompleteStore } from '@searchspring/snap-store-mobx';
+import { AutocompleteStore } from '@athoscommerce/snap-store-mobx';
 import type { AutocompleteControllerConfig, AutocompleteAfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import type { AutocompleteRequestModel, SearchRequestModelFilterRange, SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 import {
 	type AutocompleteAddtocartSchemaData,
@@ -132,7 +132,7 @@ export class AutocompleteController extends AbstractController {
 		// persist trending terms in local storage
 		this.storage = new StorageStore({
 			type: 'session',
-			key: `ss-controller-${this.config.id}`,
+			key: `athos-controller-${this.config.id}`,
 		});
 
 		this.eventManager.on('afterStore', async (search: AfterStoreObj, next: Next): Promise<void | boolean> => {
