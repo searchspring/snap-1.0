@@ -1,24 +1,21 @@
 import { Fragment, h } from 'preact';
-
-import { useState } from 'preact/hooks';
-import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-
+import { css } from '@emotion/react';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, SwatchOption, BreakpointsProps, StyleScript } from '../../../types';
 import { useA11y, useDisplaySettings } from '../../../hooks';
-import { Carousel, CarouselProps } from '../Carousel';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Grid, GridProps } from '../Grid';
 import { ImageProps, Image } from '../../Atoms/Image';
 import deepmerge from 'deepmerge';
 import { filters } from '@searchspring/snap-toolbox';
 import Color from 'color';
+import { Slideshow, SlideshowSlide, SlideshowProps } from '../Slideshow';
+import { useState } from 'preact/hooks';
 
 const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 	return css({
-		marginTop: '10px',
-		'.ss__swatches__carousel__swatch': {
+		'.ss__swatches__slideshow__swatch': {
 			boxSizing: 'content-box',
 			cursor: 'pointer',
 			backgroundRepeat: 'no-repeat',
@@ -27,23 +24,21 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 			alignItems: 'center',
 			border: `1px solid ${theme?.variables?.colors?.primary || '#333'}`,
 			aspectRatio: '1/1',
-			margin: 'auto',
 			flexDirection: 'column',
 
-			'.ss__swatches__carousel__swatch__inner': {
+			'.ss__swatches__slideshow__swatch__inner': {
 				aspectRatio: '1/1',
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				margin: 'auto',
-				height: '100%',
+				width: '100%',
 			},
 
-			'&.ss__swatches__carousel__swatch--selected': {
+			'&.ss__swatches__slideshow__swatch--selected': {
 				border: `2px solid ${theme?.variables?.colors?.primary || '#333'}`,
 			},
 
-			'&.ss__swatches__carousel__swatch--disabled:before, &.ss__swatches__carousel__swatch--unavailable:before': {
+			'&.ss__swatches__slideshow__swatch--disabled:before, &.ss__swatches__slideshow__swatch--unavailable:before': {
 				content: '""',
 				display: 'block',
 				position: 'absolute',
@@ -55,19 +50,19 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 				transform: 'rotate(-45deg)',
 			},
 
-			'&.ss__swatches__carousel__swatch--disabled': {
+			'&.ss__swatches__slideshow__swatch--disabled': {
 				position: 'relative',
 				cursor: 'none',
 				pointerEvents: 'none',
 				opacity: 0.5,
 			},
 
-			'&.ss__swatches__carousel__swatch--unavailable': {
+			'&.ss__swatches__slideshow__swatch--unavailable': {
 				cursor: 'pointer',
 				opacity: 0.5,
 			},
 
-			'&.ss__swatches__carousel__swatch--dark': {
+			'&.ss__swatches__slideshow__swatch--dark': {
 				color: '#fff',
 			},
 		},
@@ -104,14 +99,14 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 
 	const defaultProps: Partial<SwatchesProps> = {
 		// default props
-		type: 'carousel',
+		type: 'slideshow',
 		hideLabels: true,
 		treePath: globalTreePath,
 	};
 
 	let props = mergeProps('swatches', globalTheme, defaultProps, properties);
 
-	const breakpoints = props.breakpoints || (props.type == 'carousel' ? defaultCarouselBreakpoints : {});
+	const breakpoints = props.breakpoints || (props.type == 'slideshow' ? defaultCarouselBreakpoints : {});
 
 	const displaySettings = useDisplaySettings(breakpoints);
 	if (displaySettings && Object.keys(displaySettings).length) {
@@ -123,14 +118,20 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		};
 	}
 
-	const { onSelect, disabled, options, hideLabels, disableStyles, className, internalClassName, type, carousel, grid, treePath } = props;
+	const { onSelect, disabled, options, hideLabels, disableStyles, className, internalClassName, type, slideshow, grid, treePath } = props;
 
 	const subProps: SwatchesSubProps = {
-		carousel: {
+		slideshow: {
 			// default props
-			internalClassName: 'ss__swatches__carousel',
+			internalClassName: 'ss__swatches__slideshow',
 			loop: false,
-			...carousel,
+			slidesToShow: 6, // Add explicit slidesToShow
+			slidesToMove: 1, // Add explicit slidesToMove
+			gap: 8, // Add smaller gap
+			showNavigation: true, // Enable navigation
+			showPagination: false, // Disable pagination for swatches
+			autoPlay: false, // Disable autoplay
+			...slideshow,
 			// inherited props
 			...defined({
 				breakpoints,
@@ -184,55 +185,63 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 		setSelection(option);
 	};
 
+	const slidesArray: SlideshowSlide[] = [];
+
+	if (type == 'slideshow') {
+		{
+			options.forEach((option) => {
+				const label = option.label;
+				const selected = selection?.value == option.value;
+				let isDark = false;
+				try {
+					const color = new Color(
+						option.background ? option.background.toLowerCase() : option.backgroundImageUrl ? `` : option.value.toString().toLowerCase()
+					);
+					isDark = color.isDark();
+				} catch (err) {}
+
+				slidesArray.push({
+					onClick: (e) => !disabled && !option?.disabled && makeSelection(e as any, option),
+					content: (
+						<div
+							className={classnames(`ss__swatches__slideshow__swatch`, {
+								'ss__swatches__slideshow__swatch--selected': selected,
+								'ss__swatches__slideshow__swatch--disabled': option?.disabled,
+								'ss__swatches__slideshow__swatch--unavailable': option?.available === false,
+								'ss__swatches__slideshow__swatch--dark': isDark,
+							})}
+							title={label}
+							ref={(e) => useA11y(e)}
+							aria-disabled={option.disabled || option?.available === false}
+							role="option"
+							aria-selected={selected}
+						>
+							<div
+								className={classnames(
+									`ss__swatches__slideshow__swatch__inner`,
+									`ss__swatches__slideshow__swatch__inner--${filters.handleize(option.value?.toString())}`
+								)}
+								style={{ background: option.background ? option.background : option.backgroundImageUrl ? `` : option.value }}
+							>
+								{!option.background && option.backgroundImageUrl ? (
+									<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value?.toString()} />
+								) : (
+									<Fragment />
+								)}
+								{!hideLabels && <span className="ss__swatches__slideshow__swatch__value">{label || option.value}</span>}
+							</div>
+						</div>
+					),
+				});
+			});
+		}
+	}
+
 	return typeof options == 'object' && options?.length ? (
 		<CacheProvider>
 			<div {...styling} className={classnames('ss__swatches', className, internalClassName)}>
-				{type == 'carousel' ? (
-					<Carousel {...subProps.carousel}>
-						{options.map((option) => {
-							const label = option.label;
-							const selected = selection?.value == option.value;
-							let isDark = false;
-							try {
-								const color = new Color(
-									option.background ? option.background.toLowerCase() : option.backgroundImageUrl ? `` : option.value.toString().toLowerCase()
-								);
-								isDark = color.isDark();
-							} catch (err) {}
-
-							return (
-								<div
-									className={classnames(`ss__swatches__carousel__swatch`, {
-										'ss__swatches__carousel__swatch--selected': selected,
-										'ss__swatches__carousel__swatch--disabled': option?.disabled,
-										'ss__swatches__carousel__swatch--unavailable': option?.available === false,
-										'ss__swatches__carousel__swatch--dark': isDark,
-									})}
-									title={label}
-									onClick={(e) => !disabled && !option?.disabled && makeSelection(e as any, option)}
-									ref={(e) => useA11y(e)}
-									aria-disabled={option.disabled || option?.available === false}
-									role="option"
-									aria-selected={selected}
-								>
-									<div
-										className={classnames(
-											`ss__swatches__carousel__swatch__inner`,
-											`ss__swatches__carousel__swatch__inner--${filters.handleize(option.value?.toString())}`
-										)}
-										style={{ background: option.background ? option.background : option.backgroundImageUrl ? `` : option.value }}
-									>
-										{!option.background && option.backgroundImageUrl ? (
-											<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value?.toString()} />
-										) : (
-											<Fragment />
-										)}
-										{!hideLabels && <span className="ss__swatches__carousel__swatch__value">{label || option.value}</span>}
-									</div>
-								</div>
-							);
-						})}
-					</Carousel>
+				{type == 'slideshow' ? (
+					<Slideshow slides={slidesArray} {...subProps.slideshow} />
 				) : (
 					<Grid
 						{...subProps.grid}
@@ -257,13 +266,13 @@ export type SwatchesProps = {
 	hideLabels?: boolean;
 	breakpoints?: BreakpointsProps;
 	disabled?: boolean;
-	carousel?: Partial<CarouselProps>;
+	slideshow?: Partial<SlideshowProps>;
 	grid?: Partial<GridProps>;
-	type?: 'carousel' | 'grid';
+	type?: 'slideshow' | 'grid';
 } & ComponentProps;
 
 interface SwatchesSubProps {
-	carousel: Partial<CarouselProps>;
+	slideshow: Partial<SlideshowProps>;
 	grid: Partial<GridProps>;
 	image: Partial<ImageProps>;
 }

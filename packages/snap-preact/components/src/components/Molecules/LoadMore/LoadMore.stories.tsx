@@ -8,7 +8,7 @@ import { iconPaths } from '../../Atoms/Icon';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../LoadMore/readme.md';
 import type { SearchController } from '@searchspring/snap-controller';
-import type { SearchRequestModelFilterTypeEnum } from '@searchspring/snapi-types';
+import type { SearchRequestModelFilterTypeEnum } from '@athoscommerce/snapi-types';
 
 export default {
 	title: 'Molecules/LoadMore',
@@ -197,7 +197,7 @@ export default {
 const snapInstance = Snapify.search({
 	id: 'LoadMore',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		filters: [
 			{
 				type: 'value' as SearchRequestModelFilterTypeEnum,

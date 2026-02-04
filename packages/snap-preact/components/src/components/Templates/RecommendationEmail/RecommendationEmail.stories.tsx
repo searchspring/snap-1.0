@@ -528,7 +528,7 @@ const results = [
 	},
 ];
 
-const snapInstance = Snapify.recommendation({ id: 'RecommendationEmail', tag: 'email-trending', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.recommendation({ id: 'RecommendationEmail', tag: 'email-trending', globals: { siteId: 'atkzs2' } });
 
 export const Default = (props: RecommendationEmailProps, { loaded: { controller } }: { loaded: { controller: RecommendationController } }) => {
 	return <RecommendationEmail {...props} controller={controller} />;

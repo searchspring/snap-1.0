@@ -39,9 +39,9 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
 	const defaultProps: Partial<TermsListProps> = {
 		layout: [['Suggestions'], ['Trending'], ['History']],
-		historyTitle: 'History',
-		trendingTitle: 'Trending',
-		suggestionTitle: 'Suggestions',
+		historyTitle: 'Recent Searches',
+		trendingTitle: 'Popular Searches',
+		suggestionTitle: 'Search Suggestions',
 	};
 
 	const props = mergeProps('termsList', globalTheme, defaultProps, properties);

@@ -67,7 +67,9 @@ export const BundledCTA = observer((properties: BundledCTAProps): JSX.Element =>
 
 	//deep merge with props.lang
 	const lang = deepmerge({}, props.lang || {});
-	const mergedLang = useLang(lang as any, {});
+	const mergedLang = useLang(lang as any, {
+		cartStore,
+	});
 	return (
 		<div className={`${classNamePrefix}__wrapper__cta`}>
 			{ctaSlot ? (
@@ -82,7 +84,7 @@ export const BundledCTA = observer((properties: BundledCTAProps): JSX.Element =>
 						) : (
 							<Fragment></Fragment>
 						)}
-						<span className={`${classNamePrefix}__wrapper__cta__subtotal__title`}>{`Subtotal for ${cartStore.count} items`}</span>
+						<span className={`${classNamePrefix}__wrapper__cta__subtotal__title`} {...mergedLang.ctaSubtotalTitle?.all}></span>
 						<div className={`${classNamePrefix}__wrapper__cta__subtotal__prices`}>
 							{cartStore.msrp && cartStore.msrp !== cartStore.price ? (
 								<label className={`${classNamePrefix}__wrapper__cta__subtotal__strike`}>
@@ -137,4 +139,5 @@ export interface BundledCTAProps extends ComponentProps {
 export interface BundledCTALang {
 	ctaButtonSuccessText: Lang<never>;
 	ctaButtonText: Lang<never>;
+	ctaSubtotalTitle: Lang<never>;
 }

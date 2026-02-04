@@ -296,6 +296,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 				},
 				result: {
 					hideBadge: true,
+					hideVariantSelections: true,
 				},
 			},
 		};

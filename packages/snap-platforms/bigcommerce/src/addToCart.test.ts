@@ -64,6 +64,7 @@ describe('addToCart', () => {
 	beforeAll(async () => {
 		searchConfig = { ...searchConfigDefault };
 		controller = new SearchController(searchConfig, controllerServices);
+		(controller.client as MockClient).mockData.updateConfig({ search: 'variants' });
 
 		await controller.search();
 
@@ -208,12 +209,13 @@ describe('addToCart', () => {
 			client.mockData.updateConfig({ siteId: 'tfdz6e', search: 'variants' });
 			const optionSearchConfig: SearchStoreConfig = {
 				...searchConfig,
+				id: 'searchVariants',
 				settings: {
 					redirects: {
 						singleResult: false,
 					},
 					variants: {
-						field: 'ss_variants',
+						autoSelect: true,
 					},
 				},
 			};
@@ -386,7 +388,7 @@ describe('addToCart', () => {
 						singleResult: false,
 					},
 					variants: {
-						field: 'ss_variants',
+						autoSelect: true,
 					},
 				},
 			};

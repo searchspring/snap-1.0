@@ -9,48 +9,7 @@ Product variants allow you to represent different versions of the same base prod
 
 Snap's variants functionality helps manage these product variations by providing tools to configure, display and interact with variant data in your components.
 
-Configure variants by setting the variant field in either:
-- Controller config: `controllers[controller].config.settings.variants.field`
-- Recommendation config: `instantiators.recommendation.config.settings.variants.field`
-
-Example -
-
-```typescript
-const config = {
-	instantiators: {
-		recommendation: {
-			components: {
-				Bundle: async () => (await import('./components/Recommendations/Bundle/Bundle')).Bundle,
-			},
-			config: {
-				settings: {
-					variants: {
-						field: 'ss_variants',
-					},
-				},
-			},
-		},
-	},
-	controllers: {
-		search: [
-			{
-				config: {
-					id: 'search',
-					settings: {
-						variants: {
-							field: 'ss_variants',
-						},
-					},
-				},
-			},
-		],
-	},
-};
-
-const snap = new Snap(config);
-```
-
-Once configured, each result that has variants in `controller.store.results` should include a `variants` object with:
+The Athos API will automatically return variants data when applicable. When this happens, each result that has variants in `controller.store.results` will include a `variants` object with:
 
 **Properties:**
 - `active` - Currently selected variant data
@@ -175,7 +134,6 @@ const config = {
 			config: {
 				settings: {
 					variants: {
-						field: 'ss_variants',
 						realtime: {
 							enabled: true,
 						},
@@ -234,7 +192,6 @@ You can filter which results update in realtime by adding filters to your config
 Example - 
 ```typescript
 variants: {
-    field: 'ss_variants',
     realtime: {
         enabled: true,
         filters: ['first']

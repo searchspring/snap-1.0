@@ -1,4 +1,4 @@
-import { h, Fragment, ComponentChildren } from 'preact';
+import { h, Fragment, ComponentChild } from 'preact';
 import { useRef, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
@@ -447,8 +447,12 @@ export const Carousel = observer((properties: CarouselProps): JSX.Element => {
 						attachClasstoLastVisibleSlide();
 					}}
 				>
-					{children.map((child: ComponentChildren) => {
-						return <SwiperSlide>{cloneWithProps(child, { treePath })}</SwiperSlide>;
+					{children.map((child) => {
+						if (child != null) {
+							return <SwiperSlide>{cloneWithProps(child, { treePath })}</SwiperSlide>;
+						} else {
+							return null;
+						}
 					})}
 				</Swiper>
 
@@ -486,7 +490,7 @@ export type CarouselProps = {
 	onInit?: (swiper: SwiperTypes) => void;
 	onAfterInit?: (swiper: SwiperTypes) => void;
 	modules?: any[];
-	children: JSX.Element[];
+	children: ComponentChild[];
 	onResize?: () => void;
 	onTransitionEnd?: () => void;
 	slidesPerView?: number | 'auto';

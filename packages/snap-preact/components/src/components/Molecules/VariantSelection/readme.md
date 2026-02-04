@@ -10,6 +10,9 @@ The variantSelection can be rendered as 3 different types, Dropdown, List, or Sw
 - Swatches
 
 ## Usage
+```jsx
+import { VariantSelection } from '@searchspring/snap-preact-components';
+```
 
 ### selection
 The required `selection` prop specifies a reference to the searchResultStores VariantSelection. 
@@ -23,4 +26,11 @@ The optional `type` prop specifies what type of selection you wish to render. Op
 
 ```jsx
 <VariantSelection selection={VariantSelection} type={'swatches'} />
+```
+
+### onSelect
+The `onSelect` prop allows you to provide a callback function that is triggered when a variant option is selected. The selected option will be passed as an argument to this function, as well as the event.
+
+```jsx
+<VariantSelection selection={VariantSelection} type={'swatches'} onSelect={(e, val) => console.log(e, val)}/>
 ```

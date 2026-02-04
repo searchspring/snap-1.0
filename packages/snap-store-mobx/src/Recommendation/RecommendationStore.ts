@@ -1,11 +1,12 @@
 import { makeObservable, observable } from 'mobx';
+import deepmerge from 'deepmerge';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { Product, SearchResultStore } from '../Search/Stores';
 import { CartStore } from '../Cart/CartStore';
 import { RecommendationProfileStore } from './Stores';
 import type { RecommendationStoreConfig, StoreServices } from '../types';
 import type { ProfileResponseModel, RecommendResponseModel } from '@searchspring/snap-client';
-import { MetaResponseModel } from '@searchspring/snapi-types';
+import { MetaResponseModel } from '@athoscommerce/snapi-types';
 import { MetaStore } from '../Meta/MetaStore';
 
 export class RecommendationStore extends AbstractStore<RecommendationStoreConfig> {
@@ -52,6 +53,18 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 				profile,
 			},
 		});
+
+		if (this.profile.type == 'bundle') {
+			// enable autoSelect for bundles (to ensure selection has been made for add to cart)
+			this.config.settings = deepmerge(this.config.settings || {}, {
+				variants: {
+					autoSelect: true,
+				},
+			});
+
+			// only create a cart store when type is bundle
+			this.cart = new CartStore();
+		}
 		this.results = new SearchResultStore({
 			config: this.config,
 			state: {
@@ -64,11 +77,6 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 				meta: this.meta.data,
 			},
 		}) as Product[];
-
-		// only create a cart store when type is bundle
-		if (this.profile.type == 'bundle') {
-			this.cart = new CartStore();
-		}
 
 		this.loaded = !!profile;
 	}

@@ -2,7 +2,7 @@ import { observable, makeObservable } from 'mobx';
 import type { UrlManager } from '@searchspring/snap-url-manager';
 import type { AutocompleteStoreConfig, StoreServices } from '../../types';
 import { AutocompleteStateStore } from './AutocompleteStateStore';
-import { AutocompleteResponseModel } from '@searchspring/snapi-types';
+import { AutocompleteResponseModel } from '@athoscommerce/snapi-types';
 
 type AutocompleteTermStoreConfig = Omit<TermData, 'data'> & {
 	config: AutocompleteStoreConfig;

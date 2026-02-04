@@ -8,7 +8,7 @@ import {
 	MetaResponseModel,
 	SearchRequestModel,
 	SearchResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import { API, ApiConfigurationParameters, LegacyAPI, SuggestAPI, ApiConfiguration } from '.';
 import { transformSearchRequest, transformSearchResponse, transformSuggestResponse } from '../transforms';

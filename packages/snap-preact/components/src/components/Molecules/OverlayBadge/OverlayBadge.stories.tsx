@@ -117,7 +117,7 @@ export default {
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'OverlayBadge', globals: { siteId: '8uyt2m' } });
+const snapInstance = Snapify.search({ id: 'OverlayBadge', globals: { siteId: 'atkzs2' } });
 
 const ObservableOverlayBadge = observer(({ args, controller }: { args: OverlayBadgeProps; controller: SearchController }) => {
 	return (

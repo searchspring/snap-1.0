@@ -1,6 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 
-import type { SearchResponseModel, MetaResponseModel } from '@searchspring/snapi-types';
+import type { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 import type { SearchStoreConfig, StoreServices } from '../types';
 import {
 	SearchMerchandisingStore,
@@ -96,6 +96,7 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 		});
 
 		this.filters = new SearchFilterStore({
+			config: this.config,
 			services: this.services,
 			data: {
 				search,

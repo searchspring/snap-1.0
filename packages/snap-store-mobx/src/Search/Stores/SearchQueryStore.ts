@@ -4,7 +4,7 @@ import { escapeHTML } from '@searchspring/snap-toolbox';
 
 import type { UrlManager } from '@searchspring/snap-url-manager';
 import type { StoreServices } from '../../types';
-import type { SearchResponseModel, SearchResponseModelSearchMatchTypeEnum } from '@searchspring/snapi-types';
+import type { SearchResponseModel, SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 
 type SearchQueryStoreConfig = {
 	services: StoreServices;

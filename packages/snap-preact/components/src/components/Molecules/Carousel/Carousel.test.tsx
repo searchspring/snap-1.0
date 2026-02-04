@@ -14,7 +14,7 @@ it('tests', () => {
 // import type { Product } from '@searchspring/snap-store-mobx';
 
 // import { MockData } from '@searchspring/snap-shared';
-// import { SearchResponseModel } from '@searchspring/snapi-types';
+// import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 // const mockData = new MockData();
 // const searchResponse: SearchResponseModel = mockData.search();

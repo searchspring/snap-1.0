@@ -9,6 +9,7 @@ import { SearchResultStore } from '@searchspring/snap-store-mobx';
 import { MockData } from '@searchspring/snap-shared';
 
 import type { Product } from '@searchspring/snap-store-mobx';
+import { SearchResponseModelResultVariants } from '@athoscommerce/snapi-types';
 
 const wait = (time?: number) => {
 	return new Promise((resolve) => {
@@ -290,6 +291,231 @@ describe('Result Component', () => {
 		const resultElement = rendered.container.querySelector('.ss__result');
 
 		expect(resultElement?.classList).toHaveLength(3);
+	});
+
+	it('can show variant selections with hideVariantSelections false', () => {
+		const mockVariantData: SearchResponseModelResultVariants = {
+			data: [
+				{
+					mappings: {
+						core: {
+							uid: 'variant1',
+							available: true,
+							name: 'Blue Variant',
+							imageUrl: 'https://example.com/blue.jpg',
+						},
+					},
+					badges: [],
+					options: {
+						color: {
+							value: 'blue',
+						},
+						size: {
+							value: 'large',
+						},
+					},
+				},
+				{
+					mappings: {
+						core: {
+							uid: 'variant2',
+							available: true,
+							name: 'Red Variant',
+							imageUrl: 'https://example.com/red.jpg',
+						},
+					},
+					badges: [],
+					options: {
+						color: {
+							value: 'red',
+						},
+						size: {
+							value: 'medium',
+						},
+					},
+				},
+			],
+			optionConfig: {
+				color: {
+					id: 123,
+				},
+				size: {
+					id: 456,
+				},
+			},
+		};
+		const searchResponseClone = { ...searchResponse };
+		const resultWithVariants = searchResponseClone.search.results![0];
+		resultWithVariants.variants = mockVariantData;
+
+		const mockResultsWithVariants = new SearchResultStore({
+			config: { id: 'test' },
+			state: { loaded: false },
+			data: {
+				search: searchResponse.search,
+				meta: searchResponse.meta,
+			},
+		});
+
+		const rendered = render(<Result result={mockResultsWithVariants[0] as Product} hideVariantSelections={false} />);
+
+		const resultElement = rendered.container.querySelector('.ss__result');
+		// By default, hideVariantSelections should be undefined, which means variant selections are shown
+		const variantSelectionContainer = rendered.container.querySelector('.ss__result__details__variant-selection');
+		const variantSelectionElements = rendered.container.querySelectorAll('.ss__result__details__variant-selection .ss__variant-selection');
+
+		expect(resultElement).toBeInTheDocument();
+		expect(variantSelectionContainer).toBeInTheDocument();
+		expect(variantSelectionElements).toHaveLength(2);
+	});
+
+	it('renders variant selections by default', () => {
+		const mockVariantData: SearchResponseModelResultVariants = {
+			data: [
+				{
+					mappings: {
+						core: {
+							uid: 'variant1',
+							available: true,
+							name: 'Blue Variant',
+							imageUrl: 'https://example.com/blue.jpg',
+						},
+					},
+					badges: [],
+					options: {
+						color: {
+							value: 'blue',
+						},
+						size: {
+							value: 'large',
+						},
+					},
+				},
+				{
+					mappings: {
+						core: {
+							uid: 'variant2',
+							available: true,
+							name: 'Red Variant',
+							imageUrl: 'https://example.com/red.jpg',
+						},
+					},
+					badges: [],
+					options: {
+						color: {
+							value: 'red',
+						},
+						size: {
+							value: 'medium',
+						},
+					},
+				},
+			],
+			optionConfig: {
+				color: {
+					id: 123,
+				},
+				size: {
+					id: 456,
+				},
+			},
+		};
+		const searchResponseClone = { ...searchResponse };
+		const resultWithVariants = searchResponseClone.search.results![0];
+		resultWithVariants.variants = mockVariantData;
+
+		const mockResultsWithVariants = new SearchResultStore({
+			config: { id: 'test' },
+			state: { loaded: false },
+			data: {
+				search: searchResponse.search,
+				meta: searchResponse.meta,
+			},
+		});
+
+		const rendered = render(<Result result={mockResultsWithVariants[0] as Product} />);
+		const resultElement = rendered.container.querySelector('.ss__result');
+		// By default, hideVariantSelections should be undefined, which means variant selections are shown
+		const variantSelectionContainer = rendered.container.querySelector('.ss__result__details__variant-selection');
+		const variantSelectionElements = rendered.container.querySelectorAll('.ss__result__details__variant-selection .ss__variant-selection');
+
+		expect(resultElement).toBeInTheDocument();
+		expect(variantSelectionContainer).toBeInTheDocument();
+		expect(variantSelectionElements).toHaveLength(2);
+	});
+
+	it('hides variant selections when hideVariantSelections is true', () => {
+		const mockVariantData: SearchResponseModelResultVariants = {
+			data: [
+				{
+					mappings: {
+						core: {
+							uid: 'variant1',
+							available: true,
+							name: 'Blue Variant',
+							imageUrl: 'https://example.com/blue.jpg',
+						},
+					},
+					badges: [],
+					options: {
+						color: {
+							value: 'blue',
+						},
+						size: {
+							value: 'large',
+						},
+					},
+				},
+				{
+					mappings: {
+						core: {
+							uid: 'variant2',
+							available: true,
+							name: 'Red Variant',
+							imageUrl: 'https://example.com/red.jpg',
+						},
+					},
+					badges: [],
+					options: {
+						color: {
+							value: 'red',
+						},
+						size: {
+							value: 'medium',
+						},
+					},
+				},
+			],
+			optionConfig: {
+				color: {
+					id: 123,
+				},
+				size: {
+					id: 456,
+				},
+			},
+		};
+		const searchResponseClone = { ...searchResponse };
+		const resultWithVariants = searchResponseClone.search.results![0];
+		resultWithVariants.variants = mockVariantData;
+
+		const mockResultsWithVariants = new SearchResultStore({
+			config: { id: 'test' },
+			state: { loaded: false },
+			data: {
+				search: searchResponse.search,
+				meta: searchResponse.meta,
+			},
+		});
+
+		const rendered = render(<Result result={mockResultsWithVariants[0] as Product} hideVariantSelections={true} />);
+
+		const resultElement = rendered.container.querySelector('.ss__result');
+		const variantSelectionDropdownElement = rendered.container.querySelector('.ss__result__details__variant-selection');
+
+		expect(resultElement).toBeInTheDocument();
+		// Variant container might still exist but selections should be hidden
+		expect(variantSelectionDropdownElement).not.toBeInTheDocument();
 	});
 });
 

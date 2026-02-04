@@ -83,7 +83,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'History' },
+				defaultValue: { summary: 'Recent Searches' },
 			},
 			control: { type: 'text' },
 		},
@@ -103,7 +103,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'Suggestions' },
+				defaultValue: { summary: 'Search Suggestions' },
 			},
 			control: { type: 'text' },
 		},
@@ -113,7 +113,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'Trending' },
+				defaultValue: { summary: 'Popular Searches' },
 			},
 			control: { type: 'text' },
 		},
@@ -145,7 +145,7 @@ const snapInstance = Snapify.autocomplete({
 	id: 'Autocomplete-TermsList',
 	selector: '#searchInput',
 	globals: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 	},
 	settings: {
 		trending: {
