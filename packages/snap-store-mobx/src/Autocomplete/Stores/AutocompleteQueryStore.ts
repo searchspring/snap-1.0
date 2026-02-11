@@ -8,7 +8,7 @@ type AutocompleteQueryStoreConfig = {
 	config: AutocompleteStoreConfig;
 	services: StoreServices;
 	data: {
-		autocomplete: AutocompleteResponseModel;
+		autocomplete?: AutocompleteResponseModel;
 	};
 };
 

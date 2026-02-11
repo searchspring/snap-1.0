@@ -1,6 +1,7 @@
 import { observable, action, makeObservable } from 'mobx';
 import type { UrlManager } from '@searchspring/snap-url-manager';
 import type { StoreServices } from '../../types';
+import type { AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
 
 type AutocompleteStateStoreConfig = {
 	services: StoreServices;
@@ -14,6 +15,7 @@ export class AutocompleteStateStore {
 
 	public focusedInput: HTMLInputElement | undefined = undefined;
 	public input: string | undefined = undefined;
+	public source: AutocompleteRequestModelSearchSourceEnum = 'input' as AutocompleteRequestModelSearchSourceEnum;
 	public url: UrlManager;
 
 	constructor(params: AutocompleteStateStoreConfig) {

@@ -3,7 +3,7 @@ import type { ProfileResponseModel } from '@searchspring/snap-client';
 
 type RecommendationProfileStoreConfig = {
 	data: {
-		profile: ProfileResponseModel;
+		profile?: ProfileResponseModel;
 	};
 };
 export class RecommendationProfileStore {

@@ -27,7 +27,7 @@ export type SearchFacetStoreConfig = {
 	};
 	services: StoreServices;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };
