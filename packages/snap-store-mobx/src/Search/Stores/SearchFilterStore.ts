@@ -16,7 +16,7 @@ type SearchFilterStoreConfig = {
 	services: StoreServices;
 	config?: SearchStoreConfig | AutocompleteStoreConfig;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };

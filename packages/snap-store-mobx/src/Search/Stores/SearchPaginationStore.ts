@@ -8,7 +8,7 @@ type SearchPaginationStoreConfig = {
 	config?: SearchStoreConfig; // optional due to AutocompleteStore using SearchPaginationStore
 	services: StoreServices;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };

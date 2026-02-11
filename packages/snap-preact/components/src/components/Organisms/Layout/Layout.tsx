@@ -80,6 +80,7 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 		},
 		Banner: {
 			// default props
+			controller,
 			content: controller.store.merchandising.content,
 			// inherited props
 			...defined({

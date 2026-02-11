@@ -401,7 +401,6 @@ async function readyTheController(
 		instance.logger.error(`profile '${tag}' found on the following element is missing a template!\n${elem?.outerHTML}`);
 		return;
 	}
-
 	if (!profileVars) {
 		instance.logger.error(`profile '${tag}' found on the following element is missing templateParameters!\n${elem?.outerHTML}`);
 		return;
