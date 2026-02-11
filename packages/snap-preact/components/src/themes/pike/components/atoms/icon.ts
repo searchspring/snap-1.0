@@ -10,7 +10,7 @@ const iconStyleScript = (props: IconProps) => {
 
 	return css([
 		{
-			fill: 'currentColor',
+			fill: props?.color ? props.color : 'currentColor',
 			stroke: 'transparent',
 			lineHeight: 1,
 		},

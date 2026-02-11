@@ -15,9 +15,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 	const disabledStyles = css({
 		[buttonDisabledSelectors]: {
 			opacity: 0.65,
-			'&, & *': {
-				cursor: 'not-allowed',
-			},
+			cursor: 'not-allowed !important',
 		},
 	});
 
