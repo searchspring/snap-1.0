@@ -1,7 +1,15 @@
 import { computed, makeObservable, observable } from 'mobx';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
-import type { SearchStoreConfig, ResultBadge, VariantOptionConfig, VariantConfig, StoreConfigs } from '../../types';
+import type {
+	SearchStoreConfig,
+	ResultBadge,
+	VariantOptionConfig,
+	VariantConfig,
+	StoreConfigs,
+	AutocompleteStoreConfig,
+	RecommendationStoreConfig,
+} from '../../types';
 import type {
 	SearchResponseModelResult,
 	SearchResponseModelResultMappings,
@@ -10,7 +18,10 @@ import type {
 	SearchResponseModel,
 	MetaResponseModel,
 	SearchResponseModelPagination,
-} from '@searchspring/snapi-types';
+	SearchResponseModelResultBadges,
+	SearchResponseModelResultVariantsData,
+	SearchResponseModelResultVariantsOptionConfig,
+} from '@athoscommerce/snapi-types';
 
 const VARIANT_ATTRIBUTE = 'ss-variant-option';
 const VARIANT_ATTRIBUTE_SELECTED = 'ss-variant-option-selected';
@@ -51,36 +62,54 @@ export class SearchResultStore extends Array<Product | Banner> {
 			});
 		});
 
-		const variantConfig = (config as SearchStoreConfig)?.settings?.variants;
-
+		const variantConfig = (config as SearchStoreConfig | AutocompleteStoreConfig | RecommendationStoreConfig)?.settings?.variants;
 		// preselected variant options
 		if (variantConfig?.realtime?.enabled) {
 			// attach click events - ONLY happens once (known limitation)
-			if (!loaded && resultsArr.length) {
+			if (!loaded && resultsArr?.length) {
+				const processedSelects = new Set<Element>();
 				document.querySelectorAll(`[${VARIANT_ATTRIBUTE}]`).forEach((elem) => {
-					if (variantConfig?.field && !variantConfig?.realtime?.enabled === false) {
-						elem.addEventListener('click', () => variantOptionClick(elem, variantConfig, resultsArr));
+					if (elem.tagName == 'OPTION') {
+						const parentSelect = elem.closest('select');
+						if (parentSelect) {
+							if (!processedSelects.has(parentSelect)) {
+								processedSelects.add(parentSelect);
+								parentSelect.addEventListener('change', (e) => {
+									const val = (e.target as HTMLSelectElement)?.value;
+									const clickedOption = Array.from(parentSelect.querySelectorAll(`[${VARIANT_ATTRIBUTE}]`)).filter(
+										(elem) => (elem as HTMLOptionElement).value == val
+									);
+									if (clickedOption.length > 0) {
+										variantOptionClick(clickedOption[0], variantConfig, resultsArr);
+									}
+								});
+							}
+						} else {
+							console.warn('Warning: unable to add realtime variant event listener for element - ', elem);
+						}
+					} else {
+						elem.addEventListener('click', () => {
+							variantOptionClick(elem, variantConfig, resultsArr);
+						});
 					}
 				});
 			}
 
 			// check for attributes for preselection
 			if (resultsArr.length) {
-				if (variantConfig?.field && !variantConfig?.realtime?.enabled === false) {
-					const options: Record<string, string[]> = {};
-					// grab values from elements on the page to form preselected elements
-					document.querySelectorAll(`[${VARIANT_ATTRIBUTE_SELECTED}]`).forEach((elem) => {
-						const attr = elem.getAttribute(VARIANT_ATTRIBUTE);
-						if (attr) {
-							const [option, value] = attr.split(':');
-							if (option && value) {
-								options[option.toLowerCase()] = [value.toLowerCase()];
-							}
+				const options: Record<string, string[]> = {};
+				// grab values from elements on the page to form preselected elements
+				document.querySelectorAll(`[${VARIANT_ATTRIBUTE_SELECTED}]`).forEach((elem) => {
+					const attr = elem.getAttribute(VARIANT_ATTRIBUTE);
+					if (attr) {
+						const [option, value] = attr.split(':');
+						if (option && value) {
+							options[option.toLowerCase()] = [value.toLowerCase()];
 						}
-					});
+					}
+				});
 
-					makeVariantSelections(variantConfig, options, resultsArr);
-				}
+				makeVariantSelections(variantConfig, options, resultsArr);
 			}
 		}
 
@@ -149,10 +178,8 @@ export class Banner {
 	}
 }
 
-export type VariantData = {
-	mappings: SearchResponseModelResultMappings;
-	attributes: Record<string, unknown>;
-	options: VariantDataOptions;
+export type VariantData = SearchResponseModelResultVariantsData & {
+	attributes?: Record<string, unknown>;
 };
 
 export type VariantDataOptions = Record<
@@ -171,20 +198,16 @@ type ProductMinimal = {
 	id: string;
 	attributes: Record<string, unknown>;
 	mappings: SearchResponseModelResultMappings;
+	badges: Badges;
 };
 
 type ProductData = {
 	config: StoreConfigs;
 	data: {
-		result: SearchResponseModelResult & { variants?: SearchResponseModelResultVariants };
+		result: SearchResponseModelResult;
 		meta: MetaResponseModel;
 	};
 	position: number;
-};
-
-type SearchResponseModelResultVariants = {
-	preferences: Record<string, string[]>;
-	data: VariantData[];
 };
 
 export class Product {
@@ -196,7 +219,6 @@ export class Product {
 		core: {},
 	};
 	public custom = {};
-	public children?: Array<Child> = [];
 	public badges: Badges;
 
 	public bundleSeed: boolean | undefined;
@@ -227,47 +249,17 @@ export class Product {
 			this.bundleSeed = Boolean(result.bundleSeed);
 		}
 
-		const variantsField = (config as SearchStoreConfig)?.settings?.variants?.field;
-
-		if (config && variantsField && this.attributes && this.attributes[variantsField]) {
-			try {
-				// parse the field (JSON)
-				const parsedVariants: VariantData[] = JSON.parse(this.attributes[variantsField] as string);
-
-				this.variants = new Variants({
-					config: (config as SearchStoreConfig).settings?.variants,
-					data: {
-						mask: this.mask,
-						variants: parsedVariants,
-					},
-				});
-			} catch (err) {
-				// failed to parse the variant JSON
-				console.error(err, `Invalid variant JSON for product id: ${result.id}`);
-			}
-			// default variants field
-		} else if (result.variants) {
+		if (result.variants && result.variants.data) {
 			// if variants are already parsed, use them
 			this.variants = new Variants({
 				data: {
 					mask: this.mask,
 					variants: result.variants.data,
-					preferences: result.variants.preferences,
+					optionConfig: result.variants.optionConfig,
+					preferences: (result.variants as any)?.preferences, // TODO: fix typing
+					meta: meta,
 				},
 				config: (config as SearchStoreConfig)?.settings?.variants,
-			});
-		}
-
-		if (result.children?.length) {
-			this.children = result.children.map((variant, index) => {
-				return new Child({
-					data: {
-						result: {
-							id: `${result.id}-${index}`,
-							...variant,
-						},
-					},
-				});
 			});
 		}
 
@@ -282,7 +274,9 @@ export class Product {
 	}
 
 	public get display(): ProductMinimal {
-		return deepmerge({ id: this.id, mappings: this.mappings, attributes: this.attributes }, this.mask.data, { isMergeableObject: isPlainObject });
+		return deepmerge({ id: this.id, mappings: this.mappings, attributes: this.attributes, badges: this.badges }, this.mask.data, {
+			isMergeableObject: isPlainObject,
+		});
 	}
 }
 
@@ -388,6 +382,10 @@ type VariantsData = {
 		mask: ProductMask;
 		variants: VariantData[];
 		preferences?: Record<string, string[]>;
+		meta: MetaResponseModel;
+		optionConfig?: {
+			[key: string]: SearchResponseModelResultVariantsOptionConfig;
+		};
 	};
 };
 
@@ -397,19 +395,32 @@ export class Variants {
 	public selections: VariantSelection[] = [];
 	public setActive: (variant: Variant) => void;
 	private config?: VariantConfig;
+	public optionConfig?: {
+		[key: string]: SearchResponseModelResultVariantsOptionConfig;
+	};
 
 	constructor(variantData: VariantsData) {
 		const { config, data } = variantData || {};
-		const { variants, mask } = data || {};
+		const { variants, mask, meta } = data || {};
 		const preferences = variantData?.data?.preferences || {};
 		// setting function in constructor to prevent exposing mask as class property
 		this.setActive = (variant: Variant) => {
 			this.active = variant;
-			mask.set({ mappings: this.active.mappings, attributes: this.active.attributes });
+			const activeBadges = new Badges({
+				data: {
+					meta: meta,
+					result: variant as SearchResponseModelResult,
+				},
+			});
+			mask.set({ mappings: this.active.mappings, attributes: this.active.attributes, badges: activeBadges });
 		};
 
 		if (config) {
 			this.config = config;
+		}
+
+		if (data.optionConfig) {
+			this.optionConfig = data.optionConfig;
 		}
 
 		this.update(variants, config, preferences);
@@ -421,7 +432,7 @@ export class Variants {
 
 			// create variants objects
 			this.data = variantData
-				.filter((variant) => this.config?.showDisabledSelectionValues || variant.attributes.available !== false)
+				.filter((variant) => this.config?.showDisabledSelectionValues || variant.mappings.core?.available !== false)
 				.map((variant) => {
 					// normalize price fields ensuring they are numbers
 					if (variant.mappings.core?.price) {
@@ -452,6 +463,7 @@ export class Variants {
 				this.selections.push(
 					new VariantSelection({
 						config: variantOptionConfig,
+						optionConfig: this.optionConfig?.[option],
 						data: {
 							variants: this,
 							selectorField: option,
@@ -478,8 +490,10 @@ export class Variants {
 				});
 			}
 
-			// select first available
-			this.makeSelections(preselectedOptions);
+			if (config?.autoSelect) {
+				// select first available
+				this.makeSelections(preselectedOptions);
+			}
 		} catch (err) {
 			// failed to parse the variant JSON
 			console.error(err, `Invalid variant JSON for: ${variantData}`);
@@ -561,7 +575,18 @@ export class Variants {
 
 			// set active variant
 			if (availableVariants.length == 1) {
-				this.setActive(availableVariants[0]);
+				const variantToSet = availableVariants[0];
+
+				//need to update all unselected selections to match the single result
+				const unselectedSelections = this.selections.filter((selection) => !selection.selected);
+
+				unselectedSelections.forEach((selection) => {
+					const field = selection.field;
+					const valueToSet = variantToSet.options[field].value;
+					selection.select(valueToSet);
+				});
+
+				this.setActive(variantToSet);
 			}
 		}
 	}
@@ -579,6 +604,7 @@ export type VariantSelectionValue = {
 
 type VariantSelectionData = {
 	config?: VariantOptionConfig;
+	optionConfig?: SearchResponseModelResultVariantsOptionConfig;
 	data: {
 		variants: Variants;
 		selectorField: string;
@@ -587,6 +613,8 @@ type VariantSelectionData = {
 export class VariantSelection {
 	public field: string;
 	public label: string;
+	public type?: string;
+	public count?: number;
 	public selected?: VariantSelectionValue = undefined;
 	public previouslySelected?: VariantSelectionValue = undefined;
 	public values: VariantSelectionValue[] = [];
@@ -594,9 +622,11 @@ export class VariantSelection {
 	private variantsUpdate: () => void;
 
 	constructor(variantSelectionData: VariantSelectionData) {
-		const { data, config } = variantSelectionData || {};
+		const { data, config, optionConfig } = variantSelectionData || {};
 		const { variants, selectorField } = data || {};
 		this.field = selectorField;
+		this.type = optionConfig?.type;
+		this.count = optionConfig?.count;
 		this.label = config?.label || selectorField;
 		this.config = config || {};
 
@@ -730,8 +760,9 @@ export class VariantSelection {
 export class Variant {
 	public type = 'variant';
 	public available: boolean;
-	public attributes: Record<string, unknown> = {};
+	public attributes?: Record<string, unknown> = {};
 	public options: VariantDataOptions;
+	public badges: SearchResponseModelResultBadges[];
 
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -741,40 +772,19 @@ export class Variant {
 	constructor(variantData: { data: { variant: VariantData } }) {
 		const { data } = variantData || {};
 		const { variant } = data || {};
-		this.attributes = variant.attributes;
+		this.attributes = variant.attributes || {};
 		this.mappings = variant.mappings;
 		this.options = variant.options;
-		this.available = (this.attributes.available as boolean) || false;
+		// construct badges from data (need meta)
+		this.badges = variant.badges || [];
+
+		this.available = (this.mappings.core?.available as boolean) ?? true;
 
 		makeObservable(this, {
 			attributes: observable,
 			mappings: observable,
 			custom: observable,
 			available: observable,
-		});
-	}
-}
-
-type ChildData = {
-	data: {
-		result: SearchResponseModelResult;
-	};
-};
-class Child {
-	public type = 'child';
-	public id: string;
-	public attributes: Record<string, unknown> = {};
-	public custom = {};
-
-	constructor(childData: ChildData) {
-		const { result } = childData?.data || {};
-		this.id = result.id!;
-		this.attributes = result.attributes!;
-
-		makeObservable(this, {
-			id: observable,
-			attributes: observable,
-			custom: observable,
 		});
 	}
 }
@@ -832,9 +842,12 @@ function variantOptionClick(elem: Element, variantConfig: VariantConfig, results
 	const attr = elem.getAttribute(VARIANT_ATTRIBUTE);
 	if (attr) {
 		const [option, value] = attr.split(':');
-		options[option.toLowerCase()] = [value.toLowerCase()];
-
-		makeVariantSelections(variantConfig, options, results);
+		if (!option || !value) {
+			console.error('Error!: realtime variant is missing option or value (option:value)!', elem, attr);
+		} else {
+			options[option.toLowerCase()] = [value.toLowerCase()];
+			makeVariantSelections(variantConfig, options, results);
+		}
 	}
 }
 

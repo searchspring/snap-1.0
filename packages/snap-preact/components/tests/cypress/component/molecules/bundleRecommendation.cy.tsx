@@ -24,11 +24,6 @@ const recommendConfig: RecommendationStoreConfig = {
 	globals: {
 		products: ['C-AD-W1-1869P'],
 	},
-	settings: {
-		variants: {
-			field: 'ss_variants',
-		},
-	},
 };
 
 const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);

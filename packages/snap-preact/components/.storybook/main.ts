@@ -14,12 +14,18 @@ const config: StorybookConfig = {
 
 	// altering webpack config
 	webpackFinal: async (config) => {
-		// typescript
+		// typescript - use esbuild-loader for much faster compilation
 		config.module?.rules?.push({
 			test: /\.(ts|tsx)$/,
 			use: [
 				{
-					loader: require.resolve('ts-loader'),
+					loader: require.resolve('esbuild-loader'),
+					options: {
+						loader: 'tsx',
+						target: 'es2020',
+						jsx: 'automatic',
+						jsxImportSource: '@emotion/react',
+					},
 				},
 			],
 		});
@@ -32,6 +38,32 @@ const config: StorybookConfig = {
 			sideEffects: true,
 			use: ['style-loader', 'css-loader', 'sass-loader'],
 		});
+
+		// optimize webpack for faster rebuilds
+		if (config.cache) {
+			config.cache = {
+				type: 'filesystem',
+				buildDependencies: {
+					config: [__filename],
+				},
+			};
+		}
+
+		// optimize module resolution
+		if (config.resolve) {
+			config.resolve.symlinks = false;
+		}
+
+		// use esbuild for minification (faster than terser)
+		if (config.optimization) {
+			const { EsbuildPlugin } = require('esbuild-loader');
+			config.optimization.minimizer = [
+				new EsbuildPlugin({
+					target: 'es2020',
+					css: true,
+				}),
+			];
+		}
 
 		return config;
 	},

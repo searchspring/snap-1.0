@@ -1,7 +1,7 @@
 import { makeObservable, observable, computed } from 'mobx';
 import { ChatStoreConfig } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
-import { MetaResponseModel } from '@searchspring/snapi-types';
+import { MetaResponseModel } from '@athoscommerce/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import type { ChatResponseModel, ChatRequestModel, FeedbackRequestModel } from '@searchspring/snap-client';
 import { StorageStore } from '../Storage/StorageStore';

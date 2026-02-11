@@ -1,4 +1,4 @@
-import { SearchResponseModelResult } from '@searchspring/snapi-types';
+import { SearchResponseModelResult } from '@athoscommerce/snapi-types';
 import type {
 	MoiRequestModel,
 	MoiResponseModel,

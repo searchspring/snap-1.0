@@ -18,7 +18,7 @@ import type {
 	SearchRequestModelFilterRangeAllOfValue,
 	SearchResponseModel,
 	MetaResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 export type SearchFacetStoreConfig = {
 	config: SearchStoreConfig | AutocompleteStoreConfig;

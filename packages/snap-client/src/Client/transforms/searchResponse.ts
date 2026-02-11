@@ -9,15 +9,18 @@ import {
 	SearchResponseModelSearchMatchTypeEnum,
 	SearchResponseModelMerchandising,
 	SearchResponseModelResultBadges,
-} from '@searchspring/snapi-types';
+	SearchResponseModelResultVariants,
+} from '@athoscommerce/snapi-types';
 
-// TODO: Add all core fields
 const CORE_FIELDS = [
 	'uid',
 	'sku',
+	'available',
 	'name',
 	'url',
 	'addToCartUrl',
+	'parentId',
+	'parentImageUrl',
 	'price',
 	'msrp',
 	'imageUrl',
@@ -41,7 +44,9 @@ type sortingOption = {
 };
 
 type rawResult = {
+	available: string;
 	badges?: SearchResponseModelResultBadges[];
+	variants?: SearchResponseModelResultVariants;
 	brand?: string;
 	collection_handle?: string[];
 	collection_id?: string[];
@@ -52,6 +57,8 @@ type rawResult = {
 	intellisuggestSignature?: string;
 	msrp?: string;
 	name: string;
+	parentId: string;
+	parentImageUrl: string;
 	price: string;
 	product_type?: string[];
 	product_type_unigram?: string;
@@ -212,31 +219,22 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 
 	if (coreFieldValues.price) coreFieldValues.price = +coreFieldValues.price;
 	if (coreFieldValues.msrp) coreFieldValues.msrp = +coreFieldValues.msrp;
-
+	if (coreFieldValues.available?.toString() === 'true') {
+		coreFieldValues.available = true;
+	} else if (coreFieldValues.available?.toString() === 'false') {
+		coreFieldValues.available = false;
+	}
 	const attributes = Object.keys(rawResult)
 		.filter((k) => CORE_FIELDS.indexOf(k) == -1)
 		// remove 'badges' from attributes - but only if it is an object
 		.filter((k) => !(k == 'badges' && Array.isArray(rawResult[k]) && typeof rawResult[k]?.[0] == 'object'))
+		.filter((k) => !(k == 'variants'))
 		.reduce((attributes, key) => {
 			return {
 				...attributes,
 				[key]: decodeProperty(rawResult[key as keyof rawResult] || ''),
 			};
 		}, {});
-
-	const children =
-		rawResult?.children?.map((child) => {
-			return {
-				attributes: {
-					...Object.keys(child).reduce((attributes, key) => {
-						return {
-							...attributes,
-							[key]: decodeProperty(child[key]),
-						};
-					}, {}),
-				},
-			};
-		}) || [];
 
 	return new Result({
 		id: rawResult.uid,
@@ -245,7 +243,7 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 		},
 		attributes,
 		badges: Array.isArray(rawResult.badges) && typeof rawResult.badges[0] == 'object' ? rawResult.badges : [],
-		children,
+		variants: rawResult.variants,
 	});
 };
 
@@ -461,7 +459,7 @@ transformSearchResponse.search = (response: searchResponseType, request: SearchR
 };
 
 // used for HTML entities decoding
-function decodeProperty(encoded: string | string[] | SearchResponseModelResultBadges[]) {
+function decodeProperty(encoded: string | string[] | SearchResponseModelResultBadges[] | SearchResponseModelResultVariants) {
 	if (Array.isArray(encoded)) {
 		return encoded.map((item) => {
 			if (typeof item === 'string') {

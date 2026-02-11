@@ -7,7 +7,7 @@ import { ThemeProvider } from '../../../providers';
 import type { FacetValue } from '@searchspring/snap-store-mobx';
 
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@searchspring/snapi-types';
+import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
 const paletteFacetMock: SearchResponseModelFacet & SearchResponseModelFacetValueAllOf = mockData

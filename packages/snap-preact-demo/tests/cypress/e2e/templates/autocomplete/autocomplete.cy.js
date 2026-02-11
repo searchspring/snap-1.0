@@ -184,7 +184,7 @@ describe('Autocomplete', () => {
 				cy.get(`${config.selectors.autocomplete.result} a:first`)
 					.should('have.length.greaterThan', 0)
 					.each((result, index) => {
-						cy.get(result).should('have.attr', 'href', store.results[index].mappings.core.url);
+						cy.get(result).should('have.attr', 'href', store.results[index].display.mappings.core.url);
 					});
 			});
 		});

@@ -17,7 +17,7 @@ import type {
 } from '@searchspring/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentProduct, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
-import { MetaResponseModel } from '@searchspring/snapi-types';
+import { MetaResponseModel } from '@athoscommerce/snapi-types';
 
 export type ChatFeedbacks = { messageId: string; rating: 'UP' | 'DOWN' };
 

@@ -8,7 +8,7 @@ The `RecommendationController` is used when making queries to the API `recommend
 |---|---|:---:|:---:|
 | id | unique identifier for this controller | ➖ | ✔️ |
 | tag | unique name of the recommendations profile | ➖ | ✔️ |
-| realtime | update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_TRACKING.md)) | ➖ |   |
+| realtime | update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) | ➖ |   |
 | batched | batch multiple recommendations into a single network request | true |   |
 | limit | maximum number of results to display, can also be set globally via globals | 20 |  |
 | globals | keys defined here will be passed to the API request (can overwrite global config)| ➖ |   |
@@ -18,53 +18,27 @@ The `RecommendationController` is used when making queries to the API `recommend
 | settings.variants.realtime.enabled | enable real time variant updates | ➖ |   | 
 | settings.variants.realtime.filters | specify which filters to use to determine which results are updated | ➖ |   | 
 | settings.variants.options | object keyed by individual option field values for configuration of any option settings  | ➖ |   | 
-<br>
 
-```typescript
-const recommendationConfig = {
-	id: 'recommend',
-	tag: 'trending',
-};
-```
-
-## Instantiate
-`RecommendationController` requires an `RecommendationControllerConfig` and `ControllerServices` object and is paired with an `RecommendationStore`. The `RecommendationStore` takes the same config, and shares the `UrlManager` service with the controller.
-
-```typescript
-import { RecommendationController } from '@searchspring/snap-controller';
-import { Client } from '@searchspring/snap-client';
-import { RecommendationStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-
-const recommendationUrlManager = new UrlManager(new UrlTranslator(), reactLinker).detach(0);
-const recommendationController = new RecommendationController(recommendationConfig, {
-		client: new Client(globals, clientConfig),
-		store: new RecommendationsStore(recommendationConfig, { urlManager: recommendationUrlManager }),
-		urlManager: recommendationUrlManager,
-		eventManager: new EventManager(),
-		profiler: new Profiler(),
-		logger: new Logger(),
-		tracker: new Tracker(),
-	}
-));
-```
 
 ## Initialize
 Invoking the `init` method is required to subscribe to changes that occur in the UrlManager. This is typically done automatically prior to calling the first `search`.
 
-```typescript
+```js
 recommendationController.init();
+```
+
+## Search
+This will invoke a search request to Searchspring's search API and populate the store with the response.
+
+```js
+recommendationController.search();
 ```
 
 ## AddToCart
 This will invoke an addToCart event (see below). Takes an array of Products as a parameter. 
 
-```typescript
-recommendationController.addToCart(products);
+```js
+recommendationController.addToCart([recommendationController.store.results[0]]);
 ```
 
 ## Events

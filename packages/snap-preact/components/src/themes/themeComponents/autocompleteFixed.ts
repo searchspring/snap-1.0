@@ -31,6 +31,7 @@ export const autocompleteFixedThemeComponentProps: ThemeComponent<'autocompleteF
 		},
 		'autocompleteFixed result': {
 			hideBadge: true,
+			hideVariantSelections: true,
 		},
 		'autocompleteFixed recommendationGrid': {
 			columns: 4,

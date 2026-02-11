@@ -278,6 +278,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 				},
 				result: {
 					hideBadge: true,
+					hideVariantSelections: true,
 				},
 			},
 		};

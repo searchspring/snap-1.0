@@ -2,7 +2,7 @@ import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
 import { MockData } from '@searchspring/snap-shared';
 
 import { SearchPaginationStore } from './SearchPaginationStore';
-import { SearchResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@searchspring/snapi-types';
+import { SearchResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@athoscommerce/snapi-types';
 import { SearchStoreConfig } from '../../types';
 
 const services = {

@@ -6,7 +6,7 @@ import type {
 	SearchRequestModel,
 	MetaResponseModelBadgeTag,
 	SearchResponseModelResultBadges,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 // Abstract
 export type StoreConfig = {
@@ -52,7 +52,6 @@ export type SearchStoreConfigSettings = {
 export type VariantConfigFilterTypes = 'first' | 'unaltered';
 
 export type VariantConfig = {
-	field: string;
 	realtime?: {
 		enabled: boolean;
 		filters?: VariantConfigFilterTypes[];
@@ -61,6 +60,7 @@ export type VariantConfig = {
 		[optionField: string]: VariantOptionConfig;
 	};
 	showDisabledSelectionValues?: boolean;
+	autoSelect?: boolean;
 };
 
 export type VariantOptionConfig = {

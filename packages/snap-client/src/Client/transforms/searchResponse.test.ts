@@ -1,11 +1,14 @@
 import { transformSearchResponse, searchResponseType } from './searchResponse';
-import { SearchResponseModelSearchMatchTypeEnum } from '@searchspring/snapi-types';
+import { SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 
 const mockSingleResult = {
 	intellisuggestData: 'eJwrLzbIKTBkYGDwCDcyMDC01HXy8db1CGcwBEITIwYjQ2MLhvSizBQAuS0I0Q',
 	intellisuggestSignature: '73ed9559bc402f46f74ffdac2c207fa4eeaae2342f8cf41c9737d8faf4d62038',
 	image_medium: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_medium.jpg?v=1594226901',
 	variant_images_json: '[]',
+	available: 'true',
+	parentId: '12345',
+	parentImageUrl: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_1024x1024.jpg?v=1594226901',
 	product_price: '8',
 	image_1024x1024: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_1024x1024.jpg?v=1594226901',
 	collection_id: [
@@ -372,7 +375,6 @@ describe('search response transformer result', () => {
 		const result = transformSearchResponse.result(mockSingleResult);
 
 		// TODO: Add all core fields
-
 		expect(result.mappings?.core?.name).toEqual(mockSingleResult.name);
 		expect(result.mappings?.core?.sku).toEqual(mockSingleResult.sku);
 		expect(result.mappings?.core?.imageUrl).toEqual(mockSingleResult.imageUrl);
@@ -381,6 +383,9 @@ describe('search response transformer result', () => {
 		expect(result.mappings?.core?.brand).toEqual(mockSingleResult.brand);
 		expect(result.mappings?.core?.url).toEqual(mockSingleResult.url);
 		expect(result.mappings?.core?.uid).toEqual(mockSingleResult.uid);
+		expect(result.mappings?.core?.available).toEqual(true);
+		expect(result.mappings?.core?.parentId).toEqual(mockSingleResult.parentId);
+		expect(result.mappings?.core?.parentImageUrl).toEqual(mockSingleResult.parentImageUrl);
 	});
 
 	it('leaves core fields out of attributes', () => {

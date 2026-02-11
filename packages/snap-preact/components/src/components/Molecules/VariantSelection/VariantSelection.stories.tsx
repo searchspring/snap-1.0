@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../VariantSelection/readme.md';
 import { Snapify } from '../../../utilities/snapify';
 import { Next } from '@searchspring/snap-event-manager';
-import { SearchResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 export default {
 	title: 'Molecules/VariantSelection',
@@ -126,11 +126,6 @@ const config: SearchControllerConfig = {
 	id: 'searchVariants',
 	globals: {
 		siteId: 'atkzs2',
-	},
-	settings: {
-		variants: {
-			field: 'ss_variants',
-		},
 	},
 };
 

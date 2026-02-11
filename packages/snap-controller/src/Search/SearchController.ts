@@ -31,7 +31,7 @@ import {
 	type MetaResponseModelFacetHierarchy,
 	type SearchResponseModelFilterTypeEnum,
 	SearchResponseModelFacetValue,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import {
 	type AutocompleteAddtocartSchemaDataBgfilterInner,
@@ -787,8 +787,8 @@ function createResultSchemaMapping({
 			results: [
 				{
 					type: ItemTypeEnum.Product,
+					uid: result.mappings?.core?.parentId || result.mappings?.core?.uid || '',
 					position: idx + 1,
-					uid: result.mappings?.core?.uid || '',
 					sku: result.mappings?.core?.sku,
 				},
 			],
@@ -868,7 +868,7 @@ function getSearchAddtocartSchemaData({
 			results?.map((result: Product): BeaconProduct => {
 				const core = (result as Product).mappings.core!;
 				return {
-					uid: core.uid || '',
+					uid: core.parentId || core.uid || '',
 					sku: core.sku,
 					price: Number(core.price),
 					qty: result.quantity || 1,

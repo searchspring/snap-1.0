@@ -8,7 +8,7 @@ import { ThemeProvider } from '../../../../providers';
 import type { Banner } from '@searchspring/snap-store-mobx';
 
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
 mockData.updateConfig({ search: 'inlineBanners.page1' });

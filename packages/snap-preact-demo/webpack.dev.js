@@ -1,6 +1,9 @@
-/* eslint-disable */
-const { merge } = require('webpack-merge');
-const path = require('path');
+import { merge } from 'webpack-merge';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // This is used to create the initial dist directory in the virtual dev server
 // Other builds require that the dist directory already exists before creating the subdirectories 'snap' and 'templates'
@@ -37,7 +40,7 @@ const devServer = {
 	},
 };
 
-const modernProd = require('./snap/webpack.modern.js');
+import modernProd from './snap/webpack.modern.js';
 const modern = {
 	...merge(modernProd, {
 		module: {
@@ -72,7 +75,7 @@ const modern = {
 	devtool: 'source-map',
 };
 
-const modernTemplatesProd = require('./templates/webpack.modern.js');
+import modernTemplatesProd from './templates/webpack.modern.js';
 const modernTemplates = {
 	...merge(modernTemplatesProd, {
 		module: {
@@ -107,14 +110,14 @@ const modernTemplates = {
 	devtool: 'source-map',
 };
 
-const universalProd = require('./snap/webpack.universal.js');
+import universalProd from './snap/webpack.universal.js';
 const universal = {
 	...merge(universalProd, {
 		module: {
 			rules: [
 				{
 					test: /\.(js|jsx)$/,
-					include: [/node_modules\/@searchspring/, path.resolve(__dirname, 'src'), path.resolve(__dirname, '../')],
+					include: [/node_modules\/\@searchspring/, path.resolve(__dirname, 'src'), path.resolve(__dirname, '../')],
 					use: {
 						loader: 'babel-loader',
 						options: {
@@ -142,14 +145,14 @@ const universal = {
 	devtool: 'source-map',
 };
 
-const universalTemplatesProd = require('./templates/webpack.universal.js');
+import universalTemplatesProd from './templates/webpack.universal.js';
 const universalTemplates = {
 	...merge(universalTemplatesProd, {
 		module: {
 			rules: [
 				{
 					test: /\.(js|jsx)$/,
-					include: [/node_modules\/@searchspring/, path.resolve(__dirname, 'src'), path.resolve(__dirname, '../')],
+					include: [/node_modules\/\@searchspring/, path.resolve(__dirname, 'src'), path.resolve(__dirname, '../')],
 					use: {
 						loader: 'babel-loader',
 						options: {
@@ -176,4 +179,4 @@ const universalTemplates = {
 	devtool: 'source-map',
 };
 
-module.exports = [devServer, modern, modernTemplates, universal, universalTemplates];
+export default [devServer, modern, modernTemplates, universal, universalTemplates];

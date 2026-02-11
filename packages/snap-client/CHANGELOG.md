@@ -8,6 +8,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 - add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Bug Fixes
+
 - **networkcache:** bugfix to prevent memoryCache from growing too large, and delete expired entries ([0534b6c](https://github.com/searchspring/snap/commit/0534b6c4ccb62389669c19f8f9f87cbd098fa6a5))
 
 ### Features

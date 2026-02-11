@@ -12,7 +12,7 @@ import type {
 	SearchResponseModelFacetRangeBuckets,
 	SearchResponseModelFacetValue,
 	SearchResponseModelFacetValueAllOfValues,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 type FacetWithMeta = MetaResponseModelFacetGrid &
 	MetaResponseModelFacetHierarchy &
