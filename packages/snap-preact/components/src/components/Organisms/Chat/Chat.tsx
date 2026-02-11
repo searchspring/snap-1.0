@@ -26,6 +26,8 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 		bottom: '20px',
 		zIndex: 1002,
 		color: '#333',
+		transformOrigin: mobile ? 'center center' : 'bottom right',
+		transition: mobile ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)' : 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
 		'.ss__button': {
 			border: 'none',
 			background: 'none',
@@ -39,6 +41,14 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			},
 		},
 		'&.ss__chat--minimized': {
+			width: '60px',
+			height: '60px',
+			minHeight: '60px',
+			opacity: 1,
+			transform: 'scale(1)',
+			animation: mobile
+				? 'ss-chat-close-mobile 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+				: 'ss-chat-close-desktop 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards',
 			'.ss__chat__bubble': {
 				width: '60px',
 				height: '60px',
@@ -51,14 +61,18 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 				cursor: 'pointer',
 				fontSize: '24px',
 				boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+				transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+				animation: 'ss-chat-bubble-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
 				'&:hover': {
 					background: '#0052a3',
+					transform: 'scale(1.05)',
 				},
 				'.ss__icon': {
 					height: '33px',
 					width: '33px',
 					fill: '#fff',
 					stroke: '#fff',
+					animation: 'ss-chat-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
 				},
 			},
 		},
@@ -75,6 +89,109 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			maxWidth: mobile ? undefined : 'calc(100vw - 1em - 20px - 20px)',
 			boxSizing: 'border-box',
 			justifyContent: 'flex-end',
+			opacity: 1,
+			transform: 'scale(1)',
+			animation: mobile
+				? 'ss-chat-open-mobile 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+				: 'ss-chat-open-desktop 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+		},
+		'@keyframes ss-chat-open-desktop': {
+			'0%': {
+				width: '60px',
+				height: '60px',
+				minHeight: '60px',
+				opacity: 0.8,
+				transform: 'scale(0.8)',
+			},
+			'100%': {
+				width: '500px',
+				maxHeight: '90vh',
+				minHeight: '50vh',
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+		},
+		'@keyframes ss-chat-open-mobile': {
+			'0%': {
+				width: '60px',
+				height: '60px',
+				opacity: 0.8,
+				transform: 'scale(0.9)',
+				borderRadius: '50%',
+			},
+			'100%': {
+				width: '100%',
+				height: '100vh',
+				opacity: 1,
+				transform: 'scale(1)',
+				borderRadius: '0',
+			},
+		},
+		'@keyframes ss-chat-close-desktop': {
+			'0%': {
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+			'100%': {
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+		},
+		'@keyframes ss-chat-close-mobile': {
+			'0%': {
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+			'100%': {
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+		},
+		'@keyframes ss-chat-bubble-appear': {
+			'0%': {
+				opacity: 0,
+				transform: 'scale(0.3) rotate(-180deg)',
+			},
+			'50%': {
+				transform: 'scale(1.1) rotate(10deg)',
+			},
+			'100%': {
+				opacity: 1,
+				transform: 'scale(1) rotate(0deg)',
+			},
+		},
+		'@keyframes ss-chat-icon-spin': {
+			'0%': {
+				transform: 'rotate(-180deg) scale(0.5)',
+				opacity: 0,
+			},
+			'50%': {
+				transform: 'rotate(10deg) scale(1.1)',
+			},
+			'100%': {
+				transform: 'rotate(0deg) scale(1)',
+				opacity: 1,
+			},
+		},
+		'@keyframes ss-chat-header-fade-in': {
+			'0%': {
+				opacity: 0,
+				transform: 'translateY(-10px)',
+			},
+			'100%': {
+				opacity: 1,
+				transform: 'translateY(0)',
+			},
+		},
+		'@keyframes ss-chat-content-fade-in': {
+			'0%': {
+				opacity: 0,
+				transform: 'translateY(10px)',
+			},
+			'100%': {
+				opacity: 1,
+				transform: 'translateY(0)',
+			},
 		},
 		'.ss__chat__header': {
 			display: 'flex',
@@ -91,6 +208,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			borderTop: 'none',
 			borderBottom: '1px solid #4c3ce2',
 			background: 'linear-gradient(45deg, #4c3ce2 0%, #3a23ad 100%)',
+			animation: 'ss-chat-header-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.15s backwards',
 			'.ss__chat__header__buttons': {
 				display: 'flex',
 				gap: '10px',
@@ -186,6 +304,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			borderBottomRightRadius: mobile ? 0 : '12px',
 			borderBottomLeftRadius: mobile ? 0 : '12px',
 			flexGrow: 1,
+			animation: 'ss-chat-content-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards',
 			'.ss__chat__content__header': {
 				'.ss__chat__attachments': {
 					'.ss__chat__attachment': {
@@ -591,14 +710,15 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 						},
 					},
 					'.ss__chat__attachment__remove': {
-						width: '12px',
-						height: '12px',
+						width: '33px',
+						height: '33px',
 						background: 'none',
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
 						cursor: 'pointer',
-						padding: '20px',
+						padding: '0',
+						margin: '16px',
 						minWidth: 'auto',
 						svg: {
 							fill: '#333',
@@ -646,6 +766,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 					borderRadius: '12px',
 					fontSize: '16px',
 					border: 'none',
+					backgroundColor: '#fff',
 
 					'&::placeholder': {
 						color: '#999',

@@ -315,6 +315,19 @@ export const createChatTargeters = (templateConfig: SnapTemplatesConfig, templat
 			props: { type: 'chat', templatesStore, targetId },
 		};
 
+		// temporary change to allow injecting into body to append target
+		if (target.selector == 'body') {
+			targeter.hideTarget = false;
+			targeter.inject = {
+				action: 'append',
+				element: () => {
+					const chatContainer = document.createElement('div');
+					chatContainer.className = 'ss__chat--target';
+					return chatContainer;
+				},
+			};
+		}
+
 		return targeter;
 	});
 };

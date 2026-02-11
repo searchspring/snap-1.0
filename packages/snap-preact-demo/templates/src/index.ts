@@ -209,7 +209,7 @@ let config: SnapTemplatesConfig = {
 		},
 		targets: [
 			{
-				selector: '#searchspring-chat',
+				selector: 'body',
 				component: 'Chat',
 			},
 		],
