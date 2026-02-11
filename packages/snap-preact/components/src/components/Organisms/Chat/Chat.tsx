@@ -40,6 +40,36 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 				stroke: '#0066cc',
 			},
 		},
+		'.ss__chat__bubble': {
+			position: mobile ? 'fixed' : 'absolute',
+			bottom: mobile ? '20px' : 0,
+			right: mobile ? '20px' : 0,
+			width: '60px',
+			height: '60px',
+			borderRadius: '50%',
+			background: '#0066cc',
+			color: 'white',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			cursor: 'pointer',
+			fontSize: '24px',
+			boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+			transition: 'background 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+			opacity: 1,
+			pointerEvents: 'all',
+			zIndex: 10,
+			'&:hover': {
+				background: '#0052a3',
+				transform: 'scale(1.05)',
+			},
+			'.ss__icon': {
+				height: '33px',
+				width: '33px',
+				fill: '#fff',
+				stroke: '#fff',
+			},
+		},
 		'&.ss__chat--minimized': {
 			width: '60px',
 			height: '60px',
@@ -50,28 +80,10 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 				? 'ss-chat-close-mobile 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards'
 				: 'ss-chat-close-desktop 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards',
 			'.ss__chat__bubble': {
-				width: '60px',
-				height: '60px',
-				borderRadius: '50%',
-				background: '#0066cc',
-				color: 'white',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				cursor: 'pointer',
-				fontSize: '24px',
-				boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-				transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
 				animation: 'ss-chat-bubble-appear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-				'&:hover': {
-					background: '#0052a3',
-					transform: 'scale(1.05)',
-				},
+				opacity: 1,
+				pointerEvents: 'all',
 				'.ss__icon': {
-					height: '33px',
-					width: '33px',
-					fill: '#fff',
-					stroke: '#fff',
 					animation: 'ss-chat-icon-spin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
 				},
 			},
@@ -92,16 +104,31 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			opacity: 1,
 			transform: 'scale(1)',
 			animation: mobile
-				? 'ss-chat-open-mobile 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards'
-				: 'ss-chat-open-desktop 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+				? 'ss-chat-open-mobile 0.15s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+				: 'ss-chat-open-desktop 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards',
 		},
+		...(mobile
+			? {
+					'&.ss__chat--open .ss__chat__bubble': {
+						display: 'none',
+					},
+			  }
+			: {
+					'&.ss__chat--open .ss__chat__bubble': {
+						animation: 'ss-chat-bubble-disappear-desktop 0.1s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+						pointerEvents: 'none',
+					},
+			  }),
 		'@keyframes ss-chat-open-desktop': {
 			'0%': {
 				width: '60px',
 				height: '60px',
 				minHeight: '60px',
-				opacity: 0.8,
-				transform: 'scale(0.8)',
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+			'70%': {
+				opacity: 1,
 			},
 			'100%': {
 				width: '500px',
@@ -115,9 +142,12 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			'0%': {
 				width: '60px',
 				height: '60px',
-				opacity: 0.8,
-				transform: 'scale(0.9)',
+				opacity: 1,
+				transform: 'scale(1)',
 				borderRadius: '50%',
+			},
+			'70%': {
+				opacity: 1,
 			},
 			'100%': {
 				width: '100%',
@@ -173,6 +203,34 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 				opacity: 1,
 			},
 		},
+		'@keyframes ss-chat-bubble-disappear-desktop': {
+			'0%': {
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+			'100%': {
+				opacity: 0,
+				transform: 'scale(0.8)',
+			},
+		},
+		'@keyframes ss-chat-bubble-fade-only': {
+			'0%': {
+				opacity: 1,
+			},
+			'100%': {
+				opacity: 0,
+			},
+		},
+		'@keyframes ss-chat-bubble-disappear-mobile': {
+			'0%': {
+				opacity: 1,
+				transform: 'scale(1)',
+			},
+			'100%': {
+				opacity: 0,
+				transform: 'scale(0.8)',
+			},
+		},
 		'@keyframes ss-chat-header-fade-in': {
 			'0%': {
 				opacity: 0,
@@ -208,7 +266,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			borderTop: 'none',
 			borderBottom: '1px solid #4c3ce2',
 			background: 'linear-gradient(45deg, #4c3ce2 0%, #3a23ad 100%)',
-			animation: 'ss-chat-header-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.15s backwards',
+			animation: 'ss-chat-header-fade-in 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards',
 			'.ss__chat__header__buttons': {
 				display: 'flex',
 				gap: '10px',
@@ -304,7 +362,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			borderBottomRightRadius: mobile ? 0 : '12px',
 			borderBottomLeftRadius: mobile ? 0 : '12px',
 			flexGrow: 1,
-			animation: 'ss-chat-content-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards',
+			animation: 'ss-chat-content-fade-in 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.12s backwards',
 			'.ss__chat__content__header': {
 				'.ss__chat__attachments': {
 					'.ss__chat__attachment': {
@@ -977,11 +1035,10 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					)}
 					{...styling}
 				>
-					{!store.open ? (
-						<div className={'ss__chat__bubble'} onClick={() => controller.handlers.button.click()}>
-							<Icon icon="sparkles" title="Open Chat" />
-						</div>
-					) : (
+					<div className={'ss__chat__bubble'} onClick={() => controller.handlers.button.click()}>
+						<Icon icon="sparkles" title="Open Chat" />
+					</div>
+					{store.open && (
 						<Fragment>
 							<div className={'ss__chat__header'}>
 								<div className="ss__chat__header__title">

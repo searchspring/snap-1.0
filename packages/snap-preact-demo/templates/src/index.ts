@@ -5,6 +5,7 @@ import { combineMerge } from '../../snap/src/middleware/functions';
 import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
 import { url } from '@searchspring/snap-toolbox';
 import { StorageStore } from '@searchspring/snap-store-mobx';
+import { getContext } from '@searchspring/snap-toolbox';
 
 // storage for custom configuration
 const configStore = new StorageStore({ type: 'local', key: 'ss-demo-config' });
@@ -15,6 +16,8 @@ const configStore = new StorageStore({ type: 'local', key: 'ss-demo-config' });
 
 let siteId = 'ck4bj7';
 let chatWidgetId = 'test-mattel-demo';
+
+const context = getContext(['siteId', 'searchOrigin', 'chatOrigin', 'chatWidgetId']);
 
 // grab siteId out of the URL
 const urlObj = url(window.location.href);
@@ -32,6 +35,8 @@ if (urlSiteIdParam && urlSiteIdParam.match(/[a-zA-Z0-9]{6}/)) {
 	window.localStorage.removeItem('ss-history');
 	window.sessionStorage.removeItem('ss-controller-search');
 	window.sessionStorage.removeItem('ss-controller-autocomplete');
+} else if (context.siteId) {
+	siteId = context.siteId;
 } else {
 	// use siteId from storage
 	const storedSiteId = configStore.get('siteId');
@@ -43,6 +48,8 @@ let customSearchOrigin = `https://${siteId}.a.searchspring.io`;
 if (urlSearchOriginParam) {
 	customSearchOrigin = urlSearchOriginParam;
 	configStore.set('origin', urlSearchOriginParam);
+} else if (context.searchOrigin) {
+	customSearchOrigin = context.searchOrigin;
 } else {
 	const storedOrigin = configStore.get('origin');
 	if (storedOrigin) customSearchOrigin = storedOrigin;
@@ -53,6 +60,8 @@ let customChatOrigin;
 if (urlChatOriginParam) {
 	customChatOrigin = urlChatOriginParam;
 	configStore.set('chatOrigin', urlChatOriginParam);
+} else if (context.chatOrigin) {
+	customChatOrigin = context.chatOrigin;
 } else {
 	const storedOrigin = configStore.get('chatOrigin');
 	if (storedOrigin) customChatOrigin = storedOrigin;
@@ -62,6 +71,8 @@ if (urlChatOriginParam) {
 if (urlChatWidgetIdParam) {
 	chatWidgetId = urlChatWidgetIdParam;
 	configStore.set('chatWidgetId', chatWidgetId);
+} else if (context.chatWidgetId) {
+	chatWidgetId = context.chatWidgetId;
 } else {
 	const storedChatWidgetId = configStore.get('chatWidgetId');
 	if (storedChatWidgetId) chatWidgetId = storedChatWidgetId;
