@@ -172,6 +172,40 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - responsive themestore and breakpoint props ([d4faf3a](https://github.com/searchspring/snap-1.0/commit/d4faf3acdd2703b0225d4784c078ada967c64527))
 - separate recommendation types ([4a03491](https://github.com/searchspring/snap-1.0/commit/4a03491766fd3dbd3eeddf8d91ed4572bd4ae6bf))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
+## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.5](https://github.com/searchspring/snap/compare/v0.73.4...v0.73.5) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.4](https://github.com/searchspring/snap/compare/v0.73.3...v0.73.4) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.3](https://github.com/searchspring/snap/compare/v0.73.2...v0.73.3) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.2](https://github.com/searchspring/snap/compare/v0.73.1...v0.73.2) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.1](https://github.com/searchspring/snap/compare/v0.73.0...v0.73.1) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.73.0](https://github.com/searchspring/snap/compare/v0.72.2...v0.73.0) (2026-01-22)
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+
+## [0.72.2](https://github.com/searchspring/snap/compare/v0.72.1...v0.72.2) (2026-01-21)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
 ## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
 
 **Note:** Version bump only for package @searchspring/snap-preact-demo

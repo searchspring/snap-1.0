@@ -23,7 +23,7 @@ describe('Autocomplete History Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				// @ts-ignore - queries is undefined
@@ -41,7 +41,7 @@ describe('Autocomplete History Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				queries: [],
@@ -58,7 +58,7 @@ describe('Autocomplete History Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				queries,
@@ -86,7 +86,7 @@ describe('Autocomplete History Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				queries,
@@ -108,7 +108,7 @@ describe('Autocomplete History Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				queries,
@@ -127,7 +127,7 @@ describe('Autocomplete History Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				queries,

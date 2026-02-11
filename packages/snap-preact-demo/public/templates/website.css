@@ -400,63 +400,64 @@ h5, h6 {
 	fill: currentColor;
 }
 
-.ss__pike {
+.ss__pike .ss__demo__header, .ss__pike .ss__demo__footer {
 	font-family: "Roboto", Helvetica, Arial;
 	color: #515151;
+
+	a {
+		color: #00aeef;
+	}
+
+	a:hover {
+		color: #515151;
+	}
+
+	h1, h2, h3, h4, h5, h6, .ss__themes__title {
+		font-family: "Roboto", Helvetica, Arial;
+		font-weight: 700;
+		color: #1d4990;
+	}
 }
 
-.ss__pike a {
-	color: #00aeef;
-}
-
-.ss__pike a:hover {
-	color: #515151;
-}
-
-.ss__pike h1, .ss__pike h2, .ss__pike h3, .ss__pike h4, .ss__pike h5, .ss__pike h6, .ss__pike .ss__themes__title {
-	font-family: "Roboto", Helvetica, Arial;
-	font-weight: 700;
-	color: #1d4990;
-}
-
-.ss__everest {
+.ss__everest .ss__demo__header, .ss__everest .ss__demo__footer {
 	font-family: "Source Sans 3", Helvetica, Arial;
 	color: #515151;
+
+	a {
+		color: #d15120;
+	}
+
+	a:hover {
+		color: #515151;
+	}
+
+	h1, h2, h3, h4, h5, h6, .ss__themes__title {
+		font-family: "Montserrat", Helvetica, Arial;
+		font-weight: 600;
+		text-transform: uppercase;
+		color: #94280b;
+	}
 }
 
-.ss__everest a {
-	color: #d15120;
-}
 
-.ss__everest a:hover {
-	color: #515151;
-}
-
-.ss__everest h1, .ss__everest h2, .ss__everest h3, .ss__everest h4, .ss__everest h5, .ss__everest h6, .ss__everest .ss__themes__title {
-	font-family: "Montserrat", Helvetica, Arial;
-	font-weight: 600;
-	text-transform: uppercase;
-	color: #94280b;
-}
-
-.ss__matterhorn {
+.ss__matterhorn .ss__demo__header, .ss__matterhorn .ss__demo__footer {
 	font-family: "Poppins", Helvetica, Arial;
 	color: #555555;
-}
 
-.ss__matterhorn a {
-	color: #222222;
-}
+	a {
+		color: #222222;
+	}
 
-.ss__matterhorn a:hover {
-	color: #555555;
-}
+	a:hover {
+		color: #555555;
+	}
 
-.ss__matterhorn h1, .ss__matterhorn h2, .ss__matterhorn h3, .ss__matterhorn h4, .ss__matterhorn h5, .ss__matterhorn h6, .ss__matterhorn .ss__themes__title {
-	font-family: "Lora", "Times New Roman", serif;
-	font-weight: 300;
-	font-style: italic;
-	color: #222222;
+	h1, h2, h3, h4, h5, h6, .ss__themes__title {
+		font-family: "Lora", "Times New Roman", serif;
+		font-weight: 300;
+		font-style: italic;
+		color: #222222;
+	}
 }
 
 input, button, select {

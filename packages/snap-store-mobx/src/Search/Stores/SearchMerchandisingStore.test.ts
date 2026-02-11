@@ -5,7 +5,7 @@ import { SearchMerchandisingStore } from './SearchMerchandisingStore';
 const mockData = new MockData();
 
 describe('Merchandising Store', () => {
-	const emptyMerchStore = { redirect: '', personalized: false, experiments: [], content: {}, campaigns: [] };
+	const emptyMerchStore = { redirect: '', personalized: false, experiments: [], content: {}, campaigns: [], responseId: '' };
 
 	it('is empty when not passed valid params', () => {
 		// @ts-ignore - empty constructor
@@ -22,7 +22,11 @@ describe('Merchandising Store', () => {
 
 		merchStore = new SearchMerchandisingStore({
 			data: {
-				search: {},
+				search: {
+					tracking: {
+						responseId: '',
+					},
+				},
 			},
 		});
 		expect(merchStore).toEqual(emptyMerchStore);
@@ -36,7 +40,22 @@ describe('Merchandising Store', () => {
 			},
 		});
 
-		expect(merchStore.content).toEqual(data.search.merchandising?.content!);
+		const expectedContent = Object.entries(data.search.merchandising?.content!).reduce((acc, [type, value]) => {
+			const htmlString = value[0] || '';
+			const match = typeof htmlString === 'string' && htmlString.match(/data-banner-id="(\d+)"/);
+			const uid = match ? match[1] : '';
+
+			acc[type] = [
+				{
+					value,
+					uid,
+					responseId: data.search.tracking.responseId,
+				},
+			];
+			return acc;
+		}, {} as any);
+
+		expect(merchStore.content).toEqual(expectedContent);
 	});
 
 	it('has more banner content', () => {
@@ -47,7 +66,22 @@ describe('Merchandising Store', () => {
 			},
 		});
 
-		expect(merchStore.content).toEqual(data.search.merchandising?.content);
+		const expectedContent = Object.entries(data.search.merchandising?.content!).reduce((acc, [type, value]) => {
+			const htmlString = value[0] || '';
+			const match = typeof htmlString === 'string' && htmlString.match(/data-banner-id="(\d+)"/);
+			const uid = match ? match[1] : '';
+
+			acc[type] = [
+				{
+					value,
+					uid,
+					responseId: data.search.tracking.responseId,
+				},
+			];
+			return acc;
+		}, {} as any);
+
+		expect(merchStore.content).toEqual(expectedContent);
 	});
 
 	it('has redirect', () => {

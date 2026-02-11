@@ -92,6 +92,8 @@ describe('SearchResultStore', () => {
 				const value = attributes && attributes[key];
 				expect(result.attributes[key]).toStrictEqual(value);
 			});
+
+			expect(result.responseId).toBe(searchData.search.tracking.responseId);
 		});
 	});
 
@@ -1275,7 +1277,6 @@ describe('SearchResultStore', () => {
 			expect(selection).toBeDefined();
 
 			selection?.values.forEach((value) => {
-				console.log(value);
 				expect(value.backgroundImageUrl).toEqual(value.thumbnailImageUrl);
 			});
 		});
@@ -3250,6 +3251,9 @@ describe('SearchResultStore', () => {
 						],
 					},
 				},
+				tracking: {
+					responseId: '1234',
+				},
 			};
 			const results = new SearchResultStore({
 				config: searchConfig,
@@ -3312,6 +3316,9 @@ describe('SearchResultStore', () => {
 							},
 						],
 					},
+				},
+				tracking: {
+					responseId: '1234',
 				},
 			};
 			const results = new SearchResultStore({

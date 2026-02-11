@@ -55,7 +55,7 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'pike',
+		extends: 'bocachica',
 		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
@@ -96,7 +96,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: '#searchspring-layout',
-				component: 'SearchSnappy',
+				component: 'Search',
 			},
 		],
 		settings: {
