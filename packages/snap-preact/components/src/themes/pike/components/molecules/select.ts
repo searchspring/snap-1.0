@@ -16,10 +16,11 @@ const selectStyleScript = (props: SelectProps) => {
 
 	// default styles
 	const defaultStyles = css([
+		custom.styles.boxSizing,
 		{
 			display: 'block',
 			'.ss__dropdown': {
-				'.ss__dropdown__button .ss__button, .ss__dropdown__content .ss__select__select': {
+				'.ss__dropdown__button .ss__button, .ss__dropdown__content': {
 					...sharedStyles,
 				},
 				'.ss__dropdown__button': {
@@ -48,9 +49,11 @@ const selectStyleScript = (props: SelectProps) => {
 				},
 				'.ss__dropdown__content': {
 					marginTop: `${custom.spacing.x2}px`,
+					padding: `${custom.spacing.x2}px`,
 					'.ss__select__select': {
-						padding: `${custom.spacing.x2}px`,
 						margin: 0,
+						border: 0,
+						backgroundColor: 'transparent',
 						'.ss__select__select__option': {
 							gap: `${custom.spacing.x2}px`,
 							padding: 0,
@@ -61,6 +64,9 @@ const selectStyleScript = (props: SelectProps) => {
 							},
 							'&:hover': {
 								backgroundColor: 'transparent',
+							},
+							'a, span': {
+								cursor: 'pointer',
 							},
 						},
 						'.ss__select__select__option--selected': {
@@ -84,6 +90,7 @@ const selectStyleScript = (props: SelectProps) => {
 
 	// native styles
 	const nativeStyles = css([
+		custom.styles.boxSizing,
 		sharedStyles,
 		{
 			display: 'flex',
@@ -105,8 +112,10 @@ const selectStyleScript = (props: SelectProps) => {
 			},
 			'.ss__select__select': {
 				flex: '1 1 0%',
-				paddingRight: `${custom.spacing.x1}px`,
+				padding: `0 ${custom.spacing.x1}px 0 0`,
 				backgroundColor: 'transparent',
+				height: '100%',
+				lineHeight: '100%',
 				border: 'none',
 				appearance: 'none',
 				color: 'inherit',

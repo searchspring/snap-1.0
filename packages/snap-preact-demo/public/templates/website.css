@@ -1038,20 +1038,15 @@ fieldset {
 	position: absolute;
 	top: 12px;
 	right: -6px;
+	z-index: 1;
 	color: #ffffff;
 	font-size: 10px;
 	font-weight: 700;
 	width: 16px;
 	height: 16px;
-	line-height: 16px;
+	line-height: 14px;
 	text-align: center;
-	background-color: #00aeef;
-	border: 1px solid #00aeef;
 	border-radius: 50%;
-}
-.ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button .ss__demo__cart__count:hover {
-	color: #00aeef;
-	background-color: #ffffff;
 }
 
 @media only screen and (min-width: 768px) {
@@ -1102,12 +1097,46 @@ fieldset {
 	color: #515151;
 }
 
+.ss__pike .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button .ss__demo__cart__count {
+	background-color: #00aeef;
+	border: 1px solid #00aeef;
+}
+
+.ss__pike .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button:hover .ss__demo__cart__count {
+	color: #00aeef;
+	background-color: #ffffff;
+}
+
 .ss__everest .ss__demo .ss__demo__header .ss__demo__search .ss__demo__search__form .ss__demo__search__button .ss__demo__icon {
 	color: #515151;
 }
 
+.ss__everest .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__button:after {
+	display: none;
+}
+
+.ss__everest .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button .ss__demo__cart__count {
+	background-color: #d15120;
+	border: 1px solid #d15120;
+}
+
+.ss__everest .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button:hover .ss__demo__cart__count {
+	color: #d15120;
+	background-color: #ffffff;
+}
+
 .ss__matterhorn .ss__demo .ss__demo__header .ss__demo__search .ss__demo__search__form .ss__demo__search__button .ss__demo__icon {
 	color: #555555;
+}
+
+.ss__matterhorn .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button .ss__demo__cart__count {
+	background-color: #848484;
+	border: 1px solid #848484;
+}
+
+.ss__matterhorn .ss__demo .ss__demo__header .ss__demo__store-icons .ss__demo__column--cart .ss__demo__slideout__button:hover .ss__demo__cart__count {
+	color: #848484;
+	background-color: #ffffff;
 }
 
 .ss__demo .ss__demo__navigation {
