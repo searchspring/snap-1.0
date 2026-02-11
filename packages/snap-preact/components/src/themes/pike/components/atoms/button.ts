@@ -8,11 +8,10 @@ import Color from 'color';
 const buttonStyleScript = (props: ButtonProps) => {
 	const variables = props?.theme?.variables;
 	const buttonDisabledSelectors = '&.ss__button--disabled';
-	const buttonSelector = `&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`;
 	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary || undefined);
 	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
-	// shared button styles
+	// disabled button styles
 	const disabledStyles = css({
 		[buttonDisabledSelectors]: {
 			opacity: 0.65,
@@ -22,15 +21,11 @@ const buttonStyleScript = (props: ButtonProps) => {
 		},
 	});
 
-	// default styles
-	const defaultStyles = css([
+	// const shared button styles
+	const sharedStyles = css([
+		custom.styles.boxSizing,
 		{
-			boxSizing: 'border-box',
 			cursor: 'pointer',
-			display: 'inline-flex',
-			alignItems: 'center',
-			gap: `${custom.spacing.x1}px`,
-			position: 'relative',
 			padding: `0 ${custom.spacing.x4}px`,
 			color: fontColor.hex(),
 			fontSize: custom.utils.convertPxToEm(14),
@@ -39,10 +34,13 @@ const buttonStyleScript = (props: ButtonProps) => {
 			textTransform: custom.fonts.transform,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			overflow: 'hidden',
-			textOverflow: 'ellipsis',
-			whiteSpace: 'nowrap',
-			[buttonSelector]: {
+			'.ss__button__content': {
+				minWidth: '1px',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+				whiteSpace: 'nowrap',
+			},
+			[`&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`]: {
 				border: `1px solid ${buttonColor.hex()}`,
 				borderRadius: `${custom.sizes.radius}px`,
 				backgroundColor: buttonColor.hex(),
@@ -61,7 +59,22 @@ const buttonStyleScript = (props: ButtonProps) => {
 		disabledStyles,
 	]);
 
-	return defaultStyles;
+	// default styles
+	const defaultStyles = sharedStyles;
+
+	// native styles
+	const nativeStyles = css([
+		{
+			display: 'inline-flex',
+			alignItems: 'center',
+			gap: `${custom.spacing.x1}px`,
+			position: 'relative',
+			outline: 0,
+		},
+		sharedStyles,
+	]);
+
+	return props?.native ? nativeStyles : defaultStyles;
 };
 
 // Button component props
@@ -69,7 +82,6 @@ export const button: ThemeComponent<'button', ButtonProps> = {
 	default: {
 		button: {
 			themeStyleScript: buttonStyleScript,
-			native: false,
 		},
 	},
 };

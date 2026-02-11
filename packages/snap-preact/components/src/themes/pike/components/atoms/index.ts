@@ -1,6 +1,10 @@
 import { ThemeResponsiveComplete } from '../../../../providers';
 
 // ATOMS Imports
+import { badgeImage } from './badgeImage';
+import { badgePill } from './badgePill';
+import { badgeRectangle } from './badgeRectangle';
+import { badgeText } from './badgeText';
 import { breadcrumbs } from './breadcrumbs';
 import { button } from './button';
 import { dropdown } from './dropdown';
@@ -15,6 +19,10 @@ import { skeleton } from './skeleton';
 
 export const atoms: ThemeResponsiveComplete = {
 	default: {
+		...badgeImage.default,
+		...badgePill.default,
+		...badgeRectangle.default,
+		...badgeText.default,
 		...breadcrumbs.default,
 		...button.default,
 		...dropdown.default,
@@ -28,6 +36,10 @@ export const atoms: ThemeResponsiveComplete = {
 		...paginationInfo.default,
 	},
 	mobile: {
+		...badgeImage.mobile,
+		...badgePill.mobile,
+		...badgeRectangle.mobile,
+		...badgeText.mobile,
 		...breadcrumbs.mobile,
 		...button.mobile,
 		...dropdown.mobile,
@@ -41,6 +53,10 @@ export const atoms: ThemeResponsiveComplete = {
 		...paginationInfo.mobile,
 	},
 	tablet: {
+		...badgeImage.tablet,
+		...badgePill.tablet,
+		...badgeRectangle.tablet,
+		...badgeText.tablet,
 		...breadcrumbs.tablet,
 		...button.tablet,
 		...dropdown.tablet,
@@ -54,6 +70,10 @@ export const atoms: ThemeResponsiveComplete = {
 		...paginationInfo.tablet,
 	},
 	desktop: {
+		...badgeImage.desktop,
+		...badgePill.desktop,
+		...badgeRectangle.desktop,
+		...badgeText.desktop,
 		...breadcrumbs.desktop,
 		...button.desktop,
 		...dropdown.desktop,

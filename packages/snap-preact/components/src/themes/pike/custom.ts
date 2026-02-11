@@ -1,3 +1,4 @@
+import { css, SerializedStyles } from '@emotion/react';
 import { IconType } from '../../components/Atoms/Icon';
 import Color from 'color';
 
@@ -7,31 +8,9 @@ const spacingCalc = (value: number) => {
 	return spacing * value;
 };
 
-export const custom: {
-	breakpoints: {
-		[key: string]: number;
-	};
-	colors: {
-		[key: string]: string;
-	};
-	fonts: {
-		[key: string]: any;
-	};
-	icons: {
-		[key: string]: IconType;
-	};
-	sizes: {
-		[key: string]: number;
-	};
-	spacing: {
-		[key: string]: number;
-	};
-	utils: {
-		convertPxToEm: (value: number) => string;
-		lightenColor: (color: string | undefined, amount: number) => string;
-		darkenColor: (color: string | undefined, amount: number) => string;
-	};
-} = {
+// custom theme object
+// contains defaults, colors, utils, global styles, etc.
+export const custom: CustomThemeType = {
 	breakpoints: {
 		small: 540,
 		mobile: 767,
@@ -89,6 +68,13 @@ export const custom: {
 		x7: spacingCalc(7),
 		x8: spacingCalc(8),
 	},
+	styles: {
+		boxSizing: css({
+			'&, *, *:before, *:after': {
+				boxSizing: 'border-box',
+			},
+		}),
+	},
 	utils: {
 		convertPxToEm: (value: number) => {
 			// translates px to rem
@@ -105,4 +91,42 @@ export const custom: {
 			return darkColor;
 		},
 	},
+};
+
+// types for custom theme object
+type FunctionColorType = (color: string | undefined, amount: number) => string;
+
+type FunctionStringType = (value: number) => string;
+
+type ObjectAnyType = {
+	[key: string]: any;
+};
+
+type ObjectIconType = {
+	[key: string]: IconType;
+};
+
+type ObjectNumberType = {
+	[key: string]: number;
+};
+
+type ObjectStringType = {
+	[key: string]: string;
+};
+
+type CustomThemeType = {
+	breakpoints: ObjectNumberType;
+	colors: ObjectStringType;
+	fonts: ObjectAnyType;
+	icons: ObjectIconType;
+	sizes: ObjectNumberType;
+	spacing: ObjectNumberType;
+	styles: {
+		boxSizing: SerializedStyles;
+	};
+	utils: {
+		convertPxToEm: FunctionStringType;
+		lightenColor: FunctionColorType;
+		darkenColor: FunctionColorType;
+	};
 };

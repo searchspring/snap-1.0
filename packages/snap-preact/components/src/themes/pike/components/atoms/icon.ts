@@ -8,10 +8,13 @@ const iconStyleScript = (props: IconProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		fill: 'currentColor',
-		stroke: 'currentColor',
-	});
+	return css([
+		{
+			fill: 'currentColor',
+			stroke: 'transparent',
+			lineHeight: 1,
+		},
+	]);
 };
 
 // Icon component props
