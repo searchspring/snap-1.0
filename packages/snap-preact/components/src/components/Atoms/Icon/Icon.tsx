@@ -8,10 +8,10 @@ import { ComponentProps, StyleScript } from '../../../types';
 import { iconPaths, IconType } from './paths';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
-const defaultStyles: StyleScript<IconProps> = ({ color, theme, width, height, size }) => {
+const defaultStyles: StyleScript<IconProps> = ({ color, fill, stroke, theme, width, height, size }) => {
 	return css({
-		fill: color || theme?.variables?.colors?.primary || '#333',
-		stroke: color || theme?.variables?.colors?.primary || '#333',
+		fill: fill || color || theme?.variables?.colors?.primary,
+		stroke: stroke || color || theme?.variables?.colors?.primary,
 		width: isNaN(Number(width || size)) ? width || size : `${width || size}px`,
 		height: isNaN(Number(height || size)) ? height || size : `${height || size}px`,
 		position: 'relative',
@@ -92,6 +92,8 @@ export type SVGPathElement = {
 
 export interface IconProps extends ComponentProps {
 	color?: string;
+	fill?: string;
+	stroke?: string;
 	icon?: IconType | false;
 	title?: string;
 	path?: string | SVGPathElement[];

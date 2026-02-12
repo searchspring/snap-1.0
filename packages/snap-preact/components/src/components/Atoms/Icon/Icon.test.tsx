@@ -8,7 +8,7 @@ import { ThemeProvider } from '../../../providers';
 
 const defaultProps = {
 	className: '',
-	color: '#333',
+	color: '',
 	icon: '',
 	path: '',
 	size: '16px',
@@ -152,6 +152,33 @@ describe('Icon Component', () => {
 		expect(path).toHaveAttribute('d', iconPaths[icon]);
 	});
 
+	it('fill and stroke overwrite color prop', () => {
+		const icon = 'cog';
+		const color = '#ff0000';
+		const fill = 'blue';
+		const stroke = 'green';
+		const size = '30em';
+		const viewBox = '0 0 63 63';
+		const className = 'classy';
+
+		const rendered = render(<Icon icon={icon} fill={fill} stroke={stroke} color={color} size={size} viewBox={viewBox} className={className} />);
+		expect(rendered.container).toBeInTheDocument();
+
+		const svg = rendered.container.querySelector('svg')!;
+		expect(svg).toHaveClass('ss__icon');
+		expect(svg).toHaveClass(className);
+		expect(svg).toHaveAttribute('viewBox', viewBox);
+
+		const styles = getComputedStyle(svg);
+		expect(styles.width).toBe(size);
+		expect(styles.height).toBe(size);
+		expect(styles.fill).toBe(fill);
+		expect(styles.stroke).toBe(stroke);
+
+		const path = svg.querySelector('path');
+		expect(path).toHaveAttribute('d', iconPaths[icon]);
+	});
+
 	it('renders custom path with default props', () => {
 		const svgPath =
 			'M12.9,13.8C12.9,13.8,12.9,13.8,12.9,13.8c-0.1,0.1-0.3,0.2-0.5,0.2C4.5,17.9,1.9,28.8,6.6,38.5l28.6-13.8 c0,0,0,0,0,0c0.2-0.1,0.3-0.1,0.5-0.2C43.5,20.6,46.2,9.7,41.5,0L12.9,13.8zM8.6,42.1C8.6,42.1,8.6,42.1,8.6,42.1c-0.1,0.1-0.3,0.1-0.5,0.2C0.3,46.1-2.4,57,2.3,66.7l28.6-13.8 c0,0,0,0,0,0c0.2-0.1,0.3-0.1,0.5-0.2c7.9-3.8,10.5-14.8,5.8-24.4L8.6,42.1z';
@@ -246,7 +273,6 @@ describe('Icon Component', () => {
 
 		const otherProps = {
 			'stroke-width': '1.25',
-			fill: 'none',
 			xmlns: 'http://www.w3.org/2000/svg',
 		};
 		const props = {
