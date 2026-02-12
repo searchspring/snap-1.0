@@ -69,11 +69,52 @@ export const custom: CustomThemeType = {
 		x8: spacingCalc(8),
 	},
 	styles: {
+		activeText: (value?: string) => {
+			return {
+				'&, &:hover': {
+					color: value ? value : '',
+					fontWeight: custom?.fonts?.weight01,
+				},
+			};
+		},
+		badgeText: (value: number) => {
+			return {
+				display: 'block',
+				...custom.styles.fontSize(value),
+				lineHeight: 1,
+			};
+		},
+		box: (text?: string, value?: number) => {
+			return {
+				border: `1px solid ${custom.colors.gray02}`,
+				backgroundColor: custom.colors.gray01,
+				color: text ? text : '',
+				padding: `${value ? value : custom.spacing.x2}px`,
+			};
+		},
+		boxSizing2: () => {
+			return {
+				'&, *, *:before, *:after': {
+					boxSizing: 'border-box',
+				},
+			};
+		},
 		boxSizing: css({
 			'&, *, *:before, *:after': {
 				boxSizing: 'border-box',
 			},
 		}),
+		disabled: () => {
+			return {
+				opacity: 0.65,
+				cursor: 'not-allowed !important',
+			};
+		},
+		fontSize: (value: number) => {
+			return {
+				fontSize: `${value / custom.sizes.font}rem`,
+			};
+		},
 	},
 	utils: {
 		convertPxToEm: (value: number) => {
@@ -110,6 +151,10 @@ type ObjectNumberType = {
 	[key: string]: number;
 };
 
+type ObjectNumberOrStringType = {
+	[key: string]: number | string;
+};
+
 type ObjectStringType = {
 	[key: string]: string;
 };
@@ -122,7 +167,13 @@ type CustomThemeType = {
 	sizes: ObjectNumberType;
 	spacing: ObjectNumberType;
 	styles: {
+		activeText: (value?: string) => { [key: string]: ObjectNumberOrStringType };
+		badgeText: (value: number) => ObjectNumberOrStringType;
+		box: (text?: string, value?: number) => ObjectNumberOrStringType;
+		boxSizing2: () => { [key: string]: ObjectNumberOrStringType };
 		boxSizing: SerializedStyles;
+		disabled: () => ObjectNumberOrStringType;
+		fontSize: (value: number) => ObjectStringType;
 	};
 	utils: {
 		convertPxToEm: FunctionStringType;

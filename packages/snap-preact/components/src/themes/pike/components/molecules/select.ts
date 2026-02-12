@@ -5,34 +5,24 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Select component
 const selectStyleScript = (props: SelectProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-
-	// shared styles for select menus
-	const sharedStyles = css({
-		border: `1px solid ${custom.colors.gray02}`,
-		color: variables?.colors?.text,
-		backgroundColor: custom.colors.gray01,
-	});
 
 	// default styles
 	const defaultStyles = css([
-		custom.styles.boxSizing,
 		{
 			display: 'block',
+			...custom.styles.boxSizing2(),
 			'.ss__dropdown': {
 				'.ss__dropdown__button .ss__button, .ss__dropdown__content': {
-					...sharedStyles,
+					...custom.styles.box(variables?.colors?.text),
 				},
 				'.ss__dropdown__button': {
 					'.ss__button': {
-						display: 'flex',
-						padding: `0 ${custom.spacing.x2}px`,
+						paddingTop: 0,
+						paddingBottom: 0,
 						textAlign: 'left',
 						'.ss__button__content': {
-							'& > *': {
-								minWidth: '1px',
-								flex: '0 1 auto',
-							},
 							'.ss__select__selection__icon': {
 								margin: 0,
 							},
@@ -49,29 +39,29 @@ const selectStyleScript = (props: SelectProps) => {
 				},
 				'.ss__dropdown__content': {
 					marginTop: `${custom.spacing.x2}px`,
-					padding: `${custom.spacing.x2}px`,
 					'.ss__select__select': {
 						margin: 0,
+						padding: 0,
 						border: 0,
 						backgroundColor: 'transparent',
 						'.ss__select__select__option': {
+							color: 'inherit',
 							gap: `${custom.spacing.x2}px`,
 							padding: 0,
 							margin: `0 0 ${custom.spacing.x1}px 0`,
-							color: 'inherit',
 							'&:last-of-type': {
 								marginBottom: '0',
 							},
 							'&:hover': {
 								backgroundColor: 'transparent',
+								fontWeight: 'normal',
 							},
 							'a, span': {
 								cursor: 'pointer',
 							},
 						},
 						'.ss__select__select__option--selected': {
-							fontWeight: custom.fonts.weight01,
-							color: variables?.colors?.primary,
+							...custom.styles.activeText(variables?.colors?.primary),
 						},
 					},
 				},
@@ -90,22 +80,19 @@ const selectStyleScript = (props: SelectProps) => {
 
 	// native styles
 	const nativeStyles = css([
-		custom.styles.boxSizing,
-		sharedStyles,
 		{
 			display: 'flex',
 			flexFlow: 'row nowrap',
 			alignItems: 'center',
 			gap: `${custom.spacing.x1}px`,
-			padding: `0 ${custom.spacing.x2}px`,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			'& > *': {
-				minWidth: '1px',
-				flex: '0 1 auto',
-			},
+			...custom.styles.box(variables?.colors?.text),
+			paddingTop: 0,
+			paddingBottom: 0,
+			...custom.styles.boxSizing2(),
 			'.ss__select__label, .ss__select__select': {
-				fontSize: custom.utils.convertPxToEm(14),
+				...custom.styles.fontSize(14),
 			},
 			'.ss__select__label': {
 				fontWeight: custom.fonts.weight01,
@@ -120,11 +107,11 @@ const selectStyleScript = (props: SelectProps) => {
 				appearance: 'none',
 				color: 'inherit',
 				cursor: 'pointer',
-				'&[disabled]': {
-					cursor: 'not-allowed',
-				},
 				'&::-ms-expand': {
 					display: 'none',
+				},
+				'&[disabled]': {
+					...custom.styles.disabled(),
 				},
 			},
 			'.ss__select__dropdown__button__icon': {
@@ -147,9 +134,6 @@ export const select: ThemeComponent<'select', SelectProps> = {
 		},
 		'select icon.open': {
 			size: `${custom.sizes.icon12}px`,
-		},
-		'select dropdown button': {
-			native: false,
 		},
 		'select dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,

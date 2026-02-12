@@ -5,12 +5,16 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Pagination component
 const paginationInfoStyleScript = ({ theme }: PaginationInfoProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = theme?.variables;
 
-	return css({
-		fontWeight: custom.fonts.weight02,
-		color: variables?.colors?.secondary,
-	});
+	return css([
+		custom.styles.boxSizing,
+		{
+			fontWeight: custom.fonts.weight02,
+			color: variables?.colors?.secondary,
+		},
+	]);
 };
 
 // PaginationInfo component props

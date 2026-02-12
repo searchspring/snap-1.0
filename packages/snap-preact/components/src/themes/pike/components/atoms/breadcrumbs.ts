@@ -5,13 +5,15 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Breadcrumbs component
 const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
-		custom.styles.boxSizing,
+	// breadcrumbs styles
+	const breadcrumbsStyles = css([
 		{
+			...custom.styles.boxSizing2(),
 			'.ss__breadcrumbs__crumbs': {
-				margin: `0 -${custom.spacing.x1}px`,
+				gap: `${custom.spacing.x2}px`,
 				'&, li': {
 					listStyle: 'none',
 				},
@@ -20,10 +22,9 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 				},
 				li: {
 					display: 'block',
-					padding: `0 ${custom.spacing.x1}px`,
+					padding: 0,
 					'&:last-of-type': {
-						color: variables?.colors?.primary,
-						fontWeight: custom?.fonts?.weight01,
+						...custom.styles.activeText(variables?.colors?.primary),
 					},
 				},
 				'.ss__breadcrumbs__crumbs__separator': {
@@ -35,6 +36,8 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 			},
 		},
 	]);
+
+	return breadcrumbsStyles;
 };
 
 // Breadcrumbs component props

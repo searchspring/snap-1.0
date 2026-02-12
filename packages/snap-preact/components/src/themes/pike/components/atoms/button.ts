@@ -6,37 +6,35 @@ import Color from 'color';
 
 // CSS in JS style script for the Button component
 const buttonStyleScript = (props: ButtonProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const buttonDisabledSelectors = '&.ss__button--disabled';
 	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary || undefined);
 	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
-	// disabled button styles
-	const disabledStyles = css({
-		[buttonDisabledSelectors]: {
-			opacity: 0.65,
-			cursor: 'not-allowed !important',
-		},
-	});
-
-	// const shared button styles
+	// shared styles
 	const sharedStyles = css([
-		custom.styles.boxSizing,
 		{
 			cursor: 'pointer',
 			padding: `0 ${custom.spacing.x4}px`,
 			color: fontColor.hex(),
-			fontSize: custom.utils.convertPxToEm(14),
+			...custom.styles.fontSize(14),
 			fontWeight: custom.fonts.weight01,
 			textAlign: 'center',
 			textTransform: custom.fonts.transform,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
+			...custom.styles.boxSizing2(),
+			[buttonDisabledSelectors]: {
+				...custom.styles.disabled(),
+			},
 			'.ss__button__content': {
-				minWidth: '1px',
 				overflow: 'hidden',
 				textOverflow: 'ellipsis',
 				whiteSpace: 'nowrap',
+				'&, & > *': {
+					minWidth: '1px',
+				},
 			},
 			[`&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`]: {
 				border: `1px solid ${buttonColor.hex()}`,
@@ -44,8 +42,9 @@ const buttonStyleScript = (props: ButtonProps) => {
 				backgroundColor: buttonColor.hex(),
 			},
 			'.ss__icon': {
-				width: `${custom.sizes.icon12}px`,
-				height: `${custom.sizes.icon12}px`,
+				minWidth: '1px',
+				width: `auto`,
+				height: `auto`,
 				flex: `0 0 ${custom.sizes.icon12}px`,
 			},
 			'.ss__icon--filters': {
@@ -54,7 +53,6 @@ const buttonStyleScript = (props: ButtonProps) => {
 				},
 			},
 		},
-		disabledStyles,
 	]);
 
 	// default styles

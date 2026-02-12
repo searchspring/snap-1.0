@@ -9,39 +9,37 @@ const dropdownStyleScript = (props: DropdownProps) => {
 	const variables = props?.theme?.variables;
 
 	return css([
-		custom.styles.boxSizing,
 		{
 			width: 'auto',
-			'&.ss__dropdown__portal.ss__select__dropdown': {
+			...custom.styles.boxSizing2(),
+			'&.ss__dropdown__portal': {
 				'.ss__dropdown__content': {
 					marginTop: `${custom.spacing.x2}px`,
-					padding: `${custom.spacing.x2}px`,
-					border: `1px solid ${custom.colors.gray02}`,
-					color: variables?.colors?.text,
-					backgroundColor: custom.colors.gray01,
-					'.ss__select__select': {
+					...custom.styles.box(variables?.colors?.text),
+					'.ss__select__select, .ss__variant-selection__options': {
 						margin: 0,
+						padding: 0,
 						border: 0,
 						backgroundColor: 'transparent',
-						'.ss__select__select__option': {
-							gap: `${custom.spacing.x2}px`,
-							padding: 0,
-							margin: `0 0 ${custom.spacing.x1}px 0`,
-							color: 'inherit',
-							'&:last-of-type': {
-								marginBottom: '0',
-							},
-							'&:hover': {
-								backgroundColor: 'transparent',
-							},
-							'a, span': {
-								cursor: 'pointer',
-							},
+					},
+					'.ss__select__select .ss__select__select__option, .ss__variant-selection__options .ss__variant-selection__option': {
+						color: 'inherit',
+						gap: `${custom.spacing.x2}px`,
+						padding: 0,
+						margin: `0 0 ${custom.spacing.x1}px 0`,
+						'&:last-of-type': {
+							marginBottom: '0',
 						},
-						'.ss__select__select__option--selected': {
-							fontWeight: custom.fonts.weight01,
-							color: variables?.colors?.primary,
+						'&:hover': {
+							backgroundColor: 'transparent',
+							fontWeight: 'normal',
 						},
+						'a, span': {
+							cursor: 'pointer',
+						},
+					},
+					'.ss__select__select .ss__select__select__option--selected, .ss__variant-selection__options .ss__variant-selection__option--selected': {
+						...custom.styles.activeText(variables?.colors?.primary),
 					},
 				},
 			},
