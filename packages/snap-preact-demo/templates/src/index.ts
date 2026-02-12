@@ -55,7 +55,7 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'bocachica',
+		extends: 'pike',
 		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
