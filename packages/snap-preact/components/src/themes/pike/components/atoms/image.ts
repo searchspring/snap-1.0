@@ -8,9 +8,10 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
-		custom.styles.boxSizing,
+	// image styles
+	const imageStyles = css([
 		{
+			...custom.styles.boxSizing(),
 			'&, img': {
 				lineHeight: 0,
 			},
@@ -39,6 +40,8 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 			},
 		},
 	]);
+
+	return imageStyles;
 };
 
 // Image component props

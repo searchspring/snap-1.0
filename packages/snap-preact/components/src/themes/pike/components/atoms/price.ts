@@ -8,9 +8,10 @@ const priceStyleScript = (props: PriceProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
-		custom.styles.boxSizing,
+	// price styles
+	const priceStyles = css([
 		{
+			...custom.styles.boxSizing(),
 			'&, span, &.ss__price, &.ss__price--strike': {
 				color: variables?.colors?.text,
 			},
@@ -19,6 +20,8 @@ const priceStyleScript = (props: PriceProps) => {
 			},
 		},
 	]);
+
+	return priceStyles;
 };
 
 // Price component props

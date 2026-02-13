@@ -8,13 +8,15 @@ const iconStyleScript = (props: IconProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
+	// icon styles
+	const iconStyles = css([
 		{
-			fill: props?.color ? props.color : 'currentColor',
 			stroke: 'transparent',
 			lineHeight: 1,
 		},
 	]);
+
+	return iconStyles;
 };
 
 // Icon component props
@@ -23,6 +25,7 @@ export const icon: ThemeComponent<'icon', IconProps> = {
 		icon: {
 			themeStyleScript: iconStyleScript,
 			size: `${custom.sizes.icon16}px`,
+			color: 'currentColor',
 		},
 	},
 };

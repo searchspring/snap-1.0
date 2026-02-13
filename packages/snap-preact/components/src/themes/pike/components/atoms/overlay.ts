@@ -7,17 +7,16 @@ import { custom } from '../../custom';
 const overlayStyleScript = (props: OverlayProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const backgroundColor = props?.color || 'rgba(0, 0, 0, 0.80)';
 
-	return css([
-		custom.styles.boxSizing,
+	// overlay styles
+	const overlayStyles = css([
 		{
 			cursor: 'pointer',
-			'&, &.ss__overlay--active': {
-				background: backgroundColor,
-			},
+			...custom.styles.boxSizing(),
 		},
 	]);
+
+	return overlayStyles;
 };
 
 // Overlay component props
@@ -25,6 +24,7 @@ export const overlay: ThemeComponent<'overlay', OverlayProps> = {
 	default: {
 		overlay: {
 			themeStyleScript: overlayStyleScript,
+			color: 'rgba(0, 0, 0, 0.80)',
 		},
 	},
 };

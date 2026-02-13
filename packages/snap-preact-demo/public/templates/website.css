@@ -409,7 +409,7 @@ h5, h6 {
 /* DEMO - TYPOGRAPHY
 ========================================================================== */
 
-.ss__pike .ss__demo {
+.ss__pike {
 	font-family: "Roboto", Helvetica, Arial;
 }
 
@@ -425,9 +425,9 @@ h5, h6 {
 	color: #515151;
 }
 
-.ss__pike .ss__demo h1, .ss__pike .ss__demo h2,
-.ss__pike .ss__demo h3, .ss__pike .ss__demo h4,
-.ss__pike .ss__demo h5, .ss__pike .ss__demo h6 {
+.ss__pike h1, .ss__pike h2,
+.ss__pike h3, .ss__pike h4,
+.ss__pike h5, .ss__pike h6 {
 	font-family: "Roboto", Helvetica, Arial;
 	font-weight: 700;
 }
@@ -438,7 +438,7 @@ h5, h6 {
 	color: #1d4990;
 }
 
-.ss__everest .ss__demo {
+.ss__everest {
 	font-family: "Source Sans 3", Helvetica, Arial;
 }
 
@@ -454,9 +454,9 @@ h5, h6 {
 	color: #515151;
 }
 
-.ss__everest .ss__demo h1, .ss__everest .ss__demo h2,
-.ss__everest .ss__demo h3, .ss__everest .ss__demo h4,
-.ss__everest .ss__demo h5, .ss__everest .ss__demo h6 {
+.ss__everest h1, .ss__everest h2,
+.ss__everest h3, .ss__everest h4,
+.ss__everest h5, .ss__everest h6 {
 	font-family: "Montserrat", Helvetica, Arial;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -468,7 +468,7 @@ h5, h6 {
 	color: #94280b;
 }
 
-.ss__matterhorn .ss__demo {
+.ss__matterhorn {
 	font-family: "Poppins", Helvetica, Arial;
 }
 
@@ -484,9 +484,9 @@ h5, h6 {
 	color: #555555;
 }
 
-.ss__matterhorn .ss__demo h1, .ss__matterhorn .ss__demo h2,
-.ss__matterhorn .ss__demo h3, .ss__matterhorn .ss__demo h4,
-.ss__matterhorn .ss__demo h5, .ss__matterhorn .ss__demo h6 {
+.ss__matterhorn h1, .ss__matterhorn h2,
+.ss__matterhorn h3, .ss__matterhorn h4,
+.ss__matterhorn h5, .ss__matterhorn h6 {
 	font-family: "Lora", "Times New Roman", serif;
 	font-weight: 300;
 	font-style: italic;

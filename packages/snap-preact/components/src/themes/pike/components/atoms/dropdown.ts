@@ -8,10 +8,11 @@ const dropdownStyleScript = (props: DropdownProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
+	// dropdown styles
+	const dropdownStyles = css([
 		{
 			width: 'auto',
-			...custom.styles.boxSizing2(),
+			...custom.styles.boxSizing(),
 			'&.ss__dropdown__portal': {
 				'.ss__dropdown__content': {
 					marginTop: `${custom.spacing.x2}px`,
@@ -56,6 +57,8 @@ const dropdownStyleScript = (props: DropdownProps) => {
 			},
 		},
 	]);
+
+	return dropdownStyles;
 };
 
 // Dropdown component props

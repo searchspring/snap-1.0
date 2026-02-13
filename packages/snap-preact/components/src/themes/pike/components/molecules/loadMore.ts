@@ -18,7 +18,6 @@ const loadMoreStyleScript = (props: LoadMoreProps) => {
 			},
 			'& > .ss__load-more__icon': {
 				fill: variables?.colors?.primary,
-				stroke: variables?.colors?.primary,
 			},
 			'.ss__button': {
 				'.ss__button__content': {

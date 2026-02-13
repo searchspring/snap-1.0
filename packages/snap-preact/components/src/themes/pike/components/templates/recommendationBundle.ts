@@ -87,7 +87,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			bottom: 0,
 			margin: 'auto 0',
 			fill: variables?.colors?.secondary,
-			stroke: variables?.colors?.secondary,
 		},
 		'.ss__recommendation-bundle__wrapper__cta': {
 			position: 'relative',
@@ -119,7 +118,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				'.ss__recommendation-bundle__wrapper__cta__subtotal__icon__wrapper': {
 					'.ss__icon': {
 						fill: variables?.colors?.secondary,
-						stroke: variables?.colors?.secondary,
 					},
 				},
 				'.ss__recommendation-bundle__wrapper__cta__subtotal__title': {

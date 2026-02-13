@@ -12,7 +12,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary || undefined);
 	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
 
-	// shared styles
+	// shared button styles
 	const sharedStyles = css([
 		{
 			cursor: 'pointer',
@@ -24,15 +24,24 @@ const buttonStyleScript = (props: ButtonProps) => {
 			textTransform: custom.fonts.transform,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			...custom.styles.boxSizing2(),
+			...custom.styles.boxSizing(),
 			[buttonDisabledSelectors]: {
 				...custom.styles.disabled(),
 			},
 			'.ss__button__content': {
-				overflow: 'hidden',
-				textOverflow: 'ellipsis',
-				whiteSpace: 'nowrap',
-				'&, & > *': {
+				'&:has(span)': {
+					display: 'inline-flex',
+					flexFlow: 'row nowrap',
+					alignItems: 'center',
+					gap: `${custom.spacing.x1}px`,
+					span: {
+						...custom.styles.textOverflow(),
+					},
+				},
+				'&:not(:has(span))': {
+					...custom.styles.textOverflow(),
+				},
+				'&, *': {
 					minWidth: '1px',
 				},
 			},
@@ -43,8 +52,8 @@ const buttonStyleScript = (props: ButtonProps) => {
 			},
 			'.ss__icon': {
 				minWidth: '1px',
-				width: `auto`,
-				height: `auto`,
+				width: `${custom.sizes.icon12}px`,
+				height: `${custom.sizes.icon12}px`,
 				flex: `0 0 ${custom.sizes.icon12}px`,
 			},
 			'.ss__icon--filters': {
@@ -55,10 +64,10 @@ const buttonStyleScript = (props: ButtonProps) => {
 		},
 	]);
 
-	// default styles
+	// default button styles
 	const defaultStyles = sharedStyles;
 
-	// native styles
+	// native button styles
 	const nativeStyles = css([
 		{
 			display: 'inline-flex',

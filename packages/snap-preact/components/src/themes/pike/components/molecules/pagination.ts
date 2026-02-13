@@ -31,7 +31,6 @@ const paginationStyleScript = (props: PaginationProps) => {
 				lineHeight: `${custom.sizes.icon12}px`,
 				'.ss__icon': {
 					fill: variables?.colors?.primary,
-					stroke: variables?.colors?.primary,
 				},
 			},
 		},

@@ -8,21 +8,21 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
-		custom.styles.boxSizing,
+	// search header styles
+	const searchHeaderStyles = css([
 		{
+			...custom.styles.boxSizing(),
 			em: {
 				fontStyle: 'normal',
 			},
 			'.ss__search-header__title': {
 				margin: 0,
-				fontSize: custom.utils.convertPxToEm(22),
-				fontWeight: custom.fonts.weight02,
-				color: variables?.colors?.secondary,
+				...custom.styles.fontSize(22),
+				...custom.styles.headerText(variables?.colors?.secondary),
 			},
 			'.ss__search-header__subtitle': {
 				margin: `${custom.spacing.x2}px 0 0 0`,
-				fontSize: custom.utils.convertPxToEm(16),
+				...custom.styles.fontSize(16),
 				fontWeight: 400,
 				color: variables?.colors?.text,
 				a: {
@@ -34,6 +34,8 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 			},
 		},
 	]);
+
+	return searchHeaderStyles;
 };
 
 // SearchHeader component props

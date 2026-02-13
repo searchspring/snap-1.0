@@ -8,18 +8,18 @@ const badgeTextStyleScript = (props: BadgeTextProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	// badge styles
-	const badgeStyles = css([
+	// badge text styles
+	const badgeTextStyles = css([
 		{
 			padding: 0,
-			...custom.styles.boxSizing2(),
+			...custom.styles.boxSizing(),
 			span: {
 				...custom.styles.badgeText(12),
 			},
 		},
 	]);
 
-	return badgeStyles;
+	return badgeTextStyles;
 };
 
 // BadgeText component props

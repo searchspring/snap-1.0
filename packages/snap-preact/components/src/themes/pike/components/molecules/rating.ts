@@ -22,13 +22,11 @@ const ratingStyleScript = (props: RatingProps) => {
 			'.ss__rating__stars--empty': {
 				'.ss__rating__stars__star .ss__icon': {
 					fill: darkGray,
-					stroke: darkGray,
 				},
 			},
 			'.ss__rating__stars--full': {
 				'.ss__rating__stars__star .ss__icon': {
 					fill: variables?.colors?.primary,
-					stroke: variables?.colors?.primary,
 				},
 			},
 		},

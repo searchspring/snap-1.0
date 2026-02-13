@@ -36,7 +36,6 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				},
 				'.ss__icon': {
 					fill: custom.colors.white,
-					stroke: custom.colors.white,
 				},
 			},
 			'.ss__search-input__input': {

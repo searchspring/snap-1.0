@@ -222,22 +222,12 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 			},
 			'.ss__button__content': {
 				margin: 0,
-				'.ss__icon': {
-					position: 'relative',
-					top: '0.5px',
-					margin: `0 0 0 ${custom.spacing.x1}px`,
-				},
 			},
 		},
 	});
 	const seeMoreTabletStyles = css({
 		order: -1,
 		textAlign: 'left',
-		'.ss__button__content': {
-			'.ss__icon': {
-				top: '1.5px',
-			},
-		},
 	});
 
 	// standard styles

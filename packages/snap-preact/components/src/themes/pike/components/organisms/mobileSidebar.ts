@@ -104,7 +104,6 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						'.ss__facet__header': {
 							'.ss__icon': {
 								fill: 'currentColor',
-								stroke: 'currentColor',
 							},
 						},
 					},

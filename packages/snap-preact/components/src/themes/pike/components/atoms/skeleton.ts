@@ -8,7 +8,14 @@ const skeletonStyleScript = (props: SkeletonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([custom.styles.boxSizing]);
+	// skeleton styles
+	const skeletonStyles = css([
+		{
+			...custom.styles.boxSizing(),
+		},
+	]);
+
+	return skeletonStyles;
 };
 
 // Skeleton component props

@@ -8,15 +8,15 @@ const badgeImageStyleScript = (props: BadgeImageProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	// badge styles
-	const badgeStyles = css([
+	// badge image styles
+	const badgeImageStyles = css([
 		{
 			lineHeight: 0,
-			...custom.styles.boxSizing2(),
+			...custom.styles.boxSizing(),
 		},
 	]);
 
-	return badgeStyles;
+	return badgeImageStyles;
 };
 
 // BadgeImage component props

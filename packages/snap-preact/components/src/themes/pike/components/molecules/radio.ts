@@ -22,7 +22,6 @@ const radioStyleScript = (props: RadioProps) => {
 			'.ss__icon': {
 				display: 'block',
 				fill: variables?.colors?.primary,
-				stroke: variables?.colors?.primary,
 			},
 		},
 	});

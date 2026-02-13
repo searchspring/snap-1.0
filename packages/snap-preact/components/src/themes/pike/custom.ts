@@ -1,4 +1,3 @@
-import { css, SerializedStyles } from '@emotion/react';
 import { IconType } from '../../components/Atoms/Icon';
 import Color from 'color';
 
@@ -72,8 +71,8 @@ export const custom: CustomThemeType = {
 		activeText: (value?: string) => {
 			return {
 				'&, &:hover': {
-					color: value ? value : '',
 					fontWeight: custom?.fonts?.weight01,
+					color: value ? value : '',
 				},
 			};
 		},
@@ -92,18 +91,13 @@ export const custom: CustomThemeType = {
 				padding: `${value ? value : custom.spacing.x2}px`,
 			};
 		},
-		boxSizing2: () => {
+		boxSizing: () => {
 			return {
 				'&, *, *:before, *:after': {
 					boxSizing: 'border-box',
 				},
 			};
 		},
-		boxSizing: css({
-			'&, *, *:before, *:after': {
-				boxSizing: 'border-box',
-			},
-		}),
 		disabled: () => {
 			return {
 				opacity: 0.65,
@@ -113,6 +107,19 @@ export const custom: CustomThemeType = {
 		fontSize: (value: number) => {
 			return {
 				fontSize: `${value / custom.sizes.font}rem`,
+			};
+		},
+		headerText: (value?: string) => {
+			return {
+				fontWeight: custom?.fonts?.weight02,
+				color: value ? value : '',
+			};
+		},
+		textOverflow: () => {
+			return {
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+				whiteSpace: 'nowrap',
 			};
 		},
 	},
@@ -147,6 +154,10 @@ type ObjectIconType = {
 	[key: string]: IconType;
 };
 
+type ObjectNestedType = {
+	[key: string]: ObjectNumberOrStringType;
+};
+
 type ObjectNumberType = {
 	[key: string]: number;
 };
@@ -167,13 +178,14 @@ type CustomThemeType = {
 	sizes: ObjectNumberType;
 	spacing: ObjectNumberType;
 	styles: {
-		activeText: (value?: string) => { [key: string]: ObjectNumberOrStringType };
+		activeText: (value?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
 		box: (text?: string, value?: number) => ObjectNumberOrStringType;
-		boxSizing2: () => { [key: string]: ObjectNumberOrStringType };
-		boxSizing: SerializedStyles;
+		boxSizing: () => ObjectNestedType;
 		disabled: () => ObjectNumberOrStringType;
 		fontSize: (value: number) => ObjectStringType;
+		headerText: (value?: string) => ObjectNumberOrStringType;
+		textOverflow: () => ObjectNumberOrStringType;
 	};
 	utils: {
 		convertPxToEm: FunctionStringType;

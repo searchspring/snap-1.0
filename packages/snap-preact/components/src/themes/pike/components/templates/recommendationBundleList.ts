@@ -77,7 +77,6 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 							right: `-${custom.spacing.x2 / 2 + custom.sizes.icon12}px`,
 							margin: 'auto 0',
 							fill: variables?.colors?.secondary,
-							stroke: variables?.colors?.secondary,
 						},
 					},
 				},
@@ -95,7 +94,6 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 					'.ss__recommendation-bundle-list__wrapper__cta__subtotal__icon__wrapper': {
 						'.ss__icon': {
 							fill: variables?.colors?.secondary,
-							stroke: variables?.colors?.secondary,
 						},
 					},
 					'.ss__recommendation-bundle-list__wrapper__cta__subtotal__title': {

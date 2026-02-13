@@ -26,7 +26,6 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 			borderColor: darkGray,
 			'.ss__icon': {
 				fill: variables?.colors?.primary,
-				stroke: variables?.colors?.primary,
 			},
 		},
 	});

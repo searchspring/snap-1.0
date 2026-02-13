@@ -85,7 +85,6 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 				'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__icon__wrapper': {
 					'.ss__icon': {
 						fill: variables?.colors?.secondary,
-						stroke: variables?.colors?.secondary,
 					},
 				},
 				'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__title': {

@@ -33,7 +33,6 @@ const facetStyleScript = (props: FacetProps) => {
 				width: `${custom.sizes.icon12}px`,
 				height: `${custom.sizes.icon12}px`,
 				fill: variables?.colors?.primary,
-				stroke: variables?.colors?.primary,
 			},
 		},
 		'.ss__facet__options': {

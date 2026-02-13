@@ -64,7 +64,6 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 				'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__icon__wrapper': {
 					'.ss__icon': {
 						fill: variables?.colors?.secondary,
-						stroke: variables?.colors?.secondary,
 					},
 				},
 				'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__title': {

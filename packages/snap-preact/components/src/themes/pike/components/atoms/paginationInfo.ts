@@ -8,13 +8,15 @@ const paginationInfoStyleScript = ({ theme }: PaginationInfoProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = theme?.variables;
 
-	return css([
-		custom.styles.boxSizing,
+	// pagination info styles
+	const paginationInfoStyles = css([
 		{
-			fontWeight: custom.fonts.weight02,
-			color: variables?.colors?.secondary,
+			...custom.styles.headerText(variables?.colors?.secondary),
+			...custom.styles.boxSizing(),
 		},
 	]);
+
+	return paginationInfoStyles;
 };
 
 // PaginationInfo component props

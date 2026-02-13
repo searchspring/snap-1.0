@@ -8,15 +8,14 @@ const loadingBarStyleScript = (props: LoadingBarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css([
-		custom.styles.boxSizing,
+	// loading bar styles
+	const loadingBarStyles = css([
 		{
-			background: variables?.colors?.primary,
-			'.ss__loading-bar__bar': {
-				background: variables?.colors?.secondary,
-			},
+			...custom.styles.boxSizing(),
 		},
 	]);
+
+	return loadingBarStyles;
 };
 
 // LoadingBar component props

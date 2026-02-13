@@ -192,10 +192,6 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				padding: 0,
 				a: {
 					margin: 0,
-					'.ss__icon': {
-						fill: 'currentColor',
-						stroke: 'currentColor',
-					},
 				},
 			},
 			'.ss__autocomplete__content__no-results': {
