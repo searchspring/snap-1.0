@@ -2,22 +2,22 @@ import { css } from '@emotion/react';
 import type { ButtonProps } from '../../../../components/Atoms/Button';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
-import Color from 'color';
 
 // CSS in JS style script for the Button component
 const buttonStyleScript = (props: ButtonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const buttonDisabledSelectors = '&.ss__button--disabled';
-	const buttonColor = new Color(props?.backgroundColor || variables?.colors?.primary || undefined);
-	const fontColor = buttonColor.isDark() || buttonColor.hex().toLowerCase() == '#00aeef' ? Color(custom.colors.white) : Color(custom.colors.black);
+	const activeColors = custom.utils.activeColors();
+	const buttonColor = activeColors[0];
+	const fontColor = activeColors[1];
 
 	// shared button styles
 	const sharedStyles = css([
 		{
 			cursor: 'pointer',
 			padding: `0 ${custom.spacing.x4}px`,
-			color: fontColor.hex(),
+			color: fontColor,
 			...custom.styles.fontSize(14),
 			fontWeight: custom.fonts.weight01,
 			textAlign: 'center',
@@ -46,9 +46,9 @@ const buttonStyleScript = (props: ButtonProps) => {
 				},
 			},
 			[`&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`]: {
-				border: `1px solid ${buttonColor.hex()}`,
+				border: `1px solid ${buttonColor}`,
 				borderRadius: `${custom.sizes.radius}px`,
-				backgroundColor: buttonColor.hex(),
+				backgroundColor: buttonColor,
 			},
 			'.ss__icon': {
 				minWidth: '1px',
@@ -58,7 +58,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			},
 			'.ss__icon--filters': {
 				circle: {
-					fill: buttonColor.hex(),
+					fill: buttonColor,
 				},
 			},
 		},

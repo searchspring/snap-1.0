@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Swatches component
 const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
+	const lightGray = custom.utils.lightenColor();
 
 	// shared styles for variant selections
 	const sharedStyles = css({

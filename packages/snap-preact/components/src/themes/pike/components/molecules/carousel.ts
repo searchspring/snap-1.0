@@ -7,18 +7,14 @@ import { custom } from '../../custom';
 const carouselStyleScript = (props: CarouselProps) => {
 	const variables = props?.theme?.variables;
 
-	// shared button styles
-	const disabledStyles = css({
-		opacity: 0.65,
-		'&, & *': {
-			cursor: 'not-allowed',
-		},
-	});
-
-	return css({
+	// carousel styles
+	const carouselStyles = css({
 		position: 'relative',
+		width: '100%',
+		minWidth: '1px',
+		...custom.styles.boxSizing(),
 		'.ss__carousel__prev-wrapper--hidden > div, .ss__carousel__next-wrapper--hidden > div': {
-			...disabledStyles,
+			...custom.styles.disabled(),
 		},
 		'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
 			width: '32px',
@@ -26,7 +22,7 @@ const carouselStyleScript = (props: CarouselProps) => {
 			display: 'block',
 			position: 'absolute',
 			top: 0,
-			bottom: '22%',
+			bottom: 'calc(10.25rem - 10px)',
 			zIndex: 2,
 			margin: 'auto',
 			'& > div': {
@@ -42,7 +38,7 @@ const carouselStyleScript = (props: CarouselProps) => {
 				color: custom.colors.white,
 			},
 			'.swiper-button-disabled': {
-				...disabledStyles,
+				...custom.styles.disabled(),
 			},
 		},
 		'.ss__carousel__prev-wrapper': {
@@ -72,11 +68,12 @@ const carouselStyleScript = (props: CarouselProps) => {
 				left: 0,
 				right: 0,
 				margin: 'auto',
+				gap: `${custom.spacing.x1}px`,
 				'.swiper-pagination-bullet': {
-					margin: `0 ${custom.spacing.x1 / 2}px`,
 					width: '12px',
 					height: '12px',
 					minWidth: '1px',
+					margin: 0,
 					flex: '0 1 auto',
 					backgroundColor: custom.colors.gray01,
 					border: `1px solid ${custom.colors.gray02}`,
@@ -99,6 +96,8 @@ const carouselStyleScript = (props: CarouselProps) => {
 			},
 		},
 	});
+
+	return carouselStyles;
 };
 
 // Carousel component props
@@ -106,6 +105,7 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 	default: {
 		carousel: {
 			themeStyleScript: carouselStyleScript,
+			speed: 600,
 		},
 		'carousel icon.prev': {
 			icon: custom.icons.arrowLeft,

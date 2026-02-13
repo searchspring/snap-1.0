@@ -17,7 +17,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef'
 			? Color(custom.colors.white || undefined)
 			: Color(custom.colors.black || undefined);
-	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
+	const darkGray = custom.utils.darkenColor();
 
 	// shared styles for swatches
 	const sharedStyles = css({

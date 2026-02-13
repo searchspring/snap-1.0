@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the FacetPaletteOptions component
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
+	const lightGray = custom.utils.lightenColor();
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
 
 	// set details for radius
@@ -181,6 +181,14 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	return props?.layout == 'list' ? listStyles : gridStyles;
 };
 
+// Custom colors
+const paletteColors = {
+	brown: '#845329',
+	purple: '#7c368e',
+	rainbow:
+		'linear-gradient(rgb(40, 87, 218) 20%, rgb(40, 218, 70) 20%, rgb(40, 218, 70) 40%, rgb(245, 228, 24) 40%, rgb(245, 228, 24) 60%, rgb(242, 133, 0) 60%, rgb(242, 133, 0) 80%, rgb(218, 40, 72) 80%, rgb(218, 40, 72))',
+};
+
 // FacetPaletteOptions component props
 export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPaletteOptionsProps> = {
 	default: {
@@ -191,19 +199,19 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 			gapSize: `${custom.spacing.x1}px`,
 			colorMapping: {
 				brown: {
-					background: custom.colors.brown,
+					background: paletteColors.brown,
 				},
 				multi: {
-					background: custom.colors.rainbow,
+					background: paletteColors.rainbow,
 				},
 				'multi-color': {
-					background: custom.colors.rainbow,
+					background: paletteColors.rainbow,
 				},
 				purple: {
-					background: custom.colors.purple,
+					background: paletteColors.purple,
 				},
 				rainbow: {
-					background: custom.colors.rainbow,
+					background: paletteColors.rainbow,
 				},
 			},
 		},

@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Radio component
 const radioStyleScript = (props: RadioProps) => {
 	const variables = props?.theme?.variables;
-	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
+	const darkGray = custom.utils.darkenColor();
 
 	// shared radio styles
 	const sharedDefaultStyles = css({

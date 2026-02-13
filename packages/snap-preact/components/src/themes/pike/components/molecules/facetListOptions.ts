@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the FacetListOptions component
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
+	const lightGray = custom.utils.lightenColor();
 	const checkboxSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
 	return css({

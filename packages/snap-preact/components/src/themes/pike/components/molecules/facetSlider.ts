@@ -18,7 +18,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	const variables = props?.theme?.variables;
 	const fontColor = props?.valueTextColor || variables?.colors?.text;
-	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
+	const darkGray = custom.utils.darkenColor();
 	const valuesTop = slider.valuesPosition == 'top' ? true : false;
 	const valuesSides = slider.valuesAlign == 'sides' ? true : false;
 	const hasTicks = props?.showTicks ? true : false;

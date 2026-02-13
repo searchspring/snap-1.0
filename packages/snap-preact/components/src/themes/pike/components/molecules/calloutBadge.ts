@@ -8,9 +8,13 @@ const calloutBadgeStyleScript = (props: CalloutBadgeProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// callout badge styles
+	const calloutBadgeStyles = css({
 		gap: `${custom.spacing.x2}px`,
+		...custom.styles.boxSizing(),
 	});
+
+	return calloutBadgeStyles;
 };
 
 // CalloutBadge component props

@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Rating component
 const ratingStyleScript = (props: RatingProps) => {
 	const variables = props?.theme?.variables;
-	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
+	const darkGray = custom.utils.darkenColor();
 
 	return css({
 		flexWrap: 'wrap',

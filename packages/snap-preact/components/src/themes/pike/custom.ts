@@ -17,14 +17,14 @@ export const custom: CustomThemeType = {
 		desktop: 1280,
 	},
 	colors: {
+		text: '#515151', // theme color
+		primary: '#00aeef', // theme color
+		secondary: '#1d4990', // theme color
+		accent: '#2154a5', // theme color
 		white: '#ffffff',
 		black: '#000000',
 		gray01: '#f8f8f8', // lighter gray: bg color under terms, dropdown, checkboxes
 		gray02: '#ebebeb', // light gray: borders for autocomplete, dropdown, checkboxes
-		brown: '#845329', // for color palette
-		purple: '#7c368e', // for color palette
-		rainbow:
-			'linear-gradient(rgb(40, 87, 218) 20%, rgb(40, 218, 70) 20%, rgb(40, 218, 70) 40%, rgb(245, 228, 24) 40%, rgb(245, 228, 24) 60%, rgb(242, 133, 0) 60%, rgb(242, 133, 0) 80%, rgb(218, 40, 72) 80%, rgb(218, 40, 72))', // for color palette
 	},
 	fonts: {
 		weight01: 700, // main font weight
@@ -69,6 +69,7 @@ export const custom: CustomThemeType = {
 	},
 	styles: {
 		activeText: (value?: string) => {
+			// active text styles
 			return {
 				'&, &:hover': {
 					fontWeight: custom?.fonts?.weight01,
@@ -77,21 +78,33 @@ export const custom: CustomThemeType = {
 			};
 		},
 		badgeText: (value: number) => {
+			// badge text styles
 			return {
 				display: 'block',
 				...custom.styles.fontSize(value),
 				lineHeight: 1,
 			};
 		},
-		box: (text?: string, value?: number) => {
+		box: (text?: string, value?: number | string) => {
+			// styles for box designs
+
+			// define padding value
+			let padding = `${custom.spacing.x2}px` as number | string;
+			if (value) {
+				padding = value;
+			} else if (value === 0) {
+				padding = '';
+			}
+
 			return {
 				border: `1px solid ${custom.colors.gray02}`,
 				backgroundColor: custom.colors.gray01,
 				color: text ? text : '',
-				padding: `${value ? value : custom.spacing.x2}px`,
+				padding: padding,
 			};
 		},
 		boxSizing: () => {
+			// box-sizing rules for uniform sizing
 			return {
 				'&, *, *:before, *:after': {
 					boxSizing: 'border-box',
@@ -99,23 +112,27 @@ export const custom: CustomThemeType = {
 			};
 		},
 		disabled: () => {
+			// disabled styles
 			return {
 				opacity: 0.65,
 				cursor: 'not-allowed !important',
 			};
 		},
 		fontSize: (value: number) => {
+			// translates px to rem
 			return {
 				fontSize: `${value / custom.sizes.font}rem`,
 			};
 		},
 		headerText: (value?: string) => {
+			// header text styles
 			return {
 				fontWeight: custom?.fonts?.weight02,
 				color: value ? value : '',
 			};
 		},
 		textOverflow: () => {
+			// text overflow styles
 			return {
 				overflow: 'hidden',
 				textOverflow: 'ellipsis',
@@ -124,28 +141,37 @@ export const custom: CustomThemeType = {
 		},
 	},
 	utils: {
+		activeColors: (color?: string) => {
+			// get active color and related font color
+			color = color ? color : custom.colors.primary;
+			const whiteColor = new Color(custom.colors.white);
+			const blackColor = new Color(custom.colors.black);
+			const activeColor = new Color(color);
+			const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == custom.colors.primary ? whiteColor : blackColor;
+			return [activeColor.hex().toLowerCase(), fontColor.hex().toLowerCase()];
+		},
 		convertPxToEm: (value: number) => {
 			// translates px to rem
 			return `${value / custom.sizes.font}rem`;
 		},
-		lightenColor: (color: string | undefined, amount: number) => {
+		lightenColor: (color?: string, amount?: number) => {
 			// lighten a color
-			const lightColor = new Color(color || '#515151').lighten(amount).hex().toLowerCase();
+			amount = amount ? amount : 0.65;
+			color = color ? color : custom.colors.text;
+			const lightColor = new Color(color).lighten(amount).hex().toLowerCase();
 			return lightColor;
 		},
-		darkenColor: (color: string | undefined, amount: number) => {
+		darkenColor: (color?: string, amount?: number) => {
 			// darken a color
-			const darkColor = new Color(color || '#515151').darken(amount).hex().toLowerCase();
+			amount = amount ? amount : 0.075;
+			color = color ? color : custom.colors.gray02;
+			const darkColor = new Color(color).darken(amount).hex().toLowerCase();
 			return darkColor;
 		},
 	},
 };
 
 // types for custom theme object
-type FunctionColorType = (color: string | undefined, amount: number) => string;
-
-type FunctionStringType = (value: number) => string;
-
 type ObjectAnyType = {
 	[key: string]: any;
 };
@@ -178,9 +204,9 @@ type CustomThemeType = {
 	sizes: ObjectNumberType;
 	spacing: ObjectNumberType;
 	styles: {
-		activeText: (value?: string) => ObjectNestedType;
+		activeText: (valu?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
-		box: (text?: string, value?: number) => ObjectNumberOrStringType;
+		box: (text?: string, value?: number | string) => ObjectNumberOrStringType;
 		boxSizing: () => ObjectNestedType;
 		disabled: () => ObjectNumberOrStringType;
 		fontSize: (value: number) => ObjectStringType;
@@ -188,8 +214,9 @@ type CustomThemeType = {
 		textOverflow: () => ObjectNumberOrStringType;
 	};
 	utils: {
-		convertPxToEm: FunctionStringType;
-		lightenColor: FunctionColorType;
-		darkenColor: FunctionColorType;
+		activeColors: (color?: string) => string[];
+		convertPxToEm: (value: number) => string;
+		lightenColor: (color?: string, amount?: number) => string;
+		darkenColor: (color?: string, amount?: number) => string;
 	};
 };

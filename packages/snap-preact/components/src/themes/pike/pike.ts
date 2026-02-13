@@ -1,6 +1,7 @@
 import { ThemeComplete, ThemeVariables } from '../../providers';
 import { components } from './components';
 import { responsive } from './responsive';
+import { custom } from './custom';
 
 const pikeVariables: ThemeVariables = {
 	breakpoints: {
@@ -9,10 +10,10 @@ const pikeVariables: ThemeVariables = {
 		desktop: 1199,
 	},
 	colors: {
-		text: '#515151',
-		primary: '#00aeef',
-		secondary: '#1d4990',
-		accent: '#2154a5',
+		text: custom.colors.text,
+		primary: custom.colors.primary,
+		secondary: custom.colors.secondary,
+		accent: custom.colors.accent,
 	},
 };
 

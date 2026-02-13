@@ -6,46 +6,33 @@ import { custom } from '../../custom';
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = (props: CheckboxProps) => {
 	const variables = props?.theme?.variables;
-	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
+	const darkGray = custom.utils.darkenColor();
 
 	// shared checkbox styles
 	const sharedStyles = css({
 		position: 'relative',
 		top: '-1px',
 	});
-	const sharedDefaultStyles = css({
-		border: `1px solid ${custom.colors.gray02}`,
-		'&, *': {
-			boxSizing: 'border-box',
-		},
-		'.ss__icon': {
-			width: '8px',
-			height: '8px',
-		},
-		'&.ss__checkbox--active': {
-			borderColor: darkGray,
-			'.ss__icon': {
-				fill: variables?.colors?.primary,
-			},
-		},
-	});
-	const disabledStyles = css({
-		'&.ss__checkbox--disabled': {
-			opacity: 0.65,
-			'&, & *': {
-				cursor: 'not-allowed',
-			},
-		},
-	});
 
 	// default checkbox styles
 	const defaultStyles = css([
 		sharedStyles,
-		sharedDefaultStyles,
 		{
+			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: custom.colors.gray01,
+			...custom.styles.boxSizing(),
+			'&:has(.ss__icon)': {
+				borderColor: darkGray,
+				'.ss__icon': {
+					width: '8px',
+					height: '8px',
+					fill: variables?.colors?.primary,
+				},
+			},
+			'&.ss__checkbox--disabled': {
+				...custom.styles.disabled(),
+			},
 		},
-		disabledStyles,
 	]);
 
 	// native checkbox styles
@@ -54,18 +41,16 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
-			border: `1px solid ${custom.colors.gray02}`,
 			cursor: 'pointer',
+			...custom.styles.boxSizing(),
+			'&.ss__checkbox--disabled': {
+				...custom.styles.disabled(),
+			},
 		},
-		disabledStyles,
 	]);
 
 	// return checkbox styles
-	if (props?.native) {
-		return nativeStyles;
-	} else {
-		return defaultStyles;
-	}
+	return props?.native ? nativeStyles : defaultStyles;
 };
 
 // Checkbox component props

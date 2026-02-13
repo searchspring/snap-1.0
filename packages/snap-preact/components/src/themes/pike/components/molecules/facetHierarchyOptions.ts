@@ -6,7 +6,7 @@ import { custom } from '../../custom';
 // CSS in JS style script for the FacetHierarchyOptions component
 const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => {
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
+	const lightGray = custom.utils.lightenColor();
 
 	return css({
 		'.ss__facet-hierarchy-options__option': {
