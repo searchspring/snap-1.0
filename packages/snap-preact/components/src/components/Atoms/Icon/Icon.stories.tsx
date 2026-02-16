@@ -82,6 +82,24 @@ export default {
 			},
 			control: { type: 'color' },
 		},
+		stroke: {
+			description: 'Icon stroke color',
+			table: {
+				type: {
+					summary: 'string',
+				},
+			},
+			control: { type: 'color' },
+		},
+		fill: {
+			description: 'Icon fill color',
+			table: {
+				type: {
+					summary: 'string',
+				},
+			},
+			control: { type: 'color' },
+		},
 		size: {
 			defaultValue: '16px',
 			description: 'Icon size',
