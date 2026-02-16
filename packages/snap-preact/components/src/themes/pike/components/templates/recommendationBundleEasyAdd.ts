@@ -12,6 +12,7 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 
 	return css({
 		margin: `${custom.spacing.x4}px 0`,
+		...custom.styles.boxSizing('recommendationBundleEasyAdd', props?.treePath),
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
@@ -32,7 +33,6 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 				width: '50%',
 				minWidth: '1px',
 				flex: '0 1 auto',
-				boxSizing: 'border-box',
 			},
 			'.ss__recommendation-bundle-easy-add__wrapper__selector__result-wrapper, .ss__recommendation-bundle-easy-add__wrapper__cta': {
 				margin: 0,

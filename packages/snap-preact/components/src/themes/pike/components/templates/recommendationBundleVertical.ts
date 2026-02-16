@@ -12,6 +12,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 
 	return css({
 		margin: `${custom.spacing.x4}px 0`,
+		...custom.styles.boxSizing('recommendationBundleVertical', props?.treePath),
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `0 0 ${custom.spacing.x4}px 0`,

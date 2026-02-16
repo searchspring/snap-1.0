@@ -9,6 +9,7 @@ const paginationStyleScript = (props: PaginationProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
+		...custom.styles.boxSizing('pagination', props?.treePath),
 		nav: {
 			display: 'flex',
 			flexFlow: 'row wrap',

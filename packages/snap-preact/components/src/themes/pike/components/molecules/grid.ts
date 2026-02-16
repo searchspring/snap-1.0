@@ -18,6 +18,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 	const darkGray = custom.utils.darkenColor();
 
 	return css({
+		...custom.styles.boxSizing('grid', props?.treePath),
 		'.ss__grid__title': {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			fontSize: custom.utils.convertPxToEm(14),
@@ -50,9 +51,6 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 				aspectRatio: 1,
 				color: variables?.colors?.text,
 				overflow: 'hidden',
-				'&, &:after, *': {
-					boxSizing: 'border-box',
-				},
 				'&:before': {
 					display: 'none',
 				},

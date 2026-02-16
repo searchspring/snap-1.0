@@ -22,6 +22,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 
 	// shared palette styles
 	const sharedStyles = css({
+		...custom.styles.boxSizing('facetPaletteOptions', props?.treePath),
 		'.ss__facet-palette-options__option': {
 			display: 'block',
 			color: variables?.colors?.text,
@@ -54,7 +55,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 						left: 0,
 						right: 0,
 						borderRadius: paletteRadius,
-						boxSizing: 'border-box',
 					},
 					'&:before, &:after': {
 						content: '""',

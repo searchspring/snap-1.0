@@ -11,6 +11,7 @@ const radioStyleScript = (props: RadioProps) => {
 	// shared radio styles
 	const sharedDefaultStyles = css({
 		border: `1px solid ${custom.colors.gray02}`,
+		...custom.styles.boxSizing('radio', props?.treePath),
 		'&, & .ss__icon': {
 			borderRadius: '50%',
 		},

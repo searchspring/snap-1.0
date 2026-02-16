@@ -12,6 +12,7 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 
 	return css({
 		margin: `${custom.spacing.x4}px 0`,
+		...custom.styles.boxSizing('recommendationBundleList', props?.treePath),
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
@@ -28,9 +29,6 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 		'.ss__recommendation-bundle-list__wrapper': {
 			flexFlow: 'row wrap',
 			margin: `0 -${custom.spacing.x1}px`,
-			'&, & > div': {
-				boxSizing: 'border-box',
-			},
 			'& > div': {
 				width: '50%',
 				minWidth: '1px',

@@ -8,6 +8,7 @@ const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('errorHandler', props?.treePath),
 		'.ss__error-handler__message': {
 			display: 'block',
 			flex: `1 1 0%`,

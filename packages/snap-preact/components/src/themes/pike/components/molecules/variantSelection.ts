@@ -14,6 +14,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 		'&:last-of-type': {
 			marginBottom: 0,
 		},
+		...custom.styles.boxSizing('variantSelection', props?.treePath),
 	});
 
 	// dropdown styles

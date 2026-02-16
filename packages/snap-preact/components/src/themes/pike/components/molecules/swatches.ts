@@ -22,6 +22,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 	// shared styles for swatches
 	const sharedStyles = css({
 		margin: 0,
+		...custom.styles.boxSizing('swatches', props?.treePath),
 	});
 
 	// carousel styles
@@ -80,9 +81,6 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 					aspectRatio: 1,
 					color: variables?.colors?.text,
 					overflow: 'hidden',
-					'&, &:before, &:after, *': {
-						boxSizing: 'border-box',
-					},
 					'&:before, &:after': {
 						content: '""',
 						display: 'block',

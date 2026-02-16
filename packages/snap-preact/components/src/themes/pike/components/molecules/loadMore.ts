@@ -12,6 +12,7 @@ const loadMoreStyleScript = (props: LoadMoreProps) => {
 	const barColor = new Color(props?.color || variables?.colors?.primary || undefined);
 
 	return css({
+		...custom.styles.boxSizing('loadMore', props?.treePath),
 		'&.ss__load-more': {
 			'&, .ss__load-more__progress': {
 				gap: `${custom.spacing.x2}px`,

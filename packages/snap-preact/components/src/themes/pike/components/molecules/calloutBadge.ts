@@ -11,7 +11,7 @@ const calloutBadgeStyleScript = (props: CalloutBadgeProps) => {
 	// callout badge styles
 	const calloutBadgeStyles = css({
 		gap: `${custom.spacing.x2}px`,
-		...custom.styles.boxSizing(),
+		...custom.styles.boxSizing('calloutBadge', props?.treePath),
 	});
 
 	return calloutBadgeStyles;

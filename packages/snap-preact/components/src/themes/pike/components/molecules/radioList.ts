@@ -8,6 +8,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('radioList', props?.treePath),
 		'.ss__radio-list__title, .ss__radio-list__options-wrapper .ss__radio-list__option': {
 			padding: 0,
 			margin: `0 0 ${custom.spacing.x1}px 0`,

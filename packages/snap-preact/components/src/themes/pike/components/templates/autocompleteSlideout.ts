@@ -12,6 +12,7 @@ const autocompleteSlideoutStyleScript = (props: AutocompleteSlideoutProps) => {
 	return css({
 		border: 0,
 		padding: `${custom.spacing.x4}px`,
+		...custom.styles.boxSizing('autocompleteSlideout', props?.treePath),
 		'.ss__autocomplete-slideout__inner': {
 			display: 'flex',
 			flexFlow: 'column nowrap',

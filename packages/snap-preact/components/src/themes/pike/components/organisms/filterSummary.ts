@@ -11,6 +11,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 
 	// shared palette styles
 	const sharedStyles = css({
+		...custom.styles.boxSizing('filterSummary', props?.treePath),
 		'.ss__filter-summary__title': {
 			padding: 0,
 			fontSize: custom.utils.convertPxToEm(14),
@@ -58,7 +59,6 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 									border: `1px solid ${darkGray}`,
 									width: `${custom.sizes.icon16}px`,
 									height: `${custom.sizes.icon16}px`,
-									boxSizing: 'border-box',
 								},
 								'.ss__filter__label, .ss__filter__value': {
 									margin: 0,

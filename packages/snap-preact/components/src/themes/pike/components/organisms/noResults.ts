@@ -9,6 +9,7 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
+		...custom.styles.boxSizing('noResults', props?.treePath),
 		'h1, h2, h3, h4, h5, h6, ul': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
 		},

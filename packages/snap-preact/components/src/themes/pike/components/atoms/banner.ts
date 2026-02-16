@@ -12,7 +12,7 @@ const bannerStyleScript = (props: BannerProps) => {
 	const bannerStyles = css([
 		{
 			color: variables?.colors?.text,
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('banner', props?.treePath),
 		},
 	]);
 

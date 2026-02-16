@@ -8,6 +8,7 @@ const listStyleScript = (props: ListProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('list', props?.treePath),
 		'&, .ss__list__options': {
 			display: 'block',
 		},

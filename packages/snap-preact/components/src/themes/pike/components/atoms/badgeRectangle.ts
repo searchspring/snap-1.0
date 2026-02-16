@@ -12,7 +12,7 @@ const badgeRectangleStyleScript = (props: BadgeRectangleProps) => {
 	const badgeRectangleStyles = css([
 		{
 			padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('badgeRectangle', props?.treePath),
 			span: {
 				...custom.styles.badgeText(12),
 			},

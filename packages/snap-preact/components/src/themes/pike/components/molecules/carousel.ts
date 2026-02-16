@@ -12,7 +12,7 @@ const carouselStyleScript = (props: CarouselProps) => {
 		position: 'relative',
 		width: '100%',
 		minWidth: '1px',
-		...custom.styles.boxSizing(),
+		...custom.styles.boxSizing('carousel', props?.treePath),
 		'.ss__carousel__prev-wrapper--hidden > div, .ss__carousel__next-wrapper--hidden > div': {
 			...custom.styles.disabled(),
 		},

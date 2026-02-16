@@ -10,6 +10,7 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('searchBoca', props?.treePath),
 		'&.ss__search-boca--sidebar-open': {
 			'.ss__button': {
 				'.ss__icon--filter': {

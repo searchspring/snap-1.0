@@ -10,6 +10,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 	const darkPrimary = custom.utils.darkenColor(variables?.colors?.primary, 0.15);
 
 	return css({
+		...custom.styles.boxSizing('searchInput', props?.treePath),
 		'&.ss__search-input': {
 			margin: `0 0 ${custom.spacing.x2}px`,
 			border: 0,
@@ -26,7 +27,6 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 			},
 			'.ss__button, .ss__search-input__button--close-search-button': {
 				width: '35px',
-				boxSizing: 'border-box',
 				justifyContent: 'center',
 				'&, &:hover': {
 					border: 0,

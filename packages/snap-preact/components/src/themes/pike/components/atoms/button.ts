@@ -24,7 +24,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			textTransform: custom.fonts.transform,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('button', props?.treePath),
 			[buttonDisabledSelectors]: {
 				...custom.styles.disabled(),
 			},

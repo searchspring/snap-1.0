@@ -13,8 +13,8 @@ export const custom: CustomThemeType = {
 	breakpoints: {
 		small: 540,
 		mobile: 767,
-		tablet: 1024,
-		desktop: 1280,
+		tablet: 991,
+		desktop: 1199,
 	},
 	colors: {
 		text: '#515151', // theme color
@@ -103,13 +103,21 @@ export const custom: CustomThemeType = {
 				padding: padding,
 			};
 		},
-		boxSizing: () => {
+		boxSizing: (component: string, treePath?: string) => {
+			treePath = treePath ? treePath : component;
+
 			// box-sizing rules for uniform sizing
-			return {
-				'&, *, *:before, *:after': {
-					boxSizing: 'border-box',
-				},
-			};
+			// if path and component are same, apply box-sizing
+			// if they are not the same, this means some parent component will have the box sizing rules
+			if (treePath == component) {
+				return {
+					'&, *, *:before, *:after': {
+						boxSizing: 'border-box',
+					},
+				};
+			} else {
+				return null;
+			}
 		},
 		disabled: () => {
 			// disabled styles
@@ -207,7 +215,7 @@ type CustomThemeType = {
 		activeText: (valu?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
 		box: (text?: string, value?: number | string) => ObjectNumberOrStringType;
-		boxSizing: () => ObjectNestedType;
+		boxSizing: (component: string, treePath?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType;
 		fontSize: (value: number) => ObjectStringType;
 		headerText: (value?: string) => ObjectNumberOrStringType;

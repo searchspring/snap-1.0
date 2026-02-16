@@ -8,6 +8,7 @@ const sidebarStyleScript = (props: SidebarProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('sidebar', props?.treePath),
 		'.ss__sidebar__title': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			fontSize: custom.utils.convertPxToEm(20),

@@ -10,6 +10,7 @@ const searchStyleScript = (props: SearchProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
+		...custom.styles.boxSizing('search', props?.treePath),
 		'&.ss__search--sidebar-open': {
 			'.ss__button': {
 				'.ss__icon--filter': {

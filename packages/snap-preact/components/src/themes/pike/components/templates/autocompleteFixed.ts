@@ -10,6 +10,7 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 
 	return css({
+		...custom.styles.boxSizing('autocompleteFixed', props?.treePath),
 		'.ss__modal': {
 			'.ss__modal__content': {
 				'.ss__autocomplete-fixed__inner': {

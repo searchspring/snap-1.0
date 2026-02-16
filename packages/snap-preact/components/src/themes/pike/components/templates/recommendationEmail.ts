@@ -15,6 +15,7 @@ const recommendationEmailStyleScript = (props: RecommendationEmailProps) => {
 		margin: `0 0 ${custom.spacing.x6}px 0`,
 		padding: `0 ${custom.spacing.x2}px`,
 		overflow: 'hidden',
+		...custom.styles.boxSizing('recommendationEmail', props?.treePath),
 		'.ss__result': {
 			fontSize: '16px',
 			'.ss__result__details .ss__result__details__title a': {

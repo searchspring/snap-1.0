@@ -10,6 +10,7 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
+		...custom.styles.boxSizing('autocompleteModal', props?.treePath),
 		'.ss__modal': {
 			'&, .ss__modal__content': {
 				height: '100%',

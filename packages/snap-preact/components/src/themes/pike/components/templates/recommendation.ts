@@ -17,6 +17,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
+		...custom.styles.boxSizing('recommendation', props?.treePath),
 		'.ss__recommendation__title': {
 			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,

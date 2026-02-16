@@ -12,7 +12,7 @@ const selectStyleScript = (props: SelectProps) => {
 	const defaultStyles = css([
 		{
 			display: 'block',
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('select', props?.treePath),
 			'.ss__dropdown': {
 				'.ss__dropdown__button .ss__button, .ss__dropdown__content': {
 					...custom.styles.box(variables?.colors?.text),
@@ -90,7 +90,7 @@ const selectStyleScript = (props: SelectProps) => {
 			...custom.styles.box(variables?.colors?.text),
 			paddingTop: 0,
 			paddingBottom: 0,
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('select', props?.treePath),
 			'.ss__select__label, .ss__select__select': {
 				...custom.styles.fontSize(14),
 			},

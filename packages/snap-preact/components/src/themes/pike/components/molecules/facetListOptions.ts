@@ -10,6 +10,7 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	const checkboxSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
 	return css({
+		...custom.styles.boxSizing('facetListOptions', props?.treePath),
 		'.ss__facet-list-options__option': {
 			display: 'block',
 			position: 'relative',

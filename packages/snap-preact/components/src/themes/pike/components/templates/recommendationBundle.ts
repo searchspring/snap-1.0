@@ -13,6 +13,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
+		...custom.styles.boxSizing('recommendationBundle', props?.treePath),
 		'.ss__recommendation-bundle__title': {
 			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,
@@ -26,7 +27,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				flex: '0 1 auto',
 				minWidth: '1px',
 				padding: `0 ${custom.spacing.x2}px`,
-				boxSizing: 'border-box',
 			},
 			'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__cta': {
 				width: `20%`,
@@ -154,7 +154,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				display: 'block',
 				backgroundColor: custom.colors.gray01,
 				border: `1px solid ${custom.colors.gray02}`,
-				boxSizing: 'border-box',
 				position: 'absolute',
 				top: 0,
 				left: '10px',

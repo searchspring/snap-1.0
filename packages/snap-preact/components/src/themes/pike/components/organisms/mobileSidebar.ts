@@ -10,6 +10,7 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	const footerHeight = 75;
 
 	return css({
+		...custom.styles.boxSizing('mobileSidebar', props?.treePath),
 		'.ss__mobile-sidebar__slideout': {
 			overflowY: 'hidden',
 			padding: 0,

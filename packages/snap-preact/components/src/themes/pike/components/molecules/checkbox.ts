@@ -20,7 +20,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: custom.colors.gray01,
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('checkbox', props?.treePath),
 			'&:has(.ss__icon)': {
 				borderColor: darkGray,
 				'.ss__icon': {
@@ -42,7 +42,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
 			cursor: 'pointer',
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('checkbox', props?.treePath),
 			'&.ss__checkbox--disabled': {
 				...custom.styles.disabled(),
 			},

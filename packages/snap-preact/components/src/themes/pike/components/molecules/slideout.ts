@@ -8,7 +8,9 @@ const slideoutStyleScript = (props: SlideoutProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({});
+	return css({
+		...custom.styles.boxSizing('slideout', props?.treePath),
+	});
 };
 
 // Slideout component props

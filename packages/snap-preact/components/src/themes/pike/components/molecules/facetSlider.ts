@@ -38,9 +38,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	// shared slider styles
 	const sharedStyles = css({
-		'&, *': {
-			boxSizing: 'border-box',
-		},
+		...custom.styles.boxSizing('facetSlider', props?.treePath),
 		'&, .ss__facet-slider__slider': {
 			margin: 'auto',
 		},

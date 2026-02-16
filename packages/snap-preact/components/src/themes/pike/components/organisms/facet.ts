@@ -8,6 +8,7 @@ const facetStyleScript = (props: FacetProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('facet', props?.treePath),
 		'&.ss__facet--collapsed': {
 			'.ss__facet__header': {
 				'.ss__icon': {

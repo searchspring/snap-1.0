@@ -9,6 +9,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 	const lightGray = custom.utils.lightenColor();
 
 	return css({
+		...custom.styles.boxSizing('facetHierarchyOptions', props?.treePath),
 		'.ss__facet-hierarchy-options__option': {
 			display: 'block',
 			margin: `0 0 ${custom.spacing.x1}px 0`,

@@ -9,6 +9,7 @@ const resultStyleScript = (props: ResultProps) => {
 	const lightGray = custom.utils.lightenColor();
 
 	return css({
+		...custom.styles.boxSizing('result', props?.treePath),
 		'&.ss__result--sale': {
 			'.ss__result__details': {
 				'.ss__result__details__pricing': {

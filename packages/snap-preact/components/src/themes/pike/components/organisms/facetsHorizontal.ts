@@ -12,12 +12,12 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 
 	return css({
 		margin: 0,
+		...custom.styles.boxSizing('facetsHorizontal', props?.treePath),
 		'.ss__facets-horizontal__header': {
 			gap: 0,
 			margin: `0 -${custom.spacing.x1}px -${custom.spacing.x2}px -${custom.spacing.x1}px `,
 			position: 'relative',
 			'& > *': {
-				boxSizing: 'border-box',
 				minWidth: '1px',
 				width: `${100 / 6}%`,
 				flex: '0 1 auto',
@@ -91,7 +91,6 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 							flex: '0 1 auto',
 							width: `${100 / 4 - 2}%`,
 							minWidth: '1px',
-							boxSizing: 'border-box',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
 							whiteSpace: 'nowrap',

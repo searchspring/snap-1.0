@@ -13,7 +13,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	// grid styles
 	const gridStyles = css({
 		alignItems: 'center',
-		...custom.styles.boxSizing(),
+		...custom.styles.boxSizing('facetGridOptions', props?.treePath),
 		'.ss__facet-grid-options__option': {
 			height: '100%',
 			aspectRatio: 1,

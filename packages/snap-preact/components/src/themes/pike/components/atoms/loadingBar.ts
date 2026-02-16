@@ -11,7 +11,7 @@ const loadingBarStyleScript = (props: LoadingBarProps) => {
 	// loading bar styles
 	const loadingBarStyles = css([
 		{
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('loadingBar', props?.treePath),
 		},
 	]);
 

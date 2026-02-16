@@ -9,6 +9,7 @@ const overlayBadgeStyleScript = (props: OverlayBadgeProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('overlayBadge', props?.treePath),
 		'.ss__overlay-badge__grid-wrapper': {
 			zIndex: 1,
 			gap: `${custom.spacing.x2}px`,

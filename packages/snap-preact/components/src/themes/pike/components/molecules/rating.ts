@@ -12,6 +12,7 @@ const ratingStyleScript = (props: RatingProps) => {
 		flexWrap: 'wrap',
 		gap: `${custom.spacing.x1}px`,
 		lineHeight: 1,
+		...custom.styles.boxSizing('rating', props?.treePath),
 		'.ss__rating__icons': {
 			'.ss__rating__stars': {
 				margin: '0 -1px',

@@ -11,6 +11,7 @@ const termsStyleScript = (props: TermsProps) => {
 	return css({
 		width: '100%',
 		textAlign: 'left',
+		...custom.styles.boxSizing('terms', props?.treePath),
 		'ul, ul li': {
 			padding: 0,
 			margin: 0,

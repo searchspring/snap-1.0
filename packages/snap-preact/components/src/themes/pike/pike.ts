@@ -5,9 +5,9 @@ import { custom } from './custom';
 
 const pikeVariables: ThemeVariables = {
 	breakpoints: {
-		mobile: 767,
-		tablet: 991,
-		desktop: 1199,
+		mobile: custom.breakpoints.mobile,
+		tablet: custom.breakpoints.tablet,
+		desktop: custom.breakpoints.desktop,
 	},
 	colors: {
 		text: custom.colors.text,

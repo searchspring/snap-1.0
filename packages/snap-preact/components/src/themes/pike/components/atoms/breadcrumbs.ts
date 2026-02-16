@@ -11,7 +11,7 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 	// breadcrumbs styles
 	const breadcrumbsStyles = css([
 		{
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('breadcrumbs', props?.treePath),
 			'.ss__breadcrumbs__crumbs': {
 				gap: `${custom.spacing.x2}px`,
 				'&, li': {

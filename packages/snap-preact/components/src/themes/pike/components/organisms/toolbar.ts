@@ -7,8 +7,10 @@ import { custom } from '../../custom';
 const toolbarStyleScript = (props: ToolbarProps) => {
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	console.log(props);
 
 	return css({
+		...custom.styles.boxSizing('toolbar', props?.treePath),
 		'.ss__layout': {
 			gap: `${custom.spacing.x2}px`,
 			margin: 0,

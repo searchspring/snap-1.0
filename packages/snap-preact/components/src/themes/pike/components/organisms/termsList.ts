@@ -9,6 +9,7 @@ const termsListStyleScript = (props: TermsListProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
+		...custom.styles.boxSizing('termsList', props?.treePath),
 		backgroundColor: 'transparent',
 		flexFlow: 'row nowrap',
 		gap: `${custom.spacing.x4}px`,

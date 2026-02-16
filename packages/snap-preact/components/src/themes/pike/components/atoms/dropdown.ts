@@ -12,7 +12,7 @@ const dropdownStyleScript = (props: DropdownProps) => {
 	const dropdownStyles = css([
 		{
 			width: 'auto',
-			...custom.styles.boxSizing(),
+			...custom.styles.boxSizing('dropdown', props?.treePath),
 			'&.ss__dropdown__portal': {
 				'.ss__dropdown__content': {
 					marginTop: `${custom.spacing.x2}px`,

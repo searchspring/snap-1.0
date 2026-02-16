@@ -10,6 +10,7 @@ const filterStyleScript = (props: FilterProps) => {
 	return css({
 		display: 'block',
 		padding: 0,
+		...custom.styles.boxSizing('filter', props?.treePath),
 		'.ss__filter__button': {
 			position: 'relative',
 			height: 'auto',

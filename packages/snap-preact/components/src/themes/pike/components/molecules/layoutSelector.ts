@@ -15,6 +15,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 
 	// dropdown styles
 	const dropdownStyles = css({
+		...custom.styles.boxSizing('layoutSelector', props?.treePath),
 		'.ss__dropdown': {
 			'.ss__dropdown__button .ss__button__content': {
 				gap: `${custom.spacing.x2}px`,
@@ -24,6 +25,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 
 	// list styles
 	const listStyles = css({
+		...custom.styles.boxSizing('layoutSelector', props?.treePath),
 		'.ss__list__options': {
 			display: 'flex',
 			'.ss__list__option': {
