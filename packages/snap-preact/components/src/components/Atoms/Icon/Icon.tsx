@@ -11,7 +11,7 @@ import { mergeProps, mergeStyles } from '../../../utilities';
 const defaultStyles: StyleScript<IconProps> = ({ color, fill, stroke, theme, width, height, size }) => {
 	return css({
 		fill: fill || color || theme?.variables?.colors?.primary,
-		stroke: stroke || color || theme?.variables?.colors?.primary,
+		stroke: stroke,
 		width: isNaN(Number(width || size)) ? width || size : `${width || size}px`,
 		height: isNaN(Number(height || size)) ? height || size : `${height || size}px`,
 		position: 'relative',

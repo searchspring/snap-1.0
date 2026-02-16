@@ -96,7 +96,7 @@ Component children can be provided and will be rendered within the wrapping `svg
 ```
 
 ### color
-The `color` prop specifies the icon color, overwritten by fill or stroke props.
+The `color` prop specifies the icon color, overwritten by fill props.
 
 ```jsx
 <Icon icon='cogs' color="#ffff00" />
@@ -110,7 +110,7 @@ The `fill` prop specifies the icon fill color, overwrites color prop.
 ```
 
 ### stroke
-The `stroke` prop specifies the icon stroke color, overwrites color prop.
+The `stroke` prop specifies the icon stroke color.
 
 ```jsx
 <Icon icon='cogs' stroke="#ffff00" />
