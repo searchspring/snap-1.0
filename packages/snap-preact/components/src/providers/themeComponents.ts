@@ -75,7 +75,7 @@ import type { SearchProps } from '../components/Templates/Search';
 import type { SearchHorizontalProps } from '../components/Templates/SearchHorizontal';
 import type { AutocompleteLayoutProps } from '../components/Organisms/AutocompleteLayout';
 import type { AutocompleteSlideoutProps } from '../components/Templates/AutocompleteSlideout';
-import type { SearchBocaProps } from '../components/Templates/SearchBoca';
+import type { SearchCollapsibleProps } from '../components/Templates/SearchCollapsible';
 import type { SearchSnappyProps } from '../components/Templates/SearchSnappy';
 import { SearchSnapncoProps } from '../components/Templates/SearchSnapnco';
 import { AutocompleteModalProps } from '../components/Templates/AutocompleteModal';
@@ -230,7 +230,7 @@ export type ThemeComponents =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'recommendationEmail'>]?: Partial<RecommendationEmailProps>} & 
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'search'>]?: Partial<SearchProps> } & 
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchSnappy'>]?: Partial<SearchSnappyProps>} & 
-	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchBoca'>]?: Partial<SearchBocaProps> } &
+	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchCollapsible'>]?: Partial<SearchCollapsibleProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchSnapnco'>]?: Partial<SearchSnapncoProps>} & 
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchHorizontal'>]?: Partial<SearchHorizontalProps> };
 
@@ -318,7 +318,7 @@ export type ThemeComponentsRestricted =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'recommendationEmail'>]?: ThemeComponentRestrictedProps<RecommendationEmailProps> } & 
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'search'>]?: ThemeComponentRestrictedProps<SearchProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchSnappy'>]?: ThemeComponentRestrictedProps<SearchSnappyProps> } &
-	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchBoca'>]?: ThemeComponentRestrictedProps<SearchBocaProps> } &
+	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchCollapsible'>]?: ThemeComponentRestrictedProps<SearchCollapsibleProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchSnapnco'>]?: ThemeComponentRestrictedProps<SearchSnapncoProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchHorizontal'>]?: ThemeComponentRestrictedProps<SearchHorizontalProps> };
 
@@ -405,7 +405,7 @@ export type ThemeComponentsRestrictedOverrides =
 	{ [K in ThemeComponentOverridesNamedSelectors<'recommendationEmail', string>]?: ThemeComponentOverridesRestrictedProps<RecommendationEmailProps> } & 
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'search'>]?: ThemeComponentOverridesRestrictedProps<SearchProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchSnappy'>]?: ThemeComponentOverridesRestrictedProps<SearchSnappyProps> } &
-	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchBoca'>]?: ThemeComponentOverridesRestrictedProps<SearchBocaProps> } &
+	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchCollapsible'>]?: ThemeComponentOverridesRestrictedProps<SearchCollapsibleProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchSnapnco'>]?: ThemeComponentOverridesRestrictedProps<SearchSnapncoProps> } &
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchHorizontal'>]?: ThemeComponentOverridesRestrictedProps<SearchHorizontalProps> };
 
@@ -496,6 +496,6 @@ export type ThemeComponentTemplateOverrides<Template extends string, Props> =
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'recommendationEmail'>]?: ThemeComponentRestrictedProps<RecommendationEmailProps> } & 
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'search'>]?: ThemeComponentRestrictedProps<SearchProps> } &
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'searchSnappy'>]?: ThemeComponentRestrictedProps<SearchSnappyProps> } &
-	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'searchBoca'>]?: ThemeComponentRestrictedProps<SearchBocaProps> } &
+	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'searchCollapsible'>]?: ThemeComponentRestrictedProps<SearchCollapsibleProps> } &
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'searchSnapnco'>]?: ThemeComponentRestrictedProps<SearchSnapncoProps> } &
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template,'searchHorizontal'>]?: ThemeComponentRestrictedProps<SearchHorizontalProps> };

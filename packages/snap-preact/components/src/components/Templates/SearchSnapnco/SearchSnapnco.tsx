@@ -8,7 +8,10 @@ import { Search, SearchProps } from '../Search/Search';
 export const SearchSnapnco = observer((properties: SearchSnapncoProps): JSX.Element => {
 	return (
 		<CacheProvider>
-			<Search {...properties} alias="searchSnapnco" />
+			<Search
+				{...properties}
+				// alias="searchSnapnco"
+			/>
 		</CacheProvider>
 	);
 });
