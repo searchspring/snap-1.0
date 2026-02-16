@@ -5,12 +5,13 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the SearchInput component
 const searchInputStyleScript = (props: SearchInputProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 	const darkPrimary = custom.utils.darkenColor(variables?.colors?.primary, 0.15);
 
 	return css({
-		...custom.styles.boxSizing('searchInput', props?.treePath),
+		...custom.styles.boxSizing('searchInput', props?.treePath, props?.name),
 		'&.ss__search-input': {
 			margin: `0 0 ${custom.spacing.x2}px`,
 			border: 0,
@@ -33,9 +34,6 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				},
 				'&, .ss__icon': {
 					padding: 0,
-				},
-				'.ss__icon': {
-					fill: custom.colors.white,
 				},
 			},
 			'.ss__search-input__input': {
@@ -76,6 +74,9 @@ export const searchInput: ThemeComponent<'searchInput', SearchInputProps> = {
 		},
 		'searchInput icon': {
 			size: `${custom.sizes.icon14}px`,
+		},
+		'searchInput button icon': {
+			color: custom.colors.white,
 		},
 		'searchInput button.close-search icon': {
 			icon: custom.icons.arrowLeft,

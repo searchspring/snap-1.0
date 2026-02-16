@@ -6,6 +6,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Recommendation component
 const recommendationStyleScript = (props: RecommendationProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
@@ -17,7 +18,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
-		...custom.styles.boxSizing('recommendation', props?.treePath),
+		...custom.styles.boxSizing('recommendation', props?.treePath, props?.name),
 		'.ss__recommendation__title': {
 			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,

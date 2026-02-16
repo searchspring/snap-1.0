@@ -5,11 +5,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Pagination component
 const paginationStyleScript = (props: PaginationProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
-		...custom.styles.boxSizing('pagination', props?.treePath),
+		...custom.styles.boxSizing('pagination', props?.treePath, props?.name),
 		nav: {
 			display: 'flex',
 			flexFlow: 'row wrap',
@@ -30,9 +31,6 @@ const paginationStyleScript = (props: PaginationProps) => {
 			},
 			'.ss__pagination__page--previous, .ss__pagination__page--next': {
 				lineHeight: `${custom.sizes.icon12}px`,
-				'.ss__icon': {
-					fill: variables?.colors?.primary,
-				},
 			},
 		},
 		[`@media (max-width: ${mobileBp}px)`]: {
@@ -60,9 +58,11 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 		},
 		'pagination icon.prev': {
 			icon: custom.icons.arrowLeft,
+			color: custom.colors.primary,
 		},
 		'pagination icon.next': {
 			icon: custom.icons.arrowRight,
+			color: custom.colors.primary,
 		},
 	},
 	mobile: {

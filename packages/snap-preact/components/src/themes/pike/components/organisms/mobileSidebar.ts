@@ -5,12 +5,13 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const headerHeight = 60;
 	const footerHeight = 75;
 
 	return css({
-		...custom.styles.boxSizing('mobileSidebar', props?.treePath),
+		...custom.styles.boxSizing('mobileSidebar', props?.treePath, props?.name),
 		'.ss__mobile-sidebar__slideout': {
 			overflowY: 'hidden',
 			padding: 0,
@@ -32,14 +33,11 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 					},
 					'.ss__mobile-sidebar__header__close-button': {
 						padding: 0,
-						width: '16px',
-						height: '16px',
-						lineHeight: '16px',
-						'.ss__icon': {
-							width: '100%',
-							height: '100%',
-							lineHeight: 1,
-						},
+						width: 'auto',
+						height: 'auto',
+						lineHeight: '0',
+						border: 0,
+						backgroundColor: 'transparent',
 					},
 				},
 				'.ss__mobile-sidebar__footer': {
@@ -102,11 +100,6 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						'&.ss__facet--collapsed': {
 							borderBottom: `1px solid ${custom.colors.gray02}`,
 						},
-						'.ss__facet__header': {
-							'.ss__icon': {
-								fill: 'currentColor',
-							},
-						},
 					},
 				},
 			},
@@ -120,11 +113,17 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 		mobileSidebar: {
 			themeStyleScript: mobileSidebarStyleScript,
 		},
-		'mobileSidebar button.close': {
+		'mobileSidebar button.close icon': {
 			icon: custom.icons.close,
+			width: `${custom.sizes.icon16}px`,
+			height: `${custom.sizes.icon16}px`,
+			size: `${custom.sizes.icon16}px`,
 		},
 		'mobileSidebar toolbar filterSummary': {
 			title: 'Current Filters',
+		},
+		'mobileSidebar facets icon.collapse': {
+			color: 'currentColor',
 		},
 	},
 };

@@ -12,7 +12,7 @@ const badgeImageStyleScript = (props: BadgeImageProps) => {
 	const badgeImageStyles = css([
 		{
 			lineHeight: 0,
-			...custom.styles.boxSizing('badgeImage', props?.treePath),
+			...custom.styles.boxSizing('badgeImage', props?.treePath, props?.name),
 		},
 	]);
 

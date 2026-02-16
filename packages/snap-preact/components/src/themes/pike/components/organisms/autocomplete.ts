@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Autocomplete component
 const autocompleteStyleScript = (props: AutocompleteProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const headerSelectors =
@@ -13,7 +14,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 		'.ss__autocomplete__terms .ss__autocomplete__terms__options .ss__autocomplete__terms__option--active a, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__content__info a:hover';
 
 	return css({
-		...custom.styles.boxSizing('autocomplete', props?.treePath),
+		...custom.styles.boxSizing('autocomplete', props?.treePath, props?.name),
 		'&.ss__autocomplete': {
 			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: custom.colors.white,

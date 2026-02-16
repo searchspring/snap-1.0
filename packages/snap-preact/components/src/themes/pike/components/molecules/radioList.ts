@@ -5,10 +5,11 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RadioList component
 const radioListStyleScript = (props: RadioListProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('radioList', props?.treePath),
+		...custom.styles.boxSizing('radioList', props?.treePath, props?.name),
 		'.ss__radio-list__title, .ss__radio-list__options-wrapper .ss__radio-list__option': {
 			padding: 0,
 			margin: `0 0 ${custom.spacing.x1}px 0`,

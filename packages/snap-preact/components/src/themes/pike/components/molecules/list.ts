@@ -5,10 +5,11 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the List component
 const listStyleScript = (props: ListProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('list', props?.treePath),
+		...custom.styles.boxSizing('list', props?.treePath, props?.name),
 		'&, .ss__list__options': {
 			display: 'block',
 		},

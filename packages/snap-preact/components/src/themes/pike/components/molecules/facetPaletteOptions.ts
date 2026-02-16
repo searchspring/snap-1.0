@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FacetPaletteOptions component
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
@@ -22,7 +23,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 
 	// shared palette styles
 	const sharedStyles = css({
-		...custom.styles.boxSizing('facetPaletteOptions', props?.treePath),
+		...custom.styles.boxSizing('facetPaletteOptions', props?.treePath, props?.name),
 		'.ss__facet-palette-options__option': {
 			display: 'block',
 			color: variables?.colors?.text,

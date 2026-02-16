@@ -10,7 +10,7 @@ const searchSnapncoStyleScript = (props: SearchSnapncoProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('searchSnapnco', props?.treePath),
+		...custom.styles.boxSizing('searchSnapnco', props?.treePath, props?.name),
 		'&.ss__search-snapnco--sidebar-open': {
 			'.ss__button': {
 				'.ss__icon--filter': {

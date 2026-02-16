@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Facets component
 const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
@@ -12,7 +13,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 
 	return css({
 		margin: 0,
-		...custom.styles.boxSizing('facetsHorizontal', props?.treePath),
+		...custom.styles.boxSizing('facetsHorizontal', props?.treePath, props?.name),
 		'.ss__facets-horizontal__header': {
 			gap: 0,
 			margin: `0 -${custom.spacing.x1}px -${custom.spacing.x2}px -${custom.spacing.x1}px `,

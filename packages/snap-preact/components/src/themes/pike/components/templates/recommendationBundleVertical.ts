@@ -6,13 +6,14 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundleVertical component
 const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVerticalProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		margin: `${custom.spacing.x4}px 0`,
-		...custom.styles.boxSizing('recommendationBundleVertical', props?.treePath),
+		...custom.styles.boxSizing('recommendationBundleVertical', props?.treePath, props?.name),
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
@@ -83,11 +84,6 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 						marginBottom: 0,
 					},
 				},
-				'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__icon__wrapper': {
-					'.ss__icon': {
-						fill: variables?.colors?.secondary,
-					},
-				},
 				'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__title': {
 					display: 'block',
 					fontWeight: custom.fonts.weight02,
@@ -141,10 +137,12 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 		'recommendationBundleVertical icon.bundle-cart': {
 			icon: custom.icons.bag,
 			size: `${custom.sizes.icon16 * 2}px`,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundleVertical icon.bundle-selector': {
 			icon: custom.icons.plus,
 			size: `${custom.sizes.icon14}px`,
+			color: custom.colors.secondary,
 		},
 	},
 	mobile: {

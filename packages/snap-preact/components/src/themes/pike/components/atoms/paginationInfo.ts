@@ -12,7 +12,7 @@ const paginationInfoStyleScript = (props: PaginationInfoProps) => {
 	const paginationInfoStyles = css([
 		{
 			...custom.styles.headerText(variables?.colors?.secondary),
-			...custom.styles.boxSizing('paginationInfo', props?.treePath),
+			...custom.styles.boxSizing('paginationInfo', props?.treePath, props?.name),
 		},
 	]);
 

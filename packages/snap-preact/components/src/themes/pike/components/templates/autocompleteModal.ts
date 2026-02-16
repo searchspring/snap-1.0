@@ -6,11 +6,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
-		...custom.styles.boxSizing('autocompleteModal', props?.treePath),
+		...custom.styles.boxSizing('autocompleteModal', props?.treePath, props?.name),
 		'.ss__modal': {
 			'&, .ss__modal__content': {
 				height: '100%',

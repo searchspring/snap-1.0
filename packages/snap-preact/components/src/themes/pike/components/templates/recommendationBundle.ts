@@ -6,6 +6,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundle component
 const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
@@ -13,7 +14,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
-		...custom.styles.boxSizing('recommendationBundle', props?.treePath),
+		...custom.styles.boxSizing('recommendationBundle', props?.treePath, props?.name),
 		'.ss__recommendation-bundle__title': {
 			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,
@@ -86,7 +87,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			right: 0,
 			bottom: 0,
 			margin: 'auto 0',
-			fill: variables?.colors?.secondary,
 		},
 		'.ss__recommendation-bundle__wrapper__cta': {
 			position: 'relative',
@@ -113,11 +113,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 					margin: `0 0 ${custom.spacing.x2}px 0`,
 					'&:last-child': {
 						marginBottom: 0,
-					},
-				},
-				'.ss__recommendation-bundle__wrapper__cta__subtotal__icon__wrapper': {
-					'.ss__icon': {
-						fill: variables?.colors?.secondary,
 					},
 				},
 				'.ss__recommendation-bundle__wrapper__cta__subtotal__title': {
@@ -217,10 +212,12 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 		'recommendationBundle icon.bundle-cart': {
 			icon: custom.icons.bag,
 			size: `${custom.sizes.icon16 * 2}px`,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundle icon.bundle-selector': {
 			icon: custom.icons.plus,
 			size: `${custom.sizes.icon14}px`,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundle carousel': {
 			spaceBetween: custom.spacing.x4,

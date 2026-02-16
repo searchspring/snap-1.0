@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = (props: CheckboxProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const darkGray = custom.utils.darkenColor();
 
@@ -20,14 +21,9 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: custom.colors.gray01,
-			...custom.styles.boxSizing('checkbox', props?.treePath),
+			...custom.styles.boxSizing('checkbox', props?.treePath, props?.name),
 			'&:has(.ss__icon)': {
 				borderColor: darkGray,
-				'.ss__icon': {
-					width: '8px',
-					height: '8px',
-					fill: variables?.colors?.primary,
-				},
 			},
 			'&.ss__checkbox--disabled': {
 				...custom.styles.disabled(),
@@ -42,7 +38,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
 			cursor: 'pointer',
-			...custom.styles.boxSizing('checkbox', props?.treePath),
+			...custom.styles.boxSizing('checkbox', props?.treePath, props?.name),
 			'&.ss__checkbox--disabled': {
 				...custom.styles.disabled(),
 			},
@@ -60,6 +56,10 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 			themeStyleScript: checkboxStyleScript,
 			icon: custom.icons.check,
 			size: `${custom.sizes.icon16}px`,
+		},
+		'checkbox icon': {
+			size: '8px',
+			color: custom.colors.primary,
 		},
 	},
 };

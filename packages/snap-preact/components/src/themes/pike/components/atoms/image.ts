@@ -11,7 +11,7 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 	// image styles
 	const imageStyles = css([
 		{
-			...custom.styles.boxSizing('image', props?.treePath),
+			...custom.styles.boxSizing('image', props?.treePath, props?.name),
 			'&, img': {
 				lineHeight: 0,
 			},

@@ -5,12 +5,13 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Filter component
 const filterStyleScript = (props: FilterProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({
 		display: 'block',
 		padding: 0,
-		...custom.styles.boxSizing('filter', props?.treePath),
+		...custom.styles.boxSizing('filter', props?.treePath, props?.name),
 		'.ss__filter__button': {
 			position: 'relative',
 			height: 'auto',

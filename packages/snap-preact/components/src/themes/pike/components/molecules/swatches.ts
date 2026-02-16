@@ -22,7 +22,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 	// shared styles for swatches
 	const sharedStyles = css({
 		margin: 0,
-		...custom.styles.boxSizing('swatches', props?.treePath),
+		...custom.styles.boxSizing('swatches', props?.treePath, props?.name),
 	});
 
 	// carousel styles

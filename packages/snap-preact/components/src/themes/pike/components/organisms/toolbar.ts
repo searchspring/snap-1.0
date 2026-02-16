@@ -5,12 +5,13 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Toolbar component
 const toolbarStyleScript = (props: ToolbarProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 	console.log(props);
 
 	return css({
-		...custom.styles.boxSizing('toolbar', props?.treePath),
+		...custom.styles.boxSizing('toolbar', props?.treePath, props?.name),
 		'.ss__layout': {
 			gap: `${custom.spacing.x2}px`,
 			margin: 0,

@@ -6,11 +6,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchHorizontalStyleScript = (props: SearchHorizontalProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
-		...custom.styles.boxSizing('searchHorizontal', props?.treePath),
+		...custom.styles.boxSizing('searchHorizontal', props?.treePath, props?.name),
 		'.ss__search-horizontal__header-section, .ss__search-horizontal__main-section': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			'.ss__toolbar .ss__layout': {

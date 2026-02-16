@@ -11,6 +11,8 @@ const iconStyleScript = (props: IconProps) => {
 	// icon styles
 	const iconStyles = css([
 		{
+			minWidth: '1px',
+			flex: props?.size ? `0 0 ${props.size}` : ``,
 			stroke: 'transparent',
 			lineHeight: 1,
 		},

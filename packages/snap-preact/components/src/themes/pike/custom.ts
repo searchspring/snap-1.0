@@ -103,8 +103,9 @@ export const custom: CustomThemeType = {
 				padding: padding,
 			};
 		},
-		boxSizing: (component: string, treePath?: string) => {
+		boxSizing: (component: string, treePath?: string, name?: string) => {
 			treePath = treePath ? treePath : component;
+			component = name ? `${component}.${name}` : component; // if name is present, add to component
 
 			// box-sizing rules for uniform sizing
 			// if path and component are same, apply box-sizing
@@ -215,7 +216,7 @@ type CustomThemeType = {
 		activeText: (valu?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
 		box: (text?: string, value?: number | string) => ObjectNumberOrStringType;
-		boxSizing: (component: string, treePath?: string) => ObjectNestedType | null;
+		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType;
 		fontSize: (value: number) => ObjectStringType;
 		headerText: (value?: string) => ObjectNumberOrStringType;

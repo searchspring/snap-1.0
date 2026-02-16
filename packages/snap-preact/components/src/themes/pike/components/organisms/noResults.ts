@@ -5,11 +5,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the NoResults component
 const noResultsStyleScript = (props: NoResultsProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
-		...custom.styles.boxSizing('noResults', props?.treePath),
+		...custom.styles.boxSizing('noResults', props?.treePath, props?.name),
 		'h1, h2, h3, h4, h5, h6, ul': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
 		},

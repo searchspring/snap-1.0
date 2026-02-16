@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Swatches component
 const variantSelectionStyleScript = (props: VariantSelectionProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 
@@ -14,7 +15,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 		'&:last-of-type': {
 			marginBottom: 0,
 		},
-		...custom.styles.boxSizing('variantSelection', props?.treePath),
+		...custom.styles.boxSizing('variantSelection', props?.treePath, props?.name),
 	});
 
 	// dropdown styles

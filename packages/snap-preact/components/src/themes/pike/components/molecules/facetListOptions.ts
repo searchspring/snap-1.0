@@ -5,12 +5,13 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FacetListOptions component
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 	const checkboxSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
 	return css({
-		...custom.styles.boxSizing('facetListOptions', props?.treePath),
+		...custom.styles.boxSizing('facetListOptions', props?.treePath, props?.name),
 		'.ss__facet-list-options__option': {
 			display: 'block',
 			position: 'relative',

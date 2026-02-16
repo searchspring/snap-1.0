@@ -22,7 +22,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 		alignContent: acLayout == 'standard' ? 'normal' : 'flex-start',
 		border: `1px solid ${custom.colors.gray02}`,
 		backgroundColor: custom.colors.white,
-		...custom.styles.boxSizing('autocompleteLayout', props?.treePath),
+		...custom.styles.boxSizing('autocompleteLayout', props?.treePath, props?.name),
 		[textSelectors]: {
 			fontSize: custom.utils.convertPxToEm(acLayout == 'terms' ? 15 : 12),
 			lineHeight: 1.5,

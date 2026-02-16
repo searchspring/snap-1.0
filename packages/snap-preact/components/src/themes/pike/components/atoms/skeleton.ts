@@ -11,7 +11,7 @@ const skeletonStyleScript = (props: SkeletonProps) => {
 	// skeleton styles
 	const skeletonStyles = css([
 		{
-			...custom.styles.boxSizing('skeleton', props?.treePath),
+			...custom.styles.boxSizing('skeleton', props?.treePath, props?.name),
 		},
 	]);
 

@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FacetGridOptions component
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const activeColors = custom.utils.activeColors();
 	const activeColor = activeColors[0];
@@ -13,7 +14,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	// grid styles
 	const gridStyles = css({
 		alignItems: 'center',
-		...custom.styles.boxSizing('facetGridOptions', props?.treePath),
+		...custom.styles.boxSizing('facetGridOptions', props?.treePath, props?.name),
 		'.ss__facet-grid-options__option': {
 			height: '100%',
 			aspectRatio: 1,

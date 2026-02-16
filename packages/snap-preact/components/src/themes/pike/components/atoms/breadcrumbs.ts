@@ -11,7 +11,7 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 	// breadcrumbs styles
 	const breadcrumbsStyles = css([
 		{
-			...custom.styles.boxSizing('breadcrumbs', props?.treePath),
+			...custom.styles.boxSizing('breadcrumbs', props?.treePath, props?.name),
 			'.ss__breadcrumbs__crumbs': {
 				gap: `${custom.spacing.x2}px`,
 				'&, li': {
@@ -25,12 +25,6 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 					padding: 0,
 					'&:last-of-type': {
 						...custom.styles.activeText(variables?.colors?.primary),
-					},
-				},
-				'.ss__breadcrumbs__crumbs__separator': {
-					'.ss__icon': {
-						width: `${custom.sizes.icon10}px`,
-						height: `${custom.sizes.icon10}px`,
 					},
 				},
 			},
@@ -47,6 +41,9 @@ export const breadcrumbs: ThemeComponent<'breadcrumbs', BreadcrumbsProps> = {
 			themeStyleScript: breadcrumbsStyleScript,
 			separator: false,
 			separatorIcon: custom.icons.arrowRight,
+		},
+		'breadcrumbs icon': {
+			size: `${custom.sizes.icon10}px`,
 		},
 	},
 };

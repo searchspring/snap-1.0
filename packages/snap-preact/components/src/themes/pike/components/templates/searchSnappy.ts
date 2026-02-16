@@ -10,7 +10,7 @@ const searchSnappyStyleScript = (props: SearchSnappyProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('searchSnappy', props?.treePath),
+		...custom.styles.boxSizing('searchSnappy', props?.treePath, props?.name),
 		'&.ss__search-snappy--sidebar-open': {
 			'.ss__button': {
 				'.ss__icon--filter': {

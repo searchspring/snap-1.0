@@ -24,7 +24,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			textTransform: custom.fonts.transform,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			...custom.styles.boxSizing('button', props?.treePath),
+			...custom.styles.boxSizing('button', props?.treePath, props?.name),
 			[buttonDisabledSelectors]: {
 				...custom.styles.disabled(),
 			},
@@ -49,17 +49,6 @@ const buttonStyleScript = (props: ButtonProps) => {
 				border: `1px solid ${buttonColor}`,
 				borderRadius: `${custom.sizes.radius}px`,
 				backgroundColor: buttonColor,
-			},
-			'.ss__icon': {
-				minWidth: '1px',
-				width: `${custom.sizes.icon12}px`,
-				height: `${custom.sizes.icon12}px`,
-				flex: `0 0 ${custom.sizes.icon12}px`,
-			},
-			'.ss__icon--filters': {
-				circle: {
-					fill: buttonColor,
-				},
 			},
 		},
 	]);
@@ -87,6 +76,9 @@ export const button: ThemeComponent<'button', ButtonProps> = {
 	default: {
 		button: {
 			themeStyleScript: buttonStyleScript,
+		},
+		'button icon': {
+			size: `${custom.sizes.icon12}px`,
 		},
 	},
 };

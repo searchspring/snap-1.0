@@ -6,13 +6,14 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundle component
 const recommendationGridStyleScript = (props: RecommendationGridProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		margin: `${custom.spacing.x8}px 0`,
 		maxHeight: 'none',
-		...custom.styles.boxSizing('recommendationGrid', props?.treePath),
+		...custom.styles.boxSizing('recommendationGrid', props?.treePath, props?.name),
 		'.ss__recommendation-grid__title': {
 			fontSize: custom.utils.convertPxToEm(22),
 			fontWeight: custom.fonts.weight02,

@@ -5,6 +5,7 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Carousel component
 const carouselStyleScript = (props: CarouselProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	// carousel styles
@@ -12,7 +13,7 @@ const carouselStyleScript = (props: CarouselProps) => {
 		position: 'relative',
 		width: '100%',
 		minWidth: '1px',
-		...custom.styles.boxSizing('carousel', props?.treePath),
+		...custom.styles.boxSizing('carousel', props?.treePath, props?.name),
 		'.ss__carousel__prev-wrapper--hidden > div, .ss__carousel__next-wrapper--hidden > div': {
 			...custom.styles.disabled(),
 		},

@@ -5,11 +5,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FacetHierarchyOptions component
 const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 
 	return css({
-		...custom.styles.boxSizing('facetHierarchyOptions', props?.treePath),
+		...custom.styles.boxSizing('facetHierarchyOptions', props?.treePath, props?.name),
 		'.ss__facet-hierarchy-options__option': {
 			display: 'block',
 			margin: `0 0 ${custom.spacing.x1}px 0`,

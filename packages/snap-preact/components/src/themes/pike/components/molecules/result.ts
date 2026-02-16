@@ -5,11 +5,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Result component
 const resultStyleScript = (props: ResultProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 
 	return css({
-		...custom.styles.boxSizing('result', props?.treePath),
+		...custom.styles.boxSizing('result', props?.treePath, props?.name),
 		'&.ss__result--sale': {
 			'.ss__result__details': {
 				'.ss__result__details__pricing': {

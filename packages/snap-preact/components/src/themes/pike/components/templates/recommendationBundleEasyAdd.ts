@@ -6,13 +6,14 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundleEasyAdd component
 const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyAddProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
 		margin: `${custom.spacing.x4}px 0`,
-		...custom.styles.boxSizing('recommendationBundleEasyAdd', props?.treePath),
+		...custom.styles.boxSizing('recommendationBundleEasyAdd', props?.treePath, props?.name),
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
@@ -59,11 +60,6 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 					margin: `0 0 ${custom.spacing.x2}px 0`,
 					'&:last-child': {
 						marginBottom: 0,
-					},
-				},
-				'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__icon__wrapper': {
-					'.ss__icon': {
-						fill: variables?.colors?.secondary,
 					},
 				},
 				'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__title': {
@@ -119,6 +115,7 @@ export const recommendationBundleEasyAdd: ThemeComponent<'recommendationBundleEa
 		'recommendationBundleEasyAdd icon.bundle-cart': {
 			icon: custom.icons.bag,
 			size: `${custom.sizes.icon16 * 2}px`,
+			color: custom.colors.secondary,
 		},
 	},
 	mobile: {

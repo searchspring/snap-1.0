@@ -5,10 +5,11 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Sidebar component
 const sidebarStyleScript = (props: SidebarProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('sidebar', props?.treePath),
+		...custom.styles.boxSizing('sidebar', props?.treePath, props?.name),
 		'.ss__sidebar__title': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			fontSize: custom.utils.convertPxToEm(20),

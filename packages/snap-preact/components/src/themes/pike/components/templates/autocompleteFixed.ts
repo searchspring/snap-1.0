@@ -6,11 +6,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 
 	return css({
-		...custom.styles.boxSizing('autocompleteFixed', props?.treePath),
+		...custom.styles.boxSizing('autocompleteFixed', props?.treePath, props?.name),
 		'.ss__modal': {
 			'.ss__modal__content': {
 				'.ss__autocomplete-fixed__inner': {

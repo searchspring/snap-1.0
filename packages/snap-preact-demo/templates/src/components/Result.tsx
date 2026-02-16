@@ -15,6 +15,12 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 	// 	{ label: 'Fridge' }
 	// ]
 
+	// const errorObject = {
+	// 	code: 429,
+	// 	type: ErrorType.ERROR,
+	// 	message: 'Too many requests try again later',
+	// }
+
 	return (
 		<article className="ss__custom-result">
 			<div className="ss__custom-result__image-wrapper">
@@ -24,8 +30,6 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 					</OverlayBadge>
 				</a>
 			</div>
-
-			{/* <Breadcrumbs data={breadcrumbs} /> */}
 
 			<div className="ss__custom-result__details">
 				<div className="ss__custom-result__details__title">
@@ -44,9 +48,13 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 					? variants.selections.map((selection) => {
 							return <VariantSelection selection={selection} />;
 					  })
-					: null}
+					: null} */}
 
-				<br />
+				{/* <Breadcrumbs data={breadcrumbs} /> */}
+
+				{/* <ErrorHandler controller={controller} error={errorObject} /> */}
+
+				{/* <br />
 				<br /> */}
 
 				<div className="ss__custom-result__details__pricing">

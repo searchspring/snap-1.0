@@ -5,10 +5,11 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Facet component
 const facetStyleScript = (props: FacetProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('facet', props?.treePath),
+		...custom.styles.boxSizing('facet', props?.treePath, props?.name),
 		'&.ss__facet--collapsed': {
 			'.ss__facet__header': {
 				'.ss__icon': {
@@ -31,9 +32,6 @@ const facetStyleScript = (props: FacetProps) => {
 			'.ss__icon': {
 				transition: 'transform ease 0.5s',
 				transform: 'rotate(180deg)',
-				width: `${custom.sizes.icon12}px`,
-				height: `${custom.sizes.icon12}px`,
-				fill: variables?.colors?.primary,
 			},
 		},
 		'.ss__facet__options': {
@@ -59,8 +57,6 @@ const facetStyleScript = (props: FacetProps) => {
 				position: 'relative',
 				top: '-0.5px',
 				marginRight: `${custom.spacing.x1}px`,
-				width: `${custom.sizes.icon10}px`,
-				height: `${custom.sizes.icon10}px`,
 			},
 		},
 	});
@@ -75,6 +71,13 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
+		},
+		'facet icon': {
+			size: `${custom.sizes.icon10}px`,
+		},
+		'facet icon.collapse': {
+			size: `${custom.sizes.icon12}px`,
+			color: custom.colors.primary,
 		},
 	},
 };

@@ -9,6 +9,7 @@ const gridSize = 42;
 
 // CSS in JS style script for the Grid component
 const gridStyleScript = (props: Partial<GridProps>) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const activeColor = new Color(variables?.colors?.primary || undefined);
 	const fontColor =
@@ -18,7 +19,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 	const darkGray = custom.utils.darkenColor();
 
 	return css({
-		...custom.styles.boxSizing('grid', props?.treePath),
+		...custom.styles.boxSizing('grid', props?.treePath, props?.name),
 		'.ss__grid__title': {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			fontSize: custom.utils.convertPxToEm(14),

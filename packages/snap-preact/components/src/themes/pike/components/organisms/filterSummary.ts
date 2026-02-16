@@ -5,13 +5,14 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the FilterSummary component
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 	const listSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
 	// shared palette styles
 	const sharedStyles = css({
-		...custom.styles.boxSizing('filterSummary', props?.treePath),
+		...custom.styles.boxSizing('filterSummary', props?.treePath, props?.name),
 		'.ss__filter-summary__title': {
 			padding: 0,
 			fontSize: custom.utils.convertPxToEm(14),

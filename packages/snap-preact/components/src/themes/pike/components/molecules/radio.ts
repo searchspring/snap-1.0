@@ -5,13 +5,14 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Radio component
 const radioStyleScript = (props: RadioProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const darkGray = custom.utils.darkenColor();
 
 	// shared radio styles
 	const sharedDefaultStyles = css({
 		border: `1px solid ${custom.colors.gray02}`,
-		...custom.styles.boxSizing('radio', props?.treePath),
+		...custom.styles.boxSizing('radio', props?.treePath, props?.name),
 		'&, & .ss__icon': {
 			borderRadius: '50%',
 		},
@@ -22,7 +23,6 @@ const radioStyleScript = (props: RadioProps) => {
 			borderColor: darkGray,
 			'.ss__icon': {
 				display: 'block',
-				fill: variables?.colors?.primary,
 			},
 		},
 	});
@@ -76,6 +76,7 @@ export const radio: ThemeComponent<'radio', RadioProps> = {
 		'radio icon': {
 			icon: 'square',
 			size: `${custom.sizes.icon10 - 2}px`,
+			color: custom.colors.primary,
 		},
 	},
 };

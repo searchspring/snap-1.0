@@ -6,13 +6,14 @@ import Color from 'color';
 
 // CSS in JS style script for the LoadMore component
 const loadMoreStyleScript = (props: LoadMoreProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const indicatorColor = new Color(props?.backgroundColor || custom.colors.gray01 || undefined);
 	const indicatorBorderColor = new Color(props?.backgroundColor || custom.colors.gray02 || undefined);
 	const barColor = new Color(props?.color || variables?.colors?.primary || undefined);
 
 	return css({
-		...custom.styles.boxSizing('loadMore', props?.treePath),
+		...custom.styles.boxSizing('loadMore', props?.treePath, props?.name),
 		'&.ss__load-more': {
 			'&, .ss__load-more__progress': {
 				gap: `${custom.spacing.x2}px`,

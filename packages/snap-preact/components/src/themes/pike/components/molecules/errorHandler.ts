@@ -5,27 +5,41 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the ErrorHandler component
 const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		...custom.styles.boxSizing('errorHandler', props?.treePath),
+	// error styles
+	const errorStyles = css({
+		gap: `${custom.spacing.x2}px`,
+		padding: `${custom.spacing.x2}px`,
+		...custom.styles.boxSizing('errorHandler', props?.treePath, props?.name),
+		'.ss__error-handler__message, .ss__error-handler__button': {
+			gap: `${custom.spacing.x1}px`,
+		},
 		'.ss__error-handler__message': {
-			display: 'block',
+			padding: 0,
 			flex: `1 1 0%`,
 			color: variables?.colors?.text,
+			'span, .ss__icon, .ss__error-handler__message__type': {
+				margin: 0,
+			},
 			'.ss__icon': {
-				position: 'relative',
-				top: '2px',
+				top: '-0.5px',
 			},
 		},
 		'.ss__error-handler__button': {
-			gap: 0,
 			flex: `0 1 auto`,
-			padding: `0 ${custom.spacing.x1}px`,
-			height: '25px',
-			lineHeight: '25px',
+			margin: 0,
+			padding: `0 ${custom.spacing.x2}px`,
+			height: '28px',
+			lineHeight: '28px',
+			'.ss__button__content, .ss__icon': {
+				margin: 0,
+			},
 		},
 	});
+
+	return errorStyles;
 };
 
 // ErrorHandler component props

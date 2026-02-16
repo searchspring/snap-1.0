@@ -6,11 +6,12 @@ import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchStyleScript = (props: SearchProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
-		...custom.styles.boxSizing('search', props?.treePath),
+		...custom.styles.boxSizing('search', props?.treePath, props?.name),
 		'&.ss__search--sidebar-open': {
 			'.ss__button': {
 				'.ss__icon--filter': {

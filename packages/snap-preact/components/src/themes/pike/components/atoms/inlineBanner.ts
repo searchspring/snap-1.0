@@ -11,7 +11,7 @@ const inlineBannerStyleScript = (props: InlineBannerProps) => {
 	// inline banner styles
 	const inlineBannerStyles = css([
 		{
-			...custom.styles.boxSizing('inlineBanner', props?.treePath),
+			...custom.styles.boxSizing('inlineBanner', props?.treePath, props?.name),
 		},
 	]);
 

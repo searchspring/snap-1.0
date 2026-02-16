@@ -6,6 +6,7 @@ import Color from 'color';
 
 // CSS in JS style script for the LayoutSelector component
 const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const activeColor = new Color(variables?.colors?.primary || undefined);
 	const activeIconColor =
@@ -15,7 +16,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 
 	// dropdown styles
 	const dropdownStyles = css({
-		...custom.styles.boxSizing('layoutSelector', props?.treePath),
+		...custom.styles.boxSizing('layoutSelector', props?.treePath, props?.name),
 		'.ss__dropdown': {
 			'.ss__dropdown__button .ss__button__content': {
 				gap: `${custom.spacing.x2}px`,
@@ -25,7 +26,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 
 	// list styles
 	const listStyles = css({
-		...custom.styles.boxSizing('layoutSelector', props?.treePath),
+		...custom.styles.boxSizing('layoutSelector', props?.treePath, props?.name),
 		'.ss__list__options': {
 			display: 'flex',
 			'.ss__list__option': {
