@@ -111,10 +111,14 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 		'carousel icon.prev': {
 			icon: custom.icons.arrowLeft,
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 		},
 		'carousel icon.next': {
 			icon: custom.icons.arrowRight,
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

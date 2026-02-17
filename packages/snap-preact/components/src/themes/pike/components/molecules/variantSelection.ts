@@ -9,7 +9,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 	const variables = props?.theme?.variables;
 	const lightGray = custom.utils.lightenColor();
 
-	// shared styles for variant selections
+	// shared styles
 	const sharedStyles = css({
 		margin: `0 0 ${custom.spacing.x2}px 0`,
 		'&:last-of-type': {
@@ -145,6 +145,8 @@ export const variantSelection: ThemeComponent<'variantSelection', VariantSelecti
 		},
 		'variantSelection dropdown icon': {
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 			icon: custom.icons.arrowDown,
 		},
 	},

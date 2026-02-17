@@ -57,6 +57,9 @@ const facetStyleScript = (props: FacetProps) => {
 				position: 'relative',
 				top: '-0.5px',
 				marginRight: `${custom.spacing.x1}px`,
+				width: `${custom.sizes.icon10}px`,
+				height: `${custom.sizes.icon10}px`,
+				flex: `0 0 ${custom.sizes.icon10}px`,
 			},
 		},
 	});
@@ -72,11 +75,10 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
 		},
-		'facet icon': {
-			size: `${custom.sizes.icon10}px`,
-		},
 		'facet icon.collapse': {
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 			color: custom.colors.primary,
 		},
 	},

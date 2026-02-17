@@ -44,6 +44,8 @@ export const breadcrumbs: ThemeComponent<'breadcrumbs', BreadcrumbsProps> = {
 		},
 		'breadcrumbs icon': {
 			size: `${custom.sizes.icon10}px`,
+			width: `${custom.sizes.icon10}px`,
+			height: `${custom.sizes.icon10}px`,
 		},
 	},
 };

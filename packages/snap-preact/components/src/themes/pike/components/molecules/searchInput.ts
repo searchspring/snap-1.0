@@ -74,6 +74,8 @@ export const searchInput: ThemeComponent<'searchInput', SearchInputProps> = {
 		},
 		'searchInput icon': {
 			size: `${custom.sizes.icon14}px`,
+			width: `${custom.sizes.icon14}px`,
+			height: `${custom.sizes.icon14}px`,
 		},
 		'searchInput button icon': {
 			color: custom.colors.white,

@@ -135,8 +135,10 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 			columns: 4,
 		},
 		'autocompleteModal button.see-more icon': {
-			icon: custom.icons.arrowRight,
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
+			icon: custom.icons.arrowRight,
 		},
 	},
 	mobile: {

@@ -3,20 +3,22 @@ import type { CheckboxProps } from '../../../../components/Molecules/Checkbox';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const darkGray = custom.utils.darkenColor();
+
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = (props: CheckboxProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const darkGray = custom.utils.darkenColor();
 
-	// shared checkbox styles
+	// shared styles
 	const sharedStyles = css({
 		position: 'relative',
 		top: '-1px',
 	});
 
 	// default checkbox styles
-	const defaultStyles = css([
+	const defaultCheckboxStyles = css([
 		sharedStyles,
 		{
 			border: `1px solid ${custom.colors.gray02}`,
@@ -32,7 +34,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 	]);
 
 	// native checkbox styles
-	const nativeStyles = css([
+	const nativeCheckboxStyles = css([
 		sharedStyles,
 		{
 			width: `${custom.sizes.icon16}px`,
@@ -46,7 +48,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 	]);
 
 	// return checkbox styles
-	return props?.native ? nativeStyles : defaultStyles;
+	return props?.native ? nativeCheckboxStyles : defaultCheckboxStyles;
 };
 
 // Checkbox component props
@@ -58,7 +60,9 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 			size: `${custom.sizes.icon16}px`,
 		},
 		'checkbox icon': {
-			size: '8px',
+			size: `${custom.sizes.icon08}px`,
+			width: `${custom.sizes.icon08}px`,
+			height: `${custom.sizes.icon08}px`,
 			color: custom.colors.primary,
 		},
 	},

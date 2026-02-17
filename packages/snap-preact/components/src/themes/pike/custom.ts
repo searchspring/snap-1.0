@@ -85,6 +85,18 @@ export const custom: CustomThemeType = {
 				lineHeight: 1,
 			};
 		},
+		borderRadius: (value?: number, unit?: string) => {
+			const hasValue = value || value === 0 ? true : false;
+			value = hasValue ? value : custom.sizes.radius;
+			unit = unit ? unit : value === 0 ? '' : 'px';
+
+			// sets border radius
+			return hasValue
+				? {
+						borderRadius: `${value}${unit}`,
+				  }
+				: null;
+		},
 		box: (text?: string, value?: number | string) => {
 			// styles for box designs
 
@@ -213,8 +225,9 @@ type CustomThemeType = {
 	sizes: ObjectNumberType;
 	spacing: ObjectNumberType;
 	styles: {
-		activeText: (valu?: string) => ObjectNestedType;
+		activeText: (value?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
+		borderRadius: (value?: number, unit?: string) => ObjectStringType | null;
 		box: (text?: string, value?: number | string) => ObjectNumberOrStringType;
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType;

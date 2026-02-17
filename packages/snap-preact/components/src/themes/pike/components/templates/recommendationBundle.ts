@@ -210,13 +210,17 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 			themeStyleScript: recommendationBundleStyleScript,
 		},
 		'recommendationBundle icon.bundle-cart': {
-			icon: custom.icons.bag,
 			size: `${custom.sizes.icon16 * 2}px`,
+			width: `${custom.sizes.icon16 * 2}px`,
+			height: `${custom.sizes.icon16 * 2}px`,
+			icon: custom.icons.bag,
 			color: custom.colors.secondary,
 		},
 		'recommendationBundle icon.bundle-selector': {
-			icon: custom.icons.plus,
 			size: `${custom.sizes.icon14}px`,
+			width: `${custom.sizes.icon14}px`,
+			height: `${custom.sizes.icon14}px`,
+			icon: custom.icons.plus,
 			color: custom.colors.secondary,
 		},
 		'recommendationBundle carousel': {

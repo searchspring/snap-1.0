@@ -3,21 +3,24 @@ import type { FacetListOptionsProps } from '../../../../components/Molecules/Fac
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const lightGray = custom.utils.lightenColor();
+const checkboxSpacing = custom.sizes.icon16 + custom.spacing.x2;
+
 // CSS in JS style script for the FacetListOptions component
 const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor();
-	const checkboxSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
-	return css({
+	// facet list styles
+	const facetListStyles = css({
 		...custom.styles.boxSizing('facetListOptions', props?.treePath, props?.name),
 		'.ss__facet-list-options__option': {
-			display: 'block',
-			position: 'relative',
-			margin: `0 0 ${custom.spacing.x1}px 0`,
 			color: variables?.colors?.text,
+			position: 'relative',
+			gap: `${custom.spacing.x1}px`,
 			padding: props?.hideCheckbox ? `` : `0 0 0 ${checkboxSpacing}px`,
+			margin: `0 0 ${custom.spacing.x1}px 0`,
 			'&:last-of-type': {
 				marginBottom: 0,
 			},
@@ -33,16 +36,17 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 					top: '-1px',
 					margin: 0,
 					padding: `0 ${custom.spacing.x1}px`,
-					fontSize: custom.utils.convertPxToEm(10),
+					...custom.styles.fontSize(10),
 					color: lightGray,
 				},
 			},
 		},
 		'.ss__facet-list-options__option.ss__facet-list-options__option--filtered': {
-			fontWeight: custom.fonts.weight01,
-			color: variables?.colors?.primary,
+			...custom.styles.activeText(variables?.colors?.primary),
 		},
 	});
+
+	return facetListStyles;
 };
 
 // FacetListOptions component props
@@ -50,7 +54,6 @@ export const facetListOptions: ThemeComponent<'facetListOptions', FacetListOptio
 	default: {
 		facetListOptions: {
 			themeStyleScript: facetListOptionsStyleScript,
-			respectSingleSelect: true,
 		},
 	},
 };

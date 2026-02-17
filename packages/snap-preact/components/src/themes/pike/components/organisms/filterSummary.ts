@@ -10,7 +10,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 	const darkGray = custom.utils.darkenColor(custom.colors.gray02, 0.075);
 	const listSpacing = custom.sizes.icon16 + custom.spacing.x2;
 
-	// shared palette styles
+	// shared styles
 	const sharedStyles = css({
 		...custom.styles.boxSizing('filterSummary', props?.treePath, props?.name),
 		'.ss__filter-summary__title': {

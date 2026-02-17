@@ -8,11 +8,19 @@ const iconStyleScript = (props: IconProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
+	// set flex size for icons that are flex children
+	let flexSize = '';
+	if (props?.width) {
+		flexSize = `0 0 ${props.width}`;
+	} else if (props?.size) {
+		flexSize = `0 0 ${props.size}`;
+	}
+
 	// icon styles
 	const iconStyles = css([
 		{
 			minWidth: '1px',
-			flex: props?.size ? `0 0 ${props.size}` : ``,
+			flex: flexSize,
 			stroke: 'transparent',
 			lineHeight: 1,
 		},
@@ -27,6 +35,8 @@ export const icon: ThemeComponent<'icon', IconProps> = {
 		icon: {
 			themeStyleScript: iconStyleScript,
 			size: `${custom.sizes.icon16}px`,
+			width: `${custom.sizes.icon16}px`,
+			height: `${custom.sizes.icon16}px`,
 			color: 'currentColor',
 		},
 	},

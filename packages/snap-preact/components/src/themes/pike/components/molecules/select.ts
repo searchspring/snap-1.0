@@ -134,9 +134,13 @@ export const select: ThemeComponent<'select', SelectProps> = {
 		},
 		'select icon.open': {
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 		},
 		'select dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

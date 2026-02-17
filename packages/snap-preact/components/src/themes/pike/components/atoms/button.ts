@@ -3,16 +3,18 @@ import type { ButtonProps } from '../../../../components/Atoms/Button';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const buttonDisabledSelectors = '&.ss__button--disabled';
+const activeColors = custom.utils.activeColors();
+const buttonColor = activeColors[0];
+const fontColor = activeColors[1];
+
 // CSS in JS style script for the Button component
 const buttonStyleScript = (props: ButtonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const buttonDisabledSelectors = '&.ss__button--disabled';
-	const activeColors = custom.utils.activeColors();
-	const buttonColor = activeColors[0];
-	const fontColor = activeColors[1];
 
-	// shared button styles
+	// shared styles
 	const sharedStyles = css([
 		{
 			cursor: 'pointer',
@@ -54,10 +56,10 @@ const buttonStyleScript = (props: ButtonProps) => {
 	]);
 
 	// default button styles
-	const defaultStyles = sharedStyles;
+	const defaultButtonStyles = sharedStyles;
 
 	// native button styles
-	const nativeStyles = css([
+	const nativeButtonStyles = css([
 		{
 			display: 'inline-flex',
 			alignItems: 'center',
@@ -68,7 +70,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 		sharedStyles,
 	]);
 
-	return props?.native ? nativeStyles : defaultStyles;
+	return props?.native ? nativeButtonStyles : defaultButtonStyles;
 };
 
 // Button component props
@@ -79,6 +81,8 @@ export const button: ThemeComponent<'button', ButtonProps> = {
 		},
 		'button icon': {
 			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

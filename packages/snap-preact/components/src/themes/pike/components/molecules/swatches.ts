@@ -4,7 +4,7 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 import Color from 'color';
 
-// Swatch carousel sizes and spacing
+// static variables
 const swatchSize = 30;
 const swatchSpacing = custom.spacing.x1;
 
@@ -19,7 +19,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 			: Color(custom.colors.black || undefined);
 	const darkGray = custom.utils.darkenColor();
 
-	// shared styles for swatches
+	// shared styles
 	const sharedStyles = css({
 		margin: 0,
 		...custom.styles.boxSizing('swatches', props?.treePath, props?.name),
@@ -92,6 +92,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 						left: 0,
 						right: 0,
 						transform: 'none',
+						...custom.styles.borderRadius(),
 					},
 					'&:before': {
 						border: `3px solid ${custom.colors.white}`,

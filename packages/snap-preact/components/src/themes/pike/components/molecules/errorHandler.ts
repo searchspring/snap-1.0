@@ -8,8 +8,8 @@ const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	// error styles
-	const errorStyles = css({
+	// error handler styles
+	const errorHandlerStyles = css({
 		gap: `${custom.spacing.x2}px`,
 		padding: `${custom.spacing.x2}px`,
 		...custom.styles.boxSizing('errorHandler', props?.treePath, props?.name),
@@ -39,7 +39,7 @@ const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 		},
 	});
 
-	return errorStyles;
+	return errorHandlerStyles;
 };
 
 // ErrorHandler component props
@@ -50,6 +50,8 @@ export const errorHandler: ThemeComponent<'errorHandler', ErrorHandlerProps> = {
 		},
 		'errorHandler icon': {
 			size: `${custom.sizes.icon14}px`,
+			width: `${custom.sizes.icon14}px`,
+			height: `${custom.sizes.icon14}px`,
 		},
 	},
 };

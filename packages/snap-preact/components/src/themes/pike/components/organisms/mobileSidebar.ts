@@ -114,10 +114,10 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			themeStyleScript: mobileSidebarStyleScript,
 		},
 		'mobileSidebar button.close icon': {
-			icon: custom.icons.close,
+			size: `${custom.sizes.icon16}px`,
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
-			size: `${custom.sizes.icon16}px`,
+			icon: custom.icons.close,
 		},
 		'mobileSidebar toolbar filterSummary': {
 			title: 'Current Filters',

@@ -37,7 +37,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 		color: fontColor,
 	});
 
-	// shared slider styles
+	// shared styles
 	const sharedStyles = css({
 		...custom.styles.boxSizing('facetSlider', props?.treePath, props?.name),
 		'&, .ss__facet-slider__slider': {

@@ -3,34 +3,32 @@ import type { FacetPaletteOptionsProps } from '../../../../components/Molecules/
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const lightGray = custom.utils.lightenColor();
+const paletteColors = {
+	brown: '#845329',
+	purple: '#7c368e',
+	rainbow:
+		'linear-gradient(rgb(40, 87, 218) 20%, rgb(40, 218, 70) 20%, rgb(40, 218, 70) 40%, rgb(245, 228, 24) 40%, rgb(245, 228, 24) 60%, rgb(242, 133, 0) 60%, rgb(242, 133, 0) 80%, rgb(218, 40, 72) 80%, rgb(218, 40, 72))',
+};
+
 // CSS in JS style script for the FacetPaletteOptions component
 const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor();
 	const hasCheckbox = !props?.hideCheckbox ? true : false;
+	const isList = props?.layout == 'list' ? true : false;
+	const innerBorder = isList ? 3 : 5;
 
-	// set details for radius
-	const radius = 0;
-	const radiusUnit = 'px';
-	const paletteRadius = radius ? `${radius}${radiusUnit}` : `0`;
-
-	// determine inner border width
-	let innerBorder = 5;
-	if (props?.layout == 'list') {
-		innerBorder = hasCheckbox ? 2 : 3;
-	}
-
-	// shared palette styles
+	// shared styles
 	const sharedStyles = css({
 		...custom.styles.boxSizing('facetPaletteOptions', props?.treePath, props?.name),
 		'.ss__facet-palette-options__option': {
-			display: 'block',
 			color: variables?.colors?.text,
 			'&, &.ss__facet-palette-options__option--filtered': {
 				'.ss__facet-palette-options__option__wrapper': {
 					border: 0,
-					borderRadius: 0,
+					...custom.styles.borderRadius(),
 					padding: 0,
 				},
 			},
@@ -43,10 +41,13 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 						opacity: 0.3,
 					},
 				},
+				'.ss__facet-palette-options__option__value': {
+					...custom.styles.activeText(variables?.colors?.primary),
+				},
 			},
 			'.ss__facet-palette-options__option__wrapper': {
-				overflow: 'hidden',
 				'.ss__facet-palette-options__option__palette': {
+					overflow: 'hidden',
 					border: 0,
 					padding: 0,
 					'&, &:before, &:after': {
@@ -55,7 +56,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 						bottom: 0,
 						left: 0,
 						right: 0,
-						borderRadius: paletteRadius,
+						...custom.styles.borderRadius(),
 					},
 					'&:before, &:after': {
 						content: '""',
@@ -87,22 +88,21 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 			},
 			'.ss__facet-palette-options__option__value__count': {
 				position: 'relative',
-				top: props?.layout == 'list' ? '-1px' : '',
-				padding: props?.layout == 'list' ? `0 ${custom.spacing.x1}px` : ``,
-				fontSize: custom.utils.convertPxToEm(10),
+				top: isList ? '-1px' : '',
+				padding: isList ? `0 ${custom.spacing.x1}px` : ``,
+				...custom.styles.fontSize(10),
 				color: lightGray,
 			},
 		},
 	});
 
-	// grid palette styles
-	const gridStyles = css([
+	// facet palette grid styles
+	const facetPaletteGridStyles = css([
 		sharedStyles,
 		{
-			gridTemplateColumns: `repeat(auto-fill, minmax(${props?.gridSize ? props.gridSize : '52px'}, 1fr))`,
-			gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 			alignItems: 'center',
 			'.ss__facet-palette-options__option': {
+				display: 'block',
 				textAlign: 'center',
 				'&, &.ss__facet-palette-options__option--filtered': {
 					'.ss__facet-palette-options__option__wrapper': {
@@ -117,11 +117,9 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				'.ss__facet-palette-options__option__value, .ss__facet-palette-options__option__value__count': {
 					display: 'block',
 					lineHeight: '0.85rem',
-					textOverflow: 'ellipsis',
-					whiteSpace: 'nowrap',
 				},
 				'.ss__facet-palette-options__option__value': {
-					fontSize: custom.utils.convertPxToEm(12),
+					...custom.styles.fontSize(12),
 					overflow: 'hidden',
 					margin: `${custom.spacing.x1}px 0 0 0`,
 				},
@@ -137,18 +135,19 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	const listCheckboxSize = 16;
 	const listPadding = hasCheckbox ? custom.spacing.x4 + listSize + listCheckboxSize : custom.spacing.x2 + listSize;
 
-	// list palette styles
-	const listStyles = css([
+	// facet palette list styles
+	const facetPaletteListStyles = css([
 		sharedStyles,
 		{
 			'&.ss__facet-palette-options--list': {
 				display: 'block',
 			},
 			'.ss__facet-palette-options__option': {
+				minHeight: hasCheckbox ? '' : `${listSize + 2}px`,
 				position: 'relative',
+				gap: `${custom.spacing.x1}px`,
 				padding: `${hasCheckbox ? 0 : '2px'} 0 0 ${listPadding}px`,
 				margin: `0 0 ${custom.spacing.x1}px 0`,
-				minHeight: hasCheckbox ? '' : `${listSize + 2}px`,
 				'&:last-of-type': {
 					marginBottom: 0,
 				},
@@ -166,7 +165,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					lineHeight: `${listSize}px`,
 				},
 				'.ss__facet-palette-options__option__value, .ss__facet-palette-options__option__value__count': {
-					display: 'inline',
+					display: 'inline-block',
 					overflow: 'visible',
 					textOverflow: 'unset',
 					textAlign: 'left',
@@ -179,15 +178,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 		},
 	]);
 
-	return props?.layout == 'list' ? listStyles : gridStyles;
-};
-
-// Custom colors
-const paletteColors = {
-	brown: '#845329',
-	purple: '#7c368e',
-	rainbow:
-		'linear-gradient(rgb(40, 87, 218) 20%, rgb(40, 218, 70) 20%, rgb(40, 218, 70) 40%, rgb(245, 228, 24) 40%, rgb(245, 228, 24) 60%, rgb(242, 133, 0) 60%, rgb(242, 133, 0) 80%, rgb(218, 40, 72) 80%, rgb(218, 40, 72))',
+	return isList ? facetPaletteListStyles : facetPaletteGridStyles;
 };
 
 // FacetPaletteOptions component props
@@ -196,6 +187,7 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 		facetPaletteOptions: {
 			themeStyleScript: facetPaletteStyleScript,
 			hideIcon: true,
+			horizontal: true,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
 			colorMapping: {

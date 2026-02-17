@@ -3,16 +3,18 @@ import type { FacetGridOptionsProps } from '../../../../components/Molecules/Fac
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
+
 // CSS in JS style script for the FacetGridOptions component
 const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const activeColors = custom.utils.activeColors();
-	const activeColor = activeColors[0];
-	const fontColor = activeColors[1];
 
-	// grid styles
-	const gridStyles = css({
+	// facet grid styles
+	const facetGridStyles = css({
 		alignItems: 'center',
 		...custom.styles.boxSizing('facetGridOptions', props?.treePath, props?.name),
 		'.ss__facet-grid-options__option': {
@@ -31,17 +33,17 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			},
 			'&, &:hover:not(.ss__facet-grid-options__option--filtered)': {
 				...custom.styles.box(variables?.colors?.text, 0),
+				...custom.styles.borderRadius(),
 			},
 			'&.ss__facet-grid-options__option--filtered': {
 				backgroundColor: activeColor,
 				borderColor: activeColor,
-				fontWeight: custom.fonts.weight01,
-				color: fontColor,
+				...custom.styles.activeText(fontColor),
 			},
 		},
 	});
 
-	return gridStyles;
+	return facetGridStyles;
 };
 
 // FacetGridOptions component props

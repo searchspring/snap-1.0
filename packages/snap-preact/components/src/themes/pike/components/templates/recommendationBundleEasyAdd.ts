@@ -113,8 +113,10 @@ export const recommendationBundleEasyAdd: ThemeComponent<'recommendationBundleEa
 			ctaInline: true,
 		},
 		'recommendationBundleEasyAdd icon.bundle-cart': {
-			icon: custom.icons.bag,
 			size: `${custom.sizes.icon16 * 2}px`,
+			width: `${custom.sizes.icon16 * 2}px`,
+			height: `${custom.sizes.icon16 * 2}px`,
+			icon: custom.icons.bag,
 			color: custom.colors.secondary,
 		},
 	},

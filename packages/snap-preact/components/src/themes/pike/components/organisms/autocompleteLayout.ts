@@ -17,7 +17,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	// get autocomplete layout
 	const acLayout = props?.layout ? props.layout : 'standard';
 
-	// shared autocomplete styles
+	// shared styles
 	const sharedStyles = css({
 		alignContent: acLayout == 'standard' ? 'normal' : 'flex-start',
 		border: `1px solid ${custom.colors.gray02}`,
