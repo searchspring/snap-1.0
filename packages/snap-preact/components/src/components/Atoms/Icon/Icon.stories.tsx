@@ -164,6 +164,8 @@ CustomPath.args = {
 };
 
 export const Gallery = (): JSX.Element => {
+	const legacyPaths = ['layout-large', 'layout-grid'];
+
 	return (
 		<div
 			style={{
@@ -174,14 +176,16 @@ export const Gallery = (): JSX.Element => {
 				fontSize: '10px',
 			}}
 		>
-			{Object.keys(iconPaths).map((icon) => {
-				return (
-					<div style={{ marginBottom: '40px' }}>
-						<Icon icon={icon as IconType} size="40px" style={{ padding: '20px' }} />
-						<div style={{ textAlign: 'center' }}>{icon}</div>
-					</div>
-				);
-			})}
+			{Object.keys(iconPaths)
+				.filter((val) => !legacyPaths.includes(val))
+				.map((icon) => {
+					return (
+						<div style={{ marginBottom: '40px' }}>
+							<Icon icon={icon as IconType} size="40px" style={{ padding: '20px' }} />
+							<div style={{ textAlign: 'center' }}>{icon}</div>
+						</div>
+					);
+				})}
 		</div>
 	);
 };

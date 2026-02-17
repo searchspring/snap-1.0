@@ -5,15 +5,15 @@ import { ComponentProps } from '../../../types';
 import { CacheProvider } from '../../../providers';
 import { Search, SearchProps } from '../Search/Search';
 
-export const SearchSnapnco = observer((properties: SearchSnapncoProps): JSX.Element => {
+export const SearchCollapsible = observer((properties: SearchCollapsibleProps): JSX.Element => {
 	return (
 		<CacheProvider>
-			<Search {...properties} alias="searchSnapnco" />
+			<Search {...properties} alias="searchCollapsible" />
 		</CacheProvider>
 	);
 });
 
 //todo improve the controller spreading here..
-export interface SearchSnapncoProps extends SearchProps, ComponentProps {
+export interface SearchCollapsibleProps extends SearchProps, ComponentProps {
 	controller: SearchController;
 }
