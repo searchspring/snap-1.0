@@ -11,8 +11,6 @@ import { recommendationEmail } from './recommendationEmail';
 import { search } from './search';
 import { searchHorizontal } from './searchHorizontal';
 import { searchCollapsible } from './searchCollapsible';
-import { searchSnapnco } from './searchSnapnco';
-import { searchSnappy } from './searchSnappy';
 import { autocompleteSlideout } from './autocompleteSlideout';
 import { autocompleteModal } from './autocompleteModal';
 import { autocompleteFixed } from './autocompleteFixed';
@@ -31,8 +29,6 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationEmail.default,
 		...search.default,
 		...searchCollapsible.default,
-		...searchSnapnco.default,
-		...searchSnappy.default,
 		...searchHorizontal.default,
 	},
 	mobile: {
@@ -48,8 +44,6 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationEmail.mobile,
 		...search.mobile,
 		...searchCollapsible.mobile,
-		...searchSnapnco.mobile,
-		...searchSnappy.mobile,
 		...searchHorizontal.mobile,
 	},
 	tablet: {
@@ -65,8 +59,6 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationEmail.tablet,
 		...search.tablet,
 		...searchCollapsible.tablet,
-		...searchSnapnco.tablet,
-		...searchSnappy.tablet,
 		...searchHorizontal.tablet,
 	},
 	desktop: {
@@ -82,8 +74,6 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationEmail.desktop,
 		...search.desktop,
 		...searchCollapsible.desktop,
-		...searchSnapnco.desktop,
-		...searchSnappy.desktop,
 		...searchHorizontal.desktop,
 	},
 };
