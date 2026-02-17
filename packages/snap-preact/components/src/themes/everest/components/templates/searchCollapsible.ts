@@ -1,17 +1,16 @@
 import { css } from '@emotion/react';
-import type { SearchBocaProps } from '../../../../components/Templates/SearchBoca';
-import { searchBocaThemeComponentProps } from '../../../themeComponents/searchBoca';
+import type { SearchCollapsibleProps } from '../../../../components/Templates/SearchCollapsible';
+import { searchCollapsibleThemeComponentProps } from '../../../themeComponents/searchCollapsible';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
-const searchBocaStyleScript = (props: SearchBocaProps) => {
+const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('searchBoca', props?.treePath, props?.name),
-		'&.ss__search-boca--sidebar-open': {
+		'&.ss__search-collapsible--sidebar-open': {
 			'.ss__button': {
 				'.ss__icon--filter': {
 					transform: 'rotate(-180deg)',
@@ -26,26 +25,26 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 				},
 			},
 		},
-		'.ss__search-boca__header-section, .ss__search-boca__main-section': {
+		'.ss__search-collapsible__header-section, .ss__search-collapsible__main-section': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
 			'.ss__toolbar .ss__layout': {
 				gap: `${custom.spacing.x4}px`,
 			},
 		},
-		'.ss__search-boca__header-section': {
+		'.ss__search-collapsible__header-section': {
 			'.ss__search-header': {
 				textAlign: 'center',
 			},
 		},
-		'.ss__search-boca__main-section': {
+		'.ss__search-collapsible__main-section': {
 			gap: `${custom.spacing.x6}px`,
-			'.ss__search-boca__sidebar, .ss__search-boca__content': {
+			'.ss__search-collapsible__sidebar, .ss__search-collapsible__content': {
 				minWidth: '1px',
 			},
-			'.ss__search-boca__sidebar': {
+			'.ss__search-collapsible__sidebar': {
 				flex: '0 1 auto',
 			},
-			'.ss__search-boca__content': {
+			'.ss__search-collapsible__content': {
 				flex: '1 1 0%',
 				gap: `${custom.spacing.x4}px`,
 			},
@@ -60,30 +59,30 @@ const searchBocaStyleScript = (props: SearchBocaProps) => {
 	});
 };
 
-export const searchBoca: ThemeComponent<'searchBoca', SearchBocaProps> = {
+export const searchCollapsible: ThemeComponent<'searchCollapsible', SearchCollapsibleProps> = {
 	default: {
-		...searchBocaThemeComponentProps.default,
-		searchBoca: {
-			...(searchBocaThemeComponentProps.default?.['searchBoca'] || {}),
-			themeStyleScript: searchBocaStyleScript,
+		...searchCollapsibleThemeComponentProps.default,
+		searchCollapsible: {
+			...(searchCollapsibleThemeComponentProps.default?.['searchCollapsible'] || {}),
+			themeStyleScript: searchCollapsibleStyleScript,
 		},
-		'searchBoca sidebar': {
+		'searchCollapsible sidebar': {
 			hideTitleText: true,
 		},
-		'searchBoca button.sidebar-toggle': {
+		'searchCollapsible button.sidebar-toggle': {
 			icon: custom.icons.filter,
 		},
-		'searchBoca filterSummary': {
+		'searchCollapsible filterSummary': {
 			type: 'list',
 		},
 	},
 	mobile: {
-		...searchBocaThemeComponentProps.mobile,
+		...searchCollapsibleThemeComponentProps.mobile,
 	},
 	tablet: {
-		...searchBocaThemeComponentProps.tablet,
+		...searchCollapsibleThemeComponentProps.tablet,
 	},
 	desktop: {
-		...searchBocaThemeComponentProps.desktop,
+		...searchCollapsibleThemeComponentProps.desktop,
 	},
 };
