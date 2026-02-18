@@ -110,6 +110,7 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 			treePath,
 		},
 		inlineBanner: {
+			controller,
 			// default props
 			internalClassName: 'ss__results__inline-banner',
 			// inherited props

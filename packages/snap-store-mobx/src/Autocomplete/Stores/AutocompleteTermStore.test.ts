@@ -42,10 +42,14 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
-				autocomplete: {},
+				autocomplete: {
+					tracking: {
+						responseId: '1234',
+					},
+				},
 			},
 		});
 
@@ -61,7 +65,7 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
 				autocomplete: searchData.search,
@@ -83,7 +87,7 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
 				autocomplete: searchData.search,
@@ -111,7 +115,7 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
 				autocomplete: searchData.search,
@@ -135,7 +139,7 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
 				autocomplete: searchData.search,
@@ -156,7 +160,7 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
 				autocomplete: searchData.search,
@@ -175,7 +179,7 @@ describe('Term Store', () => {
 				resetTerms: mockResetTrending,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState: rootState,
 			},
 			data: {
 				autocomplete: searchData.search,

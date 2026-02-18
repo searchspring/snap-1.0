@@ -5030,5 +5030,8 @@
   },
   "search": {
     "matchType": "primary"
+  },
+  "tracking": {
+    "responseId": "12345"
   }
 }

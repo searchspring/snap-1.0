@@ -9,7 +9,7 @@ import type { SearchResponseModel, SearchResponseModelSearchMatchTypeEnum } from
 type SearchQueryStoreConfig = {
 	services: StoreServices;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 	};
 };
 

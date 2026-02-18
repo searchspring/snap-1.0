@@ -4,7 +4,7 @@ describe('Injection', () => {
 	});
 
 	it('injects into main containers', () => {
-		cy.get('#searchspring-content').should('be.empty');
-		cy.get('#searchspring-layout').should('not.be.empty');
+		cy.get('#athos-content').should('be.empty');
+		cy.get('#athos-layout').should('not.be.empty');
 	});
 });

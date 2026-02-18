@@ -36,7 +36,7 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 
 		this.storage = new StorageStore();
 
-		this.update({ meta: {}, search: {} });
+		this.update();
 
 		makeObservable(this, {
 			selections: observable,
@@ -92,20 +92,22 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 		}
 	}
 
-	public update(data: { meta: MetaResponseModel; search: SearchResponseModel }, selectedSelections?: SelectedSelection[]): void {
+	public update(data?: { meta?: MetaResponseModel; search?: SearchResponseModel }, selectedSelections?: SelectedSelection[]): void {
 		const { meta, search } = data || {};
+
+		this.error = undefined;
+		this.loaded = !!search?.pagination;
 		this.meta = new MetaStore({
-			data: { meta },
+			data: { meta: meta || {} },
 		});
 		this.pagination = new SearchPaginationStore({
 			config: this.config,
 			services: this.services,
 			data: {
-				search,
+				search: search,
 				meta: this.meta.data,
 			},
 		});
-
 		this.selections = new FinderSelectionStore({
 			config: this.config,
 			services: this.services,
@@ -117,7 +119,7 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 				loading: this.loading,
 			},
 			data: {
-				search,
+				search: search,
 				meta: this.meta.data,
 				selections: selectedSelections || [],
 			},
@@ -127,7 +129,7 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 		this.save = () => {
 			if (this.config.persist?.enabled && this.persistedStorage && this?.selections?.filter((selection) => selection.selected).length) {
 				this.persistedStorage.set('config', this.config);
-				this.persistedStorage.set('data', search);
+				this.persistedStorage.set('data', data);
 				this.persistedStorage.set('date', Date.now());
 				this.persistedStorage.set(
 					'selections',

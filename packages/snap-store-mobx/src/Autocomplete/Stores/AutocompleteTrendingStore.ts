@@ -1,9 +1,17 @@
 import { TrendingResponseModel } from '@athoscommerce/snap-client';
 import { Term, TermData } from './AutocompleteTermStore';
+import { AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
+import { AutocompleteStateStore } from './AutocompleteStateStore';
 
-type AutocompleteTrendingStoreConfig = Omit<TermData, 'data'> & {
+type AutocompleteTrendingStoreConfig = Omit<TermData, 'data' | 'type'> & {
 	data: {
 		trending: TrendingResponseModel;
+	};
+	functions: {
+		resetTerms: () => void;
+	};
+	state: {
+		rootState: AutocompleteStateStore;
 	};
 };
 
@@ -27,6 +35,9 @@ export class AutocompleteTrendingStore extends Array<Term> {
 						},
 						terms,
 					},
+					functions: params.functions,
+					state: params.state,
+					type: 'popular' as AutocompleteRequestModelSearchSourceEnum,
 				})
 			);
 		});

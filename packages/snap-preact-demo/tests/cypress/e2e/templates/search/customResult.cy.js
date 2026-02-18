@@ -2,7 +2,7 @@ const config = {
 	url: 'https://localhost:2222/templates',
 	selectors: {
 		search: {
-			selector: '#searchspring-layout',
+			selector: '#athos-layout',
 			// selector of the wrapping element. Expects child element to contain <a>
 			search: `.ss__search`,
 			result: '.ss__result',
@@ -18,7 +18,7 @@ describe('Custom Result Compnent', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 							resultComponent: 'CustomResult',
 						},

@@ -39,6 +39,7 @@ describe('termsList Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dress',
 			url: {
 				href: 'www.dress.com',
@@ -47,6 +48,7 @@ describe('termsList Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'drss',
 			url: {
 				href: 'www.drss.com',
@@ -55,6 +57,7 @@ describe('termsList Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dreees',
 			url: {
 				href: 'www.dreees.com',
@@ -63,6 +66,7 @@ describe('termsList Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dres',
 			url: {
 				href: 'www.dres.com',
@@ -71,6 +75,7 @@ describe('termsList Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dss',
 			url: {
 				href: 'www.dss.com',
@@ -79,6 +84,7 @@ describe('termsList Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'ress',
 			url: {
 				href: 'www.ress.com',

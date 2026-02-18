@@ -12,7 +12,7 @@ type MetaResponseModelSortOptionMutated = MetaResponseModelSortOption & {
 type SearchSortingStoreConfig = {
 	services: StoreServices;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };

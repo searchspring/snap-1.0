@@ -7,7 +7,7 @@ describe('Query', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'SearchHorizontal',
 						},
 					],
@@ -53,7 +53,7 @@ describe('Query', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'SearchHorizontal',
 						},
 					],

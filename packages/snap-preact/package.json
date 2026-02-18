@@ -11,7 +11,7 @@
 		"access": "public"
 	},
 	"scripts": {
-		"build": "rm -rf ./dist && rm -fr ./components/dist && tsc && tsc -p tsconfig.cjs.json",
+		"build": "rm -rf ./dist && rm -fr ./components/dist && tsc & p1=$!; tsc -p tsconfig.cjs.json & p2=$!; wait $p1 && wait $p2",
 		"build:docs": "typedoc --out docs src/index.ts && storybook build -c ./components/.storybook -o ./components/docs",
 		"cypress": "cypress open --project components/tests",
 		"cypress:headless": "cypress run --component --project components/tests",
@@ -68,6 +68,7 @@
 		"css-loader": "^6.9.0",
 		"cypress": "^13.7.1",
 		"cypress-wait-until": "^1.7.2",
+		"esbuild-loader": "^4.4.2",
 		"preact": "10.9.0",
 		"react": "16.14.0",
 		"react-dom": "16.14.0",

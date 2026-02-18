@@ -2,7 +2,7 @@ import type { MetaResponseModel } from '@athoscommerce/snapi-types';
 
 type MetaStoreConfig = {
 	data: {
-		meta: MetaResponseModel;
+		meta?: MetaResponseModel;
 	};
 };
 export class MetaStore {

@@ -1,14 +1,14 @@
 import { StorageStore } from '../../Storage/StorageStore';
-import type { SearchStoreConfig, StoreServices } from '../../types';
+import type { AutocompleteStoreConfig, SearchStoreConfig, StoreServices } from '../../types';
 import { Query } from './SearchQueryStore';
 
 type SearchHistoryStoreConfig = {
 	services: StoreServices;
-	config: SearchStoreConfig;
+	config: Partial<AutocompleteStoreConfig | SearchStoreConfig>;
 };
 
 export class SearchHistoryStore {
-	private config: SearchStoreConfig;
+	private config: Partial<AutocompleteStoreConfig | SearchStoreConfig>;
 	private storage: StorageStore;
 	private services: StoreServices;
 	private max: number;

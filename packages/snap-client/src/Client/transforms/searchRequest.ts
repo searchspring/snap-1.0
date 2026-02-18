@@ -6,10 +6,13 @@ import {
 	SearchRequestModelSorts,
 	SearchRequestModelSortsDirectionEnum,
 	SearchRequestModelFilterRangeAllOfValue,
+	AutocompleteRequestModel,
+	AutocompleteRequestModelSearch,
 } from '@athoscommerce/snapi-types';
 
-export const NO_BEACON_PARAM = 'noBeacon';
-export function transformSearchRequest(request: SearchRequestModel): any {
+export const BEACON_PARAM = 'beacon';
+
+export function transformSearchRequest(request: SearchRequestModel | AutocompleteRequestModel): any {
 	const data = mergeParams(
 		transformSearchRequest.sorts(request),
 		transformSearchRequest.search(request),
@@ -21,11 +24,12 @@ export function transformSearchRequest(request: SearchRequestModel): any {
 		transformSearchRequest.tracking(request),
 		transformSearchRequest.personalization(request)
 	);
-	data[NO_BEACON_PARAM] = true;
+	data[BEACON_PARAM] = true;
+
 	return data;
 }
 
-transformSearchRequest.sorts = (request: SearchRequestModel = {}) => {
+transformSearchRequest.sorts = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	return (request.sorts || []).reduce((acc: Record<string, Array<SearchRequestModelSortsDirectionEnum>>, sort: SearchRequestModelSorts) => {
 		if (!sort.field || !sort.direction || (sort.direction != 'asc' && sort.direction != 'desc')) {
 			return acc;
@@ -38,7 +42,7 @@ transformSearchRequest.sorts = (request: SearchRequestModel = {}) => {
 	}, {});
 };
 
-transformSearchRequest.search = (request: SearchRequestModel = {}) => {
+transformSearchRequest.search = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const reqSearch = request.search || {};
 	const search: {
 		q?: string;
@@ -46,6 +50,8 @@ transformSearchRequest.search = (request: SearchRequestModel = {}) => {
 		originalQuery?: string;
 		fallbackQuery?: string;
 		redirectResponse?: string;
+		source?: string;
+		input?: string;
 	} = {};
 
 	if (reqSearch.query && reqSearch.query.string) {
@@ -68,10 +74,20 @@ transformSearchRequest.search = (request: SearchRequestModel = {}) => {
 		search.redirectResponse = reqSearch.redirectResponse;
 	}
 
+	// for autocomplete only
+	if ((reqSearch as AutocompleteRequestModelSearch).source) {
+		search.source = (reqSearch as AutocompleteRequestModelSearch).source;
+	}
+
+	// for autocomplete only
+	if ((reqSearch as AutocompleteRequestModelSearch).input) {
+		search.input = (reqSearch as AutocompleteRequestModelSearch).input;
+	}
+
 	return search;
 };
 
-transformSearchRequest.filters = (request: SearchRequestModel = {}) => {
+transformSearchRequest.filters = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	return (request.filters || []).reduce(
 		(
 			acc: Record<string, Array<string | number | SearchRequestModelFilterRangeAllOfValue | undefined>>,
@@ -106,7 +122,7 @@ transformSearchRequest.filters = (request: SearchRequestModel = {}) => {
 	);
 };
 
-transformSearchRequest.merchandising = (request: SearchRequestModel = {}) => {
+transformSearchRequest.merchandising = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const reqMerch = request.merchandising || {};
 
 	const merch: {
@@ -134,7 +150,7 @@ transformSearchRequest.merchandising = (request: SearchRequestModel = {}) => {
 	return merch;
 };
 
-transformSearchRequest.pagination = (request: SearchRequestModel = {}) => {
+transformSearchRequest.pagination = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const pagination = request.pagination || {};
 	const params: {
 		page?: number;
@@ -152,7 +168,7 @@ transformSearchRequest.pagination = (request: SearchRequestModel = {}) => {
 	return params;
 };
 
-transformSearchRequest.siteId = (request: SearchRequestModel = {}) => {
+transformSearchRequest.siteId = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	if (request.siteId) {
 		return { siteId: request.siteId };
 	}
@@ -160,7 +176,7 @@ transformSearchRequest.siteId = (request: SearchRequestModel = {}) => {
 	return {};
 };
 
-transformSearchRequest.facets = (request: SearchRequestModel = {}) => {
+transformSearchRequest.facets = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const facets = request.facets || {};
 	const params: {
 		includedFacets?: string[];
@@ -187,7 +203,7 @@ transformSearchRequest.facets = (request: SearchRequestModel = {}) => {
 	return params;
 };
 
-transformSearchRequest.tracking = (request: SearchRequestModel = {}) => {
+transformSearchRequest.tracking = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const reqTracking = request.tracking || {};
 	const params: {
 		userId?: string;
@@ -212,7 +228,7 @@ transformSearchRequest.tracking = (request: SearchRequestModel = {}) => {
 	return params;
 };
 
-transformSearchRequest.personalization = (request: SearchRequestModel = {}) => {
+transformSearchRequest.personalization = (request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const personalization = request.personalization || {};
 	const params: {
 		skipPersonalization?: boolean;

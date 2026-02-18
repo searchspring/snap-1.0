@@ -1,5 +1,11 @@
 import webpack from 'webpack';
 import childProcess from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // determine branch name for branch override usage
 const branchName = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
@@ -74,6 +80,7 @@ export default {
 			react: 'preact/compat',
 			'react-dom/test-utils': 'preact/test-utils',
 			'react-dom': 'preact/compat',
+			preact: path.resolve(__dirname, 'node_modules/preact'),
 		},
 	},
 };
