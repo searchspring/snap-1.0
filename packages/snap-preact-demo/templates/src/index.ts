@@ -55,7 +55,7 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'pike',
+		extends: 'base',
 		resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
@@ -88,7 +88,7 @@ let config: SnapTemplatesConfig = {
 		},
 		bundle: {
 			Bundle: {
-				component: 'RecommendationBundleList',
+				component: 'RecommendationBundle',
 			},
 		},
 	},
