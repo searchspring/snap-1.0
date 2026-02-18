@@ -243,7 +243,7 @@ let config: SnapConfig = {
 					url: '/snap/',
 					fields: [
 						{
-							field: 'collection_handle',
+							field: 'collection_name',
 							label: 'Collection',
 						},
 						{
