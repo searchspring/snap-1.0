@@ -181,6 +181,8 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 			// default props
 			internalClassName: `ss__facets-horizontal__content__facet`,
 			justContent: true,
+			// this should be turned on if there is ever a filters button rendering.
+			statefulOverflow: !hideFiltersButton && (isOverflowing || alwaysShowFiltersButton) ? true : undefined,
 			// horizontal: true,
 			// inherited props
 			...defined({
