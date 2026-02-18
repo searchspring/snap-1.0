@@ -256,7 +256,7 @@ export interface SearchProps extends ComponentProps {
 	hideToggleSidebarButton?: boolean;
 	lang?: Partial<SearchLang>;
 	layoutOptions?: ListOption[];
-	alias?: 'searchBoca' | 'searchSnappy' | 'searchHorizontal' | 'searchSnapnco';
+	alias?: 'searchCollapsible' | 'searchHorizontal';
 }
 
 export interface SearchLang {

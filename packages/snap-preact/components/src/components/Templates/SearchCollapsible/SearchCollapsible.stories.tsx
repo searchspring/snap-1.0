@@ -6,11 +6,11 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Search/readme.md';
 import type { SearchController } from '@athoscommerce/snap-controller';
-import { SearchBoca, SearchBocaProps } from './SearchBoca';
+import { SearchCollapsible, SearchCollapsibleProps } from './SearchCollapsible';
 
 export default {
-	title: 'Templates/SearchBoca',
-	component: SearchBoca,
+	title: 'Templates/SearchCollapsible',
+	component: SearchCollapsible,
 	tags: ['autodocs'],
 	parameters: {
 		docs: {
@@ -160,8 +160,8 @@ const noresultsInstance = Snapify.search({
 	},
 });
 
-export const Default = (args: SearchBocaProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
-	return <SearchBoca {...args} controller={controller} />;
+export const Default = (args: SearchCollapsibleProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	return <SearchCollapsible {...args} controller={controller} />;
 };
 
 Default.loaders = [
@@ -173,8 +173,8 @@ Default.loaders = [
 	},
 ];
 
-export const NoResults = (args: SearchBocaProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
-	return <SearchBoca {...args} controller={controller} />;
+export const NoResults = (args: SearchCollapsibleProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	return <SearchCollapsible {...args} controller={controller} />;
 };
 
 NoResults.loaders = [
