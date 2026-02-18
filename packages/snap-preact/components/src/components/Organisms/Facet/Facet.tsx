@@ -619,7 +619,7 @@ const FacetContent = (
 
 	const submitButtonRef: MutableRef<any> = useRef();
 
-	let overflowState;
+	let overflowState: overflowStateType | undefined;
 	if (!statefulOverflow) {
 		overflowState = (facet as ValueFacet).overflow;
 	} else {
