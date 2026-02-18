@@ -34,8 +34,8 @@ import { AbstractController } from '../Abstract/AbstractController';
 import { ChatControllerConfig, ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore, ChatMessage } from '@searchspring/snap-store-mobx';
 import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
-import type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet, Product } from '@searchspring/snap-store-mobx';
-import { type Product as BeaconProduct } from '@searchspring/beacon';
+import type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet, Product, Banner } from '@searchspring/snap-store-mobx';
+import { AddtocartSchemaData, type Product as BeaconProduct } from '@searchspring/beacon';
 
 const KEY_ENTER = 13;
 
@@ -45,10 +45,9 @@ const defaultConfig: Partial<ChatControllerConfig> = {
 
 type chatTrackMethods = {
 	product: {
-		clickThrough: (e: MouseEvent, result: Product) => void;
-		click: (e: MouseEvent, result: Product) => void;
-		render: (result: Product) => void;
-		impression: (result: Product) => void;
+		clickThrough: (e: MouseEvent, result: Product | Banner) => void;
+		click: (e: MouseEvent, result: Product | Banner) => void;
+		impression: (result: Product | Banner) => void;
 		addToCart: (result: Product) => void;
 	};
 };
@@ -469,22 +468,28 @@ export class ChatController extends AbstractController {
 
 	track: chatTrackMethods = {
 		product: {
-			addToCart: (result: Product): any | undefined => {
-				const data = getChatAddtocartSchemaData({ store: this.store, results: [result] });
-				// this.tracker.events.chat.addToCart({ data, siteId: this.config.globals?.siteId });
+			addToCart: (result: Product): void => {
+				const responseId = result.responseId;
+				const product: BeaconProduct = {
+					parentId: result.id,
+					uid: result.id,
+					sku: result.mappings.core?.sku,
+					qty: result.quantity || 1,
+					price: Number(result.mappings.core?.price),
+				};
+				const data: AddtocartSchemaData = {
+					responseId,
+					results: [product],
+				};
 				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
-				return data;
 			},
-			clickThrough: (e: MouseEvent, result: Product) => {
+			clickThrough: (e: MouseEvent, result: Product | Banner): void => {
 				console.log(e, result);
 			},
-			click: (e: MouseEvent, result: Product) => {
+			click: (e: MouseEvent, result: Product | Banner): void => {
 				console.log(e, result);
 			},
-			render: (result: Product) => {
-				console.log(result);
-			},
-			impression: (result: Product) => {
+			impression: (result: Product | Banner): void => {
 				console.log(result);
 			},
 		},
@@ -516,22 +521,4 @@ async function base64ToBlob(base64Image: string): Promise<Blob> {
 	const fetchedImage = await fetch(base64Image);
 	const blob = await fetchedImage.blob();
 	return blob;
-}
-
-function getChatAddtocartSchemaData({ store, results }: { store: ChatStore; results?: Product[] }): any {
-	console.log(store);
-	// const base = getChatSchemaData({ params, store, results });
-	return {
-		// ...base,
-		results:
-			results?.map((result: Product): BeaconProduct => {
-				const core = (result as Product).mappings.core!;
-				return {
-					uid: core.uid || '',
-					sku: core.sku,
-					price: Number(core.price),
-					qty: result.quantity || 1,
-				};
-			}) || [],
-	};
 }

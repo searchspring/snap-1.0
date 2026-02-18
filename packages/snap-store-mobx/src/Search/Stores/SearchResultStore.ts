@@ -35,7 +35,7 @@ type SearchResultStoreConfig = {
 		previousResults?: SearchResultStore;
 	};
 	data: {
-		search: SearchResponseModel;
+		search?: Partial<SearchResponseModel>;
 		meta: MetaResponseModel;
 		previousSearch?: SearchResponseModel;
 	};
@@ -51,7 +51,6 @@ export class SearchResultStore extends Array<Product | Banner> {
 		const { search, meta, previousSearch } = data || {};
 		const { results, merchandising, pagination } = search || {};
 		const { previousResults } = stores || {};
-
 		const { loaded } = state || {};
 
 		let resultsArr: (Product | Banner)[] = (results || []).map((result, idx) => {
@@ -59,6 +58,7 @@ export class SearchResultStore extends Array<Product | Banner> {
 				config,
 				data: { result, meta },
 				position: idx + 1,
+				responseId: params.data.search?.tracking?.responseId || '',
 			});
 		});
 
@@ -134,7 +134,7 @@ export class SearchResultStore extends Array<Product | Banner> {
 				})
 				.map((banner) => {
 					return new Banner({
-						data: { banner },
+						data: { banner, responseId: params.data.search?.tracking?.responseId || '' },
 					});
 				});
 
@@ -150,12 +150,14 @@ export class SearchResultStore extends Array<Product | Banner> {
 type BannerData = {
 	data: {
 		banner: SearchResponseModelMerchandisingContentInline;
+		responseId: string;
 	};
 };
 
 export class Banner {
 	public type = 'banner';
 	public id: string;
+	public responseId: string;
 	public attributes: Record<string, unknown> = {};
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -165,8 +167,12 @@ export class Banner {
 	public value: string;
 
 	constructor(bannerData: BannerData) {
-		const { banner } = bannerData?.data || {};
-		this.id = 'ss-ib-' + banner.config!.position!.index;
+		const { banner, responseId } = bannerData?.data || {};
+		const htmlString = banner.value;
+		const match = typeof htmlString === 'string' && htmlString.match(/data-banner-id="(\d+)"/);
+		const uid = match ? match[1] : 'ss-ib-' + banner.config!.position!.index;
+		this.id = uid;
+		this.responseId = responseId;
 		this.config = banner.config!;
 		this.value = banner.value!;
 
@@ -204,16 +210,17 @@ type ProductMinimal = {
 type ProductData = {
 	config: StoreConfigs;
 	data: {
-		result: SearchResponseModelResult;
+		result: SearchResponseModelResult & { responseId?: string };
 		meta: MetaResponseModel;
 	};
 	position: number;
+	responseId: string;
 };
 
 export class Product {
 	public type = 'product';
 	public id: string;
-	public position: number;
+	public responseId: string;
 	public attributes: Record<string, unknown> = {};
 	public mappings: SearchResponseModelResultMappings = {
 		core: {},
@@ -225,6 +232,7 @@ export class Product {
 	public quantity = 1;
 	public mask = new ProductMask();
 	public variants?: Variants;
+	public position?: number;
 
 	constructor(productData: ProductData) {
 		const { config } = productData || {};
@@ -242,6 +250,8 @@ export class Product {
 				result,
 			},
 		});
+
+		this.responseId = result.responseId || productData.responseId;
 
 		// @ts-ignore - need to add bundleSeed to snapi-types
 		if (result.bundleSeed) {
@@ -833,6 +843,26 @@ function addBannersToResults(
 			bannersAndResults.splice(resultIndex, 0, banner);
 		}
 	});
+
+	// when using infinite, need to adjust the inline banner responseIds
+	if ((config as SearchStoreConfig)?.settings?.infinite) {
+		bannersAndResults.forEach((item, index) => {
+			if (item.type === 'banner') {
+				// need to determine what the correctResponseId is based on the index position, pageSize (current page) and adjacent product responseIds
+				const pageSize = paginationData.pageSize;
+				const currentPage = Math.floor(index / pageSize) + 1;
+				const firstItemIndexOnPage = (currentPage - 1) * pageSize;
+				const lastItemIndexOnPage = firstItemIndexOnPage + pageSize - 1;
+				// find the first product on the current page to grab its responseId
+				for (let i = firstItemIndexOnPage; i < lastItemIndexOnPage; i++) {
+					if (bannersAndResults[i].type === 'product') {
+						(item as Banner).responseId = bannersAndResults[i].responseId;
+						break;
+					}
+				}
+			}
+		});
+	}
 
 	return bannersAndResults;
 }

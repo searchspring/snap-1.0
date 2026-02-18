@@ -149,6 +149,8 @@ export type AutocompleteStoreConfigSettings = {
 		enabled?: boolean;
 		limit?: number;
 		showResults?: boolean;
+		max?: number;
+		url?: string;
 	};
 	redirects?: {
 		merchandising?: boolean;
