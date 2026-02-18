@@ -66,9 +66,6 @@ export const search: ThemeComponent<'search', SearchProps> = {
 			...(searchThemeComponentProps.default?.['search'] || {}),
 			themeStyleScript: searchStyleScript,
 		},
-		'search filterSummary': {
-			type: 'list',
-		},
 	},
 	mobile: {
 		...searchThemeComponentProps.mobile,

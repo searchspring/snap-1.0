@@ -91,9 +91,9 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						fontWeight: custom.fonts.weight02,
 						color: variables?.colors?.text,
 					},
-					'.ss__filter-summary .ss__filter-summary__filters, .ss__facets .ss__facet .ss__dropdown__content': {
-						padding: `${custom.spacing.x4}px`,
-					},
+					// '.ss__filter-summary .ss__filter-summary__filters, .ss__facets .ss__facet .ss__dropdown__content': {
+					// 	padding: `${custom.spacing.x4}px`,
+					// },
 					'.ss__facets .ss__facet': {
 						margin: 0,
 						width: 'auto',

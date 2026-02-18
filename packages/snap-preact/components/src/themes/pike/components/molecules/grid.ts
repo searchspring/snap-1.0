@@ -2,34 +2,37 @@ import { css } from '@emotion/react';
 import type { GridProps } from '../../../../components/Molecules/Grid';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
-import Color from 'color';
 
-// grid size
+// static variables
 const gridSize = 42;
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
+const darkSelector = '&.ss__grid__option--dark, &:has(.ss__grid__option__inner--grey), &:has(.ss__grid__option__inner--gray)';
+const imageSelector = '&:has(.ss__image)';
+const urlSelector = '&[style*="url"]';
+const styleSelector = '&[style], &:has(.ss__image)';
 
 // CSS in JS style script for the Grid component
 const gridStyleScript = (props: Partial<GridProps>) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const activeColor = new Color(variables?.colors?.primary || undefined);
-	const fontColor =
-		activeColor.isDark() || activeColor.hex().toLowerCase() == '#00aeef'
-			? Color(custom.colors.white || undefined)
-			: Color(custom.colors.black || undefined);
-	const darkGray = custom.utils.darkenColor();
 
 	return css({
 		...custom.styles.boxSizing('grid', props?.treePath, props?.name),
 		'.ss__grid__title': {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
-			fontSize: custom.utils.convertPxToEm(14),
-			fontWeight: custom.fonts.weight02,
+			...custom.styles.fontSize(14),
+			...custom.styles.headerText(variables?.colors?.secondary),
 			lineHeight: 1,
+		},
+		'.ss__grid__options .ss__grid__option .ss__grid__option__inner .ss__grid__option__label, .ss__grid__show-more-wrapper': {
+			...custom.styles.fontSize(12),
+			lineHeight: 1.2,
 		},
 		'.ss__grid__options': {
 			display: 'flex',
 			flexFlow: 'row wrap',
-			gap: props?.gapSize ? props.gapSize : custom.spacing.x1,
 			alignItems: 'center',
 			'&:before, &:after': {
 				display: 'none',
@@ -40,136 +43,137 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 				'&, &.ss__grid__option--selected': {
 					border: 0,
 				},
-				'.ss__grid__option__inner .ss__grid__option__label, .ss__grid__show-more-wrapper': {
-					fontSize: custom.utils.convertPxToEm(12),
-					lineHeight: 1,
-				},
 			},
 			'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
 				position: 'relative',
 				width: `${gridSize}px`,
 				maxHeight: `${gridSize}px`,
+				height: '100%',
 				aspectRatio: 1,
-				color: variables?.colors?.text,
 				overflow: 'hidden',
-				'&:before': {
-					display: 'none',
-				},
-				'&:after': {
-					content: '""',
-					position: 'absolute',
-					top: 0,
-					bottom: 0,
-					left: 0,
-					right: 0,
-					zIndex: 1,
-					border: `1px solid ${custom.colors.black}`,
-					opacity: 0.15,
-				},
-				'&.ss__grid__option--dark, &:has(.ss__grid__option__inner--grey)': {
-					'.ss__grid__option__inner': {
-						'.ss__grid__option__label': {
-							color: fontColor.hex(),
-						},
-					},
-				},
-				'&.ss__grid__option--selected': {
-					'&:after': {
-						opacity: 0.3,
-					},
-					'&:has(.ss__grid__option__inner:not([style]))': {
-						backgroundColor: activeColor.hex(),
-						'&:after': {
-							borderColor: activeColor.hex(),
-							opacity: 1,
-						},
-						'.ss__grid__option__inner': {
-							'.ss__grid__option__label': {
-								color: fontColor.hex(),
-							},
-						},
-					},
-					'&:has(.ss__grid__option__inner .ss__image)': {
-						backgroundColor: 'transparent',
-						'&:after': {
-							borderColor: custom.colors.black,
-							opacity: 0.3,
-						},
-						'.ss__grid__option__inner': {
-							'.ss__grid__option__label': {
-								color: variables?.colors?.text,
-							},
-						},
-					},
-					'.ss__grid__option__inner': {
-						'.ss__grid__option__label': {
-							fontWeight: custom.fonts.weight01,
-						},
-					},
-				},
-				'&.ss__grid__option--disabled, &.ss__grid__option--unavailable': {
-					opacity: 1,
-					cursor: 'not-allowed',
-					pointerEvents: 'none',
-					'.ss__grid__option__inner:after': {
-						content: '""',
-						display: 'block',
-						position: 'absolute',
-						top: 0,
-						bottom: 0,
-						left: 0,
-						right: 0,
-						zIndex: 3,
-						margin: 'auto',
-						backgroundColor: darkGray.replace('#', ''),
-						backgroundRepeat: 'no-repeat',
-						backgroundPosition: 'center center',
-						backgroundImage: `url("data:image/svg+xml,%3Csvg style=%27transform: rotate%28-45deg%29%27 xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 56 56%27 preserveAspectRatio=%27xMinYMid%27%3E%3Cpath fill=%27%23${darkGray.replace(
-							'#',
-							''
-						)}%27 d=%27M0 23.297h56v9.406h-56v-9.406z%27 /%3E%3C/svg%3E")`,
-					},
-				},
 				'.ss__grid__option__inner': {
-					'&[style*="url"]': {
+					position: 'relative',
+					...custom.styles.box(variables?.colors?.text, custom.spacing.x1),
+					...custom.styles.borderRadius(),
+					'.ss__grid__option__label': {
+						overflow: 'hidden',
+						maxWidth: '100%',
+						maxHeight: '100%',
+					},
+					[styleSelector]: {
+						border: 0,
+						backgroundColor: 'transparent',
+						'&:before, &:after': {
+							content: '""',
+							display: 'block',
+							position: 'absolute',
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							...custom.styles.borderRadius(),
+						},
+						'&:before': {
+							border: `3px solid ${custom.colors.white}`,
+							margin: '1px',
+							opacity: 0,
+						},
+						'&:after': {
+							border: `1px solid ${custom.colors.black}`,
+							opacity: 0.15,
+						},
+					},
+					[`${urlSelector}, ${imageSelector}`]: {
+						'&:before': {
+							margin: 0,
+							borderWidth: '4px',
+						},
+					},
+					[urlSelector]: {
 						backgroundRepeat: 'no-repeat !important',
 						backgroundSize: 'cover !important',
 						backgroundPosition: 'center !important',
 					},
-					'.ss__image': {
-						img: {
-							width: '100%',
-							height: '100%',
-							objectFit: 'cover',
-							objectPosition: 'center center',
+					[imageSelector]: {
+						'&:before, &:after': {
+							zIndex: 3,
+						},
+						'.ss__image': {
+							position: 'absolute',
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							zIndex: 1,
+							img: {
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								objectPosition: 'center center',
+							},
+						},
+						'.ss__grid__option__label': {
+							position: 'relative',
+							zIndex: 2,
 						},
 					},
-					'.ss__grid__option__label': {
-						display: 'block',
-						position: 'absolute',
-						zIndex: 2,
-						maxWidth: `calc(100% - ${custom.spacing.x2}px)`,
-						maxHeight: `calc(100% - ${custom.spacing.x2}px)`,
-						overflow: 'hidden',
+				},
+				[darkSelector]: {
+					'.ss__grid__option__inner': {
+						color: fontColor,
 					},
 				},
-			},
-			'.ss__grid__show-more-wrapper': {
-				maxHeight: 'none',
+				'&.ss__grid__option--disabled, &.ss__grid__option--unavailable': {
+					opacity: 1,
+					cursor: 'not-allowed !important',
+					pointerEvents: 'unset',
+					'&:before': {
+						zIndex: 3,
+						borderTop: `2px solid ${custom.colors.white}`,
+						outlineColor: custom.colors.gray02,
+						borderRadius: '3px',
+					},
+					'.ss__grid__option__inner': {
+						opacity: 0.65,
+					},
+				},
+				'&.ss__grid__option--selected': {
+					'.ss__grid__option__inner': {
+						borderColor: activeColor,
+						backgroundColor: activeColor,
+						color: fontColor,
+						[styleSelector]: {
+							border: 0,
+							backgroundColor: 'transparent',
+							color: variables?.colors?.text,
+							'&:before': {
+								opacity: 1,
+							},
+							'&:after': {
+								opacity: 0.3,
+							},
+						},
+						'.ss__grid__option__label': {
+							fontWeight: custom.fonts.weight01,
+						},
+					},
+					[darkSelector]: {
+						'.ss__grid__option__inner': {
+							color: fontColor,
+						},
+					},
+				},
 			},
 		},
 		'.ss__grid__show-more-wrapper': {
 			'&:not(.ss__grid__option)': {
-				margin: `${custom.spacing.x2}px 0 0 0`,
+				margin: `${custom.spacing.x1}px 0 0 0`,
 			},
 			'&, .ss__grid__show-more': {
 				cursor: 'pointer',
 			},
 			'.ss__grid__show-more': {
-				fontSize: custom.utils.convertPxToEm(12),
-				fontWeight: custom.fonts.weight01,
-				lineHeight: 1,
-				color: variables?.colors?.primary,
+				...custom.styles.activeText(variables?.colors?.primary),
 			},
 		},
 	});

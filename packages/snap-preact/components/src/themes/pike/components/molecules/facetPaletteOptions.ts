@@ -25,13 +25,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 		...custom.styles.boxSizing('facetPaletteOptions', props?.treePath, props?.name),
 		'.ss__facet-palette-options__option': {
 			color: variables?.colors?.text,
-			'&, &.ss__facet-palette-options__option--filtered': {
-				'.ss__facet-palette-options__option__wrapper': {
-					border: 0,
-					...custom.styles.borderRadius(),
-					padding: 0,
-				},
-			},
 			'&.ss__facet-palette-options__option--filtered': {
 				'.ss__facet-palette-options__option__wrapper .ss__facet-palette-options__option__palette': {
 					'&:before': {
@@ -46,6 +39,8 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				},
 			},
 			'.ss__facet-palette-options__option__wrapper': {
+				border: 0,
+				...custom.styles.borderRadius(0),
 				'.ss__facet-palette-options__option__palette': {
 					overflow: 'hidden',
 					border: 0,
@@ -56,7 +51,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 						bottom: 0,
 						left: 0,
 						right: 0,
-						...custom.styles.borderRadius(),
+						...custom.styles.borderRadius(0),
 					},
 					'&:before, &:after': {
 						content: '""',

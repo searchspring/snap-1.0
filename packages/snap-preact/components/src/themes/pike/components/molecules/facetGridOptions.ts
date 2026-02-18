@@ -24,6 +24,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			'.ss__facet-grid-options__option__value': {
 				display: 'block',
 				overflow: 'hidden',
+				maxWidth: '100%',
 				maxHeight: '100%',
 				color: 'inherit',
 				'&, &.ss__facet-grid-options__option__value--smaller': {

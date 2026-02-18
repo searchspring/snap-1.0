@@ -168,8 +168,8 @@ export const custom: CustomThemeType = {
 			const whiteColor = new Color(custom.colors.white);
 			const blackColor = new Color(custom.colors.black);
 			const activeColor = new Color(color);
-			const fontColor = activeColor.isDark() || activeColor.hex().toLowerCase() == custom.colors.primary ? whiteColor : blackColor;
-			return [activeColor.hex().toLowerCase(), fontColor.hex().toLowerCase()];
+			const accentColor = activeColor.isDark() || activeColor.hex().toLowerCase() == custom.colors.primary ? whiteColor : blackColor;
+			return [activeColor.hex().toLowerCase(), accentColor.hex().toLowerCase()];
 		},
 		convertPxToEm: (value: number) => {
 			// translates px to rem

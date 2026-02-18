@@ -21,8 +21,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 	const defaultCheckboxStyles = css([
 		sharedStyles,
 		{
-			border: `1px solid ${custom.colors.gray02}`,
-			backgroundColor: custom.colors.gray01,
+			...custom.styles.box('', 0),
 			...custom.styles.boxSizing('checkbox', props?.treePath, props?.name),
 			'&:has(.ss__icon)': {
 				borderColor: darkGray,

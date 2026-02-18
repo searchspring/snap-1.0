@@ -5,14 +5,14 @@ import { custom } from '../../custom';
 
 // static variables
 const buttonDisabledSelectors = '&.ss__button--disabled';
-const activeColors = custom.utils.activeColors();
-const buttonColor = activeColors[0];
-const fontColor = activeColors[1];
 
 // CSS in JS style script for the Button component
 const buttonStyleScript = (props: ButtonProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const activeColors = custom.utils.activeColors(props?.backgroundColor);
+	const buttonColor = activeColors[0];
+	const fontColor = activeColors[1];
 
 	// shared styles
 	const sharedStyles = css([
@@ -26,6 +26,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			textTransform: custom.fonts.transform,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
+			...custom.styles.borderRadius(),
 			...custom.styles.boxSizing('button', props?.treePath, props?.name),
 			[buttonDisabledSelectors]: {
 				...custom.styles.disabled(),
@@ -49,7 +50,6 @@ const buttonStyleScript = (props: ButtonProps) => {
 			},
 			[`&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`]: {
 				border: `1px solid ${buttonColor}`,
-				borderRadius: `${custom.sizes.radius}px`,
 				backgroundColor: buttonColor,
 			},
 		},

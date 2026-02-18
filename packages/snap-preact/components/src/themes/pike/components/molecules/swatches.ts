@@ -92,7 +92,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 						left: 0,
 						right: 0,
 						transform: 'none',
-						...custom.styles.borderRadius(),
+						...custom.styles.borderRadius(0),
 					},
 					'&:before': {
 						border: `3px solid ${custom.colors.white}`,

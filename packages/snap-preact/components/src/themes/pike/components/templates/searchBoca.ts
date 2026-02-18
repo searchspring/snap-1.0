@@ -73,9 +73,6 @@ export const searchBoca: ThemeComponent<'searchBoca', SearchBocaProps> = {
 		'searchBoca button.sidebar-toggle': {
 			icon: custom.icons.filter,
 		},
-		'searchBoca filterSummary': {
-			type: 'list',
-		},
 	},
 	mobile: {
 		...searchBocaThemeComponentProps.mobile,
