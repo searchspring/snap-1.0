@@ -13,9 +13,7 @@ import { recommendationGrid } from './recommendationGrid';
 import { recommendationEmail } from './recommendationEmail';
 import { search } from './search';
 import { searchHorizontal } from './searchHorizontal';
-import { searchBoca } from './searchBoca';
-import { searchSnapnco } from './searchSnapnco';
-import { searchSnappy } from './searchSnappy';
+import { searchCollapsible } from './searchCollapsible';
 
 export const templates: ThemeResponsiveComplete = {
 	default: {
@@ -30,9 +28,7 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationGrid.default,
 		...recommendationEmail.default,
 		...search.default,
-		...searchBoca.default,
-		...searchSnapnco.default,
-		...searchSnappy.default,
+		...searchCollapsible.default,
 		...searchHorizontal.default,
 	},
 	mobile: {
@@ -47,9 +43,7 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationGrid.mobile,
 		...recommendationEmail.mobile,
 		...search.mobile,
-		...searchBoca.mobile,
-		...searchSnapnco.mobile,
-		...searchSnappy.mobile,
+		...searchCollapsible.mobile,
 		...searchHorizontal.mobile,
 	},
 	tablet: {
@@ -64,9 +58,7 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationGrid.tablet,
 		...recommendationEmail.tablet,
 		...search.tablet,
-		...searchBoca.tablet,
-		...searchSnapnco.tablet,
-		...searchSnappy.tablet,
+		...searchCollapsible.tablet,
 		...searchHorizontal.tablet,
 	},
 	desktop: {
@@ -81,9 +73,7 @@ export const templates: ThemeResponsiveComplete = {
 		...recommendationGrid.desktop,
 		...recommendationEmail.desktop,
 		...search.desktop,
-		...searchBoca.desktop,
-		...searchSnapnco.desktop,
-		...searchSnappy.desktop,
+		...searchCollapsible.desktop,
 		...searchHorizontal.desktop,
 	},
 };

@@ -59,9 +59,7 @@ export type LibraryImports = {
 	component: {
 		search: {
 			Search: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchBoca: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchSnapnco: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchSnappy: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			SearchCollapsible: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 			SearchHorizontal: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 		};
 		autocomplete: {
@@ -214,21 +212,10 @@ export class LibraryStore {
 				},
 			},
 			search: {
-				SearchBoca: async () => {
+				SearchCollapsible: async () => {
 					return (
-						this.components.search.SearchBoca || (this.components.search.SearchBoca = (await import('./library/components/SearchBoca')).SearchBoca)
-					);
-				},
-				SearchSnapnco: async () => {
-					return (
-						this.components.search.SearchSnapnco ||
-						(this.components.search.SearchSnapnco = (await import('./library/components/SearchSnapnco')).SearchSnapnco)
-					);
-				},
-				SearchSnappy: async () => {
-					return (
-						this.components.search.SearchSnappy ||
-						(this.components.search.SearchSnappy = (await import('./library/components/SearchSnappy')).SearchSnappy)
+						this.components.search.SearchCollapsible ||
+						(this.components.search.SearchCollapsible = (await import('./library/components/SearchCollapsible')).SearchCollapsible)
 					);
 				},
 				Search: async () => {
