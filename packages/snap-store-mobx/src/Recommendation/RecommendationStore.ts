@@ -5,8 +5,7 @@ import { Product, SearchResultStore } from '../Search/Stores';
 import { CartStore } from '../Cart/CartStore';
 import { RecommendationProfileStore } from './Stores';
 import type { RecommendationStoreConfig, StoreServices } from '../types';
-import type { ProfileResponseModel, RecommendResponseModel } from '@athoscommerce/snap-client';
-import { MetaResponseModel } from '@athoscommerce/snapi-types';
+import type { RecommendCombinedResponseModel } from '@athoscommerce/snap-client';
 import { MetaStore } from '../Meta/MetaStore';
 
 export class RecommendationStore extends AbstractStore<RecommendationStoreConfig> {
@@ -39,8 +38,8 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 		this.results = [];
 	}
 
-	public update(data: { meta: MetaResponseModel; profile: ProfileResponseModel; recommend: RecommendResponseModel }): void {
-		const { meta, profile, recommend } = data || {};
+	public update(data: RecommendCombinedResponseModel): void {
+		const { meta, profile, results } = data || {};
 
 		this.error = undefined;
 		this.meta = new MetaStore({
@@ -48,9 +47,12 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 				meta,
 			},
 		});
+
 		this.profile = new RecommendationProfileStore({
 			data: {
-				profile,
+				profile: {
+					profile: profile,
+				},
 			},
 		});
 
@@ -72,7 +74,10 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 			},
 			data: {
 				search: {
-					results: recommend.results,
+					results,
+					tracking: {
+						responseId: data.responseId,
+					},
 				},
 				meta: this.meta.data,
 			},

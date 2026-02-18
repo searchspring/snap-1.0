@@ -162,7 +162,6 @@ describe('Search Template Component', () => {
 
 		(controller.client as MockClient).mockData.updateConfig({ search: 'noResults' });
 		await controller.search();
-
 		const rendered = render(<Search controller={controller} />);
 		const element = rendered.container.querySelector('.ss__search')!;
 		const noResults = rendered.container.querySelector('.ss__no-results');

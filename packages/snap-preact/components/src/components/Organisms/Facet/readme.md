@@ -133,11 +133,11 @@ The `rangeInputs` prop specifies if the range inputs should render.
 <Facet facet={controller.store.facets[0]} rangeInputs={true} />
 ```
 
-### rangeInputSubmitButtonText
-The `rangeInputSubmitButtonText` prop specifies the text to be rendered in the range input submit button. 
+### rangeInputsSubmitButtonText
+The `rangeInputsSubmitButtonText` prop specifies the text to be rendered in the range input submit button. 
 
 ```jsx
-<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSubmitButtonText={'Filter by Price'}/>
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsSubmitButtonText={'Filter by Price'}/>
 ```
 
 ### rangeInputsPrefix
@@ -147,11 +147,18 @@ The `rangeInputsPrefix` prop specifies the prefix to render next to the range in
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsPrefix={'$'}/>
 ```
 
-### rangeInputSeparatorText
-The `rangeInputSeparatorText` prop specifies the separator text to render between the range inputs.
+### rangeInputsSeparatorText
+The `rangeInputsSeparatorText` prop specifies the separator text to render between the range inputs.
 
 ```jsx
-<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSeparatorText={' to '}/>
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsSeparatorText={' to '}/>
+```
+
+### rangeInputsInheritDefaultValues
+The `rangeInputsInheritDefaultValues` prop enables the facet range input values to default to the facet low and high limits.
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsInheritDefaultValues={true}/>
 ```
 
 ### showClearAllText

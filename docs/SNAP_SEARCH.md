@@ -22,7 +22,7 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },
@@ -84,7 +84,7 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },

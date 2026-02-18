@@ -190,7 +190,7 @@ let config: SnapConfig = {
 				},
 				targeters: [
 					{
-						selector: '#searchspring-content',
+						selector: '#athos-content',
 						hideTarget: true,
 						renderAfterSearch: true,
 						skeleton: () => ContentSkel,
@@ -199,7 +199,7 @@ let config: SnapConfig = {
 						},
 					},
 					{
-						selector: '#searchspring-sidebar',
+						selector: '#athos-sidebar',
 						hideTarget: true,
 						renderAfterSearch: true,
 						skeleton: () => SidebarSkel,

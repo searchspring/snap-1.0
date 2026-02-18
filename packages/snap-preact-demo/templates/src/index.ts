@@ -93,7 +93,7 @@ let config: SnapTemplatesConfig = {
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-layout',
+				selector: '#athos-layout',
 				component: 'Search',
 			},
 		],

@@ -15,5 +15,8 @@
     "campaigns": [],
     "redirect": "",
     "content": {}
+  },
+  "tracking": {
+    "responseId": "1234567890"
   }
 }

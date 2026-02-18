@@ -372,6 +372,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		banner: {
 			// default props
 			internalClassName: 'ss__autocomplete__banner',
+			controller,
 			// inherited props
 			...defined({
 				disableStyles,

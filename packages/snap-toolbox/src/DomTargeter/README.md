@@ -15,7 +15,7 @@ Typical usage would be to render a component into the DOM.
 const contentTarget = new DomTargeter(
 	[
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			component: <Content />,
 		},
 	],
@@ -35,7 +35,7 @@ The CSS selector string used to find DOM elements.
 
 ```js
 {
-	selector: '#searchspring-content'
+	selector: '#athos-content'
 }
 ```
 
@@ -268,14 +268,14 @@ import { render } from 'preact';
 const targeter = new DomTargeter(
 	[
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			component: <SearchResults />,
 			hideTarget: true,
 			autoRetarget: true,
 			unsetTargetMinHeight: true
 		},
 		{
-			selector: '#searchspring-sidebar',
+			selector: '#athos-sidebar',
 			component: <Filters />,
 			inject: {
 				action: 'prepend',

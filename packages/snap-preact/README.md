@@ -52,12 +52,12 @@ const config = {
 				},
 				targets: [
 					{
-						selector: '#searchspring-content',
+						selector: '#athos-content',
 						component: () => Content,
 						hideTarget: true,
 					},
 					{
-						selector: '#searchspring-sidebar',
+						selector: '#athos-sidebar',
 						component: () => Sidebar,
 						hideTarget: true,
 					},
@@ -226,12 +226,12 @@ const config = {
 				},
 				targets: [
 					{
-						selector: '#searchspring-content',
+						selector: '#athos-content',
 						component: () => Content,
 						hideTarget: true,
 					},
 					{
-						selector: '#searchspring-sidebar',
+						selector: '#athos-sidebar',
 						component: () => Sidebar,
 						hideTarget: true,
 					},

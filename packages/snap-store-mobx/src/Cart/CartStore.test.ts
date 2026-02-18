@@ -16,7 +16,10 @@ const results = new SearchResultStore({
 	},
 	data: {
 		search: {
-			results: mockData.recommend.results,
+			results: mockData.results,
+			tracking: {
+				responseId: mockData.responseId,
+			},
 		},
 		meta: _mockData.meta(),
 	},

@@ -195,7 +195,7 @@ describe('Snap Preact', () => {
 	beforeEach(() => {
 		delete window.athos;
 
-		document.body.innerHTML = `<script id="athos-context"></script><div id="searchspring-content" style="min-height: 100vh"></div>`;
+		document.body.innerHTML = `<script id="athos-context"></script><div id="athos-content" style="min-height: 100vh"></div>`;
 	});
 
 	afterEach(cleanup);
@@ -348,9 +348,9 @@ describe('Snap Preact', () => {
 				shopper: {
 					id: 'snapdev',
 					cart: [
-						{ uid: 'sku1', qty: 1, price: 100 },
-						{ uid: 'sku2', qty: 2, price: 200 },
-						{ uid: 'sku3', qty: 3, price: 300 },
+						{ parentId: 'sku1', uid: 'sku1', qty: 1, price: 100 },
+						{ parentId: 'sku2', uid: 'sku2', qty: 2, price: 200 },
+						{ parentId: 'sku3', uid: 'sku3', qty: 3, price: 300 },
 					],
 				},
 			},
@@ -565,7 +565,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => Component,
 								},
@@ -593,7 +593,7 @@ describe('Snap Preact', () => {
 			expect(spy).toHaveBeenCalledTimes(1);
 
 			// invalid config - logs error due to missing component
-			searchConfig.controllers.search[0].targeters[0].selector = '#searchspring-content';
+			searchConfig.controllers.search[0].targeters[0].selector = '#athos-content';
 
 			// @ts-ignore - deleting required property
 			delete searchConfig.controllers.search[0].targeters[0].component;
@@ -616,7 +616,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -660,7 +660,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									onTarget,
 									component: () => Component,
@@ -694,7 +694,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -706,7 +706,7 @@ describe('Snap Preact', () => {
 				},
 			};
 
-			let contentElem = document.querySelector('#searchspring-content');
+			let contentElem = document.querySelector('#athos-content');
 			expect(contentElem).not.toBeNull();
 
 			// initially element has a minHeight
@@ -734,7 +734,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -783,7 +783,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									renderAfterSearch: true,
 									hideTarget: true,
 									component: () => {
@@ -965,7 +965,7 @@ describe('Snap Preact', () => {
 			new Snap(acConfig, { client, logger });
 			expect(spy).toHaveBeenCalledTimes(1);
 
-			acConfig.controllers.autocomplete[0].targeters[0].selector = '#searchspring-content';
+			acConfig.controllers.autocomplete[0].targeters[0].selector = '#athos-content';
 			// @ts-ignore - deleting required property
 			delete acConfig.controllers.autocomplete[0].targeters[0].component;
 			new Snap(acConfig, { client, logger });
@@ -1243,7 +1243,7 @@ describe('Snap Preact', () => {
 			await wait();
 			expect(spy).toHaveBeenCalledTimes(1);
 
-			finderConfig.controllers.finder[0].targeters[0].selector = '#searchspring-content';
+			finderConfig.controllers.finder[0].targeters[0].selector = '#athos-content';
 			// @ts-ignore - deleting required property
 			delete finderConfig.controllers.finder[0].targeters[0].component;
 			new Snap(finderConfig, { client, logger });
