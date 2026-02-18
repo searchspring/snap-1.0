@@ -483,7 +483,7 @@ describe('Facet Component', () => {
 
 		const facetElement = rendered.container.querySelector('.ss__facet');
 
-		expect(facetElement?.classList).toHaveLength(2);
+		expect(facetElement?.classList).toHaveLength(3);
 	});
 
 	describe('Facet lang works', () => {

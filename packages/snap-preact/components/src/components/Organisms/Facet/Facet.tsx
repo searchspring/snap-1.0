@@ -484,7 +484,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 					className,
 					internalClassName,
 					`${facet.display ? `ss__facet--${facet.display}` : ''}`,
-					(statefulOverflow ? overflowState?.remaining || 0 : ((facet as ValueFacet)?.overflow?.remaining || 0) > 0) || facet?.display == 'slider'
+					(statefulOverflow ? overflowState?.remaining || 0 > 0 : ((facet as ValueFacet)?.overflow?.remaining || 0) > 0) || facet?.display == 'slider'
 						? ''
 						: 'ss__facet--showing-all'
 				)}
