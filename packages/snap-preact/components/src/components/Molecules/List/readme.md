@@ -88,8 +88,7 @@ The `disabled` prop will put the inputs in a disabled state.
 ```
 
 ### selected
-The `selected` prop specifies the currently selected Option object. 
-
+The `selected` prop specifies the currently selected option. It accepts either a single Option object (for single-select lists) or, when `multiSelect` is enabled, an array of Option objects representing the selected options.
 ```jsx
 <List options={store.pagination.pageSizeOptions} selected={store.pagination.pageSizeOptions[0]} />
 ```
