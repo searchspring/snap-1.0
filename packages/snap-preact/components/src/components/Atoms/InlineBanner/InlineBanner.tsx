@@ -2,11 +2,11 @@ import { Fragment, h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { Theme, useTheme, CacheProvider, useTreePath, withController, withTracking } from '../../../../providers';
-import { mergeProps, mergeStyles } from '../../../../utilities';
+import { Theme, useTheme, CacheProvider, useTreePath, withController, withTracking } from '../../../providers';
+import { mergeProps, mergeStyles } from '../../../utilities';
 import type { Banner } from '@searchspring/snap-store-mobx';
-import { useA11y } from '../../../../hooks/useA11y';
-import { ComponentProps, StyleScript, ResultsLayout } from '../../../../types';
+import { useA11y } from '../../../hooks/useA11y';
+import { ComponentProps, StyleScript, ResultsLayout } from '../../../types';
 import { observer } from 'mobx-react-lite';
 import { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
 

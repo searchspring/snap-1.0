@@ -10,7 +10,7 @@ import type { AutocompleteController, RecommendationController, RecommendationCo
 import { ContentType } from '@searchspring/snap-store-mobx';
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { Results, ResultsProps } from '../Results';
-import { Banner, BannerProps } from '../../Atoms/Merchandising/Banner';
+import { Banner, BannerProps } from '../../Atoms/Banner';
 import { Facets, FacetsProps } from '../Facets';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
