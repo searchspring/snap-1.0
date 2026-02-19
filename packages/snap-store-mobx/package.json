@@ -21,13 +21,13 @@
 	},
 	"dependencies": {
 		"@athoscommerce/snap-toolbox": "1.11.0",
-		"mobx": "6.9.0"
+		"mobx": "6.15.0"
 	},
 	"devDependencies": {
 		"@athoscommerce/snap-client": "1.11.0",
 		"@athoscommerce/snap-url-manager": "1.11.0",
 		"@athoscommerce/snap-toolbox": "1.11.0",
-		"mobx": "6.9.0"
+		"mobx": "6.15.0"
 	},
 	"sideEffects": false,
 	"files": [

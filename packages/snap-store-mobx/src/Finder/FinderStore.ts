@@ -116,7 +116,6 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 			},
 			state: {
 				persisted: this.persisted,
-				loading: this.loading,
 			},
 			data: {
 				search: search,

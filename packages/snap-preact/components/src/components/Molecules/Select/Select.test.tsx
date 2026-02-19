@@ -357,7 +357,7 @@ describe('Select Component', () => {
 			expect(icon).not.toBeInTheDocument();
 
 			expect(button?.innerHTML).toBe(
-				'<span class="ss__button__content"><span ss-lang="buttonLabel" aria-label="selectme dropdown, 7 options , Currently selected option is Orange" class="ss__select__label"><label ss-lang="buttonLabel">selectme</label><span class="ss__select__label__separator">: </span></span><span class="ss__select__selection">Orange</span></span>'
+				'<span class="ss__button__content"><span class="ss__select__label" ss-lang="buttonLabel" aria-label="selectme dropdown, 7 options , Currently selected option is Orange"><label ss-lang="buttonLabel">selectme</label><span class="ss__select__label__separator">: </span></span><span class="ss__select__selection">Orange</span></span>'
 			);
 			expect(selection).toBeInTheDocument();
 		});

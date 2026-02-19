@@ -62,14 +62,14 @@ describe('Checkbox Component', () => {
 			expect(svgElement).toBeInTheDocument();
 		});
 
-		it('fires onClick prop when clicked', () => {
+		it('fires onClick prop when clicked', async () => {
 			const clickFn = jest.fn();
 
 			const rendered = render(<Checkbox onClick={clickFn} />);
 
 			const checkboxElement = rendered.container.querySelector('.ss__checkbox')!;
 
-			userEvent.click(checkboxElement);
+			await userEvent.click(checkboxElement);
 			expect(clickFn).toHaveBeenCalled();
 		});
 
@@ -80,7 +80,7 @@ describe('Checkbox Component', () => {
 
 			expect(checkboxElement.getAttribute('aria-checked')).toBe('false');
 
-			userEvent.click(checkboxElement);
+			await userEvent.click(checkboxElement);
 
 			await waitFor(() => {
 				expect(checkboxElement.getAttribute('aria-checked')).toBe('true');
@@ -330,25 +330,25 @@ describe('Checkbox Component', () => {
 			expect(inputElement?.checked).toBe(true);
 		});
 
-		it('fires onClick prop when clicked', () => {
+		it('fires onClick prop when clicked', async () => {
 			const clickFn = jest.fn();
 
 			const rendered = render(<Checkbox native onClick={clickFn} />);
 
 			const checkboxElement = rendered.container.querySelector('.ss__checkbox')!;
 
-			userEvent.click(checkboxElement);
+			await userEvent.click(checkboxElement);
 			expect(clickFn).toHaveBeenCalled();
 		});
 
-		it('respects the disabled prop', () => {
+		it('respects the disabled prop', async () => {
 			const clickFn = jest.fn();
 			const rendered = render(<Checkbox native disabled />);
 			const checkboxElement = rendered.container.querySelector('.ss__checkbox')!;
 
 			expect(checkboxElement.className.match(/disabled/)).toBeTruthy();
 			expect(checkboxElement).toHaveAttribute('disabled');
-			userEvent.click(checkboxElement);
+			await userEvent.click(checkboxElement);
 			expect(clickFn).not.toHaveBeenCalled();
 		});
 

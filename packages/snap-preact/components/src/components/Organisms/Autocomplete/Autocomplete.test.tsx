@@ -503,7 +503,7 @@ describe('Autocomplete Component', () => {
 		});
 
 		input.focus();
-		userEvent.keyboard('dress');
+		await userEvent.keyboard('dress');
 
 		await waitFor(() => {
 			const historyTitle = rendered.container.querySelector('.ss__autocomplete__title--history');
@@ -535,7 +535,7 @@ describe('Autocomplete Component', () => {
 		});
 
 		input.focus();
-		userEvent.keyboard('dress');
+		await userEvent.keyboard('dress');
 
 		rendered2 = render(<Autocomplete {...args2} />, { container });
 		await waitFor(() => {
@@ -892,7 +892,7 @@ describe('Autocomplete Component', () => {
 									index: idx,
 								});
 							});
-						} else if ('suggestionsTerm') {
+						} else if (option == 'suggestionsTerm') {
 							controller.store.terms.forEach((term, idx) => {
 								expect(valueMock).toHaveBeenCalledWith({
 									controller: controller,
@@ -900,7 +900,7 @@ describe('Autocomplete Component', () => {
 									index: idx,
 								});
 							});
-						} else if ('historyTerm') {
+						} else if (option == 'historyTerm') {
 							controller.store.history.forEach((term, idx) => {
 								expect(valueMock).toHaveBeenCalledWith({
 									controller: controller,

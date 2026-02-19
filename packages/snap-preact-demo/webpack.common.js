@@ -80,7 +80,7 @@ export default {
 			react: 'preact/compat',
 			'react-dom/test-utils': 'preact/test-utils',
 			'react-dom': 'preact/compat',
-			preact: path.resolve(__dirname, 'node_modules/preact'),
+			preact: path.resolve(__dirname, '../../node_modules/preact'),
 		},
 	},
 };

@@ -6,8 +6,7 @@ import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
 import type { FinderStore } from '@athoscommerce/snap-store-mobx';
-import type { Next } from '@athoscommerce/snap-event-manager';
-import type { FinderControllerConfig, FinderAfterSearchObj, ControllerServices, ContextVariables } from '../types';
+import type { FinderControllerConfig, ControllerServices, ContextVariables } from '../types';
 
 const defaultConfig: FinderControllerConfig = {
 	id: 'finder',
@@ -49,13 +48,6 @@ export class FinderController extends AbstractController {
 				};
 			});
 		}
-
-		// TODO: remove this aftersearch when store interface changes
-		this.eventManager.on('afterSearch', async (finder: FinderAfterSearchObj, next: Next): Promise<void | boolean> => {
-			await next();
-
-			finder.controller.store.loading = false;
-		});
 
 		// attach config plugins and event middleware
 		this.use(this.config);

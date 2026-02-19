@@ -18,6 +18,13 @@
 		};
 	</script>
 
+
+	<!-- this is needed for the override e2e test -->
+	<script id="searchspring-context">
+		shopper = {
+			id: 'snapdev'
+		};
+	</script>
 	<style>
 		.skipto-button {
 			position: absolute; 
@@ -143,11 +150,13 @@
 					<div id="athos-sidebar">
 						<h2>Sidebar to be hidden!</h2>
 					</div>
+					<div id="searchspring-sidebar"></div>
 				</aside>
 				<section class="ss-lite-content">
 					<div id="athos-content">
 						<h2>Content to be hidden!</h2>
 					</div>
+					<div id="searchspring-content"></div>
 				</section>
 
 

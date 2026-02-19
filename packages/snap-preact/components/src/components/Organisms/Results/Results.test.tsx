@@ -203,7 +203,7 @@ describe('Results Component', () => {
 		expect(resultsElement?.classList).toHaveLength(2);
 	});
 
-	it('can pass child component props via the theme', () => {
+	it('can pass child component props via the theme', async () => {
 		const clickFunc = jest.fn();
 		const theme2 = {
 			components: {
@@ -228,7 +228,7 @@ describe('Results Component', () => {
 		expect(clickFunc).not.toHaveBeenCalled();
 
 		const resultElement = rendered.container.querySelector('.ss__results .ss__result a')!;
-		userEvent.click(resultElement);
+		await userEvent.click(resultElement);
 
 		expect(clickFunc).toHaveBeenCalled();
 	});
