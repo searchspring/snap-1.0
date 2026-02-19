@@ -122,7 +122,7 @@ describe('Terms Component', () => {
 
 		await controller.bind();
 
-		userEvent.type(input!, 'dre');
+		await userEvent.type(input!, 'dre');
 
 		const rendered = render(<Terms controller={controller} terms={mockTerms} emIfy={true} />);
 		const termOptions = rendered.container.querySelectorAll('.ss__terms__option a')[0];
@@ -174,7 +174,7 @@ describe('Terms Component', () => {
 		const rendered = render(<Terms controller={controller} terms={mockTerms} onTermClick={onClick} />);
 		const termOptions = rendered.container.querySelector('.ss__terms__option a');
 
-		userEvent.click(termOptions!);
+		await userEvent.click(termOptions!);
 
 		expect(onClick).toHaveBeenCalled();
 	});

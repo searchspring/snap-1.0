@@ -31,8 +31,10 @@ const defaultProps: SlideshowProps = {
 };
 
 // Mock setInterval and clearInterval for autoplay tests
+let user: ReturnType<typeof userEvent.setup>;
 beforeEach(() => {
 	jest.useFakeTimers();
+	user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 });
 
 afterEach(() => {
@@ -204,7 +206,7 @@ describe('Slideshow Component', () => {
 			const nextButton = rendered.getByLabelText(/next/i);
 
 			// Click next
-			await userEvent.click(nextButton);
+			await user.click(nextButton);
 
 			// Should have triggered navigation (test that click works)
 			expect(nextButton).toBeInTheDocument();
@@ -258,8 +260,8 @@ describe('Slideshow Component', () => {
 			slideshow.focus();
 
 			// Test that keyboard events don't throw errors
-			await userEvent.keyboard('{ArrowRight}');
-			await userEvent.keyboard('{ArrowLeft}');
+			await user.keyboard('{ArrowRight}');
+			await user.keyboard('{ArrowLeft}');
 
 			expect(slideshow).toBeInTheDocument();
 		});
@@ -310,7 +312,7 @@ describe('Slideshow Component', () => {
 			const slideshow = rendered.getByRole('region');
 
 			// Hover over slideshow
-			await userEvent.hover(slideshow);
+			await user.hover(slideshow);
 
 			// Fast-forward time
 			jest.advanceTimersByTime(2000);
@@ -339,7 +341,7 @@ describe('Slideshow Component', () => {
 
 			const clickableSlide = rendered.container.querySelector('.ss__slideshow__slide--clickable');
 			if (clickableSlide) {
-				await userEvent.click(clickableSlide);
+				await user.click(clickableSlide);
 				expect(mockOnClick).toHaveBeenCalled();
 			}
 		});
