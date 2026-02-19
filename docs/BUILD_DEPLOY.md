@@ -62,7 +62,7 @@ jobs:
     name: Snap Action
     steps:
       - name: Checkout action
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: searchspring/snap-action
       - name: Run @searchspring/snap-action
