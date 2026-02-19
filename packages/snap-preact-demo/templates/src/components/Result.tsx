@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge, Rating, Grid } from '@searchspring/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating } from '@searchspring/snap-preact/components';
 import { Product } from '@searchspring/snap-store-mobx';
 import type { SearchController } from '@searchspring/snap-controller';
 
@@ -21,54 +21,54 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 	// 	message: 'Too many requests try again later',
 	// }
 
-	const gridOptions = [
-		{
-			value: 'one one one',
-			disabled: true,
-		},
-		{
-			value: 'two two two two',
-		},
-		{
-			value: 'three three three three',
-		},
-		{
-			value: 'four four four',
-			background: 'red',
-			disabled: true,
-		},
-		{
-			value: 'five five five',
-			background: 'yellow',
-		},
-		{
-			value: 'six six six',
-			background: 'blue',
-		},
-		{
-			value: 'seven seven',
-			disabled: true,
-			backgroundImageUrl:
-				'https://cdn.shopify.com/s/files/1/0916/6477/7582/files/Women_s_Apparel_Studio_Legging_-_Charcoal_86731d52-9ef2-4663-802a-8935249c5a7c.png?v=1747685734',
-		},
-		{
-			value: 'eight eight eight',
-			backgroundImageUrl:
-				'https://cdn.shopify.com/s/files/1/0916/6477/7582/files/Women_s_Apparel_Align_Crewneck_-_Olive_519ac0c5-e067-4ab7-9fe5-5421f364c52a.png?v=1747685123',
-		},
-		{
-			value: 'nine nine',
-			backgroundImageUrl: 'https://cdn.shopify.com/s/files/1/0916/6477/7582/files/red-buffalo-plaid-flannel.png?v=1765405015',
-		},
-		{
-			value: 'ten a big fat hen',
-			background: 'url(https://searchspring-demo-content.s3.amazonaws.com/demo/fashion/product_images_large/rdb_studio_2_3312_large.jpg)',
-		},
-		{
-			value: 'grey',
-			background: 'grey',
-		},
-	];
+	// const gridOptions = [
+	// 	{
+	// 		value: 'one one one',
+	// 		disabled: true,
+	// 	},
+	// 	{
+	// 		value: 'two two two two',
+	// 	},
+	// 	{
+	// 		value: 'three three three three',
+	// 	},
+	// 	{
+	// 		value: 'four four four',
+	// 		background: 'red',
+	// 		disabled: true,
+	// 	},
+	// 	{
+	// 		value: 'five',
+	// 		background: 'yellow',
+	// 	},
+	// 	{
+	// 		value: 'six six six',
+	// 		background: 'blue',
+	// 	},
+	// 	{
+	// 		value: 'seven seven',
+	// 		disabled: true,
+	// 		backgroundImageUrl:
+	// 			'https://cdn.shopify.com/s/files/1/0916/6477/7582/files/Women_s_Apparel_Studio_Legging_-_Charcoal_86731d52-9ef2-4663-802a-8935249c5a7c.png?v=1747685734',
+	// 	},
+	// 	{
+	// 		value: 'eight eight eight',
+	// 		backgroundImageUrl:
+	// 			'https://cdn.shopify.com/s/files/1/0916/6477/7582/files/Women_s_Apparel_Align_Crewneck_-_Olive_519ac0c5-e067-4ab7-9fe5-5421f364c52a.png?v=1747685123',
+	// 	},
+	// 	{
+	// 		value: 'nine nine',
+	// 		backgroundImageUrl: 'https://cdn.shopify.com/s/files/1/0916/6477/7582/files/red-buffalo-plaid-flannel.png?v=1765405015',
+	// 	},
+	// 	{
+	// 		value: 'ten a big fat hen',
+	// 		background: 'url(https://searchspring-demo-content.s3.amazonaws.com/demo/fashion/product_images_large/rdb_studio_2_3312_large.jpg)',
+	// 	},
+	// 	{
+	// 		value: 'grey',
+	// 		background: 'grey',
+	// 	},
+	// ];
 
 	return (
 		<article className="ss__custom-result">
@@ -93,7 +93,9 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 				<br />
 				<br />
 
-				<Grid options={gridOptions} />
+				{/* <Swatches options={gridOptions} />
+
+				<Grid options={gridOptions} /> */}
 
 				{/* {variants?.selections
 					? variants.selections.map((selection) => {

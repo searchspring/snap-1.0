@@ -23,7 +23,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			...custom.styles.box('', 0),
 			...custom.styles.boxSizing('checkbox', props?.treePath, props?.name),
-			'&:has(.ss__icon)': {
+			'&.ss__checkbox--active': {
 				borderColor: darkGray,
 			},
 			'&.ss__checkbox--disabled': {
@@ -38,6 +38,7 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		{
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
+			lineHeight: 1,
 			cursor: 'pointer',
 			...custom.styles.boxSizing('checkbox', props?.treePath, props?.name),
 			'&.ss__checkbox--disabled': {
@@ -46,7 +47,6 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 		},
 	]);
 
-	// return checkbox styles
 	return props?.native ? nativeCheckboxStyles : defaultCheckboxStyles;
 };
 

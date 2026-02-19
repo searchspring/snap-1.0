@@ -56,7 +56,6 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 			'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal': {
 				color: variables?.colors?.text,
 				'& > *': {
-					lineHeight: 1,
 					margin: `0 0 ${custom.spacing.x2}px 0`,
 					'&:last-child': {
 						marginBottom: 0,

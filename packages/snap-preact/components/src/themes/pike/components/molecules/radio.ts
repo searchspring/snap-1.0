@@ -3,67 +3,57 @@ import type { RadioProps } from '../../../../components/Molecules/Radio';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const darkGray = custom.utils.darkenColor();
+
 // CSS in JS style script for the Radio component
 const radioStyleScript = (props: RadioProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const darkGray = custom.utils.darkenColor();
-
-	// shared radio styles
-	const sharedDefaultStyles = css({
-		border: `1px solid ${custom.colors.gray02}`,
-		...custom.styles.boxSizing('radio', props?.treePath, props?.name),
-		'&, & .ss__icon': {
-			borderRadius: '50%',
-		},
-		'.ss__icon': {
-			display: 'none',
-		},
-		'&.ss__radio--active': {
-			borderColor: darkGray,
-			'.ss__icon': {
-				display: 'block',
-			},
-		},
-	});
-	const disabledStyles = css({
-		'&.ss__radio--disabled': {
-			opacity: 0.65,
-			'&, & *': {
-				cursor: 'not-allowed',
-			},
-		},
-	});
 
 	// default radio styles
-	const defaultStyles = css([
-		sharedDefaultStyles,
+	const defaultRadiosStyles = css([
 		{
-			backgroundColor: custom.colors.gray01,
+			position: 'relative',
+			top: '-1px',
+			...custom.styles.box('', 0),
+			...custom.styles.borderRadius(50, '%'),
+			...custom.styles.boxSizing('radio', props?.treePath, props?.name),
+			'&.ss__radio--disabled': {
+				...custom.styles.disabled(),
+			},
+			'&.ss__radio--active': {
+				borderColor: darkGray,
+				'.ss__icon': {
+					opacity: 1,
+				},
+			},
+			'.ss__icon': {
+				opacity: 0,
+			},
 		},
-		disabledStyles,
 	]);
 
 	// native radio styles
-	const nativeStyles = css([
+	const nativeRadiosStyles = css([
 		{
 			lineHeight: 0,
+			...custom.styles.boxSizing('radio', props?.treePath, props?.name),
+			'&.ss__radio--disabled .ss__radio__input': {
+				...custom.styles.disabled(),
+			},
 			'.ss__radio__input': {
+				position: 'relative',
+				top: '-0.5px',
 				width: `${custom.sizes.icon16}px`,
 				height: `${custom.sizes.icon16}px`,
-				border: `1px solid ${custom.colors.gray02}`,
+				lineHeight: 1,
 				cursor: 'pointer',
 			},
 		},
-		disabledStyles,
 	]);
 
-	// return radio styles
-	if (props?.native) {
-		return nativeStyles;
-	} else {
-		return defaultStyles;
-	}
+	return props?.native ? nativeRadiosStyles : defaultRadiosStyles;
 };
 
 // Radio component props
@@ -71,10 +61,11 @@ export const radio: ThemeComponent<'radio', RadioProps> = {
 	default: {
 		radio: {
 			themeStyleScript: radioStyleScript,
-			size: `${custom.sizes.icon14}px`,
+			checkedIcon: 'circle',
+			unCheckedIcon: 'circle',
+			size: `${custom.sizes.icon16}px`,
 		},
 		'radio icon': {
-			icon: 'square',
 			size: `${custom.sizes.icon08}px`,
 			width: `${custom.sizes.icon08}px`,
 			height: `${custom.sizes.icon08}px`,

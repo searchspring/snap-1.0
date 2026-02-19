@@ -421,7 +421,6 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 		},
 	]);
 
-	// return autocomplete styles
 	if (acLayout == 'terms') {
 		return termsStyles;
 	} else if (acLayout == 'mini') {

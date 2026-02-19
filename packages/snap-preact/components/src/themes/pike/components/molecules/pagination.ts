@@ -16,7 +16,6 @@ const paginationStyleScript = (props: PaginationProps) => {
 			flexFlow: 'row wrap',
 			alignItems: 'center',
 			justifyContent: 'center',
-			lineHeight: 1,
 			'.ss__pagination__page, span': {
 				padding: `0 ${custom.spacing.x1}px`,
 				fontSize: custom.utils.convertPxToEm(14),

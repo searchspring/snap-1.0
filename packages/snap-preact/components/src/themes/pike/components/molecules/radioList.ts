@@ -3,39 +3,69 @@ import type { RadioListProps } from '../../../../components/Molecules/RadioList'
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const radioSpacing = custom.sizes.icon16 + custom.spacing.x2;
+
 // CSS in JS style script for the RadioList component
 const radioListStyleScript = (props: RadioListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// radio list styles
+	const radioListStyles = css({
 		...custom.styles.boxSizing('radioList', props?.treePath, props?.name),
+		'&, .ss__radio-list__options-wrapper, .ss__radio-list__title': {
+			display: 'block',
+		},
+		'&.ss__radio-list--disabled': {
+			...custom.styles.disabled(),
+			'*': {
+				cursor: 'not-allowed !important',
+			},
+		},
+		'.ss__radio-list__title, .ss__radio-list__options-wrapper': {
+			width: '100%',
+		},
 		'.ss__radio-list__title, .ss__radio-list__options-wrapper .ss__radio-list__option': {
 			padding: 0,
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 		},
 		'.ss__radio-list__title': {
-			display: 'block',
-			fontSize: custom.utils.convertPxToEm(14),
-			fontWeight: custom.fonts.weight02,
-			lineHeight: 1,
+			...custom.styles.fontSize(14),
+			...custom.styles.headerText(variables?.colors?.secondary),
 		},
 		'.ss__radio-list__options-wrapper': {
 			'.ss__radio-list__option': {
+				position: 'relative',
+				color: variables?.colors?.text,
 				gap: `${custom.spacing.x2}px`,
+				padding: props?.hideOptionRadios ? `` : `0 0 0 ${radioSpacing}px`,
 				'&:last-of-type': {
 					marginBottom: 0,
 				},
-				'.ss__radio-list__option__icon, .ss__radio-list__option__label': {
+				'.ss__radio-list__option__label, .ss__radio-list__option__icon': {
 					padding: 0,
+				},
+				'.ss__radio': {
+					position: 'absolute',
+					top: '1.5px',
+					left: 0,
+					'&:has(.ss__radio__input)': {
+						top: '2.5px',
+					},
+				},
+				'.ss__radio-list__option__icon': {
+					position: 'relative',
+					top: '-1px',
 				},
 			},
 			'.ss__radio-list__option--selected': {
-				fontWeight: custom.fonts.weight01,
-				color: variables?.colors?.primary,
+				...custom.styles.activeText(variables?.colors?.primary),
 			},
 		},
 	});
+
+	return radioListStyles;
 };
 
 // RadioList component props
@@ -43,7 +73,6 @@ export const radioList: ThemeComponent<'radioList', RadioListProps> = {
 	default: {
 		radioList: {
 			themeStyleScript: radioListStyleScript,
-			hideOptionLabels: false,
 		},
 	},
 };

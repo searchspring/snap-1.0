@@ -3,6 +3,9 @@ import type { SelectProps } from '../../../../components/Molecules/Select';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const dropdownIcon = `.ss__icon--${custom.icons.arrowDown}`;
+
 // CSS in JS style script for the Select component
 const selectStyleScript = (props: SelectProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,7 +34,7 @@ const selectStyleScript = (props: SelectProps) => {
 								paddingRight: `${custom.spacing.x1}px`,
 								fontWeight: 'normal',
 							},
-							'.ss__select__dropdown__button__icon': {
+							[dropdownIcon]: {
 								transition: 'transform ease 0.5s',
 							},
 						},
@@ -69,7 +72,7 @@ const selectStyleScript = (props: SelectProps) => {
 			'.ss__dropdown--open': {
 				'.ss__dropdown__button': {
 					'.ss__button': {
-						'.ss__select__dropdown__button__icon': {
+						[dropdownIcon]: {
 							transform: 'rotate(180deg)',
 						},
 					},
@@ -113,10 +116,6 @@ const selectStyleScript = (props: SelectProps) => {
 				'&[disabled]': {
 					...custom.styles.disabled(),
 				},
-			},
-			'.ss__select__dropdown__button__icon': {
-				width: `${custom.sizes.icon12}px`,
-				height: `${custom.sizes.icon12}px`,
 			},
 		},
 	]);

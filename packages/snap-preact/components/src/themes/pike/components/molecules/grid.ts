@@ -18,17 +18,17 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// grid styles
+	const gridStyles = css({
 		...custom.styles.boxSizing('grid', props?.treePath, props?.name),
 		'.ss__grid__title': {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			...custom.styles.fontSize(14),
 			...custom.styles.headerText(variables?.colors?.secondary),
-			lineHeight: 1,
 		},
 		'.ss__grid__options .ss__grid__option .ss__grid__option__inner .ss__grid__option__label, .ss__grid__show-more-wrapper': {
 			...custom.styles.fontSize(12),
-			lineHeight: 1.2,
+			lineHeight: 1,
 		},
 		'.ss__grid__options': {
 			display: 'flex',
@@ -50,13 +50,15 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 				maxHeight: `${gridSize}px`,
 				height: '100%',
 				aspectRatio: 1,
-				overflow: 'hidden',
 				'.ss__grid__option__inner': {
 					position: 'relative',
+					width: '100%',
 					...custom.styles.box(variables?.colors?.text, custom.spacing.x1),
 					...custom.styles.borderRadius(),
-					'.ss__grid__option__label': {
+					'&, .ss__grid__option__label': {
 						overflow: 'hidden',
+					},
+					'.ss__grid__option__label': {
 						maxWidth: '100%',
 						maxHeight: '100%',
 					},
@@ -82,6 +84,9 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 							border: `1px solid ${custom.colors.black}`,
 							opacity: 0.15,
 						},
+						'.ss__grid__option__label': {
+							...custom.styles.srOnly(),
+						},
 					},
 					[`${urlSelector}, ${imageSelector}`]: {
 						'&:before': {
@@ -98,8 +103,10 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 						'&:before, &:after': {
 							zIndex: 3,
 						},
-						'.ss__image': {
+						'.ss__image, .ss__grid__option__label': {
 							position: 'absolute',
+						},
+						'.ss__image': {
 							top: 0,
 							bottom: 0,
 							left: 0,
@@ -113,7 +120,6 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 							},
 						},
 						'.ss__grid__option__label': {
-							position: 'relative',
 							zIndex: 2,
 						},
 					},
@@ -177,6 +183,8 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 			},
 		},
 	});
+
+	return gridStyles;
 };
 
 // Grid component props

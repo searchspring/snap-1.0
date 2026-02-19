@@ -61,7 +61,6 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 			'.ss__recommendation-bundle-list__wrapper__cta__inner': {
 				'& > *': {
 					margin: `0 0 ${custom.spacing.x4}px 0`,
-					lineHeight: 1,
 				},
 				'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
 					flexFlow: 'row nowrap',
@@ -83,7 +82,6 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 					backgroundColor: custom.colors.gray01,
 					border: `1px solid ${custom.colors.gray02}`,
 					'& > *': {
-						lineHeight: 1,
 						margin: `0 0 ${custom.spacing.x2}px 0`,
 						'&:last-child': {
 							marginBottom: 0,

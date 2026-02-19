@@ -8,7 +8,6 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
-	console.log(props);
 
 	return css({
 		...custom.styles.boxSizing('toolbar', props?.treePath, props?.name),

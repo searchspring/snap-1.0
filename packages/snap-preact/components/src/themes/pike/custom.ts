@@ -91,11 +91,9 @@ export const custom: CustomThemeType = {
 			unit = unit ? unit : value === 0 ? '' : 'px';
 
 			// sets border radius
-			return hasValue
-				? {
-						borderRadius: `${value}${unit}`,
-				  }
-				: null;
+			return {
+				borderRadius: hasValue || custom.sizes.radius ? `${value}${unit}` : ``,
+			};
 		},
 		box: (text?: string, value?: number | string) => {
 			// styles for box designs
@@ -137,6 +135,7 @@ export const custom: CustomThemeType = {
 			return {
 				opacity: 0.65,
 				cursor: 'not-allowed !important',
+				pointerEvents: 'unset',
 			};
 		},
 		fontSize: (value: number) => {
@@ -150,6 +149,18 @@ export const custom: CustomThemeType = {
 			return {
 				fontWeight: custom?.fonts?.weight02,
 				color: value ? value : '',
+			};
+		},
+		srOnly: () => {
+			// screen reader only styles
+			return {
+				position: 'absolute',
+				width: '1px',
+				height: '1px',
+				padding: 0,
+				margin: '-1px',
+				overflow: 'hidden',
+				clip: 'rect(0, 0, 0, 0)',
 			};
 		},
 		textOverflow: () => {
@@ -233,6 +244,7 @@ type CustomThemeType = {
 		disabled: () => ObjectNumberOrStringType;
 		fontSize: (value: number) => ObjectStringType;
 		headerText: (value?: string) => ObjectNumberOrStringType;
+		srOnly: () => ObjectNumberOrStringType;
 		textOverflow: () => ObjectNumberOrStringType;
 	};
 	utils: {

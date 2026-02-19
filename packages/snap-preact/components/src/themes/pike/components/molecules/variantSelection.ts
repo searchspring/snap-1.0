@@ -127,7 +127,6 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 	// swatches syles
 	const swatchesStyles = css([sharedStyles]);
 
-	// return variant selection styles
 	if (props?.type == 'list') {
 		return listStyles;
 	} else if (props?.type == 'swatches') {
