@@ -146,13 +146,13 @@ describe('FacetPaletteOptions Component', () => {
 		expect(paletteElement).toHaveClass(className);
 	});
 
-	it('can set custom onClick func', () => {
+	it('can set custom onClick func', async () => {
 		const onClickFunc = jest.fn();
 		const rendered = render(<FacetPaletteOptions values={paletteFacetMock.values as FacetValue[]} onClick={onClickFunc} />);
 
 		const paletteElement = rendered.container.querySelector('.ss__facet-palette-options__option')!;
 		expect(paletteElement).toBeInTheDocument();
-		userEvent.click(paletteElement);
+		await userEvent.click(paletteElement);
 		expect(onClickFunc).toHaveBeenCalled();
 	});
 

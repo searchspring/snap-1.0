@@ -79,6 +79,8 @@ describe('ResultTracker Component', () => {
 
 	describe('RecommendationController Usage', () => {
 		it('tracks as expected', async () => {
+			const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),
 				store: new RecommendationStore(recommendConfig, services),
@@ -139,8 +141,9 @@ describe('ResultTracker Component', () => {
 			impressionTrackfn.mockClear();
 
 			const resultElem = rendered.container.querySelector('.findMe0');
+			expect(resultElem).toBeInTheDocument();
 
-			await userEvent.click(resultElem!);
+			await user.click(resultElem!);
 
 			expect(clickTrackfn).toHaveBeenCalledWith(expect.anything(), controller.store.results[0]);
 
@@ -203,6 +206,8 @@ describe('ResultTracker Component', () => {
 		});
 
 		it('can use track prop to disable tracking for clicks', async () => {
+			const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),
 				store: new RecommendationStore(recommendConfig, services),
@@ -230,7 +235,7 @@ describe('ResultTracker Component', () => {
 			);
 			const resultElem = rendered.container.querySelector('.findMe0');
 
-			await userEvent.click(resultElem!);
+			await user.click(resultElem!);
 
 			expect(clickTrackfn).not.toHaveBeenCalledWith(expect.anything(), controller.store.results[0]);
 
