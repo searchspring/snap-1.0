@@ -3,13 +3,16 @@ import type { ResultProps } from '../../../../components/Molecules/Result';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const lightGray = custom.utils.lightenColor();
+
 // CSS in JS style script for the Result component
 const resultStyleScript = (props: ResultProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor();
 
-	return css({
+	// result styles
+	const resultStyles = css({
 		...custom.styles.boxSizing('result', props?.treePath, props?.name),
 		'&.ss__result--sale': {
 			'.ss__result__details': {
@@ -23,30 +26,39 @@ const resultStyleScript = (props: ResultProps) => {
 			},
 		},
 		'&.ss__result--grid': {
-			display: 'block',
+			gap: `${custom.spacing.x2}px`,
+			'.ss__result__image-wrapper': {
+				flex: '0 1 auto',
+				minHeight: '1px',
+			},
+			'.ss__result__details': {
+				flex: '1 1 0%',
+				'.ss__result__details__variant-selection, .ss__result__add-to-cart-wrapper': {
+					alignSelf: 'flex-end',
+				},
+				'.ss__result__add-to-cart-wrapper .ss__button': {
+					width: `100%`,
+				},
+			},
 		},
 		'&.ss__result--list': {
-			display: 'flex',
 			flexFlow: 'row wrap',
 			alignItems: 'center',
-			'.ss__result__image-wrapper, .ss__result__details': {
-				minWidth: '1px',
-			},
+			gap: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
 			'.ss__result__image-wrapper': {
 				flex: '0 0 33.33%',
-				margin: `0 ${custom.spacing.x4}px 0 0`,
 			},
 			'.ss__result__details': {
 				flex: '1 1 0%',
 				textAlign: 'left',
 				margin: 0,
-				'.ss__callout-badge, .ss__result__rating-wrapper': {
+				'.ss__callout-badge, .ss__result__details__rating-wrapper': {
 					justifyContent: 'flex-start',
 				},
 				'.ss__result__details__title': {
 					flex: '1 1 0%',
 					a: {
-						fontSize: custom.utils.convertPxToEm(18),
+						...custom.styles.fontSize(18),
 						fontWeight: custom.fonts.weight02,
 					},
 				},
@@ -54,10 +66,19 @@ const resultStyleScript = (props: ResultProps) => {
 					flex: '0 1 auto',
 					order: -1,
 				},
+				'.ss__result__details__variant-selection:not(:empty)': {
+					display: 'flex',
+					alignItems: 'center',
+					gap: `${custom.spacing.x2}px`,
+					'.ss__variant-selection': {
+						width: `calc((100% - ${custom.spacing.x2 * 2}px) / 3)`,
+						margin: 0,
+					},
+				},
 			},
 		},
-		'.ss__result__image-wrapper': {
-			margin: `0 0 ${custom.spacing.x2}px 0`,
+		'& > *': {
+			minWidth: '1px',
 		},
 		'.ss__result__details': {
 			padding: 0,
@@ -70,6 +91,9 @@ const resultStyleScript = (props: ResultProps) => {
 			'& > *': {
 				minWidth: '1px',
 				flex: '1 1 100%',
+				'&:empty': {
+					display: 'none',
+				},
 			},
 			'.ss__result__details__title': {
 				order: -2,
@@ -79,13 +103,13 @@ const resultStyleScript = (props: ResultProps) => {
 			},
 			'.ss__result__details__pricing': {
 				'.ss__result__price': {
-					fontSize: custom.utils.convertPxToEm(16),
+					...custom.styles.fontSize(16),
 					'&:not(.ss__price--strike)': {
 						fontWeight: custom.fonts.weight01,
 					},
 				},
 				'.ss__price--strike': {
-					fontSize: custom.utils.convertPxToEm(14),
+					...custom.styles.fontSize(14),
 					'&, span': {
 						color: lightGray,
 					},
@@ -94,10 +118,12 @@ const resultStyleScript = (props: ResultProps) => {
 		},
 		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'&.ss__result--list': {
-				display: 'block',
+				'.ss__result__image-wrapper': {
+					flex: '1 1 100%',
+				},
 				'.ss__result__details': {
 					textAlign: 'center',
-					'.ss__callout-badge, .ss__result__rating-wrapper': {
+					'.ss__callout-badge, .ss__result__details__rating-wrapper': {
 						justifyContent: 'center',
 					},
 					'.ss__result__details__title, .ss__result__details__pricing': {
@@ -106,13 +132,15 @@ const resultStyleScript = (props: ResultProps) => {
 					'.ss__result__details__pricing': {
 						order: 0,
 					},
-				},
-				'.ss__result__image-wrapper': {
-					margin: `0 0 ${custom.spacing.x2}px 0`,
+					'.ss__result__details__variant-selection .ss__variant-selection': {
+						width: `100%`,
+					},
 				},
 			},
 		},
 	});
+
+	return resultStyles;
 };
 
 // Result component props
@@ -120,6 +148,8 @@ export const result: ThemeComponent<'result', ResultProps> = {
 	default: {
 		result: {
 			themeStyleScript: resultStyleScript,
+			hideRating: false,
+			hideAddToCartButton: false,
 		},
 	},
 };

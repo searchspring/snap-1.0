@@ -10,7 +10,6 @@ const perPageStyleScript = (props: PerPageProps) => {
 
 	// perPage styles
 	const perPageStyles = css({
-		cursor: 'pointer',
 		...custom.styles.boxSizing('perPage', props?.treePath, props?.name),
 	});
 

@@ -23,6 +23,7 @@ export const results: ThemeComponent<'results', ResultsProps> = {
 			themeStyleScript: resultsStyleScript,
 			gapSize: `${custom.spacing.x6}px ${custom.spacing.x4}px`,
 			columns: 4,
+			//layout: 'list'
 		},
 	},
 	mobile: {

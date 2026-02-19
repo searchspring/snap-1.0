@@ -56,7 +56,7 @@ let config: SnapTemplatesConfig = {
 	},
 	theme: {
 		extends: 'pike',
-		resultComponent: 'CustomResult',
+		//resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
 				mobile: 767,

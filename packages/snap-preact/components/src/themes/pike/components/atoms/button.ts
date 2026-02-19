@@ -19,11 +19,12 @@ const buttonStyleScript = (props: ButtonProps) => {
 		{
 			cursor: 'pointer',
 			padding: `0 ${custom.spacing.x4}px`,
-			color: fontColor,
+			justifyContent: 'center',
 			...custom.styles.fontSize(14),
 			fontWeight: custom.fonts.weight01,
 			textAlign: 'center',
 			textTransform: custom.fonts.transform,
+			color: fontColor,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
 			...custom.styles.borderRadius(),

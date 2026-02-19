@@ -11,24 +11,28 @@ const ratingStyleScript = (props: RatingProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// rating styles
+	const ratingStyles = css({
 		flexWrap: 'wrap',
 		gap: `${custom.spacing.x1}px`,
 		lineHeight: 1,
 		...custom.styles.boxSizing('rating', props?.treePath, props?.name),
 		'.ss__rating__icons': {
 			'.ss__rating__stars': {
-				margin: '0 -1px',
-				'.ss__rating__stars__star': {
-					margin: '0 1px',
+				gap: '2px',
+				gridTemplateColumns: 'repeat(5, 1fr)',
+				'.ss__rating__stars__star .ss__icon': {
+					strokeWidth: '3px',
 				},
 			},
 		},
 		'.ss__rating__count, .ss__rating__text': {
-			fontSize: custom.utils.convertPxToEm(12),
+			...custom.styles.fontSize(12),
 			color: variables?.colors?.text,
 		},
 	});
+
+	return ratingStyles;
 };
 
 // Rating component props
@@ -46,9 +50,11 @@ export const rating: ThemeComponent<'rating', RatingProps> = {
 		},
 		'rating icon.star--empty': {
 			fill: darkGray,
+			stroke: darkGray,
 		},
 		'rating icon.star--full': {
 			fill: custom.colors.primary,
+			stroke: custom.colors.secondary,
 		},
 	},
 };

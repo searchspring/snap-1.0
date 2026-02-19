@@ -10,7 +10,6 @@ const sortByStyleScript = (props: SortByProps) => {
 
 	// sortBy styles
 	const sortByStyles = css({
-		cursor: 'pointer',
 		...custom.styles.boxSizing('sortBy', props?.treePath, props?.name),
 	});
 

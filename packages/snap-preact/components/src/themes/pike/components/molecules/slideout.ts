@@ -18,7 +18,6 @@ export const slideout: ThemeComponent<'slideout', SlideoutProps> = {
 	default: {
 		slideout: {
 			themeStyleScript: slideoutStyleScript,
-			overlayColor: '',
 		},
 		'slideout button.slideout': {
 			icon: custom.icons.filter,
