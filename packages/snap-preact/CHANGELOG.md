@@ -266,6 +266,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
 - theme reactivity initial interface ([c017aad](https://github.com/searchspring/snap/commit/c017aadd4add7591bd98fcfbdb8db8985bf2d498))
 
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+### Bug Fixes
+
+- **recommendationinstantiator:** always run a search on ready the controller if re-using a controlle ([b74f8fd](https://github.com/searchspring/snap/commit/b74f8fdd08472271b9e624805092e0ab63a2ce9c))
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
 ## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
 
 **Note:** Version bump only for package @searchspring/snap-preact

@@ -10,6 +10,9 @@ import type { FinderControllerConfig, ControllerServices, ContextVariables } fro
 
 const defaultConfig: FinderControllerConfig = {
 	id: 'finder',
+	beacon: {
+		enabled: true,
+	},
 	globals: {
 		pagination: {
 			pageSize: 0,
