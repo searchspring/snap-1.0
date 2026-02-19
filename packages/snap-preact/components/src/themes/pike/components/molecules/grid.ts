@@ -137,7 +137,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 						zIndex: 3,
 						borderTop: `2px solid ${custom.colors.white}`,
 						outlineColor: custom.colors.gray02,
-						borderRadius: '3px',
+						...custom.styles.borderRadius(3),
 					},
 					'.ss__grid__option__inner': {
 						opacity: 0.65,

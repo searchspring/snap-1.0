@@ -138,14 +138,14 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 			width: `${custom.sizes.icon16 * 2}px`,
 			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
-			color: custom.colors.secondary,
+			fill: custom.colors.secondary,
 		},
 		'recommendationBundleVertical icon.bundle-selector': {
 			size: `${custom.sizes.icon16 * 2}px`,
 			width: `${custom.sizes.icon16 * 2}px`,
 			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.plus,
-			color: custom.colors.secondary,
+			fill: custom.colors.secondary,
 		},
 	},
 	mobile: {

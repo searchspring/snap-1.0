@@ -123,7 +123,7 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			title: 'Current Filters',
 		},
 		'mobileSidebar facets icon.collapse': {
-			color: 'currentColor',
+			fill: 'currentColor',
 		},
 	},
 };

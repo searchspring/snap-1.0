@@ -79,7 +79,7 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			size: `${custom.sizes.icon12}px`,
 			width: `${custom.sizes.icon12}px`,
 			height: `${custom.sizes.icon12}px`,
-			color: custom.colors.primary,
+			fill: custom.colors.primary,
 		},
 	},
 };

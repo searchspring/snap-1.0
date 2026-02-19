@@ -146,14 +146,14 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 			width: `${custom.sizes.icon12}px`,
 			height: `${custom.sizes.icon12}px`,
 			icon: custom.icons.plus,
-			color: custom.colors.secondary,
+			fill: custom.colors.secondary,
 		},
 		'recommendationBundleList icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,
 			width: `${custom.sizes.icon16 * 2}px`,
 			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
-			color: custom.colors.secondary,
+			fill: custom.colors.secondary,
 		},
 		'recommendationBundleList result': {
 			hideImage: true,

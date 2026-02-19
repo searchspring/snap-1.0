@@ -59,11 +59,11 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 		},
 		'pagination icon.prev': {
 			icon: custom.icons.arrowLeft,
-			color: custom.colors.primary,
+			fill: custom.colors.primary,
 		},
 		'pagination icon.next': {
 			icon: custom.icons.arrowRight,
-			color: custom.colors.primary,
+			fill: custom.colors.primary,
 		},
 	},
 	mobile: {

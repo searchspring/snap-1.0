@@ -69,7 +69,7 @@ export const radio: ThemeComponent<'radio', RadioProps> = {
 			size: `${custom.sizes.icon08}px`,
 			width: `${custom.sizes.icon08}px`,
 			height: `${custom.sizes.icon08}px`,
-			color: custom.colors.primary,
+			fill: custom.colors.primary,
 		},
 	},
 };

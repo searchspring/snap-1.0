@@ -116,7 +116,7 @@ export const recommendationBundleEasyAdd: ThemeComponent<'recommendationBundleEa
 			width: `${custom.sizes.icon16 * 2}px`,
 			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
-			color: custom.colors.secondary,
+			fill: custom.colors.secondary,
 		},
 	},
 	mobile: {

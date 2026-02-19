@@ -75,7 +75,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 			},
 			'.ss__facet-slider__segment': {
 				...custom.styles.box('', 0),
-				borderRadius: `${slider.bar}px`,
+				...custom.styles.borderRadius(slider.bar),
 			},
 			'.ss__facet-slider__rail': {},
 			'.ss__facet-slider__handles': {

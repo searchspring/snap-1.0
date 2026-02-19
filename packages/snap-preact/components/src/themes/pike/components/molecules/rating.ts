@@ -45,10 +45,10 @@ export const rating: ThemeComponent<'rating', RatingProps> = {
 			height: `${custom.sizes.icon14}px`,
 		},
 		'rating icon.star--empty': {
-			color: darkGray,
+			fill: darkGray,
 		},
 		'rating icon.star--full': {
-			color: custom.colors.primary,
+			fill: custom.colors.primary,
 		},
 	},
 };

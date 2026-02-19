@@ -18,6 +18,7 @@ const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 		},
 		'.ss__error-handler__message': {
 			padding: 0,
+			flexFlow: 'row wrap',
 			flex: `1 1 0%`,
 			color: variables?.colors?.text,
 			'span, .ss__icon, .ss__error-handler__message__type': {
@@ -25,6 +26,7 @@ const errorHandlerStyleScript = (props: ErrorHandlerProps) => {
 			},
 			'.ss__icon': {
 				top: '-0.5px',
+				stroke: 'transparent',
 			},
 		},
 		'.ss__error-handler__button': {
