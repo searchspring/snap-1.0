@@ -9,37 +9,35 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 	const variables = props?.theme?.variables;
 
 	// image styles
-	const imageStyles = css([
-		{
-			...custom.styles.boxSizing('image', props?.treePath, props?.name),
+	const imageStyles = css({
+		...custom.styles.boxSizing('image', props?.treePath, props?.name),
+		'&, img': {
+			lineHeight: 0,
+		},
+		img: {
+			border: 0,
+		},
+		'&.ss__result__image': {
+			position: 'relative',
+			height: 0,
+			padding: '0 0 100% 0',
+			overflow: 'hidden',
 			'&, img': {
-				lineHeight: 0,
+				display: 'block',
 			},
 			img: {
-				border: 0,
-			},
-			'&.ss__result__image': {
-				position: 'relative',
-				height: 0,
-				padding: '0 0 100% 0',
-				overflow: 'hidden',
-				'&, img': {
-					display: 'block',
-				},
-				img: {
-					position: 'absolute',
-					top: 0,
-					bottom: 0,
-					left: 0,
-					right: 0,
-					margin: 'auto',
-					width: '100%',
-					height: '100%',
-					objectPosition: 'center center',
-				},
+				position: 'absolute',
+				top: 0,
+				bottom: 0,
+				left: 0,
+				right: 0,
+				margin: 'auto',
+				width: '100%',
+				height: '100%',
+				objectPosition: 'center center',
 			},
 		},
-	]);
+	});
 
 	return imageStyles;
 };

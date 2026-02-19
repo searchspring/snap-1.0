@@ -9,12 +9,10 @@ const badgeImageStyleScript = (props: BadgeImageProps) => {
 	const variables = props?.theme?.variables;
 
 	// badge image styles
-	const badgeImageStyles = css([
-		{
-			lineHeight: 0,
-			...custom.styles.boxSizing('badgeImage', props?.treePath, props?.name),
-		},
-	]);
+	const badgeImageStyles = css({
+		lineHeight: 0,
+		...custom.styles.boxSizing('badgeImage', props?.treePath, props?.name),
+	});
 
 	return badgeImageStyles;
 };

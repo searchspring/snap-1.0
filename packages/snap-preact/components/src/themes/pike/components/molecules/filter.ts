@@ -9,34 +9,32 @@ const filterStyleScript = (props: FilterProps) => {
 	const variables = props?.theme?.variables;
 
 	// filter styles
-	const filterStyles = css([
-		{
-			...custom.styles.boxSizing('filter', props?.treePath, props?.name),
-			'&, .ss__filter__button': {
-				padding: 0,
+	const filterStyles = css({
+		...custom.styles.boxSizing('filter', props?.treePath, props?.name),
+		'&, .ss__filter__button': {
+			padding: 0,
+		},
+		'.ss__filter__button': {
+			position: 'relative',
+			height: 'auto',
+			lineHeight: 1.5,
+			fontWeight: 'normal',
+			color: variables?.colors?.text,
+			'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
+				backgroundColor: 'transparent',
+				borderColor: 'transparent',
 			},
-			'.ss__filter__button': {
+			'.ss__button__content': {
 				position: 'relative',
-				height: 'auto',
-				lineHeight: 1.5,
-				fontWeight: 'normal',
-				color: variables?.colors?.text,
-				'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
-					backgroundColor: 'transparent',
-					borderColor: 'transparent',
+				'.ss__filter__button__icon, .ss__filter__label, .ss__filter__value': {
+					margin: 0,
 				},
-				'.ss__button__content': {
-					position: 'relative',
-					'.ss__filter__button__icon, .ss__filter__label, .ss__filter__value': {
-						margin: 0,
-					},
-					'.ss__filter__label': {
-						fontWeight: custom.fonts.weight01,
-					},
+				'.ss__filter__label': {
+					fontWeight: custom.fonts.weight01,
 				},
 			},
 		},
-	]);
+	});
 
 	return filterStyles;
 };

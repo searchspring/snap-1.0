@@ -9,11 +9,9 @@ const formattedNumberStyleScript = (props: FormattedNumberProps) => {
 	const variables = props?.theme?.variables;
 
 	// formatted number styles
-	const formattedNumberStyles = css([
-		{
-			...custom.styles.boxSizing('formattedNumber', props?.treePath, props?.name),
-		},
-	]);
+	const formattedNumberStyles = css({
+		...custom.styles.boxSizing('formattedNumber', props?.treePath, props?.name),
+	});
 
 	return formattedNumberStyles;
 };

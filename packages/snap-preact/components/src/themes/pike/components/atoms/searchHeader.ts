@@ -9,31 +9,29 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 	const variables = props?.theme?.variables;
 
 	// search header styles
-	const searchHeaderStyles = css([
-		{
-			...custom.styles.boxSizing('searchHeader', props?.treePath, props?.name),
-			em: {
-				fontStyle: 'normal',
-			},
-			'.ss__search-header__title': {
-				margin: 0,
-				...custom.styles.fontSize(22),
-				...custom.styles.headerText(variables?.colors?.secondary),
-			},
-			'.ss__search-header__subtitle': {
-				margin: `${custom.spacing.x2}px 0 0 0`,
-				...custom.styles.fontSize(16),
-				fontWeight: 400,
-				color: variables?.colors?.text,
-				a: {
-					color: variables?.colors?.primary,
-				},
-			},
-			'.ss__search-header__results-query': {
+	const searchHeaderStyles = css({
+		...custom.styles.boxSizing('searchHeader', props?.treePath, props?.name),
+		em: {
+			fontStyle: 'normal',
+		},
+		'.ss__search-header__title': {
+			margin: 0,
+			...custom.styles.fontSize(22),
+			...custom.styles.headerText(variables?.colors?.secondary),
+		},
+		'.ss__search-header__subtitle': {
+			margin: `${custom.spacing.x2}px 0 0 0`,
+			...custom.styles.fontSize(16),
+			fontWeight: 400,
+			color: variables?.colors?.text,
+			a: {
 				color: variables?.colors?.primary,
 			},
 		},
-	]);
+		'.ss__search-header__results-query': {
+			color: variables?.colors?.primary,
+		},
+	});
 
 	return searchHeaderStyles;
 };

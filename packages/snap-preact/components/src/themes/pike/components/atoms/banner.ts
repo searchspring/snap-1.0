@@ -9,12 +9,10 @@ const bannerStyleScript = (props: BannerProps) => {
 	const variables = props?.theme?.variables;
 
 	// banner styles
-	const bannerStyles = css([
-		{
-			color: variables?.colors?.text,
-			...custom.styles.boxSizing('banner', props?.treePath, props?.name),
-		},
-	]);
+	const bannerStyles = css({
+		color: variables?.colors?.text,
+		...custom.styles.boxSizing('banner', props?.treePath, props?.name),
+	});
 
 	return bannerStyles;
 };

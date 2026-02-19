@@ -100,9 +100,9 @@ let config: SnapTemplatesConfig = {
 			},
 		],
 		settings: {
-			infinite: {
-				backfill: 5,
-			},
+			// infinite: {
+			// 	backfill: 5,
+			// },
 		},
 	},
 	autocomplete: {

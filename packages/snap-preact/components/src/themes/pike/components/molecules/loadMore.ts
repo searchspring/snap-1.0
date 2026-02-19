@@ -9,27 +9,25 @@ const loadMoreStyleScript = (props: LoadMoreProps) => {
 	const variables = props?.theme?.variables;
 
 	// load more styles
-	const loadMoreStyles = css([
-		{
-			...custom.styles.boxSizing('loadMore', props?.treePath, props?.name),
-			'&.ss__load-more': {
-				'&, .ss__load-more__progress': {
-					gap: `${custom.spacing.x2}px`,
+	const loadMoreStyles = css({
+		...custom.styles.boxSizing('loadMore', props?.treePath, props?.name),
+		'&.ss__load-more': {
+			'&, .ss__load-more__progress': {
+				gap: `${custom.spacing.x2}px`,
+			},
+			'.ss__load-more__progress': {
+				'.ss__load-more__progress__indicator': {
+					...custom.styles.box('', 0),
+					'.ss__load-more__progress__indicator__bar': {
+						margin: '-1px',
+					},
 				},
-				'.ss__load-more__progress': {
-					'.ss__load-more__progress__indicator': {
-						...custom.styles.box('', 0),
-						'.ss__load-more__progress__indicator__bar': {
-							margin: '-1px',
-						},
-					},
-					'.ss__load-more__progress__text': {
-						color: variables?.colors?.text,
-					},
+				'.ss__load-more__progress__text': {
+					color: variables?.colors?.text,
 				},
 			},
 		},
-	]);
+	});
 
 	return loadMoreStyles;
 };

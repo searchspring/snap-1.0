@@ -9,15 +9,13 @@ const badgeRectangleStyleScript = (props: BadgeRectangleProps) => {
 	const variables = props?.theme?.variables;
 
 	// badge rectangle styles
-	const badgeRectangleStyles = css([
-		{
-			padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
-			...custom.styles.boxSizing('badgeRectangle', props?.treePath, props?.name),
-			span: {
-				...custom.styles.badgeText(12),
-			},
+	const badgeRectangleStyles = css({
+		padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
+		...custom.styles.boxSizing('badgeRectangle', props?.treePath, props?.name),
+		span: {
+			...custom.styles.badgeText(12),
 		},
-	]);
+	});
 
 	return badgeRectangleStyles;
 };

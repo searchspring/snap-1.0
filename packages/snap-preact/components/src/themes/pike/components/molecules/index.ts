@@ -15,14 +15,18 @@ import { grid } from './grid';
 import { layoutSelector } from './layoutSelector';
 import { list } from './list';
 import { loadMore } from './loadMore';
+import { modal } from './modal';
 import { overlayBadge } from './overlayBadge';
 import { pagination } from './pagination';
+import { perPage } from './perPage';
 import { radio } from './radio';
 import { radioList } from './radioList';
 import { result } from './result';
 import { searchInput } from './searchInput';
 import { select } from './select';
+import { slideshow } from './slideshow';
 import { slideout } from './slideout';
+import { sortBy } from './sortBy';
 import { rating } from './rating';
 import { swatches } from './swatches';
 import { variantSelection } from './variantSelection';
@@ -30,6 +34,7 @@ import { terms } from './terms';
 
 export const molecules: ThemeResponsiveComplete = {
 	default: {
+		...calloutBadge.default,
 		...carousel.default,
 		...checkbox.default,
 		...errorHandler.default,
@@ -43,21 +48,25 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.default,
 		...list.default,
 		...loadMore.default,
+		...modal.default,
 		...overlayBadge.default,
 		...pagination.default,
+		...perPage.default,
 		...radio.default,
 		...radioList.default,
+		...rating.default,
 		...result.default,
 		...searchInput.default,
 		...select.default,
+		...slideshow.default,
 		...slideout.default,
-		...rating.default,
+		...sortBy.default,
 		...swatches.default,
-		...variantSelection.default,
 		...terms.default,
-		...calloutBadge.default,
+		...variantSelection.default,
 	},
 	mobile: {
+		...calloutBadge.mobile,
 		...carousel.mobile,
 		...checkbox.mobile,
 		...errorHandler.mobile,
@@ -71,21 +80,25 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.mobile,
 		...list.mobile,
 		...loadMore.mobile,
+		...modal.mobile,
 		...overlayBadge.mobile,
 		...pagination.mobile,
+		...perPage.mobile,
 		...radio.mobile,
 		...radioList.mobile,
+		...rating.mobile,
 		...result.mobile,
 		...searchInput.mobile,
 		...select.mobile,
+		...slideshow.mobile,
 		...slideout.mobile,
-		...rating.mobile,
+		...sortBy.mobile,
 		...swatches.mobile,
-		...variantSelection.mobile,
 		...terms.mobile,
-		...calloutBadge.mobile,
+		...variantSelection.mobile,
 	},
 	tablet: {
+		...calloutBadge.tablet,
 		...carousel.tablet,
 		...checkbox.tablet,
 		...errorHandler.tablet,
@@ -99,21 +112,25 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.tablet,
 		...list.tablet,
 		...loadMore.tablet,
+		...modal.tablet,
 		...overlayBadge.tablet,
 		...pagination.tablet,
+		...perPage.tablet,
 		...radio.tablet,
 		...radioList.tablet,
+		...rating.tablet,
 		...result.tablet,
 		...searchInput.tablet,
 		...select.tablet,
+		...slideshow.tablet,
 		...slideout.tablet,
-		...rating.tablet,
+		...sortBy.tablet,
 		...swatches.tablet,
-		...variantSelection.tablet,
 		...terms.tablet,
-		...calloutBadge.tablet,
+		...variantSelection.tablet,
 	},
 	desktop: {
+		...calloutBadge.desktop,
 		...carousel.desktop,
 		...checkbox.desktop,
 		...errorHandler.desktop,
@@ -127,18 +144,21 @@ export const molecules: ThemeResponsiveComplete = {
 		...layoutSelector.desktop,
 		...list.desktop,
 		...loadMore.desktop,
+		...modal.desktop,
 		...overlayBadge.desktop,
 		...pagination.desktop,
+		...perPage.desktop,
 		...radio.desktop,
 		...radioList.desktop,
+		...rating.desktop,
 		...result.desktop,
 		...searchInput.desktop,
 		...select.desktop,
+		...slideshow.desktop,
 		...slideout.desktop,
-		...rating.desktop,
+		...sortBy.desktop,
 		...swatches.desktop,
-		...variantSelection.desktop,
 		...terms.desktop,
-		...calloutBadge.desktop,
+		...variantSelection.desktop,
 	},
 };

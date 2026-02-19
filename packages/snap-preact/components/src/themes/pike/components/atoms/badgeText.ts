@@ -9,15 +9,13 @@ const badgeTextStyleScript = (props: BadgeTextProps) => {
 	const variables = props?.theme?.variables;
 
 	// badge text styles
-	const badgeTextStyles = css([
-		{
-			padding: 0,
-			...custom.styles.boxSizing('badgeText', props?.treePath, props?.name),
-			span: {
-				...custom.styles.badgeText(12),
-			},
+	const badgeTextStyles = css({
+		padding: 0,
+		...custom.styles.boxSizing('badgeText', props?.treePath, props?.name),
+		span: {
+			...custom.styles.badgeText(12),
 		},
-	]);
+	});
 
 	return badgeTextStyles;
 };

@@ -9,12 +9,10 @@ const overlayStyleScript = (props: OverlayProps) => {
 	const variables = props?.theme?.variables;
 
 	// overlay styles
-	const overlayStyles = css([
-		{
-			cursor: 'pointer',
-			...custom.styles.boxSizing('overlay', props?.treePath, props?.name),
-		},
-	]);
+	const overlayStyles = css({
+		cursor: 'pointer',
+		...custom.styles.boxSizing('overlay', props?.treePath, props?.name),
+	});
 
 	return overlayStyles;
 };

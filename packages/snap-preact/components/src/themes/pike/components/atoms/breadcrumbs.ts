@@ -9,27 +9,25 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 	const variables = props?.theme?.variables;
 
 	// breadcrumbs styles
-	const breadcrumbsStyles = css([
-		{
-			...custom.styles.boxSizing('breadcrumbs', props?.treePath, props?.name),
-			'.ss__breadcrumbs__crumbs': {
-				gap: `${custom.spacing.x2}px`,
-				'&, li': {
-					listStyle: 'none',
-				},
-				'&, a': {
-					color: variables?.colors?.text,
-				},
-				li: {
-					display: 'block',
-					padding: 0,
-					'&:last-of-type': {
-						...custom.styles.activeText(variables?.colors?.primary),
-					},
+	const breadcrumbsStyles = css({
+		...custom.styles.boxSizing('breadcrumbs', props?.treePath, props?.name),
+		'.ss__breadcrumbs__crumbs': {
+			gap: `${custom.spacing.x2}px`,
+			'&, li': {
+				listStyle: 'none',
+			},
+			'&, a': {
+				color: variables?.colors?.text,
+			},
+			li: {
+				display: 'block',
+				padding: 0,
+				'&:last-of-type': {
+					...custom.styles.activeText(variables?.colors?.primary),
 				},
 			},
 		},
-	]);
+	});
 
 	return breadcrumbsStyles;
 };

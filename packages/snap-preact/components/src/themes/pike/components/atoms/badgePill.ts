@@ -9,15 +9,13 @@ const badgePillStyleScript = (props: BadgePillProps) => {
 	const variables = props?.theme?.variables;
 
 	// badge pill styles
-	const badgePillStyles = css([
-		{
-			padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
-			...custom.styles.boxSizing('badgePill', props?.treePath, props?.name),
-			span: {
-				...custom.styles.badgeText(12),
-			},
+	const badgePillStyles = css({
+		padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
+		...custom.styles.boxSizing('badgePill', props?.treePath, props?.name),
+		span: {
+			...custom.styles.badgeText(12),
 		},
-	]);
+	});
 
 	return badgePillStyles;
 };

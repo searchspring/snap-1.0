@@ -17,13 +17,11 @@ const iconStyleScript = (props: IconProps) => {
 	}
 
 	// icon styles
-	const iconStyles = css([
-		{
-			minWidth: '1px',
-			flex: flexSize,
-			lineHeight: 1,
-		},
-	]);
+	const iconStyles = css({
+		minWidth: '1px',
+		flex: flexSize,
+		lineHeight: 1,
+	});
 
 	return iconStyles;
 };
