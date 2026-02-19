@@ -10,6 +10,7 @@ const lightGray = custom.utils.lightenColor();
 const resultStyleScript = (props: ResultProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	// result styles
 	const resultStyles = css({
@@ -27,14 +28,16 @@ const resultStyleScript = (props: ResultProps) => {
 		},
 		'&.ss__result--grid': {
 			gap: `${custom.spacing.x2}px`,
+			'&, .ss__result__details': {
+				flexFlow: 'column nowrap',
+			},
 			'.ss__result__image-wrapper': {
 				flex: '0 1 auto',
-				minHeight: '1px',
 			},
 			'.ss__result__details': {
 				flex: '1 1 0%',
-				'.ss__result__details__variant-selection, .ss__result__add-to-cart-wrapper': {
-					alignSelf: 'flex-end',
+				'& > *': {
+					flex: '0 1 auto',
 				},
 				'.ss__result__add-to-cart-wrapper .ss__button': {
 					width: `100%`,
@@ -42,9 +45,11 @@ const resultStyleScript = (props: ResultProps) => {
 			},
 		},
 		'&.ss__result--list': {
-			flexFlow: 'row wrap',
 			alignItems: 'center',
 			gap: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
+			'&, .ss__result__details': {
+				flexFlow: 'row wrap',
+			},
 			'.ss__result__image-wrapper': {
 				flex: '0 0 33.33%',
 			},
@@ -52,6 +57,12 @@ const resultStyleScript = (props: ResultProps) => {
 				flex: '1 1 0%',
 				textAlign: 'left',
 				margin: 0,
+				'&:after': {
+					display: 'none',
+				},
+				'& > *': {
+					flex: '1 1 100%',
+				},
 				'.ss__callout-badge, .ss__result__details__rating-wrapper': {
 					justifyContent: 'flex-start',
 				},
@@ -81,16 +92,20 @@ const resultStyleScript = (props: ResultProps) => {
 			minWidth: '1px',
 		},
 		'.ss__result__details': {
-			padding: 0,
 			display: 'flex',
-			flexFlow: 'row wrap',
 			gap: `${custom.spacing.x2}px`,
+			padding: 0,
+			margin: 0,
+			'&:after': {
+				content: '""',
+				display: 'block',
+				margin: `auto 0 -${custom.spacing.x2}px 0`,
+			},
 			'& > *, .ss__result__details__title, .ss__result__details__title, .ss__result__details__pricing': {
 				margin: 0,
 			},
 			'& > *': {
 				minWidth: '1px',
-				flex: '1 1 100%',
 				'&:empty': {
 					display: 'none',
 				},
@@ -115,24 +130,35 @@ const resultStyleScript = (props: ResultProps) => {
 					},
 				},
 			},
+			'.ss__result__details__variant-selection, .ss__result__add-to-cart-wrapper': {
+				order: 20,
+			},
 		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		[`@media (max-width: ${mobileBp - 100}px)`]: {
 			'&.ss__result--list': {
+				alignItems: 'stretch',
+				'&, .ss__result__details': {
+					flexFlow: 'column nowrap',
+				},
 				'.ss__result__image-wrapper': {
-					flex: '1 1 100%',
+					flex: '0 1 auto',
 				},
 				'.ss__result__details': {
+					flex: '1 1 0%',
 					textAlign: 'center',
+					'&:after': {
+						display: 'block',
+					},
 					'.ss__callout-badge, .ss__result__details__rating-wrapper': {
 						justifyContent: 'center',
 					},
-					'.ss__result__details__title, .ss__result__details__pricing': {
-						flex: '1 1 100%',
+					'& > *, .ss__result__details__title': {
+						flex: '0 1 auto',
 					},
 					'.ss__result__details__pricing': {
 						order: 0,
 					},
-					'.ss__result__details__variant-selection .ss__variant-selection': {
+					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection, .ss__result__add-to-cart-wrapper .ss__button': {
 						width: `100%`,
 					},
 				},
@@ -148,8 +174,6 @@ export const result: ThemeComponent<'result', ResultProps> = {
 	default: {
 		result: {
 			themeStyleScript: resultStyleScript,
-			hideRating: false,
-			hideAddToCartButton: false,
 		},
 	},
 };
