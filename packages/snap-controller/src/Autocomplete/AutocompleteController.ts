@@ -260,7 +260,7 @@ export class AutocompleteController extends AbstractController {
 					uid: result.id ? '' + result.id : '',
 					...(type === 'product'
 						? {
-								parentId: result.id ? '' + result.id : '',
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
 						  }
 						: {}),
@@ -317,7 +317,7 @@ export class AutocompleteController extends AbstractController {
 					uid: result.id ? '' + result.id : '',
 					...(type === 'product'
 						? {
-								parentId: result.id ? '' + result.id : '',
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
 						  }
 						: {}),
