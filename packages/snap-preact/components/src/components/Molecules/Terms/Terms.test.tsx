@@ -157,7 +157,7 @@ describe('Terms Component', () => {
 		const termOptions = rendered.container.querySelector('.ss__terms__option a');
 		expect(termOptions).toBeInTheDocument();
 
-		userEvent.hover(termOptions!);
+		await userEvent.hover(termOptions!);
 
 		await waitFor(() => expect(mockTerms[0].preview).toHaveBeenCalled());
 	});
