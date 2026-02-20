@@ -3,8 +3,8 @@ import { h } from 'preact';
 import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 
 import { Banner, BannerProps } from './Banner';
-import { componentArgs, highlightedCode } from '../../../../utilities';
-import { Snapify } from '../../../../utilities/snapify';
+import { componentArgs, highlightedCode } from '../../../utilities';
+import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
 import { SearchController } from '@searchspring/snap-controller';
 

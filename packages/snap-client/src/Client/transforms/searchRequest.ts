@@ -10,8 +10,6 @@ import {
 	AutocompleteRequestModelSearch,
 } from '@athoscommerce/snapi-types';
 
-export const BEACON_PARAM = 'beacon';
-
 export function transformSearchRequest(request: SearchRequestModel | AutocompleteRequestModel): any {
 	const data = mergeParams(
 		transformSearchRequest.sorts(request),
@@ -24,7 +22,6 @@ export function transformSearchRequest(request: SearchRequestModel | Autocomplet
 		transformSearchRequest.tracking(request),
 		transformSearchRequest.personalization(request)
 	);
-	data[BEACON_PARAM] = true;
 
 	return data;
 }

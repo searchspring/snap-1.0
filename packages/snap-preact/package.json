@@ -58,8 +58,6 @@
 		"@storybook/preact": "7.6.7",
 		"@storybook/preact-webpack5": "7.6.7",
 		"@storybook/theming": "7.6.7",
-		"@testing-library/preact": "3.2.3",
-		"@testing-library/user-event": "13.5.0",
 		"@types/color": "^3.0.6",
 		"@types/react": "16.14.28",
 		"@types/react-ranger": "2.0.4",
