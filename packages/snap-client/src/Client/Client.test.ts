@@ -3,7 +3,6 @@ import { Client } from './Client';
 import type { ClientConfig } from '../types';
 import { MockData } from '@searchspring/snap-shared';
 import { AppMode, version } from '@searchspring/snap-toolbox';
-import { BEACON_PARAM } from './transforms';
 
 const mockData = new MockData();
 
@@ -200,7 +199,6 @@ describe('Snap Client', () => {
 					redirectResponse: 'full',
 					resultsFormat: 'native',
 					siteId: ['8uyt2m'],
-					[BEACON_PARAM]: true,
 					test: true,
 				},
 			};
@@ -276,7 +274,7 @@ describe('Snap Client', () => {
 				headers: {},
 				method: 'GET',
 				path: '/api/search/search.json',
-				query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, [BEACON_PARAM]: true, ajaxCatalog: `snap/client/${version}` },
+				query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, ajaxCatalog: `snap/client/${version}` },
 			};
 
 			const searchcacheKey = `{"siteId":["8uyt2m"],"test":true,"ajaxCatalog":"snap/client/${version}\","resultsFormat":"native"}`;
@@ -371,11 +369,10 @@ describe('Snap Client', () => {
 					],
 					test: true,
 					siteId: '8uyt2m',
-					[BEACON_PARAM]: true,
 				},
 			};
 
-			const recommendCacheKey = `{"profiles":[{"tag":"dress"}],"siteId":"8uyt2m","${BEACON_PARAM}":true,"test":true}`;
+			const recommendCacheKey = `{"profiles":[{"tag":"dress"}],"siteId":"8uyt2m","test":true}`;
 
 			expect(recommendRequesterSpy).toHaveBeenCalledTimes(2);
 			expect(recommendRequesterSpy.mock.calls).toEqual([
@@ -459,7 +456,6 @@ describe('Snap Client', () => {
 						redirectResponse: 'full',
 						resultsFormat: 'native',
 						siteId: ['8uyt2m'],
-						[BEACON_PARAM]: true,
 						test: true,
 					},
 				};
@@ -530,7 +526,7 @@ describe('Snap Client', () => {
 					headers: {},
 					method: 'GET',
 					path: '/api/search/search.json',
-					query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, [BEACON_PARAM]: true, ajaxCatalog: `snap/client/${version}` },
+					query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, ajaxCatalog: `snap/client/${version}` },
 				};
 
 				const searchcacheKey = `{"siteId":["8uyt2m"],"test":true,"ajaxCatalog":"snap/client/${version}\","resultsFormat":"native"}`;
@@ -621,11 +617,10 @@ describe('Snap Client', () => {
 						],
 						test: true,
 						siteId: '8uyt2m',
-						[BEACON_PARAM]: true,
 					},
 				};
 
-				const recommendCacheKey = `{"profiles":[{"tag":"dress"}],"siteId":"8uyt2m","${BEACON_PARAM}":true,"test":true}`;
+				const recommendCacheKey = `{"profiles":[{"tag":"dress"}],"siteId":"8uyt2m","test":true}`;
 
 				expect(recommendRequesterSpy).toHaveBeenCalledTimes(2);
 				expect(recommendRequesterSpy.mock.calls).toEqual([
