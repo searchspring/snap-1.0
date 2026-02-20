@@ -15,7 +15,7 @@ const dropdownStyleScript = (props: DropdownProps) => {
 		'&.ss__dropdown__portal': {
 			'.ss__dropdown__content': {
 				marginTop: `${custom.spacing.x2}px`,
-				...custom.styles.box(variables?.colors?.text),
+				...custom.styles.box(variables?.colors?.text, ''),
 				'.ss__select__select, .ss__variant-selection__options': {
 					margin: 0,
 					padding: 0,

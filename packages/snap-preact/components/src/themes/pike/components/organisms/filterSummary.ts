@@ -31,9 +31,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 					gap: `${custom.spacing.x2}px`,
 					'.ss__filter': {
 						'.ss__filter__button': {
-							...custom.styles.box('', 0),
-							...custom.styles.borderRadius(),
-							padding: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
+							...custom.styles.box('', `${custom.spacing.x1}px ${custom.spacing.x2}px`),
 							'.ss__button__content': {
 								'.ss__filter__button__icon': {
 									marginRight: `${custom.spacing.x1}px`,
@@ -64,7 +62,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 									position: 'absolute',
 									top: '1.5px',
 									left: 0,
-									...custom.styles.box('', 3),
+									...custom.styles.box('', '3px'),
 									width: `${custom.sizes.icon16}px`,
 									height: `${custom.sizes.icon16}px`,
 								},

@@ -113,7 +113,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				'.ss__facets': {
 					'.ss__facet': {
 						margin: `0 0 ${custom.spacing.x4}px 0`,
-						'&.ss__facet--showing-all': {
+						'&.ss__facet--showing-all:has(.ss__facet__show-more-less)': {
 							'.ss__facet__options': {
 								maxHeight: 'none',
 								overflow: 'visible',

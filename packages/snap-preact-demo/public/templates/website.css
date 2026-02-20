@@ -700,7 +700,7 @@ fieldset {
 /* DEMO - BACKGROUND
 ========================================================================== */
 
-.ss__demo .ss__demo__theme .ss__demo__background {
+.ss__demo .ss__demo__background {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -709,89 +709,45 @@ fieldset {
 	margin: auto;
 }
 
-.ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave {
-	background-repeat: no-repeat;
-	text-align: right;
-	-webkit-flex-flow: column nowrap;
-	flex-flow: column nowrap;
-	display: -webkit-flex;
-	display: -ms-flex;
-	display: -moz-flex;
-	display: flex;
-	-webkit-align-items: flex-end;
-	align-items: flex-end;
-}
-
-.ss__pike .ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave {
-	background-color: #1d4990;
-}
-
-.ss__pike .ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave .ss__demo__background__svg {
-	fill: #2154a5;
-}
-
-.ss__everest .ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave {
-	background-color: #94280b;
-}
-
-.ss__everest .ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave .ss__demo__background__svg {
-	fill: #a8391c;
-}
-
-.ss__matterhorn .ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave {
-	background-color: #222222;
-}
-
-.ss__matterhorn .ss__demo .ss__demo__theme .ss__demo__background .ss__demo__background__wave .ss__demo__background__svg {
-	fill: #333333;
-}
-
-/* DEMO - BACKGROUND HEADER
-========================================================================== */
-
-.ss__demo .ss__demo__theme .ss__demo__background--header {
-	z-index: -1;
-}
-
-.ss__demo .ss__demo__theme .ss__demo__background--header .ss__demo__background__wave {
-	height: 220px;
-	background-image: url('./images-wave-header.svg');
-	background-position: bottom center;
-	background-size: 100% auto;
-}
-
-.ss__demo .ss__demo__theme .ss__demo__background--header .ss__demo__background__wave .ss__demo__background__svg {
+.ss__demo .ss__demo__background .ss__demo__svg {
+	width: 100%;
 	height: 100%;
-	max-height: 50%;
 }
 
-@media only screen and (min-width: 768px) {
-	.ss__demo .ss__demo__theme .ss__demo__background--header .ss__demo__background__wave {
-		height: 250px;
-	}
+.ss__pike .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__background {
+	fill: #1d4990;
 }
 
-@media only screen and (min-width: 992px) {
-	.ss__demo .ss__demo__theme .ss__demo__background--header .ss__demo__background__wave {
-		height: 300px;
-	}
+.ss__pike .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__top_triangle {
+	stroke: #00aeef;
 }
 
-/* DEMO - BACKGROUND FOOTER
-========================================================================== */
-
-.ss__demo .ss__demo__theme .ss__demo__background--footer .ss__demo__background__wave {
-	height: 100%;
-	background-image: url('./images-wave-footer.svg');
-	background-position: top center;
-	background-size: 100% 100px;
-	-webkit-justify-content: flex-end;
-	justify-content: flex-end;
+.ss__pike .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__bottom_triangle {
+	stroke: #ffffff;
 }
 
-.ss__demo .ss__demo__theme .ss__demo__background--footer .ss__demo__background__wave .ss__demo__background__svg {
-	height: 100%;
-	max-height: 65%;
+.ss__everest .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__background {
+	fill: #94280b;
+}
+
+.ss__everest .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__top_triangle {
+	stroke: #d15120;
+}
+
+.ss__everest .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__bottom_triangle {
+	stroke: #ffffff;
+}
+
+.ss__matterhorn .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__background {
+	fill: #222222;
+}
+
+.ss__matterhorn .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__top_triangle {
+	stroke: #111111;
+}
+
+.ss__matterhorn .ss__demo .ss__demo__background .ss__demo__svg .ss__demo__svg__bottom_triangle {
+	stroke: #ffffff;
 }
 
 /* DEMO - SLIDEOUT BUTTON
@@ -907,10 +863,15 @@ fieldset {
 /* DEMO - HEADER
 ========================================================================== */
 
-.ss__demo .ss__demo__theme .ss__demo__header {
-	padding: 40px 0 0 0;
-	margin: 0 0 20px 0;
-	min-height: 220px;
+.ss__demo .ss__demo__header {
+	padding: 40px 0;
+	margin: 0 0 40px 0;
+	position: relative;
+	overflow: hidden;
+}
+
+.ss__demo .ss__demo__header .ss__demo__background {
+	z-index: -1;
 }
 
 .ss__demo .ss__demo__theme .ss__demo__header .ss__demo__logo {
@@ -1002,10 +963,6 @@ fieldset {
 }
 
 @media only screen and (min-width: 768px) {
-	.ss__demo .ss__demo__theme .ss__demo__header {
-		min-height: 250px;
-	}
-
 	.ss__demo .ss__demo__theme .ss__demo__header .ss__demo__flex__wrap--center {
 		-webkit-justify-content: flex-end;
 		justify-content: flex-end;
@@ -1030,18 +987,6 @@ fieldset {
 
 	.ss__demo .ss__demo__theme .ss__demo__header .ss__demo__store-icons {
 		margin-left: 0;
-	}
-}
-
-@media only screen and (min-width: 992px) {
-	.ss__demo .ss__demo__theme .ss__demo__header {
-		min-height: 300px;
-	}
-}
-
-@media only screen and (min-width: 1200px) {
-	.ss__demo .ss__demo__theme .ss__demo__header {
-		min-height: 250px;
 	}
 }
 
@@ -1212,9 +1157,11 @@ fieldset {
 /* DEMO - FOOTER
 ========================================================================== */
 
-.ss__demo .ss__demo__theme .ss__demo__footer {
-	padding: 160px 0 40px 0;
+.ss__demo .ss__demo__footer {
+	padding: 40px 0;
+	margin: 40px 0 0 0;
 	position: relative;
+	overflow: hidden;
 }
 
 .ss__demo .ss__demo__theme .ss__demo__footer a, .ss__demo .ss__demo__theme .ss__demo__footer p, .ss__demo .ss__demo__theme .ss__demo__footer .ss__demo__title {

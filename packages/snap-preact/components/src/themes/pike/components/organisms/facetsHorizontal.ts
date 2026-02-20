@@ -103,7 +103,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 					'.ss__facet': {
 						margin: 0,
 					},
-					'.ss__facet.ss__facet--showing-all .ss__facet__options': {
+					'.ss__facet.ss__facet--showing-all:has(.ss__facet__show-more-less) .ss__facet__options': {
 						maxHeight: '360px',
 					},
 					'.ss__facet-list-options': {

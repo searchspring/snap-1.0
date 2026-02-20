@@ -53,8 +53,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 				'.ss__grid__option__inner': {
 					position: 'relative',
 					width: '100%',
-					...custom.styles.box(variables?.colors?.text, custom.spacing.x1),
-					...custom.styles.borderRadius(),
+					...custom.styles.box(variables?.colors?.text, `${custom.spacing.x1}px`),
 					'&, .ss__grid__option__label': {
 						overflow: 'hidden',
 					},

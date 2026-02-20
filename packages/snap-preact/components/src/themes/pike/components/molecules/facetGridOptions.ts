@@ -34,7 +34,6 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			},
 			'&, &:hover:not(.ss__facet-grid-options__option--filtered)': {
 				...custom.styles.box(variables?.colors?.text, 0),
-				...custom.styles.borderRadius(),
 			},
 			'&.ss__facet-grid-options__option--filtered': {
 				backgroundColor: activeColor,

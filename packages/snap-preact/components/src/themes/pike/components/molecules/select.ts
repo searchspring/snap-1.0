@@ -90,9 +90,7 @@ const selectStyleScript = (props: SelectProps) => {
 			gap: `${custom.spacing.x1}px`,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			...custom.styles.box(variables?.colors?.text),
-			paddingTop: 0,
-			paddingBottom: 0,
+			...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`),
 			...custom.styles.boxSizing('select', props?.treePath, props?.name),
 			'.ss__select__label, .ss__select__select': {
 				...custom.styles.fontSize(14),

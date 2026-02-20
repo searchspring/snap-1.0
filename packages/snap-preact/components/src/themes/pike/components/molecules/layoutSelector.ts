@@ -40,9 +40,7 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 			'.ss__list__options': {
 				display: 'flex',
 				'.ss__list__option': {
-					...custom.styles.box(variables?.colors?.text, 0),
-					...custom.styles.borderRadius(),
-					padding: `0 ${custom.spacing.x2}px`,
+					...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`),
 					margin: 0,
 					height: `${custom.sizes.height}px`,
 					lineHeight: `${custom.sizes.height}px`,

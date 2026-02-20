@@ -17,7 +17,7 @@ const facetStyleScript = (props: FacetProps) => {
 				},
 			},
 		},
-		'&.ss__facet--showing-all': {
+		'&.ss__facet--showing-all:has(.ss__facet__show-more-less)': {
 			'.ss__facet__options': {
 				maxHeight: `490px`,
 				overflowY: 'auto',

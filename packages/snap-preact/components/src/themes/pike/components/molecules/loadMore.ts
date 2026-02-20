@@ -18,6 +18,7 @@ const loadMoreStyleScript = (props: LoadMoreProps) => {
 			'.ss__load-more__progress': {
 				'.ss__load-more__progress__indicator': {
 					...custom.styles.box('', 0),
+					...custom.styles.borderRadius(5),
 					'.ss__load-more__progress__indicator__bar': {
 						margin: '-1px',
 					},

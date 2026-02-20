@@ -100,16 +100,16 @@ let config: SnapTemplatesConfig = {
 			},
 		],
 		settings: {
-			// infinite: {
-			// 	backfill: 5,
-			// },
+			infinite: {
+				backfill: 5,
+			},
 		},
 	},
 	autocomplete: {
 		targets: [
 			{
 				selector: 'input.searchspring-ac',
-				component: 'AutocompleteFixed',
+				component: 'AutocompleteModal',
 			},
 		],
 		settings: {

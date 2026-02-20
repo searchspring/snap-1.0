@@ -95,7 +95,7 @@ export const custom: CustomThemeType = {
 				borderRadius: hasValue || custom.sizes.radius ? `${value}${unit}` : ``,
 			};
 		},
-		box: (text?: string, value?: number | string) => {
+		box: (text?: string, value?: number | string, radius?: boolean) => {
 			// styles for box designs
 
 			// define padding value
@@ -106,8 +106,15 @@ export const custom: CustomThemeType = {
 				padding = '';
 			}
 
+			// check if radius setting is available
+			const hasRadius = typeof radius == 'boolean' ? radius : true;
+
+			// radius style if available
+			const radiusStyle = hasRadius && custom.sizes.radius ? custom.styles.borderRadius() : null;
+
 			return {
 				border: `1px solid ${custom.colors.gray02}`,
+				...radiusStyle,
 				backgroundColor: custom.colors.gray01,
 				color: text ? text : '',
 				padding: padding,
@@ -239,7 +246,7 @@ type CustomThemeType = {
 		activeText: (value?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
 		borderRadius: (value?: number, unit?: string) => ObjectStringType | null;
-		box: (text?: string, value?: number | string) => ObjectNumberOrStringType;
+		box: (text?: string, value?: number | string, radius?: boolean) => ObjectNumberOrStringType;
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType;
 		fontSize: (value: number) => ObjectStringType;
