@@ -113,7 +113,7 @@ export class RecommendationController extends AbstractController {
 					uid: result.id ? '' + result.id : '',
 					...(type === 'product'
 						? {
-								parentId: result.id ? '' + result.id : '',
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
 						  }
 						: {}),
@@ -171,7 +171,7 @@ export class RecommendationController extends AbstractController {
 					uid: result.id ? '' + result.id : '',
 					...(type === 'product'
 						? {
-								parentId: result.id ? '' + result.id : '',
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
 						  }
 						: {}),
@@ -194,7 +194,7 @@ export class RecommendationController extends AbstractController {
 				}
 				const responseId = result.responseId;
 				const product: BeaconProduct = {
-					parentId: result.id,
+					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 					uid: result.id,
 					sku: result.mappings.core?.sku,
 					qty: result.quantity || 1,
