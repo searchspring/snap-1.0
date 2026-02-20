@@ -94,7 +94,7 @@ export class API {
 			throw new Error(`Request failed. Missing "siteId" parameter.`);
 		}
 
-		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.io`;
+		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.net`;
 		const origin = (context.origin || this.configuration.origin || siteIdHost).replace(/\/$/, '');
 
 		let url = `${origin}/${context.path.replace(/^\//, '')}`;

@@ -30,19 +30,19 @@ const defaultConfig: ClientConfig = {
 		},
 	},
 	search: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	autocomplete: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	recommend: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	finder: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	suggest: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 };
 

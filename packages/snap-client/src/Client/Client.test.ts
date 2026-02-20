@@ -57,19 +57,19 @@ describe('Snap Client', () => {
 	it('can pass in a client config', () => {
 		const config: ClientConfig = {
 			meta: {
-				origin: 'https://snapi.kube.athoscommerce.io/meta',
+				origin: 'https://snapi.kube.athoscommerce.net/meta',
 			},
 			search: {
-				origin: 'https://snapi.kube.athoscommerce.io/search',
+				origin: 'https://snapi.kube.athoscommerce.net/search',
 			},
 			autocomplete: {
-				origin: 'https://snapi.kube.athoscommerce.io/autocomplete',
+				origin: 'https://snapi.kube.athoscommerce.net/autocomplete',
 			},
 			recommend: {
-				origin: 'https://snapi.kube.athoscommerce.io/recommend',
+				origin: 'https://snapi.kube.athoscommerce.net/recommend',
 			},
 			suggest: {
-				origin: 'https://snapi.kube.athoscommerce.io/suggest',
+				origin: 'https://snapi.kube.athoscommerce.net/suggest',
 			},
 		};
 
@@ -159,7 +159,7 @@ describe('Snap Client', () => {
 			const metaRequest = {
 				headers: {},
 				method: 'GET',
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				query: {
 					siteId: '8uyt2m',
 				},
@@ -174,7 +174,7 @@ describe('Snap Client', () => {
 			const suggestRequest = {
 				headers: {},
 				method: 'GET',
-				path: '/api/suggest/query',
+				path: '/v1/suggest',
 				query: {
 					disableSpellCorrect: true,
 					language: 'en',
@@ -193,7 +193,7 @@ describe('Snap Client', () => {
 			const acRequest = {
 				headers: {},
 				method: 'GET',
-				path: '/api/search/autocomplete.json',
+				path: '/v1/autocomplete',
 				query: {
 					q: undefined,
 					redirectResponse: 'full',
@@ -233,7 +233,7 @@ describe('Snap Client', () => {
 			const metaRequest = {
 				headers: {},
 				method: 'GET',
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				query: {
 					siteId: '8uyt2m',
 				},
@@ -273,7 +273,7 @@ describe('Snap Client', () => {
 			const searchparams = {
 				headers: {},
 				method: 'GET',
-				path: '/api/search/search.json',
+				path: '/v1/search',
 				query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, ajaxCatalog: `snap/client/${version}` },
 			};
 
@@ -285,7 +285,7 @@ describe('Snap Client', () => {
 			const metaRequest = {
 				headers: {},
 				method: 'GET',
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				query: {
 					siteId: '8uyt2m',
 				},
@@ -316,7 +316,7 @@ describe('Snap Client', () => {
 
 			await client.trending(trendingprops);
 
-			const trendingparams = { headers: {}, method: 'GET', path: '/api/suggest/trending', query: { siteId: '8uyt2m' } };
+			const trendingparams = { headers: {}, method: 'GET', path: '/v1/trending', query: { siteId: '8uyt2m' } };
 
 			const trendingcacheKey = '{"siteId":"8uyt2m"}';
 
@@ -416,7 +416,7 @@ describe('Snap Client', () => {
 				const metaRequest = {
 					headers: {},
 					method: 'GET',
-					path: '/api/meta/meta.json',
+					path: '/v1/meta',
 					query: {
 						siteId: '8uyt2m',
 					},
@@ -431,7 +431,7 @@ describe('Snap Client', () => {
 				const suggestRequest = {
 					headers: {},
 					method: 'GET',
-					path: '/api/suggest/query',
+					path: '/v1/suggest',
 					query: {
 						disableSpellCorrect: true,
 						language: 'en',
@@ -450,7 +450,7 @@ describe('Snap Client', () => {
 				const acRequest = {
 					headers: {},
 					method: 'GET',
-					path: '/api/search/autocomplete.json',
+					path: '/v1/autocomplete',
 					query: {
 						q: undefined,
 						redirectResponse: 'full',
@@ -488,7 +488,7 @@ describe('Snap Client', () => {
 				const metaRequest = {
 					headers: {},
 					method: 'GET',
-					path: '/api/meta/meta.json',
+					path: '/v1/meta',
 					query: {
 						siteId: '8uyt2m',
 					},
@@ -525,7 +525,7 @@ describe('Snap Client', () => {
 				const searchparams = {
 					headers: {},
 					method: 'GET',
-					path: '/api/search/search.json',
+					path: '/v1/search',
 					query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, ajaxCatalog: `snap/client/${version}` },
 				};
 
@@ -537,7 +537,7 @@ describe('Snap Client', () => {
 				const metaRequest = {
 					headers: {},
 					method: 'GET',
-					path: '/api/meta/meta.json',
+					path: '/v1/meta',
 					query: {
 						siteId: '8uyt2m',
 					},
@@ -566,7 +566,7 @@ describe('Snap Client', () => {
 
 				await client.trending(trendingprops);
 
-				const trendingparams = { headers: {}, method: 'GET', path: '/api/suggest/trending', query: { siteId: '8uyt2m' } };
+				const trendingparams = { headers: {}, method: 'GET', path: '/v1/trending', query: { siteId: '8uyt2m' } };
 
 				const trendingcacheKey = '{"siteId":"8uyt2m"}';
 

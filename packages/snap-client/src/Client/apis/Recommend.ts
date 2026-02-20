@@ -178,17 +178,9 @@ export class RecommendAPI extends API {
 		const headerParameters: HTTPHeaders = {};
 		headerParameters['Content-Type'] = 'text/plain';
 
-		let path = `/v1/recommend`;
-
-		if (this.configuration.origin && this.configuration.origin.indexOf('athoscommerce.io') == -1) {
-			// non-athos origin, use old path
-			const siteId = requestParameters.siteId;
-			path = `/boost/${siteId}/recommend`;
-		}
-
 		const response = await this.request<RecommendResponseModel[]>(
 			{
-				path,
+				path: '/v1/recommend',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,

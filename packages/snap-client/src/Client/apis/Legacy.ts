@@ -4,7 +4,7 @@ import { API, HTTPQuery } from '.';
 import { HTTPHeaders } from '../../types';
 
 export class LegacyAPI extends API {
-	private async getEndpoint(queryParameters: any, path = '/api/search/search.json') {
+	private async getEndpoint(queryParameters: any, path = '/v1/search') {
 		queryParameters.resultsFormat = 'native';
 		const headerParameters: HTTPHeaders = {};
 
@@ -35,7 +35,7 @@ export class LegacyAPI extends API {
 
 		const response = await this.request<MetaResponseModel>(
 			{
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -51,7 +51,7 @@ export class LegacyAPI extends API {
 
 		const response = await this.request<MetaResponseModel>(
 			{
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters as unknown as HTTPQuery,
@@ -64,21 +64,21 @@ export class LegacyAPI extends API {
 
 	async getSearch(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = this.configuration.initiator;
-		return this.getEndpoint(queryParameters, '/api/search/search.json');
+		return this.getEndpoint(queryParameters, '/v1/search');
 	}
 
 	async getCategory(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = 'Snap';
-		return this.getEndpoint(queryParameters, '/api/search/category.json');
+		return this.getEndpoint(queryParameters, '/v1/category');
 	}
 
 	async getAutocomplete(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = this.configuration.initiator;
-		return this.getEndpoint(queryParameters, '/api/search/autocomplete.json');
+		return this.getEndpoint(queryParameters, '/v1/autocomplete');
 	}
 
 	async getFinder(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = this.configuration.initiator;
-		return this.getEndpoint(queryParameters, '/api/search/finder.json');
+		return this.getEndpoint(queryParameters, '/v1/finder');
 	}
 }
