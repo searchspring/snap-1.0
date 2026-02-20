@@ -1,6 +1,6 @@
 import { SearchRequestModelFilterValue, SearchRequestModelFilterRange, SearchRequestModelFilter } from '@athoscommerce/snapi-types';
 
-import { BEACON_PARAM, transformSearchRequest } from './searchRequest';
+import { transformSearchRequest } from './searchRequest';
 
 const mockRequest = {
 	sorts: [{ field: 'name', direction: 'asc' as any }],
@@ -15,7 +15,7 @@ describe('search request transformer', () => {
 	it('returns search params merged from transformed request', () => {
 		const searchRequest = transformSearchRequest(mockRequest);
 
-		expect(Object.keys(searchRequest)).toEqual(['q', 'sort.name', BEACON_PARAM]);
+		expect(Object.keys(searchRequest)).toEqual(['q', 'sort.name']);
 	});
 });
 
