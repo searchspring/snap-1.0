@@ -3,7 +3,7 @@ import type { RatingProps } from '../../../../components/Molecules/Rating';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
-// set darkGray
+// static variables
 const darkGray = custom.utils.darkenColor();
 
 // CSS in JS style script for the Rating component
@@ -21,9 +21,6 @@ const ratingStyleScript = (props: RatingProps) => {
 			'.ss__rating__stars': {
 				gap: '2px',
 				gridTemplateColumns: 'repeat(5, 1fr)',
-				'.ss__rating__stars__star .ss__icon': {
-					strokeWidth: '3px',
-				},
 			},
 		},
 		'.ss__rating__count, .ss__rating__text': {
@@ -50,11 +47,9 @@ export const rating: ThemeComponent<'rating', RatingProps> = {
 		},
 		'rating icon.star--empty': {
 			fill: darkGray,
-			stroke: darkGray,
 		},
 		'rating icon.star--full': {
 			fill: custom.colors.primary,
-			stroke: custom.colors.secondary,
 		},
 	},
 };
