@@ -5,13 +5,14 @@ import { custom } from '../../custom';
 
 // static variables
 const gridSize = 42;
-const activeColors = custom.utils.activeColors();
-const activeColor = activeColors[0];
-const fontColor = activeColors[1];
-const darkSelector = '&.ss__grid__option--dark, &:has(.ss__grid__option__inner--grey), &:has(.ss__grid__option__inner--gray)';
+const gridSelector = 'ss__grid__option';
+const darkSelector = `&.${gridSelector}--dark, &:has(.${gridSelector}__inner--grey), &:has(.${gridSelector}__inner--gray)`;
 const imageSelector = '&:has(.ss__image)';
 const urlSelector = '&[style*="url"]';
 const styleSelector = '&[style], &:has(.ss__image)';
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
 
 // CSS in JS style script for the Grid component
 const gridStyleScript = (props: Partial<GridProps>) => {
@@ -133,7 +134,10 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 					cursor: 'not-allowed !important',
 					pointerEvents: 'unset',
 					'&:before': {
+						top: 0,
+						bottom: 0,
 						zIndex: 3,
+						margin: 'auto',
 						borderTop: `2px solid ${custom.colors.white}`,
 						outlineColor: custom.colors.gray02,
 						...custom.styles.borderRadius(3),

@@ -5,12 +5,16 @@ import { custom } from '../../custom';
 //import Color from 'color';
 
 // static variables
-// const swatchSize = 30;
-// const swatchSpacing = custom.spacing.x1;
-// const activeColors = custom.utils.activeColors();
-// const activeColor = activeColors[0];
-// const fontColor = activeColors[1];
-// const darkGray = custom.utils.darkenColor();
+const swatchesSpacing = custom.spacing.x1;
+const swatchesSize = 28;
+const swatchesSelector = 'ss__swatches__slideshow__swatch';
+const darkSelector = `&.${swatchesSelector}--dark, &:has(.${swatchesSelector}__inner--grey), &:has(.${swatchesSelector}__inner--gray)`;
+const imageSelector = '&:has(.ss__image)';
+const urlSelector = '&[style*="url"]';
+const styleSelector = '&[style], &:has(.ss__image)';
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
 
 // CSS in JS style script for the Swatches component
 const swatchesStyleScript = (props: SwatchesProps) => {
@@ -19,202 +23,190 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 
 	// shared styles
 	const sharedStyles = css({
-		margin: 0,
 		...custom.styles.boxSizing('swatches', props?.treePath, props?.name),
 	});
 
 	// swatches carousel styles
 	const swatchesCarouselStyles = css([
 		sharedStyles,
-		// {
-
-		// }
-		// {
-		// 	margin: 0,
-		// 	'.ss__carousel': {
-		// 		'& > div': {
-		// 			minWidth: '1px',
-		// 			flex: '0 1 auto',
-		// 		},
-		// 		'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-		// 			position: 'static',
-		// 			bottom: 0,
-		// 			width: `${swatchSize}px`,
-		// 			height: `${swatchSize}px`,
-		// 		},
-		// 		'.ss__carousel__prev-wrapper': {
-		// 			margin: `0 ${swatchSpacing}px 0 0`,
-		// 		},
-		// 		'.ss__carousel__next-wrapper': {
-		// 			margin: `0 0 0 ${swatchSpacing}px`,
-		// 		},
-		// 		'.swiper-container': {
-		// 			maxWidth: `calc(100% - ${swatchSize * 2 + swatchSpacing * 2}px)`,
-		// 			'& > .swiper-wrapper': {
-		// 				'& > .swiper-slide': {
-		// 					overflow: 'hidden',
-		// 					width: `${swatchSize}px`,
-		// 					height: `${swatchSize}px`,
-		// 					'&:has(.ss__swatches__carousel__swatch.ss__swatches__carousel__swatch--unavailable)': {
-		// 						'&:before': {
-		// 							content: '""',
-		// 							display: 'block',
-		// 							position: 'absolute',
-		// 							top: 0,
-		// 							bottom: 0,
-		// 							margin: 'auto',
-		// 							width: '100%',
-		// 							height: '1px',
-		// 							borderTop: `3px solid ${darkGray}`,
-		// 							transform: 'rotate(-45deg)',
-		// 						},
-		// 					},
-		// 				},
-		// 			},
-		// 		},
-		// 		'.swiper-container > .swiper-wrapper > .swiper-slide > *, .ss__swatches__carousel__swatch': {
-		// 			height: `${swatchSize}px`,
-		// 			lineHeight: 0,
-		// 			border: 0,
-		// 		},
-		// 		'.ss__swatches__carousel__swatch': {
-		// 			position: 'relative',
-		// 			aspectRatio: 1,
-		// 			color: variables?.colors?.text,
-		// 			overflow: 'hidden',
-		// 			'&:before, &:after': {
-		// 				content: '""',
-		// 				display: 'block',
-		// 				width: 'auto',
-		// 				height: 'auto',
-		// 				position: 'absolute',
-		// 				top: 0,
-		// 				bottom: 0,
-		// 				left: 0,
-		// 				right: 0,
-		// 				transform: 'none',
-		// 				...custom.styles.borderRadius(0),
-		// 			},
-		// 			'&:before': {
-		// 				border: `3px solid ${custom.colors.white}`,
-		// 				margin: '1px',
-		// 				opacity: 0,
-		// 			},
-		// 			'&:after': {
-		// 				border: `1px solid ${custom.colors.black}`,
-		// 				opacity: 0.15,
-		// 			},
-		// 			'&.ss__swatches__carousel__swatch--dark, &:has(.ss__swatches__carousel__swatch__inner--grey)': {
-		// 				'.ss__swatches__carousel__swatch__inner': {
-		// 					'.ss__swatches__carousel__swatch__value': {
-		// 						color: fontColor,
-		// 					},
-		// 				},
-		// 			},
-		// 			'&.ss__swatches__carousel__swatch--selected': {
-		// 				'&:before': {
-		// 					opacity: 1,
-		// 				},
-		// 				'&:after': {
-		// 					opacity: 0.3,
-		// 				},
-		// 				'&:has(.ss__swatches__carousel__swatch__inner:not([style]))': {
-		// 					backgroundColor: activeColor,
-		// 					'&:after': {
-		// 						borderColor: activeColor,
-		// 						opacity: 1,
-		// 					},
-		// 					'.ss__swatches__carousel__swatch__inner': {
-		// 						'.ss__swatches__carousel__swatch__value': {
-		// 							color: fontColor,
-		// 						},
-		// 					},
-		// 				},
-		// 				'&:has(.ss__swatches__carousel__swatch__inner .ss__image)': {
-		// 					backgroundColor: 'transparent',
-		// 					'&:after': {
-		// 						borderColor: custom.colors.black,
-		// 						opacity: 0.3,
-		// 					},
-		// 					'.ss__swatches__carousel__swatch__inner': {
-		// 						'.ss__swatches__carousel__swatch__value': {
-		// 							color: variables?.colors?.text,
-		// 						},
-		// 					},
-		// 				},
-		// 				'.ss__swatches__carousel__swatch__inner': {
-		// 					'.ss__swatches__carousel__swatch__value': {
-		// 						fontWeight: custom.fonts.weight01,
-		// 					},
-		// 				},
-		// 			},
-		// 			'&.ss__swatches__carousel__swatch--disabled, &.ss__swatches__carousel__swatch--unavailable': {
-		// 				opacity: 1,
-		// 				cursor: 'not-allowed',
-		// 				pointerEvents: 'none',
-		// 				'.ss__swatches__carousel__swatch__inner:after': {
-		// 					content: '""',
-		// 					display: 'block',
-		// 					position: 'absolute',
-		// 					top: 0,
-		// 					bottom: 0,
-		// 					left: 0,
-		// 					right: 0,
-		// 					zIndex: 3,
-		// 					margin: 'auto',
-		// 					backgroundColor: darkGray.replace('#', ''),
-		// 					backgroundRepeat: 'no-repeat',
-		// 					backgroundPosition: 'center center',
-		// 					backgroundImage: `url("data:image/svg+xml,%3Csvg style=%27transform: rotate%28-45deg%29%27 xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 56 56%27 preserveAspectRatio=%27xMinYMid%27%3E%3Cpath fill=%27%23${darkGray.replace(
-		// 						'#',
-		// 						''
-		// 					)}%27 d=%27M0 23.297h56v9.406h-56v-9.406z%27 /%3E%3C/svg%3E")`,
-		// 				},
-		// 			},
-		// 			'.ss__swatches__carousel__swatch__inner': {
-		// 				'&[style*="url"]': {
-		// 					backgroundRepeat: 'no-repeat !important',
-		// 					backgroundSize: 'cover !important',
-		// 					backgroundPosition: 'center !important',
-		// 				},
-		// 				'.ss__image': {
-		// 					img: {
-		// 						width: '100%',
-		// 						height: '100%',
-		// 						objectFit: 'cover',
-		// 						objectPosition: 'center center',
-		// 					},
-		// 				},
-		// 				'.ss__swatches__carousel__swatch__value': {
-		// 					display: 'block',
-		// 					position: 'absolute',
-		// 					zIndex: 2,
-		// 					maxWidth: `calc(100% - ${custom.spacing.x2}px)`,
-		// 					maxHeight: `calc(100% - ${custom.spacing.x2}px)`,
-		// 					overflow: 'hidden',
-		// 					textAlign: 'center',
-		// 					fontSize: custom.utils.convertPxToEm(12),
-		// 					lineHeight: 1,
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// },
+		{
+			'.ss__slideshow': {
+				display: 'flex',
+				flexFlow: 'row wrap',
+				gap: `${swatchesSpacing}px`,
+				'& > *': {
+					minWidth: '1px',
+					flex: '1 1 100%',
+				},
+				'.ss__slideshow__sr-only': {
+					order: -2,
+				},
+				'.ss__slideshow__container': {
+					flex: '1 1 0%',
+					margin: `0 -${swatchesSpacing / 2}px`,
+					'.ss__slideshow__track': {
+						'.ss__slideshow__slide': {
+							'.ss__swatches__slideshow__swatch': {
+								position: 'relative',
+								height: `${swatchesSize}px`,
+								aspectRatio: 1,
+								border: 0,
+								'.ss__swatches__slideshow__swatch__inner': {
+									position: 'relative',
+									width: '100%',
+									height: '100%',
+									...custom.styles.box(variables?.colors?.text, `${custom.spacing.x1}px`),
+									'&, .ss__swatches__slideshow__swatch__value': {
+										overflow: 'hidden',
+									},
+									'.ss__swatches__slideshow__swatch__value': {
+										maxWidth: '100%',
+										maxHeight: '100%',
+										textAlign: 'center',
+										fontSize: '10px',
+										lineHeight: 1,
+									},
+									[styleSelector]: {
+										border: 0,
+										backgroundColor: 'transparent',
+										'&:before, &:after': {
+											content: '""',
+											display: 'block',
+											position: 'absolute',
+											top: 0,
+											bottom: 0,
+											left: 0,
+											right: 0,
+											...custom.styles.borderRadius(),
+										},
+										'&:before': {
+											border: `3px solid ${custom.colors.white}`,
+											margin: '1px',
+											opacity: 0,
+										},
+										'&:after': {
+											border: `1px solid ${custom.colors.black}`,
+											opacity: 0.15,
+										},
+										'.ss__swatches__slideshow__swatch__value': {
+											...custom.styles.srOnly(),
+										},
+									},
+									[`${urlSelector}, ${imageSelector}`]: {
+										'&:before': {
+											margin: 0,
+											borderWidth: '4px',
+										},
+									},
+									[urlSelector]: {
+										backgroundRepeat: 'no-repeat !important',
+										backgroundSize: 'cover !important',
+										backgroundPosition: 'center !important',
+									},
+									[imageSelector]: {
+										'&:before, &:after': {
+											zIndex: 3,
+										},
+										'.ss__image, .ss__swatches__slideshow__swatch__value': {
+											position: 'absolute',
+										},
+										'.ss__image': {
+											top: 0,
+											bottom: 0,
+											left: 0,
+											right: 0,
+											zIndex: 1,
+											img: {
+												width: '100%',
+												height: '100%',
+												objectFit: 'cover',
+												objectPosition: 'center center',
+											},
+										},
+										'.ss__swatches__slideshow__swatch__value': {
+											zIndex: 2,
+										},
+									},
+								},
+								[darkSelector]: {
+									'.ss__swatches__slideshow__swatch__inner': {
+										color: fontColor,
+									},
+								},
+								'&.ss__swatches__slideshow__swatch--disabled, &.ss__swatches__slideshow__swatch--unavailable': {
+									opacity: 1,
+									cursor: 'not-allowed !important',
+									pointerEvents: 'unset',
+									'&:before': {
+										top: 0,
+										bottom: 0,
+										zIndex: 3,
+										margin: 'auto',
+										borderTop: `2px solid ${custom.colors.white}`,
+										outlineColor: custom.colors.gray02,
+										...custom.styles.borderRadius(3),
+									},
+									'.ss__swatches__slideshow__swatch__inner': {
+										opacity: 0.65,
+									},
+								},
+								'&.ss__swatches__slideshow__swatch--selected': {
+									'.ss__swatches__slideshow__swatch__inner': {
+										borderColor: activeColor,
+										backgroundColor: activeColor,
+										color: fontColor,
+										[styleSelector]: {
+											border: 0,
+											backgroundColor: 'transparent',
+											color: variables?.colors?.text,
+											'&:before': {
+												opacity: 1,
+											},
+											'&:after': {
+												opacity: 0.3,
+											},
+										},
+										'.ss__swatches__slideshow__swatch__value': {
+											fontWeight: custom.fonts.weight01,
+										},
+									},
+									[darkSelector]: {
+										'.ss__swatches__slideshow__swatch__inner': {
+											color: fontColor,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				'.ss__slideshow__navigation--prev, .ss__slideshow__navigation--next': {
+					flex: '0 1 auto',
+					width: `${swatchesSize}px`,
+					height: `${swatchesSize}px`,
+					margin: 0,
+					position: 'static',
+				},
+				'.ss__slideshow__navigation--prev': {
+					order: -1,
+				},
+			},
+		},
 	]);
 
 	// swatches grid styles
 	const swatchesGridStyles = css([
 		sharedStyles,
-		// {
-		// 	'.ss__grid': {
-		// 		'.ss__grid__options': {
-		// 			'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
-		// 				width: `${swatchSize}px`,
-		// 				maxHeight: `${swatchSize}px`,
-		// 			},
-		// 		},
-		// 	},
-		// },
+		{
+			'.ss__grid': {
+				'.ss__grid__options': {
+					'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
+						width: `${swatchesSize}px`,
+						maxHeight: `${swatchesSize}px`,
+					},
+				},
+			},
+		},
 	]);
 
 	return props?.type == 'grid' ? swatchesGridStyles : swatchesCarouselStyles;
@@ -226,21 +218,10 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 		swatches: {
 			themeStyleScript: swatchesStyleScript,
 			hideLabels: false,
-			//type: 'grid',
 		},
-		'swatches carousel': {
-			//autoAdjustSlides: false,
-			//centerInsufficientSlides: false,
-			// slidesPerView: 'auto',
-			// slidesPerGroup: 3,
-			// spaceBetween: `${swatchSpacing}px`,
-		},
-	},
-	desktop: {
-		'swatches carousel': {
-			// slidesPerView: 'auto',
-			// slidesPerGroup: 2,
-			// spaceBetween: `${swatchSpacing}px`,
+		'swatches slideshow': {
+			slidesToShow: 4,
+			gap: swatchesSpacing,
 		},
 	},
 };
