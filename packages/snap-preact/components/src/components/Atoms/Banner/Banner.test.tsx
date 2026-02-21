@@ -4,7 +4,7 @@ import { render } from '@testing-library/preact';
 
 import { Banner } from './Banner';
 import { ContentType, SearchMerchandisingStore } from '@searchspring/snap-store-mobx';
-import { ThemeProvider } from '../../../../providers';
+import { ThemeProvider } from '../../../providers';
 
 import { MockData } from '@searchspring/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';

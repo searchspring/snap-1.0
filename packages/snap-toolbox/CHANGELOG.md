@@ -133,6 +133,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - **preact-components/storybook:** updating storybook to latest version - build stable ([43c598d](https://github.com/searchspring/snap/commit/43c598d0e4d11d76364ff2775ecdcabe489023a8))
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+**Note:** Version bump only for package @searchspring/snap-toolbox
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+### Bug Fixes
+
+- removed type requirement from getContext ([35662e4](https://github.com/searchspring/snap/commit/35662e45f5739c453e0e4aee49f82ebb49cbb91e))
 
 ## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
 

@@ -43,7 +43,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -91,7 +90,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -186,7 +184,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -225,7 +222,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -279,7 +275,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -331,7 +326,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,

@@ -104,7 +104,7 @@ describe('Button Component', () => {
 			expect(iconElem).toHaveClass('ss__icon--close-thin');
 		});
 
-		it('fires onClick prop when clicked', () => {
+		it('fires onClick prop when clicked', async () => {
 			const clickFn = jest.fn();
 			const content = 'clickable button';
 
@@ -112,12 +112,12 @@ describe('Button Component', () => {
 
 			const buttonElement = rendered.container.querySelector('.ss__button');
 
-			if (buttonElement) userEvent.click(buttonElement);
+			if (buttonElement) await userEvent.click(buttonElement);
 
 			expect(clickFn).toHaveBeenCalled();
 		});
 
-		it('adds class "ss__button--disabled" and prevents onClick when disabled by prop', () => {
+		it('adds class "ss__button--disabled" and prevents onClick when disabled by prop', async () => {
 			const clickFn = jest.fn();
 			const content = 'disabled button';
 
@@ -126,7 +126,7 @@ describe('Button Component', () => {
 			const buttonElement = rendered.container.querySelector(`.ss__button.ss__button--disabled`);
 			expect(buttonElement).toBeInTheDocument();
 
-			if (buttonElement) userEvent.click(buttonElement);
+			if (buttonElement) await userEvent.click(buttonElement);
 			expect(clickFn).not.toHaveBeenCalled();
 		});
 
@@ -430,7 +430,7 @@ describe('Button Component', () => {
 			expect(button).toBeInTheDocument();
 		});
 
-		it('fires onClick prop when clicked', () => {
+		it('fires onClick prop when clicked', async () => {
 			const clickFn = jest.fn();
 			const content = 'clickable button';
 
@@ -442,7 +442,7 @@ describe('Button Component', () => {
 
 			const buttonElement = rendered.container.querySelector('.ss__button');
 
-			if (buttonElement) userEvent.click(buttonElement);
+			if (buttonElement) await userEvent.click(buttonElement);
 
 			expect(clickFn).toHaveBeenCalled();
 		});

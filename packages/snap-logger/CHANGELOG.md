@@ -117,6 +117,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.1.0](https://github.com/searchspring/snap/compare/v0.60.1...v1.1.0) (2024-09-20)
 
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+**Note:** Version bump only for package @searchspring/snap-logger
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+**Note:** Version bump only for package @searchspring/snap-logger
+
 ## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
 
 **Note:** Version bump only for package @searchspring/snap-logger

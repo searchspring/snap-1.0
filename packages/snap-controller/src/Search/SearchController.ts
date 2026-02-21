@@ -45,7 +45,7 @@ import {
 	ResultsInner,
 	ClickthroughBannersInner,
 	BannersInner,
-} from '@searchspring/beacon';
+} from '@athoscommerce/beacon';
 import { CLICK_DUPLICATION_TIMEOUT, isClickWithinProductLink } from '../utils/isClickWithinProductLink';
 import { isClickWithinBannerLink } from '../utils/isClickWithinBannerLink';
 
@@ -55,6 +55,9 @@ const BACKGROUND_FILTERS_VALUE_FLAGS = [1, 0, '1', '0', 'true', 'false', true, f
 const defaultConfig: SearchControllerConfig = {
 	id: 'search',
 	globals: {},
+	beacon: {
+		enabled: true,
+	},
 	settings: {
 		redirects: {
 			merchandising: true,
@@ -278,11 +281,7 @@ export class SearchController extends AbstractController {
 			await next();
 			const controller = search.controller as SearchController;
 			const response = search.response.search as SearchResponseModel & { _cached?: boolean };
-			const responseId = search.response.search.tracking.responseId;
 			if (controller.store.loaded && !controller.store.error) {
-				const data: RenderSchemaData = { responseId };
-				this.tracker.events[this.page.type].render({ data, siteId: this.config.globals?.siteId });
-
 				const config = search.controller.config as SearchControllerConfig;
 				const nonBackgroundFilters = search?.request?.filters?.filter((filter: SearchRequestModelFilter) => !filter.background);
 				const singleResultUrl = response?.results?.length && response?.results[0].mappings?.core?.url;
@@ -389,6 +388,10 @@ export class SearchController extends AbstractController {
 	track: SearchTrackMethods = {
 		banner: {
 			impression: ({ uid, responseId }: MerchandisingContentBanner): void => {
+				if (!uid) {
+					this.log.warn('No banner provided to track.banner.impression');
+					return;
+				}
 				if (this.events[responseId]?.banner[uid]?.impression) {
 					return;
 				}
@@ -400,11 +403,15 @@ export class SearchController extends AbstractController {
 				};
 
 				this.eventManager.fire('track.banner.impression', { controller: this, product: { uid }, trackEvent: data });
-				this.tracker.events[this.page.type].impression({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.page.type].impression({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
 				this.events[responseId].banner[uid].impression = true;
 			},
 			click: (e: MouseEvent, banner: MerchandisingContentBanner): void => {
+				if (!banner) {
+					this.log.warn('No banner provided to track.banner.click');
+					return;
+				}
 				const { responseId, uid } = banner;
 				if (isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.banner[uid]?.clickThrough) {
@@ -419,13 +426,17 @@ export class SearchController extends AbstractController {
 				}
 			},
 			clickThrough: (e: MouseEvent, { uid, responseId }: MerchandisingContentBanner): void => {
+				if (!uid) {
+					this.log.warn('No banner provided to track.banner.clickThrough');
+					return;
+				}
 				const banner: ClickthroughBannersInner = { uid };
 				const data: ClickthroughSchemaData = {
 					responseId,
 					banners: [banner],
 				};
 				this.eventManager.fire('track.banner.clickThrough', { controller: this, event: e, product: { uid }, trackEvent: data });
-				this.tracker.events[this.page.type].clickThrough({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.page.type].clickThrough({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
 				this.events[responseId].banner[uid].clickThrough = true;
 				setTimeout(() => {
@@ -435,6 +446,10 @@ export class SearchController extends AbstractController {
 		},
 		product: {
 			clickThrough: (e: MouseEvent, result: Product | Banner): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.clickThrough');
+					return;
+				}
 				const responseId = result.responseId;
 				const target = e.target as HTMLAnchorElement;
 				const resultHref = (result as Product).display?.mappings.core?.url || (result as Product).mappings.core?.url || '';
@@ -467,11 +482,16 @@ export class SearchController extends AbstractController {
 				// store position data or empty object
 				this.storage.set('scrollMap', scrollMap);
 
+				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const item: ClickthroughResultsInner = {
-					type: result.type as ResultProductType,
-					uid: result.id,
-					parentId: result.id,
-					sku: result.mappings.core?.sku,
+					type,
+					uid: result.id ? '' + result.id : '',
+					...(type === 'product'
+						? {
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
+						  }
+						: {}),
 				};
 
 				const data: ClickthroughSchemaData = {
@@ -479,9 +499,13 @@ export class SearchController extends AbstractController {
 					results: [item],
 				};
 				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
-				this.tracker.events[this.page.type].clickThrough({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.page.type].clickThrough({ data, siteId: this.config.globals?.siteId });
 			},
 			click: (e: MouseEvent, result: Product | Banner): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.click');
+					return;
+				}
 				const responseId = result.responseId;
 				if (result.type === 'banner' && isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.product[result.id]?.inlineBannerClickThrough) {
@@ -506,15 +530,24 @@ export class SearchController extends AbstractController {
 				}
 			},
 			impression: (result: Product | Banner): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.impression');
+					return;
+				}
 				const responseId = result.responseId;
 				if (this.events[responseId]?.product[result.id]?.impression) {
 					return;
 				}
+				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const item: ResultsInner = {
-					type: result.type as ResultProductType,
-					uid: result.id,
-					parentId: result.id,
-					sku: result.mappings.core?.sku,
+					type,
+					uid: result.id ? '' + result.id : '',
+					...(type === 'product'
+						? {
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
+						  }
+						: {}),
 				};
 				const data: ImpressionSchemaData = {
 					responseId,
@@ -522,14 +555,18 @@ export class SearchController extends AbstractController {
 					banners: [],
 				};
 				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
-				this.tracker.events[this.page.type].impression({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.page.type].impression({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
 				this.events[responseId].product[result.id].impression = true;
 			},
 			addToCart: (result: Product): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.addToCart');
+					return;
+				}
 				const responseId = result.responseId;
 				const product: BeaconProduct = {
-					parentId: result.id,
+					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 					uid: result.id,
 					sku: result.mappings.core?.sku,
 					qty: result.quantity || 1,
@@ -540,16 +577,20 @@ export class SearchController extends AbstractController {
 					results: [product],
 				};
 				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
-				this.tracker.events[this.page.type].addToCart({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.page.type].addToCart({ data, siteId: this.config.globals?.siteId });
 			},
 		},
 		redirect: ({ redirectURL, responseId }): void => {
+			if (!redirectURL) {
+				this.log.warn('No redirectURL provided to track.redirect');
+				return;
+			}
 			const data: RedirectSchemaData = {
 				responseId,
 				redirect: redirectURL,
 			};
 			this.eventManager.fire('track.redirect', { controller: this, redirectURL, trackEvent: data });
-			this.tracker.events.search.redirect({ data, siteId: this.config.globals?.siteId });
+			this.config.beacon?.enabled && this.tracker.events.search.redirect({ data, siteId: this.config.globals?.siteId });
 		},
 	};
 
@@ -757,6 +798,9 @@ export class SearchController extends AbstractController {
 			// update the store
 			this.store.update(response);
 
+			const data: RenderSchemaData = { responseId: response.search.tracking.responseId };
+			this.config.beacon?.enabled && this.tracker.events[this.page.type].render({ data, siteId: this.config.globals?.siteId });
+
 			const afterStoreProfile = this.profiler.create({ type: 'event', name: 'afterStore', context: params }).start();
 
 			try {
@@ -826,7 +870,11 @@ export class SearchController extends AbstractController {
 	};
 
 	addToCart = async (_products: Product[] | Product): Promise<void> => {
-		const products = typeof (_products as Product[]).slice == 'function' ? (_products as Product[]).slice() : [_products];
+		const products = typeof (_products as Product[])?.slice == 'function' ? (_products as Product[]).slice() : [_products];
+		if (!_products || products.length === 0) {
+			this.log.warn('No products provided to search controller.addToCart');
+			return;
+		}
 		(products as Product[]).forEach((product) => {
 			this.track.product.addToCart(product);
 		});
@@ -860,8 +908,15 @@ export function generateHrefSelector(element: HTMLElement, href: string, levels 
 	let elem: HTMLElement | null = element;
 
 	while (elem && level <= levels) {
-		// check within
-		const innerHrefElem = elem.querySelector(`[href*="${href}"]`) as HTMLElement;
+		let innerHrefElem: HTMLElement | null = null;
+		try {
+			innerHrefElem = elem.querySelector(`[href*="${href}"]`);
+		} catch (e) {
+			try {
+				innerHrefElem = elem.querySelector(cssEscape(`[href*="${href}"]`));
+			} catch {}
+		}
+
 		if (innerHrefElem) {
 			// innerHrefElem was found! now get selectors up to elem that contained it
 			let selector = '';

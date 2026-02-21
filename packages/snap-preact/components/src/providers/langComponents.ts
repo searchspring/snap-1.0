@@ -10,7 +10,7 @@ import type { ButtonLang } from '../components/Atoms/Button';
 // import type { IconLang } from '../components/Atoms/Icon';
 // import type { ImageLang } from '../components/Atoms/Image';
 // import type { LoadingBarLang } from '../components/Atoms/Loading';
-// import type { BannerLang, InlineBannerLang } from '../components/Atoms/Merchandising';
+// import type { BannerLang, InlineBannerLang } from '../components/Atoms/Banner';
 // import type { OverlayLang } from '../components/Atoms/Overlay';
 import type { PaginationInfoLang } from '../components/Atoms/PaginationInfo';
 // import type { PriceLang } from '../components/Atoms/Price';
