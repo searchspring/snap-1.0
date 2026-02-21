@@ -34,7 +34,6 @@ beforeEach(() => {
 	cy.intercept('GET', /.*athoscommerce.net\/v1\/autocomplete/).as('autocomplete');
 	cy.intercept('GET', /.*athoscommerce.net\/v1\/search/).as('search');
 	cy.intercept('GET', /.*athoscommerce.net\/v1\/category/).as('category');
-	cy.intercept('GET', /.*athoscommerce.net\/v1\/finder/).as('finder');
 
 	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/shopper\/login/, { success: true }).as('beacon/shopper/login');
 	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/autocomplete\/render/, { success: true }).as('beacon/autocomplete/render');
