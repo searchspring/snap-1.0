@@ -229,8 +229,8 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 			//type: 'grid',
 		},
 		'swatches carousel': {
-			autoAdjustSlides: false,
-			centerInsufficientSlides: false,
+			//autoAdjustSlides: false,
+			//centerInsufficientSlides: false,
 			// slidesPerView: 'auto',
 			// slidesPerGroup: 3,
 			// spaceBetween: `${swatchSpacing}px`,

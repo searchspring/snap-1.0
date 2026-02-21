@@ -56,7 +56,7 @@ let config: SnapTemplatesConfig = {
 	},
 	theme: {
 		extends: 'pike',
-		//resultComponent: 'CustomResult',
+		resultComponent: 'CustomResult',
 		variables: {
 			breakpoints: {
 				mobile: 767,
@@ -100,9 +100,9 @@ let config: SnapTemplatesConfig = {
 			},
 		],
 		settings: {
-			infinite: {
-				backfill: 5,
-			},
+			// infinite: {
+			// 	backfill: 5,
+			// },
 		},
 	},
 	autocomplete: {

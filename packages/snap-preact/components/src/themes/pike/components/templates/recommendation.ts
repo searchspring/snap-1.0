@@ -87,6 +87,11 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 			themeStyleScript: recommendationStyleScript,
 			spaceBetween: custom.spacing.x4,
 		},
+		'recommendation icon': {
+			size: `${custom.sizes.icon10}px`,
+			width: `${custom.sizes.icon10}px`,
+			height: `${custom.sizes.icon10}px`,
+		},
 	},
 	mobile: {
 		...recommendationThemeComponentProps.mobile,
@@ -94,12 +99,7 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 			...(recommendationThemeComponentProps.mobile?.['recommendation'] || {}),
 			spaceBetween: custom.spacing.x2,
 		},
-		'recommendation icon.prev': {
-			size: `${custom.sizes.icon08}px`,
-			width: `${custom.sizes.icon08}px`,
-			height: `${custom.sizes.icon08}px`,
-		},
-		'recommendation icon.next': {
+		'recommendation icon': {
 			size: `${custom.sizes.icon08}px`,
 			width: `${custom.sizes.icon08}px`,
 			height: `${custom.sizes.icon08}px`,
@@ -110,16 +110,6 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		recommendation: {
 			...(recommendationThemeComponentProps.tablet?.['recommendation'] || {}),
 			spaceBetween: custom.spacing.x4,
-		},
-		'recommendation icon.prev': {
-			size: `${custom.sizes.icon10}px`,
-			width: `${custom.sizes.icon10}px`,
-			height: `${custom.sizes.icon10}px`,
-		},
-		'recommendation icon.next': {
-			size: `${custom.sizes.icon10}px`,
-			width: `${custom.sizes.icon10}px`,
-			height: `${custom.sizes.icon10}px`,
 		},
 	},
 	desktop: {

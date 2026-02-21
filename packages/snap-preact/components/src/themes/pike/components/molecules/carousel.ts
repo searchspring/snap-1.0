@@ -3,6 +3,12 @@ import type { CarouselProps } from '../../../../components/Molecules/Carousel';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const carouselSpacing = custom.spacing.x2;
+const carouselButtonSize = 32;
+const carouselPaginationSize = 12;
+const carouselPaginationSpacing = carouselSpacing + carouselPaginationSize;
+
 // CSS in JS style script for the Carousel component
 const carouselStyleScript = (props: CarouselProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,12 +24,12 @@ const carouselStyleScript = (props: CarouselProps) => {
 			...custom.styles.disabled(),
 		},
 		'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-			width: '32px',
-			height: '32px',
+			width: `${carouselButtonSize}px`,
+			height: `${carouselButtonSize}px`,
 			display: 'block',
 			position: 'absolute',
 			top: 0,
-			bottom: 'calc(10.25rem - 10px)',
+			bottom: 0,
 			zIndex: 2,
 			margin: 'auto',
 			'& > div': {
@@ -44,14 +50,20 @@ const carouselStyleScript = (props: CarouselProps) => {
 		},
 		'.ss__carousel__prev-wrapper': {
 			left: 0,
+			'& > div .ss__icon': {
+				left: '-1.5px',
+			},
 		},
 		'.ss__carousel__next-wrapper': {
 			right: 0,
+			'& > div .ss__icon': {
+				right: '-1.5px',
+			},
 		},
 		'.swiper-container': {
 			margin: '0 auto',
 			'&:has(.swiper-pagination)': {
-				paddingBottom: `${custom.spacing.x5}px`,
+				paddingBottom: `${carouselPaginationSpacing}px`,
 			},
 			'& > .swiper-wrapper': {
 				'& > .swiper-slide': {
@@ -71,14 +83,14 @@ const carouselStyleScript = (props: CarouselProps) => {
 				margin: 'auto',
 				gap: `${custom.spacing.x1}px`,
 				'.swiper-pagination-bullet': {
-					width: '12px',
-					height: '12px',
+					opacity: 1,
+					flex: '0 1 auto',
+					width: `${carouselPaginationSize}px`,
+					height: `${carouselPaginationSize}px`,
+					lineHeight: `${carouselPaginationSize}px`,
 					minWidth: '1px',
 					margin: 0,
-					flex: '0 1 auto',
-					backgroundColor: custom.colors.gray01,
-					border: `1px solid ${custom.colors.gray02}`,
-					opacity: 1,
+					...custom.styles.box('', 0, false),
 				},
 				'.swiper-pagination-bullet-active': {
 					backgroundColor: variables?.colors?.primary,
@@ -107,18 +119,20 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 		carousel: {
 			themeStyleScript: carouselStyleScript,
 			speed: 600,
+			spaceBetween: carouselSpacing,
+			autoAdjustSlides: false,
+			centerInsufficientSlides: false,
+		},
+		'carousel icon': {
+			size: `${custom.sizes.icon08}px`,
+			width: `${custom.sizes.icon08}px`,
+			height: `${custom.sizes.icon08}px`,
 		},
 		'carousel icon.prev': {
 			icon: custom.icons.arrowLeft,
-			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 		'carousel icon.next': {
 			icon: custom.icons.arrowRight,
-			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

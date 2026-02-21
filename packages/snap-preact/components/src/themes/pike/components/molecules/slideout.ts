@@ -8,9 +8,12 @@ const slideoutStyleScript = (props: SlideoutProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// slideout styles
+	const slideoutStyles = css({
 		...custom.styles.boxSizing('slideout', props?.treePath, props?.name),
 	});
+
+	return slideoutStyles;
 };
 
 // Slideout component props
@@ -18,9 +21,6 @@ export const slideout: ThemeComponent<'slideout', SlideoutProps> = {
 	default: {
 		slideout: {
 			themeStyleScript: slideoutStyleScript,
-		},
-		'slideout button.slideout': {
-			icon: custom.icons.filter,
 		},
 	},
 };
