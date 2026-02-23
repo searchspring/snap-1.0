@@ -36,6 +36,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getSearch', async () => {
@@ -56,6 +58,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call postMeta', async () => {
@@ -78,6 +82,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(reuestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getAutocomplete', async () => {
@@ -90,7 +96,7 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/search?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
+		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/autocomplete?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
 
 		await api.getAutocomplete({
 			siteId: '8uyt2m',
@@ -98,6 +104,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getFinder', async () => {
@@ -110,7 +118,7 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/search?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
+		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/finder?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
 
 		await api.getFinder({
 			siteId: '8uyt2m',
@@ -118,6 +126,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getEndpoint', async () => {
