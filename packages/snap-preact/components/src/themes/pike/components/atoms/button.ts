@@ -20,7 +20,7 @@ const buttonStyleScript = (props: ButtonProps) => {
 			cursor: 'pointer',
 			padding: `0 ${custom.spacing.x4}px`,
 			justifyContent: 'center',
-			...custom.styles.fontSize(14),
+			fontSize: '14px',
 			fontWeight: custom.fonts.weight01,
 			textAlign: 'center',
 			textTransform: custom.fonts.transform,

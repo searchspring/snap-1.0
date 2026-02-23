@@ -29,7 +29,7 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 					color: custom.colors.white,
 					'.ss__mobile-sidebar__header__title': {
 						margin: 0,
-						fontSize: custom.utils.convertPxToEm(18),
+						fontSize: '18px',
 					},
 					'.ss__mobile-sidebar__header__close-button': {
 						padding: 0,
@@ -87,7 +87,7 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
 						backgroundColor: custom.colors.gray01,
 						border: 0,
-						fontSize: custom.utils.convertPxToEm(14),
+						fontSize: '14px',
 						fontWeight: custom.fonts.weight02,
 						color: variables?.colors?.text,
 					},

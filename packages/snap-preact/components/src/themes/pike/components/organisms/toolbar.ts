@@ -17,15 +17,15 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 		},
 		'&[class*="bottom"]': {
 			'.ss__pagination-info': {
-				fontSize: custom.utils.convertPxToEm(14),
+				fontSize: '14px',
 			},
 		},
 		'.ss__pagination-info': {
-			fontSize: custom.utils.convertPxToEm(16),
+			fontSize: '16px',
 		},
 		[`@media (max-width: ${mobileBp}px)`]: {
 			'.ss__pagination-info': {
-				fontSize: custom.utils.convertPxToEm(18),
+				fontSize: '18px',
 			},
 		},
 		// '& > .ss__layout > .ss__layout__row > .ss__filter-summary': {

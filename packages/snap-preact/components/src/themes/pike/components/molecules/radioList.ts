@@ -31,8 +31,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 		},
 		'.ss__radio-list__title': {
-			...custom.styles.fontSize(14),
-			...custom.styles.headerText(variables?.colors?.secondary),
+			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 		},
 		'.ss__radio-list__options-wrapper': {
 			'.ss__radio-list__option': {

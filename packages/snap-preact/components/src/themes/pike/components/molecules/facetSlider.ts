@@ -35,7 +35,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 
 	// values font styles
 	const valuesStyles = css({
-		...custom.styles.fontSize(slider.values),
+		fontSize: `${slider.values}px`,
 		lineHeight: `${slider.values}px`,
 	});
 

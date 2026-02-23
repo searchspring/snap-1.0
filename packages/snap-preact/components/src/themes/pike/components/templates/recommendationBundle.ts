@@ -16,7 +16,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 		margin: `${custom.spacing.x8}px 0`,
 		...custom.styles.boxSizing('recommendationBundle', props?.treePath, props?.name),
 		'.ss__recommendation-bundle__title': {
-			fontSize: custom.utils.convertPxToEm(22),
+			fontSize: '22px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 			margin: `0 0 ${custom.spacing.x4}px 0`,
@@ -46,7 +46,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				top: '5px',
 				left: '5px',
 				backgroundColor: variables?.colors?.primary,
-				fontSize: custom.utils.convertPxToEm(12),
+				fontSize: '12px',
 				fontWeight: custom.fonts.weight01,
 				lineHeight: `20px`,
 				color: custom.colors.white,
@@ -134,7 +134,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 						},
 					},
 					'.ss__recommendation-bundle__wrapper__cta__subtotal__price': {
-						fontSize: custom.utils.convertPxToEm(16),
+						fontSize: '16px',
 						fontWeight: custom.fonts.weight01,
 						color: variables?.colors?.primary,
 						'*': {
@@ -194,7 +194,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 		},
 		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__recommendation-bundle__title': {
-				fontSize: custom.utils.convertPxToEm(18),
+				fontSize: '18px',
 			},
 		},
 	});

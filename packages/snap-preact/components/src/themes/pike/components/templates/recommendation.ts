@@ -20,7 +20,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 		margin: `${custom.spacing.x8}px 0`,
 		...custom.styles.boxSizing('recommendation', props?.treePath, props?.name),
 		'.ss__recommendation__title': {
-			fontSize: custom.utils.convertPxToEm(22),
+			fontSize: '22px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 			textAlign: 'center',
@@ -67,7 +67,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 		},
 		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__recommendation__title': {
-				fontSize: custom.utils.convertPxToEm(18),
+				fontSize: '18px',
 			},
 			'.ss__carousel': {
 				'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {

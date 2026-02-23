@@ -36,7 +36,7 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 					top: '-1px',
 					margin: 0,
 					padding: `0 ${custom.spacing.x1}px`,
-					...custom.styles.fontSize(10),
+					fontSize: '10px',
 					color: lightGray,
 				},
 			},

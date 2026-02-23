@@ -23,7 +23,7 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 			},
 		},
 		'.ss__recommendation-bundle-list__title': {
-			fontSize: custom.utils.convertPxToEm(18),
+			fontSize: '18px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
@@ -107,7 +107,7 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 							},
 						},
 						'.ss__recommendation-bundle-list__wrapper__cta__subtotal__price': {
-							fontSize: custom.utils.convertPxToEm(16),
+							fontSize: '16px',
 							fontWeight: custom.fonts.weight01,
 							color: variables?.colors?.primary,
 							'*': {

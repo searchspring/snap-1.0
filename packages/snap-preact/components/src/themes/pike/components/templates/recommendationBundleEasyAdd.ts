@@ -23,7 +23,7 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 			},
 		},
 		'.ss__recommendation-bundle-easy-add__title': {
-			fontSize: custom.utils.convertPxToEm(18),
+			fontSize: '18px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
@@ -80,7 +80,7 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 						},
 					},
 					'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__price': {
-						fontSize: custom.utils.convertPxToEm(16),
+						fontSize: '16px',
 						fontWeight: custom.fonts.weight01,
 						color: variables?.colors?.primary,
 						'*': {

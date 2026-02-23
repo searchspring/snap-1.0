@@ -7,31 +7,24 @@ import { custom } from '../../custom';
 const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const lightGray = custom.utils.lightenColor();
 
 	// shared styles
 	const sharedStyles = css({
-		margin: `0 0 ${custom.spacing.x2}px 0`,
-		'&:last-of-type': {
-			marginBottom: 0,
-		},
 		...custom.styles.boxSizing('variantSelection', props?.treePath, props?.name),
 	});
 
-	// dropdown styles
-	const dropdownStyles = css([
+	// variant selection dropdown styles
+	const variantSelectionDropdownStyles = css([
 		sharedStyles,
 		{
 			'.ss__dropdown': {
 				'.ss__dropdown__button, .ss__dropdown__content': {
-					border: `1px solid ${custom.colors.gray02}`,
-					color: variables?.colors?.text,
-					backgroundColor: custom.colors.gray01,
+					...custom.styles.box(variables?.colors?.text),
 				},
 				'.ss__dropdown__button': {
-					width: 'auto',
-					display: 'flex',
-					padding: `0 ${custom.spacing.x2}px`,
+					gap: `${custom.spacing.x1}px`,
+					paddingTop: 0,
+					paddingBottom: 0,
 					textAlign: 'left',
 					height: `${custom.sizes.height}px`,
 					lineHeight: `${custom.sizes.height}px`,
@@ -41,9 +34,6 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 					},
 					'.ss__dropdown__button-wrapper': {
 						flex: '1 1 0%',
-						gap: `${custom.spacing.x1}px`,
-						paddingRight: `${custom.spacing.x1}px`,
-						fontWeight: 'normal',
 						'.ss__dropdown__button-wrapper__label': {
 							fontWeight: custom?.fonts?.weight01,
 							textTransform: 'capitalize',
@@ -54,9 +44,11 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 					},
 				},
 				'.ss__dropdown__content': {
-					marginTop: `-1px`,
-					padding: `${custom.spacing.x2}px`,
+					marginTop: `${custom.spacing.x2}px`,
 					'.ss__variant-selection__options': {
+						border: 0,
+						background: 'none',
+						textAlign: 'left',
 						'&, .ss__variant-selection__option': {
 							listStyle: 'none',
 							padding: 0,
@@ -72,12 +64,11 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 							},
 						},
 						'.ss__variant-selection__option--selected': {
-							fontWeight: custom.fonts.weight01,
-							color: variables?.colors?.primary,
+							...custom.styles.activeText(variables?.colors?.primary),
 						},
-						'.ss__variant-selection__option--unavailable': {
-							color: lightGray,
-							cursor: 'not-allowed',
+						'.ss__variant-selection__option--unavailable, .ss__variant-selection__option--disabled': {
+							color: 'inherit',
+							...custom.styles.disabled(),
 						},
 					},
 				},
@@ -92,31 +83,28 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 		},
 	]);
 
-	// list styles
-	const listStyles = css([
+	// variant selection list styles
+	const variantSelectionListStyles = css([
 		sharedStyles,
 		{
 			'.ss__list': {
-				'.ss__list__title, .ss__list__options, .ss__list__options .ss__list__option': {
-					width: '100%',
-					color: variables?.colors?.text,
-				},
 				'.ss__list__title': {
-					textTransform: 'capitalize',
+					fontSize: '14px',
+					textAlign: 'left',
 				},
 				'.ss__list__options': {
 					'.ss__list__option': {
+						color: variables?.colors?.text,
 						label: {
 							color: 'inherit',
+							cursor: 'inherit',
 						},
 					},
 					'.ss__list__option--selected': {
-						fontWeight: custom.fonts.weight01,
-						color: variables?.colors?.primary,
+						...custom.styles.activeText(variables?.colors?.primary),
 					},
-					'.ss__list__option--unavailable': {
-						color: lightGray,
-						cursor: 'not-allowed',
+					'.ss__list__option--unavailable, .ss__list__option--disabled': {
+						...custom.styles.disabled(),
 						textDecoration: 'line-through',
 					},
 				},
@@ -124,15 +112,15 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 		},
 	]);
 
-	// swatches syles
-	const swatchesStyles = css([sharedStyles]);
+	// variant selection swatches syles
+	const variantSelectionSwatchesStyles = css([sharedStyles]);
 
 	if (props?.type == 'list') {
-		return listStyles;
+		return variantSelectionListStyles;
 	} else if (props?.type == 'swatches') {
-		return swatchesStyles;
+		return variantSelectionSwatchesStyles;
 	} else {
-		return dropdownStyles;
+		return variantSelectionDropdownStyles;
 	}
 };
 

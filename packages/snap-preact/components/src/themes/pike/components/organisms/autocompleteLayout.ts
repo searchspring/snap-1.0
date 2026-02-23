@@ -24,7 +24,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 		backgroundColor: custom.colors.white,
 		...custom.styles.boxSizing('autocompleteLayout', props?.treePath, props?.name),
 		[textSelectors]: {
-			fontSize: custom.utils.convertPxToEm(acLayout == 'terms' ? 15 : 12),
+			fontSize: `${acLayout == 'terms' ? 15 : 12}px`,
 			lineHeight: 1.5,
 			color: variables?.colors?.text,
 		},
@@ -46,7 +46,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 		[headerSelectors]: {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
 			padding: 0,
-			fontSize: custom.utils.convertPxToEm(acLayout == 'terms' ? 17 : 16),
+			fontSize: `${acLayout == 'terms' ? 17 : 16}px`,
 			fontWeight: custom.fonts.weight02,
 			lineHeight: 1.2,
 			color: variables?.colors?.secondary,
@@ -71,10 +71,10 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 	const sharedTabletStyles = css({
 		alignContent: 'flex-start',
 		[textSelectors]: {
-			fontSize: acLayout == 'terms' ? custom.utils.convertPxToEm(12) : '',
+			fontSize: acLayout == 'terms' ? '12px' : '',
 		},
 		[headerSelectors]: {
-			fontSize: custom.utils.convertPxToEm(14),
+			fontSize: '14px',
 		},
 	});
 
@@ -165,10 +165,10 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 				gap: `${custom.spacing.x1}px`,
 				'.ss__result__details__pricing': {
 					'.ss__result__price': {
-						fontSize: custom.utils.convertPxToEm(14),
+						fontSize: '14px',
 					},
 					'.ss__price--strike': {
-						fontSize: custom.utils.convertPxToEm(12),
+						fontSize: '12px',
 					},
 				},
 			},
@@ -395,7 +395,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 						display: 'inline',
 						margin: 0,
 						padding: 0,
-						fontSize: custom.utils.convertPxToEm(14),
+						fontSize: '14px',
 						'& ~ p': {
 							paddingLeft: '4px',
 						},
@@ -410,7 +410,7 @@ const autocompleteLayoutStyleScript = (props: AutocompleteLayoutProps) => {
 				'.ss__autocomplete__content__no-results': {
 					'.ss__autocomplete__content__no-results__text': {
 						p: {
-							fontSize: custom.utils.convertPxToEm(12),
+							fontSize: '12px',
 						},
 					},
 				},

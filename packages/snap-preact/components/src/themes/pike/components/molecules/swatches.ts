@@ -138,10 +138,11 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 									cursor: 'not-allowed !important',
 									pointerEvents: 'unset',
 									'&:before': {
+										maxWidth: `${swatchesSize - 4}px`,
 										top: 0,
 										bottom: 0,
 										zIndex: 3,
-										margin: 'auto',
+										margin: 'auto 0',
 										borderTop: `2px solid ${custom.colors.white}`,
 										outlineColor: custom.colors.gray02,
 										...custom.styles.borderRadius(3),
@@ -222,6 +223,7 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 		'swatches slideshow': {
 			slidesToShow: 4,
 			gap: swatchesSpacing,
+			centerInsufficientSlides: true,
 		},
 	},
 };

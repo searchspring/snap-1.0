@@ -85,7 +85,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				position: 'relative',
 				top: isList ? '-1px' : '',
 				padding: isList ? `0 ${custom.spacing.x1}px` : ``,
-				...custom.styles.fontSize(10),
+				fontSize: '10px',
 				color: lightGray,
 			},
 		},
@@ -114,7 +114,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					lineHeight: '0.85rem',
 				},
 				'.ss__facet-palette-options__option__value': {
-					...custom.styles.fontSize(12),
+					fontSize: '12px',
 					overflow: 'hidden',
 					margin: `${custom.spacing.x1}px 0 0 0`,
 				},

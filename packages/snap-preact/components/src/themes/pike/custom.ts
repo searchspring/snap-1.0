@@ -30,7 +30,7 @@ export const custom: CustomThemeType = {
 		weight01: 700, // main font weight
 		weight02: 700, // header font weight
 		style: false,
-		transform: false,
+		transform: 'none',
 	},
 	icons: {
 		arrowLeft: 'chevron-left',
@@ -81,8 +81,8 @@ export const custom: CustomThemeType = {
 			// badge text styles
 			return {
 				display: 'block',
-				...custom.styles.fontSize(value),
-				lineHeight: 1,
+				fontSize: value,
+				lineHeight: 1.2,
 			};
 		},
 		borderRadius: (value?: number, unit?: string) => {
@@ -145,16 +145,12 @@ export const custom: CustomThemeType = {
 				pointerEvents: 'unset',
 			};
 		},
-		fontSize: (value: number) => {
-			// translates px to rem
-			return {
-				fontSize: `${value / custom.sizes.font}rem`,
-			};
-		},
-		headerText: (value?: string) => {
+		headerText: (value?: string, size?: string) => {
 			// header text styles
 			return {
+				fontSize: size ? size : '',
 				fontWeight: custom?.fonts?.weight02,
+				textTransform: custom?.fonts?.transform,
 				color: value ? value : '',
 			};
 		},
@@ -188,10 +184,6 @@ export const custom: CustomThemeType = {
 			const activeColor = new Color(color);
 			const accentColor = activeColor.isDark() || activeColor.hex().toLowerCase() == custom.colors.primary ? whiteColor : blackColor;
 			return [activeColor.hex().toLowerCase(), accentColor.hex().toLowerCase()];
-		},
-		convertPxToEm: (value: number) => {
-			// translates px to rem
-			return `${value / custom.sizes.font}rem`;
 		},
 		lightenColor: (color?: string, amount?: number) => {
 			// lighten a color
@@ -249,14 +241,12 @@ type CustomThemeType = {
 		box: (text?: string, value?: number | string, radius?: boolean) => ObjectNumberOrStringType;
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType;
-		fontSize: (value: number) => ObjectStringType;
-		headerText: (value?: string) => ObjectNumberOrStringType;
+		headerText: (value?: string, size?: string) => ObjectNumberOrStringType;
 		srOnly: () => ObjectNumberOrStringType;
 		textOverflow: () => ObjectNumberOrStringType;
 	};
 	utils: {
 		activeColors: (color?: string) => string[];
-		convertPxToEm: (value: number) => string;
 		lightenColor: (color?: string, amount?: number) => string;
 		darkenColor: (color?: string, amount?: number) => string;
 	};

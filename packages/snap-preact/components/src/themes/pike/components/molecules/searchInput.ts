@@ -56,7 +56,7 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 				flex: '1 1 0%',
 				minHeight: '1px',
 				...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`, false),
-				...custom.styles.fontSize(14),
+				fontSize: '14px',
 				'&::-webkit-input-placeholder': {
 					color: lightGray,
 				},

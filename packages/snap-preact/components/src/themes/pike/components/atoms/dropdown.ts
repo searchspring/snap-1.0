@@ -41,6 +41,11 @@ const dropdownStyleScript = (props: DropdownProps) => {
 				'.ss__select__select .ss__select__select__option--selected, .ss__variant-selection__options .ss__variant-selection__option--selected': {
 					...custom.styles.activeText(variables?.colors?.primary),
 				},
+				'.ss__select__select .ss__select__select__option----unavailable, .ss__select__select .ss__select__select__option--disabled, .ss__variant-selection__options .ss__variant-selection__option--unavailable, .ss__variant-selection__options .ss__variant-selection__option--disabled':
+					{
+						color: 'inherit',
+						...custom.styles.disabled(),
+					},
 			},
 		},
 		'&.ss__dropdown--open': {

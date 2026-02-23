@@ -23,7 +23,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 			},
 		},
 		'.ss__recommendation-bundle-vertical__title': {
-			fontSize: custom.utils.convertPxToEm(18),
+			fontSize: '18px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
@@ -53,7 +53,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 					top: '5px',
 					left: '5px',
 					backgroundColor: variables?.colors?.primary,
-					fontSize: custom.utils.convertPxToEm(14),
+					fontSize: '14px',
 					fontWeight: custom.fonts.weight01,
 					lineHeight: `24px`,
 					color: custom.colors.white,
@@ -102,7 +102,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 						},
 					},
 					'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__price': {
-						fontSize: custom.utils.convertPxToEm(16),
+						fontSize: '16px',
 						fontWeight: custom.fonts.weight01,
 						color: variables?.colors?.primary,
 						'*': {
@@ -116,7 +116,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 			'.ss__recommendation-bundle-vertical__wrapper': {
 				'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper': {
 					'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper__seed-badge': {
-						fontSize: custom.utils.convertPxToEm(12),
+						fontSize: '12px',
 						lineHeight: `20px`,
 					},
 				},

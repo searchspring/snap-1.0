@@ -25,7 +25,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			margin: `${custom.spacing.x1}px 0 0 0`,
 			gap: `${custom.spacing.x4}px`,
 			'a, div, p': {
-				fontSize: custom.utils.convertPxToEm(12),
+				fontSize: '12px',
 				lineHeight: 1.5,
 				color: variables?.colors?.text,
 			},
@@ -41,7 +41,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			},
 			[headerSelectors]: {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
-				fontSize: custom.utils.convertPxToEm(16),
+				fontSize: '16px',
 				fontWeight: custom.fonts.weight02,
 				lineHeight: 1.2,
 				color: variables?.colors?.secondary,
@@ -88,7 +88,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 						'.ss__autocomplete__terms__option': {
 							a: {
 								padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
-								fontSize: custom.utils.convertPxToEm(14),
+								fontSize: '14px',
 								color: variables?.colors?.primary,
 								em: {
 									color: variables?.colors?.text,
@@ -176,10 +176,10 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 							gap: `${custom.spacing.x1}px`,
 							'.ss__result__details__pricing': {
 								'.ss__result__price': {
-									fontSize: custom.utils.convertPxToEm(14),
+									fontSize: '14px',
 								},
 								'.ss__price--strike': {
-									fontSize: custom.utils.convertPxToEm(12),
+									fontSize: '12px',
 								},
 							},
 						},
@@ -220,7 +220,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				left: 0,
 				right: 0,
 				[headerSelectors]: {
-					fontSize: custom.utils.convertPxToEm(14),
+					fontSize: '14px',
 				},
 				'& > div': {
 					flex: '1 1 100%',
@@ -259,7 +259,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 								flex: '0 1 auto',
 								a: {
 									padding: 0,
-									fontSize: custom.utils.convertPxToEm(12),
+									fontSize: '12px',
 								},
 							},
 						},

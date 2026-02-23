@@ -15,7 +15,7 @@ const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 		maxHeight: 'none',
 		...custom.styles.boxSizing('recommendationGrid', props?.treePath, props?.name),
 		'.ss__recommendation-grid__title': {
-			fontSize: custom.utils.convertPxToEm(22),
+			fontSize: '22px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 			textAlign: 'center',

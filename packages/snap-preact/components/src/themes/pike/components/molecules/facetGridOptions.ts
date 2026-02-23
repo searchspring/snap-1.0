@@ -28,7 +28,7 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 				maxHeight: '100%',
 				color: 'inherit',
 				'&, &.ss__facet-grid-options__option__value--smaller': {
-					...custom.styles.fontSize(12),
+					fontSize: '12px',
 					lineHeight: 1,
 				},
 			},

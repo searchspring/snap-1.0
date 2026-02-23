@@ -27,7 +27,7 @@ const facetStyleScript = (props: FacetProps) => {
 		},
 		'.ss__facet__header': {
 			gap: `${custom.spacing.x2}px`,
-			fontSize: custom.utils.convertPxToEm(16),
+			fontSize: '16px',
 			fontWeight: custom.fonts.weight02,
 			'.ss__icon': {
 				transition: 'transform ease 0.5s',

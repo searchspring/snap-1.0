@@ -13,8 +13,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 		...custom.styles.boxSizing('filterSummary', props?.treePath, props?.name),
 		'.ss__filter-summary__title': {
 			padding: 0,
-			...custom.styles.fontSize(14),
-			...custom.styles.headerText(variables?.colors?.secondary),
+			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 		},
 		'.ss__filter-summary__filters': {
 			margin: 0,

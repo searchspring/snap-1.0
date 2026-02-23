@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import type { BannerProps } from '../../../../components/Atoms/Merchandising/Banner';
+import type { BannerProps } from '../../../../components/Atoms/Banner';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 

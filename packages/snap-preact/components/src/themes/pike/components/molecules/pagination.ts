@@ -19,7 +19,7 @@ const paginationStyleScript = (props: PaginationProps) => {
 			gap: `${custom.spacing.x2}px`,
 			'.ss__pagination__page, span': {
 				padding: 0,
-				...custom.styles.fontSize(14),
+				fontSize: '14px',
 				color: variables?.colors?.text,
 			},
 			'.ss__pagination__page': {
@@ -37,7 +37,7 @@ const paginationStyleScript = (props: PaginationProps) => {
 			nav: {
 				gap: `${custom.spacing.x4}px`,
 				'.ss__pagination__page, span': {
-					...custom.styles.fontSize(16),
+					fontSize: '16px',
 				},
 			},
 		},

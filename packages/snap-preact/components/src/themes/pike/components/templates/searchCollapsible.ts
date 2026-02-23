@@ -53,7 +53,7 @@ const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
 			'.ss__toolbar': {
 				'.ss__pagination-info': {
-					fontSize: custom.utils.convertPxToEm(16),
+					fontSize: '16px',
 				},
 			},
 		},

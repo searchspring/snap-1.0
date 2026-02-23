@@ -93,7 +93,7 @@ const selectStyleScript = (props: SelectProps) => {
 			...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`),
 			...custom.styles.boxSizing('select', props?.treePath, props?.name),
 			'.ss__select__label, .ss__select__select': {
-				...custom.styles.fontSize(14),
+				fontSize: '14px',
 			},
 			'.ss__select__label': {
 				fontWeight: custom.fonts.weight01,

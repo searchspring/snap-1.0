@@ -24,7 +24,7 @@ const ratingStyleScript = (props: RatingProps) => {
 			},
 		},
 		'.ss__rating__count, .ss__rating__text': {
-			...custom.styles.fontSize(12),
+			fontSize: '12px',
 			color: variables?.colors?.text,
 		},
 	});

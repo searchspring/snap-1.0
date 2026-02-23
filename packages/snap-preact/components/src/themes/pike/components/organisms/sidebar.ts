@@ -12,7 +12,7 @@ const sidebarStyleScript = (props: SidebarProps) => {
 		...custom.styles.boxSizing('sidebar', props?.treePath, props?.name),
 		'.ss__sidebar__title': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
-			fontSize: custom.utils.convertPxToEm(20),
+			fontSize: '20px',
 			fontWeight: custom.fonts.weight02,
 			color: variables?.colors?.secondary,
 		},
@@ -38,7 +38,7 @@ const sidebarStyleScript = (props: SidebarProps) => {
 				margin: ` 0 0 ${custom.spacing.x4}px 0`,
 				padding: ` 0 0 ${custom.spacing.x2}px 0`,
 				borderBottom: `2px solid ${variables?.colors?.primary}`,
-				fontSize: custom.utils.convertPxToEm(16),
+				fontSize: '16px',
 				fontWeight: custom.fonts.weight02,
 				color: variables?.colors?.secondary,
 			},

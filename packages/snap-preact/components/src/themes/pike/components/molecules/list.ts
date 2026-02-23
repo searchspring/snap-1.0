@@ -31,8 +31,7 @@ const listStyleScript = (props: ListProps) => {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 		},
 		'.ss__list__title': {
-			...custom.styles.fontSize(14),
-			...custom.styles.headerText(variables?.colors?.secondary),
+			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 		},
 		'.ss__list__options': {
 			'.ss__list__option': {

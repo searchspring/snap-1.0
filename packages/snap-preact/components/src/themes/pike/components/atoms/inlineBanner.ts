@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import type { InlineBannerProps } from '../../../../components/Atoms/Merchandising/InlineBanner';
+import type { InlineBannerProps } from '../../../../components/Atoms/InlineBanner';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 

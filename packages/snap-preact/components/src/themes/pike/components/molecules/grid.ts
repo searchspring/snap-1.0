@@ -24,11 +24,10 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 		...custom.styles.boxSizing('grid', props?.treePath, props?.name),
 		'.ss__grid__title': {
 			margin: `0 0 ${custom.spacing.x1}px 0`,
-			...custom.styles.fontSize(14),
-			...custom.styles.headerText(variables?.colors?.secondary),
+			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 		},
 		'.ss__grid__options .ss__grid__option .ss__grid__option__inner .ss__grid__option__label, .ss__grid__show-more-wrapper': {
-			...custom.styles.fontSize(12),
+			fontSize: '12px',
 			lineHeight: 1,
 		},
 		'.ss__grid__options': {
@@ -134,10 +133,11 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 					cursor: 'not-allowed !important',
 					pointerEvents: 'unset',
 					'&:before': {
+						maxWidth: `${gridSize - 4}px`,
 						top: 0,
 						bottom: 0,
 						zIndex: 3,
-						margin: 'auto',
+						margin: 'auto 0',
 						borderTop: `2px solid ${custom.colors.white}`,
 						outlineColor: custom.colors.gray02,
 						...custom.styles.borderRadius(3),

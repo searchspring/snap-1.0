@@ -69,7 +69,7 @@ const resultStyleScript = (props: ResultProps) => {
 				'.ss__result__details__title': {
 					flex: '1 1 0%',
 					a: {
-						...custom.styles.fontSize(18),
+						fontSize: '18px',
 						fontWeight: custom.fonts.weight02,
 					},
 				},
@@ -79,11 +79,15 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 				'.ss__result__details__variant-selection:not(:empty)': {
 					display: 'flex',
+					flexFlow: 'row wrap',
 					alignItems: 'center',
 					gap: `${custom.spacing.x2}px`,
 					'.ss__variant-selection': {
-						width: `calc((100% - ${custom.spacing.x2 * 2}px) / 3)`,
+						width: `calc((100% - ${custom.spacing.x2 * 2}px) / 2)`,
 						margin: 0,
+						'.ss__slideshow .ss__slideshow__container .ss__slideshow__track': {
+							justifyContent: 'flex-start',
+						},
 					},
 				},
 			},
@@ -118,13 +122,13 @@ const resultStyleScript = (props: ResultProps) => {
 			},
 			'.ss__result__details__pricing': {
 				'.ss__result__price': {
-					...custom.styles.fontSize(16),
+					fontSize: '16px',
 					'&:not(.ss__price--strike)': {
 						fontWeight: custom.fonts.weight01,
 					},
 				},
 				'.ss__price--strike': {
-					...custom.styles.fontSize(14),
+					fontSize: '14px',
 					'&, span': {
 						color: lightGray,
 					},
@@ -158,6 +162,10 @@ const resultStyleScript = (props: ResultProps) => {
 					'.ss__result__details__pricing': {
 						order: 0,
 					},
+					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection .ss__slideshow .ss__slideshow__container .ss__slideshow__track':
+						{
+							justifyContent: 'center',
+						},
 					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection, .ss__result__add-to-cart-wrapper .ss__button': {
 						width: `100%`,
 					},
