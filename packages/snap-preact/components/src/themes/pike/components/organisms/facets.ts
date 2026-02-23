@@ -8,13 +8,22 @@ const facetsStyleScript = (props: FacetsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// facets styles
+	const facetsStyles = css({
 		...custom.styles.boxSizing('facets', props?.treePath, props?.name),
 		'&.ss__facets': {
 			display: 'block',
 			width: 'auto',
+			'.ss__facet': {
+				margin: `0 0 ${custom.spacing.x6}px 0`,
+				'&:last-of-type': {
+					marginBottom: 0,
+				},
+			},
 		},
 	});
+
+	return facetsStyles;
 };
 
 // Facets component props

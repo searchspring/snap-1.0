@@ -8,42 +8,31 @@ const sidebarStyleScript = (props: SidebarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// sidebar styles
+	const sidebarStyles = css({
 		...custom.styles.boxSizing('sidebar', props?.treePath, props?.name),
 		'.ss__sidebar__title': {
 			margin: `0 0 ${custom.spacing.x6}px 0`,
-			fontSize: '20px',
-			fontWeight: custom.fonts.weight02,
-			color: variables?.colors?.secondary,
+			...custom.styles.headerText(variables?.colors?.secondary, '20px'),
 		},
 		'.ss__sidebar__inner': {
 			'.ss__layout': {
-				'&, .ss__layout__row': {
-					display: 'block',
-				},
+				gap: `${custom.spacing.x6}px`,
 				'.ss__layout__row': {
+					display: 'block',
 					minWidth: '1px',
 					'& > div:only-child': {
 						width: 'auto',
 					},
 				},
 			},
-			'.ss__layout .ss__layout__row, .ss__facets .ss__facet': {
-				margin: `0 0 ${custom.spacing.x6}px 0`,
-				'&:last-of-type': {
-					marginBottom: 0,
-				},
-			},
-			'.ss__filter-summary .ss__filter-summary__title, .ss__facets .ss__facet .ss__facet__header': {
-				margin: ` 0 0 ${custom.spacing.x4}px 0`,
-				padding: ` 0 0 ${custom.spacing.x2}px 0`,
-				borderBottom: `2px solid ${variables?.colors?.primary}`,
-				fontSize: '16px',
-				fontWeight: custom.fonts.weight02,
-				color: variables?.colors?.secondary,
+			'.ss__select': {
+				width: '100%',
 			},
 		},
 	});
+
+	return sidebarStyles;
 };
 
 // Sidebar component props
@@ -51,9 +40,6 @@ export const sidebar: ThemeComponent<'sidebar', SidebarProps> = {
 	default: {
 		sidebar: {
 			themeStyleScript: sidebarStyleScript,
-		},
-		'sidebar toolbar filterSummary': {
-			title: 'Current Filters',
 		},
 	},
 };

@@ -3,12 +3,16 @@ import type { FacetProps } from '../../../../components/Organisms/Facet';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const lightGray = custom.utils.lightenColor();
+
 // CSS in JS style script for the Facet component
 const facetStyleScript = (props: FacetProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
+	// facet styles
+	const facetStyles = css({
 		...custom.styles.boxSizing('facet', props?.treePath, props?.name),
 		'&.ss__facet--collapsed': {
 			'.ss__facet__header': {
@@ -26,9 +30,34 @@ const facetStyleScript = (props: FacetProps) => {
 			},
 		},
 		'.ss__facet__header': {
+			margin: ` 0 0 ${custom.spacing.x4}px 0`,
+			padding: ` 0 0 ${custom.spacing.x2}px 0`,
+			borderBottom: `2px solid ${variables?.colors?.primary}`,
 			gap: `${custom.spacing.x2}px`,
-			fontSize: '16px',
-			fontWeight: custom.fonts.weight02,
+			...custom.styles.headerText(props?.color || variables?.colors?.secondary, '16px'),
+			'.ss__facet__header__inner': {
+				flex: '1 1 0%',
+				gap: `${custom.spacing.x1}px`,
+				alignItems: 'center',
+				'.ss__facet__header__selected-count, .ss__facet__header__clear-all': {
+					fontSize: '12px',
+					margin: 0,
+				},
+				'.ss__facet__header__clear-all': {
+					padding: 0,
+					height: 'auto',
+					lineHeight: 'inherit',
+					marginLeft: 'auto',
+					'&, &:hover': {
+						border: 0,
+						backgroundColor: 'transparent',
+						color: 'inherit',
+					},
+					'&:hover': {
+						textDecoration: 'none',
+					},
+				},
+			},
 			'.ss__icon': {
 				transition: 'transform ease 0.5s',
 				transform: 'rotate(180deg)',
@@ -38,31 +67,62 @@ const facetStyleScript = (props: FacetProps) => {
 			marginTop: 0,
 			maxHeight: 'none',
 			overflow: 'visible',
-			'&::-webkit-scrollbar': {
-				width: '8px',
-				height: '8px',
+			...custom.styles.scrollbar(),
+		},
+		'.ss__facet__range-inputs': {
+			margin: `${custom.spacing.x4}px 0 0 0`,
+			fontSize: '14px',
+			color: variables?.colors?.text,
+			'&, .ss__facet__range-inputs__row': {
+				gap: `${custom.spacing.x2}px`,
 			},
-			'&::-webkit-scrollbar-track': {
-				backgroundColor: custom.colors.gray01,
+			'.ss__facet__range-inputs__separator, .ss__facet__range-inputs__row--button-wrapper .ss__button': {
+				margin: 0,
 			},
-			'&::-webkit-scrollbar-thumb': {
-				backgroundColor: custom.colors.gray02,
+			'.ss__facet__range-input': {
+				gap: `${custom.spacing.x1 / 2}px`,
+				border: 0,
+				backgroundColor: 'transparent',
+			},
+			'.ss__facet__range-input__prefix': {
+				padding: 0,
+			},
+			'.ss__facet__range-input__input': {
+				height: custom.sizes.height,
+				lineHeight: custom.sizes.height,
+				...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`, false),
+				'&::-webkit-input-placeholder': {
+					color: lightGray,
+				},
+				'&::-ms-input-placeholder': {
+					color: lightGray,
+				},
+				'&::placeholder': {
+					color: lightGray,
+				},
+			},
+			'.ss__facet__range-inputs__row--button-wrapper .ss__button': {
+				width: '100%',
 			},
 		},
 		'.ss__facet__show-more-less': {
 			margin: `${custom.spacing.x2}px 0 0 0`,
-			fontWeight: custom.fonts.weight01,
-			color: variables?.colors?.primary,
+			flexFlow: 'row nowrap',
+			display: 'inline-flex',
+			alignItems: 'center',
+			gap: `${custom.spacing.x2}px`,
+			...custom.styles.activeText(variables?.colors?.primary),
+			lineHeight: 1,
 			'.ss__icon': {
-				position: 'relative',
-				top: '-0.5px',
-				marginRight: `${custom.spacing.x1}px`,
+				margin: 0,
 				width: `${custom.sizes.icon10}px`,
 				height: `${custom.sizes.icon10}px`,
 				flex: `0 0 ${custom.sizes.icon10}px`,
 			},
 		},
 	});
+
+	return facetStyles;
 };
 
 // Facet component props
@@ -74,8 +134,22 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
+			showSelectedCount: true,
+			hideSelectedCountParenthesis: false,
+			rangeInputs: true,
+			rangeInputsPrefix: '$',
+			rangeInputsSeparatorText: 'to',
+			rangeInputsInheritDefaultValues: true,
+			showClearAllText: true,
+			searchable: true,
 		},
 		'facet icon.collapse': {
+			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
+			fill: custom.colors.primary,
+		},
+		'facet icon.expand': {
 			size: `${custom.sizes.icon12}px`,
 			width: `${custom.sizes.icon12}px`,
 			height: `${custom.sizes.icon12}px`,

@@ -10,10 +10,14 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 
 	// shared styles
 	const sharedStyles = css({
+		display: 'block',
+		width: 'auto',
 		...custom.styles.boxSizing('filterSummary', props?.treePath, props?.name),
 		'.ss__filter-summary__title': {
-			padding: 0,
-			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
+			margin: ` 0 0 ${custom.spacing.x4}px 0`,
+			padding: ` 0 0 ${custom.spacing.x2}px 0`,
+			borderBottom: `2px solid ${variables?.colors?.primary}`,
+			...custom.styles.headerText(variables?.colors?.secondary, '16px'),
 		},
 		'.ss__filter-summary__filters': {
 			margin: 0,

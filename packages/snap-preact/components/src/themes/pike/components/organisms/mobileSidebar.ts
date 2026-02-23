@@ -3,15 +3,37 @@ import type { MobileSidebarProps } from '../../../../components/Organisms/Mobile
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
+// static variables
+const headerHeight = 60;
+const footerHeight = 75;
+
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const headerHeight = 60;
-	const footerHeight = 75;
+	const activeColors = custom.utils.activeColors(variables?.colors?.primary);
+	const activeColor = activeColors[0];
+	const fontColor = activeColors[1];
+	const hideHeader = typeof props?.hideHeader == 'boolean' ? props.hideHeader : false;
+	const hideFooter = typeof props?.hideFooter == 'boolean' ? props.hideFooter : false;
 
-	return css({
+	// determine inner content height
+	let innerHeight = 100;
+	if (!hideHeader && !hideFooter) {
+		innerHeight = headerHeight + footerHeight;
+	} else if (hideHeader && !hideFooter) {
+		innerHeight = headerHeight;
+	} else if (hideFooter && !hideHeader) {
+		innerHeight = footerHeight;
+	}
+
+	// mobile sidebar styles
+	const mobileSidebarStyles = css({
 		...custom.styles.boxSizing('mobileSidebar', props?.treePath, props?.name),
+		'.ss__slideout__button .ss__button .ss__icon--filters': {
+			fill: activeColor,
+			stroke: fontColor,
+		},
 		'.ss__mobile-sidebar__slideout': {
 			overflowY: 'hidden',
 			padding: 0,
@@ -21,12 +43,13 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 				'.ss__mobile-sidebar__header, .ss__mobile-sidebar__footer': {
 					padding: `0 ${custom.spacing.x4}px`,
 					gap: `${custom.spacing.x2}px`,
+					flexFlow: 'row nowrap',
 					alignItems: 'center',
 				},
 				'.ss__mobile-sidebar__header': {
 					height: `${headerHeight}px`,
-					backgroundColor: variables?.colors?.primary,
-					color: custom.colors.white,
+					backgroundColor: activeColor,
+					color: fontColor,
 					'.ss__mobile-sidebar__header__title': {
 						margin: 0,
 						fontSize: '18px',
@@ -40,31 +63,15 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						backgroundColor: 'transparent',
 					},
 				},
-				'.ss__mobile-sidebar__footer': {
-					height: `${footerHeight}px`,
-					backgroundColor: custom.colors.white,
-					borderTop: `1px solid ${custom.colors.gray02}`,
-					'.ss__button': {
-						flex: `1 1 0%`,
-					},
-				},
 				'.ss__mobile-sidebar__inner': {
-					height: `calc(100% - ${headerHeight + footerHeight}px)`,
+					height: innerHeight == 100 ? `${innerHeight}%` : `calc(100% - ${innerHeight}px)`,
 					overflowY: 'auto',
 					overflowX: 'hidden',
-					'&::-webkit-scrollbar': {
-						width: '8px',
-						height: '8px',
-					},
-					'&::-webkit-scrollbar-track': {
-						backgroundColor: custom.colors.gray01,
-					},
-					'&::-webkit-scrollbar-thumb': {
-						backgroundColor: custom.colors.gray02,
-					},
+					...custom.styles.scrollbar(),
 					'.ss__layout': {
 						overflow: 'hidden',
 						display: 'block',
+						gap: 0,
 						'& > *': {
 							borderBottom: `1px solid ${custom.colors.gray02}`,
 							padding: `${custom.spacing.x4}px`,
@@ -73,38 +80,49 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 							},
 						},
 					},
-					'.ss__select--native': {
-						padding: `0 ${custom.spacing.x4}px`,
-						borderTop: 0,
-						height: '40px',
-						lineHeight: '40px',
-					},
 					'.ss__filter-summary, .ss__facets': {
 						padding: 0,
 					},
 					'.ss__filter-summary .ss__filter-summary__title, .ss__facets .ss__facet .ss__facet__header': {
 						margin: 0,
 						padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
+						borderBottom: `1px solid ${custom.colors.gray01}`,
 						backgroundColor: custom.colors.gray01,
-						border: 0,
-						fontSize: '14px',
-						fontWeight: custom.fonts.weight02,
 						color: variables?.colors?.text,
+						fontSize: '14px',
 					},
-					// '.ss__filter-summary .ss__filter-summary__filters, .ss__facets .ss__facet .ss__dropdown__content': {
-					// 	padding: `${custom.spacing.x4}px`,
-					// },
+					'.ss__filter-summary .ss__filter-summary__filters, .ss__facets .ss__facet .ss__dropdown__content': {
+						padding: `${custom.spacing.x4}px`,
+					},
 					'.ss__facets .ss__facet': {
 						margin: 0,
-						width: 'auto',
 						'&.ss__facet--collapsed': {
 							borderBottom: `1px solid ${custom.colors.gray02}`,
 						},
+					},
+					'.ss__select .ss__dropdown .ss__dropdown__content': {
+						zIndex: 6,
+					},
+					'.ss__select--native': {
+						padding: `0 ${custom.spacing.x4}px`,
+						borderTop: 0,
+						height: '40px',
+						lineHeight: '40px',
+					},
+				},
+				'.ss__mobile-sidebar__footer': {
+					height: `${footerHeight}px`,
+					backgroundColor: custom.colors.white,
+					borderTop: `1px solid ${custom.colors.gray02}`,
+					'.ss__button': {
+						flex: `1 1 0%`,
 					},
 				},
 			},
 		},
 	});
+
+	return mobileSidebarStyles;
 };
 
 // MobileSidebar component props
@@ -112,17 +130,21 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 	default: {
 		mobileSidebar: {
 			themeStyleScript: mobileSidebarStyleScript,
+			openButtonIcon: custom.icons.filter,
+			closeButtonIcon: custom.icons.close,
 		},
 		'mobileSidebar button.close icon': {
 			size: `${custom.sizes.icon16}px`,
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
-			icon: custom.icons.close,
 		},
 		'mobileSidebar toolbar filterSummary': {
 			title: 'Current Filters',
 		},
 		'mobileSidebar facets icon.collapse': {
+			fill: 'currentColor',
+		},
+		'mobileSidebar facets icon.expand': {
 			fill: 'currentColor',
 		},
 	},

@@ -4,7 +4,7 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // static variables
-const searchInputHeight = 35;
+const searchInputHeight = custom.sizes.height;
 const lightGray = custom.utils.lightenColor();
 
 // CSS in JS style script for the SearchInput component

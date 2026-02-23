@@ -21,6 +21,13 @@ const iconStyleScript = (props: IconProps) => {
 		minWidth: '1px',
 		flex: flexSize,
 		lineHeight: 1,
+		'&.ss__icon--filters': {
+			fill: custom.colors.white,
+			stroke: variables?.colors?.primary,
+			circle: {
+				fill: 'inherit',
+			},
+		},
 	});
 
 	return iconStyles;

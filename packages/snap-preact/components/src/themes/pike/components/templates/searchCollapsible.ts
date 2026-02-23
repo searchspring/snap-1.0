@@ -11,52 +11,52 @@ const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 
 	return css({
 		...custom.styles.boxSizing('searchCollapsible', props?.treePath, props?.name),
-		'&.ss__search-collapsible--sidebar-open': {
-			'.ss__button': {
-				'.ss__icon--filter': {
-					transform: 'rotate(-180deg)',
-				},
-				'.ss__icon--filters': {
-					circle: {
-						'&:last-child': {
-							transform: 'translateX(-35%)',
-						},
-						transform: 'translateX(35%)',
-					},
-				},
-			},
-		},
-		'.ss__search-collapsible__header-section, .ss__search-collapsible__main-section': {
-			margin: `0 0 ${custom.spacing.x6}px 0`,
-			'.ss__toolbar .ss__layout': {
-				gap: `${custom.spacing.x4}px`,
-			},
-		},
-		'.ss__search-collapsible__header-section': {
-			'.ss__search-header': {
-				textAlign: 'center',
-			},
-		},
-		'.ss__search-collapsible__main-section': {
-			gap: `${custom.spacing.x6}px`,
-			'.ss__search-collapsible__sidebar, .ss__search-collapsible__content': {
-				minWidth: '1px',
-			},
-			'.ss__search-collapsible__sidebar': {
-				flex: '0 1 auto',
-			},
-			'.ss__search-collapsible__content': {
-				flex: '1 1 0%',
-				gap: `${custom.spacing.x4}px`,
-			},
-		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
-			'.ss__toolbar': {
-				'.ss__pagination-info': {
-					fontSize: '16px',
-				},
-			},
-		},
+		// '&.ss__search-collapsible--sidebar-open': {
+		// 	'.ss__button': {
+		// 		'.ss__icon--filter': {
+		// 			transform: 'rotate(-180deg)',
+		// 		},
+		// 		'.ss__icon--filters': {
+		// 			circle: {
+		// 				'&:last-child': {
+		// 					transform: 'translateX(-35%)',
+		// 				},
+		// 				transform: 'translateX(35%)',
+		// 			},
+		// 		},
+		// 	},
+		// },
+		// '.ss__search-collapsible__header-section, .ss__search-collapsible__main-section': {
+		// 	margin: `0 0 ${custom.spacing.x6}px 0`,
+		// 	'.ss__toolbar .ss__layout': {
+		// 		gap: `${custom.spacing.x4}px`,
+		// 	},
+		// },
+		// '.ss__search-collapsible__header-section': {
+		// 	'.ss__search-header': {
+		// 		textAlign: 'center',
+		// 	},
+		// },
+		// '.ss__search-collapsible__main-section': {
+		// 	gap: `${custom.spacing.x6}px`,
+		// 	'.ss__search-collapsible__sidebar, .ss__search-collapsible__content': {
+		// 		minWidth: '1px',
+		// 	},
+		// 	'.ss__search-collapsible__sidebar': {
+		// 		flex: '0 1 auto',
+		// 	},
+		// 	'.ss__search-collapsible__content': {
+		// 		flex: '1 1 0%',
+		// 		gap: `${custom.spacing.x4}px`,
+		// 	},
+		// },
+		// [`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		// 	'.ss__toolbar': {
+		// 		'.ss__pagination-info': {
+		// 			fontSize: '16px',
+		// 		},
+		// 	},
+		// },
 	});
 };
 
@@ -67,15 +67,15 @@ export const searchCollapsible: ThemeComponent<'searchCollapsible', SearchCollap
 			...(searchCollapsibleThemeComponentProps.default?.['searchCollapsible'] || {}),
 			themeStyleScript: searchCollapsibleStyleScript,
 		},
-		'searchCollapsible sidebar': {
-			hideTitleText: true,
-		},
-		'searchCollapsible button.sidebar-toggle': {
-			icon: custom.icons.filter,
-		},
-		'searchCollapsible filterSummary': {
-			type: 'list',
-		},
+		// 'searchCollapsible sidebar': {
+		// 	hideTitleText: true,
+		// },
+		// 'searchCollapsible button.sidebar-toggle': {
+		// 	icon: custom.icons.filter,
+		// },
+		// 'searchCollapsible filterSummary': {
+		// 	type: 'list',
+		// },
 	},
 	mobile: {
 		...searchCollapsibleThemeComponentProps.mobile,

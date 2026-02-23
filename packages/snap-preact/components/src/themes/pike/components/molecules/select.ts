@@ -22,6 +22,7 @@ const selectStyleScript = (props: SelectProps) => {
 				},
 				'.ss__dropdown__button': {
 					'.ss__button': {
+						width: '100%',
 						paddingTop: 0,
 						paddingBottom: 0,
 						textAlign: 'left',

@@ -43,7 +43,6 @@ export const custom: CustomThemeType = {
 		minus: 'minus',
 		plus: 'plus',
 		filter: 'filter',
-		filters: 'filters',
 		search: 'search',
 		sort: 'sort',
 	},
@@ -95,14 +94,14 @@ export const custom: CustomThemeType = {
 				borderRadius: hasValue || custom.sizes.radius ? `${value}${unit}` : ``,
 			};
 		},
-		box: (text?: string, value?: number | string, radius?: boolean) => {
+		box: (text?: string, paddingValue?: number | string, radius?: boolean) => {
 			// styles for box designs
 
 			// define padding value
 			let padding = `${custom.spacing.x2}px` as number | string;
-			if (value) {
-				padding = value;
-			} else if (value === 0) {
+			if (paddingValue) {
+				padding = paddingValue;
+			} else if (paddingValue === 0) {
 				padding = '';
 			}
 
@@ -152,6 +151,21 @@ export const custom: CustomThemeType = {
 				fontWeight: custom?.fonts?.weight02,
 				textTransform: custom?.fonts?.transform,
 				color: value ? value : '',
+			};
+		},
+		scrollbar: () => {
+			// scrollbar styles
+			return {
+				'&::-webkit-scrollbar': {
+					width: '8px',
+					height: '8px',
+				},
+				'&::-webkit-scrollbar-track': {
+					backgroundColor: custom.colors.gray01,
+				},
+				'&::-webkit-scrollbar-thumb': {
+					backgroundColor: custom.colors.gray02,
+				},
 			};
 		},
 		srOnly: () => {
@@ -238,10 +252,11 @@ type CustomThemeType = {
 		activeText: (value?: string) => ObjectNestedType;
 		badgeText: (value: number) => ObjectNumberOrStringType;
 		borderRadius: (value?: number, unit?: string) => ObjectStringType | null;
-		box: (text?: string, value?: number | string, radius?: boolean) => ObjectNumberOrStringType;
+		box: (text?: string, paddingValue?: number | string, radius?: boolean) => ObjectNumberOrStringType;
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType;
 		headerText: (value?: string, size?: string) => ObjectNumberOrStringType;
+		scrollbar: () => ObjectNestedType;
 		srOnly: () => ObjectNumberOrStringType;
 		textOverflow: () => ObjectNumberOrStringType;
 	};
