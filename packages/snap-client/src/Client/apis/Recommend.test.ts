@@ -38,7 +38,7 @@ describe('Recommend Api', () => {
 			method: 'GET',
 		};
 
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/api/personalized-recommendations/profile.json?siteId=8uyt2m&tag=dress';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/profile?siteId=8uyt2m&tag=dress';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')

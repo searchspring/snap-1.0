@@ -128,7 +128,7 @@ const metaResponse = {
     ]
 };
 
-const metaKey = `/api/meta/meta.json{"siteId":"8uyt2m"}`;
+const metaKey = `/v1/meta{"siteId":"atkzs2"}`;
 
 const clientConfig = {
   search: {

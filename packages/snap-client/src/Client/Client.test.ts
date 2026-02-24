@@ -345,7 +345,7 @@ describe('Snap Client', () => {
 			const profileParams = {
 				headers: {},
 				method: 'GET',
-				path: '/api/personalized-recommendations/profile.json',
+				path: '/v1/profile',
 				query: {
 					siteId: '8uyt2m',
 					tag: 'dress',
@@ -593,7 +593,7 @@ describe('Snap Client', () => {
 				const profileParams = {
 					headers: {},
 					method: 'GET',
-					path: '/api/personalized-recommendations/profile.json',
+					path: '/v1/profile',
 					query: {
 						siteId: '8uyt2m',
 						tag: 'dress',
