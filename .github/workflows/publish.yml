@@ -62,7 +62,7 @@ jobs:
       - name: Publish packages
         run: npm run publish
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEARCHSPRING_PUBLISH }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
