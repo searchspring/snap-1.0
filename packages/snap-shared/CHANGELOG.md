@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/searchspring/snap-1.0/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap-1.0/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- **searchresultstore:** can use athos api built in variants,badges in variants,variantSelectors in result component,display disabled selections ([5e069e8](https://github.com/searchspring/snap-1.0/commit/5e069e8a52957255aae996e4073dee9ef575b48b))
+
 # [1.11.0](https://github.com/searchspring/snap-1.0/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 **Note:** Version bump only for package @searchspring/snap-shared

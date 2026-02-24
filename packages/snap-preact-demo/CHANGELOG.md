@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/searchspring/snap-1.0/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Bug Fixes
+
+- **controller/finder:** adjusted finder controller stores and tests to ensure tests pass consistently ([fed9a65](https://github.com/searchspring/snap-1.0/commit/fed9a658eb9c8064d986d75e5230e80cc6af6bd5))
+- **controller/search:** patching bug around not sending request to category - added tests around page type and new category E2E testing ([022bd88](https://github.com/searchspring/snap-1.0/commit/022bd887e3aab421e5527919ff7f5fd8f2fac144))
+- **preact/components/slideshow:** fixing slideshow component css to work when inside of a swiper carousel ([af1abff](https://github.com/searchspring/snap-1.0/commit/af1abff93dd9cf3b80b2329cce53d23850c48d38))
+- use useCallback as trackingRef to observe ref changes ([a32640a](https://github.com/searchspring/snap-1.0/commit/a32640aa3849dc398420daa5e594fd08a4ae05a5))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap-1.0/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+
 # [1.11.0](https://github.com/searchspring/snap-1.0/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 ### Bug Fixes
@@ -172,6 +185,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - responsive themestore and breakpoint props ([d4faf3a](https://github.com/searchspring/snap-1.0/commit/d4faf3acdd2703b0225d4784c078ada967c64527))
 - separate recommendation types ([4a03491](https://github.com/searchspring/snap-1.0/commit/4a03491766fd3dbd3eeddf8d91ed4572bd4ae6bf))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
+
 # [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
 
 ### Bug Fixes

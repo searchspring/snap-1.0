@@ -3,11 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/searchspring/snap/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Bug Fixes
+
+- **preact/components/slideshow:** fixing slideshow component css to work when inside of a swiper carousel ([af1abff](https://github.com/searchspring/snap/commit/af1abff93dd9cf3b80b2329cce53d23850c48d38))
+- remove \_cached, reimpress products for previous searches when non-inifinite, fix banner impres ([348ff75](https://github.com/searchspring/snap/commit/348ff759147b04d575ab05a3ee46c53c94ee8721))
+- remove source from ac cache key ([2bc2b53](https://github.com/searchspring/snap/commit/2bc2b530f4a5c7bf873a50118d4b25d8722b85e0))
+- reset input param on new query ([ff1ab8a](https://github.com/searchspring/snap/commit/ff1ab8a712b1c30c3ff1226d1348b37e84ac49cc))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- remove category.json endpoint for category ([3fadfd5](https://github.com/searchspring/snap/commit/3fadfd5de97fd184ab831459e801819f15f6e8b0))
+- **searchresultstore:** can use athos api built in variants,badges in variants,variantSelectors in result component,display disabled selections ([5e069e8](https://github.com/searchspring/snap/commit/5e069e8a52957255aae996e4073dee9ef575b48b))
+
 # [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 ### Bug Fixes
 
 - add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+
 # [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
 
 **Note:** Version bump only for package @searchspring/snap-client

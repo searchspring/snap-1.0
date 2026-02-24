@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/searchspring/snap/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Bug Fixes
+
+- **controller/finder:** adjusted finder controller stores and tests to ensure tests pass consistently ([fed9a65](https://github.com/searchspring/snap/commit/fed9a658eb9c8064d986d75e5230e80cc6af6bd5))
+- **preact/components/slideshow:** fixing slideshow component css to work when inside of a swiper carousel ([af1abff](https://github.com/searchspring/snap/commit/af1abff93dd9cf3b80b2329cce53d23850c48d38))
+- **searchresultstore:** adding support for option element to be used in realtime variants ([167f867](https://github.com/searchspring/snap/commit/167f867f12b06a6fb0f8f84f4553a9d9e6b2d884))
+- **searchresultstore:** auto-selects remaining options when only one variant is available ([004e4da](https://github.com/searchspring/snap/commit/004e4da6a4d3b7050204c0fe2a6c5526c4f8e10f))
+- use latest beacon from athos packages, improvements ([9655c11](https://github.com/searchspring/snap/commit/9655c11ad0c0309c113a74f3245cb0ea82c234c0))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- **searchresultstore:** can use athos api built in variants,badges in variants,variantSelectors in result component,display disabled selections ([5e069e8](https://github.com/searchspring/snap/commit/5e069e8a52957255aae996e4073dee9ef575b48b))
+
 # [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 ### Bug Fixes
@@ -165,6 +180,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **preact-components-ss-lang:** adding foundation for multi language support to preact components ([4dce617](https://github.com/searchspring/snap/commit/4dce617ec14fb6897d66278b90b5cc17e97665bd))
 - **preact-components/storybook:** updating storybook to latest version - build stable ([43c598d](https://github.com/searchspring/snap/commit/43c598d0e4d11d76364ff2775ecdcabe489023a8))
 - **preact-components:** making progress toward layout templating support ([92c2ce6](https://github.com/searchspring/snap/commit/92c2ce6b207dcb1e922674d55e289354b71612da))
+
 # [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
 
 ### Bug Fixes
