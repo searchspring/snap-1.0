@@ -7,7 +7,7 @@ export class SuggestAPI extends API {
 
 		const response = await this.request<SuggestResponseModel>(
 			{
-				path: '/api/suggest/query',
+				path: '/v1/suggest',
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters,
@@ -24,7 +24,7 @@ export class SuggestAPI extends API {
 
 		const response = await this.request<SuggestResponseModel>(
 			{
-				path: '/api/suggest/query',
+				path: '/v1/suggest',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -40,7 +40,7 @@ export class SuggestAPI extends API {
 
 		const response = await this.request<TrendingResponseModel>(
 			{
-				path: '/api/suggest/trending',
+				path: '/v1/trending',
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters,
@@ -57,7 +57,7 @@ export class SuggestAPI extends API {
 
 		const response = await this.request<TrendingResponseModel>(
 			{
-				path: '/api/suggest/trending',
+				path: '/v1/trending',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,

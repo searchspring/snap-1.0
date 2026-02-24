@@ -17,7 +17,7 @@ export class SnapAPI extends API {
 
 		const response = await this.request<MetaResponseModel>(
 			{
-				path: '/api/v1/meta',
+				path: '/v1/meta',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -34,7 +34,7 @@ export class SnapAPI extends API {
 
 		const response = await this.request<SearchResponseModel>(
 			{
-				path: '/api/v1/search',
+				path: '/v1/search',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -51,7 +51,7 @@ export class SnapAPI extends API {
 
 		const response = await this.request<AutocompleteResponseModel>(
 			{
-				path: '/api/v1/autocomplete',
+				path: '/v1/autocomplete',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,

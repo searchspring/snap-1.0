@@ -4,7 +4,8 @@ describe('Query', () => {
 	it('runs the query', () => {
 		cy.visit(`https://localhost:2222/snap/?q=${query}`);
 
-		cy.snapController().then(({ store }) => {
+		cy.snapController().then(({ store, page }) => {
+			expect(page.type).to.equal('search');
 			expect(store.search.query.string).to.equal(query);
 			expect(store).to.haveOwnProperty('pagination');
 			expect(store.pagination.totalResults).to.be.greaterThan(0);

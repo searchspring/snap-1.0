@@ -21,11 +21,6 @@ const defaultConfig: TrackerConfig = {
 	id: 'track',
 	framework: 'snap',
 	mode: AppMode.production,
-	requesters: {
-		beacon: {
-			origin: 'https://beacon.searchspring.io/beacon/v2',
-		},
-	},
 };
 
 export class Tracker extends Beacon {
