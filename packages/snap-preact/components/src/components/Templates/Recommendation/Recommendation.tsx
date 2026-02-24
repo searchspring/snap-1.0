@@ -14,7 +14,7 @@ import { Carousel, CarouselProps, defaultCarouselBreakpoints, defaultVerticalCar
 import { Result, ResultProps } from '../../Molecules/Result';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { useIntersection } from '../../../hooks';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
@@ -32,6 +32,7 @@ const defaultStyles: StyleScript<RecommendationProps> = ({ vertical }) => {
 
 export const Recommendation = observer((properties: RecommendationProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<RecommendationProps> = {
 		breakpoints: properties.vertical
@@ -41,6 +42,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 		loop: true,
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
 		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
+		treePath: globalTreePath,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps

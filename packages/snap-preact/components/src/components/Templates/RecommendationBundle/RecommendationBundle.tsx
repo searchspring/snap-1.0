@@ -7,7 +7,7 @@ import deepmerge from 'deepmerge';
 import { Carousel, CarouselProps as CarouselProps } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript, BreakpointsEntry } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
@@ -145,6 +145,8 @@ const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean;
 
 export const RecommendationBundle = observer((properties: RecommendationBundleProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultCarouselBreakpoints = {
 		0: {
 			slidesPerView: 2,
@@ -179,6 +181,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		onAddToCart: (e, items) => controller?.addToCart && controller.addToCart(items),
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
 		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
+		treePath: globalTreePath,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps

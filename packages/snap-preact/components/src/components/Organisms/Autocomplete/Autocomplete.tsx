@@ -16,7 +16,7 @@ import { Banner, BannerProps } from '../../Atoms/Banner';
 import { Facets, FacetsProps } from '../Facets';
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, FacetDisplay, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { Lang, useA11y, useLang } from '../../../hooks';
@@ -200,6 +200,7 @@ const defaultStyles: StyleScript<AutocompleteProps> = ({
 
 export const Autocomplete = observer((properties: AutocompleteProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<AutocompleteProps> = {
 		termsTitle: '',
@@ -208,6 +209,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		facetsTitle: '',
 		contentTitle: '',
 		width: '100%',
+		treePath: globalTreePath,
 	};
 
 	let props = mergeProps('autocomplete', globalTheme, defaultProps, properties);

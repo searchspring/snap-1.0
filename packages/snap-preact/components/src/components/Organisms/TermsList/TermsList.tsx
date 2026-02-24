@@ -5,7 +5,7 @@ import classnames from 'classnames';
 
 import type { AutocompleteController } from '@searchspring/snap-controller';
 import { ComponentProps, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Terms, TermsProps } from '../../Molecules/Terms/Terms';
 import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
@@ -37,11 +37,14 @@ const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 
 export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultProps: Partial<TermsListProps> = {
 		layout: [['Suggestions'], ['Trending'], ['History']],
 		historyTitle: 'Recent Searches',
 		trendingTitle: 'Popular Searches',
 		suggestionTitle: 'Search Suggestions',
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('termsList', globalTheme, defaultProps, properties);

@@ -1,5 +1,6 @@
-import { ComponentChildren, Fragment, h } from 'preact';
+import { ComponentChildren, h } from 'preact';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { useGlobals, useEffect } from '@storybook/preview-api';
 import { observer } from 'mobx-react-lite';
 
 import { SnapTemplates, TemplatesStore } from '../../src';
@@ -8,7 +9,7 @@ import { base, bocachica, everest, matterhorn, pike, snappy, snapnco } from '../
 
 // custom styles for storybook
 import './styles.scss';
-import { SnapProvider, Theme } from '../src';
+import { SnapProvider, Theme, TreePathProvider } from '../src';
 
 // snap instance for theming and templates functionality
 const snapTemplates = new SnapTemplates({
@@ -30,50 +31,121 @@ addTheme(snapTemplates, 'pike', pike);
 addTheme(snapTemplates, 'snapnco', snapnco);
 addTheme(snapTemplates, 'snappy', snappy);
 
+// color keys that map to theme variables.colors
+const COLOR_KEYS = ['primary', 'secondary', 'accent', 'text'] as const;
+type ColorKey = typeof COLOR_KEYS[number];
+const GLOBAL_COLOR_PREFIX = 'themeColor_';
+const DEFAULT_COLOR_PREFIX = 'themeDefaultColor_';
+
+// register globals so Storybook persists color overrides and theme defaults across story navigation
+export const globalTypes = {
+	themeColor_primary: { defaultValue: '' },
+	themeColor_secondary: { defaultValue: '' },
+	themeColor_accent: { defaultValue: '' },
+	themeColor_text: { defaultValue: '' },
+	themeDefaultColor_primary: { defaultValue: '' },
+	themeDefaultColor_secondary: { defaultValue: '' },
+	themeDefaultColor_accent: { defaultValue: '' },
+	themeDefaultColor_text: { defaultValue: '' },
+};
+
 const Providers = observer(
-	({ templateStore, children, themeName }: { templateStore: TemplatesStore; themeName: string; children: ComponentChildren }) => {
+	({
+		templateStore,
+		children,
+		themeName,
+		colorOverrides,
+	}: {
+		templateStore: TemplatesStore;
+		themeName: string;
+		colorOverrides: Partial<Record<ColorKey, string>>;
+		children: ComponentChildren;
+	}) => {
 		const themeLocation = templateStore.themes.library[themeName];
-		const mergedTheme = themeLocation?.theme || {};
+		const baseTheme = themeLocation?.theme || {};
+
+		const hasOverrides = COLOR_KEYS.some((k) => colorOverrides[k]);
+		const mergedTheme = hasOverrides
+			? {
+					...baseTheme,
+					variables: {
+						...baseTheme.variables,
+						colors: {
+							...baseTheme.variables?.colors,
+							...Object.fromEntries(COLOR_KEYS.filter((k) => colorOverrides[k]).map((k) => [k, colorOverrides[k]])),
+						},
+					},
+			  }
+			: baseTheme;
 
 		return (
 			<SnapProvider snap={snapTemplates}>
-				<ThemeProvider theme={mergedTheme}>{children}</ThemeProvider>
+				<ThemeProvider theme={mergedTheme}>
+					<TreePathProvider path="storybook">{children}</TreePathProvider>
+				</ThemeProvider>
 			</SnapProvider>
 		);
 	}
 );
 
-const CustomThemeProvider = ({ theme, children }: { theme: Theme; children: ComponentChildren }) => {
-	return (
-		<Providers templateStore={snapTemplates.templates} themeName={theme.name!}>
-			{children}
-		</Providers>
-	);
-};
+const CustomThemeProvider = ({
+	theme,
+	children,
+	colorOverrides,
+}: {
+	theme: Theme;
+	children: ComponentChildren;
+	colorOverrides: Partial<Record<ColorKey, string>>;
+}) => (
+	<Providers templateStore={snapTemplates.templates} themeName={theme.name!} colorOverrides={colorOverrides}>
+		{children}
+	</Providers>
+);
 
 export const decorators = [
 	(Story: any, context: any) => {
-		// if the component is a template we should utilize the themeStore theme
-		// otherwise we should use the base theme (stripped of all props except styleScripts)
+		// useGlobals must be called here in the decorator (valid Storybook hook context)
+		const [globals, updateGlobals] = useGlobals();
 
-		const templateStory = context.kind.match(/^Template/);
+		// Sync the active theme's default colors into globals so the toolbar can display them
+		const activeThemeName: string = context.globals.theme || 'base';
+		useEffect(() => {
+			const themeStore = snapTemplates.templates.themes.library[activeThemeName];
+			const defaultColors = themeStore?.theme?.variables?.colors as Record<ColorKey, string> | undefined;
+			if (defaultColors) {
+				const defaults: Record<string, string> = {};
+				COLOR_KEYS.forEach((k) => {
+					defaults[`${DEFAULT_COLOR_PREFIX}${k}`] = defaultColors[k] || '';
+				});
+				updateGlobals(defaults);
+			}
+		}, [activeThemeName]);
+
+		const colorOverrides: Partial<Record<ColorKey, string>> = {};
+		COLOR_KEYS.forEach((k) => {
+			const v = globals[`${GLOBAL_COLOR_PREFIX}${k}`];
+			if (v) colorOverrides[k] = v;
+		});
+
+		// Bind colorOverrides into the provider
+		const BoundProvider = ({ theme, children }: { theme: Theme; children: ComponentChildren }) => (
+			<CustomThemeProvider theme={theme} colorOverrides={colorOverrides}>
+				{children}
+			</CustomThemeProvider>
+		);
 
 		const themeDecoratorFn = withThemeFromJSXProvider({
 			themes: {
-				snapnco: templateStory ? snapTemplates.templates.themes.library.snapnco.theme : snapTemplates.templates.themes.local.snapncoSimple.theme,
-				snappy: templateStory ? snapTemplates.templates.themes.library.snappy.theme : snapTemplates.templates.themes.local.snappySimple.theme,
-				bocachica: templateStory
-					? snapTemplates.templates.themes.library.bocachica.theme
-					: snapTemplates.templates.themes.local.bocachicaSimple.theme,
-				base: templateStory ? snapTemplates.templates.themes.library.base.theme : snapTemplates.templates.themes.local.baseSimple.theme,
-				everest: templateStory ? snapTemplates.templates.themes.library.everest.theme : snapTemplates.templates.themes.local.everestSimple.theme,
-				matterhorn: templateStory
-					? snapTemplates.templates.themes.library.matterhorn.theme
-					: snapTemplates.templates.themes.local.matterhornSimple.theme,
-				pike: templateStory ? snapTemplates.templates.themes.library.pike.theme : snapTemplates.templates.themes.local.pikeSimple.theme,
+				snapnco: snapTemplates.templates.themes.library.snapnco.theme,
+				snappy: snapTemplates.templates.themes.library.snappy.theme,
+				bocachica: snapTemplates.templates.themes.library.bocachica.theme,
+				base: snapTemplates.templates.themes.library.base.theme,
+				everest: snapTemplates.templates.themes.library.everest.theme,
+				matterhorn: snapTemplates.templates.themes.library.matterhorn.theme,
+				pike: snapTemplates.templates.themes.library.pike.theme,
 			},
 			defaultTheme: 'base',
-			Provider: templateStory ? CustomThemeProvider : ThemeProvider,
+			Provider: BoundProvider,
 		});
 
 		return themeDecoratorFn(Story, context);
@@ -109,36 +181,4 @@ function addTheme(snapTemplates: SnapTemplates, themeName: string, theme: ThemeC
 		currency: {},
 		innerWidth: window.innerWidth,
 	});
-	snapTemplates.templates.addTheme({
-		name: `${themeName}Simple`,
-		type: 'local',
-		base: generateSimpleTheme(theme),
-		language: {},
-		languageOverrides: {},
-		currency: {},
-		innerWidth: window.innerWidth,
-	});
-}
-
-function generateSimpleTheme(theme: ThemeComplete): ThemeComplete {
-	// strip off everything except for stylescripts and variables
-
-	const simpleTheme: ThemeComplete = {
-		name: theme.name,
-		variables: theme.variables,
-		components: {},
-		responsive: {},
-	};
-
-	for (const componentName in theme.components) {
-		const componentProps = theme.components[componentName as keyof typeof theme.components];
-		simpleTheme.components![componentName as keyof typeof simpleTheme.components] = {
-			// @ts-ignore - type was removed for overrides
-			styleScript: componentProps?.styleScript,
-			// @ts-ignore - type was removed for overrides
-			themeStyleScript: componentProps?.themeStyleScript,
-		};
-	}
-	// return theme;
-	return simpleTheme;
 }
