@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/searchspring/snap-1.0/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Bug Fixes
+
+- **controller/finder:** adjusted finder controller stores and tests to ensure tests pass consistently ([fed9a65](https://github.com/searchspring/snap-1.0/commit/fed9a658eb9c8064d986d75e5230e80cc6af6bd5))
+- **controller/search:** patching bug around not sending request to category - added tests around page type and new category E2E testing ([022bd88](https://github.com/searchspring/snap-1.0/commit/022bd887e3aab421e5527919ff7f5fd8f2fac144))
+- **preact/components/slideshow:** fixing slideshow component css to work when inside of a swiper carousel ([af1abff](https://github.com/searchspring/snap-1.0/commit/af1abff93dd9cf3b80b2329cce53d23850c48d38))
+- use useCallback as trackingRef to observe ref changes ([a32640a](https://github.com/searchspring/snap-1.0/commit/a32640aa3849dc398420daa5e594fd08a4ae05a5))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap-1.0/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+
 # [1.11.0](https://github.com/searchspring/snap-1.0/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 ### Bug Fixes
@@ -172,6 +185,61 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - responsive themestore and breakpoint props ([d4faf3a](https://github.com/searchspring/snap-1.0/commit/d4faf3acdd2703b0225d4784c078ada967c64527))
 - separate recommendation types ([4a03491](https://github.com/searchspring/snap-1.0/commit/4a03491766fd3dbd3eeddf8d91ed4572bd4ae6bf))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
+
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+### Bug Fixes
+
+- use useCallback as trackingRef to observe ref changes ([a32640a](https://github.com/searchspring/snap/commit/a32640aa3849dc398420daa5e594fd08a4ae05a5))
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.5](https://github.com/searchspring/snap/compare/v0.73.4...v0.73.5) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.4](https://github.com/searchspring/snap/compare/v0.73.3...v0.73.4) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.3](https://github.com/searchspring/snap/compare/v0.73.2...v0.73.3) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.2](https://github.com/searchspring/snap/compare/v0.73.1...v0.73.2) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.73.1](https://github.com/searchspring/snap/compare/v0.73.0...v0.73.1) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.73.0](https://github.com/searchspring/snap/compare/v0.72.2...v0.73.0) (2026-01-22)
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+
+## [0.72.2](https://github.com/searchspring/snap/compare/v0.72.1...v0.72.2) (2026-01-21)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-preact-demo
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Features
+
+- **client:** adding support to have separate subdomain in api - using this for recommend requests ([ceb6d65](https://github.com/searchspring/snap/commit/ceb6d6500c2c8a57df0356535d0f74d8d0464fae))
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
 
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 

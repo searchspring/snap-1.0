@@ -348,9 +348,9 @@ describe('Snap Preact', () => {
 				shopper: {
 					id: 'snapdev',
 					cart: [
-						{ uid: 'sku1', qty: 1, price: 100 },
-						{ uid: 'sku2', qty: 2, price: 200 },
-						{ uid: 'sku3', qty: 3, price: 300 },
+						{ parentId: 'sku1', uid: 'sku1', qty: 1, price: 100 },
+						{ parentId: 'sku2', uid: 'sku2', qty: 2, price: 200 },
+						{ parentId: 'sku3', uid: 'sku3', qty: 3, price: 300 },
 					],
 				},
 			},
@@ -1558,7 +1558,7 @@ describe('Snap Preact', () => {
 
 			const instantiator = await snap.getInstantiator('recommendation');
 			expect(instantiator).toBeDefined();
-			expect(instantiator.config.config.branch).toBe('production');
+			expect(instantiator.config.config?.branch).toBe('production');
 		});
 	});
 

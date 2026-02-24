@@ -12,7 +12,7 @@ import type { Term } from '@searchspring/snap-store-mobx';
 
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { Results, ResultsProps } from '../Results';
-import { Banner, BannerProps } from '../../Atoms/Merchandising/Banner';
+import { Banner, BannerProps } from '../../Atoms/Banner';
 import { Facets, FacetsProps } from '../Facets';
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
@@ -296,6 +296,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 				},
 				result: {
 					hideBadge: true,
+					hideVariantSelections: true,
 				},
 			},
 		};
@@ -371,6 +372,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		banner: {
 			// default props
 			internalClassName: 'ss__autocomplete__banner',
+			controller,
 			// inherited props
 			...defined({
 				disableStyles,

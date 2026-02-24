@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 
 import { Slideout, SlideDirectionType } from './Slideout';
 import { ThemeProvider } from '../../../providers';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 describe('Slideout Component', () => {
 	beforeEach(() => {

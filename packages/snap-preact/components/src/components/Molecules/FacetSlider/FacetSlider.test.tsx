@@ -9,7 +9,7 @@ import { sprintf } from '../../../utilities';
 import type { RangeFacet } from '@searchspring/snap-store-mobx';
 
 import { MockData } from '@searchspring/snap-shared';
-import { SearchResponseModelFacet, SearchResponseModelFacetRangeAllOf } from '@searchspring/snapi-types';
+import { SearchResponseModelFacet, SearchResponseModelFacetRangeAllOf } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
 const sliderFacetMock: SearchResponseModelFacet & SearchResponseModelFacetRangeAllOf = mockData

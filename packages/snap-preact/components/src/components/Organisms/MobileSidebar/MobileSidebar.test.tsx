@@ -90,7 +90,7 @@ describe('MobileSidebar Component', () => {
 		expect(perpage).not.toBeInTheDocument();
 		expect(facets).not.toBeInTheDocument();
 
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			title = rendered.container.querySelector('.ss__mobile-sidebar__header__title');
@@ -147,7 +147,7 @@ describe('MobileSidebar Component', () => {
 	it('has expected default clear button text', async () => {
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__footer__clear-button');
@@ -158,7 +158,7 @@ describe('MobileSidebar Component', () => {
 	it('can use the apply button', async () => {
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(async () => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__content');
@@ -166,7 +166,7 @@ describe('MobileSidebar Component', () => {
 		});
 
 		const applyButton = rendered.container.querySelector('.ss__mobile-sidebar__footer__apply-button');
-		userEvent.click(applyButton!);
+		await userEvent.click(applyButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__content');
@@ -177,7 +177,7 @@ describe('MobileSidebar Component', () => {
 	it('can use the close button', async () => {
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(async () => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__content');
@@ -185,7 +185,7 @@ describe('MobileSidebar Component', () => {
 		});
 
 		const closeButton = rendered.container.querySelector('.ss__mobile-sidebar__header__close-button');
-		userEvent.click(closeButton!);
+		await userEvent.click(closeButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__content');
@@ -196,7 +196,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide clear button', async () => {
 		const rendered = render(<MobileSidebar controller={controller} hideClearButton={true} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__footer__clear-button');
@@ -207,7 +207,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide close button', async () => {
 		const rendered = render(<MobileSidebar controller={controller} hideCloseButton={true} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__header__close-button');
@@ -218,7 +218,7 @@ describe('MobileSidebar Component', () => {
 	it('has expected default close button icon', async () => {
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const iconElem = rendered.container.querySelector(
@@ -233,7 +233,7 @@ describe('MobileSidebar Component', () => {
 		const title = 'title text';
 		const rendered = render(<MobileSidebar controller={controller} closeButtonText={title} closeButtonIcon={icon} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const elem = rendered.container.querySelector(`.ss__mobile-sidebar__header__close-button`);
@@ -255,7 +255,7 @@ describe('MobileSidebar Component', () => {
 			<MobileSidebar lang={lang} hideCloseButtonText={true} controller={controller} closeButtonText={title} closeButtonIcon={icon} />
 		);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const elem = rendered.container.querySelector(`.ss__mobile-sidebar__header__close-button`);
@@ -301,7 +301,7 @@ describe('MobileSidebar Component', () => {
 		const icon = 'cog';
 		const rendered = render(<MobileSidebar controller={controller} applyButtonIcon={icon} applyButtonText={text} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const applyButton = rendered.container.querySelector('.ss__mobile-sidebar__footer__apply-button');
@@ -326,7 +326,7 @@ describe('MobileSidebar Component', () => {
 			<MobileSidebar lang={lang} hideApplyButtonText={true} controller={controller} applyButtonIcon={icon} applyButtonText={text} />
 		);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const applyButton = rendered.container.querySelector('.ss__mobile-sidebar__footer__apply-button');
@@ -345,7 +345,7 @@ describe('MobileSidebar Component', () => {
 
 		const rendered = render(<MobileSidebar controller={controller} clearButtonIcon={icon} clearButtonText={text} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__footer__clear-button');
@@ -367,7 +367,7 @@ describe('MobileSidebar Component', () => {
 			<MobileSidebar lang={lang} hideClearButtonText={true} controller={controller} clearButtonIcon={icon} clearButtonText={text} />
 		);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__footer__clear-button');
@@ -386,7 +386,7 @@ describe('MobileSidebar Component', () => {
 
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(async () => {
 			const filterSummaryElement = rendered.container.querySelector('.ss__filter-summary');
@@ -397,7 +397,7 @@ describe('MobileSidebar Component', () => {
 
 		mockClient.mockData.updateConfig({ search: 'default' });
 
-		userEvent.click(clearButton!);
+		await userEvent.click(clearButton!);
 
 		await waitFor(() => {
 			expect(controller.store.filters.length).toBe(0);
@@ -409,7 +409,7 @@ describe('MobileSidebar Component', () => {
 	it('can hideHeader', async () => {
 		const rendered = render(<MobileSidebar controller={controller} hideHeader={true} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__content');
@@ -422,7 +422,7 @@ describe('MobileSidebar Component', () => {
 	it('can hideFooter', async () => {
 		const rendered = render(<MobileSidebar controller={controller} hideFooter={true} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const element = rendered.container.querySelector('.ss__mobile-sidebar__content');
@@ -436,7 +436,7 @@ describe('MobileSidebar Component', () => {
 		const text = 'Filter Options';
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const title = rendered.container.querySelector('.ss__mobile-sidebar__header__title');
@@ -448,7 +448,7 @@ describe('MobileSidebar Component', () => {
 		const text = 'title text';
 		const rendered = render(<MobileSidebar controller={controller} titleText={text} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const title = rendered.container.querySelector('.ss__mobile-sidebar__header__title');
@@ -465,7 +465,7 @@ describe('MobileSidebar Component', () => {
 		};
 		const rendered = render(<MobileSidebar lang={lang} hideTitleText={true} controller={controller} titleText={text} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const title = rendered.container.querySelector('.ss__mobile-sidebar__header__title');
@@ -475,7 +475,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide Facets', async () => {
 		const rendered = render(<MobileSidebar controller={controller} layout={['filterSummary', 'sortBy', 'perPage', 'banner.left']} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const facets = rendered.container.querySelector('.ss__facets');
@@ -488,7 +488,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide perpage', async () => {
 		const rendered = render(<MobileSidebar controller={controller} layout={['filterSummary', 'sortBy', 'facets', 'banner.left']} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const perpage = rendered.container.querySelector('.ss__perpage__select');
@@ -501,7 +501,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide hideSortBy', async () => {
 		const rendered = render(<MobileSidebar controller={controller} layout={['filterSummary', 'perPage', 'facets', 'banner.left']} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const sortby = rendered.container.querySelector('.ss__sortby__select');
@@ -514,7 +514,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide FilterSummary', async () => {
 		const rendered = render(<MobileSidebar controller={controller} layout={['sortBy', 'perPage', 'facets', 'banner.left']} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const summary = rendered.container.querySelector('.ss__filter-summary');
@@ -527,7 +527,7 @@ describe('MobileSidebar Component', () => {
 	it('can hide ApplyButton', async () => {
 		const rendered = render(<MobileSidebar controller={controller} hideApplyButton={true} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const applyButton = rendered.container.querySelector('.ss__mobile-sidebar__footer__apply-button');
@@ -540,7 +540,7 @@ describe('MobileSidebar Component', () => {
 	it('has expected default apply button text', async () => {
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-		userEvent.click(slideoutButton!);
+		await userEvent.click(slideoutButton!);
 
 		await waitFor(() => {
 			const applyButton = rendered.container.querySelector('.ss__mobile-sidebar__footer__apply-button');
@@ -625,7 +625,7 @@ describe('MobileSidebar Component', () => {
 
 					//have to open side bar to render anything
 					const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
-					userEvent.click(slideoutButton!);
+					await userEvent.click(slideoutButton!);
 
 					await waitFor(() => {
 						const title = rendered.container.querySelector('.ss__mobile-sidebar__header__title');

@@ -9,15 +9,19 @@ import {
 	SearchResponseModelSearchMatchTypeEnum,
 	SearchResponseModelMerchandising,
 	SearchResponseModelResultBadges,
-} from '@searchspring/snapi-types';
+	SearchResponseModelResultVariants,
+	AutocompleteRequestModel,
+} from '@athoscommerce/snapi-types';
 
-// TODO: Add all core fields
 const CORE_FIELDS = [
 	'uid',
 	'sku',
+	'available',
 	'name',
 	'url',
 	'addToCartUrl',
+	'parentId',
+	'parentImageUrl',
 	'price',
 	'msrp',
 	'imageUrl',
@@ -41,7 +45,9 @@ type sortingOption = {
 };
 
 type rawResult = {
+	available: string;
 	badges?: SearchResponseModelResultBadges[];
+	variants?: SearchResponseModelResultVariants;
 	brand?: string;
 	collection_handle?: string[];
 	collection_id?: string[];
@@ -52,6 +58,8 @@ type rawResult = {
 	intellisuggestSignature?: string;
 	msrp?: string;
 	name: string;
+	parentId: string;
+	parentImageUrl: string;
 	price: string;
 	product_type?: string[];
 	product_type_unigram?: string;
@@ -108,6 +116,7 @@ type breadcrumb = {
 };
 
 export type searchResponseType = {
+	responseId: string;
 	pagination: {
 		totalResults: number;
 		begin: number;
@@ -161,15 +170,13 @@ export type searchResponseType = {
 };
 
 class Result implements SearchResponseModelResult {
-	constructor(result: SearchResponseModelResult) {
+	constructor(result: SearchResponseModelResult & { responseId: string }) {
 		Object.assign(this, result);
 	}
 }
 
-export function transformSearchResponse(response: searchResponseType, request: SearchRequestModel) {
+export function transformSearchResponse(response: searchResponseType, request: SearchRequestModel | AutocompleteRequestModel) {
 	return {
-		// @ts-ignore - temporary to be removed when auto beaconing is implemented
-		_cached: response._cached ?? false,
 		...transformSearchResponse.pagination(response),
 		...transformSearchResponse.results(response),
 		...transformSearchResponse.filters(response),
@@ -177,6 +184,7 @@ export function transformSearchResponse(response: searchResponseType, request: S
 		...transformSearchResponse.sorting(response),
 		...transformSearchResponse.merchandising(response),
 		...transformSearchResponse.search(response, request),
+		...transformSearchResponse.tracking(response),
 	};
 }
 
@@ -196,10 +204,14 @@ transformSearchResponse.pagination = (response: searchResponseType): { paginatio
 transformSearchResponse.results = (response: searchResponseType) => {
 	const results = response?.results || [];
 
-	return { results: results.map(transformSearchResponse.result) };
+	return {
+		results: results.map((result) => {
+			return transformSearchResponse.result(result, response);
+		}),
+	};
 };
 
-transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResult => {
+transformSearchResponse.result = (rawResult: rawResult, response: searchResponseType): SearchResponseModelResult => {
 	const coreFieldValues: SearchResponseModelResultCoreMappings = CORE_FIELDS.reduce((coreFields, key) => {
 		if (typeof rawResult[key as keyof rawResult] != 'undefined') {
 			return {
@@ -212,11 +224,16 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 
 	if (coreFieldValues.price) coreFieldValues.price = +coreFieldValues.price;
 	if (coreFieldValues.msrp) coreFieldValues.msrp = +coreFieldValues.msrp;
-
+	if (coreFieldValues.available?.toString() === 'true') {
+		coreFieldValues.available = true;
+	} else if (coreFieldValues.available?.toString() === 'false') {
+		coreFieldValues.available = false;
+	}
 	const attributes = Object.keys(rawResult)
 		.filter((k) => CORE_FIELDS.indexOf(k) == -1)
 		// remove 'badges' from attributes - but only if it is an object
 		.filter((k) => !(k == 'badges' && Array.isArray(rawResult[k]) && typeof rawResult[k]?.[0] == 'object'))
+		.filter((k) => !(k == 'variants'))
 		.reduce((attributes, key) => {
 			return {
 				...attributes,
@@ -224,28 +241,15 @@ transformSearchResponse.result = (rawResult: rawResult): SearchResponseModelResu
 			};
 		}, {});
 
-	const children =
-		rawResult?.children?.map((child) => {
-			return {
-				attributes: {
-					...Object.keys(child).reduce((attributes, key) => {
-						return {
-							...attributes,
-							[key]: decodeProperty(child[key]),
-						};
-					}, {}),
-				},
-			};
-		}) || [];
-
 	return new Result({
 		id: rawResult.uid,
+		responseId: response.responseId,
 		mappings: {
 			core: coreFieldValues,
 		},
 		attributes,
 		badges: Array.isArray(rawResult.badges) && typeof rawResult.badges[0] == 'object' ? rawResult.badges : [],
-		children,
+		variants: rawResult.variants,
 	});
 };
 
@@ -277,7 +281,7 @@ transformSearchResponse.filters = (response: searchResponseType): any => {
 	};
 };
 
-transformSearchResponse.facets = (response: searchResponseType, request: SearchRequestModel = {}) => {
+transformSearchResponse.facets = (response: searchResponseType, request: SearchRequestModel | AutocompleteRequestModel = {}) => {
 	const filters = request.filters || [];
 	const facets = response?.facets || [];
 	const limit = request?.facets?.limit;
@@ -432,7 +436,7 @@ transformSearchResponse.merchandising = (response: searchResponseType) => {
 	};
 };
 
-transformSearchResponse.search = (response: searchResponseType, request: SearchRequestModel) => {
+transformSearchResponse.search = (response: searchResponseType, request: SearchRequestModel | AutocompleteRequestModel) => {
 	const searchObj: {
 		search: {
 			query?: string;
@@ -460,8 +464,22 @@ transformSearchResponse.search = (response: searchResponseType, request: SearchR
 	return searchObj;
 };
 
+transformSearchResponse.tracking = (response: searchResponseType) => {
+	const trackingObj: {
+		tracking: {
+			responseId: string;
+		};
+	} = {
+		tracking: {
+			responseId: response.responseId,
+		},
+	};
+
+	return trackingObj;
+};
+
 // used for HTML entities decoding
-function decodeProperty(encoded: string | string[] | SearchResponseModelResultBadges[]) {
+function decodeProperty(encoded: string | string[] | SearchResponseModelResultBadges[] | SearchResponseModelResultVariants) {
 	if (Array.isArray(encoded)) {
 		return encoded.map((item) => {
 			if (typeof item === 'string') {

@@ -3,7 +3,7 @@ import { MockData } from '@searchspring/snap-shared';
 
 import { FinderSelectionStore } from './FinderSelectionStore';
 import { StorageStore } from '../../Storage/StorageStore';
-import { SearchResponseModel, MetaResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 const services = {
 	urlManager: new UrlManager(new UrlTranslator()).detach(),
@@ -43,7 +43,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -91,7 +90,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -186,7 +184,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -225,7 +222,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -279,7 +275,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,
@@ -331,7 +326,6 @@ describe('FinderSelectionStore', () => {
 				},
 				state: {
 					persisted: false,
-					loading: false,
 				},
 				data: {
 					search: data.search,

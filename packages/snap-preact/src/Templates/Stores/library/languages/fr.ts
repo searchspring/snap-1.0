@@ -122,6 +122,41 @@ export const fr: LangComponents = {
 			},
 		},
 	},
+	slideshow: {
+		pauseButton: {
+			value: (data) => (data.isPlaying ? 'pausa' : 'Jouer'),
+			attributes: {
+				'aria-label': (data) => (data.isPlaying ? 'Mettre le diaporama en pause' : 'Reprendre le diaporama'),
+			},
+		},
+		paginationButton: {
+			attributes: {
+				'aria-label': (data) => `Accéder au groupe de diapositives ${data.index + 1} de ${data.totalDots}`,
+			},
+		},
+		nextButton: {
+			attributes: {
+				'aria-label': (data) => `Diapositives suivantes${data.isNextDisabled ? ' (désactivé)' : ''}`,
+			},
+		},
+		prevButton: {
+			attributes: {
+				'aria-label': (data) => `Diapositives précédentes${data.isPrevDisabled ? ' (désactivé)' : ''}`,
+			},
+		},
+		slide: {
+			attributes: {
+				'aria-label': (data) =>
+					data.hasClickHandler ? `Cliquez pour afficher ${data.imageAlt}` : `${data.imageAlt} ${data.index + 1} de ${data.slidesLength}`,
+			},
+		},
+		srInstructions: {
+			value: (data) =>
+				`Utilisez les touches fléchées pour naviguer entre les diapositives. Appuyez sur la barre d'espace pour mettre la lecture automatique en pause. Appuyez sur la touche Début ou Fin pour accéder au premier ou au dernier groupe de diapositives.${' '}${
+					data.touchDragging && 'Sur les appareils tactiles, balayez vers la gauche ou vers la droite pour naviguer.'
+				}`,
+		},
+	},
 	sortBy: {
 		label: {
 			value: 'Trier Par',

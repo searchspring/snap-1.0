@@ -2,7 +2,7 @@ import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
 import { MockData } from '@searchspring/snap-shared';
 
 import { AutocompleteStore } from './AutocompleteStore';
-import { AutocompleteResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@searchspring/snapi-types';
+import { AutocompleteResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@athoscommerce/snapi-types';
 
 const services = {
 	urlManager: new UrlManager(new UrlTranslator()).detach(),
@@ -53,7 +53,14 @@ describe('Autocomplete Store', () => {
 		expect(autocompleteStore.terms).toStrictEqual([]);
 
 		expect(autocompleteStore.merchandising).toBeDefined();
-		expect(autocompleteStore.merchandising).toEqual({ redirect: '', personalized: false, experiments: [], content: {}, campaigns: [] });
+		expect(autocompleteStore.merchandising).toEqual({
+			redirect: '',
+			personalized: false,
+			experiments: [],
+			content: {},
+			campaigns: [],
+			responseId: '',
+		});
 
 		expect(autocompleteStore.search).toBeDefined();
 		expect(autocompleteStore.search?.query).toBeUndefined();
@@ -94,7 +101,7 @@ describe('Autocomplete Store', () => {
 		expect(autocompleteStore.search?.originalQuery).toBeUndefined();
 
 		expect(autocompleteStore.merchandising).toBeDefined();
-		expect(autocompleteStore.merchandising).toEqual(searchData.search.merchandising);
+		expect(autocompleteStore.merchandising).toEqual({ ...searchData.search.merchandising, responseId: searchData.search.tracking.responseId });
 
 		expect(autocompleteStore.facets).toHaveLength(searchData?.search.facets?.length!);
 

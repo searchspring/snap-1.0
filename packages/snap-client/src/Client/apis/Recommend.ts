@@ -1,8 +1,9 @@
 import { API, ApiConfiguration } from './Abstract';
 import { HTTPHeaders, RecommendPostRequestProfileModel } from '../../types';
 import { AppMode } from '@searchspring/snap-toolbox';
-import { NO_BEACON_PARAM, transformRecommendationFiltersPost } from '../transforms';
+import { transformRecommendationFiltersPost } from '../transforms';
 import { ProfileRequestModel, ProfileResponseModel, RecommendResponseModel, RecommendRequestModel, RecommendPostRequestModel } from '../../types';
+import { DEVELOPMENT_MODE_PARAM } from './Hybrid';
 
 class Deferred {
 	promise: Promise<any>;
@@ -42,7 +43,7 @@ export class RecommendAPI extends API {
 
 		const response = await this.request<ProfileResponseModel>(
 			{
-				path: '/api/personalized-recommendations/profile.json',
+				path: '/v1/profile',
 				origin: this.configuration.secondaryOrigin || undefined, // use alternate origin for profile requests
 				method: 'GET',
 				headers: headerParameters,
@@ -147,8 +148,10 @@ export class RecommendAPI extends API {
 						lastViewed,
 						shopper,
 					}),
-					[NO_BEACON_PARAM]: true,
 				};
+				if (this.configuration.mode == AppMode.development) {
+					batch.request[DEVELOPMENT_MODE_PARAM] = true;
+				}
 			});
 
 			try {
@@ -175,17 +178,9 @@ export class RecommendAPI extends API {
 		const headerParameters: HTTPHeaders = {};
 		headerParameters['Content-Type'] = 'text/plain';
 
-		let path = `/v1/recommend`;
-
-		if (this.configuration.origin && this.configuration.origin.indexOf('athoscommerce.io') == -1) {
-			// non-athos origin, use old path
-			const siteId = requestParameters.siteId;
-			path = `/boost/${siteId}/recommend`;
-		}
-
 		const response = await this.request<RecommendResponseModel[]>(
 			{
-				path,
+				path: '/v1/recommend',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,

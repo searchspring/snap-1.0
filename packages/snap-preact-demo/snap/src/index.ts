@@ -24,7 +24,7 @@ if (context.collection?.handle) {
 	// set background filter
 	if (context.collection.handle != 'all') {
 		backgroundFilters.push({
-			field: 'ss_category_hierarchy',
+			field: 'collection_handle',
 			value: context.collection.handle,
 			type: 'value',
 			background: true,
@@ -144,11 +144,6 @@ let config: SnapConfig = {
 				// branch: BRANCHNAME,
 				branch: 'production',
 				plugins: [[mutateResultsURL]],
-				settings: {
-					variants: {
-						field: 'ss_variants',
-					},
-				},
 			},
 		},
 	},
@@ -164,9 +159,6 @@ let config: SnapConfig = {
 						},
 						redirects: {
 							singleResult: false,
-						},
-						variants: {
-							field: 'ss_variants',
 						},
 						restorePosition: {
 							enabled: true,

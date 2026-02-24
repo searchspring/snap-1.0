@@ -44,18 +44,6 @@ export class API {
 			if (cachedResponse) {
 				this.retryCount = 0; // reset count and delay incase rate limit occurs again before a page refresh
 				this.retryDelay = 1000;
-
-				// TEMPORARY - used to resolve issue with recommendations response being an array... to be removed after render events are removed
-				if (Array.isArray(cachedResponse)) {
-					cachedResponse.forEach((response) => {
-						// @ts-ignore - temporary to be removed when auto beaconing is implemented
-						response._cached = true;
-					});
-				} else {
-					// @ts-ignore - temporary to be removed when auto beaconing is implemented
-					cachedResponse._cached = true;
-				}
-
 				return cachedResponse as T;
 			}
 		}
@@ -106,7 +94,7 @@ export class API {
 			throw new Error(`Request failed. Missing "siteId" parameter.`);
 		}
 
-		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.io`;
+		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.net`;
 		const origin = (context.origin || this.configuration.origin || siteIdHost).replace(/\/$/, '');
 
 		let url = `${origin}/${context.path.replace(/^\//, '')}`;

@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/searchspring/snap/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Bug Fixes
+
+- **preact/components/slideshow:** fixing slideshow component css to work when inside of a swiper carousel ([af1abff](https://github.com/searchspring/snap/commit/af1abff93dd9cf3b80b2329cce53d23850c48d38))
+- **preact/recommendationinstantiator:** properly connecting configuration abstraction ([df9083a](https://github.com/searchspring/snap/commit/df9083a426d2c447afd67a7e71305a2c591761aa))
+- **ratings:** adding a maxwidth to rating icons for a fallback in case the site has base styles setting widths to svgs ([4e777c3](https://github.com/searchspring/snap/commit/4e777c372e73732ae9732a1c3f8b96b74d2149ae))
+- **recommendation:** bugfix for breakpoints prop ([3793ffb](https://github.com/searchspring/snap/commit/3793ffb0d61a7b9d97cd70edd74c2383d04a9bde))
+- **recommendationbundle:** bugfix for recommendationBundle custom result clones not passing controller ([5d95e56](https://github.com/searchspring/snap/commit/5d95e56383f298bffc3402230c1e3f003f4acb86))
+- **recommendationinstantiator:** always run a search on ready the controller if re-using a controlle ([b74f8fd](https://github.com/searchspring/snap/commit/b74f8fdd08472271b9e624805092e0ab63a2ce9c))
+- **terms:** fix undefined title variable in terms component and fix flaky test ([5a15f64](https://github.com/searchspring/snap/commit/5a15f64037a424c1ff1706bb6a90418c9cecc593))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- **icon:** adding fill and stroke props and removing default color value ([dae039d](https://github.com/searchspring/snap/commit/dae039d656b441f5a75b67ed50e3763bf1b19269))
+- **preact/components/slideshow:** adding a new lightweight carousel alternative ([cb0df54](https://github.com/searchspring/snap/commit/cb0df54d4e93091985ccb5b47755a74d24a1e5ec))
+- **searchresultstore:** can use athos api built in variants,badges in variants,variantSelectors in result component,display disabled selections ([5e069e8](https://github.com/searchspring/snap/commit/5e069e8a52957255aae996e4073dee9ef575b48b))
+
+### Performance Improvements
+
+- **preact/storybook:** updating storybook config to improve performance for live editing ([145fff3](https://github.com/searchspring/snap/commit/145fff396612bdac8bb213e8933e2cb76d786f33))
+
 # [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 ### Bug Fixes
@@ -265,6 +288,60 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **snap-layout/theming:** work towards theming a snap layout using styleScripts ([b6be05e](https://github.com/searchspring/snap/commit/b6be05eee8fc0a06c9e853a591aa0d380158fc0c))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
 - theme reactivity initial interface ([c017aad](https://github.com/searchspring/snap/commit/c017aadd4add7591bd98fcfbdb8db8985bf2d498))
+
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+### Bug Fixes
+
+- **recommendationinstantiator:** always run a search on ready the controller if re-using a controlle ([b74f8fd](https://github.com/searchspring/snap/commit/b74f8fdd08472271b9e624805092e0ab63a2ce9c))
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.73.5](https://github.com/searchspring/snap/compare/v0.73.4...v0.73.5) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.73.4](https://github.com/searchspring/snap/compare/v0.73.3...v0.73.4) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.73.3](https://github.com/searchspring/snap/compare/v0.73.2...v0.73.3) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.73.2](https://github.com/searchspring/snap/compare/v0.73.1...v0.73.2) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.73.1](https://github.com/searchspring/snap/compare/v0.73.0...v0.73.1) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+# [0.73.0](https://github.com/searchspring/snap/compare/v0.72.2...v0.73.0) (2026-01-22)
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+
+## [0.72.2](https://github.com/searchspring/snap/compare/v0.72.1...v0.72.2) (2026-01-21)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-preact
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Features
+
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
 
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 

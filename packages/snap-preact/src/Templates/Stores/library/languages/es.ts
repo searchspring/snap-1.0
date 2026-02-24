@@ -132,6 +132,41 @@ export const es: LangComponents = {
 			},
 		},
 	},
+	slideshow: {
+		pauseButton: {
+			value: (data) => (data.isPlaying ? 'Pausa' : 'Jugar'),
+			attributes: {
+				'aria-label': (data) => (data.isPlaying ? 'Pausar presentación de diapositivas' : 'Reanudar presentación de diapositivas'),
+			},
+		},
+		paginationButton: {
+			attributes: {
+				'aria-label': (data) => `Ir al grupo de diapositivas ${data.index + 1} de ${data.totalDots}`,
+			},
+		},
+		nextButton: {
+			attributes: {
+				'aria-label': (data) => `Siguientes diapositivas${data.isNextDisabled ? ' (desactivado)' : ''}`,
+			},
+		},
+		prevButton: {
+			attributes: {
+				'aria-label': (data) => `Diapositivas anteriores${data.isPrevDisabled ? ' (desactivado)' : ''}`,
+			},
+		},
+		slide: {
+			attributes: {
+				'aria-label': (data) =>
+					data.hasClickHandler ? `Haz clic para ver ${data.imageAlt}` : `${data.imageAlt} ${data.index + 1} de ${data.slidesLength}`,
+			},
+		},
+		srInstructions: {
+			value: (data) =>
+				`Utiliza las teclas de flecha para navegar por las diapositivas. Pulsa la barra espaciadora para pausar la reproducción automática. Pulsa Inicio o Fin para ir al primer o último grupo de diapositivas.${' '}${
+					data.touchDragging && 'Desliza el dedo hacia la izquierda o hacia la derecha para navegar en dispositivos táctiles'
+				}`,
+		},
+	},
 	sortBy: {
 		label: {
 			value: 'Clasificar por',

@@ -2,13 +2,13 @@ import { observable, action, computed, makeObservable } from 'mobx';
 
 import type { StoreServices, SearchStoreConfig } from '../../types';
 import type { UrlManager } from '@searchspring/snap-url-manager';
-import { MetaResponseModel, SearchResponseModel } from '@searchspring/snapi-types';
+import { MetaResponseModel, SearchResponseModel } from '@athoscommerce/snapi-types';
 
 type SearchPaginationStoreConfig = {
 	config?: SearchStoreConfig; // optional due to AutocompleteStore using SearchPaginationStore
 	services: StoreServices;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };

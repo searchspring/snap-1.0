@@ -9,14 +9,14 @@ import type {
 	MetaResponseModelFacet,
 	SearchResponseModel,
 	MetaResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 import { sprintf } from '@searchspring/snap-toolbox';
 
 type SearchFilterStoreConfig = {
 	services: StoreServices;
 	config?: SearchStoreConfig | AutocompleteStoreConfig;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };

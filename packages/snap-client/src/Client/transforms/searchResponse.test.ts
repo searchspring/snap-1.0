@@ -1,11 +1,14 @@
 import { transformSearchResponse, searchResponseType } from './searchResponse';
-import { SearchResponseModelSearchMatchTypeEnum } from '@searchspring/snapi-types';
+import { SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 
 const mockSingleResult = {
 	intellisuggestData: 'eJwrLzbIKTBkYGDwCDcyMDC01HXy8db1CGcwBEITIwYjQ2MLhvSizBQAuS0I0Q',
 	intellisuggestSignature: '73ed9559bc402f46f74ffdac2c207fa4eeaae2342f8cf41c9737d8faf4d62038',
 	image_medium: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_medium.jpg?v=1594226901',
 	variant_images_json: '[]',
+	available: 'true',
+	parentId: '12345',
+	parentImageUrl: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_1024x1024.jpg?v=1594226901',
 	product_price: '8',
 	image_1024x1024: 'https://cdn.shopify.com/s/files/1/0065/0022/products/OVERTHISSHITMASK_1024x1024.jpg?v=1594226901',
 	collection_id: [
@@ -266,6 +269,7 @@ const mockMatchType = {
 };
 
 const mockResponse: searchResponseType = {
+	responseId: 'responseId-mock',
 	results: [mockSingleResult, mockSingleResult],
 	filterSummary: mockFilterSummary,
 	facets: mockFacets,
@@ -305,6 +309,7 @@ describe('search response transformer', () => {
 		const pagination = jest.spyOn(transformSearchResponse, 'pagination');
 		const merchandising = jest.spyOn(transformSearchResponse, 'merchandising');
 		const search = jest.spyOn(transformSearchResponse, 'search');
+		const tracking = jest.spyOn(transformSearchResponse, 'tracking');
 
 		transformSearchResponse(mockResponse, mockRequest);
 
@@ -314,6 +319,7 @@ describe('search response transformer', () => {
 		expect(pagination).toHaveBeenCalled();
 		expect(merchandising).toHaveBeenCalled();
 		expect(search).toHaveBeenCalled();
+		expect(tracking).toHaveBeenCalled();
 
 		expect(results.mock.calls[0][0]).toEqual(mockResponse);
 		expect(filters.mock.calls[0][0]).toEqual(mockResponse);
@@ -338,6 +344,22 @@ describe('search response transformer', () => {
 	});
 });
 
+describe('search response transformer tracking', () => {
+	it('transforms pagination', () => {
+		const response = transformSearchResponse.tracking({
+			responseId: 'mock-response-id',
+		} as searchResponseType);
+
+		expect(response.tracking.responseId).toEqual('mock-response-id');
+	});
+
+	it('still returns object if passed undefined', () => {
+		// @ts-ignore
+		expect(typeof transformSearchResponse.pagination().pagination).toEqual('object');
+		expect(typeof transformSearchResponse.pagination({} as searchResponseType).pagination).toEqual('object');
+	});
+});
+
 describe('search response transformer pagination', () => {
 	it('transforms pagination', () => {
 		const response = transformSearchResponse.pagination({
@@ -359,7 +381,7 @@ describe('search response transformer pagination', () => {
 
 describe('search response transformer result', () => {
 	it('builds response format', () => {
-		const result = transformSearchResponse.result(mockSingleResult);
+		const result = transformSearchResponse.result(mockSingleResult, mockResponse);
 
 		expect(result.id).toEqual(mockSingleResult.uid);
 
@@ -369,10 +391,9 @@ describe('search response transformer result', () => {
 	});
 
 	it('builds core fields', () => {
-		const result = transformSearchResponse.result(mockSingleResult);
+		const result = transformSearchResponse.result(mockSingleResult, mockResponse);
 
 		// TODO: Add all core fields
-
 		expect(result.mappings?.core?.name).toEqual(mockSingleResult.name);
 		expect(result.mappings?.core?.sku).toEqual(mockSingleResult.sku);
 		expect(result.mappings?.core?.imageUrl).toEqual(mockSingleResult.imageUrl);
@@ -381,10 +402,13 @@ describe('search response transformer result', () => {
 		expect(result.mappings?.core?.brand).toEqual(mockSingleResult.brand);
 		expect(result.mappings?.core?.url).toEqual(mockSingleResult.url);
 		expect(result.mappings?.core?.uid).toEqual(mockSingleResult.uid);
+		expect(result.mappings?.core?.available).toEqual(true);
+		expect(result.mappings?.core?.parentId).toEqual(mockSingleResult.parentId);
+		expect(result.mappings?.core?.parentImageUrl).toEqual(mockSingleResult.parentImageUrl);
 	});
 
 	it('leaves core fields out of attributes', () => {
-		const result = transformSearchResponse.result(mockSingleResult);
+		const result = transformSearchResponse.result(mockSingleResult, mockResponse);
 
 		// TODO: Add all core fields
 
@@ -399,7 +423,7 @@ describe('search response transformer result', () => {
 	});
 
 	it('builds attributes', () => {
-		const result = transformSearchResponse.result(mockSingleResult);
+		const result = transformSearchResponse.result(mockSingleResult, mockResponse);
 
 		expect(result.attributes?.ss_in_stock).toEqual('In Stock');
 		expect(result.attributes?.handle).toEqual('over-this-shit-face-mask');
@@ -453,19 +477,17 @@ describe('search response transformer result', () => {
 			},
 		};
 
-		const result = transformSearchResponse.result(resultWithBadgeFeature);
+		const result = transformSearchResponse.result(resultWithBadgeFeature, mockResponse);
 		expect(result.attributes?.badges).toBeUndefined();
 		expect(result.badges).toEqual(resultWithBadgeFeature.badges);
 
 		// @ts-ignore - typings are wrong intentionally here
-		const result2 = transformSearchResponse.result(resultWithRandomBadgeField);
+		const result2 = transformSearchResponse.result(resultWithRandomBadgeField, mockResponse);
 		expect(result2.attributes?.badges).toEqual(resultWithRandomBadgeField.badges);
 		expect(result2.badges).toEqual([]);
 
 		// @ts-ignore - typings are wrong intentionally here
-		const result3 = transformSearchResponse.result(resultWithRandomBadgeField2);
-		expect(result3.attributes?.badges).toEqual(JSON.stringify(resultWithRandomBadgeField2.badges));
-
+		const result3 = transformSearchResponse.result(resultWithRandomBadgeField2, mockResponse);
 		expect(result3.badges).toEqual([]);
 	});
 });

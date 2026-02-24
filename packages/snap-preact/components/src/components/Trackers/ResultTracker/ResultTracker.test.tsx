@@ -34,18 +34,39 @@ const theme = {
 };
 
 describe('ResultTracker Component', () => {
+	let mockIntersectionObserver: any;
+	let observerCallbacks: Map<Element, IntersectionObserverCallback>;
+
 	beforeEach(() => {
-		const mock = jest.fn(() => ({
-			observe: jest.fn(),
-			unobserve: jest.fn(),
-			disconnect: jest.fn(),
-		}));
+		jest.useFakeTimers();
+		observerCallbacks = new Map();
+
+		mockIntersectionObserver = jest.fn((callback: IntersectionObserverCallback, options?: IntersectionObserverInit) => {
+			return {
+				observe: jest.fn((element: Element) => {
+					observerCallbacks.set(element, callback);
+				}),
+				unobserve: jest.fn((element: Element) => {
+					observerCallbacks.delete(element);
+				}),
+				disconnect: jest.fn(() => {
+					observerCallbacks.clear();
+				}),
+				root: null,
+				rootMargin: options?.rootMargin || '0px',
+				thresholds: Array.isArray(options?.threshold) ? options.threshold : [options?.threshold || 0],
+				takeRecords: jest.fn(() => []),
+			};
+		});
 
 		//@ts-ignore
-		window.IntersectionObserver = mock;
+		window.IntersectionObserver = mockIntersectionObserver;
 	});
 
 	afterEach(() => {
+		jest.runOnlyPendingTimers();
+		jest.useRealTimers();
+		observerCallbacks.clear();
 		//@ts-ignore
 		window.IntersectionObserver.mockReset();
 		jest.clearAllMocks();
@@ -57,7 +78,9 @@ describe('ResultTracker Component', () => {
 	});
 
 	describe('RecommendationController Usage', () => {
-		it.skip('tracks as expected', async () => {
+		it('tracks as expected', async () => {
+			const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),
 				store: new RecommendationStore(recommendConfig, services),
@@ -68,7 +91,6 @@ describe('ResultTracker Component', () => {
 				tracker: new Tracker(globals, { mode: 'development' }),
 			});
 
-			const renderTrackfn = jest.spyOn(controller.track.product, 'render');
 			const impressionTrackfn = jest.spyOn(controller.track.product, 'impression');
 			const clickTrackfn = jest.spyOn(controller.track.product, 'click');
 
@@ -86,28 +108,26 @@ describe('ResultTracker Component', () => {
 				</Fragment>
 			);
 
-			await waitFor(() => {
-				expect(renderTrackfn).toHaveBeenCalledTimes(20);
+			// Trigger intersection for all observed elements
+			observerCallbacks.forEach((callback, element) => {
+				callback(
+					[
+						{
+							target: element,
+							isIntersecting: true,
+							intersectionRatio: 0.8,
+							boundingClientRect: element.getBoundingClientRect(),
+							intersectionRect: element.getBoundingClientRect(),
+							rootBounds: null,
+							time: Date.now(),
+						} as IntersectionObserverEntry,
+					],
+					{} as IntersectionObserver
+				);
 			});
 
-			// 20 calls are for product render
-			controller.store.results.map((result) => {
-				expect(renderTrackfn).toHaveBeenCalledWith(result);
-			});
-
-			renderTrackfn.mockClear();
-
-			for (let i = 0; i < 20; i++) {
-				// @ts-ignore
-				const [callback] = window.IntersectionObserver.mock.calls[i];
-
-				callback([
-					{
-						isIntersecting: true,
-						intersectionRatio: 10,
-					},
-				]);
-			}
+			// Fast-forward timers to satisfy the minimum visible time requirement (1000ms)
+			jest.advanceTimersByTime(1000);
 
 			await waitFor(() => {
 				expect(impressionTrackfn).toHaveBeenCalledTimes(20);
@@ -121,15 +141,16 @@ describe('ResultTracker Component', () => {
 			impressionTrackfn.mockClear();
 
 			const resultElem = rendered.container.querySelector('.findMe0');
+			expect(resultElem).toBeInTheDocument();
 
-			await userEvent.click(resultElem!);
+			await user.click(resultElem!);
 
 			expect(clickTrackfn).toHaveBeenCalledWith(expect.anything(), controller.store.results[0]);
 
 			clickTrackfn.mockClear();
 		});
 
-		it.skip('can use track prop to disable tracking for renders', async () => {
+		it('can use track prop to disable tracking for impressions', async () => {
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),
 				store: new RecommendationStore(recommendConfig, services),
@@ -140,58 +161,6 @@ describe('ResultTracker Component', () => {
 				tracker: new Tracker(globals, { mode: 'development' }),
 			});
 
-			const renderTrackfn = jest.spyOn(controller.track.product, 'render');
-			const impressionTrackfn = jest.spyOn(controller.track.product, 'impression');
-
-			await controller.search();
-
-			const rendered = render(
-				<Fragment>
-					{controller.store.results.map((result, idx) => (
-						<ResultTracker controller={controller} result={result} track={{ render: false }}>
-							<div className={'findMe'} key={idx}>
-								<div className="result">{result.mappings.core?.name}</div>
-							</div>
-						</ResultTracker>
-					))}
-				</Fragment>
-			);
-
-			await waitFor(() => {
-				expect(renderTrackfn).not.toHaveBeenCalled();
-			});
-
-			for (let i = 0; i < 20; i++) {
-				// @ts-ignore
-				const [callback] = window.IntersectionObserver.mock.calls[i];
-
-				callback([
-					{
-						isIntersecting: true,
-						intersectionRatio: 10,
-					},
-				]);
-			}
-
-			await waitFor(() => {
-				expect(impressionTrackfn).toHaveBeenCalledTimes(20);
-			});
-
-			impressionTrackfn.mockClear();
-		});
-
-		it.skip('can use track prop to disable tracking for impressions', async () => {
-			const controller = new RecommendationController(recommendConfig, {
-				client: new MockClient(globals, {}),
-				store: new RecommendationStore(recommendConfig, services),
-				urlManager,
-				eventManager: new EventManager(),
-				profiler: new Profiler(),
-				logger: new Logger(),
-				tracker: new Tracker(globals, { mode: 'development' }),
-			});
-
-			const renderTrackfn = jest.spyOn(controller.track.product, 'render');
 			const impressionTrackfn = jest.spyOn(controller.track.product, 'impression');
 
 			await controller.search();
@@ -208,21 +177,26 @@ describe('ResultTracker Component', () => {
 				</Fragment>
 			);
 
-			await waitFor(() => {
-				expect(renderTrackfn).toHaveBeenCalledTimes(20);
+			// Trigger intersection for all observed elements
+			observerCallbacks.forEach((callback, element) => {
+				callback(
+					[
+						{
+							target: element,
+							isIntersecting: true,
+							intersectionRatio: 0.8,
+							boundingClientRect: element.getBoundingClientRect(),
+							intersectionRect: element.getBoundingClientRect(),
+							rootBounds: null,
+							time: Date.now(),
+						} as IntersectionObserverEntry,
+					],
+					{} as IntersectionObserver
+				);
 			});
 
-			for (let i = 0; i < 20; i++) {
-				// @ts-ignore
-				const [callback] = window.IntersectionObserver.mock.calls[i];
-
-				callback([
-					{
-						isIntersecting: true,
-						intersectionRatio: 10,
-					},
-				]);
-			}
+			// Fast-forward timers to satisfy the minimum visible time requirement (1000ms)
+			jest.advanceTimersByTime(1000);
 
 			await waitFor(() => {
 				expect(impressionTrackfn).not.toHaveBeenCalled();
@@ -232,6 +206,8 @@ describe('ResultTracker Component', () => {
 		});
 
 		it('can use track prop to disable tracking for clicks', async () => {
+			const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),
 				store: new RecommendationStore(recommendConfig, services),
@@ -259,7 +235,7 @@ describe('ResultTracker Component', () => {
 			);
 			const resultElem = rendered.container.querySelector('.findMe0');
 
-			await userEvent.click(resultElem!);
+			await user.click(resultElem!);
 
 			expect(clickTrackfn).not.toHaveBeenCalledWith(expect.anything(), controller.store.results[0]);
 

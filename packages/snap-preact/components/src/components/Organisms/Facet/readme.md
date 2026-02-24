@@ -58,7 +58,7 @@ If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.p
 ### valueProps
 The `valueProps` prop will be spread onto each value's `<a>` element. Typical usage would be to provide custom callback functions when used within Autocomplete.
 
-```typescript
+```js
 const valueProps = {
 	onMouseEnter: (e) => {
 		clearTimeout(delayTimeout);
@@ -133,11 +133,11 @@ The `rangeInputs` prop specifies if the range inputs should render.
 <Facet facet={controller.store.facets[0]} rangeInputs={true} />
 ```
 
-### rangeInputSubmitButtonText
-The `rangeInputSubmitButtonText` prop specifies the text to be rendered in the range input submit button. 
+### rangeInputsSubmitButtonText
+The `rangeInputsSubmitButtonText` prop specifies the text to be rendered in the range input submit button. 
 
 ```jsx
-<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSubmitButtonText={'Filter by Price'}/>
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsSubmitButtonText={'Filter by Price'}/>
 ```
 
 ### rangeInputsPrefix
@@ -147,11 +147,18 @@ The `rangeInputsPrefix` prop specifies the prefix to render next to the range in
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsPrefix={'$'}/>
 ```
 
-### rangeInputSeparatorText
-The `rangeInputSeparatorText` prop specifies the separator text to render between the range inputs.
+### rangeInputsSeparatorText
+The `rangeInputsSeparatorText` prop specifies the separator text to render between the range inputs.
 
 ```jsx
-<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputSeparatorText={' to '}/>
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsSeparatorText={' to '}/>
+```
+
+### rangeInputsInheritDefaultValues
+The `rangeInputsInheritDefaultValues` prop enables the facet range input values to default to the facet low and high limits.
+
+```jsx
+<Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsInheritDefaultValues={true}/>
 ```
 
 ### showClearAllText
@@ -195,7 +202,7 @@ The `iconOverflowLess` prop contains the icon name of the facet overflow button 
 ### overflowSlot
 The `overflowSlot` prop is a JSX element used to change the display of the show more/less toggle.
 
-```typescript
+```js
 const Overflow = (props) => {
 	const facet = props.facet;
 	return (
@@ -212,7 +219,7 @@ const Overflow = (props) => {
 ### fields
 The `fields` prop allows you to manually change prop values on a per-facet level, sorted by the facet field.
 
-```typescript
+```js
 const fieldsProp = {
 	Color: {
 		limit: 6,
@@ -232,7 +239,7 @@ const fieldsProp = {
 ### optionsSlot
 The `optionsSlot` prop is a JSX element used to manually set the options component used, regardless of the facet.display type. Returns the facet,valueProps, limit, & previewOnFocus prop values.
 
-```typescript
+```js
 const CustomFacetOptions = (props) => {
 	const facet = props.facet;
 	return (

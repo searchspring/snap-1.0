@@ -3,7 +3,7 @@ import { MockData } from '@searchspring/snap-shared';
 
 import { FinderStore } from './FinderStore';
 import { FinderStoreConfig } from '../types';
-import { SearchResponseModel, MetaResponseModel } from '@searchspring/snapi-types';
+import { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 const services = {
 	urlManager: new UrlManager(new UrlTranslator()).detach(),

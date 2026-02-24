@@ -1,8 +1,16 @@
 import { Term, TermData } from './AutocompleteTermStore';
+import { AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
+import type { AutocompleteStateStore } from './AutocompleteStateStore';
 
-type AutocompleteHistoryStoreConfig = Omit<TermData, 'data'> & {
+type AutocompleteHistoryStoreConfig = Omit<TermData, 'data' | 'type'> & {
 	data: {
 		queries: string[];
+	};
+	functions: {
+		resetTerms: () => void;
+	};
+	state: {
+		rootState: AutocompleteStateStore;
 	};
 };
 
@@ -27,6 +35,9 @@ export class AutocompleteHistoryStore extends Array<Term> {
 						},
 						terms,
 					},
+					functions: params.functions,
+					state: params.state,
+					type: 'historical' as AutocompleteRequestModelSearchSourceEnum,
 				})
 			);
 		});
