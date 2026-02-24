@@ -170,7 +170,7 @@ describe('BundledRecommendations', () => {
 							//get the new active again
 
 							const newerActiveIndex = doc.querySelector(`${config?.selectors?.recommendation.activeSlide}`).getAttribute('aria-label').split(' ')[0];
-							const storeTitle = store.results[parseInt(newerActiveIndex)].mappings.core.name;
+							const storeTitle = store.results[parseInt(newerActiveIndex)].display.mappings.core.name;
 
 							//should have changed
 							expect(newActive).to.not.equal(intialActive);

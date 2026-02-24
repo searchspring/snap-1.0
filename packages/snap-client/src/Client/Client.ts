@@ -7,9 +7,8 @@ import type {
 	TrendingRequestModel,
 	TrendingResponseModel,
 	ProfileRequestModel,
-	ProfileResponseModel,
-	RecommendResponseModel,
 	RecommendRequestModel,
+	RecommendCombinedResponseModel,
 } from '../types';
 
 import type {
@@ -19,7 +18,7 @@ import type {
 	SearchResponseModel,
 	AutocompleteRequestModel,
 	AutocompleteResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import deepmerge from 'deepmerge';
 
@@ -31,19 +30,19 @@ const defaultConfig: ClientConfig = {
 		},
 	},
 	search: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	autocomplete: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	recommend: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	finder: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 	suggest: {
-		// origin: 'https://snapi.kube.athoscommerce.io'
+		// origin: 'https://snapi.kube.athoscommerce.net'
 	},
 };
 
@@ -169,6 +168,13 @@ export class Client {
 		return { meta, search };
 	}
 
+	async category(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
+		params = deepmerge(this.globals, params);
+
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.search.getCategory(params)]);
+		return { meta, search };
+	}
+
 	async finder(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
 		params = deepmerge(this.globals, params);
 
@@ -182,9 +188,7 @@ export class Client {
 		return this.requesters.suggest.getTrending(params as TrendingRequestModel);
 	}
 
-	async recommend(
-		params: RecommendRequestModel
-	): Promise<{ meta: MetaResponseModel; profile: ProfileResponseModel; recommend: RecommendResponseModel }> {
+	async recommend(params: RecommendRequestModel): Promise<RecommendCombinedResponseModel> {
 		const { tag, ...otherParams } = params;
 		if (!tag) {
 			throw 'tag parameter is required';
@@ -206,16 +210,17 @@ export class Client {
 			siteId: params.siteId || this.globals.siteId,
 		};
 
-		const [meta, profile, recommend] = await Promise.all([
+		const [meta, profile, recommendations] = await Promise.all([
 			this.meta(params.siteId ? { siteId: params.siteId } : undefined),
 			this.requesters.recommend.getProfile(profileParams),
 			this.requesters.recommend.batchRecommendations(recommendParams),
 		]);
 
 		return {
+			...profile,
 			meta,
-			profile,
-			recommend,
+			results: recommendations && recommendations.results,
+			responseId: recommendations ? recommendations.responseId : '',
 		};
 	}
 }

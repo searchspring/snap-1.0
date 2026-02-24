@@ -10,7 +10,7 @@ import type { ButtonLang } from '../components/Atoms/Button';
 // import type { IconLang } from '../components/Atoms/Icon';
 // import type { ImageLang } from '../components/Atoms/Image';
 // import type { LoadingBarLang } from '../components/Atoms/Loading';
-// import type { BannerLang, InlineBannerLang } from '../components/Atoms/Merchandising';
+// import type { BannerLang, InlineBannerLang } from '../components/Atoms/Banner';
 // import type { OverlayLang } from '../components/Atoms/Overlay';
 import type { PaginationInfoLang } from '../components/Atoms/PaginationInfo';
 // import type { PriceLang } from '../components/Atoms/Price';
@@ -65,6 +65,7 @@ import type { SearchLang } from '../components/Templates/Search';
 import { AutocompleteLayoutLang } from '../components/Organisms/AutocompleteLayout';
 import { TermsLang } from '../components/Molecules/Terms';
 import { DeepPartial } from '../../../src/types';
+import { SlideshowLang } from '../components/Molecules/Slideshow';
 
 // type ComponentLang> = Partial<ComponentLang> & { named?: Partial<{ [named?: Partial<string]?: Partial<Partial<ComponentLang> } };
 
@@ -95,6 +96,7 @@ export type LangComponents = {
 	// calloutBadge: CalloutBadgeLang
 	// carousel: CarouselLang
 	checkbox: CheckboxLang;
+	slideshow: SlideshowLang;
 	grid: GridLang;
 	layoutSelector: LayoutSelectorLang;
 	list: ListLang;

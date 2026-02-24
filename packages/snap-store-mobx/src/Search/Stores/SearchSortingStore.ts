@@ -2,7 +2,7 @@ import { observable, computed, makeObservable } from 'mobx';
 
 import type { UrlManager } from '@searchspring/snap-url-manager';
 import type { StoreServices } from '../../types';
-import type { MetaResponseModel, MetaResponseModelSortOption, SearchResponseModel } from '@searchspring/snapi-types';
+import type { MetaResponseModel, MetaResponseModelSortOption, SearchResponseModel } from '@athoscommerce/snapi-types';
 
 type MetaResponseModelSortOptionMutated = MetaResponseModelSortOption & {
 	active?: boolean;
@@ -12,7 +12,7 @@ type MetaResponseModelSortOptionMutated = MetaResponseModelSortOption & {
 type SearchSortingStoreConfig = {
 	services: StoreServices;
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 	};
 };

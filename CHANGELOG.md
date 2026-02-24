@@ -383,6 +383,101 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **snap-layout/theming:** work towards theming a snap layout using styleScripts ([b6be05e](https://github.com/searchspring/snap-1.0/commit/b6be05eee8fc0a06c9e853a591aa0d380158fc0c))
 - support template themes in snap-preact ([df9d905](https://github.com/searchspring/snap-1.0/commit/df9d9057a1554d7eb62830002c3db990e0f8f272))
 - theme reactivity initial interface ([c017aad](https://github.com/searchspring/snap-1.0/commit/c017aadd4add7591bd98fcfbdb8db8985bf2d498))
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+### Bug Fixes
+
+- ac filters reset impressions ([57005a1](https://github.com/searchspring/snap/commit/57005a1147f2c5223f5c2ce593bb75421c56773b))
+- add awaitingReobservationRef ([6e95625](https://github.com/searchspring/snap/commit/6e956254083bc4a5baaf1d177c6384ee3b258078))
+- add resultIdentity to dep arr ([ed5e6b1](https://github.com/searchspring/snap/commit/ed5e6b1af1513b3eee9c8b88d9aa9cc2e86c6846))
+- change banner.uid check ([2738b61](https://github.com/searchspring/snap/commit/2738b61b4d172efb297e17d8e7e9fc0d5c79bba8))
+- **controller:** adding support for shadow dom click originations for tracking clickthrough events ([ec59ec0](https://github.com/searchspring/snap/commit/ec59ec072d732d80a9a11e0d0b423da64e21373a))
+- impression bug with infinite ([367f786](https://github.com/searchspring/snap/commit/367f7861a4f42069a8cb9e5dcfd7d676d0876d22))
+- move render event to search method for all controllers ([26aea6c](https://github.com/searchspring/snap/commit/26aea6ca30beb3b6ec529bbf0c06e112c175abbf))
+- pr feedback ([1976b2f](https://github.com/searchspring/snap/commit/1976b2f058c39e8a98a7151714410a796e77fe86))
+- pr review ([5f2212c](https://github.com/searchspring/snap/commit/5f2212c97a4865033af401eeee4c1d08b01dd8e6))
+- pr review ([b56638d](https://github.com/searchspring/snap/commit/b56638d18a03d9a52fd6f9aac54d719f04914b6a))
+- **recommendationinstantiator:** always run a search on ready the controller if re-using a controlle ([b74f8fd](https://github.com/searchspring/snap/commit/b74f8fdd08472271b9e624805092e0ab63a2ce9c))
+- remove resetKey ([4810e32](https://github.com/searchspring/snap/commit/4810e3232874b5a71363791a76111a0cc9590f43))
+- update tracker tests, pr review ([6a9d4ad](https://github.com/searchspring/snap/commit/6a9d4add7c9646bc9b8e5fc1b8e757346dcc4117))
+- use cssEscape package ([0b982b8](https://github.com/searchspring/snap/commit/0b982b868bc47d7c7b51abc10ef3a7207864a411))
+- use latest beacon from athos packages, improvements ([9655c11](https://github.com/searchspring/snap/commit/9655c11ad0c0309c113a74f3245cb0ea82c234c0))
+- use useCallback as trackingRef to observe ref changes ([a32640a](https://github.com/searchspring/snap/commit/a32640aa3849dc398420daa5e594fd08a4ae05a5))
+- withtracking improvement ([1a99359](https://github.com/searchspring/snap/commit/1a99359db60323a866a2ca84c7161a8c7c4f921c))
+
+### Features
+
+- **preact/components/withtracking:** adjusting the way that impressions events handled ([12f76bb](https://github.com/searchspring/snap/commit/12f76bbdf7e75ee5ed0b10ca458df342bf678678))
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+### Bug Fixes
+
+- removed type requirement from getContext ([35662e4](https://github.com/searchspring/snap/commit/35662e45f5739c453e0e4aee49f82ebb49cbb91e))
+
+## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
+
+### Bug Fixes
+
+- add useCallback to Banner withTracking ([885b4b7](https://github.com/searchspring/snap/commit/885b4b7b74a9d7e2978d85dd325fca5b28a6d196))
+- remove \_cached, reimpress products for previous searches when non-inifinite, fix banner impres ([348ff75](https://github.com/searchspring/snap/commit/348ff759147b04d575ab05a3ee46c53c94ee8721))
+
+## [0.73.5](https://github.com/searchspring/snap/compare/v0.73.4...v0.73.5) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap
+
+## [0.73.4](https://github.com/searchspring/snap/compare/v0.73.3...v0.73.4) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap
+
+## [0.73.3](https://github.com/searchspring/snap/compare/v0.73.2...v0.73.3) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap
+
+## [0.73.2](https://github.com/searchspring/snap/compare/v0.73.1...v0.73.2) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap
+
+## [0.73.1](https://github.com/searchspring/snap/compare/v0.73.0...v0.73.1) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap
+
+# [0.73.0](https://github.com/searchspring/snap/compare/v0.72.2...v0.73.0) (2026-01-22)
+
+### Bug Fixes
+
+- remove source from ac cache key ([2bc2b53](https://github.com/searchspring/snap/commit/2bc2b530f4a5c7bf873a50118d4b25d8722b85e0))
+- reset input param on new query ([ff1ab8a](https://github.com/searchspring/snap/commit/ff1ab8a712b1c30c3ff1226d1348b37e84ac49cc))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- remove category.json endpoint for category ([3fadfd5](https://github.com/searchspring/snap/commit/3fadfd5de97fd184ab831459e801819f15f6e8b0))
+
+## [0.72.2](https://github.com/searchspring/snap/compare/v0.72.1...v0.72.2) (2026-01-21)
+
+**Note:** Version bump only for package @searchspring/snap
+
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Bug Fixes
+
+- base url ([4f7926a](https://github.com/searchspring/snap/commit/4f7926aa5995c9bd5df594cf3fd304e92f572c2e))
+- change content width and legend breakpoint ([d16e865](https://github.com/searchspring/snap/commit/d16e865986dfb6e6306271a81df3d475c9c38d7c))
+- legend links ([b753591](https://github.com/searchspring/snap/commit/b753591cb63e07b80311aa0529310cde38a7879d))
+- **networkcache:** bugfix to prevent memoryCache from growing too large, and delete expired entries ([0534b6c](https://github.com/searchspring/snap/commit/0534b6c4ccb62389669c19f8f9f87cbd098fa6a5))
+- route base path for non-localhost ([511529a](https://github.com/searchspring/snap/commit/511529ac6194535d8049e667de3eee8b38a8b50f))
+- **searchresultstore:** adding support for option element to be used in realtime variants ([167f867](https://github.com/searchspring/snap/commit/167f867f12b06a6fb0f8f84f4553a9d9e6b2d884))
+
+### Features
+
+- **client:** adding support to have separate subdomain in api - using this for recommend requests ([ceb6d65](https://github.com/searchspring/snap/commit/ceb6d6500c2c8a57df0356535d0f74d8d0464fae))
+- **networkcache:** get function no longer accounts for personalization params when backforward nav ([de52d7e](https://github.com/searchspring/snap/commit/de52d7e02c7ed70488a31a4f92bd26820a8f3823))
+- **snap.tsx:** adding support for configurable initiator ([f286c5c](https://github.com/searchspring/snap/commit/f286c5c5f416ddad5771002bf00a0dc2e570922f))
 
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 

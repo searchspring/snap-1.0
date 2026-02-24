@@ -6,11 +6,14 @@ import type {
 	SearchRequestModel,
 	MetaResponseModelBadgeTag,
 	SearchResponseModelResultBadges,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 // Abstract
 export type StoreConfig = {
 	id: string;
+	beacon?: {
+		enabled: boolean;
+	};
 	[any: string]: unknown;
 };
 
@@ -52,7 +55,6 @@ export type SearchStoreConfigSettings = {
 export type VariantConfigFilterTypes = 'first' | 'unaltered';
 
 export type VariantConfig = {
-	field: string;
 	realtime?: {
 		enabled: boolean;
 		filters?: VariantConfigFilterTypes[];
@@ -61,6 +63,7 @@ export type VariantConfig = {
 		[optionField: string]: VariantOptionConfig;
 	};
 	showDisabledSelectionValues?: boolean;
+	autoSelect?: boolean;
 };
 
 export type VariantOptionConfig = {
@@ -139,6 +142,8 @@ export type AutocompleteStoreConfigSettings = {
 		enabled?: boolean;
 		limit?: number;
 		showResults?: boolean;
+		max?: number;
+		url?: string;
 	};
 	redirects?: {
 		merchandising?: boolean;

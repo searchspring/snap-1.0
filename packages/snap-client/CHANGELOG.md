@@ -8,6 +8,64 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Bug Fixes
 
 - add noBeacon param to recommend api, update beacon and snapi-types version ([89e185c](https://github.com/searchspring/snap/commit/89e185c1b06a49274103c50d3bf410e2effa1e3a))
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
+
+### Bug Fixes
+
+- remove \_cached, reimpress products for previous searches when non-inifinite, fix banner impres ([348ff75](https://github.com/searchspring/snap/commit/348ff759147b04d575ab05a3ee46c53c94ee8721))
+
+## [0.73.5](https://github.com/searchspring/snap/compare/v0.73.4...v0.73.5) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.73.4](https://github.com/searchspring/snap/compare/v0.73.3...v0.73.4) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.73.3](https://github.com/searchspring/snap/compare/v0.73.2...v0.73.3) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.73.2](https://github.com/searchspring/snap/compare/v0.73.1...v0.73.2) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.73.1](https://github.com/searchspring/snap/compare/v0.73.0...v0.73.1) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+# [0.73.0](https://github.com/searchspring/snap/compare/v0.72.2...v0.73.0) (2026-01-22)
+
+### Bug Fixes
+
+- remove source from ac cache key ([2bc2b53](https://github.com/searchspring/snap/commit/2bc2b530f4a5c7bf873a50118d4b25d8722b85e0))
+- reset input param on new query ([ff1ab8a](https://github.com/searchspring/snap/commit/ff1ab8a712b1c30c3ff1226d1348b37e84ac49cc))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- remove category.json endpoint for category ([3fadfd5](https://github.com/searchspring/snap/commit/3fadfd5de97fd184ab831459e801819f15f6e8b0))
+
+## [0.72.2](https://github.com/searchspring/snap/compare/v0.72.1...v0.72.2) (2026-01-21)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-client
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+### Bug Fixes
+
 - **networkcache:** bugfix to prevent memoryCache from growing too large, and delete expired entries ([0534b6c](https://github.com/searchspring/snap/commit/0534b6c4ccb62389669c19f8f9f87cbd098fa6a5))
 
 ### Features

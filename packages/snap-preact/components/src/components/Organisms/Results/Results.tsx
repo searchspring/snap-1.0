@@ -8,7 +8,7 @@ import deepmerge from 'deepmerge';
 import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
 import type { SearchResultStore, Product, Banner } from '@searchspring/snap-store-mobx';
 import { ContentType } from '@searchspring/snap-store-mobx';
-import { InlineBanner, InlineBannerProps } from '../../Atoms/Merchandising/InlineBanner';
+import { InlineBanner, InlineBannerProps } from '../../Atoms/InlineBanner';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, ResultsLayout, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -110,6 +110,7 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 			treePath,
 		},
 		inlineBanner: {
+			controller,
 			// default props
 			internalClassName: 'ss__results__inline-banner',
 			// inherited props

@@ -36,6 +36,10 @@ const defaultStyles: StyleScript<RatingProps> = () => {
 		'& .ss__rating__stars__star': {
 			overflow: 'hidden',
 		},
+
+		'& .ss__icon': {
+			maxWidth: 'max-content',
+		},
 	});
 };
 

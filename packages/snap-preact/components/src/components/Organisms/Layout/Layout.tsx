@@ -18,7 +18,7 @@ import { MobileSidebar, MobileSidebarProps } from '../MobileSidebar';
 import { PaginationInfo, PaginationInfoProps } from '../../Atoms/PaginationInfo/PaginationInfo';
 import { SearchHeader, SearchHeaderProps } from '../../Atoms/SearchHeader/SearchHeader';
 import { Button, ButtonProps } from '../../Atoms/Button';
-import { Banner, BannerProps } from '../../Atoms/Merchandising';
+import { Banner, BannerProps } from '../../Atoms/Banner';
 import { ContentType } from '@searchspring/snap-store-mobx';
 import { Facets, FacetsProps } from '../Facets';
 import { FacetsHorizontal, FacetsHorizontalProps } from '../FacetsHorizontal';
@@ -80,6 +80,7 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 		},
 		Banner: {
 			// default props
+			controller,
 			content: controller.store.merchandising.content,
 			// inherited props
 			...defined({

@@ -29,13 +29,15 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.io/api/meta/meta.json?siteId=8uyt2m';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/meta?siteId=8uyt2m';
 
 		await api.getMeta({
 			siteId: '8uyt2m',
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getSearch', async () => {
@@ -48,7 +50,7 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = `https://8uyt2m.a.athoscommerce.io/api/search/search.json?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
+		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/search?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
 
 		await api.getSearch({
 			siteId: '8uyt2m',
@@ -56,6 +58,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call postMeta', async () => {
@@ -71,13 +75,15 @@ describe('Legacy Api', () => {
 			},
 			method: 'POST',
 		};
-		const reuestUrl = 'https://abc123.a.athoscommerce.io/api/meta/meta.json';
+		const reuestUrl = 'https://abc123.a.athoscommerce.net/v1/meta';
 
 		await api.postMeta({
 			siteId: 'abc123',
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(reuestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getAutocomplete', async () => {
@@ -90,7 +96,7 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = `https://8uyt2m.a.athoscommerce.io/api/search/search.json?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
+		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/autocomplete?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
 
 		await api.getAutocomplete({
 			siteId: '8uyt2m',
@@ -98,6 +104,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getFinder', async () => {
@@ -110,7 +118,7 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = `https://8uyt2m.a.athoscommerce.io/api/search/search.json?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
+		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/finder?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
 
 		await api.getFinder({
 			siteId: '8uyt2m',
@@ -118,6 +126,8 @@ describe('Legacy Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
 	});
 
 	it('can call getEndpoint', async () => {
@@ -132,7 +142,7 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.io/api/search/search.json?siteId=8uyt2m&q=dress&resultsFormat=native';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/search?siteId=8uyt2m&q=dress&resultsFormat=native';
 
 		//@ts-ignore
 		await api.getEndpoint({
@@ -154,10 +164,10 @@ describe('Legacy Api', () => {
 				siteId: '8uyt2m',
 				q: 'dress',
 			},
-			'mycustompath.com'
+			'mycustompath'
 		);
 
-		expect(requestMock).toHaveBeenCalledWith('https://8uyt2m.a.athoscommerce.io/mycustompath.com?siteId=8uyt2m&q=dress&resultsFormat=native', {
+		expect(requestMock).toHaveBeenCalledWith('https://8uyt2m.a.athoscommerce.net/mycustompath?siteId=8uyt2m&q=dress&resultsFormat=native', {
 			...params,
 		});
 

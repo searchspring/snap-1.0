@@ -4,7 +4,6 @@ import { RecommendAPI } from './Recommend';
 import { MockData } from '@searchspring/snap-shared';
 
 import type { RecommendPostRequestModel } from '../../types';
-import { NO_BEACON_PARAM } from '../transforms';
 
 const mockData = new MockData();
 
@@ -39,7 +38,7 @@ describe('Recommend Api', () => {
 			method: 'GET',
 		};
 
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.io/api/personalized-recommendations/profile.json?siteId=8uyt2m&tag=dress';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/profile?siteId=8uyt2m&tag=dress';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -75,7 +74,7 @@ describe('Recommend Api', () => {
 			],
 		};
 
-		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -96,20 +95,19 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar"}],"siteId":"8uyt2m","${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar"}],"siteId":"8uyt2m"}`,
 		};
 
-		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response));
 
 		await api.batchRecommendations({
 			siteId: '8uyt2m',
 			tag: 'similar',
 		});
-
 		//add delay for paramBatch.timeout
 		await wait(250);
 
@@ -139,14 +137,16 @@ describe('Recommend Api', () => {
 		product: 'marnie-runner-2-7x10',
 	};
 
-	const RequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+	const RequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 	it('batchRecommendations batches as expected', async () => {
 		const api = new RecommendAPI(new ApiConfiguration(apiConfig));
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		api.batchRecommendations({
 			tag: 'similar',
@@ -170,7 +170,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","limit":14},{"tag":"crossSell","limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","limit":14},{"tag":"crossSell","limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -182,7 +182,9 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		//shirt category
 		api.batchRecommendations({
@@ -216,7 +218,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","categories":["shirts"],"limit":14},{"tag":"crossSell","limit":10},{"tag":"crossSell","categories":["pants"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","categories":["shirts"],"limit":14},{"tag":"crossSell","limit":10},{"tag":"crossSell","categories":["pants"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -228,7 +230,9 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		//shirt category
 		api.batchRecommendations({
@@ -255,7 +259,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","brands":["shirts"],"limit":14},{"tag":"crossSell","brands":["pants","pants2"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","brands":["shirts"],"limit":14},{"tag":"crossSell","brands":["pants","pants2"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -267,7 +271,9 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		api.batchRecommendations({
 			tag: 'similar',
@@ -291,7 +297,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","limit":20},{"tag":"crossSell"}],"siteId":"8uyt2m","products":["sku1"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","limit":20},{"tag":"crossSell"}],"siteId":"8uyt2m","products":["sku1"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -303,7 +309,10 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementationOnce(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response))
+			.mockImplementationOnce(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		api.batchRecommendations({
 			tag: 'similar',
@@ -333,19 +342,19 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","limit":20}],"siteId":"8uyt2m","products":["sku1"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","limit":20}],"siteId":"8uyt2m","products":["sku1"]}`,
 		};
 		const secondBatchPOSTParams = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"crossSell"},{"tag":"static"}],"siteId":"8uyt2m","${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"crossSell"},{"tag":"static"}],"siteId":"8uyt2m"}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledTimes(2);
-		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend', firstBatchPOSTParams);
-		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend', secondBatchPOSTParams);
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend', firstBatchPOSTParams);
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend', secondBatchPOSTParams);
 		requestMock.mockReset();
 	});
 
@@ -354,7 +363,9 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		api.batchRecommendations({
 			tag: 'similar',
@@ -383,7 +394,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","limit":20},{"tag":"crossSell","limit":10}],"siteId":"8uyt2m","products":["sku1"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","limit":20},{"tag":"crossSell","limit":10}],"siteId":"8uyt2m","products":["sku1"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -395,7 +406,8 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementationOnce(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response))
+			.mockImplementationOnce(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response));
 
 		api.batchRecommendations({
 			tag: 'similar',
@@ -425,28 +437,31 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"similar","limit":20}],"siteId":"8uyt2m","products":["sku1"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"similar","limit":20}],"siteId":"8uyt2m","products":["sku1"]}`,
 		};
 		const POSTParams123abc = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"crossSell","limit":5}],"siteId":"123abc","${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"crossSell","limit":5}],"siteId":"123abc"}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledTimes(2);
-		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend', POSTParams8uyt2m);
-		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://123abc.a.p13n.athoscommerce.io/v1/recommend', POSTParams123abc);
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend', POSTParams8uyt2m);
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://123abc.a.p13n.athoscommerce.net/v1/recommend', POSTParams123abc);
 		requestMock.mockReset();
 	});
 
 	it('batchRecommendations handles order prop as expected', async () => {
 		const api = new RecommendAPI(new ApiConfiguration(apiConfig));
 
-		const requestMock = jest
-			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+		const requestMock = jest.spyOn(global.window, 'fetch').mockImplementation(() =>
+			Promise.resolve({
+				status: 200,
+				json: () => Promise.resolve([mockData.recommend(), mockData.recommend(), mockData.recommend(), mockData.recommend()]),
+			} as Response)
+		);
 
 		//shirt category
 		api.batchRecommendations({
@@ -487,7 +502,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"andanother","categories":["pants"],"limit":10},{"tag":"another","limit":10},{"tag":"similar","categories":["shirts"],"limit":14},{"tag":"other","limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"andanother","categories":["pants"],"limit":10},{"tag":"another","limit":10},{"tag":"similar","categories":["shirts"],"limit":14},{"tag":"other","limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		//add delay for paramBatch.timeout
@@ -531,7 +546,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"crosssell","categories":["dress"],"limit":20},{"tag":"similar","categories":["shirts"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"crosssell","categories":["dress"],"limit":20},{"tag":"similar","categories":["shirts"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -582,7 +597,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"first","categories":["dress"],"limit":20},{"tag":"second","categories":["shirts"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"first","categories":["dress"],"limit":20},{"tag":"second","categories":["shirts"],"limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -600,7 +615,7 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response));
 
 		api.batchRecommendations({
 			tag: 'crossSell',
@@ -622,7 +637,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"crossSell","limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"filters":[{"field":"color","type":"=","values":["red"]}],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"crossSell","limit":10}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"filters":[{"field":"color","type":"=","values":["red"]}],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -634,7 +649,7 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response));
 
 		api.batchRecommendations({ tag: 'crossSell', products: ['some_sku', 'some_sku2'], ...batchParams });
 
@@ -646,7 +661,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"crossSell"}],"siteId":"8uyt2m","products":["some_sku","some_sku2","marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"crossSell"}],"siteId":"8uyt2m","products":["some_sku","some_sku2","marnie-runner-2-7x10"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -658,7 +673,7 @@ describe('Recommend Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.recommend()) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend()]) } as Response));
 
 		api.batchRecommendations({ tag: 'crossSell', blockedItems: ['blocked_sku1', 'blocked_sku2'], ...batchParams });
 
@@ -670,7 +685,7 @@ describe('Recommend Api', () => {
 			headers: {
 				'Content-Type': 'text/plain',
 			},
-			body: `{"profiles":[{"tag":"crossSell"}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"blockedItems":["blocked_sku1","blocked_sku2"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"],"${NO_BEACON_PARAM}":true}`,
+			body: `{"profiles":[{"tag":"crossSell"}],"siteId":"8uyt2m","products":["marnie-runner-2-7x10"],"blockedItems":["blocked_sku1","blocked_sku2"],"lastViewed":["marnie-runner-2-7x10","ruby-runner-2-7x10","abbie-runner-2-7x10","riley-4x6","joely-5x8","helena-4x6","kwame-4x6","sadie-4x6","candice-runner-2-7x10","esmeray-4x6","camilla-230x160","candice-4x6","sahara-4x6","dayna-4x6","moema-4x6"]}`,
 		};
 
 		expect(requestMock).toHaveBeenCalledWith(RequestUrl, POSTParams);
@@ -703,15 +718,16 @@ describe('Recommend Api', () => {
 					{ field: 'price', type: '<=', values: [40] },
 					{ field: 'color', type: '=', values: ['green'] },
 				],
-				[NO_BEACON_PARAM]: true,
 			}),
 		};
 
-		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const POSTRequestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() =>
+				Promise.resolve({ status: 200, json: () => Promise.resolve([mockData.recommend(), mockData.recommend(), mockData.recommend()]) } as Response)
+			);
 
 		// profile 1
 		api.batchRecommendations({
@@ -787,7 +803,7 @@ describe('Recommend Api', () => {
 
 	it('batchRecommendations handles POST requests', async () => {
 		const api = new RecommendAPI(new ApiConfiguration(apiConfig));
-
+		const length = 100;
 		//now consts try a post
 		const POSTParams = {
 			method: 'POST',
@@ -796,7 +812,7 @@ describe('Recommend Api', () => {
 			},
 
 			body: JSON.stringify({
-				profiles: Array.from({ length: 100 }, (item, index) => {
+				profiles: Array.from({ length }, (item, index) => {
 					return {
 						tag: index.toString(),
 					};
@@ -826,17 +842,17 @@ describe('Recommend Api', () => {
 					'dayna-4x6',
 					'moema-4x6',
 				],
-				[NO_BEACON_PARAM]: true,
 			}),
 		};
 
-		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
+		const mockResponse = Array.from({ length }, () => mockData.recommend());
 		const POSTRequestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockResponse) } as Response));
 
-		for (let i = 0; i < 100; i++) {
+		for (let i = 0; i < length; i++) {
 			api.batchRecommendations({
 				tag: i.toString(),
 				...batchParams,
@@ -866,7 +882,7 @@ describe('Recommend Api', () => {
 
 	it('batchRecommendations handles POST requests with profile specific request parameters', async () => {
 		const api = new RecommendAPI(new ApiConfiguration(apiConfig));
-
+		const length = 100;
 		//now consts try a post
 		const POSTParams = {
 			method: 'POST',
@@ -875,7 +891,7 @@ describe('Recommend Api', () => {
 			},
 
 			body: JSON.stringify({
-				profiles: Array.from({ length: 100 }, (item, index) => {
+				profiles: Array.from({ length }, (item, index) => {
 					return {
 						tag: index.toString(),
 						blockedItems: ['skuBlocked', `sku${index}`],
@@ -907,15 +923,15 @@ describe('Recommend Api', () => {
 					'dayna-4x6',
 					'moema-4x6',
 				],
-				[NO_BEACON_PARAM]: true,
 			}),
 		};
 
-		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
+		const mockResponse = Array.from({ length }, () => mockData.recommend());
 		const POSTRequestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockResponse) } as Response));
 
 		for (let i = 0; i < 100; i++) {
 			api.batchRecommendations({

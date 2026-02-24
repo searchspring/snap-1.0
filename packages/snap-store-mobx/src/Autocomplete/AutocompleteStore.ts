@@ -20,7 +20,7 @@ import {
 	AutocompleteHistoryStore,
 } from './Stores';
 
-import type { AutocompleteResponseModel, MetaResponseModel } from '@searchspring/snapi-types';
+import type { AutocompleteResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 import type { TrendingResponseModel } from '@searchspring/snap-client';
 import type { AutocompleteStoreConfig, StoreServices } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
@@ -83,7 +83,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 
 	public reset(): void {
 		this.state.reset();
-		this.update({ meta: {}, search: {} });
+		this.update();
 		this.resetTerms();
 	}
 
@@ -106,7 +106,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 					},
 				},
 				state: {
-					autocomplete: this.state,
+					rootState: this.state,
 				},
 				data: {
 					queries: historyStore.getStoredData(limit),
@@ -154,7 +154,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 				},
 			},
 			state: {
-				autocomplete: this.state,
+				rootState: this.state,
 			},
 			data: {
 				trending,
@@ -162,15 +162,14 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 		});
 	}
 
-	public update(data: { meta: MetaResponseModel; search: AutocompleteResponseModel }): void {
-		if (!data) return;
+	public update(data?: { meta?: MetaResponseModel; search?: AutocompleteResponseModel }): void {
 		const { meta, search } = data || {};
 		this.meta = new MetaStore({
 			data: { meta },
 		});
 
 		// set the query to match the actual queried term and not the input query
-		if (search.search) {
+		if (search?.search) {
 			this.state.url = this.services.urlManager = this.services.urlManager.set('query', search.search.query);
 		}
 
@@ -185,15 +184,15 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 					},
 				},
 				state: {
-					autocomplete: this.state,
+					rootState: this.state,
 				},
 				data: {
-					autocomplete: search,
+					autocomplete: search!,
 				},
 			});
 
 			// only lock if there was data
-			search.autocomplete && this.state.locks.terms.lock();
+			search?.autocomplete && this.state.locks.terms.lock();
 		}
 
 		this.merchandising = new SearchMerchandisingStore({

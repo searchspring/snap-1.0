@@ -1,19 +1,19 @@
-import { MetaRequestModel, MetaResponseModel } from '@searchspring/snapi-types';
+import { MetaRequestModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 import { API, HTTPQuery } from '.';
 import { HTTPHeaders } from '../../types';
-import { NO_BEACON_PARAM } from '../transforms';
 
 export class LegacyAPI extends API {
-	private async getEndpoint(queryParameters: any, path = '/api/search/search.json') {
+	private async getEndpoint(queryParameters: any, path = '/v1/search') {
 		queryParameters.resultsFormat = 'native';
 		const headerParameters: HTTPHeaders = {};
 
-		//remove pageLoadId from cache key query params
+		// remove pageLoadId from cache key query params
 		const cacheParameters = { ...queryParameters };
 		delete cacheParameters.pageLoadId;
 		delete cacheParameters.domain;
-		delete cacheParameters[NO_BEACON_PARAM];
+		// autocomplete only params
+		delete cacheParameters.input;
 
 		const legacyResponse = await this.request(
 			{
@@ -35,7 +35,7 @@ export class LegacyAPI extends API {
 
 		const response = await this.request<MetaResponseModel>(
 			{
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -51,7 +51,7 @@ export class LegacyAPI extends API {
 
 		const response = await this.request<MetaResponseModel>(
 			{
-				path: '/api/meta/meta.json',
+				path: '/v1/meta',
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters as unknown as HTTPQuery,
@@ -64,16 +64,21 @@ export class LegacyAPI extends API {
 
 	async getSearch(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = this.configuration.initiator;
-		return this.getEndpoint(queryParameters, '/api/search/search.json');
+		return this.getEndpoint(queryParameters, '/v1/search');
+	}
+
+	async getCategory(queryParameters: any): Promise<any> {
+		queryParameters.ajaxCatalog = 'Snap';
+		return this.getEndpoint(queryParameters, '/v1/category');
 	}
 
 	async getAutocomplete(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = this.configuration.initiator;
-		return this.getEndpoint(queryParameters, '/api/search/autocomplete.json');
+		return this.getEndpoint(queryParameters, '/v1/autocomplete');
 	}
 
 	async getFinder(queryParameters: any): Promise<any> {
 		queryParameters.ajaxCatalog = this.configuration.initiator;
-		return this.getEndpoint(queryParameters, '/api/search/finder.json');
+		return this.getEndpoint(queryParameters, '/v1/finder');
 	}
 }

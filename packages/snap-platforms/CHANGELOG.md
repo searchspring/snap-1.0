@@ -127,6 +127,54 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.1.0](https://github.com/searchspring/snap/compare/v0.60.1...v1.1.0) (2024-09-20)
 
+# [0.74.0](https://github.com/searchspring/snap/compare/v0.73.7...v0.74.0) (2026-02-19)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.7](https://github.com/searchspring/snap/compare/v0.73.6...v0.73.7) (2026-01-30)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.6](https://github.com/searchspring/snap/compare/v0.73.5...v0.73.6) (2026-01-26)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.5](https://github.com/searchspring/snap/compare/v0.73.4...v0.73.5) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.4](https://github.com/searchspring/snap/compare/v0.73.3...v0.73.4) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.3](https://github.com/searchspring/snap/compare/v0.73.2...v0.73.3) (2026-01-23)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.2](https://github.com/searchspring/snap/compare/v0.73.1...v0.73.2) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.73.1](https://github.com/searchspring/snap/compare/v0.73.0...v0.73.1) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+# [0.73.0](https://github.com/searchspring/snap/compare/v0.72.2...v0.73.0) (2026-01-22)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.72.2](https://github.com/searchspring/snap/compare/v0.72.1...v0.72.2) (2026-01-21)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+## [0.72.1](https://github.com/searchspring/snap/compare/v0.72.0...v0.72.1) (2026-01-15)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
+# [0.72.0](https://github.com/searchspring/snap/compare/v0.71.0...v0.72.0) (2026-01-14)
+
+**Note:** Version bump only for package @searchspring/snap-platforms
+
 # [0.71.0](https://github.com/searchspring/snap/compare/v0.70.1...v0.71.0) (2025-11-26)
 
 **Note:** Version bump only for package @searchspring/snap-platforms

@@ -32,7 +32,7 @@ describe('Trending Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				// @ts-ignore - no trending data
@@ -53,7 +53,7 @@ describe('Trending Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				trending: trendingData,
@@ -84,7 +84,7 @@ describe('Trending Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				trending: trendingData,
@@ -110,7 +110,7 @@ describe('Trending Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				trending: trendingData,
@@ -132,7 +132,7 @@ describe('Trending Store', () => {
 				resetTerms: mockResetTerms,
 			},
 			state: {
-				autocomplete: rootState,
+				rootState,
 			},
 			data: {
 				trending: trendingData,

@@ -8,7 +8,13 @@ import { Tracker } from '@searchspring/snap-tracker';
 
 import type { ClientConfig, ClientGlobals, RecommendRequestModel, RecommendationRequestFilterModel } from '@searchspring/snap-client';
 import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
-import type { AbstractController, RecommendationController, Attachments, ContextVariables } from '@searchspring/snap-controller';
+import type {
+	AbstractController,
+	RecommendationController,
+	Attachments,
+	ContextVariables,
+	RecommendationControllerConfig,
+} from '@searchspring/snap-controller';
 import type { VariantConfig } from '@searchspring/snap-store-mobx';
 import type { Middleware } from '@searchspring/snap-event-manager';
 import type { Target } from '@searchspring/snap-toolbox';
@@ -80,6 +86,7 @@ type ExtendedRecommendaitonProfileTarget = Target & {
 	profile?: ProfileSpecificProfile;
 };
 
+const DEFAULT_BRANCH = 'production';
 export class RecommendationInstantiator {
 	private mode = AppMode.production;
 	public client: Client;
@@ -104,7 +111,8 @@ export class RecommendationInstantiator {
 		}
 
 		if (!this.config.config?.branch) {
-			throw new Error(`Recommendation Instantiator config must contain 'branch' property`);
+			this.config.config = this.config.config || {};
+			this.config.config.branch = DEFAULT_BRANCH;
 		}
 
 		if (!this.config.components || typeof this.config.components != 'object' || !Object.keys(this.config.components).length) {
@@ -309,13 +317,19 @@ async function readyTheController(
 		controllerGlobals,
 	]);
 
-	const controllerConfig = {
+	const controllerConfig: RecommendationControllerConfig = {
 		id: `recommend_${tag}_${profileCount[tag] - 1}`,
 		tag,
-		batched: batched ?? true,
-		realtime: Boolean(context.options?.realtime ?? context.profile?.options?.realtime),
+		batched: batched ?? instance.config.config?.batched ?? true,
+		realtime: Boolean(context.options?.realtime ?? context.profile?.options?.realtime ?? instance.config.config?.realtime),
 		batchId: batchId,
-		...instance.config.config,
+		middleware: instance.config.config.middleware,
+		plugins: instance.config.config.plugins,
+		branch: instance.config.config?.branch || 'production',
+		limit: instance.config.config?.limit,
+		settings: {
+			variants: instance.config.config?.variants,
+		},
 		globals,
 	};
 
@@ -344,7 +358,6 @@ async function readyTheController(
 				})
 			);
 		})[0];
-
 	if (!controller) {
 		// no existing controller found of same configuration - creating a new controller
 		const createRecommendationController = (await import('../create/createRecommendationController')).default;
@@ -363,8 +376,8 @@ async function readyTheController(
 		instance.middleware.forEach((middleware) => controller.on(middleware.event, ...middleware.func));
 	}
 
-	// run a search on the controller if it has not yet and it is not currently
-	if (!controller.store.loaded && !controller.store.loading) {
+	// run a search on the controller if it is not currently
+	if (!controller.store.loading) {
 		await controller.search();
 	}
 
@@ -387,7 +400,6 @@ async function readyTheController(
 		instance.logger.error(`profile '${tag}' found on the following element is missing a template!\n${elem?.outerHTML}`);
 		return;
 	}
-
 	if (!profileVars) {
 		instance.logger.error(`profile '${tag}' found on the following element is missing templateParameters!\n${elem?.outerHTML}`);
 		return;

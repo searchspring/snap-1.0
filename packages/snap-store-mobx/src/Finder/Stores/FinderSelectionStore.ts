@@ -12,7 +12,7 @@ import type {
 	SearchResponseModelFacetRangeBuckets,
 	SearchResponseModelFacetValue,
 	SearchResponseModelFacetValueAllOfValues,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 type FacetWithMeta = MetaResponseModelFacetGrid &
 	MetaResponseModelFacetHierarchy &
@@ -31,10 +31,9 @@ type FinderSelectionStoreConfig = {
 	};
 	state: {
 		persisted: boolean;
-		loading: boolean;
 	};
 	data: {
-		search: SearchResponseModel;
+		search?: SearchResponseModel;
 		meta: MetaResponseModel;
 		selections: SelectedSelection[];
 	};
@@ -202,7 +201,6 @@ class SelectionBase {
 	public facet;
 
 	public services: StoreServices;
-	public loading: boolean;
 	public config: FinderFieldConfig | LevelConfig;
 	public data?: SearchResponseModelFacetValueAllOfValues[];
 	public storage;
@@ -212,9 +210,8 @@ class SelectionBase {
 		const { storage } = stores || {};
 		const { id, facet } = data || {};
 
-		const { persisted, loading } = state;
+		const { persisted } = state;
 		this.services = services;
-		this.loading = loading;
 		this.persisted = persisted;
 		this.id = id;
 		this.config = config;
@@ -269,15 +266,13 @@ class Selection extends SelectionBase {
 
 	constructor(selectionData: SelectionData) {
 		super(selectionData);
-		const { state, data } = selectionData || {};
-		const { loading } = state || {};
+		const { data } = selectionData || {};
 		const { facet } = data || {};
 
-		this.loading = loading;
 		this.storage.set('values', facet.values);
 
 		const storageData = this.storage.get();
-		this.data = storageData.values;
+		this.data = storageData.values || [];
 
 		// check if any dropdowns have been selected
 		this.disabled = !this.values.length;
@@ -285,8 +280,6 @@ class Selection extends SelectionBase {
 	}
 
 	public select(value = '') {
-		if (this.loading) return;
-
 		this.selected = value;
 		this.storage.set('selected', value);
 		this.persisted = false;
@@ -343,8 +336,6 @@ class SelectionHierarchy extends SelectionBase {
 	}
 
 	public select(value = '') {
-		if (this.loading) return;
-
 		this.selected = value;
 		this.persisted = false;
 

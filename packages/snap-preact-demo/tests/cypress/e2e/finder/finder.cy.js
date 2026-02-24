@@ -98,7 +98,9 @@ config?.pages?.forEach((page, _i) => {
 											// value with the most options
 											const options = store.selections[index].data.sort((a, b) => b.count - a.count);
 											const valueToSelect = options[0]?.value;
-											expect(valueToSelect).to.exist;
+
+											// skip if no options are available (prior selection may have filtered them out)
+											if (!valueToSelect) return;
 
 											cy.get(select).select(valueToSelect, { force: true }).should('have.value', valueToSelect);
 

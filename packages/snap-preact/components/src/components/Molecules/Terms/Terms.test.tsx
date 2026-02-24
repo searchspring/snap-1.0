@@ -41,6 +41,7 @@ describe('Terms Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dress',
 			url: {
 				href: 'www.dress.com',
@@ -49,6 +50,7 @@ describe('Terms Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'drss',
 			url: {
 				href: 'www.drss.com',
@@ -57,6 +59,7 @@ describe('Terms Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dreees',
 			url: {
 				href: 'www.dreees.com',
@@ -65,6 +68,7 @@ describe('Terms Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dres',
 			url: {
 				href: 'www.dres.com',
@@ -73,6 +77,7 @@ describe('Terms Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'dss',
 			url: {
 				href: 'www.dss.com',
@@ -81,6 +86,7 @@ describe('Terms Component', () => {
 		{
 			active: false,
 			preview: jest.fn(),
+			type: 'input' as any,
 			value: 'ress',
 			url: {
 				href: 'www.ress.com',
@@ -116,7 +122,7 @@ describe('Terms Component', () => {
 
 		await controller.bind();
 
-		userEvent.type(input!, 'dre');
+		await userEvent.type(input!, 'dre');
 
 		const rendered = render(<Terms controller={controller} terms={mockTerms} emIfy={true} />);
 		const termOptions = rendered.container.querySelectorAll('.ss__terms__option a')[0];
@@ -151,7 +157,7 @@ describe('Terms Component', () => {
 		const termOptions = rendered.container.querySelector('.ss__terms__option a');
 		expect(termOptions).toBeInTheDocument();
 
-		userEvent.hover(termOptions!);
+		await userEvent.hover(termOptions!);
 
 		await waitFor(() => expect(mockTerms[0].preview).toHaveBeenCalled());
 	});
@@ -168,7 +174,7 @@ describe('Terms Component', () => {
 		const rendered = render(<Terms controller={controller} terms={mockTerms} onTermClick={onClick} />);
 		const termOptions = rendered.container.querySelector('.ss__terms__option a');
 
-		userEvent.click(termOptions!);
+		await userEvent.click(termOptions!);
 
 		expect(onClick).toHaveBeenCalled();
 	});

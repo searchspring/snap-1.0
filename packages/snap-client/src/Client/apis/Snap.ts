@@ -5,7 +5,7 @@ import {
 	MetaResponseModel,
 	SearchRequestModel,
 	SearchResponseModel,
-} from '@searchspring/snapi-types';
+} from '@athoscommerce/snapi-types';
 
 import { API } from '.';
 import { HTTPHeaders } from '../../types';
@@ -17,7 +17,7 @@ export class SnapAPI extends API {
 
 		const response = await this.request<MetaResponseModel>(
 			{
-				path: '/api/v1/meta',
+				path: '/v1/meta',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -34,7 +34,7 @@ export class SnapAPI extends API {
 
 		const response = await this.request<SearchResponseModel>(
 			{
-				path: '/api/v1/search',
+				path: '/v1/search',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -42,7 +42,7 @@ export class SnapAPI extends API {
 			JSON.stringify(requestParameters)
 		);
 
-		return response;
+		return response as any as SearchResponseModel;
 	}
 
 	async postAutocomplete(requestParameters: AutocompleteRequestModel): Promise<AutocompleteResponseModel> {
@@ -51,7 +51,7 @@ export class SnapAPI extends API {
 
 		const response = await this.request<AutocompleteResponseModel>(
 			{
-				path: '/api/v1/autocomplete',
+				path: '/v1/autocomplete',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
@@ -59,6 +59,6 @@ export class SnapAPI extends API {
 			JSON.stringify(requestParameters)
 		);
 
-		return response;
+		return response as any as AutocompleteResponseModel;
 	}
 }
