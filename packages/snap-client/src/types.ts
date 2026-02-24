@@ -6,7 +6,6 @@ import type {
 	AutocompleteRequestModel,
 	MetaResponseModel,
 } from '@athoscommerce/snapi-types';
-import { BEACON_PARAM } from './Client/transforms';
 
 export type HTTPHeaders = { [key: string]: string };
 
@@ -150,7 +149,6 @@ export type RecommendPostRequestModel = {
 	withRecInfo?: boolean;
 	blockedItems?: string[];
 	filters?: RecommendPostRequestFiltersModel[];
-	[BEACON_PARAM]?: boolean;
 };
 
 export type RecommendPostRequestProfileModel = {

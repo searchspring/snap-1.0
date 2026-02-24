@@ -1,5 +1,5 @@
-import { AppMode } from '@athoscommerce/snap-toolbox';
-import type { BeaconConfig, Currency, Product } from '@searchspring/beacon';
+import { AppMode } from '@searchspring/snap-toolbox';
+import type { BeaconConfig, Currency, Product } from '@athoscommerce/beacon';
 
 export type TrackerGlobals = {
 	siteId: string;

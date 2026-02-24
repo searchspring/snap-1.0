@@ -2,7 +2,6 @@ import { MetaRequestModel, MetaResponseModel } from '@athoscommerce/snapi-types'
 
 import { API, HTTPQuery } from '.';
 import { HTTPHeaders } from '../../types';
-import { BEACON_PARAM } from '../transforms';
 
 export class LegacyAPI extends API {
 	private async getEndpoint(queryParameters: any, path = '/api/search/search.json') {
@@ -11,7 +10,6 @@ export class LegacyAPI extends API {
 
 		// remove pageLoadId from cache key query params
 		const cacheParameters = { ...queryParameters };
-		delete cacheParameters[BEACON_PARAM];
 		delete cacheParameters.pageLoadId;
 		delete cacheParameters.domain;
 		// autocomplete only params

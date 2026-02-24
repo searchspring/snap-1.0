@@ -129,7 +129,7 @@ export const Terms = observer((properties: TermsProps): JSX.Element => {
 							term: {
 								value: `${emIfy ? emIfyTerm(term.value, currentInput || '') : term.value}`,
 								attributes: {
-									'aria-label': `${title} item ${idx + 1} of ${termsToShow.length}, ${term.value}`,
+									'aria-label': `${title ? title : ''} item ${idx + 1} of ${termsToShow.length}, ${term.value}`,
 								},
 							},
 						};

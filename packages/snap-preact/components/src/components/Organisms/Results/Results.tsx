@@ -8,7 +8,7 @@ import deepmerge from 'deepmerge';
 import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
 import type { SearchResultStore, Product, Banner } from '@athoscommerce/snap-store-mobx';
 import { ContentType } from '@athoscommerce/snap-store-mobx';
-import { InlineBanner, InlineBannerProps } from '../../Atoms/Merchandising/InlineBanner';
+import { InlineBanner, InlineBannerProps } from '../../Atoms/InlineBanner';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, ResultsLayout, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';

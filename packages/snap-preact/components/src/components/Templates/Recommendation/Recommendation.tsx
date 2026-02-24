@@ -85,7 +85,6 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 		style: _,
 		styleScript: __,
 		themeStyleScript: ___,
-		breakpoints: ____,
 		lazyRender,
 		vertical,
 		hideTitle,

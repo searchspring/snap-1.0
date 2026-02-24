@@ -17,25 +17,25 @@ The required `options` prop specifies an array of Option Objects to be rendered.
 <List options={store.options} />
 ```
 
-### hideCheckbox
-The `hideCheckbox` prop will disable the checkbox elements from rendering.
+### hideOptionCheckboxes
+The `hideOptionCheckboxes` prop will disable the checkbox elements from rendering.
 
 ```jsx
-<List options={store.options} hideCheckbox={true} />
+<List options={store.options} hideOptionCheckboxes={true} />
 ```
 
-### hideLabels
-The `hideLabels` prop will disable the option label elements from rendering.
+### hideOptionLabels
+The `hideOptionLabels` prop will disable the option label elements from rendering.
 
 ```jsx
-<List options={store.options} hideLabels={true} />
+<List options={store.options} hideOptionLabels={true} />
 ```
 
-### hideIcons
-The `hideIcons` prop will disable the option icon elements from rendering.
+### hideOptionIcons
+The `hideOptionIcons` prop will disable the option icon elements from rendering.
 
 ```jsx
-<List options={store.options} hideIcons={true} />
+<List options={store.options} hideOptionIcons={true} />
 ```
 
 ### requireSelection
@@ -88,10 +88,9 @@ The `disabled` prop will put the inputs in a disabled state.
 ```
 
 ### selected
-The `selected` prop specifies the currently selected Option object. 
-
+The `selected` prop specifies the currently selected option. It accepts either a single Option object (for single-select lists) or, when `multiSelect` is enabled, an array of Option objects representing the selected options.
 ```jsx
-<List options={store.pagination.pageSizeOptions} selected={store.pagination.pageSize} />
+<List options={store.pagination.pageSizeOptions} selected={store.pagination.pageSizeOptions[0]} />
 ```
 
 ### Events

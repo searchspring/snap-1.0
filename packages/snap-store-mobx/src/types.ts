@@ -11,6 +11,9 @@ import type {
 // Abstract
 export type StoreConfig = {
 	id: string;
+	beacon?: {
+		enabled: boolean;
+	};
 	[any: string]: unknown;
 };
 

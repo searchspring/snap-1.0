@@ -48,23 +48,29 @@ const JAVASCRIPT_KEYWORDS = new Set([
 	'public',
 ]);
 
-export function getContext(evaluate: string[] = [], script?: HTMLScriptElement | string): ContextVariables {
-	if (!script || typeof script === 'string') {
+export function getContext(evaluate: string[] = [], scriptOrSelector?: HTMLScriptElement | string): ContextVariables {
+	let script: HTMLScriptElement | undefined;
+
+	if (!scriptOrSelector || typeof scriptOrSelector === 'string') {
 		const scripts = Array.from(
 			document.querySelectorAll(
-				(script as string) ||
+				(scriptOrSelector as string) ||
 					'script[id^=searchspring], script[id=athos-context], script[src*="snapui.searchspring.io"], script[src*="snapui.athoscommerce.io"]'
 			)
 		);
+
 		script = scripts
 			.sort((a, b) => {
 				// order them by innerHTML (so that popped script has innerHTML)
 				return a.innerHTML.length - b.innerHTML.length;
 			})
 			.pop() as HTMLScriptElement;
+	} else if (scriptOrSelector && scriptOrSelector.tagName === 'SCRIPT') {
+		// script is a 'script element'
+		script = scriptOrSelector as HTMLScriptElement;
 	}
 
-	if (!script || typeof script !== 'object' || script.tagName !== 'SCRIPT') {
+	if (!script) {
 		throw new Error('getContext: did not find a script tag');
 	}
 
@@ -72,6 +78,7 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 
 	// check script type
 	if (
+		!scriptOrSelector &&
 		!scriptElem.getAttribute('type')?.match(/^searchspring/i) &&
 		!scriptElem.id?.match(/^searchspring/i) &&
 		!scriptElem.id?.match(/athos-context/) &&
@@ -90,15 +97,15 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 	const attributeVariables: ContextVariables = {};
 
 	// grab element attributes and put into variables
-	Object.values(scriptElem.attributes).map((attr) => {
+	Object.values(script?.attributes).map((attr) => {
 		const name = attr.nodeName;
 		if (evaluate.includes(name)) {
-			attributeVariables[name] = scriptElem.getAttribute(name);
+			attributeVariables[name] = script?.getAttribute(name);
 		}
 	});
 
 	const scriptVariables: ContextVariables = {};
-	const scriptInnerHTML = scriptElem.innerHTML;
+	const scriptInnerHTML = script?.innerHTML;
 
 	// attempt to grab inner HTML variables
 	const scriptInnerVars = scriptInnerHTML
