@@ -12,21 +12,19 @@ const searchStyleScript = (props: SearchProps) => {
 
 	return css({
 		...custom.styles.boxSizing('search', props?.treePath, props?.name),
-		// '&.ss__search--sidebar-open': {
-		// 	'.ss__button': {
-		// 		'.ss__icon--filter': {
-		// 			transform: 'rotate(-180deg)',
-		// 		},
-		// 		'.ss__icon--filters': {
-		// 			circle: {
-		// 				'&:last-child': {
-		// 					transform: 'translateX(-35%)',
-		// 				},
-		// 				transform: 'translateX(35%)',
-		// 			},
-		// 		},
-		// 	},
-		// },
+		'&.ss__search--sidebar-open .ss__button--sidebar-toggle-button-wrapper .ss__button': {
+			'.ss__icon--filter': {
+				transform: 'rotate(-180deg)',
+			},
+			'.ss__icon--filters': {
+				circle: {
+					'&:last-child': {
+						transform: 'translateX(-35%)',
+					},
+					transform: 'translateX(35%)',
+				},
+			},
+		},
 		// '.ss__search__header-section, .ss__search__main-section': {
 		// 	margin: `0 0 ${custom.spacing.x6}px 0`,
 		// 	'.ss__toolbar .ss__layout': {

@@ -8,16 +8,19 @@ const termsListStyleScript = (props: TermsListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	return css({
-		...custom.styles.boxSizing('termsList', props?.treePath, props?.name),
+	// terms list styles
+	const termsListStyles = css({
 		backgroundColor: 'transparent',
 		flexFlow: 'row nowrap',
 		gap: `${custom.spacing.x4}px`,
-		'.ss__terms-list-row': {
+		...custom.styles.boxSizing('termsList', props?.treePath, props?.name),
+		'.ss__terms-list__row': {
 			flex: '1 1 0%',
 			minWidth: '1px',
 		},
 	});
+
+	return termsListStyles;
 };
 
 // TermsList component props

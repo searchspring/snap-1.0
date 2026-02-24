@@ -6,14 +6,14 @@ import { custom } from '../../custom';
 // static variables
 const headerHeight = 60;
 const footerHeight = 75;
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
 
 // CSS in JS style script for the MobileSidebar component
 const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const activeColors = custom.utils.activeColors(variables?.colors?.primary);
-	const activeColor = activeColors[0];
-	const fontColor = activeColors[1];
 	const hideHeader = typeof props?.hideHeader == 'boolean' ? props.hideHeader : false;
 	const hideFooter = typeof props?.hideFooter == 'boolean' ? props.hideFooter : false;
 
@@ -30,9 +30,27 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	// mobile sidebar styles
 	const mobileSidebarStyles = css({
 		...custom.styles.boxSizing('mobileSidebar', props?.treePath, props?.name),
-		'.ss__slideout__button .ss__button .ss__icon--filters': {
-			fill: activeColor,
-			stroke: fontColor,
+		'.ss__slideout__button .ss__button': {
+			'&[active="true"]': {
+				'.ss__icon--filter': {
+					transform: 'rotate(-180deg)',
+				},
+				'.ss__icon--filters': {
+					circle: {
+						'&:last-child': {
+							transform: 'translateX(-35%)',
+						},
+						transform: 'translateX(35%)',
+					},
+				},
+			},
+			'.ss__button__content': {
+				textAlign: 'left',
+			},
+			'.ss__icon--filters': {
+				fill: activeColor,
+				stroke: fontColor,
+			},
 		},
 		'.ss__mobile-sidebar__slideout': {
 			overflowY: 'hidden',

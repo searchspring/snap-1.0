@@ -83,7 +83,7 @@ const resultStyleScript = (props: ResultProps) => {
 					alignItems: 'center',
 					gap: `${custom.spacing.x2}px`,
 					'.ss__variant-selection': {
-						width: `calc((100% - ${custom.spacing.x2 * 2}px) / 2)`,
+						width: `calc((100% - ${custom.spacing.x2}px) / 2)`,
 						margin: 0,
 						'.ss__slideshow .ss__slideshow__container .ss__slideshow__track': {
 							justifyContent: 'flex-start',

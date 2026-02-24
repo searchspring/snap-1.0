@@ -3,6 +3,11 @@ import { ThemeComponent } from '../../../../providers';
 import { ToolbarProps } from '../../../../components/Organisms/Toolbar';
 import { custom } from '../../custom';
 
+// static variables
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
+
 // CSS in JS style script for the Toolbar component
 const toolbarStyleScript = (props: ToolbarProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -11,22 +16,31 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 
 	return css({
 		...custom.styles.boxSizing('toolbar', props?.treePath, props?.name),
-		'.ss__layout': {
-			gap: `${custom.spacing.x2}px`,
-			margin: 0,
-		},
-		'&[class*="bottom"]': {
-			'.ss__pagination-info': {
-				fontSize: '14px',
+		'.ss__button--sidebar-toggle-button-wrapper .ss__button': {
+			'.ss__button__content': {
+				textAlign: 'left',
+			},
+			'.ss__icon--filters': {
+				fill: activeColor,
+				stroke: fontColor,
 			},
 		},
-		'.ss__pagination-info': {
-			fontSize: '16px',
-		},
+		// '.ss__layout': {
+		// 	gap: `${custom.spacing.x2}px`,
+		// 	margin: 0,
+		// },
+		// '&[class*="bottom"]': {
+		// 	'.ss__pagination-info': {
+		// 		fontSize: '14px',
+		// 	},
+		// },
+		// '.ss__pagination-info': {
+		// 	fontSize: '16px',
+		// },
 		[`@media (max-width: ${mobileBp}px)`]: {
-			'.ss__pagination-info': {
-				fontSize: '18px',
-			},
+			// '.ss__pagination-info': {
+			// 	fontSize: '18px',
+			// },
 		},
 		// '& > .ss__layout > .ss__layout__row > .ss__filter-summary': {
 		// 	display: 'flex',

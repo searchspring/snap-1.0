@@ -76,6 +76,15 @@ const facetStyleScript = (props: FacetProps) => {
 			'&, .ss__facet__range-inputs__row': {
 				gap: `${custom.spacing.x2}px`,
 			},
+			'.ss__facet__range-inputs__row': {
+				' > *': {
+					minWidth: '1px',
+					flex: '1 1 0%',
+				},
+				'.ss__facet__range-inputs__separator': {
+					flex: '0 1 auto',
+				},
+			},
 			'.ss__facet__range-inputs__separator, .ss__facet__range-inputs__row--button-wrapper .ss__button': {
 				margin: 0,
 			},
@@ -134,14 +143,14 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
-			showSelectedCount: true,
-			hideSelectedCountParenthesis: false,
-			rangeInputs: true,
-			rangeInputsPrefix: '$',
-			rangeInputsSeparatorText: 'to',
-			rangeInputsInheritDefaultValues: true,
-			showClearAllText: true,
-			searchable: true,
+			// showSelectedCount: true,
+			// hideSelectedCountParenthesis: false,
+			// rangeInputs: true,
+			// rangeInputsPrefix: '$',
+			// rangeInputsSeparatorText: 'to',
+			// rangeInputsInheritDefaultValues: true,
+			// showClearAllText: true,
+			// searchable: true,
 		},
 		'facet icon.collapse': {
 			size: `${custom.sizes.icon12}px`,
