@@ -14,7 +14,8 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
-	return css({
+	// toolbar styles
+	const toolbarStyles = css({
 		...custom.styles.boxSizing('toolbar', props?.treePath, props?.name),
 		'.ss__button--sidebar-toggle-button-wrapper .ss__button': {
 			'.ss__button__content': {
@@ -25,55 +26,22 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 				stroke: fontColor,
 			},
 		},
-		// '.ss__layout': {
-		// 	gap: `${custom.spacing.x2}px`,
-		// 	margin: 0,
-		// },
-		// '&[class*="bottom"]': {
-		// 	'.ss__pagination-info': {
-		// 		fontSize: '14px',
-		// 	},
-		// },
-		// '.ss__pagination-info': {
-		// 	fontSize: '16px',
-		// },
-		[`@media (max-width: ${mobileBp}px)`]: {
-			// '.ss__pagination-info': {
-			// 	fontSize: '18px',
-			// },
+		'.ss__layout': {
+			'&, .ss__layout__row': {
+				gap: `${custom.spacing.x2}px`,
+			},
 		},
-		// '& > .ss__layout > .ss__layout__row > .ss__filter-summary': {
-		// 	display: 'flex',
-		// 	flexFlow: 'row wrap',
-		// 	'.ss__filter-summary__title, .ss__filter-summary__filters': {
-		// 		minWidth: '1px',
-		// 	},
-		// 	'.ss__filter-summary__title': {
-		// 		flex: '0 1 auto',
-		// 		padding: `0 ${custom.spacing.x2}px 0 0`,
-		// 	},
-		// 	'.ss__filter-summary__filters': {
-		// 		flex: '1 1 0%',
-		// 	},
-		// 	'&.ss__filter-summary--inline': {
-		// 		'.ss__filter-summary__title': {
-		// 			paddingTop: `${custom.spacing.x1}px`,
-		// 			paddingBottom: `${custom.spacing.x1}px`,
-		// 		},
-		// 	},
-		// 	'&.ss__filter-summary--list': {
-		// 		'.ss__filter-summary__filters': {
-		// 			display: 'flex',
-		// 			flexFlow: 'row wrap',
-		// 			alignItems: 'center',
-		// 			gap: `${custom.spacing.x2}px`,
-		// 			'.ss__filter': {
-		// 				margin: 0,
-		// 			},
-		// 		},
-		// 	},
-		// },
+		'.ss__pagination-info': {
+			fontSize: props?.name == 'bottom' ? '14px' : '',
+		},
+		[`@media (max-width: ${mobileBp}px)`]: {
+			'.ss__pagination-info': {
+				fontSize: props?.name == 'bottom' ? '16px' : '18px',
+			},
+		},
 	});
+
+	return toolbarStyles;
 };
 
 // Toolbar component props
@@ -84,6 +52,9 @@ export const toolbar: ThemeComponent<'toolbar', ToolbarProps> = {
 		},
 		'toolbar filterSummary': {
 			title: `Current Filters:`,
+		},
+		'toolbar mobileSidebar filterSummary': {
+			title: `Current Filters`,
 		},
 	},
 };

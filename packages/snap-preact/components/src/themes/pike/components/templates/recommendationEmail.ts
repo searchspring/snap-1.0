@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { RecommendationEmailProps } from '../../../../components/Templates/RecommendationEmail';
 import { recommendationEmailThemeComponentProps } from '../../../themeComponents/recommendationEmail';
 import { ThemeComponent } from '../../../../providers';
-import { custom } from '../../custom';
+//import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationEmail component
 const recommendationEmailStyleScript = (props: RecommendationEmailProps) => {
@@ -10,22 +10,22 @@ const recommendationEmailStyleScript = (props: RecommendationEmailProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		width: '400px !important',
-		height: '680px',
-		margin: `0 0 ${custom.spacing.x6}px 0`,
-		padding: `0 ${custom.spacing.x2}px`,
-		overflow: 'hidden',
-		...custom.styles.boxSizing('recommendationEmail', props?.treePath, props?.name),
-		'.ss__result': {
-			fontSize: '16px',
-			'.ss__result__details .ss__result__details__title a': {
-				display: 'block',
-				height: '26px',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis',
-				whiteSpace: 'nowrap',
-			},
-		},
+		// width: '400px !important',
+		// height: '680px',
+		// margin: `0 0 ${custom.spacing.x6}px 0`,
+		// padding: `0 ${custom.spacing.x2}px`,
+		// overflow: 'hidden',
+		// ...custom.styles.boxSizing('recommendationEmail', props?.treePath, props?.name),
+		// '.ss__result': {
+		// 	fontSize: '16px',
+		// 	'.ss__result__details .ss__result__details__title a': {
+		// 		display: 'block',
+		// 		height: '26px',
+		// 		overflow: 'hidden',
+		// 		textOverflow: 'ellipsis',
+		// 		whiteSpace: 'nowrap',
+		// 	},
+		// },
 	});
 };
 
@@ -37,9 +37,9 @@ export const recommendationEmail: ThemeComponent<'recommendationEmail', Recommen
 			...(recommendationEmailThemeComponentProps.default?.['recommendationEmail'] || {}),
 			themeStyleScript: recommendationEmailStyleScript,
 		},
-		'recommendationEmail image': {
-			lazy: false,
-		},
+		// 'recommendationEmail image': {
+		// 	lazy: false,
+		// },
 	},
 	mobile: {
 		...recommendationEmailThemeComponentProps.mobile,

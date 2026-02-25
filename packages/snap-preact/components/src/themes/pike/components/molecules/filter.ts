@@ -14,6 +14,9 @@ const filterStyleScript = (props: FilterProps) => {
 		'&, .ss__filter__button': {
 			padding: 0,
 		},
+		'&.ss__filter-summary__clear-all .ss__filter__button .ss__button__content .ss__filter__value': {
+			margin: 0,
+		},
 		'.ss__filter__button': {
 			position: 'relative',
 			height: 'auto',

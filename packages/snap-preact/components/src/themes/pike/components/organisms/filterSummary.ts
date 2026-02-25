@@ -7,17 +7,39 @@ import { custom } from '../../custom';
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const isSidebar = props?.treePath && (props.treePath.includes('sidebar') || props.treePath.includes('mobileSidebar')) ? true : false;
+
+	// filter summary styles
+	const filterSummaryStyles = isSidebar
+		? {
+				display: 'block',
+		  }
+		: {
+				display: 'flex',
+				alignItems: 'center',
+				gap: `${custom.spacing.x2}px`,
+		  };
+
+	// header styles
+	const headerStyles = isSidebar
+		? {
+				margin: `0 0 ${custom.spacing.x4}px 0`,
+				padding: `0 0 ${custom.spacing.x2}px 0`,
+				borderBottom: `2px solid ${variables?.colors?.primary}`,
+				...custom.styles.headerText(variables?.colors?.secondary, '16px'),
+		  }
+		: {
+				padding: 0,
+				...custom.styles.headerText(variables?.colors?.secondary, '14px'),
+		  };
 
 	// shared styles
 	const sharedStyles = css({
-		display: 'block',
 		width: 'auto',
+		...filterSummaryStyles,
 		...custom.styles.boxSizing('filterSummary', props?.treePath, props?.name),
 		'.ss__filter-summary__title': {
-			margin: ` 0 0 ${custom.spacing.x4}px 0`,
-			padding: ` 0 0 ${custom.spacing.x2}px 0`,
-			borderBottom: `2px solid ${variables?.colors?.primary}`,
-			...custom.styles.headerText(variables?.colors?.secondary, '16px'),
+			...headerStyles,
 		},
 		'.ss__filter-summary__filters': {
 			margin: 0,
@@ -52,11 +74,14 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 		sharedStyles,
 		{
 			'&.ss__filter-summary--list': {
+				'&, .ss__filter-summary__filters': {
+					display: isSidebar ? '' : 'flex',
+				},
 				'.ss__filter-summary__filters': {
 					'.ss__filter': {
-						margin: `0 0 ${custom.spacing.x1}px 0`,
+						margin: isSidebar ? `0 0 ${custom.spacing.x1}px 0` : 0,
 						'&:last-of-type': {
-							marginBottom: 0,
+							marginBottom: isSidebar ? 0 : '',
 						},
 						'.ss__filter__button': {
 							'.ss__button__content': {

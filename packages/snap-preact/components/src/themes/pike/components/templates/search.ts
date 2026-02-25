@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { SearchProps } from '../../../../components/Templates/Search';
 import { searchThemeComponentProps } from '../../../themeComponents/search';
 import { ThemeComponent } from '../../../../providers';
-import { custom } from '../../custom';
+//import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchStyleScript = (props: SearchProps) => {
@@ -11,20 +11,20 @@ const searchStyleScript = (props: SearchProps) => {
 	//const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	return css({
-		...custom.styles.boxSizing('search', props?.treePath, props?.name),
-		'&.ss__search--sidebar-open .ss__button--sidebar-toggle-button-wrapper .ss__button': {
-			'.ss__icon--filter': {
-				transform: 'rotate(-180deg)',
-			},
-			'.ss__icon--filters': {
-				circle: {
-					'&:last-child': {
-						transform: 'translateX(-35%)',
-					},
-					transform: 'translateX(35%)',
-				},
-			},
-		},
+		// ...custom.styles.boxSizing('search', props?.treePath, props?.name),
+		// '&.ss__search--sidebar-open .ss__button--sidebar-toggle-button-wrapper .ss__button': {
+		// 	'.ss__icon--filter': {
+		// 		transform: 'rotate(-180deg)',
+		// 	},
+		// 	'.ss__icon--filters': {
+		// 		circle: {
+		// 			'&:last-child': {
+		// 				transform: 'translateX(-35%)',
+		// 			},
+		// 			transform: 'translateX(35%)',
+		// 		},
+		// 	},
+		// },
 		// '.ss__search__header-section, .ss__search__main-section': {
 		// 	margin: `0 0 ${custom.spacing.x6}px 0`,
 		// 	'.ss__toolbar .ss__layout': {

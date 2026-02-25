@@ -89,7 +89,6 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 					'.ss__layout': {
 						overflow: 'hidden',
 						display: 'block',
-						gap: 0,
 						'& > *': {
 							borderBottom: `1px solid ${custom.colors.gray02}`,
 							padding: `${custom.spacing.x4}px`,
@@ -155,9 +154,6 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 			size: `${custom.sizes.icon16}px`,
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
-		},
-		'mobileSidebar toolbar filterSummary': {
-			title: 'Current Filters',
 		},
 		'mobileSidebar facets icon.collapse': {
 			fill: 'currentColor',

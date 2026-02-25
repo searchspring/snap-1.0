@@ -69,6 +69,9 @@ const facetStyleScript = (props: FacetProps) => {
 			overflow: 'visible',
 			...custom.styles.scrollbar(),
 		},
+		'.ss__search-input': {
+			margin: `0 0 ${custom.spacing.x4}px`,
+		},
 		'.ss__facet__range-inputs': {
 			margin: `${custom.spacing.x4}px 0 0 0`,
 			fontSize: '14px',
@@ -150,7 +153,7 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			// rangeInputsSeparatorText: 'to',
 			// rangeInputsInheritDefaultValues: true,
 			// showClearAllText: true,
-			// searchable: true,
+			searchable: true,
 		},
 		'facet icon.collapse': {
 			size: `${custom.sizes.icon12}px`,

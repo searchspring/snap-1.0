@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import type { SearchCollapsibleProps } from '../../../../components/Templates/SearchCollapsible';
 import { searchCollapsibleThemeComponentProps } from '../../../themeComponents/searchCollapsible';
 import { ThemeComponent } from '../../../../providers';
-import { custom } from '../../custom';
+//import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
@@ -10,20 +10,20 @@ const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 	const variables = props?.theme?.variables;
 
 	return css({
-		...custom.styles.boxSizing('searchCollapsible', props?.treePath, props?.name),
-		'&.ss__search-collapsible--sidebar-open .ss__button--sidebar-toggle-button-wrapper .ss__button': {
-			'.ss__icon--filter': {
-				transform: 'rotate(-180deg)',
-			},
-			'.ss__icon--filters': {
-				circle: {
-					'&:last-child': {
-						transform: 'translateX(-35%)',
-					},
-					transform: 'translateX(35%)',
-				},
-			},
-		},
+		// ...custom.styles.boxSizing('searchCollapsible', props?.treePath, props?.name),
+		// '&.ss__search-collapsible--sidebar-open .ss__button--sidebar-toggle-button-wrapper .ss__button': {
+		// 	'.ss__icon--filter': {
+		// 		transform: 'rotate(-180deg)',
+		// 	},
+		// 	'.ss__icon--filters': {
+		// 		circle: {
+		// 			'&:last-child': {
+		// 				transform: 'translateX(-35%)',
+		// 			},
+		// 			transform: 'translateX(35%)',
+		// 		},
+		// 	},
+		// },
 		// '.ss__search-collapsible__header-section, .ss__search-collapsible__main-section': {
 		// 	margin: `0 0 ${custom.spacing.x6}px 0`,
 		// 	'.ss__toolbar .ss__layout': {

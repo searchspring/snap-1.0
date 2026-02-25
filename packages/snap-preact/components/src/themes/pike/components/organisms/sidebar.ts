@@ -18,13 +18,6 @@ const sidebarStyleScript = (props: SidebarProps) => {
 		'.ss__sidebar__inner': {
 			'.ss__layout': {
 				gap: `${custom.spacing.x6}px`,
-				'.ss__layout__row': {
-					display: 'block',
-					minWidth: '1px',
-					'& > div:only-child': {
-						width: 'auto',
-					},
-				},
 			},
 			'.ss__select': {
 				width: '100%',
