@@ -25,8 +25,7 @@
 	},
 	"devDependencies": {
 		"@searchspring/snap-client": "1.12.0",
-		"@searchspring/snap-url-manager": "1.12.0",
-		"mobx": "6.15.0"
+		"@searchspring/snap-url-manager": "1.12.0"
 	},
 	"sideEffects": false,
 	"files": [
