@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import type { AutocompleteProps } from '../../../../components/Organisms/Autocomplete';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
+import { autocompleteThemeComponentProps } from '../../../themeComponents/autocomplete';
 
 // CSS in JS style script for the Autocomplete component
 const autocompleteStyleScript = (props: AutocompleteProps) => {
@@ -312,6 +313,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 // Autocomplete component props
 export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 	default: {
+		...autocompleteThemeComponentProps.default,
 		autocomplete: {
 			themeStyleScript: autocompleteStyleScript,
 			width: '900px',
@@ -348,6 +350,7 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		},
 	},
 	mobile: {
+		...autocompleteThemeComponentProps.mobile,
 		autocomplete: {
 			width: '100%',
 		},
@@ -361,6 +364,7 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		},
 	},
 	tablet: {
+		...autocompleteThemeComponentProps.tablet,
 		autocomplete: {
 			width: '100%',
 		},
@@ -374,6 +378,7 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		},
 	},
 	desktop: {
+		...autocompleteThemeComponentProps.desktop,
 		autocomplete: {},
 		'autocomplete results': {
 			rows: 2,
