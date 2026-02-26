@@ -114,7 +114,11 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const ToggleSidebar = (): JSX.Element => {
 		return (
-			<div className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}>
+			<div
+				className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}
+				// @ts-ignore - this is fine.
+				active={sidebarOpenState}
+			>
 				<span {...mergedLang.toggleSidebarButtonText.all}></span>
 			</div>
 		);

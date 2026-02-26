@@ -20,6 +20,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { ComponentProps, FacetDisplay, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { Lang, useA11y, useLang } from '../../../hooks';
+import { IconType } from '../../Atoms/Icon';
 
 // import { useSnap } from '../../../providers';
 // import { useComponent } from '../../../hooks';
@@ -209,6 +210,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		facetsTitle: '',
 		contentTitle: '',
 		width: '100%',
+		seeMoreButtonIcon: 'angle-right',
 		treePath: globalTreePath,
 	};
 
@@ -352,6 +354,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		resultComponent,
 		onTermClick,
 		seeMoreButtonText,
+		seeMoreButtonIcon,
 		// templates,
 		disableStyles,
 		className,
@@ -399,7 +402,6 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		icon: {
 			// default props
 			internalClassName: 'ss__autocomplete__icon',
-			icon: 'angle-right',
 			size: '10px',
 			// inherited props
 			...defined({
@@ -798,7 +800,10 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 												{...mergedLang.seeMoreButton.attributes}
 											>
 												<span {...mergedLang.seeMoreButton.value}></span>
-												<Icon {...subProps.icon} />
+												<Icon
+													{...subProps.icon}
+													{...(typeof seeMoreButtonIcon == 'string' ? { icon: seeMoreButtonIcon } : (seeMoreButtonIcon as Partial<IconProps>))}
+												/>
 											</a>
 										</div>
 									) : null
@@ -869,6 +874,7 @@ export interface AutocompleteProps extends ComponentProps {
 	contentTitle?: string;
 	viewportMaxHeight?: boolean;
 	seeMoreButtonText?: string | ((controller: AutocompleteController) => string);
+	seeMoreButtonIcon?: IconType | Partial<IconProps> | boolean;
 	termsSlot?: JSX.Element | JSX.Element[];
 	facetsSlot?: JSX.Element | JSX.Element[];
 	contentSlot?: JSX.Element | JSX.Element[];

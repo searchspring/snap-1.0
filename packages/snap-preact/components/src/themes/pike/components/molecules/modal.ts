@@ -12,9 +12,6 @@ const modalStyleScript = (props: ModalProps) => {
 	const modalStyles = css({
 		cursor: 'pointer',
 		...custom.styles.boxSizing('modal', props?.treePath, props?.name),
-		'.ss__modal__content': {
-			backgroundColor: 'transparent',
-		},
 	});
 
 	return modalStyles;

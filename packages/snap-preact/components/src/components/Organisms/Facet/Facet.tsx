@@ -203,7 +203,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			// default props
 			internalClassName: 'ss__facet__dropdown__icon',
 			size: '12px',
-			color: iconColor || color,
+			fill: iconColor || color,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -225,7 +225,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			// default props
 			internalClassName: 'ss__facet__show-more-less__icon',
 			size: '10px',
-			color: iconColor || color,
+			fill: iconColor || color,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -471,7 +471,10 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		facet,
 	});
 
-	const selectedCount = (facet as ValueFacet)?.values?.filter((value) => value?.filtered).length;
+	const selectedCount =
+		(facet as ValueFacet)?.values?.filter((value) => value?.filtered).length ||
+		(facet as RangeFacet)?.active?.high !== (facet as RangeFacet)?.range?.high ||
+		(facet as RangeFacet)?.active?.low !== (facet as RangeFacet)?.range?.low;
 
 	return facet && renderFacet ? (
 		<CacheProvider>
@@ -507,7 +510,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 							>
 								<div className="ss__facet__header__inner">
 									<span {...mergedLang.dropdownButton.value}>{facet?.label}</span>
-									{showSelectedCount && selectedCount ? (
+									{showSelectedCount && selectedCount && facet.type !== 'range' ? (
 										<span className="ss__facet__header__selected-count">{hideSelectedCountParenthesis ? selectedCount : `(${selectedCount})`}</span>
 									) : null}
 									{(mergedLang.clearAllText.value || clearAllIcon) && selectedCount ? (

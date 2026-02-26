@@ -7,6 +7,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Autocomplete/readme.md';
 import type { AutocompleteController } from '@searchspring/snap-controller';
+import { iconPaths } from '../../Atoms/Icon';
 
 export default {
 	title: 'Organisms/Autocomplete',
@@ -272,6 +273,18 @@ export default {
 				defaultValue: { summary: '' },
 			},
 			control: { type: 'text' },
+		},
+		seeMoreButtonIcon: {
+			description: 'See more button Icon',
+			table: {
+				type: {
+					summary: 'string',
+				},
+			},
+			options: [...Object.keys(iconPaths)],
+			control: {
+				type: 'select',
+			},
 		},
 		viewportMaxHeight: {
 			defaultValue: false,
