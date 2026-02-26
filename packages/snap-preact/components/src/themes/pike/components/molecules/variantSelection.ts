@@ -10,6 +10,10 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 
 	// shared styles
 	const sharedStyles = css({
+		margin: `0 0 ${custom.spacing.x2}px 0`,
+		'&:last-of-type': {
+			marginBottom: 0,
+		},
 		...custom.styles.boxSizing('variantSelection', props?.treePath, props?.name),
 	});
 

@@ -7,50 +7,50 @@ import { custom } from '../../custom';
 const noResultsStyleScript = (props: NoResultsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
-	return css({
+	// no results styles
+	const noResultsStyles = css({
 		...custom.styles.boxSizing('noResults', props?.treePath, props?.name),
-		'h1, h2, h3, h4, h5, h6, ul': {
-			margin: `0 0 ${custom.spacing.x4}px 0`,
-		},
-		'h1, h2, h3, h4, h5, h6, .ss__no-results__recommendations .ss__recommendation .ss__recommendation__title': {
-			fontSize: '20px',
-			fontWeight: custom.fonts.weight02,
-			color: variables?.colors?.secondary,
-		},
-		'ul li, p': {
-			color: variables?.colors?.text,
-		},
-		a: {
-			color: variables?.colors?.primary,
-			'&:hover': {
-				color: variables?.colors?.secondary,
+		'& > *:not(.ss__no-results__recommendations)': {
+			'h1, h2, h3, h4, h5, h6, ul': {
+				margin: `0 0 ${custom.spacing.x4}px 0`,
 			},
-		},
-		ul: {
-			padding: 0,
-			marginLeft: `${custom.spacing.x8}px`,
-			listStyle: 'none',
-			li: {
-				listStyle: 'disc',
-				margin: `0 0 ${custom.spacing.x1}px 0`,
-				'&:last-of-type': {
-					marginBottom: 0,
+			'h1, h2, h3, h4, h5, h6, .ss__no-results__recommendations .ss__recommendation .ss__recommendation__title': {
+				...custom.styles.headerText(variables?.colors?.secondary, '20px'),
+			},
+			'ul li, p': {
+				color: variables?.colors?.text,
+			},
+			a: {
+				color: variables?.colors?.primary,
+				'&:hover': {
+					color: variables?.colors?.secondary,
+				},
+			},
+			ul: {
+				padding: 0,
+				marginLeft: `${custom.spacing.x8}px`,
+				listStyle: 'none',
+				li: {
+					listStyle: 'disc',
+					margin: `0 0 ${custom.spacing.x1}px 0`,
+					'&:last-of-type': {
+						marginBottom: 0,
+					},
 				},
 			},
 		},
 		'.ss__no-results__recommendations': {
 			'.ss__recommendation': {
 				margin: `${custom.spacing.x4}px 0`,
-			},
-		},
-		[`@media (max-width: ${mobileBp}px)`]: {
-			'h1, h2, h3, h4, h5, h6, .ss__no-results__recommendations .ss__recommendation .ss__recommendation__title': {
-				fontSize: '18px',
+				'.ss__recommendation__title': {
+					fontSize: '20px',
+				},
 			},
 		},
 	});
+
+	return noResultsStyles;
 };
 
 // NoResults component props

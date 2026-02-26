@@ -148,7 +148,6 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 
 				setInputValue && setInputValue('');
 
-				// @ts-ignore - this is a button, so it should have an onClick prop?
 				clearSearchButton?.onClick && clearSearchButton.onClick();
 			},
 			// inherited props

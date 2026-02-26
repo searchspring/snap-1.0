@@ -58,11 +58,11 @@ let config: SnapTemplatesConfig = {
 		extends: 'pike',
 		//resultComponent: 'CustomResult',
 		variables: {
-			breakpoints: {
-				mobile: 767,
-				tablet: 1024,
-				desktop: 1280,
-			},
+			// breakpoints: {
+			// 	mobile: 767,
+			// 	tablet: 1024,
+			// 	desktop: 1280,
+			// },
 			// colors: {
 			// 	primary: '#6d7175',
 			// 	secondary: '#202223',

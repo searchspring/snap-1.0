@@ -28,6 +28,7 @@ export const termsList: ThemeComponent<'termsList', TermsListProps> = {
 	default: {
 		termsList: {
 			themeStyleScript: termsListStyleScript,
+			suggestionTitle: 'Search Suggestions',
 		},
 	},
 };

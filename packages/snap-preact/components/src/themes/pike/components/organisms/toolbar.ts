@@ -34,6 +34,9 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 		'.ss__pagination-info': {
 			fontSize: props?.name == 'bottom' ? '14px' : '',
 		},
+		'.ss__banner': {
+			margin: `${custom.spacing.x2}px 0`,
+		},
 		[`@media (max-width: ${mobileBp}px)`]: {
 			'.ss__pagination-info': {
 				fontSize: props?.name == 'bottom' ? '16px' : '18px',

@@ -153,7 +153,7 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			// rangeInputsSeparatorText: 'to',
 			// rangeInputsInheritDefaultValues: true,
 			// showClearAllText: true,
-			searchable: true,
+			// searchable: true,
 		},
 		'facet icon.collapse': {
 			size: `${custom.sizes.icon12}px`,
