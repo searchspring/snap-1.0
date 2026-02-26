@@ -22,19 +22,11 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 
 	// shared styles
 	const sharedStyles = css({
-		// alignContent: acLayout == 'standard' ? 'normal' : 'flex-start',
+		padding: `${custom.spacing.x4}px`,
+		gap: `${custom.spacing.x4}px`,
 		border: `1px solid ${custom.colors.gray02}`,
 		backgroundColor: custom.colors.white,
-		// overflowX: 'hidden',
-		// overflowY: template == 'autocompleteModal' ? 'auto' : 'hidden',
-		// maxHeight: props?.height ? props.height : '80vh',
-		//overflow: 'hidden',
-		// top: '50px',
-		// right: 0,
-		// left: 'auto',
-		//...custom.styles.boxSizing('autocompleteLayout', props?.treePath, props?.name),
 		[textSelectors]: {
-			//fontSize: `${acLayout == 'terms' ? 15 : 12}px`,
 			fontSize: '12px',
 			lineHeight: 1.5,
 			color: variables?.colors?.text,
@@ -63,39 +55,32 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		[activeSelectors]: {
 			...custom.styles.activeText(variables?.colors?.primary),
 		},
-		// '.ss__autocomplete__row, .ss__autocomplete__column': {
-		// 	'.ss__search-input': {
-		// 		background: 'transparent',
-		// 		width: 'auto',
-		// 		height: '30px',
-		// 		margin: `0 0 ${custom.spacing.x2}px 0`,
-		// 	},
-		// },
+		'.ss__terms-list .ss__terms .ss__terms__options .ss__terms__option a': {
+			fontSize: '16px',
+		},
+	});
+
+	// shared layout styles
+	const sharedLayoutStyles = css({
 		'& > .ss__autocomplete__row': {
-			gap: `${custom.spacing.x4}px`,
-			padding: `${custom.spacing.x4}px`,
-			'.ss__autocomplete__column': {
-				// alignContent: 'flex-start',
-				minWidth: '1px',
-				padding: `0 ${custom.spacing.x4}px`,
-				margin: `0 -${custom.spacing.x4}px`,
-				'&:has(.ss__autocomplete__content)': {
-					alignContent: 'flex-start',
-				},
+			flex: '1 1 100%',
+			minWidth: '1px',
+			padding: `0 ${custom.spacing.x4}px ${custom.spacing.x4}px ${custom.spacing.x4}px`,
+			margin: `0 -${custom.spacing.x4}px`,
+			borderBottom: `1px solid ${custom.colors.gray02}`,
+			'&:last-of-type': {
+				borderBottomWidth: 0,
+				paddingBottom: 0,
 			},
 		},
 	});
 
 	// shared tablet styles
 	const sharedTabletStyles = css({
-		// alignContent: 'flex-start',
-		// [textSelectors]: {
-		// 	fontSize: acLayout == 'terms' ? '12px' : '',
-		// },
 		[headerSelectors]: {
 			fontSize: '14px',
 		},
-		'.ss__terms-list .ss__terms .ss__terms__options .ss__terms__option--active a': {
+		'.ss__terms-list .ss__terms .ss__terms__options .ss__terms__option a': {
 			fontSize: '14px',
 		},
 	});
@@ -104,15 +89,11 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 	const termsWrapperStyles = css({
 		'.ss__autocomplete__terms-wrapper': {
 			backgroundColor: 'transparent',
-			//padding: `${custom.spacing.x4}px`,
 		},
 	});
 
 	// facets styles
 	const facetsStyles = css({
-		// '.ss__autocomplete__facets-wrapper': {
-		// 	padding: `${custom.spacing.x4}px`,
-		// },
 		'.ss__autocomplete__facets': {
 			padding: 0,
 			'.ss__facets': {
@@ -121,17 +102,6 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				'.ss__facet': {
 					flex: '1 1 100%',
 					margin: 0,
-					// 			margin: `0 0 ${custom.spacing.x4}px 0`,
-					// 			'&:last-of-type': {
-					// 				marginBottom: 0,
-					// 			},
-					// 			'&.ss__facet--showing-all:has(.ss__facet__show-more-less)': {
-					// 				'.ss__facet__options': {
-					// 					maxHeight: 'none',
-					// 					overflow: 'visible',
-					// 					padding: 0,
-					// 				},
-					// 			},
 					'.ss__facet__header': {
 						borderBottom: 0,
 						'.ss__facet__header__inner': {
@@ -163,54 +133,30 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 
 	// content styles
 	const contentStyles = css({
-		// '.ss__autocomplete__column:has(.ss__autocomplete__content)': {
-		// 	alignContent: 'flex-start',
-		// },
 		'.ss__autocomplete__content': {
 			overflow: 'visible',
-			// justifyContent: 'flex-start',
-			// padding: `${custom.spacing.x4}px`,
-			// borderTop: `1px solid ${custom.colors.gray02}`,
 			'.ss__autocomplete__content-inner': {
 				padding: 0,
-				'&:after': {
-					content: '""',
-					display: 'block',
-					height: `${custom.spacing.x4}px`,
-					margin: `0 -${custom.spacing.x4}px`,
-					position: 'relative',
-					zIndex: 2,
-				},
-			},
-			'.ss__banner': {
-				margin: `0 0 ${custom.spacing.x4}px 0`,
-				'&:last-of-type': {
-					marginBottom: 0,
+				'& > *': {
+					margin: `0 0 ${custom.spacing.x4}px 0`,
 				},
 			},
 		},
 	});
 
-	// results overflow styles
-	const resultsOverflowStyles = css(
-		template == 'autocompleteModal'
-			? {
-					overflow: 'visible',
-			  }
-			: {
-					overflowY: 'auto',
-					overflowX: 'hidden',
-					maxHeight: '60vh',
-					...custom.styles.scrollbar(),
-			  }
-	);
-
 	// results layout styles
 	const resultsLayoutStyles = css({
 		gap: `${custom.spacing.x4}px`,
+		overflowY: template == 'autocompleteModal' ? 'hidden' : 'auto',
+		overflowX: 'hidden',
+		maxHeight: template == 'autocompleteModal' ? '' : '60vh',
+		...custom.styles.scrollbar(),
 		'.ss__result': {
 			'.ss__result__details': {
 				gap: `${custom.spacing.x1}px`,
+				'&:after': {
+					display: 'none',
+				},
 				'.ss__result__details__pricing': {
 					'.ss__result__price': {
 						fontSize: '14px',
@@ -222,7 +168,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 			},
 		},
 		'.ss__inline-banner': {
-			maxHeight: '250px',
+			maxHeight: '212px',
 			overflow: 'hidden',
 		},
 	});
@@ -232,9 +178,19 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		'.ss__autocomplete__content__results': {
 			'.ss__results': {
 				...resultsLayoutStyles,
-				...resultsOverflowStyles,
 			},
 		},
+	});
+
+	// mobile results styles
+	const resultsMobileStyles = css({
+		'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
+			{
+				gridTemplateColumns: `repeat(2, 1fr)`,
+				'& > *:nth-child(n+3)': {
+					display: 'none',
+				},
+			},
 	});
 
 	// no results styles
@@ -245,7 +201,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 					display: 'inline',
 					margin: 0,
 					padding: 0,
-					fontSize: '14px',
+					fontSize: acLayout == 'terms' ? '16px' : '14px',
 					'& ~ p': {
 						paddingLeft: '4px',
 					},
@@ -260,7 +216,6 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				},
 				'.ss__recommendation-grid__results': {
 					...resultsLayoutStyles,
-					...resultsOverflowStyles,
 				},
 			},
 		},
@@ -282,10 +237,9 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		},
 	});
 
-	// see more tablet styles
+	// see more mobile styles
 	const seeMoreMobileStyles = css({
 		order: -1,
-		// textAlign: 'left',
 	});
 
 	// standard styles
@@ -293,7 +247,13 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		sharedStyles,
 		{
 			'& > .ss__autocomplete__row': {
+				gap: `${custom.spacing.x4}px`,
 				'.ss__autocomplete__column': {
+					alignContent: 'flex-start',
+					minWidth: '1px',
+					padding: `0 ${custom.spacing.x4}px`,
+					margin: `0 -${custom.spacing.x4}px`,
+					borderBottom: `0 solid ${custom.colors.gray02}`,
 					'&:has(.ss__autocomplete__terms-wrapper, .ss__autocomplete__facets-wrapper)': {
 						flex: '0 0 220px',
 						width: 'auto',
@@ -305,28 +265,14 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		termsWrapperStyles,
 		{
 			'.ss__terms-list': {
-				// display: 'block',
 				flexFlow: 'row wrap',
 				'.ss__terms-list__row': {
 					flex: '1 1 100%',
-					// '&:first-of-type .ss__terms .ss__terms__title': {
-					// 	marginTop: `${custom.spacing.x2}px`,
-					// },
-					// '&:last-of-type .ss__terms .ss__terms__options': {
-					// 	marginBottom: `${custom.spacing.x2}px`,
-					// },
 				},
 				'.ss__terms': {
 					width: '100%',
-					'.ss__terms__title': {
-						h5: {
-							// margin: 0,
-							// padding: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
-						},
-					},
 					'.ss__terms__options': {
 						display: 'block',
-						// margin: 0,
 						'.ss__terms__option': {
 							a: {
 								padding: `${custom.spacing.x2}px 0`,
@@ -353,8 +299,10 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		seeMoreStyles,
 		{
 			[`@media (max-width: ${desktopBp}px)`]: {
-				'& > .ss__autocomplete__row .ss__autocomplete__column:has(.ss__autocomplete__terms-wrapper, .ss__autocomplete__facets-wrapper)': {
-					flex: '0 0 200px',
+				'& > .ss__autocomplete__row .ss__autocomplete__column': {
+					'&:has(.ss__autocomplete__terms-wrapper, .ss__autocomplete__facets-wrapper)': {
+						flex: '0 0 200px',
+					},
 				},
 			},
 		},
@@ -365,50 +313,28 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 					flexWrap: 'wrap',
 					'.ss__autocomplete__column': {
 						paddingBottom: `${custom.spacing.x4}px`,
-						borderBottom: `1px solid ${custom.colors.gray02}`,
-						'&, &:has(.ss__autocomplete__terms-wrapper, .ss__autocomplete__facets-wrapper)': {
+						borderBottomWidth: '1px',
+						'&:has(.ss__autocomplete__terms-wrapper, .ss__autocomplete__facets-wrapper)': {
 							flex: '1 1 100%',
 						},
 						'&:last-of-type': {
 							paddingBottom: 0,
 							borderBottomWidth: 0,
 						},
+						'.ss__autocomplete__row:has(.ss__autocomplete__button--see-more)': {
+							minWidth: '1px',
+							flex: '1 1 100%',
+							padding: `${custom.spacing.x4}px ${custom.spacing.x4}px 0 ${custom.spacing.x4}px`,
+							margin: `0 -${custom.spacing.x4}px`,
+							borderTop: `1px solid ${custom.colors.gray02}`,
+						},
 					},
 				},
-				// 		'.ss__autocomplete__row:has(.ss__autocomplete__column)': {
-				// 			display: 'block',
-				// 			'.ss__autocomplete__column': {
-				// 				width: '100%',
-				// 				maxWidth: 'none',
-				// 			},
-				// 		},
-				// 		'.ss__autocomplete__column': {
-				// 			'&:has(.ss__autocomplete__facets-wrapper)': {
-				// 				marginRight: 0,
-				// 			},
-				// 		},
-				// 		'.ss__autocomplete__terms-wrapper': {
-				// 			backgroundColor: 'transparent',
-				// 			padding: `${custom.spacing.x4}px`,
-				// 		},
 				'.ss__terms-list': {
-					//display: 'flex',
 					'.ss__terms-list__row': {
 						flex: '1 1 0%',
-						// '&:first-of-type .ss__terms .ss__terms__title': {
-						// 	marginTop: 0,
-						// },
-						// '&:last-of-type .ss__terms .ss__terms__options': {
-						// 	marginBottom: 0,
-						// },
 					},
 					'.ss__terms': {
-						'.ss__terms__title': {
-							// h5: {
-							// 	padding: 0,
-							// 	margin: `0 0 ${custom.spacing.x4}px 0`,
-							// },
-						},
 						'.ss__terms__options': {
 							display: 'flex',
 							'.ss__terms__option, .ss__terms__option--active': {
@@ -422,27 +348,17 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 						},
 					},
 				},
-				// 		'.ss__autocomplete__facets-wrapper': {
-				// 			borderTop: `1px solid ${custom.colors.gray02}`,
-				// 		},
 				'.ss__autocomplete__facets': {
 					'.ss__facets': {
-						// gap: `0 ${custom.spacing.x4}px`,
-						// flexFlow: 'row nowrap',
-						// minWidth: '1px',
 						flexWrap: 'nowrap',
 						'.ss__facet': {
 							flex: '1 1 0%',
-							// minWidth: '1px',
-							// '&, &:last-of-type': {
-							// 	margin: 0,
-							// },
 						},
 					},
+					'.ss__banner': {
+						display: 'none',
+					},
 				},
-				// 		'.ss__autocomplete__button--see-more': {
-				// 			...seeMoreMobileStyles,
-				// 		},
 			},
 		},
 		{
@@ -450,6 +366,11 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				'.ss__autocomplete__button--see-more': {
 					...seeMoreMobileStyles,
 				},
+			},
+		},
+		{
+			[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+				...resultsMobileStyles,
 			},
 		},
 	]);
@@ -457,29 +378,20 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 	// mini styles
 	const miniStyles = css([
 		sharedStyles,
-		// {
-		// 	'& > .ss__autocomplete__row': {
-		// 		borderBottom: `1px solid ${custom.colors.gray02}`,
-		// 		'&:last-of-type': {
-		// 			borderBottomWidth: 0,
-		// 			'&:has(.ss__autocomplete__button--see-more)': {
-		// 				paddingTop: 0,
-		// 				marginTop: '-1px',
-		// 			}
-		// 		},
-		// 	}
-		// },
+		sharedLayoutStyles,
 		termsWrapperStyles,
 		contentStyles,
+		{
+			'.ss__autocomplete__content .ss__autocomplete__content-inner > *:last-of-type': {
+				marginBottom: 0,
+			},
+		},
 		resultsStyles,
 		noResultsStyles,
 		seeMoreStyles,
 		{
 			[`@media (max-width: ${tabletBp}px)`]: {
 				'&': sharedTabletStyles,
-				// '.ss__autocomplete__button--see-more': {
-				// 	...seeMoreMobileStyles,
-				// },
 			},
 		},
 		{
@@ -489,52 +401,36 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				},
 			},
 		},
-		// {
-		// 	[`@media (max-width: ${custom.breakpoints.small}px)`]: {
-		// 		'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
-		// 			{
-		// 				gridTemplateColumns: `repeat(2, 1fr)`,
-		// 			},
-		// 	},
-		// },
+		{
+			[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+				...resultsMobileStyles,
+			},
+		},
 	]);
 
 	// terms styles
 	const termsStyles = css([
-		// sharedStyles,
-		// termsWrapperStyles,
-		// contentStyles,
-		// {
-		// 	'.ss__autocomplete__content__no-results': {
-		// 		'.ss__autocomplete__content__no-results__text': {
-		// 			p: {
-		// 				display: 'inline',
-		// 				margin: 0,
-		// 				padding: 0,
-		// 				fontSize: '14px',
-		// 				'& ~ p': {
-		// 					paddingLeft: '4px',
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// },
-		// seeMoreStyles,
-		// {
-		// 	[`@media (max-width: ${tabletBp}px)`]: {
-		// 		'&': sharedTabletStyles,
-		// 		'.ss__autocomplete__content__no-results': {
-		// 			'.ss__autocomplete__content__no-results__text': {
-		// 				p: {
-		// 					fontSize: '12px',
-		// 				},
-		// 			},
-		// 		},
-		// 		'.ss__autocomplete__button--see-more': {
-		// 			...seeMoreMobileStyles,
-		// 		},
-		// 	},
-		// },
+		sharedStyles,
+		sharedLayoutStyles,
+		termsWrapperStyles,
+		contentStyles,
+		noResultsStyles,
+		seeMoreStyles,
+		{
+			[`@media (max-width: ${tabletBp}px)`]: {
+				'&': sharedTabletStyles,
+				'.ss__autocomplete__content__no-results': {
+					'.ss__autocomplete__content__no-results__text': {
+						p: {
+							fontSize: '14px',
+						},
+					},
+				},
+				'.ss__autocomplete__button--see-more': {
+					...seeMoreMobileStyles,
+				},
+			},
+		},
 	]);
 
 	if (acLayout == 'terms') {

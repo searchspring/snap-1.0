@@ -12,7 +12,7 @@ const searchInputHeight = 40;
 const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const desktopBp = variables?.breakpoints?.desktop || custom.breakpoints.desktop;
 	const shared = autocompleteSharedStyleScript(props, 'autocompleteModal');
 
 	// autocomplete shared styles
@@ -32,102 +32,48 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 	const modalStyles = css({
 		...custom.styles.boxSizing('autocompleteModal', props?.treePath, props?.name),
 		'.ss__modal': {
-			// '&, .ss__modal__content': {
-			// 	height: '100%',
-			// },
 			'.ss__modal__content': {
-				// 	backgroundColor: 'transparent',
-				// 	justifyContent: 'center',
-				// 	'&, .ss__autocomplete-modal__inner': {
-				// 		position: 'static',
-				// 		display: 'flex',
-				// 		flexFlow: 'column nowrap',
-				// 	},
 				'.ss__autocomplete-modal__inner': {
-					// 		width: props?.width,
-					// 		maxHeight: 'none',
-					// 		height: '80vh',
-					// overflowX: 'hidden',
-					// overflowY: 'auto',
-					// ...custom.styles.scrollbar(),
+					top: '5vh',
+					display: 'flex',
+					flexFlow: 'column nowrap',
+					height: 'auto',
+					maxHeight: props?.height ? props?.height : '80vh',
 					maxWidth: '1000px',
-					maxHeight: 'none',
 					overflow: 'visible',
-					// 		'& > .ss__search-input.autocomplete-modal__search-input, .ss__autocomplete': {
-					// 			minHeight: '1px',
-					// 			minWidth: '1px',
-					// 		},
 					'& > .ss__search-input': {
-						// position: 'absolute',
-						// top: 0,
-						// left: 0,
-						// right: 0,
-						// margin: '0 auto',
-						//flex: '0 1 auto',
-						height: `${searchInputHeight}px`,
+						height: 'auto',
+						flex: `0 0 ${searchInputHeight}px`,
 						margin: 0,
 						'.ss__button, .ss__search-input__button--close-search-button': {
 							width: `${searchInputHeight}px`,
 						},
 					},
 					'.ss__autocomplete': {
+						width: '100%',
+						flex: '1 1 0%',
 						overflowY: 'auto',
-						maxHeight: props?.height ? props.height : '80vh',
+						overflowX: 'hidden',
 						...custom.styles.scrollbar(),
-						// flex: '1 1 0%',
-						// borderWidth: 0,
-						// '&::-webkit-scrollbar': {
-						// 	width: '8px',
-						// 	height: '8px',
-						// },
-						// '&::-webkit-scrollbar-track': {
-						// 	backgroundColor: custom.colors.gray01,
-						// },
-						// '&::-webkit-scrollbar-thumb': {
-						// 	backgroundColor: custom.colors.gray02,
-						// },
-						// '.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
-						// 	{
-						// 		maxHeight: 'none',
-						// 		overflow: 'visible',
-						// 	},
 					},
 				},
 			},
-			// },
 		},
-		[`@media (max-width: ${mobileBp}px)`]: {
+		[`@media (max-width: ${desktopBp}px)`]: {
 			'.ss__modal': {
-				// '.ss__modal__content': {
-				// 	'.ss__autocomplete-modal__inner': {
-				// 		width: props?.width,
-				// 		height: '100%',
-				// 	},
-				// },
-			},
-		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
-			'.ss__modal': {
-				// '.ss__modal__content': {
-				// 	'.ss__autocomplete-modal__inner': {
-				// 		'.ss__autocomplete': {
-				// 			'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
-				// 				{
-				// 					'& > *:nth-of-type(n+5)': {
-				// 						display: 'none',
-				// 					},
-				// 				},
-				// 		},
-				// 	},
-				// },
+				'.ss__modal__content': {
+					'.ss__autocomplete-modal__inner': {
+						top: '5vh',
+					},
+				},
 			},
 		},
 	});
 
 	// autocomplete styles
-	const autocompleteStyles = css([sharedStyles, modalStyles]);
+	const autocompleteModalStyles = css([sharedStyles, modalStyles]);
 
-	return autocompleteStyles;
+	return autocompleteModalStyles;
 };
 
 export const autocompleteModal: ThemeComponent<'autocompleteModal', AutocompleteModalProps> = {
@@ -138,6 +84,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 			themeStyleScript: autocompleteModalStyleScript,
 			layout: 'standard',
 			width: '90vw',
+			height: '90vh',
 			contentTitle: 'Product Suggestions',
 		},
 		'autocompleteModal facets': {
@@ -190,7 +137,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		...autocompleteModalThemeComponentProps.mobile,
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.mobile?.['autocompleteModal'] || {}),
-			width: '100%',
 			layout: 'mini',
 		},
 		'autocompleteModal results': {

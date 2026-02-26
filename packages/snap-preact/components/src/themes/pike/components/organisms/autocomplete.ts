@@ -92,7 +92,6 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 									fontStyle: 'normal',
 									fontSize: 'inherit',
 									fontWeight: 'inherit',
-									lineHeight: 'inherit',
 								},
 							},
 						},
@@ -120,6 +119,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 							'.ss__facet__header__inner': {
 								fontSize: 'inherit',
 								fontWeight: 'inherit',
+								lineHeight: 'inherit',
 								color: 'inherit',
 							},
 						},
@@ -166,6 +166,9 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					'.ss__result': {
 						'.ss__result__details': {
 							gap: `${custom.spacing.x1}px`,
+							'&:after': {
+								display: 'none',
+							},
 							'.ss__result__details__pricing': {
 								'.ss__result__price': {
 									fontSize: '14px',
@@ -177,7 +180,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 						},
 					},
 					'.ss__inline-banner': {
-						maxHeight: '250px',
+						maxHeight: '212px',
 						overflow: 'hidden',
 					},
 				},
@@ -273,6 +276,9 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 						'.ss__facet': {
 							flex: '1 1 0%',
 						},
+					},
+					'.ss__banner': {
+						display: 'none',
 					},
 				},
 			},
