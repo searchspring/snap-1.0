@@ -28,7 +28,7 @@ export function useAcRenderedInput({
 		setTimeout(async () => {
 			if (!renderedInputInitialized) {
 				setInput(renderedInputRef!.current);
-				controller.config.selector = '.autocomplete__search-input';
+				controller.config.selector = '.autocomplete__search-input input';
 				await controller.bind();
 				renderedInputRef?.current?.focus();
 			}
