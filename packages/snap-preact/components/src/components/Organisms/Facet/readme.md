@@ -111,16 +111,15 @@ The `hideShowMoreLessText` prop hides the show more / show less text.
 <Facet facet={controller.store.facets[0]} hideShowMoreLessText={true} />
 ```
 
-
 ### showSelectedCount
-The `showSelectedCount` prop shows the number of selected options within the facet in the facet header.
+The `showSelectedCount` prop shows the number of selected options within the facet in the facet header. NOTE: this prop will not work if `justContent` prop enabled. 
 
 ```jsx
 <Facet facet={controller.store.facets[0]} showSelectedCount={true} />
 ```
 
 ### hideSelectedCountParenthesis
-The `hideSelectedCountParenthesis` prop specifies if the parenthesis should render around the selected count in the facet header.
+The `hideSelectedCountParenthesis` prop specifies if the parenthesis should render around the selected count in the facet header. NOTE: this prop will not work if `justContent` prop enabled. 
 
 ```jsx
 <Facet facet={controller.store.facets[0]} hideSelectedCountParenthesis={true} />

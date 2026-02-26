@@ -136,8 +136,7 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 			...clearSearchButton,
 			internalClassName: 'ss__search-input__button--clear-search-button',
 			name: 'clear-search',
-
-			onClick: () => {
+			onClick: (e) => {
 				if (inputRef?.current) {
 					//reset the input value
 					(inputRef?.current as HTMLInputElement).value = '';
@@ -148,7 +147,7 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 
 				setInputValue && setInputValue('');
 
-				clearSearchButton?.onClick && clearSearchButton.onClick();
+				clearSearchButton?.onClick && clearSearchButton.onClick(e);
 			},
 			// inherited props
 			...defined({
@@ -229,7 +228,6 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 					}}
 					disabled={disabled}
 				/>
-
 				<div className="ss__search-input__icons">
 					{clearSearchButton && inputValue?.length ? <Button {...subProps.clearSearchButton} {...mergedLang.clearSearchButton.all} /> : null}
 

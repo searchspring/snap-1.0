@@ -146,6 +146,7 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
+			iconColor: custom.colors.primary,
 			// showSelectedCount: true,
 			// hideSelectedCountParenthesis: false,
 			// rangeInputs: true,
@@ -155,17 +156,10 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			// showClearAllText: true,
 			// searchable: true,
 		},
-		'facet icon.collapse': {
+		'facet icon': {
 			size: `${custom.sizes.icon12}px`,
 			width: `${custom.sizes.icon12}px`,
 			height: `${custom.sizes.icon12}px`,
-			fill: custom.colors.primary,
-		},
-		'facet icon.expand': {
-			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
-			fill: custom.colors.primary,
 		},
 	},
 };

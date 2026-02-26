@@ -14,6 +14,9 @@ export const autocompleteSlideoutThemeComponentProps: ThemeComponent<'autocomple
 			disableOverflow: true,
 			disableCollapse: true,
 			searchable: false,
+			showClearAllText: false,
+			showSelectedCount: false,
+			rangeInputs: false,
 		},
 		'autocompleteSlideout facetGridOptions': {
 			// onClick: facetClickEvent,

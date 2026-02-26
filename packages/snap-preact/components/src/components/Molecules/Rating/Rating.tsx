@@ -12,6 +12,7 @@ const defaultStyles: StyleScript<RatingProps> = () => {
 	return css({
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'center',
 
 		'& .ss__rating__icons': {
 			position: 'relative',

@@ -10,15 +10,16 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import type { SearchController, AutocompleteController } from '@searchspring/snap-controller';
-import type { ValueFacet } from '@searchspring/snap-store-mobx';
+import type { RangeFacet, ValueFacet } from '@searchspring/snap-store-mobx';
 import type { IndividualFacetType } from '../Facets/Facets';
 import { MobileSidebar, MobileSidebarProps } from '../MobileSidebar';
 import { Lang, useA11y, useClickOutside, useLang } from '../../../hooks';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
 import { useEffect } from 'react';
+import { Button, ButtonProps } from '../../Atoms/Button';
 
-const defaultStyles: StyleScript<FacetsHorizontalProps> = ({}) => {
+const defaultStyles: StyleScript<FacetsHorizontalProps> = ({ theme }) => {
 	return css({
 		margin: '10px 0px',
 
@@ -29,6 +30,32 @@ const defaultStyles: StyleScript<FacetsHorizontalProps> = ({}) => {
 
 			'& .ss__mobile-sidebar': {
 				margin: '0 10px',
+			},
+
+			'& .ss__facet__header__inner': {
+				display: 'flex',
+			},
+
+			'& .ss__facet__header__selected-count': {
+				margin: '0px 5px',
+			},
+
+			'& .ss__facet__header__clear-all': {
+				cursor: 'pointer',
+				display: 'flex',
+				alignItems: 'center',
+				marginLeft: '10px',
+				border: 'none',
+				padding: '0',
+				color: theme?.variables?.colors?.primary,
+				'&:hover': {
+					cursor: 'pointer',
+					textDecoration: 'underline',
+					background: 'none',
+				},
+				'& .ss__icon': {
+					marginLeft: '5px',
+				},
 			},
 
 			'& .ss__facets-horizontal__header__dropdown': {
@@ -88,6 +115,7 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 		overlay: true,
 		iconCollapse: 'angle-up',
 		iconExpand: 'angle-down',
+		clearAllText: 'Clear All',
 		facets: properties.controller?.store?.facets,
 		treePath: globalTreePath,
 	};
@@ -101,7 +129,12 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 		alwaysShowFiltersButton,
 		hideFiltersButton,
 		onFacetOptionClick,
+		showSelectedCount,
+		hideSelectedCountParenthesis,
+		clearAllIcon,
+		showClearAllText,
 		iconExpand,
+		clearAllText,
 		iconCollapse,
 		disableStyles,
 		className,
@@ -158,6 +191,15 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 			disableClickOutside: true,
 			disableOverlay: true,
 			focusTrapContent: true,
+			// inherited props
+			...defined({
+				disableStyles,
+			}),
+			// component theme overrides
+			theme: props?.theme,
+			treePath,
+		},
+		button: {
 			// inherited props
 			...defined({
 				disableStyles,
@@ -229,6 +271,11 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 			>
 				<div className="ss__facets-horizontal__header">
 					{facetsToShow?.map((facet: IndividualFacetType) => {
+						const selectedCount =
+							(facet as ValueFacet)?.values?.filter((value) => value?.filtered).length ||
+							(facet as RangeFacet)?.active?.high !== (facet as RangeFacet)?.range?.high ||
+							(facet as RangeFacet)?.active?.low !== (facet as RangeFacet)?.range?.low;
+
 						//initialize lang
 						const defaultLang = {
 							dropdownButton: {
@@ -237,6 +284,9 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 										(facet as ValueFacet).values?.length ? (facet as ValueFacet).values?.length + ' options' : ''
 									}`,
 								},
+							},
+							clearAllText: {
+								value: clearAllText,
 							},
 						};
 
@@ -266,7 +316,32 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 								}}
 								button={
 									<div className="ss__dropdown__button__heading" {...mergedLang.dropdownButton.attributes}>
-										<span {...mergedLang.dropdownButton.value}>{facet?.label}</span>
+										<div className="ss__facet__header__inner">
+											<span {...mergedLang.dropdownButton.value}>{facet?.label}</span>
+
+											{showSelectedCount && selectedCount && facet.type !== 'range' ? (
+												<span className="ss__facet__header__selected-count">
+													{hideSelectedCountParenthesis ? selectedCount : `(${selectedCount})`}
+												</span>
+											) : null}
+											{(mergedLang.clearAllText.value || clearAllIcon) && selectedCount ? (
+												<Button
+													{...subProps.button}
+													internalClassName="ss__facet__header__clear-all"
+													name={'reset-facet'}
+													onClick={(e) => {
+														e.stopPropagation();
+														facet?.clear.url.link.onClick();
+													}}
+													icon={clearAllIcon ? clearAllIcon : undefined}
+												>
+													{mergedLang.clearAllText.value && showClearAllText ? <label {...mergedLang.clearAllText.all}></label> : null}
+												</Button>
+											) : (
+												<></>
+											)}
+										</div>
+
 										<Icon
 											{...subProps.icon}
 											{...(selectedFacet?.field === facet.field
@@ -318,10 +393,16 @@ interface FacetsHorizontalSubProps {
 	icon: Partial<IconProps>;
 	facet: Partial<FacetProps>;
 	MobileSidebar: Partial<MobileSidebarProps>;
+	button: Partial<ButtonProps>;
 }
 
 export interface FacetsHorizontalProps extends ComponentProps {
 	facets?: IndividualFacetType[];
+	showSelectedCount?: boolean;
+	hideSelectedCountParenthesis?: boolean;
+	clearAllText?: string;
+	showClearAllText?: boolean;
+	clearAllIcon?: IconType | Partial<IconProps>;
 	limit?: number;
 	overlay?: boolean;
 	alwaysShowFiltersButton?: boolean;

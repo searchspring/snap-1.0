@@ -10,6 +10,9 @@ export const autocompleteThemeComponentProps: ThemeComponent<'autocomplete', Aut
 			disableOverflow: true,
 			disableCollapse: true,
 			searchable: false,
+			showClearAllText: false,
+			showSelectedCount: false,
+			rangeInputs: false,
 		},
 		'autocomplete facetGridOptions': {
 			// onClick: facetClickEvent,

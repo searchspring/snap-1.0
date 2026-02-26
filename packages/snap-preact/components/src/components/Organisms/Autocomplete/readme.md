@@ -89,6 +89,17 @@ The `contentTitle` prop will display the given text above the autocomplete conte
 <Autocomplete controller={controller} input={'#searchInput'} contentTitle={'Results'} />
 ```
 
+### seeMoreButtonIcon
+The `seeMoreButtonIcon` prop will display the given icon in the see more button.
+
+```jsx
+<Autocomplete controller={controller} input={'#searchInput'} seeMoreButtonIcon={'angle-right'} />
+```
+
+The `seeMoreButtonText` prop can also take a function returning a string. The function is pased the Autocomplete controller. 
+
+```jsx
+
 ### seeMoreButtonText
 The `seeMoreButtonText` prop will display the given text in the see more button.
 

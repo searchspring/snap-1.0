@@ -217,22 +217,23 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 			alignContent: 'space-between',
 		},
 		width: '100%',
-		templates:
-			properties.layout == 'terms'
-				? {
-						recommendation: {
-							enabled: false,
-						},
-				  }
-				: {
-						recommendation: {
-							enabled: true,
-						},
-				  },
+		templates: {
+			recommendation: {
+				enabled: true,
+			},
+		},
 	};
 
 	let props = mergeProps('autocompleteLayout', globalTheme, defaultProps, properties);
 	delete props.treePath;
+
+	if (props.layout == 'terms') {
+		props.templates = {
+			recommendation: {
+				enabled: false,
+			},
+		};
+	}
 
 	const valueProps = createHoverProps();
 
@@ -269,6 +270,8 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 					disableOverflow: true,
 					disableCollapse: true,
 					searchable: false,
+					showClearAllText: false,
+					showSelectedCount: false,
 				},
 				facetGridOptions: {
 					columns: 3,
