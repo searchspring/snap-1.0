@@ -201,7 +201,7 @@ export const custom: CustomThemeType = {
 		},
 		lightenColor: (color?: string, amount?: number) => {
 			// lighten a color
-			amount = amount ? amount : 0.65;
+			amount = amount ? amount : 0.42;
 			color = color ? color : custom.colors.text;
 			const lightColor = new Color(color).lighten(amount).hex().toLowerCase();
 			return lightColor;

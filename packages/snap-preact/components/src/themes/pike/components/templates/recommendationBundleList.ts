@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import type { RecommendationBundleListProps } from '../../../../components/Templates/RecommendationBundleList';
 import { recommendationBundleListThemeComponentProps } from '../../../themeComponents/recommendationBundleList';
 import { ThemeComponent } from '../../../../providers';
+import { recommendationCTAStyleScript } from './recommendationCTA';
 //import { custom } from '../../custom';
 
 // CSS in JS style script for the RecommendationBundleEasyAdd component
@@ -11,7 +12,15 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 	// const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
 	// const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
-	return css({
+	// bundle shared styles
+	const sharedStyles = css({
+		'.ss__recommendation-bundle-list__wrapper__cta': {
+			...recommendationCTAStyleScript(props, 'bundle-list'),
+		},
+	});
+
+	// bundle list styles
+	const bundleListStyles = css({
 		// margin: `${custom.spacing.x4}px 0`,
 		// ...custom.styles.boxSizing('recommendationBundleList', props?.treePath, props?.name),
 		// '.ss__recommendation-profile-tracker': {
@@ -130,6 +139,11 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 		// 	},
 		// },
 	});
+
+	// recommendation bundle list styles
+	const recommendationBundleListStyles = css([sharedStyles, bundleListStyles]);
+
+	return recommendationBundleListStyles;
 };
 
 // RecommendationBundleList component props come from Template export
@@ -139,7 +153,10 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 		recommendationBundleList: {
 			...(recommendationBundleListThemeComponentProps.default?.['recommendationBundleList'] || {}),
 			themeStyleScript: recommendationBundleListStyleScript,
-			//separatorIconSeedOnly: false,
+			ctaButtonText: 'Add Selected',
+			ctaButtonSuccessText: 'Added!',
+			separatorIcon: false,
+			separatorIconSeedOnly: false,
 		},
 		// 'recommendationBundleList icon.bundle-cart-separator': {
 		// 	size: `${custom.sizes.icon12}px`,

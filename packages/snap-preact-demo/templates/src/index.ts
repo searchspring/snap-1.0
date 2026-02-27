@@ -88,7 +88,7 @@ let config: SnapTemplatesConfig = {
 		},
 		bundle: {
 			Bundle: {
-				component: 'RecommendationBundle',
+				component: 'RecommendationBundleList',
 			},
 		},
 	},

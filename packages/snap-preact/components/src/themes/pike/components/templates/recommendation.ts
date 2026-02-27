@@ -30,8 +30,10 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 		},
 		'.ss__carousel': {
 			padding: `0 ${custom.spacing.x4 + arrowSizes.default}px`,
-			'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-				bottom: `calc(10.5rem - ${custom.spacing.x4}px)`,
+			'& >': {
+				'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
+					bottom: `calc(10.5rem - ${custom.spacing.x4}px)`,
+				},
 			},
 		},
 		[`@media (max-width: ${desktopBp}px)`]: {
