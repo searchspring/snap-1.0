@@ -275,6 +275,9 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				},
 				'.ss__terms': {
 					width: '100%',
+					'.ss__terms__title h5': {
+						marginBottom: `${custom.spacing.x2}px`,
+					},
 					'.ss__terms__options': {
 						display: 'block',
 						'.ss__terms__option': {
@@ -339,6 +342,9 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 						flex: '1 1 0%',
 					},
 					'.ss__terms': {
+						'.ss__terms__title h5': {
+							marginBottom: `${custom.spacing.x4}px`,
+						},
 						'.ss__terms__options': {
 							display: 'flex',
 							'.ss__terms__option, .ss__terms__option--active': {

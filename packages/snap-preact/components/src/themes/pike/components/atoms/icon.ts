@@ -41,7 +41,7 @@ export const icon: ThemeComponent<'icon', IconProps> = {
 			size: `${custom.sizes.icon16}px`,
 			width: `${custom.sizes.icon16}px`,
 			height: `${custom.sizes.icon16}px`,
-			color: 'currentColor',
+			fill: 'currentColor',
 		},
 	},
 };
