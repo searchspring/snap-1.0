@@ -6,7 +6,7 @@ import { version } from '@searchspring/snap-toolbox';
 
 const mockData = new MockData();
 
-describe('Hybrid Api', () => {
+describe('Autocomplete Api', () => {
 	beforeAll(() => {
 		// mock performance to prevent warning in test
 		Object.defineProperty(window, 'performance', {
@@ -58,7 +58,7 @@ describe('Hybrid Api', () => {
 		requestMock.mockReset();
 	});
 
-	it('can call getAutcomplete (wtih search)', async () => {
+	it('can call getAutcomplete (with search)', async () => {
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
 			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockData.autocomplete()) } as Response));

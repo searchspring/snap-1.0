@@ -204,14 +204,14 @@ describe('Snap Client', () => {
 				method: 'GET',
 				path: '/v1/autocomplete',
 				query: {
-					q: undefined,
+					q: 'hello',
 					redirectResponse: 'full',
 					resultsFormat: 'native',
 					siteId: '8uyt2m',
 					test: true,
 				},
 			};
-			const acCacheKey = `{"siteId":"8uyt2m","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
+			const acCacheKey = `{"siteId":"8uyt2m",\"q\":\"hello\","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
 			expect(acRequesterSpy).toHaveBeenCalledTimes(1);
 			expect(acRequesterSpy.mock.calls).toEqual([
@@ -462,14 +462,14 @@ describe('Snap Client', () => {
 					method: 'GET',
 					path: '/v1/autocomplete',
 					query: {
-						q: undefined,
+						q: 'hello',
 						redirectResponse: 'full',
 						resultsFormat: 'native',
 						siteId: '8uyt2m',
 						test: true,
 					},
 				};
-				const acCacheKey = `{"siteId":"8uyt2m","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
+				const acCacheKey = `{"siteId":"8uyt2m",\"q\":\"hello\","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
 				expect(acRequesterSpy).toHaveBeenCalledTimes(1);
 				expect(acRequesterSpy.mock.calls).toEqual([

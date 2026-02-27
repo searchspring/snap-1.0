@@ -7,19 +7,19 @@ describe('param merger', () => {
 		expect(params).toEqual({ foo: 'bar', bar: 'baz' });
 	});
 
-	it('merges duplicates', () => {
+	it('merges when values are arrays', () => {
 		const params = mergeParams({ foo: ['baz', 'fromfoo'] }, { foo: 'bar' });
 
 		expect(params).toEqual({ foo: ['bar', 'baz', 'fromfoo'] });
 	});
 
-	it('merges duplicates', () => {
+	it('merges duplicates within arrays', () => {
 		const params = mergeParams({ foo: ['baz', 'fromfoo'] }, { foo: 'baz' });
 
 		expect(params).toEqual({ foo: ['baz', 'fromfoo'] });
 	});
 
-	it('merges duplicates with different order', () => {
+	it('merges duplicates within arrays and orders based on first appearance', () => {
 		const params = mergeParams({ foo: 'bar' }, { foo: ['baz', 'fromfoo'] });
 
 		expect(params).toEqual({ foo: ['bar', 'baz', 'fromfoo'] });

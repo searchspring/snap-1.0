@@ -79,7 +79,7 @@ export class AutocompleteAPI extends API {
 
 		// set the query to the most relevant suggestion
 		// requestParameters.search.query = requestParameters.search.query || {};
-		if (requestParameters.search?.query?.string) {
+		if (q && requestParameters.search?.query?.string) {
 			requestParameters.search.query.string = q;
 		}
 
