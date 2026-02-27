@@ -51,7 +51,7 @@ type ClientConfig = {
 	fetchApi?: WindowOrWorkerGlobalScope['fetch'];
 	meta?: RequesterConfig<MetaRequestModel>;
 	search?: RequesterConfig<SearchRequestModel>;
-	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: HybridRequesterConfig };
+	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: AutocompleteRequesterConfig };
 	finder?: RequesterConfig<SearchRequestModel>;
 	recommend?: RequesterConfig<RecommendRequestModel>;
 	suggest?: RequesterConfig<SuggestRequestModel>;

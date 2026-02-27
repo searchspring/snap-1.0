@@ -1,5 +1,5 @@
 import { AppMode } from '@searchspring/snap-toolbox';
-import { HybridAPI, SuggestAPI, RecommendAPI, ApiConfiguration } from './apis';
+import { AutocompleteAPI, SuggestAPI, RecommendAPI, ApiConfiguration, SearchAPI } from './apis';
 
 import type {
 	ClientGlobals,
@@ -51,12 +51,12 @@ export class Client {
 	private globals: ClientGlobals;
 	private config: ClientConfig;
 	private requesters: {
-		autocomplete: HybridAPI;
-		meta: HybridAPI;
-		search: HybridAPI;
+		autocomplete: AutocompleteAPI;
+		meta: SearchAPI;
+		search: SearchAPI;
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
-		finder: HybridAPI;
+		finder: SearchAPI;
 	};
 
 	constructor(globals: ClientGlobals, config: ClientConfig = {}) {
@@ -72,7 +72,7 @@ export class Client {
 		}
 
 		this.requesters = {
-			autocomplete: new HybridAPI(
+			autocomplete: new AutocompleteAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,
@@ -84,7 +84,7 @@ export class Client {
 				}),
 				this.config.autocomplete?.requesters
 			),
-			meta: new HybridAPI(
+			meta: new SearchAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,
@@ -101,13 +101,12 @@ export class Client {
 					initiator: this.config.initiator,
 					mode: this.mode,
 					origin: this.config.recommend?.origin,
-					secondaryOrigin: this.config.recommend?.secondaryOrigin,
 					headers: this.config.recommend?.headers,
 					cache: this.config.recommend?.cache,
 					globals: this.config.recommend?.globals,
 				})
 			),
-			search: new HybridAPI(
+			search: new SearchAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,
@@ -118,7 +117,7 @@ export class Client {
 					globals: this.config.search?.globals,
 				})
 			),
-			finder: new HybridAPI(
+			finder: new SearchAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,

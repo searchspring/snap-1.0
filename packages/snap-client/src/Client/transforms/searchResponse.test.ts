@@ -1,5 +1,5 @@
-import { transformSearchResponse, searchResponseType } from './searchResponse';
-import { SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
+import { transformSearchResponse, SearchResponseType } from './searchResponse';
+import { SearchResponseModelFacetValue, SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 
 const mockSingleResult = {
 	intellisuggestData: 'eJwrLzbIKTBkYGDwCDcyMDC01HXy8db1CGcwBEITIwYjQ2MLhvSizBQAuS0I0Q',
@@ -268,7 +268,7 @@ const mockMatchType = {
 	},
 };
 
-const mockResponse: searchResponseType = {
+const mockResponse: SearchResponseType = {
 	responseId: 'responseId-mock',
 	results: [mockSingleResult, mockSingleResult],
 	filterSummary: mockFilterSummary,
@@ -345,18 +345,18 @@ describe('search response transformer', () => {
 });
 
 describe('search response transformer tracking', () => {
-	it('transforms pagination', () => {
+	it('transforms tracking', () => {
 		const response = transformSearchResponse.tracking({
 			responseId: 'mock-response-id',
-		} as searchResponseType);
+		} as SearchResponseType);
 
-		expect(response.tracking.responseId).toEqual('mock-response-id');
+		expect(response.responseId).toEqual('mock-response-id');
 	});
 
 	it('still returns object if passed undefined', () => {
 		// @ts-ignore
-		expect(typeof transformSearchResponse.pagination().pagination).toEqual('object');
-		expect(typeof transformSearchResponse.pagination({} as searchResponseType).pagination).toEqual('object');
+		expect(typeof transformSearchResponse.pagination()).toEqual('object');
+		expect(typeof transformSearchResponse.pagination({} as SearchResponseType)).toEqual('object');
 	});
 });
 
@@ -364,18 +364,18 @@ describe('search response transformer pagination', () => {
 	it('transforms pagination', () => {
 		const response = transformSearchResponse.pagination({
 			pagination: mockPagination,
-		} as searchResponseType);
+		} as SearchResponseType);
 
-		expect(response.pagination.totalResults).toEqual(mockPagination.totalResults);
-		expect(response.pagination.pageSize).toEqual(mockPagination.perPage);
-		expect(response.pagination.totalPages).toEqual(mockPagination.totalPages);
-		expect(response.pagination.page).toEqual(mockPagination.currentPage);
+		expect(response.totalResults).toEqual(mockPagination.totalResults);
+		expect(response.pageSize).toEqual(mockPagination.perPage);
+		expect(response.totalPages).toEqual(mockPagination.totalPages);
+		expect(response.page).toEqual(mockPagination.currentPage);
 	});
 
 	it('still returns object if passed undefined', () => {
 		// @ts-ignore
-		expect(typeof transformSearchResponse.pagination().pagination).toEqual('object');
-		expect(typeof transformSearchResponse.pagination({} as searchResponseType).pagination).toEqual('object');
+		expect(typeof transformSearchResponse.pagination()).toEqual('object');
+		expect(typeof transformSearchResponse.pagination({} as SearchResponseType)).toEqual('object');
 	});
 });
 
@@ -434,16 +434,16 @@ describe('search response transformer result', () => {
 		const response = transformSearchResponse.results({
 			...mockResponse,
 			results: [mockSingleResult, mockSingleResult, mockSingleResult],
-		} as searchResponseType);
+		} as SearchResponseType);
 
-		expect(response.results.length).toEqual(3);
+		expect(response.length).toEqual(3);
 	});
 
 	it('still returns array if passed undefined', () => {
 		// @ts-ignore
-		expect(transformSearchResponse.results().results instanceof Array).toEqual(true);
+		expect(transformSearchResponse.results() instanceof Array).toEqual(true);
 		// @ts-ignore
-		expect(transformSearchResponse.results({}).results instanceof Array).toEqual(true);
+		expect(transformSearchResponse.results({}) instanceof Array).toEqual(true);
 	});
 
 	it('search response search transforms badges', () => {
@@ -496,13 +496,13 @@ describe('search response facet transformer', () => {
 	it('has facets', () => {
 		const response = transformSearchResponse.facets({ ...mockResponse, facets: mockFacets });
 
-		expect(response.facets.length).toEqual(3);
+		expect(response.length).toEqual(3);
 	});
 
 	it('has correct top-level keys for list facets', () => {
 		const response = transformSearchResponse.facets({ ...mockResponse, facets: mockFacets });
 
-		response.facets.forEach((facet) => {
+		response.forEach((facet) => {
 			expect(Object.keys(facet)).toEqual(['field', 'type', 'filtered', 'values']);
 		});
 	});
@@ -516,7 +516,7 @@ describe('search response facet transformer', () => {
 
 		const response = transformSearchResponse.facets({ ...mockResponse, facets: mockFacets }, request);
 
-		expect(response.facets).toHaveLength(request.facets.limit);
+		expect(response).toHaveLength(request.facets.limit);
 	});
 
 	it('limits the number of facet options', () => {
@@ -528,22 +528,22 @@ describe('search response facet transformer', () => {
 
 		const response = transformSearchResponse.facets({ ...mockResponse, facets: mockFacets }, request);
 
-		expect(response.facets[0].values.length).toEqual(request.facets.valueLimit);
-		expect(response.facets[1].values.length).toEqual(request.facets.valueLimit);
+		expect((response[0] as SearchResponseModelFacetValue).values!.length).toEqual(request.facets.valueLimit);
+		expect((response[1] as SearchResponseModelFacetValue).values!.length).toEqual(request.facets.valueLimit);
 	});
 
 	it('has some values', () => {
 		const response = transformSearchResponse.facets({ ...mockResponse, facets: mockFacets });
 
-		expect(response.facets[0].values.length).toEqual(3);
-		expect(response.facets[1].values.length).toEqual(2);
+		expect((response[0] as SearchResponseModelFacetValue).values!.length).toEqual(3);
+		expect((response[1] as SearchResponseModelFacetValue).values!.length).toEqual(2);
 	});
 
 	it('still returns object if passed undefined', () => {
 		// @ts-ignore
-		expect(typeof transformSearchResponse.facets().facets).toEqual('object');
+		expect(typeof transformSearchResponse.facets()).toEqual('object');
 		// @ts-ignore
-		expect(typeof transformSearchResponse.facets({}).facets).toEqual('object');
+		expect(typeof transformSearchResponse.facets({})).toEqual('object');
 	});
 });
 
@@ -554,7 +554,7 @@ describe('search response sorting transformer', () => {
 			sorting: mockSorting,
 		});
 
-		expect(response.sorting).toEqual([]);
+		expect(response).toEqual([]);
 	});
 
 	it('contains one entry when there is one active sort', () => {
@@ -566,9 +566,9 @@ describe('search response sorting transformer', () => {
 			sorting: activeSorting,
 		});
 
-		expect(response.sorting.length).toEqual(1);
+		expect(response.length).toEqual(1);
 
-		expect(response.sorting[0]).toEqual({
+		expect(response[0]).toEqual({
 			field: 'relevance',
 			direction: 'desc',
 		});
@@ -584,14 +584,14 @@ describe('search response sorting transformer', () => {
 			sorting: activeSorting,
 		});
 
-		expect(response.sorting.length).toEqual(2);
+		expect(response.length).toEqual(2);
 
-		expect(response.sorting[0]).toEqual({
+		expect(response[0]).toEqual({
 			field: 'relevance',
 			direction: 'desc',
 		});
 
-		expect(response.sorting[1]).toEqual({
+		expect(response[1]).toEqual({
 			field: 'salesrank',
 			direction: 'desc',
 		});
@@ -605,10 +605,10 @@ describe('search response filterSummary transformer', () => {
 			filterSummary: mockFilterSummary,
 		});
 
-		expect(Array.isArray(response.filters)).toBe(true);
-		expect(response.filters.length).toBe(mockFilterSummary.length);
+		expect(Array.isArray(response)).toBe(true);
+		expect(response.length).toBe(mockFilterSummary.length);
 
-		response.filters.forEach((filter: any, index: any) => {
+		response.forEach((filter: any, index: any) => {
 			const mockFilter = mockFilterSummary[index];
 
 			expect(filter.field).toBe(mockFilter.field);
@@ -627,9 +627,9 @@ describe('search response filterSummary transformer', () => {
 
 	it('returns empty array if passed no data', () => {
 		// @ts-ignore
-		expect(Array.isArray(transformSearchResponse.filters().filters)).toBe(true);
+		expect(Array.isArray(transformSearchResponse.filters())).toBe(true);
 		// @ts-ignore
-		expect(Array.isArray(transformSearchResponse.filters([]).filters)).toBe(true);
+		expect(Array.isArray(transformSearchResponse.filters([]))).toBe(true);
 	});
 });
 
@@ -642,7 +642,7 @@ describe('search response merch transformer', () => {
 			merchandising: mockMerchandising,
 		});
 
-		expect(response.merchandising).toEqual({
+		expect(response).toEqual({
 			redirect: mockMerchandising.redirect,
 			content: mockMerchandising.content,
 			experiments: mockMerchandising.experiments,
@@ -657,8 +657,8 @@ describe('search response merch transformer', () => {
 			merchandising: mockMerchandising,
 		});
 
-		expect(typeof response.merchandising.content).toEqual('object');
-		expect(Array.isArray(response.merchandising.content)).toBe(false);
+		expect(typeof response.content).toEqual('object');
+		expect(Array.isArray(response.content)).toBe(false);
 	});
 
 	it('ensures personalization exists', () => {
@@ -667,8 +667,8 @@ describe('search response merch transformer', () => {
 			merchandising: mockPersonalizedMerchandising,
 		});
 
-		expect(typeof response.merchandising.content).toEqual('object');
-		expect(response.merchandising.personalized).toBe(true);
+		expect(typeof response.content).toEqual('object');
+		expect(response.personalized).toBe(true);
 	});
 });
 
@@ -682,14 +682,14 @@ describe('search response search transformer facets', () => {
 			mockRequest
 		);
 
-		expect(response.search.didYouMean).toEqual(mockDidYouMean.query);
-		expect(response.search.query).toEqual(mockRequest.search.query.string);
+		expect(response.didYouMean).toEqual(mockDidYouMean.query);
+		expect(response.query).toEqual(mockRequest.search.query.string);
 	});
 
 	it('has matchType', () => {
 		const response = transformSearchResponse.search(mockResponse, mockRequest);
 
-		expect(response.search.matchType).toEqual(mockMatchType.query.matchType);
+		expect(response.matchType).toEqual(mockMatchType.query.matchType);
 	});
 
 	it('has query and originalQuery', () => {
@@ -707,14 +707,14 @@ describe('search response search transformer facets', () => {
 			mockRequest
 		);
 
-		expect(response.search.query).toEqual(mockSpellCorrectedQuery.query.corrected);
-		expect(response.search.originalQuery).toEqual(mockSpellCorrectedQuery.query.original);
+		expect(response.query).toEqual(mockSpellCorrectedQuery.query.corrected);
+		expect(response.originalQuery).toEqual(mockSpellCorrectedQuery.query.original);
 	});
 
 	it('uses original query when oq', () => {
 		const response = transformSearchResponse.search(mockResponse, mockRequestOQ);
 
-		expect(response.search.originalQuery).toEqual(mockRequestOQ.search.originalQuery);
+		expect(response.originalQuery).toEqual(mockRequestOQ.search.originalQuery);
 	});
 });
 
@@ -732,14 +732,13 @@ describe('hierarchy facets', () => {
 			mockRequest
 		);
 
-		//console.log(JSON.stringify(response.facets, null, 2));
-		const hierarchyFacet = response.facets[2];
+		const hierarchyFacet = response[2] as SearchResponseModelFacetValue;
 
-		const values = hierarchyFacet.values.map((v: any) => v.value);
-		const labels = hierarchyFacet.values.map((v: any) => v.label);
+		const values = hierarchyFacet.values!.map((v) => v.value);
+		const labels = hierarchyFacet.values!.map((v) => v.label);
 
 		expect(values).toEqual([
-			null,
+			undefined,
 			'Mermaid',
 			'Mermaid>Mermaid Monofins',
 			'Mermaid>Mermaid Monofins>Fantasy Fin Monofins',
@@ -748,11 +747,11 @@ describe('hierarchy facets', () => {
 
 		expect(labels).toEqual(['View All', 'Mermaid', 'Mermaid Monofins', 'Fantasy Fin Monofins', 'Monofin Replacement Parts']);
 
-		expect(hierarchyFacet.values[0].filtered).toBe(false);
-		expect(hierarchyFacet.values[1].filtered).toBe(false);
-		expect(hierarchyFacet.values[2].filtered).toBe(true);
-		expect(hierarchyFacet.values[3].filtered).toBe(false);
-		expect(hierarchyFacet.values[4].filtered).toBe(false);
+		expect(hierarchyFacet.values![0].filtered).toBe(false);
+		expect(hierarchyFacet.values![1].filtered).toBe(false);
+		expect(hierarchyFacet.values![2].filtered).toBe(true);
+		expect(hierarchyFacet.values![3].filtered).toBe(false);
+		expect(hierarchyFacet.values![4].filtered).toBe(false);
 	});
 
 	it("doesn't add parent value if bg filter", () => {
@@ -775,17 +774,16 @@ describe('hierarchy facets', () => {
 			mockRequest
 		);
 
-		//console.log(JSON.stringify(response.facets, null, 2));
-		const hierarchyFacet = response.facets[2];
+		const hierarchyFacet = response[2] as SearchResponseModelFacetValue;
 
-		const values = hierarchyFacet.values.map((v: any) => v.value);
-		const labels = hierarchyFacet.values.map((v: any) => v.label);
+		const values = hierarchyFacet.values!.map((v) => v.value);
+		const labels = hierarchyFacet.values!.map((v) => v.label);
 
 		expect(values).toEqual(['Mermaid>Mermaid Monofins>Fantasy Fin Monofins', 'Mermaid>Mermaid Monofins>Monofin Replacement Parts']);
 
 		expect(labels).toEqual(['Fantasy Fin Monofins', 'Monofin Replacement Parts']);
 
-		expect(hierarchyFacet.values[0].filtered).toBe(false);
-		expect(hierarchyFacet.values[1].filtered).toBe(false);
+		expect(hierarchyFacet.values![0].filtered).toBe(false);
+		expect(hierarchyFacet.values![1].filtered).toBe(false);
 	});
 });

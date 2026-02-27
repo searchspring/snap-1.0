@@ -83,7 +83,7 @@ if (customOrigin) {
 				suggest: {
 					origin: customOrigin,
 				},
-				legacy: {
+				search: {
 					origin: customOrigin,
 				},
 			},
