@@ -112,7 +112,7 @@ let config: SnapTemplatesConfig = {
 		targets: [
 			{
 				selector: 'input.searchspring-ac',
-				component: 'AutocompleteModal',
+				component: 'AutocompleteFixed',
 			},
 		],
 		settings: {

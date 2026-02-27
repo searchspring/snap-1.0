@@ -17,14 +17,18 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
+	// determine template being used
+	const isFixed = template == 'autocompleteFixed';
+	const isSlideout = template == 'autocompleteSlideout';
+
 	// get autocomplete layout
 	const acLayout = props?.layout ? props.layout : 'standard';
 
 	// shared styles
 	const sharedStyles = css({
-		padding: `${custom.spacing.x4}px`,
+		padding: isSlideout ? 0 : `${custom.spacing.x4}px`,
 		gap: `${custom.spacing.x4}px`,
-		border: `1px solid ${custom.colors.gray02}`,
+		border: isSlideout ? 0 : `1px solid ${custom.colors.gray02}`,
 		backgroundColor: custom.colors.white,
 		[textSelectors]: {
 			fontSize: '12px',
@@ -65,8 +69,8 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		'& > .ss__autocomplete__row': {
 			flex: '1 1 100%',
 			minWidth: '1px',
-			padding: `0 ${custom.spacing.x4}px ${custom.spacing.x4}px ${custom.spacing.x4}px`,
-			margin: `0 -${custom.spacing.x4}px`,
+			padding: isSlideout ? `0 0 ${custom.spacing.x4}px 0` : `0 ${custom.spacing.x4}px ${custom.spacing.x4}px ${custom.spacing.x4}px`,
+			margin: isSlideout ? 0 : `0 -${custom.spacing.x4}px`,
 			borderBottom: `1px solid ${custom.colors.gray02}`,
 			'&:last-of-type': {
 				borderBottomWidth: 0,
@@ -147,9 +151,9 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 	// results layout styles
 	const resultsLayoutStyles = css({
 		gap: `${custom.spacing.x4}px`,
-		overflowY: template == 'autocompleteModal' ? 'hidden' : 'auto',
+		overflowY: isFixed ? 'auto' : 'hidden',
 		overflowX: 'hidden',
-		maxHeight: template == 'autocompleteModal' ? '' : '60vh',
+		maxHeight: isFixed ? '60vh' : '',
 		...custom.styles.scrollbar(),
 		'.ss__result': {
 			'.ss__result__details': {

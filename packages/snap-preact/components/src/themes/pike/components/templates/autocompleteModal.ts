@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import { autocompleteModalThemeComponentProps } from '../../../themeComponents/autocompleteModal';
 import { ThemeComponent } from '../../../../providers';
 import { AutocompleteModalProps } from '../../../../components/Templates/AutocompleteModal';
-import { custom } from '../../custom';
 import { autocompleteSharedStyleScript } from '../templates/autocompleteShared';
+import { custom } from '../../custom';
 
 // static variables
 const searchInputHeight = 40;
@@ -13,7 +13,6 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const desktopBp = variables?.breakpoints?.desktop || custom.breakpoints.desktop;
-	const shared = autocompleteSharedStyleScript(props, 'autocompleteModal');
 
 	// autocomplete shared styles
 	const sharedStyles = css({
@@ -21,7 +20,7 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 			'.ss__modal__content': {
 				'.ss__autocomplete-modal__inner': {
 					'.ss__autocomplete': {
-						...shared,
+						...autocompleteSharedStyleScript(props, 'autocompleteModal'),
 					},
 				},
 			},
