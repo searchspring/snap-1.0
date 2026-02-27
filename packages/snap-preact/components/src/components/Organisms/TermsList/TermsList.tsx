@@ -8,7 +8,6 @@ import { ComponentProps, StyleScript } from '../../../types';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Terms, TermsProps } from '../../Molecules/Terms/Terms';
-import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
 
 const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 	return css({
@@ -101,8 +100,6 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 		if (history?.length) showHistory = true;
 		if (trending?.length) showTrending = true;
 	}
-
-	useCleanUpEmptyDivs(['.ss__terms-list', '.ss__terms-list__row'], '.ss__terms-list__separator');
 
 	const findModule = (module: TermsListModuleNames[] | TermsListModuleNames) => {
 		if (typeof module !== 'string') {
