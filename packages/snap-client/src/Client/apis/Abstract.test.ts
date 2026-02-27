@@ -47,6 +47,15 @@ describe('ApiConfiguration', () => {
 });
 
 describe('Abstract Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('has expected default values', () => {
 		const api = new API(new ApiConfiguration());
 

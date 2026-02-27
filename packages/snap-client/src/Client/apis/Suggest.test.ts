@@ -3,6 +3,15 @@ import { ApiConfiguration } from './Abstract';
 import { SuggestAPI } from './Suggest';
 
 describe('Suggest Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('has expected default functions', () => {
 		const api = new SuggestAPI(new ApiConfiguration({}));
 

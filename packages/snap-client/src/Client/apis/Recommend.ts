@@ -3,7 +3,7 @@ import { HTTPHeaders, RecommendPostRequestProfileModel } from '../../types';
 import { AppMode } from '@searchspring/snap-toolbox';
 import { transformRecommendationFiltersPost } from '../transforms';
 import { ProfileRequestModel, ProfileResponseModel, RecommendResponseModel, RecommendRequestModel, RecommendPostRequestModel } from '../../types';
-import { DEVELOPMENT_MODE_PARAM } from './Hybrid';
+import { DEVELOPMENT_MODE_PARAM } from './Search';
 
 class Deferred {
 	promise: Promise<any>;
@@ -44,7 +44,6 @@ export class RecommendAPI extends API {
 		const response = await this.request<ProfileResponseModel>(
 			{
 				path: '/v1/profile',
-				origin: this.configuration.secondaryOrigin || undefined, // use alternate origin for profile requests
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters,

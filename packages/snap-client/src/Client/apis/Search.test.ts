@@ -1,11 +1,24 @@
 import 'whatwg-fetch';
 import { ApiConfiguration } from './Abstract';
-import { LegacyAPI } from './Legacy';
+import { SearchAPI } from './Search';
 import { version } from '@searchspring/snap-toolbox';
 
-describe('Legacy Api', () => {
+describe('Search Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
+	beforeEach(() => {
+		window.sessionStorage.clear();
+	});
+
 	it('has expected default functions', () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 
 		// @ts-ignore
 		expect(api?.getEndpoint).toBeDefined();
@@ -20,7 +33,7 @@ describe('Legacy Api', () => {
 	});
 
 	it('can call getMeta', async () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
 			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
@@ -41,7 +54,7 @@ describe('Legacy Api', () => {
 	});
 
 	it('can call getSearch', async () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
 			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
@@ -54,7 +67,7 @@ describe('Legacy Api', () => {
 
 		await api.getSearch({
 			siteId: '8uyt2m',
-			q: 'dress',
+			search: { query: { string: 'dress' } },
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
@@ -63,7 +76,7 @@ describe('Legacy Api', () => {
 	});
 
 	it('can call postMeta', async () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
 			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
@@ -87,7 +100,7 @@ describe('Legacy Api', () => {
 	});
 
 	it('can call getAutocomplete', async () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
 			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
@@ -100,7 +113,7 @@ describe('Legacy Api', () => {
 
 		await api.getAutocomplete({
 			siteId: '8uyt2m',
-			q: 'dress',
+			search: { query: { string: 'dress' } },
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
@@ -109,7 +122,7 @@ describe('Legacy Api', () => {
 	});
 
 	it('can call getFinder', async () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
 			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
@@ -122,7 +135,7 @@ describe('Legacy Api', () => {
 
 		await api.getFinder({
 			siteId: '8uyt2m',
-			q: 'dress',
+			search: { query: { string: 'dress' } },
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
@@ -131,7 +144,7 @@ describe('Legacy Api', () => {
 	});
 
 	it('can call getEndpoint', async () => {
-		const api = new LegacyAPI(new ApiConfiguration({}));
+		const api = new SearchAPI(new ApiConfiguration({}));
 
 		let requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -142,13 +155,16 @@ describe('Legacy Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/search?siteId=8uyt2m&q=dress&resultsFormat=native';
+		const requestUrl = `https://8uyt2m.a.athoscommerce.net/v1/search?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`;
 
 		//@ts-ignore
-		await api.getEndpoint({
-			siteId: '8uyt2m',
-			q: 'dress',
-		});
+		await api.getEndpoint(
+			{
+				siteId: '8uyt2m',
+				search: { query: { string: 'dress' } },
+			},
+			'/v1/search'
+		);
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
 
 		requestMock.mockReset();
@@ -162,14 +178,17 @@ describe('Legacy Api', () => {
 		await api.getEndpoint(
 			{
 				siteId: '8uyt2m',
-				q: 'dress',
+				search: { query: { string: 'dress' } },
 			},
 			'mycustompath'
 		);
 
-		expect(requestMock).toHaveBeenCalledWith('https://8uyt2m.a.athoscommerce.net/mycustompath?siteId=8uyt2m&q=dress&resultsFormat=native', {
-			...params,
-		});
+		expect(requestMock).toHaveBeenCalledWith(
+			`https://8uyt2m.a.athoscommerce.net/mycustompath?siteId=8uyt2m&q=dress&ajaxCatalog=snap%2Fclient%2F${version}&resultsFormat=native`,
+			{
+				...params,
+			}
+		);
 
 		requestMock.mockReset();
 	});
