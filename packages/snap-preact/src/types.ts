@@ -109,7 +109,6 @@ export type DeepPartial<T> = Partial<{ [P in keyof T]: DeepPartial<T[P]> }>;
 
 declare global {
 	interface Window {
-		searchspring?: any;
 		athos?: any;
 	}
 }
