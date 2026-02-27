@@ -79,7 +79,6 @@ export interface TrackMethods {
 
 declare global {
 	interface Window {
-		searchspring?: any;
 		athos?: any;
 	}
 }

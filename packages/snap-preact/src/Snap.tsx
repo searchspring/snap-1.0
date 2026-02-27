@@ -551,10 +551,10 @@ export class Snap {
 
 						// reset the global athos object
 						try {
-							delete window.athos;
+							delete window.searchspring;
 							delete window.athos;
 						} catch (e) {
-							window.athos = undefined;
+							window.searchspring = undefined;
 							window.athos = undefined;
 						}
 
