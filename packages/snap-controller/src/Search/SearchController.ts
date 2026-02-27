@@ -742,7 +742,7 @@ export class SearchController extends AbstractController {
 				} else {
 					// infinite with no backfills.
 
-					const infiniteResponse = await this.client.search(params);
+					const infiniteResponse = await this.client[this.page.type](params);
 					meta = infiniteResponse.meta;
 					search = infiniteResponse.search;
 
@@ -757,7 +757,7 @@ export class SearchController extends AbstractController {
 				// clear previousResults to prevent infinite scroll from using them
 				this.previousResults = [];
 
-				const searchResponse = await this.client.search(params);
+				const searchResponse = await this.client[this.page.type](params);
 				meta = searchResponse.meta;
 				search = searchResponse.search;
 

@@ -28,10 +28,10 @@
         const recommendResponse = [{"results":results,"profile":{"tag":profile}}];
         const profileResponse = {"profile":{"tag":profile,"display":{"template":{"component":component},"templateParameters":{}}}};
 
-        const profileKey = `/api/personalized-recommendations/profile.json{"tag":"${profile}","siteId":"${siteID}","branch":"production"}`;
+        const profileKey = `/v1/profile{"tag":"${profile}","siteId":"${siteID}","branch":"production"}`;
         const recommendKey = `/v1/recommend{"tags":["${profile}"],"limits":[20],"siteId":"${siteID}"}`;
 
-        const profileWildCardKey = `/api/personalized-recommendations/profile.json/*`;
+        const profileWildCardKey = `/v1/profile/*`;
         const recommendWildCardKey = `/v1/recommend/*`;
 
         document.addEventListener('RecsReady', () => {

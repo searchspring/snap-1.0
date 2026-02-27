@@ -34,7 +34,7 @@ The second argument is an optional `ClientConfig` object.
 | fetchApi | `WindowOrWorkerGlobalScope['fetch']` | Alternative fetch implementation to use for requests. Defaults to global `fetch`. |
 | meta | `RequesterConfig<MetaRequestModel>` | Configuration for the `meta` endpoint (origin, headers, cache, globals). |
 | search | `RequesterConfig<SearchRequestModel>` | Configuration for the `search` endpoint (origin, headers, cache, globals). |
-| autocomplete | `RequesterConfig<AutocompleteRequestModel> & { requesters?: HybridRequesterConfig }` | Configuration for the `autocomplete` endpoint, including hybrid requesters. |
+| autocomplete | `RequesterConfig<AutocompleteRequestModel> & { requesters?: AutocompleteRequesterConfig }` | Configuration for the `autocomplete` endpoint, including hybrid requesters. |
 | finder | `RequesterConfig<SearchRequestModel>` | Configuration for the `finder` endpoint (origin, headers, cache, globals). |
 | recommend | `RequesterConfig<RecommendRequestModel>` | Configuration for the `recommend` endpoint (origin, headers, cache, globals). |
 | suggest | `RequesterConfig<SuggestRequestModel>` | Configuration for the `suggest` endpoint (origin, headers, cache, globals). |

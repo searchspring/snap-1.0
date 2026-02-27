@@ -51,7 +51,7 @@ type ClientConfig = {
 	fetchApi?: WindowOrWorkerGlobalScope['fetch'];
 	meta?: RequesterConfig<MetaRequestModel>;
 	search?: RequesterConfig<SearchRequestModel>;
-	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: HybridRequesterConfig };
+	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: AutocompleteRequesterConfig };
 	finder?: RequesterConfig<SearchRequestModel>;
 	recommend?: RequesterConfig<RecommendRequestModel>;
 	suggest?: RequesterConfig<SuggestRequestModel>;
@@ -128,7 +128,7 @@ const metaResponse = {
     ]
 };
 
-const metaKey = `/api/meta/meta.json{"siteId":"8uyt2m"}`;
+const metaKey = `/v1/meta{"siteId":"atkzs2"}`;
 
 const clientConfig = {
   search: {

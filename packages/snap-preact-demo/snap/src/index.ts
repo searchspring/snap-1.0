@@ -24,7 +24,7 @@ if (context.collection?.handle) {
 	// set background filter
 	if (context.collection.handle != 'all') {
 		backgroundFilters.push({
-			field: 'ss_category_hierarchy',
+			field: 'collection_handle',
 			value: context.collection.handle,
 			type: 'value',
 			background: true,
@@ -83,7 +83,7 @@ if (customOrigin) {
 				suggest: {
 					origin: customOrigin,
 				},
-				legacy: {
+				search: {
 					origin: customOrigin,
 				},
 			},

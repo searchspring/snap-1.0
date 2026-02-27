@@ -7,12 +7,12 @@
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="icon" href="https://snapui.athoscommerce.io/favicon.svg">
+	<link rel="icon" href="https://snapui.searchspring.io/favicon.svg">
 	<link href="//fonts.googleapis.com/css?family=Fjalla+One|Roboto:400,700,700i" rel="stylesheet">
 	<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
 	<link rel="stylesheet" href="website.css">
 
-	<script id="athos-context" src="bundle.js">
+	<script id="searchspring-context" src="bundle.js">
 		shopper = {
 			id: 'snapdev'
 		};
@@ -104,7 +104,7 @@
 						<form class="ss-lite-search-bar" action="index.html" method="get">
 							<div class="ss-lite-search-form-hidden"></div>
 
-							<input class="ss-lite-input athos-ac" type="text" name="q" placeholder="Search for Brand, Color, Size..." value="" />
+							<input class="ss-lite-input searchspring-ac" type="text" name="q" placeholder="Search for Brand, Color, Size..." value="" />
 							<button class="ss-lite-button" type="submit" aria-label="search">
 								<i class="ss-lite-icon fas fa-search"></i>
 							</button>
@@ -143,19 +143,8 @@
 					<li>Search Results</li>
 				</ul>
 			</div>
-			<div class="ss-lite-flex-nowrap ss-lite-main-layout">
-				<aside class="ss-lite-sidebar">
-					<div id="athos-sidebar" style="min-height: 100vh">
-						<h2>Sidebar to be hidden!</h2>
-					</div>
-				</aside>
-				<section class="ss-lite-content">
-					<div id="athos-content" style="min-height: 100vh">
-						<h2>Content to be hidden!</h2>
-					</div>
-				</section>
-
-
+			<div class="ss-lite-main-layout">
+				<div id="searchspring-layout">Content to be hidden!</div>
 			</div>
 		</div>
 	</main>
@@ -198,7 +187,7 @@
 		<div class="ss-lite-footer-copyright">
 			<div class="ss-lite-wrapper">
 				<p>
-					&copy; 2026 <a href="//searchspring.com" target="_blank">Searchspring</a> - All rights reserved.
+					&copy; 2022 <a href="//searchspring.com" target="_blank">Searchspring</a> - All rights reserved.
 				</p>
 			</div>
 		</div>
@@ -220,7 +209,7 @@
 		function setShopperID(){
 			var id = document.querySelector("#login-modal input").value;
 			if(id) {
-				window.athos.tracker.track.shopper.login({
+				window.searchspring.tracker.track.shopper.login({
 					id: id
 				});
 				document.getElementById("login-modal").style.display = "none";

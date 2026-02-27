@@ -19,7 +19,7 @@ const siteId = 'atkzs2';
 // 			suggest: {
 // 				origin: `https://${siteId}.a.searchspring.io`,
 // 			},
-// 			legacy: {
+// 			search: {
 // 				origin: `https://${siteId}.a.searchspring.io`,
 // 			},
 // 		},

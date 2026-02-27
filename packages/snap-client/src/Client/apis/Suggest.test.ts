@@ -3,6 +3,15 @@ import { ApiConfiguration } from './Abstract';
 import { SuggestAPI } from './Suggest';
 
 describe('Suggest Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('has expected default functions', () => {
 		const api = new SuggestAPI(new ApiConfiguration({}));
 
@@ -27,7 +36,7 @@ describe('Suggest Api', () => {
 			headers: {},
 			method: 'GET',
 		};
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.io/api/suggest/query?siteId=8uyt2m&query=dress';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/suggest?siteId=8uyt2m&query=dress';
 
 		await api.getSuggest({
 			siteId: '8uyt2m',
@@ -49,7 +58,7 @@ describe('Suggest Api', () => {
 			},
 			method: 'POST',
 		};
-		const requestUrl = 'https://abc123.a.athoscommerce.io/api/suggest/query';
+		const requestUrl = 'https://abc123.a.athoscommerce.net/v1/suggest';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -77,7 +86,7 @@ describe('Suggest Api', () => {
 			method: 'GET',
 		};
 
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.io/api/suggest/trending?siteId=8uyt2m&limit=4';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/trending?siteId=8uyt2m&limit=4';
 
 		await api.getTrending({
 			siteId: '8uyt2m',
@@ -102,7 +111,7 @@ describe('Suggest Api', () => {
 			},
 			method: 'POST',
 		};
-		const requestUrl = 'https://8uuyt2m.a.athoscommerce.io/api/suggest/trending';
+		const requestUrl = 'https://8uuyt2m.a.athoscommerce.net/v1/trending';
 
 		await api.postTrending({
 			siteId: '8uuyt2m',

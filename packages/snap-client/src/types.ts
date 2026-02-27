@@ -11,7 +11,6 @@ export type HTTPHeaders = { [key: string]: string };
 
 type RequesterConfig<T> = {
 	origin?: string;
-	secondaryOrigin?: string;
 	headers?: HTTPHeaders;
 	cache?: CacheConfig;
 	globals?: Partial<T>;
@@ -23,15 +22,15 @@ export type ClientConfig = {
 	fetchApi?: WindowOrWorkerGlobalScope['fetch'];
 	meta?: RequesterConfig<MetaRequestModel>;
 	search?: RequesterConfig<SearchRequestModel>;
-	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: HybridRequesterConfig };
+	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: AutocompleteRequesterConfig };
 	finder?: RequesterConfig<SearchRequestModel>;
 	recommend?: RequesterConfig<RecommendRequestModel>;
 	suggest?: RequesterConfig<SuggestRequestModel>;
 };
 
-export type HybridRequesterConfig = {
+export type AutocompleteRequesterConfig = {
 	suggest?: RequesterConfig<SuggestRequestModel>;
-	legacy?: RequesterConfig<SearchRequestModel | AutocompleteRequestModel>;
+	search?: RequesterConfig<SearchRequestModel | AutocompleteRequestModel>;
 };
 
 export type CacheConfig = Partial<DefaultCacheConfig>;

@@ -46,9 +46,9 @@ let controller: RecommendationController;
 
 describe('RecommendationBundle Component', async () => {
 	beforeEach(async () => {
-		cy.intercept('POST', '**/recommend', json);
-		cy.intercept('GET', '**/profile.json', profile);
-		cy.intercept('GET', '**/meta.json', meta);
+		cy.intercept('POST', '**/v1/recommend', json);
+		cy.intercept('GET', '**/v1/profile', profile);
+		cy.intercept('GET', '**/v1/meta', meta);
 
 		const client = new Client(globals, {});
 
