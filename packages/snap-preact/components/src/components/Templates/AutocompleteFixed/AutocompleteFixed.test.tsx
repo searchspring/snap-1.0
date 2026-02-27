@@ -88,7 +88,6 @@ describe('AutocompleteFixed Component', () => {
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
 			renderedInput.value = 'dress';
-			rendered.debug();
 			const Facetstitle = rendered.container.querySelector('.ss__autocomplete__facets-wrapper .ss__autocomplete__title--facets');
 			const Contenttitle = rendered.container.querySelector('.ss__autocomplete__content .ss__autocomplete__title--content');
 
