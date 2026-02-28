@@ -33,6 +33,7 @@ export default {
 		checked: {
 			description: 'Radio is checked (externally managed state)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -43,6 +44,7 @@ export default {
 		disabled: {
 			description: 'Radio is disabled',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -54,6 +56,7 @@ export default {
 			defaultValue: '20px',
 			description: 'Radio size',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -64,6 +67,7 @@ export default {
 		checkedIcon: {
 			description: 'Icon name when radio is checked',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -77,6 +81,7 @@ export default {
 		unCheckedIcon: {
 			description: 'Icon name when radio is unchecked',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -90,6 +95,7 @@ export default {
 		color: {
 			description: 'Radio color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -100,6 +106,7 @@ export default {
 		startChecked: {
 			description: 'Radio is checked initially (internally managed state)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -110,6 +117,7 @@ export default {
 		native: {
 			description: 'Render as unstyled native radio',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -120,6 +128,7 @@ export default {
 		onClick: {
 			description: 'Radio click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -130,6 +139,7 @@ export default {
 		disableA11y: {
 			description: 'boolean to disable autoset ally properties',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

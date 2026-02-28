@@ -141,7 +141,9 @@ interface RatingSubProps {
 	emptyIcon: Partial<IconProps>;
 }
 
-export interface RatingProps extends ComponentProps {
+export type RatingProps = RatingTemplatesLegalProps & ComponentProps<RatingProps>;
+
+export type RatingTemplatesLegalProps = {
 	value: number;
 	count?: number;
 	text?: string;
@@ -149,4 +151,4 @@ export interface RatingProps extends ComponentProps {
 	disablePartialFill?: boolean;
 	fullIcon?: IconType | Partial<IconProps>;
 	emptyIcon?: IconType | Partial<IconProps>;
-}
+};

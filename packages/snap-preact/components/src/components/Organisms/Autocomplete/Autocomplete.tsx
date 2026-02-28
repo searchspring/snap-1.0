@@ -846,9 +846,15 @@ interface AutocompleteSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface AutocompleteProps extends ComponentProps {
-	input: Element | string;
+export type AutocompleteProps = {
+	lang?: Partial<AutocompleteLang>;
 	controller: AutocompleteController;
+	breakpoints?: BreakpointsProps;
+} & AutocompleteTemplatesLegalProps &
+	ComponentProps<AutocompleteProps>;
+
+export type AutocompleteTemplatesLegalProps = {
+	input: Element | string;
 	hideTerms?: boolean;
 	hideFacets?: boolean;
 	hideContent?: boolean;
@@ -873,7 +879,6 @@ export interface AutocompleteProps extends ComponentProps {
 	resultsSlot?: JSX.Element | JSX.Element[];
 	noResultsSlot?: JSX.Element | JSX.Element[];
 	linkSlot?: JSX.Element | JSX.Element[];
-	breakpoints?: BreakpointsProps;
 	width?: string;
 	resultComponent?: ResultComponent;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
@@ -886,8 +891,7 @@ export interface AutocompleteProps extends ComponentProps {
 			config?: Partial<RecommendationControllerConfig>;
 		};
 	};
-	lang?: Partial<AutocompleteLang>;
-}
+};
 
 export interface AutocompleteLang {
 	termsTitle: Lang<{

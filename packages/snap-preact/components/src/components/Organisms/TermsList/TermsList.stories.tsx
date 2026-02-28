@@ -70,6 +70,7 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified order',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: "['History' | 'Trending' | 'Suggestions' | '_']",
 				},
@@ -80,6 +81,7 @@ export default {
 		historyTitle: {
 			description: 'history terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -90,6 +92,7 @@ export default {
 		suggestionTitle: {
 			description: 'suggested terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -100,6 +103,7 @@ export default {
 		trendingTitle: {
 			description: 'trending terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -110,6 +114,7 @@ export default {
 		retainHistory: {
 			description: 'boolean to specify if the history terms should always be rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -120,6 +125,7 @@ export default {
 		retainTrending: {
 			description: 'boolean to specify if the trending terms should always be rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

@@ -53,6 +53,7 @@ export default {
 			description: 'specifies a CSS media query for when the component will render. By default, the component will always render',
 			defaultValue: '10000px',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -63,6 +64,7 @@ export default {
 		layout: {
 			description: 'specifies the layout of the mobile sidebar',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: "['filterSummary' | 'sortBy' | 'perPage' | 'facets' | 'banner.left' | 'paginationInfo' | 'layoutSelector' | '_']",
 				},
@@ -75,6 +77,7 @@ export default {
 			type: { required: false },
 			defaultValue: 'Click to open filters',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -85,6 +88,7 @@ export default {
 		openButtonIcon: {
 			description: 'Icon to render in the open sidebar button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -97,15 +101,7 @@ export default {
 		hideHeader: {
 			description: 'hides the sidebar header',
 			table: {
-				type: {
-					summary: 'boolean',
-				},
-			},
-			control: { type: 'boolean' },
-		},
-		hideTitle: {
-			description: 'hides the sidebar title',
-			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -116,6 +112,7 @@ export default {
 			description: 'Text to render in the sidebar title',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -126,6 +123,7 @@ export default {
 		hideTitleText: {
 			description: 'hides the title text',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 			},
 			control: { type: 'boolean' },
@@ -133,6 +131,7 @@ export default {
 		hideOpenButtonText: {
 			description: 'hides the open button text',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 			},
 			control: { type: 'boolean' },
@@ -140,6 +139,7 @@ export default {
 		hideClearButtonText: {
 			description: 'hides the clear button text',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 			},
 			control: { type: 'boolean' },
@@ -147,6 +147,7 @@ export default {
 		hideApplyButtonText: {
 			description: 'hides the apply button text',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 			},
 			control: { type: 'boolean' },
@@ -154,6 +155,7 @@ export default {
 		hideCloseButtonText: {
 			description: 'hides the close button text',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 			},
 			control: { type: 'boolean' },
@@ -161,6 +163,7 @@ export default {
 		hideCloseButton: {
 			description: 'hides the close sidebar button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -170,6 +173,7 @@ export default {
 		closeButtonIcon: {
 			description: 'Icon to render in the close sidebar button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -184,51 +188,17 @@ export default {
 			description: 'Text to render in the close sidebar button',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
 			},
 			control: { type: 'text' },
 		},
-		hideFilterSummary: {
-			description: 'hides the sidebar FilterSummary component',
-			table: {
-				type: {
-					summary: 'boolean',
-				},
-			},
-			control: { type: 'boolean' },
-		},
-		hideFacets: {
-			description: 'hides the sidebar facets component',
-			table: {
-				type: {
-					summary: 'boolean',
-				},
-			},
-			control: { type: 'boolean' },
-		},
-		hidePerPage: {
-			description: 'hides the sidebar per page component',
-			table: {
-				type: {
-					summary: 'boolean',
-				},
-			},
-			control: { type: 'boolean' },
-		},
-		hideSortBy: {
-			description: 'hides the sidebar sort by component',
-			table: {
-				type: {
-					summary: 'boolean',
-				},
-			},
-			control: { type: 'boolean' },
-		},
 		hideFooter: {
 			description: 'hides the sidebar footer',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -238,6 +208,7 @@ export default {
 		hideApplyButton: {
 			description: 'hides the apply facets button component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -248,6 +219,7 @@ export default {
 			description: 'Text to render in the apply facets button',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -258,6 +230,7 @@ export default {
 		applyButtonIcon: {
 			description: 'Icon to render in the apply facets button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -270,6 +243,7 @@ export default {
 		hideClearButton: {
 			description: 'hides the clear all filters button component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -280,6 +254,7 @@ export default {
 			description: 'Text to render in the clear all facets button',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -290,6 +265,7 @@ export default {
 		clearButtonIcon: {
 			description: 'Icon to render in the clear filters button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

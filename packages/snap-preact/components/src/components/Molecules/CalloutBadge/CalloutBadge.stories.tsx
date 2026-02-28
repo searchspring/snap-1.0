@@ -77,6 +77,7 @@ export default {
 				type: {
 					summary: 'object',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'object' },
 		},
@@ -86,6 +87,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -96,6 +98,7 @@ export default {
 				type: {
 					summary: 'number',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '1' },
 			},
 			control: { type: 'number' },
@@ -106,6 +109,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'callout' },
 			},
 			control: { type: 'text' },

@@ -182,7 +182,13 @@ interface RadioSubProps {
 	activeIcon: Partial<IconProps>;
 	inactiveIcon: Partial<IconProps>;
 }
-export interface RadioProps extends ComponentProps {
+
+export type RadioProps = {
+	lang?: Partial<RadioLang>;
+} & RadioTemplatesLegalProps &
+	ComponentProps<RadioProps>;
+
+export type RadioTemplatesLegalProps = {
 	checked?: boolean;
 	color?: string;
 	disabled?: boolean;
@@ -193,8 +199,7 @@ export interface RadioProps extends ComponentProps {
 	startChecked?: boolean;
 	native?: boolean;
 	disableA11y?: boolean;
-	lang?: Partial<RadioLang>;
-}
+};
 
 export interface RadioLang {
 	radio: Lang<{

@@ -38,6 +38,7 @@ export default {
 		onSelect: {
 			description: 'option onSelect event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -49,6 +50,7 @@ export default {
 			description: 'list of options to display',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'SwatchOption[]',
 				},
@@ -59,6 +61,7 @@ export default {
 			description: 'Current selected option',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'SwatchOption',
 				},
@@ -68,6 +71,7 @@ export default {
 		hideLabels: {
 			description: 'enable/disable option labels',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -89,6 +93,7 @@ export default {
 		type: {
 			description: 'swatches type to render',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'swatches type',
 				},

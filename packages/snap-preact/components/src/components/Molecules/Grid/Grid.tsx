@@ -338,7 +338,12 @@ export function Grid(properties: GridProps): JSX.Element {
 	);
 }
 
-export interface GridProps extends ComponentProps {
+export type GridProps = {
+	lang?: Partial<GridLang>;
+} & GridTemplatesLegalProps &
+	ComponentProps<GridProps>;
+
+export type GridTemplatesLegalProps = {
 	options: SwatchOption[];
 	hideLabels?: boolean;
 	multiSelect?: boolean;
@@ -354,9 +359,8 @@ export interface GridProps extends ComponentProps {
 	overflowButton?: JSX.Element;
 	overflowButtonInGrid?: boolean;
 	onOverflowButtonClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, status: boolean, remainder: number) => void;
-	lang?: Partial<GridLang>;
 	disableA11y?: boolean;
-}
+};
 
 export interface GridLang {
 	showMoreText: Lang<{

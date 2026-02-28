@@ -163,18 +163,22 @@ export const Terms = observer((properties: TermsProps): JSX.Element => {
 	);
 });
 
-export interface TermsProps extends ComponentProps {
+export type TermsProps = {
 	controller: AutocompleteController;
 	terms: AutocompleteTermStore;
+	lang?: Partial<TermsLang>;
+	name?: TermsNames;
+} & TermsTemplatesLegalProps &
+	ComponentProps<TermsProps>;
+
+export type TermsTemplatesLegalProps = {
 	title?: string;
 	vertical?: boolean;
 	limit?: number;
 	onTermClick?: (e: React.MouseEvent<Element, MouseEvent>, term: Term) => void;
 	previewOnHover?: boolean;
 	emIfy?: boolean;
-	lang?: Partial<TermsLang>;
-	name?: TermsNames;
-}
+};
 
 export interface TermsLang {
 	term?: Lang<{

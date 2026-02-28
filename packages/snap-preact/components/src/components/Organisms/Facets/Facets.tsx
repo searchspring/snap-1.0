@@ -101,9 +101,13 @@ interface FacetsSubProps {
 
 export type IndividualFacetType = ValueFacet | RangeFacet;
 
-export interface FacetsProps extends ComponentProps {
+export type FacetsProps = {
 	facets?: IndividualFacetType[];
-	limit?: number;
 	controller?: SearchController | AutocompleteController;
+} & FacetsTemplatesLegalProps &
+	ComponentProps<FacetsProps>;
+
+export type FacetsTemplatesLegalProps = {
+	limit?: number;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
-}
+};

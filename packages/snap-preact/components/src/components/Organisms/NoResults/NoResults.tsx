@@ -199,7 +199,12 @@ type NoResultsContact = {
 	content: string;
 };
 
-export interface NoResultsProps extends ComponentProps {
+export type NoResultsProps = {
+	lang?: NoResultsLang;
+} & NoResultsTemplatesLegalProps &
+	ComponentProps<NoResultsProps>;
+
+export type NoResultsTemplatesLegalProps = {
 	contentSlot?: string | JSX.Element;
 	suggestionsTitleText?: string;
 	hideSuggestionsTitleText?: boolean;
@@ -209,7 +214,6 @@ export interface NoResultsProps extends ComponentProps {
 	contactsTitleText?: string;
 	hideContactsTitleText?: boolean;
 	contactsList?: NoResultsContact[];
-	lang?: NoResultsLang;
 	templates?: {
 		recommendation?: {
 			enabled: boolean;
@@ -218,7 +222,7 @@ export interface NoResultsProps extends ComponentProps {
 			config?: Partial<RecommendationControllerConfig>;
 		};
 	};
-}
+};
 
 export interface NoResultsLang {
 	suggestionsTitleText: Lang<{ controller: SearchController }>;

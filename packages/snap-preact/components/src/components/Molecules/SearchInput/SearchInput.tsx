@@ -241,22 +241,26 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 	);
 });
 
-export interface SearchInputProps extends ComponentProps {
+export type SearchInputProps = {
+	lang?: Partial<SearchInputLang>;
+	inputRef?: MutableRef<HTMLInputElement | null>;
 	value?: string;
+} & SearchInputTemplatesLegalProps &
+	ComponentProps<SearchInputProps>;
+
+export type SearchInputTemplatesLegalProps = {
 	placeholderText?: string;
 	submitSearchButton?: Buttons;
 	clearSearchButton?: Buttons;
 	closeSearchButton?: Buttons;
 	inputName?: string;
-	inputRef?: MutableRef<HTMLInputElement | null>;
 	disabled?: boolean;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	disableA11y?: boolean;
-	lang?: Partial<SearchInputLang>;
-}
+};
 
 type Buttons = Partial<ButtonProps> | false;
 

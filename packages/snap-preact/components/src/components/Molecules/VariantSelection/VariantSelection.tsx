@@ -252,8 +252,12 @@ interface VariantSelectionSubProps {
 	swatches: Partial<SwatchesProps>;
 }
 
-export interface VariantSelectionProps extends ComponentProps {
+export type VariantSelectionProps = {
 	selection: VariantSelectionType;
+} & VariantSelectionTemplatesLegalProps &
+	ComponentProps<VariantSelectionProps>;
+
+export type VariantSelectionTemplatesLegalProps = {
 	type?: 'dropdown' | 'swatches' | 'list';
 	onSelect?: (e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption) => void;
-}
+};

@@ -170,12 +170,16 @@ interface TermsListSubProps {
 
 export type TermsListModuleNames = 'Trending' | 'Suggestions' | 'History' | '_';
 
-export interface TermsListProps extends ComponentProps {
+export type TermsListProps = {
 	controller: AutocompleteController;
+} & TermsListTemplatesLegalProps &
+	ComponentProps<TermsListProps>;
+
+export type TermsListTemplatesLegalProps = {
 	layout?: TermsListModuleNames[] | TermsListModuleNames[][];
 	historyTitle?: string;
 	suggestionTitle?: string;
 	trendingTitle?: string;
 	retainHistory?: boolean;
 	retainTrending?: boolean;
-}
+};

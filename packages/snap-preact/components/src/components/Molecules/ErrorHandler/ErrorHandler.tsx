@@ -234,16 +234,20 @@ export const ErrorHandler = observer((properties: ErrorHandlerProps): JSX.Elemen
 	);
 });
 
-export interface ErrorHandlerProps extends ComponentProps {
+export type ErrorHandlerProps = {
 	controller?: AbstractController;
 	error?: {
 		code?: number;
 		type: ErrorType;
 		message: string;
 	};
-	onRetryClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	lang?: Partial<ErrorHandlerLang>;
-}
+} & ErrorHandlerTemplatesLegalProps &
+	ComponentProps<ErrorHandlerProps>;
+
+export type ErrorHandlerTemplatesLegalProps = {
+	onRetryClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+};
 
 export interface ErrorHandlerLang {
 	warningText: Lang<{

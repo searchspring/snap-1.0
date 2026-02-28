@@ -34,6 +34,7 @@ export default {
 			description: 'list of options to display',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'option[]',
 				},
@@ -44,6 +45,7 @@ export default {
 			defaultValue: '',
 			description: 'optional title to render',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -54,6 +56,7 @@ export default {
 		hideTitleText: {
 			description: 'hide title text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -64,6 +67,7 @@ export default {
 		hideOptionCheckboxes: {
 			description: 'enable/disable checkboxes',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -74,6 +78,7 @@ export default {
 		hideOptionIcons: {
 			description: 'enable/disable option icons',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -84,6 +89,7 @@ export default {
 		hideOptionLabels: {
 			description: 'enable/disable option labels',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -94,6 +100,7 @@ export default {
 		requireSelection: {
 			description: 'enable/disable requireSelection',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -104,6 +111,7 @@ export default {
 		multiSelect: {
 			description: 'enable/disable multiselect',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -115,6 +123,7 @@ export default {
 			defaultValue: false,
 			description: 'render the list options horizontally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -125,6 +134,7 @@ export default {
 		onSelect: {
 			description: 'option onSelect event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -135,6 +145,7 @@ export default {
 		disabled: {
 			description: 'boolean to set the select in a disabled state',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -145,6 +156,7 @@ export default {
 		native: {
 			description: 'boolean to render unstyled native checkbox elements',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -155,6 +167,7 @@ export default {
 		selected: {
 			description: 'Current selected option',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | number',
 				},

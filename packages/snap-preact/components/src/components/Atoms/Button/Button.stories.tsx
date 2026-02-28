@@ -36,6 +36,7 @@ export default {
 				type: {
 					summary: 'string, JSX',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -45,6 +46,7 @@ export default {
 				type: {
 					summary: 'string, JSX',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 		},
@@ -54,6 +56,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -64,6 +67,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onClick',
@@ -74,6 +78,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'color' },
 		},
@@ -83,6 +88,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			options: [...Object.keys(iconPaths)],
 			control: {
@@ -95,6 +101,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '#fff' },
 			},
 			control: { type: 'color' },
@@ -105,6 +112,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '#333' },
 			},
 			control: { type: 'color' },
@@ -115,6 +123,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -125,6 +134,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },

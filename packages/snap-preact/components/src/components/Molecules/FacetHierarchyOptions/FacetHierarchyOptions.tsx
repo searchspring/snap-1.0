@@ -205,17 +205,22 @@ export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptions
 		<Fragment></Fragment>
 	);
 });
-export interface FacetHierarchyOptionsProps extends ComponentProps {
+
+export type FacetHierarchyOptionsProps = {
 	values?: FacetHierarchyValue[];
-	hideCount?: boolean;
+	lang?: Partial<FacetHierarchyOptionsLang>;
 	facet?: ValueFacet;
+} & FacetHierarchyOptionsTemplatesLegalProps &
+	ComponentProps<FacetHierarchyOptionsProps>;
+
+export type FacetHierarchyOptionsTemplatesLegalProps = {
+	hideCount?: boolean;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
 	valueProps?: any;
 	returnIcon?: IconType | Partial<IconProps>;
-	lang?: Partial<FacetHierarchyOptionsLang>;
-}
+};
 
 export interface FacetHierarchyOptionsLang {
 	hierarchyOption: Lang<{

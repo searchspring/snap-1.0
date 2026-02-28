@@ -168,12 +168,16 @@ export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Elemen
 	);
 });
 
-export interface SearchHeaderProps extends ComponentProps {
+export type SearchHeaderProps = {
 	controller?: SearchController;
 	query?: SearchQueryStore;
 	pagination?: SearchPaginationStore;
 	merchandising?: SearchMerchandisingStore;
+	lang?: Partial<SearchHeaderLang>;
+} & SearchHeaderTemplatesLegalProps &
+	ComponentProps<SearchHeaderProps>;
 
+export type SearchHeaderTemplatesLegalProps = {
 	titleText?: string | ((data: SearchHeaderPropData) => string);
 	subtitleText?: string | ((data: SearchHeaderPropData) => string);
 	correctedQueryText?: string | ((data: SearchHeaderPropData) => string);
@@ -186,8 +190,7 @@ export interface SearchHeaderProps extends ComponentProps {
 	hideNoResultsText?: boolean;
 	hideDidYouMeanText?: boolean;
 	hideExpandedSearchText?: boolean;
-	lang?: Partial<SearchHeaderLang>;
-}
+};
 
 export interface SearchHeaderLang {
 	titleText: Lang<SearchHeaderPropData>;

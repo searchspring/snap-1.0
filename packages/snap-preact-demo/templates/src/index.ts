@@ -42,6 +42,7 @@ let config: SnapTemplatesConfig = {
 		platform: 'other',
 		// client: clientConfig
 	},
+
 	plugins: {
 		common: {
 			addToCart: {

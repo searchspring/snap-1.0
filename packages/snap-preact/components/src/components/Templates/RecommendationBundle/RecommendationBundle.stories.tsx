@@ -79,6 +79,7 @@ export default {
 		title: {
 			description: 'recommendation bundle title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -89,6 +90,7 @@ export default {
 		description: {
 			description: 'recommendation bundle description',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -99,6 +101,7 @@ export default {
 		onAddToCart: {
 			description: 'onClick event handler for add bundle to cart button in CTA',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -108,6 +111,7 @@ export default {
 		limit: {
 			description: 'limit the number of results rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -121,6 +125,7 @@ export default {
 				loop: false,
 			},
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -131,6 +136,7 @@ export default {
 		preselectedCount: {
 			description: 'Number of results to have selected by default. (seed included)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -141,6 +147,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide/show bundle checkboxes in results',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -151,6 +158,7 @@ export default {
 		seedText: {
 			description: 'Text to render in seed product badge',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -162,6 +170,7 @@ export default {
 			description: 'Hide seed product badge text',
 			defaultValue: false,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -173,6 +182,7 @@ export default {
 			description: 'Hide/show seed result',
 			defaultValue: false,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -184,6 +194,7 @@ export default {
 			description: 'set the recommendation to render vertically',
 			defaultValue: false,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -194,6 +205,7 @@ export default {
 		separatorIconSeedOnly: {
 			description: 'boolean to only have seperator Icon for the seed product',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -205,6 +217,7 @@ export default {
 			defaultValue: 'plus',
 			description: 'Icon to render between results',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -218,6 +231,7 @@ export default {
 		ctaButtonText: {
 			description: 'text to render in add to cart button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -228,6 +242,7 @@ export default {
 		ctaIcon: {
 			desciption: 'The `ctaIcon` prop specifies the icon to render in the CTA. Takes an object with `Icon` component props or a string.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -241,6 +256,7 @@ export default {
 		ctaButtonSuccessText: {
 			description: 'text to temporarily render in the add to cart button after it is clicked',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -252,6 +268,7 @@ export default {
 			description: 'Number of ms to show success text in add to cart button before reverting back to normal text',
 			defaultValue: 2000,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -261,6 +278,7 @@ export default {
 		ctaInline: {
 			description: 'boolean to enable the stacked add to cart button display',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -271,6 +289,7 @@ export default {
 		ctaSlot: {
 			description: 'Slot for custom add to cart component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'component',
 				},
@@ -283,6 +302,7 @@ export default {
 				offset: '10%',
 			},
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},

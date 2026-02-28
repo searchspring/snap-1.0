@@ -76,11 +76,15 @@ export const InlineBanner = withController<any>(
 	)
 );
 
-export interface InlineBannerProps extends ComponentProps {
+export type InlineBannerProps = {
+	controller?: SearchController | AutocompleteController | RecommendationController;
 	banner: Banner;
+} & InlineBannerTemplatesLegalProps &
+	ComponentProps<InlineBannerProps>;
+
+export type InlineBannerTemplatesLegalProps = {
 	width?: string;
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
 	onClick?: (e: React.MouseEvent, banner: Banner) => void;
 	disableA11y?: boolean;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-}
+};

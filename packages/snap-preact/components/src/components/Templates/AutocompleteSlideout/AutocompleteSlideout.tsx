@@ -192,10 +192,14 @@ interface AutocompleteSlideoutSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteSlideoutProps extends Omit<AutocompleteLayoutProps, 'viewportMaxHeight'>, ComponentProps {
+export type AutocompleteSlideoutProps = {
+	controller: AutocompleteController;
+} & AutocompleteSlideoutTemplatesLegalProps &
+	ComponentProps<AutocompleteSlideoutProps>;
+
+export type AutocompleteSlideoutTemplatesLegalProps = {
 	overlayColor?: string;
 	slideDirection?: SlideDirectionType;
 	buttonSelector?: string | Element;
 	renderInput?: boolean;
-	controller: AutocompleteController;
-}
+} & AutocompleteLayoutProps;

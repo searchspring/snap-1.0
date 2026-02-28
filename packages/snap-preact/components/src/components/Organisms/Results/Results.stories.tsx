@@ -57,6 +57,7 @@ export default {
 		layout: {
 			description: 'Results layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -70,6 +71,7 @@ export default {
 			defaultValue: 4,
 			description: 'Number of columns in results grid',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -80,6 +82,7 @@ export default {
 		rows: {
 			description: 'Number of rows in results grid - adding this will put a hard limit on the results',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -90,6 +93,7 @@ export default {
 			defaultValue: '20px',
 			description: 'Gap size between rows and columns',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

@@ -164,17 +164,21 @@ interface SelectSubProps {
 	List: Partial<ListProps>;
 }
 
-export interface LayoutSelectorProps extends ComponentProps {
-	onSelect?: (e: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>, option?: ListOption) => void;
+export type LayoutSelectorProps = {
+	lang?: Partial<LayoutSelectorLang>;
 	options?: ListOption[];
 	selected?: ListOption;
+} & LayoutSelectorTemplatesLegalProps &
+	ComponentProps<LayoutSelectorProps>;
+
+export type LayoutSelectorTemplatesLegalProps = {
+	onSelect?: (e: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>, option?: ListOption) => void;
 	label?: string;
 	hideLabel?: boolean;
 	hideOptionLabels?: boolean;
 	type?: 'dropdown' | 'list' | 'radio';
 	showSingleOption?: boolean;
-	lang?: Partial<LayoutSelectorLang>;
-}
+};
 
 export interface LayoutSelectorLang {
 	label: Lang<{

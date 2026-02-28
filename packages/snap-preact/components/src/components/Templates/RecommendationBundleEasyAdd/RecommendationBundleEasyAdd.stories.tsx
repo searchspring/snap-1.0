@@ -79,6 +79,7 @@ export default {
 		title: {
 			description: 'recommendation title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -89,6 +90,7 @@ export default {
 		onAddToCart: {
 			description: 'onClick event handler for add bundle to cart button in CTA',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -98,6 +100,7 @@ export default {
 		seedText: {
 			description: 'Text to render in seed product badge',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -108,6 +111,7 @@ export default {
 		vertical: {
 			description: 'set the recommendation to render vertically',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -118,6 +122,7 @@ export default {
 		ctaButtonText: {
 			description: 'text to render in add to cart button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -128,6 +133,7 @@ export default {
 		ctaIcon: {
 			desciption: 'The `ctaIcon` prop specifies the icon to render in the CTA. Takes an object with `Icon` component props or a string.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -141,6 +147,7 @@ export default {
 		ctaButtonSuccessText: {
 			description: 'text to temporarily render in the add to cart button after it is clicked',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -152,6 +159,7 @@ export default {
 			description: 'Number of ms to show success text in add to cart button before reverting back to normal text',
 			defaultValue: 2000,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -161,6 +169,7 @@ export default {
 		ctaInline: {
 			description: 'boolean to enable the stacked add to cart button display',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -171,6 +180,7 @@ export default {
 		ctaSlot: {
 			description: 'Slot for custom add to cart component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'component',
 				},
@@ -183,6 +193,7 @@ export default {
 				offset: '10%',
 			},
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},

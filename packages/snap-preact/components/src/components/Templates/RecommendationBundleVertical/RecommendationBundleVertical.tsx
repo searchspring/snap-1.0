@@ -3,8 +3,10 @@ import { css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
 import { defined, mergeStyles } from '../../../utilities';
-import { ComponentProps, StyleScript } from '../../../types';
-import { RecommendationBundle, RecommendationBundleProps } from '../RecommendationBundle';
+import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
+import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import { Product } from '@searchspring/snap-store-mobx';
+import { AbstractController, RecommendationController } from '@searchspring/snap-controller';
 
 const defaultStyles: StyleScript<RecommendationBundleVerticalProps> = () => {
 	return css({
@@ -50,7 +52,26 @@ export const RecommendationBundleVertical = observer((properties: Recommendation
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleVerticalProps = Omit<RecommendationBundleProps, 'vertical' | 'ctaInline'> & ComponentProps;
+export type RecommendationBundleVerticalProps = {
+	controller: RecommendationController & AbstractController;
+	resultComponent?:
+		| ResultComponent<{
+				controller: RecommendationController;
+				seed?: boolean;
+				selected?: boolean;
+				onProductSelect?: (product: Product) => void;
+		  }>
+		| undefined;
+	alias?: string | undefined;
+	lang?: Partial<RecommendationBundleLang> | undefined;
+	results?: Product[] | undefined;
+} & RecommendationBundleVerticalTemplatesLegalProps &
+	ComponentProps<RecommendationBundleVerticalProps>;
+
+export type RecommendationBundleVerticalTemplatesLegalProps = Omit<
+	RecommendationBundleProps,
+	'controller' | 'resultComponent' | 'alias' | 'lang' | 'results' | 'vertical' | 'ctaInline'
+>;
 
 interface RecommendationBundleVerticalSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

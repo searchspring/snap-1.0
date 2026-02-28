@@ -63,6 +63,7 @@ export default {
 		onRetryClick: {
 			description: 'Retry button click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

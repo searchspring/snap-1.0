@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { FormattedNumberProps } from '../FormattedNumber/FormattedNumber';
-import { StyleScript } from '../../../types';
+import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
 const defaultStyles: StyleScript<PriceProps> = ({ theme }) => {
@@ -80,7 +80,8 @@ export function Price(properties: PriceProps): JSX.Element {
 	}
 }
 
-export interface PriceProps extends Omit<FormattedNumberProps, 'value'> {
+export type PriceProps = PriceTemplatesLegalProps & ComponentProps<PriceProps>;
+export interface PriceTemplatesLegalProps extends Omit<FormattedNumberProps, 'value'> {
 	value?: number;
 	lineThrough?: boolean;
 }

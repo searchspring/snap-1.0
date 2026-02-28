@@ -249,7 +249,8 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 	);
 });
 
-export interface DropdownProps extends ComponentProps {
+export type DropdownProps = DropdownTemplatesLegalProps & ComponentProps<DropdownProps>;
+export type DropdownTemplatesLegalProps = {
 	button: string | JSX.Element;
 	content?: string | JSX.Element;
 	children?: ComponentChildren;
@@ -267,4 +268,4 @@ export interface DropdownProps extends ComponentProps {
 	focusTrapContent?: boolean;
 	disableA11y?: boolean;
 	usePortal?: boolean;
-}
+};

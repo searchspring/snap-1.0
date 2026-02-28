@@ -44,8 +44,9 @@ export const BadgeImage = observer((properties: BadgeImageProps): JSX.Element =>
 	);
 });
 
-export interface BadgeImageProps extends ComponentProps<BadgeImageProps> {
+export type BadgeImageProps = BadgeImageTemplatesLegalProps & ComponentProps<BadgeImageProps>;
+export type BadgeImageTemplatesLegalProps = {
 	url: string;
 	label?: string;
 	tag?: string;
-}
+};

@@ -318,18 +318,22 @@ interface FacetsHorizontalSubProps {
 	MobileSidebar: Partial<MobileSidebarProps>;
 }
 
-export interface FacetsHorizontalProps extends ComponentProps {
+export type FacetsHorizontalProps = {
 	facets?: IndividualFacetType[];
+	lang?: Partial<FacetsHorizontalLang>;
+	controller?: SearchController | AutocompleteController;
+} & FacetsHorizontalTemplatesLegalProps &
+	ComponentProps<FacetsHorizontalProps>;
+
+export type FacetsHorizontalTemplatesLegalProps = {
 	limit?: number;
 	overlay?: boolean;
 	alwaysShowFiltersButton?: boolean;
 	hideFiltersButton?: boolean;
 	iconCollapse?: IconType | Partial<IconProps>;
 	iconExpand?: IconType | Partial<IconProps>;
-	controller?: SearchController | AutocompleteController;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
-	lang?: Partial<FacetsHorizontalLang>;
-}
+};
 
 export interface FacetsHorizontalLang {
 	dropdownButton: Lang<{

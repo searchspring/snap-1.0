@@ -223,10 +223,16 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 
 export type RecommendationProps = {
 	controller: RecommendationController;
+	resultComponent?: ResultComponent;
+	lang?: Partial<RecommendationLang>;
+	breakpoints?: BreakpointsProps;
+} & RecommendationTemplatesLegalProps &
+	ComponentProps<RecommendationProps>;
+
+export type RecommendationTemplatesLegalProps = {
 	title?: JSX.Element | string;
 	description?: string;
 	hideTitle?: boolean;
-	breakpoints?: BreakpointsProps;
 	prevButton?: JSX.Element | string;
 	nextButton?: JSX.Element | string;
 	hideButtons?: boolean;
@@ -235,8 +241,6 @@ export type RecommendationProps = {
 	pagination?: boolean;
 	children?: ComponentChildren;
 	vertical?: boolean;
-	resultComponent?: ResultComponent;
-	lang?: Partial<RecommendationLang>;
 	scrollbar?: boolean;
 	lazyRender?: {
 		enabled: boolean;

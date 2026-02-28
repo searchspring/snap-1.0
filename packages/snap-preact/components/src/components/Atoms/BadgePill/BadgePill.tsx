@@ -49,9 +49,10 @@ export const BadgePill = observer((properties: BadgePillProps): JSX.Element => {
 	);
 });
 
-export interface BadgePillProps extends ComponentProps<BadgePillProps> {
+export type BadgePillProps = BadgePillTemplatesLegalProps & ComponentProps<BadgePillProps>;
+export type BadgePillTemplatesLegalProps = {
 	value: string;
 	color?: string;
 	colorText?: string;
 	tag?: string;
-}
+};

@@ -349,8 +349,15 @@ export interface TruncateTitleProps {
 	append?: string;
 }
 
-export interface ResultProps extends ComponentProps {
+export type ResultProps = {
 	result: Product;
+	controller?: SearchController | AutocompleteController | RecommendationController;
+	lang?: Partial<ResultLang>;
+	trackingRef?: Ref<HTMLElement | null>;
+} & ResultTemplatesLegalProps &
+	ComponentProps<ResultProps>;
+
+export type ResultTemplatesLegalProps = {
 	hideBadge?: boolean;
 	hideTitle?: boolean;
 	hideImage?: boolean;
@@ -367,10 +374,7 @@ export interface ResultProps extends ComponentProps {
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
 	truncateTitle?: TruncateTitleProps;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, Event>) => void;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-	lang?: Partial<ResultLang>;
-	trackingRef?: Ref<HTMLElement | null>;
-}
+};
 
 export interface ResultLang {
 	addToCartButtonText: Lang<ResultPropData>;

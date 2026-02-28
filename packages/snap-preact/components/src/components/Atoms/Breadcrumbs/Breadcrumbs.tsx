@@ -95,7 +95,12 @@ export const Breadcrumbs = observer((properties: BreadcrumbsProps): JSX.Element 
 	);
 });
 
-export interface BreadcrumbsProps extends ComponentProps<BreadcrumbsProps> {
+export type BreadcrumbsProps = {
+	controller?: SearchController;
+} & BreadcrumbsTemplatesLegalProps &
+	ComponentProps<BreadcrumbsProps>;
+
+export type BreadcrumbsTemplatesLegalProps = {
 	data?:
 		| {
 				label: string;
@@ -107,8 +112,7 @@ export interface BreadcrumbsProps extends ComponentProps<BreadcrumbsProps> {
 		  }[]);
 	separator?: string | JSX.Element | false;
 	separatorIcon?: IconType | Partial<IconProps> | false;
-	controller?: SearchController;
-}
+};
 
 interface BreadcrumbsSubProps {
 	icon: Partial<IconProps>;

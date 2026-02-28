@@ -72,6 +72,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -82,6 +83,7 @@ export default {
 				type: {
 					summary: 'number',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'number' },
 		},
@@ -91,6 +93,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: true },
 			},
 			control: { type: 'boolean' },
@@ -101,6 +104,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'boolean' },
 		},
@@ -110,6 +114,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onTermClick',
@@ -120,6 +125,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: true },
 			},
 			control: { type: 'boolean' },

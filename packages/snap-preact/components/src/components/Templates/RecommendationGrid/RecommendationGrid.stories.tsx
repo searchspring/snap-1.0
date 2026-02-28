@@ -56,6 +56,7 @@ export default {
 		title: {
 			description: 'Recommendation title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -84,6 +85,7 @@ export default {
 		columns: {
 			description: 'Number of columns in results grid',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -93,6 +95,7 @@ export default {
 		rows: {
 			description: 'Number of rows in results grid',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -102,6 +105,7 @@ export default {
 		trim: {
 			description: 'trim off extra results based on columns and rows?',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -112,6 +116,7 @@ export default {
 			defaultValue: '20px',
 			description: 'Gap size between rows and columns',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -126,6 +131,7 @@ export default {
 				offset: '10%',
 			},
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
