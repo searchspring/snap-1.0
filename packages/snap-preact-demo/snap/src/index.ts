@@ -190,7 +190,7 @@ let config: SnapConfig = {
 				},
 				targeters: [
 					{
-						selector: '#searchspring-content',
+						selector: '#athos-content',
 						hideTarget: true,
 						renderAfterSearch: true,
 						skeleton: () => ContentSkel,
@@ -199,7 +199,7 @@ let config: SnapConfig = {
 						},
 					},
 					{
-						selector: '#searchspring-sidebar',
+						selector: '#athos-sidebar',
 						hideTarget: true,
 						renderAfterSearch: true,
 						skeleton: () => SidebarSkel,
@@ -214,7 +214,7 @@ let config: SnapConfig = {
 			{
 				config: {
 					id: 'autocomplete',
-					selector: 'input.searchspring-ac',
+					selector: 'input.athos-ac',
 					plugins: [[mutateResultsURL]],
 					settings: {
 						trending: {
@@ -227,7 +227,7 @@ let config: SnapConfig = {
 				},
 				targeters: [
 					{
-						selector: 'input.searchspring-ac',
+						selector: 'input.athos-ac',
 						hideTarget: true,
 						component: async () => {
 							return (await import('./components/Autocomplete/Autocomplete')).Autocomplete;
@@ -255,7 +255,7 @@ let config: SnapConfig = {
 				targeters: [
 					{
 						name: 'finder',
-						selector: '#searchspring-finder',
+						selector: '#athos-finder',
 						component: async () => {
 							return (await import('./components/Finder/Finder')).Finder;
 						},
@@ -275,7 +275,7 @@ let config: SnapConfig = {
 				targeters: [
 					{
 						name: 'finder_hierarchy',
-						selector: '#searchspring-finder-hierarchy',
+						selector: '#athos-finder-hierarchy',
 						component: async () => {
 							return (await import('./components/Finder/Finder')).Finder;
 						},

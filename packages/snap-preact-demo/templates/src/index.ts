@@ -95,8 +95,8 @@ let config: SnapTemplatesConfig = {
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-layout',
-				component: 'SearchHorizontal',
+				selector: '#athos-layout',
+				component: 'Search',
 			},
 		],
 		settings: {
@@ -111,7 +111,7 @@ let config: SnapTemplatesConfig = {
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.searchspring-ac',
+				selector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
 			},
 		],

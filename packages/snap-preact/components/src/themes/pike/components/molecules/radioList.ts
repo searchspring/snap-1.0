@@ -19,9 +19,6 @@ const radioListStyleScript = (props: RadioListProps) => {
 		},
 		'&.ss__radio-list--disabled': {
 			...custom.styles.disabled(),
-			'*': {
-				cursor: 'not-allowed !important',
-			},
 		},
 		'.ss__radio-list__title, .ss__radio-list__options-wrapper': {
 			width: '100%',

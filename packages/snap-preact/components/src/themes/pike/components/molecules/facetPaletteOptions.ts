@@ -84,7 +84,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 			'.ss__facet-palette-options__option__value__count': {
 				position: 'relative',
 				top: isList ? '-1px' : '',
-				padding: isList ? `0 ${custom.spacing.x1}px` : ``,
 				fontSize: '10px',
 				color: lightGray,
 			},
@@ -160,7 +159,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					lineHeight: `${listSize}px`,
 				},
 				'.ss__facet-palette-options__option__value, .ss__facet-palette-options__option__value__count': {
-					display: 'inline-block',
 					overflow: 'visible',
 					textOverflow: 'unset',
 					textAlign: 'left',

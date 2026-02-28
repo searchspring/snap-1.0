@@ -161,19 +161,16 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				'&:after': {
 					display: 'none',
 				},
-				'.ss__result__details__pricing': {
-					'.ss__result__price': {
-						fontSize: '14px',
-					},
-					'.ss__price--strike': {
-						fontSize: '12px',
-					},
-				},
 			},
 		},
 		'.ss__inline-banner': {
-			maxHeight: '212px',
 			overflow: 'hidden',
+		},
+		'.ss__inline-banner--grid': {
+			maxHeight: '212px',
+		},
+		'.ss__inline-banner--list': {
+			maxHeight: '100px',
 		},
 	});
 
@@ -182,6 +179,16 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		'.ss__autocomplete__content__results': {
 			'.ss__results': {
 				...resultsLayoutStyles,
+			},
+			'.ss__results-grid': {
+				'.ss__result.ss__result--grid': {
+					...custom.styles.resultSmall('grid', '', '12px'),
+				},
+			},
+			'.ss__results-list': {
+				'.ss__result.ss__result--list': {
+					...custom.styles.resultSmall('', '0 0 80px', '12px'),
+				},
 			},
 		},
 	});

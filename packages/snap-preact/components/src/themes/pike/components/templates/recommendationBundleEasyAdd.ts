@@ -37,25 +37,14 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 			'.ss__recommendation-bundle-easy-add__wrapper__selector': {
 				'.ss__recommendation-bundle-easy-add__wrapper__selector__result-wrapper': {
 					margin: 0,
-					'.ss__result.ss__result--list': {
-						gap: `${custom.spacing.x2}px`,
-						'.ss__result__details': {
-							'.ss__result__details__title, .ss__result__details__pricing': {
-								flex: '1 1 100%',
-							},
-							'.ss__result__details__title a, .ss__result__details__pricing .ss__result__price': {
-								fontSize: '14px',
-							},
-							'.ss__result__details__title a': {
-								display: '-webkit-box',
-								'-webkit-box-orient': 'vertical',
-								overflow: 'hidden',
-								'-webkit-line-clamp': '2',
-							},
-							'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection': {
-								width: '100%',
-							},
+					'.ss__result.ss__result--grid': {
+						...custom.styles.resultSmall('grid'),
+						'.ss__result__details:after': {
+							display: 'none',
 						},
+					},
+					'.ss__result.ss__result--list': {
+						...custom.styles.resultSmall(),
 					},
 				},
 			},

@@ -67,20 +67,20 @@ export const custom: CustomThemeType = {
 		x8: spacingCalc(8),
 	},
 	styles: {
-		activeText: (value?: string) => {
+		activeText: (color?: string) => {
 			// active text styles
 			return {
 				'&, &:hover': {
 					fontWeight: custom?.fonts?.weight01,
-					color: value ? value : '',
+					color: color ? color : '',
 				},
 			};
 		},
-		badgeText: (value: number) => {
+		badgeText: (fontSize: number) => {
 			// badge text styles
 			return {
 				display: 'block',
-				fontSize: value,
+				fontSize: fontSize,
 				lineHeight: 1.2,
 			};
 		},
@@ -94,15 +94,16 @@ export const custom: CustomThemeType = {
 				borderRadius: hasValue || custom.sizes.radius ? `${value}${unit}` : ``,
 			};
 		},
-		box: (text?: string, paddingValue?: number | string, radius?: boolean) => {
+		box: (color?: string, padding?: number | string, radius?: boolean) => {
 			// styles for box designs
 
 			// define padding value
-			let padding = `${custom.spacing.x2}px` as number | string;
-			if (paddingValue) {
-				padding = paddingValue;
-			} else if (paddingValue === 0) {
+			if (padding) {
+				padding = padding;
+			} else if (padding === 0) {
 				padding = '';
+			} else {
+				padding = `${custom.spacing.x2}px` as number | string;
 			}
 
 			// check if radius setting is available
@@ -115,7 +116,7 @@ export const custom: CustomThemeType = {
 				border: `1px solid ${custom.colors.gray02}`,
 				...radiusStyle,
 				backgroundColor: custom.colors.gray01,
-				color: text ? text : '',
+				color: color ? color : '',
 				padding: padding,
 			};
 		},
@@ -139,19 +140,71 @@ export const custom: CustomThemeType = {
 		disabled: () => {
 			// disabled styles
 			return {
-				opacity: 0.65,
-				cursor: 'not-allowed !important',
-				pointerEvents: 'unset',
+				'&': {
+					opacity: 0.65,
+					pointerEvents: 'unset',
+				},
+				'&, *': {
+					cursor: 'not-allowed !important',
+				},
 			};
 		},
-		headerText: (value?: string, size?: string) => {
+		headerText: (color?: string, fontSize?: string) => {
 			// header text styles
 			return {
-				fontSize: size ? size : '',
+				fontSize: fontSize ? fontSize : '',
 				fontWeight: custom?.fonts?.weight02,
 				textTransform: custom?.fonts?.transform,
-				color: value ? value : '',
+				color: color ? color : '',
 			};
+		},
+		resultSmall: (layout?: string, imageWidth?: string, fontSize?: string) => {
+			layout = (layout && layout == 'grid') || layout == 'list' ? layout : 'list';
+
+			// shared styles
+			const sharedStyles = {
+				'&': {
+					gap: `${custom.spacing.x1}px`,
+				},
+				'.ss__result__details__title a, .ss__result__details__pricing .ss__result__price': {
+					fontSize: fontSize ? fontSize : '14px',
+				},
+				'.ss__result__details__title a': {
+					display: '-webkit-box',
+					'-webkit-box-orient': 'vertical',
+					overflow: 'hidden',
+					'-webkit-line-clamp': '2',
+				},
+			};
+
+			// small grid styles
+			const gridStyles = {
+				'.ss__result__details': {
+					...sharedStyles,
+				},
+			};
+
+			// small list styles
+			const listStyles = {
+				'&': {
+					gap: `${custom.spacing.x2}px`,
+				},
+				'.ss__result__image-wrapper': {
+					flex: imageWidth ? imageWidth : '',
+				},
+				'.ss__result__details': {
+					'.ss__result__details__title, .ss__result__details__pricing': {
+						flex: '1 1 100%',
+					},
+					...sharedStyles,
+					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection': {
+						width: '100%',
+					},
+				},
+			};
+
+			// smaller result card
+			return layout == 'grid' ? gridStyles : listStyles;
 		},
 		scrollbar: () => {
 			// scrollbar styles
@@ -226,7 +279,7 @@ type ObjectIconType = {
 };
 
 type ObjectNestedType = {
-	[key: string]: ObjectNumberOrStringType;
+	[key: string]: ObjectNumberOrStringType | ObjectNestedType;
 };
 
 type ObjectNumberType = {
@@ -249,13 +302,14 @@ type CustomThemeType = {
 	sizes: ObjectNumberType;
 	spacing: ObjectNumberType;
 	styles: {
-		activeText: (value?: string) => ObjectNestedType;
-		badgeText: (value: number) => ObjectNumberOrStringType;
+		activeText: (color?: string) => ObjectNestedType;
+		badgeText: (fontSize: number) => ObjectNumberOrStringType;
 		borderRadius: (value?: number, unit?: string) => ObjectStringType | null;
-		box: (text?: string, paddingValue?: number | string, radius?: boolean) => ObjectNumberOrStringType;
+		box: (color?: string, padding?: number | string, radius?: boolean) => ObjectNumberOrStringType;
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
-		disabled: () => ObjectNumberOrStringType;
-		headerText: (value?: string, size?: string) => ObjectNumberOrStringType;
+		disabled: () => ObjectNumberOrStringType | ObjectNestedType;
+		headerText: (color?: string, fontSize?: string) => ObjectNumberOrStringType;
+		resultSmall: (layout?: string, imageWidth?: string, fontSize?: string) => ObjectNumberOrStringType | ObjectNestedType;
 		scrollbar: () => ObjectNestedType;
 		srOnly: () => ObjectNumberOrStringType;
 		textOverflow: () => ObjectNumberOrStringType;

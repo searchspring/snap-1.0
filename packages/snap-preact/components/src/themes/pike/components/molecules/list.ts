@@ -19,9 +19,6 @@ const listStyleScript = (props: ListProps) => {
 		},
 		'&.ss__list--disabled': {
 			...custom.styles.disabled(),
-			'*': {
-				cursor: 'not-allowed !important',
-			},
 		},
 		'.ss__list__title, .ss__list__options': {
 			width: '100%',
