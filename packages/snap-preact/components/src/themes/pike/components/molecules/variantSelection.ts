@@ -38,9 +38,13 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 					},
 					'.ss__dropdown__button-wrapper': {
 						flex: '1 1 0%',
+						overflow: 'hidden',
 						'.ss__dropdown__button-wrapper__label': {
 							fontWeight: custom?.fonts?.weight01,
 							textTransform: 'capitalize',
+						},
+						'.ss__dropdown__button-wrapper__selection': {
+							...custom.styles.textOverflow(),
 						},
 					},
 					'.ss__variant-selection__icon': {

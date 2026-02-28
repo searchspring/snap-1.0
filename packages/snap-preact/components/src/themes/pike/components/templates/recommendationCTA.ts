@@ -11,7 +11,7 @@ type CTAProps = {
 const lightGray = custom.utils.lightenColor();
 
 // CSS in JS style script for the Recommendation CTA component
-export const recommendationCTAStyleScript = (props: CTAProps, handle: string) => {
+export const recommendationCTAStyleScript = (props: CTAProps, handle: string, spacing?: string) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const recommendationHandle = `.ss__recommendation-${handle}__wrapper`;
@@ -23,8 +23,8 @@ export const recommendationCTAStyleScript = (props: CTAProps, handle: string) =>
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignContent: 'center',
-		gap: `${custom.spacing.x4}px`,
-		...custom.styles.box(variables?.colors?.text, `${custom.spacing.x4}px`),
+		gap: spacing ? spacing : `${custom.spacing.x4}px`,
+		...custom.styles.box(variables?.colors?.text, spacing ? spacing : `${custom.spacing.x4}px`),
 		'& > *': {
 			flex: '1 1 100%',
 			minWidth: '1px',
@@ -49,7 +49,6 @@ export const recommendationCTAStyleScript = (props: CTAProps, handle: string) =>
 				...custom.styles.headerText(variables?.colors?.secondary, '16px'),
 			},
 			[`${recommendationHandle}__cta__subtotal__prices`]: {
-				margin: `${custom.spacing.x1}px 0 0 0`,
 				label: {
 					margin: 0,
 					padding: 0,

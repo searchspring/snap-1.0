@@ -2,127 +2,136 @@ import { css } from '@emotion/react';
 import type { RecommendationBundleVerticalProps } from '../../../../components/Templates/RecommendationBundleVertical';
 import { recommendationBundleVerticalThemeComponentProps } from '../../../themeComponents/recommendationBundleVertical';
 import { ThemeComponent } from '../../../../providers';
-//import { custom } from '../../custom';
+import { recommendationCTAStyleScript } from './recommendationCTA';
+import { custom } from '../../custom';
+
+// static variables
+const activeColors = custom.utils.activeColors();
+const activeColor = activeColors[0];
+const fontColor = activeColors[1];
+const seedBadgeHeight = 22;
+const checkboxHeight = 16;
 
 // CSS in JS style script for the RecommendationBundleVertical component
 const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVerticalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	// const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
-	// const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
-	return css({
-		// margin: `${custom.spacing.x4}px 0`,
-		// ...custom.styles.boxSizing('recommendationBundleVertical', props?.treePath, props?.name),
-		// '.ss__recommendation-profile-tracker': {
-		// 	'& > *': {
-		// 		margin: `0 0 ${custom.spacing.x4}px 0`,
-		// 		'&:last-child': {
-		// 			marginBottom: 0,
-		// 		},
-		// 	},
-		// },
-		// '.ss__recommendation-bundle-vertical__title': {
-		// 	fontSize: '18px',
-		// 	fontWeight: custom.fonts.weight02,
-		// 	color: variables?.colors?.secondary,
-		// },
-		// '.ss__recommendation-bundle-vertical__wrapper': {
-		// 	gap: `${custom.spacing.x4}px`,
-		// 	'& > div': {
-		// 		minWidth: '1px',
-		// 		flex: '1 1 100%',
-		// 	},
-		// 	'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper': {
-		// 		margin: 0,
-		// 		'&, .ss__result': {
-		// 			position: 'relative',
-		// 		},
-		// 		'&:has(.ss__overlay-badge)': {
-		// 			'.ss__result': {
-		// 				'.ss__overlay-badge .ss__overlay-badge__grid-wrapper': {
-		// 					top: '25px',
-		// 				},
-		// 			},
-		// 		},
-		// 		'.ss__checkbox': {
-		// 			top: '5px',
-		// 			right: '5px',
-		// 		},
-		// 		'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper__seed-badge': {
-		// 			top: '5px',
-		// 			left: '5px',
-		// 			backgroundColor: variables?.colors?.primary,
-		// 			fontSize: '14px',
-		// 			fontWeight: custom.fonts.weight01,
-		// 			lineHeight: `24px`,
-		// 			color: custom.colors.white,
-		// 			padding: `0 ${custom.spacing.x2}px`,
-		// 		},
-		// 	},
-		// },
-		// '.ss__recommendation-bundle-vertical__wrapper__cta': {
-		// 	padding: `${custom.spacing.x4}px`,
-		// 	width: 'auto',
-		// 	display: 'flex',
-		// 	flexFlow: 'column nowrap',
-		// 	justifyContent: 'center',
-		// 	alignItems: 'center',
-		// 	gap: `${custom.spacing.x4}px`,
-		// 	backgroundColor: custom.colors.gray01,
-		// 	border: `1px solid ${custom.colors.gray02}`,
-		// 	'& > *': {
-		// 		flex: '0 1 auto',
-		// 		minWidth: '1px',
-		// 	},
-		// 	'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal': {
-		// 		color: variables?.colors?.text,
-		// 		'& > *': {
-		// 			margin: `0 0 ${custom.spacing.x2}px 0`,
-		// 			'&:last-child': {
-		// 				marginBottom: 0,
-		// 			},
-		// 		},
-		// 		'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__title': {
-		// 			display: 'block',
-		// 			fontWeight: custom.fonts.weight02,
-		// 		},
-		// 		'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__prices': {
-		// 			label: {
-		// 				margin: 0,
-		// 				padding: 0,
-		// 				'& ~ label': {
-		// 					paddingLeft: `${custom.spacing.x1}px`,
-		// 				},
-		// 			},
-		// 			'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__strike': {
-		// 				color: lightGray,
-		// 				'*': {
-		// 					color: 'inherit',
-		// 				},
-		// 			},
-		// 			'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__price': {
-		// 				fontSize: '16px',
-		// 				fontWeight: custom.fonts.weight01,
-		// 				color: variables?.colors?.primary,
-		// 				'*': {
-		// 					color: 'inherit',
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// },
-		// [`@media (max-width: ${mobileBp}px)`]: {
-		// 	'.ss__recommendation-bundle-vertical__wrapper': {
-		// 		'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper': {
-		// 			'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper__seed-badge': {
-		// 				fontSize: '12px',
-		// 				lineHeight: `20px`,
-		// 			},
-		// 		},
-		// 	},
-		// },
+	// bundle vertical shared styles
+	const sharedStyles = css({
+		'.ss__recommendation-bundle-vertical__wrapper__cta': {
+			...recommendationCTAStyleScript(props, 'bundle-vertical', `${custom.spacing.x2}px`),
+		},
 	});
+
+	// bundle vertical styles
+	const bundleVerticalStyles = css({
+		margin: `${custom.spacing.x4}px 0`,
+		...custom.styles.boxSizing('recommendationBundleVertical', props?.treePath, props?.name),
+		'.ss__recommendation-profile-tracker': {
+			'& > *': {
+				margin: `0 0 ${custom.spacing.x2}px 0`,
+				'&:last-child': {
+					marginBottom: 0,
+				},
+			},
+		},
+		'.ss__recommendation-bundle-vertical__title': {
+			...custom.styles.headerText(variables?.colors?.secondary, '16px'),
+		},
+		'.ss__recommendation-bundle-vertical__wrapper': {
+			gap: `${custom.spacing.x2}px`,
+			'.ss__recommendation-bundle-vertical__wrapper__selector': {
+				'&.ss__recommendation-bundle-vertical__wrapper__selector--seed': {
+					'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper .ss__result': {
+						'&:has(.ss__overlay-badge__grid-wrapper__slot--right) .ss__overlay-badge .ss__overlay-badge__grid-wrapper .ss__overlay-badge__grid-wrapper__slot--right':
+							{
+								paddingTop: `${checkboxHeight + custom.spacing.x2}px`,
+							},
+						'&:has(.ss__overlay-badge__grid-wrapper__slot--left) .ss__overlay-badge .ss__overlay-badge__grid-wrapper .ss__overlay-badge__grid-wrapper__slot--left':
+							{
+								paddingTop: `${seedBadgeHeight + custom.spacing.x2}px`,
+							},
+					},
+				},
+				'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper': {
+					margin: 0,
+					'&:has(.ss__result--grid)': {
+						'.ss__checkbox': {
+							top: '5px',
+							right: '5px',
+						},
+					},
+					'&:has(.ss__result--list)': {
+						'.ss__checkbox': {
+							top: '5px',
+							right: 'auto',
+							left: `calc(33.33% - ${custom.spacing.x4}px)`,
+						},
+					},
+					'ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper__seed-badge, .ss__checkbox': {
+						position: 'absolute',
+						zIndex: '5px',
+					},
+					'.ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper__seed-badge': {
+						top: '5px',
+						left: '5px',
+						backgroundColor: activeColor,
+						fontSize: '12px',
+						fontWeight: custom.fonts.weight01,
+						color: fontColor,
+						height: `${seedBadgeHeight}px`,
+						lineHeight: `${seedBadgeHeight}px`,
+						padding: `0 ${custom.spacing.x2}px`,
+					},
+					'.ss__result': {
+						'&:has(.ss__overlay-badge__grid-wrapper__slot--right) .ss__overlay-badge .ss__overlay-badge__grid-wrapper .ss__overlay-badge__grid-wrapper__slot--right':
+							{
+								paddingTop: `${checkboxHeight + custom.spacing.x2}px`,
+							},
+					},
+					'.ss__result.ss__result--list': {
+						gap: `${custom.spacing.x2}px`,
+						'.ss__result__details': {
+							'.ss__result__details__title, .ss__result__details__pricing': {
+								flex: '1 1 100%',
+							},
+							'.ss__result__details__title a, .ss__result__details__pricing .ss__result__price': {
+								fontSize: '14px',
+							},
+							'.ss__result__details__title a': {
+								display: '-webkit-box',
+								'-webkit-box-orient': 'vertical',
+								overflow: 'hidden',
+								'-webkit-line-clamp': '2',
+							},
+							'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection': {
+								width: '100%',
+							},
+						},
+					},
+				},
+			},
+		},
+		'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal': {
+			'.ss__recommendation-bundle-vertical__wrapper__cta__subtotal__icon__wrapper': {
+				display: 'none',
+			},
+		},
+		[`@media (max-width: ${mobileBp - 100}px)`]: {
+			'.ss__recommendation-bundle-vertical__wrapper .ss__recommendation-bundle-vertical__wrapper__selector .ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper:has(.ss__result--list) .ss__checkbox':
+				{
+					right: '5px',
+					left: 'auto',
+				},
+		},
+	});
+
+	// recommendation bundle vertical styles
+	const recommendationBundleVerticalStyles = css([sharedStyles, bundleVerticalStyles]);
+
+	return recommendationBundleVerticalStyles;
 };
 
 // RecommendationBundleVertical component props come from Template export
@@ -132,29 +141,39 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 		recommendationBundleVertical: {
 			...(recommendationBundleVerticalThemeComponentProps.default?.['recommendationBundleVertical'] || {}),
 			themeStyleScript: recommendationBundleVerticalStyleScript,
+			ctaButtonText: 'Add Selected',
+			ctaButtonSuccessText: 'Added!',
+			separatorIcon: false,
+			separatorIconSeedOnly: false,
+			limit: 8,
 		},
-		// 'recommendationBundleVertical icon.bundle-cart': {
-		// 	size: `${custom.sizes.icon16 * 2}px`,
-		// 	width: `${custom.sizes.icon16 * 2}px`,
-		// 	height: `${custom.sizes.icon16 * 2}px`,
-		// 	icon: custom.icons.bag,
-		// 	fill: custom.colors.secondary,
-		// },
-		// 'recommendationBundleVertical icon.bundle-selector': {
-		// 	size: `${custom.sizes.icon16 * 2}px`,
-		// 	width: `${custom.sizes.icon16 * 2}px`,
-		// 	height: `${custom.sizes.icon16 * 2}px`,
-		// 	icon: custom.icons.plus,
-		// 	fill: custom.colors.secondary,
-		// },
+		'recommendationBundleVertical icon.bundle-cart': {
+			size: `${custom.sizes.icon16 * 2}px`,
+			width: `${custom.sizes.icon16 * 2}px`,
+			height: `${custom.sizes.icon16 * 2}px`,
+			icon: custom.icons.bag,
+			fill: custom.colors.secondary,
+		},
+		'recommendationBundleVertical result': {
+			layout: 'list',
+		},
 	},
 	mobile: {
 		...recommendationBundleVerticalThemeComponentProps.mobile,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.mobile?.['recommendationBundleVertical'] || {}),
+		},
 	},
 	tablet: {
 		...recommendationBundleVerticalThemeComponentProps.tablet,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.tablet?.['recommendationBundleVertical'] || {}),
+		},
 	},
 	desktop: {
 		...recommendationBundleVerticalThemeComponentProps.desktop,
+		recommendationBundleVertical: {
+			...(recommendationBundleVerticalThemeComponentProps.desktop?.['recommendationBundleVertical'] || {}),
+		},
 	},
 };

@@ -3,141 +3,123 @@ import type { RecommendationBundleListProps } from '../../../../components/Templ
 import { recommendationBundleListThemeComponentProps } from '../../../themeComponents/recommendationBundleList';
 import { ThemeComponent } from '../../../../providers';
 import { recommendationCTAStyleScript } from './recommendationCTA';
-//import { custom } from '../../custom';
+import { custom } from '../../custom';
 
-// CSS in JS style script for the RecommendationBundleEasyAdd component
+// static variables
+const plusIconSize = custom.sizes.icon12;
+
+// CSS in JS style script for the RecommendationBundleList component
 const recommendationBundleListStyleScript = (props: RecommendationBundleListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	// const lightGray = custom.utils.lightenColor(variables?.colors?.text, 0.65);
-	// const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
-	// bundle shared styles
+	// bundle list shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle-list__wrapper__cta': {
-			...recommendationCTAStyleScript(props, 'bundle-list'),
+			...recommendationCTAStyleScript(props, 'bundle-list', `${custom.spacing.x2}px`),
 		},
 	});
 
 	// bundle list styles
 	const bundleListStyles = css({
-		// margin: `${custom.spacing.x4}px 0`,
-		// ...custom.styles.boxSizing('recommendationBundleList', props?.treePath, props?.name),
-		// '.ss__recommendation-profile-tracker': {
-		// 	'& > *': {
-		// 		margin: `0 0 ${custom.spacing.x4}px 0`,
-		// 		'&:last-child': {
-		// 			marginBottom: 0,
-		// 		},
-		// 	},
-		// },
-		// '.ss__recommendation-bundle-list__title': {
-		// 	fontSize: '18px',
-		// 	fontWeight: custom.fonts.weight02,
-		// 	color: variables?.colors?.secondary,
-		// },
-		// '.ss__recommendation-bundle-list__wrapper': {
-		// 	flexFlow: 'row wrap',
-		// 	margin: `0 -${custom.spacing.x1}px`,
-		// 	'& > div': {
-		// 		width: '50%',
-		// 		minWidth: '1px',
-		// 		flex: '0 1 auto',
-		// 		padding: `0 ${custom.spacing.x1}px`,
-		// 		margin: `0 0 ${custom.spacing.x2}px 0`,
-		// 	},
-		// 	'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper': {
-		// 		margin: 0,
-		// 		gap: `${custom.spacing.x2}px`,
-		// 		'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper__checkbox, .ss__result': {
-		// 			minWidth: '1px',
-		// 		},
-		// 		'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper__checkbox': {
-		// 			flex: '0 1 auto',
-		// 		},
-		// 		'.ss__result': {
-		// 			flex: '1 1 0%',
-		// 			'.ss__result__image-wrapper': {
-		// 				display: 'none',
-		// 			},
-		// 			'.ss__result__details': {
-		// 				gap: 0,
-		// 			},
-		// 		},
-		// 	},
-		// },
-		// '.ss__recommendation-bundle-list__wrapper__cta': {
-		// 	'.ss__recommendation-bundle-list__wrapper__cta__inner': {
-		// 		'& > *': {
-		// 			margin: `0 0 ${custom.spacing.x4}px 0`,
-		// 		},
-		// 		'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
-		// 			flexFlow: 'row nowrap',
-		// 			gap: `${custom.spacing.x2 + custom.sizes.icon12}px`,
-		// 			'.ss__recommendation-bundle-list__wrapper__cta__inner__image-wrapper': {
-		// 				flex: '1 1 0%',
-		// 				minWidth: '1px',
-		// 				padding: 0,
-		// 				'.ss__icon': {
-		// 					top: 0,
-		// 					bottom: 0,
-		// 					right: `-${custom.spacing.x2 / 2 + custom.sizes.icon12}px`,
-		// 					margin: 'auto 0',
-		// 				},
-		// 			},
-		// 		},
-		// 		'.ss__recommendation-bundle-list__wrapper__cta__subtotal': {
-		// 			padding: `${custom.spacing.x4}px`,
-		// 			backgroundColor: custom.colors.gray01,
-		// 			border: `1px solid ${custom.colors.gray02}`,
-		// 			'& > *': {
-		// 				margin: `0 0 ${custom.spacing.x2}px 0`,
-		// 				'&:last-child': {
-		// 					marginBottom: 0,
-		// 				},
-		// 			},
-		// 			'.ss__recommendation-bundle-list__wrapper__cta__subtotal__title': {
-		// 				display: 'block',
-		// 				fontWeight: custom.fonts.weight02,
-		// 			},
-		// 			'.ss__recommendation-bundle-list__wrapper__cta__subtotal__prices': {
-		// 				margin: `${custom.spacing.x1}px 0 0 0`,
-		// 				label: {
-		// 					margin: 0,
-		// 					padding: 0,
-		// 					'& ~ label': {
-		// 						paddingLeft: `${custom.spacing.x1}px`,
-		// 					},
-		// 				},
-		// 				'.ss__recommendation-bundle-list__wrapper__cta__subtotal__strike': {
-		// 					color: lightGray,
-		// 					'*': {
-		// 						color: 'inherit',
-		// 					},
-		// 				},
-		// 				'.ss__recommendation-bundle-list__wrapper__cta__subtotal__price': {
-		// 					fontSize: '16px',
-		// 					fontWeight: custom.fonts.weight01,
-		// 					color: variables?.colors?.primary,
-		// 					'*': {
-		// 						color: 'inherit',
-		// 					},
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// 	'.ss__recommendation-bundle-list__cta__button__wrapper': {
-		// 		margin: `${custom.spacing.x4}px 0`,
-		// 	},
-		// },
-		// [`@media (max-width: ${mobileBp}px)`]: {
-		// 	'.ss__recommendation-bundle-list__wrapper': {
-		// 		'& > div': {
-		// 			width: 'auto',
-		// 			flex: '1 1 100%',
-		// 		},
-		// 	},
-		// },
+		margin: `${custom.spacing.x4}px 0`,
+		...custom.styles.boxSizing('recommendationBundleList', props?.treePath, props?.name),
+		'.ss__recommendation-profile-tracker': {
+			'& > *': {
+				margin: `${custom.spacing.x2}px 0 0 0`,
+				'&:first-child': {
+					marginTop: 0,
+				},
+			},
+		},
+		'.ss__recommendation-bundle-list__title': {
+			...custom.styles.headerText(variables?.colors?.secondary, '16px'),
+		},
+		'.ss__recommendation-bundle-list__wrapper': {
+			flexFlow: 'row wrap',
+			gap: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
+			'& > *': {
+				width: `calc((100% - ${custom.spacing.x4}px) / 2)`,
+				minWidth: '1px',
+				flex: '0 1 auto',
+			},
+			'.ss__recommendation-bundle-list__wrapper__selector': {
+				'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper': {
+					alignItems: 'flex-start',
+					gap: `${custom.spacing.x2}px`,
+					margin: 0,
+					'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper__checkbox, .ss__result': {
+						flex: '0 1 auto',
+						minWidth: '1px',
+					},
+					'.ss__result': {
+						flex: '1 1 0%',
+						'.ss__result__image-wrapper': {
+							display: 'none',
+						},
+						'.ss__result__details': {
+							gap: `${custom.spacing.x1}px`,
+							'&:after': {
+								display: 'none',
+							},
+							'.ss__result__details__pricing .ss__result__price': {
+								fontSize: '14px',
+							},
+						},
+					},
+				},
+			},
+		},
+		'.ss__recommendation-bundle-list__wrapper__cta': {
+			'.ss__recommendation-bundle-list__wrapper__cta__inner': {
+				'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
+					position: 'relative',
+					flexFlow: 'row nowrap',
+					gap: `${custom.spacing.x4 + plusIconSize}px`,
+					margin: `-${custom.spacing.x2}px -${custom.spacing.x2}px 0 -${custom.spacing.x2}px`,
+					padding: `0 0 ${custom.spacing.x2}px 0`,
+					backgroundColor: custom.colors.white,
+					borderBottom: `1px solid ${custom.colors.gray02}`,
+					'&:after': {
+						content: '""',
+						display: 'block',
+						position: 'absolute',
+						top: '-1px',
+						bottom: 0,
+						left: '-1px',
+						right: '-1px',
+						zIndex: 1,
+						margin: 'auto',
+						border: `1px solid ${custom.colors.white}`,
+					},
+					'.ss__recommendation-bundle-list__wrapper__cta__inner__image-wrapper': {
+						position: 'relative',
+						zIndex: 2,
+						flex: '1 1 0%',
+						minWidth: '1px',
+						padding: 0,
+						'.ss__icon': {
+							top: 0,
+							bottom: 0,
+							right: `-${custom.spacing.x2 + plusIconSize}px`,
+							margin: 'auto 0',
+						},
+					},
+				},
+				'.ss__recommendation-bundle-list__wrapper__cta__subtotal': {
+					marginTop: `${custom.spacing.x2}px`,
+					'.ss__recommendation-bundle-list__wrapper__cta__subtotal__icon__wrapper': {
+						display: 'none',
+					},
+				},
+			},
+		},
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+			'.ss__recommendation-bundle-list__wrapper > *': {
+				width: 'auto',
+				flex: '1 1 100%',
+			},
+		},
 	});
 
 	// recommendation bundle list styles
@@ -155,35 +137,47 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 			themeStyleScript: recommendationBundleListStyleScript,
 			ctaButtonText: 'Add Selected',
 			ctaButtonSuccessText: 'Added!',
-			separatorIcon: false,
-			separatorIconSeedOnly: false,
+			limit: 6,
 		},
-		// 'recommendationBundleList icon.bundle-cart-separator': {
-		// 	size: `${custom.sizes.icon12}px`,
-		// 	width: `${custom.sizes.icon12}px`,
-		// 	height: `${custom.sizes.icon12}px`,
-		// 	icon: custom.icons.plus,
-		// 	fill: custom.colors.secondary,
-		// },
-		// 'recommendationBundleList icon.bundle-cart': {
-		// 	size: `${custom.sizes.icon16 * 2}px`,
-		// 	width: `${custom.sizes.icon16 * 2}px`,
-		// 	height: `${custom.sizes.icon16 * 2}px`,
-		// 	icon: custom.icons.bag,
-		// 	fill: custom.colors.secondary,
-		// },
-		// 'recommendationBundleList result': {
-		// 	hideImage: true,
-		// 	hideBadge: true,
-		// },
+		'recommendationBundleList icon.bundle-cart-separator': {
+			size: `${plusIconSize}px`,
+			width: `${plusIconSize}px`,
+			height: `${plusIconSize}px`,
+			icon: custom.icons.plus,
+			fill: custom.colors.secondary,
+		},
+		'recommendationBundleList icon.bundle-cart': {
+			size: `${custom.sizes.icon16 * 2}px`,
+			width: `${custom.sizes.icon16 * 2}px`,
+			height: `${custom.sizes.icon16 * 2}px`,
+			icon: custom.icons.bag,
+			fill: custom.colors.secondary,
+		},
+		'recommendationBundleList checkbox': {
+			size: `${custom.sizes.icon16 + 2}px`,
+		},
+		'recommendationBundleList checkbox icon': {
+			size: `${custom.sizes.icon10}px`,
+			width: `${custom.sizes.icon10}px`,
+			height: `${custom.sizes.icon10}px`,
+		},
 	},
 	mobile: {
 		...recommendationBundleListThemeComponentProps.mobile,
+		recommendationBundleList: {
+			...(recommendationBundleListThemeComponentProps.mobile?.['recommendationBundleList'] || {}),
+		},
 	},
 	tablet: {
 		...recommendationBundleListThemeComponentProps.tablet,
+		recommendationBundleList: {
+			...(recommendationBundleListThemeComponentProps.tablet?.['recommendationBundleList'] || {}),
+		},
 	},
 	desktop: {
 		...recommendationBundleListThemeComponentProps.desktop,
+		recommendationBundleList: {
+			...(recommendationBundleListThemeComponentProps.desktop?.['recommendationBundleList'] || {}),
+		},
 	},
 };
