@@ -31,25 +31,8 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 	const mobileSidebarStyles = css({
 		...custom.styles.boxSizing('mobileSidebar', props?.treePath, props?.name),
 		'.ss__slideout__button .ss__button': {
-			'&[active="true"]': {
-				'.ss__icon--filter': {
-					transform: 'rotate(-180deg)',
-				},
-				'.ss__icon--filters': {
-					circle: {
-						'&:last-child': {
-							transform: 'translateX(-35%)',
-						},
-						transform: 'translateX(35%)',
-					},
-				},
-			},
 			'.ss__button__content': {
 				textAlign: 'left',
-			},
-			'.ss__icon--filters': {
-				fill: activeColor,
-				stroke: fontColor,
 			},
 		},
 		'.ss__mobile-sidebar__slideout': {

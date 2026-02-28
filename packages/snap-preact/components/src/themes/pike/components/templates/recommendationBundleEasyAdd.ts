@@ -98,21 +98,18 @@ export const recommendationBundleEasyAdd: ThemeComponent<'recommendationBundleEa
 		...recommendationBundleEasyAddThemeComponentProps.mobile,
 		recommendationBundleEasyAdd: {
 			...(recommendationBundleEasyAddThemeComponentProps.mobile?.['recommendationBundleEasyAdd'] || {}),
-			themeStyleScript: recommendationBundleEasyAddStyleScript,
 		},
 	},
 	tablet: {
 		...recommendationBundleEasyAddThemeComponentProps.tablet,
 		recommendationBundleEasyAdd: {
 			...(recommendationBundleEasyAddThemeComponentProps.tablet?.['recommendationBundleEasyAdd'] || {}),
-			themeStyleScript: recommendationBundleEasyAddStyleScript,
 		},
 	},
 	desktop: {
 		...recommendationBundleEasyAddThemeComponentProps.desktop,
 		recommendationBundleEasyAdd: {
 			...(recommendationBundleEasyAddThemeComponentProps.desktop?.['recommendationBundleEasyAdd'] || {}),
-			themeStyleScript: recommendationBundleEasyAddStyleScript,
 		},
 	},
 };

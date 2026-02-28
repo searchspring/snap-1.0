@@ -95,6 +95,9 @@ const resultStyleScript = (props: ResultProps) => {
 		'& > *': {
 			minWidth: '1px',
 		},
+		'.ss__result__image-wrapper': {
+			border: `1px solid ${custom.colors.gray02}`,
+		},
 		'.ss__result__details': {
 			display: 'flex',
 			gap: `${custom.spacing.x2}px`,

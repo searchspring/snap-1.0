@@ -2,58 +2,69 @@ import { css } from '@emotion/react';
 import type { SearchProps } from '../../../../components/Templates/Search';
 import { searchThemeComponentProps } from '../../../themeComponents/search';
 import { ThemeComponent } from '../../../../providers';
-//import { custom } from '../../custom';
+import { custom } from '../../custom';
 
 // CSS in JS style script for the Search component
 const searchStyleScript = (props: SearchProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	//const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
-	return css({
-		// ...custom.styles.boxSizing('search', props?.treePath, props?.name),
-		// '&.ss__search--sidebar-open .ss__button--sidebar-toggle-button-wrapper .ss__button': {
-		// 	'.ss__icon--filter': {
-		// 		transform: 'rotate(-180deg)',
-		// 	},
-		// 	'.ss__icon--filters': {
-		// 		circle: {
-		// 			'&:last-child': {
-		// 				transform: 'translateX(-35%)',
-		// 			},
-		// 			transform: 'translateX(35%)',
-		// 		},
-		// 	},
-		// },
-		// '.ss__search__header-section, .ss__search__main-section': {
-		// 	margin: `0 0 ${custom.spacing.x6}px 0`,
-		// 	'.ss__toolbar .ss__layout': {
-		// 		gap: `${custom.spacing.x4}px`,
-		// 	},
-		// },
-		// '.ss__search__main-section': {
-		// 	gap: `${custom.spacing.x6}px`,
-		// 	'.ss__search__sidebar, .ss__search__content': {
-		// 		minWidth: '1px',
-		// 	},
-		// 	'.ss__search__sidebar': {
-		// 		flex: '0 1 auto',
-		// 	},
-		// 	'.ss__search__content': {
-		// 		flex: '1 1 0%',
-		// 		gap: `${custom.spacing.x4}px`,
-		// 	},
-		// },
-		// [`@media (max-width: ${mobileBp}px)`]: {
-		// 	'.ss__search__main-section': {
-		// 		'.ss__toolbar': {
-		// 			'.ss__select': {
-		// 				flex: '1 1 0%',
-		// 			},
-		// 		},
-		// 	},
-		// },
+	// search styles
+	const searchStyles = css({
+		...custom.styles.boxSizing('search', props?.treePath, props?.name),
+		'.ss__search__header-section, .ss__search__main-section': {
+			margin: `0 0 ${custom.spacing.x6}px 0`,
+		},
+		'.ss__search__main-section': {
+			gap: `${custom.spacing.x6}px`,
+			'.ss__search__sidebar, .ss__search__content': {
+				minWidth: '1px',
+			},
+			'.ss__search__sidebar': {
+				flex: '0 1 auto',
+				'.ss__sidebar': {
+					width: '250px',
+				},
+			},
+			'.ss__search__content': {
+				flex: '1 1 0%',
+				gap: `${custom.spacing.x4}px`,
+			},
+			'.ss__toolbar': {
+				'.ss__layout__row:has(.ss__pagination-info:last-child)': {
+					flexDirection: 'row-reverse',
+				},
+			},
+		},
+		[`@media (max-width: ${mobileBp}px)`]: {
+			'.ss__search__main-section': {
+				'.ss__toolbar': {
+					'.ss__layout__row:has(.ss__mobile-sidebar)': {
+						'.ss__mobile-sidebar': {
+							minWidth: '200px',
+							'.ss__mobile-sidebar__slideout__button': {
+								width: '100%',
+							},
+						},
+					},
+				},
+			},
+		},
+		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+			'.ss__search__main-section': {
+				'.ss__toolbar': {
+					'.ss__layout__row:has(.ss__mobile-sidebar)': {
+						'.ss__mobile-sidebar': {
+							minWidth: '1px',
+						},
+					},
+				},
+			},
+		},
 	});
+
+	return searchStyles;
 };
 
 // Search component props come from Template export
@@ -63,15 +74,31 @@ export const search: ThemeComponent<'search', SearchProps> = {
 		search: {
 			...(searchThemeComponentProps.default?.['search'] || {}),
 			themeStyleScript: searchStyleScript,
+			mobileDisplayAt: `${custom.breakpoints.mobile}px`,
 		},
 	},
 	mobile: {
 		...searchThemeComponentProps.mobile,
+		search: {
+			...(searchThemeComponentProps.mobile?.['search'] || {}),
+		},
 	},
 	tablet: {
 		...searchThemeComponentProps.tablet,
+		search: {
+			...(searchThemeComponentProps.tablet?.['search'] || {}),
+		},
+		'search results': {
+			columns: 2,
+		},
 	},
 	desktop: {
 		...searchThemeComponentProps.desktop,
+		search: {
+			...(searchThemeComponentProps.desktop?.['search'] || {}),
+		},
+		'search results': {
+			columns: 3,
+		},
 	},
 };

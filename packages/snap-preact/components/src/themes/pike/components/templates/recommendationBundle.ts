@@ -42,12 +42,9 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				flex: '0 1 auto',
 				minWidth: '1px',
 				margin: `0 0 ${custom.spacing.x4}px 0`,
-				'&:not(.ss__recommendation-bundle__wrapper__cta)': {
-					padding: `0 ${custom.spacing.x4}px 0 0`,
-				},
-				'&:last-of-type:not(.ss__recommendation-bundle__wrapper__cta)': {
-					paddingRight: 0,
-				},
+			},
+			'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
+				padding: `0 ${custom.spacing.x4}px 0 0`,
 			},
 			'.ss__recommendation-bundle__wrapper__seed-container': {
 				width: '20%',
@@ -130,14 +127,9 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				width: 'auto',
 				maxWidth: 'none',
 				margin: `0 -${custom.spacing.x1}px`,
-				'& > *': {
-					padding: `0 ${custom.spacing.x1}px`,
-					'&:last-of-type:not(.ss__recommendation-bundle__wrapper__cta)': {
-						paddingRight: `${custom.spacing.x1}px`,
-					},
-				},
 				'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
 					width: `50%`,
+					padding: `0 ${custom.spacing.x1}px`,
 				},
 			},
 		},

@@ -29,6 +29,21 @@ const buttonStyleScript = (props: ButtonProps) => {
 			lineHeight: `${custom.sizes.height}px`,
 			...custom.styles.borderRadius(),
 			...custom.styles.boxSizing('button', props?.treePath, props?.name),
+			'&[active="true"], &:has([active="true"])': {
+				'.ss__icon': {
+					'&.ss__icon--filter': {
+						transform: 'rotate(-180deg)',
+					},
+					'&.ss__icon--filters': {
+						circle: {
+							'&:last-child': {
+								transform: 'translateX(-35%)',
+							},
+							transform: 'translateX(35%)',
+						},
+					},
+				},
+			},
 			[buttonDisabledSelectors]: {
 				...custom.styles.disabled(),
 			},
@@ -52,6 +67,10 @@ const buttonStyleScript = (props: ButtonProps) => {
 			[`&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`]: {
 				border: `1px solid ${buttonColor}`,
 				backgroundColor: buttonColor,
+			},
+			'.ss__icon.ss__icon--filters': {
+				fill: buttonColor,
+				stroke: fontColor,
 			},
 		},
 	]);

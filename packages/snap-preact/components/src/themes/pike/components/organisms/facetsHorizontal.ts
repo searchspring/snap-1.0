@@ -66,7 +66,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						'& > *': {
 							minWidth: '1px',
 						},
-						span: {
+						'.ss__facet__header__inner': {
 							flex: '1 1 0%',
 							paddingRight: `${custom.spacing.x1}px`,
 							fontWeight: custom.fonts.weight01,
