@@ -68,9 +68,32 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						},
 						'.ss__facet__header__inner': {
 							flex: '1 1 0%',
+							gap: `${custom.spacing.x1}px`,
+							alignItems: 'center',
+							maxWidth: '100%',
 							paddingRight: `${custom.spacing.x1}px`,
 							fontWeight: custom.fonts.weight01,
-							...custom.styles.textOverflow(),
+							'span:not(.ss__facet__header__selected-count)': {
+								...custom.styles.textOverflow(),
+							},
+							'.ss__facet__header__selected-count, .ss__facet__header__clear-all': {
+								fontSize: '12px',
+								margin: 0,
+							},
+							'.ss__facet__header__clear-all': {
+								padding: 0,
+								height: 'auto',
+								lineHeight: 'inherit',
+								marginLeft: 'auto',
+								'&, &:hover': {
+									border: 0,
+									backgroundColor: 'transparent',
+									color: 'inherit',
+								},
+								'&:hover': {
+									textDecoration: 'none',
+								},
+							},
 						},
 						'.ss__icon': {
 							transition: 'transform ease 0.5s',

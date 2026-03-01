@@ -67,6 +67,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 
 	// shared layout styles
 	const sharedLayoutStyles = css({
+		alignContent: 'flex-start',
 		'& > .ss__autocomplete__row': {
 			flex: '1 1 100%',
 			minWidth: '1px',
@@ -317,6 +318,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		},
 		{
 			[`@media (max-width: ${tabletBp}px)`]: {
+				alignContent: 'flex-start',
 				'&': sharedTabletStyles,
 				'& > .ss__autocomplete__row': {
 					flexWrap: 'wrap',

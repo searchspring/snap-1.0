@@ -39,6 +39,10 @@ const facetStyleScript = (props: FacetProps) => {
 				flex: '1 1 0%',
 				gap: `${custom.spacing.x1}px`,
 				alignItems: 'center',
+				maxWidth: '100%',
+				'span:not(.ss__facet__header__selected-count)': {
+					...custom.styles.textOverflow(),
+				},
 				'.ss__facet__header__selected-count, .ss__facet__header__clear-all': {
 					fontSize: '12px',
 					margin: 0,
