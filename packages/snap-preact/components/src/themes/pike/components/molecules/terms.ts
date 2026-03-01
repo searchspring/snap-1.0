@@ -18,7 +18,7 @@ const termsStyleScript = (props: TermsProps) => {
 			},
 			h5: {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
-				...custom.styles.headerText(variables?.colors?.secondary, '16px'),
+				...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 			},
 		},
 		'.ss__terms__options': {
@@ -38,7 +38,7 @@ const termsStyleScript = (props: TermsProps) => {
 				},
 				a: {
 					padding: 0,
-					fontSize: '16px',
+					fontSize: '14px',
 					em: {
 						color: variables?.colors?.text,
 						fontStyle: 'normal',
@@ -53,7 +53,7 @@ const termsStyleScript = (props: TermsProps) => {
 				},
 			},
 		},
-		[`@media (max-width: ${tabletBp}px)`]: {
+		[`${custom.utils.getBp(tabletBp)}`]: {
 			'.ss__terms__title h5, .ss__terms__options .ss__terms__option a': {
 				fontSize: '14px',
 			},

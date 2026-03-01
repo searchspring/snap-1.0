@@ -258,19 +258,24 @@ export const custom: CustomThemeType = {
 			const accentColor = activeColor.isDark() || activeColor.hex().toLowerCase() == custom.colors.primary ? whiteColor : blackColor;
 			return [activeColor.hex().toLowerCase(), accentColor.hex().toLowerCase()];
 		},
-		lightenColor: (color?: string, amount?: number) => {
-			// lighten a color
-			amount = amount ? amount : 0.42;
-			color = color ? color : custom.colors.text;
-			const lightColor = new Color(color).lighten(amount).hex().toLowerCase();
-			return lightColor;
-		},
 		darkenColor: (color?: string, amount?: number) => {
 			// darken a color
 			amount = amount ? amount : 0.075;
 			color = color ? color : custom.colors.gray02;
 			const darkColor = new Color(color).darken(amount).hex().toLowerCase();
 			return darkColor;
+		},
+		getBp: (bp: number, rule?: string) => {
+			// get breakpoint selector
+			rule = (rule && rule == 'min') || rule == 'max' ? rule : 'min';
+			return `@media (${rule}-width: ${rule == 'min' ? bp + 1 : bp}px)`;
+		},
+		lightenColor: (color?: string, amount?: number) => {
+			// lighten a color
+			amount = amount ? amount : 0.42;
+			color = color ? color : custom.colors.text;
+			const lightColor = new Color(color).lighten(amount).hex().toLowerCase();
+			return lightColor;
 		},
 	},
 };
@@ -322,7 +327,8 @@ type CustomThemeType = {
 	};
 	utils: {
 		activeColors: (color?: string) => string[];
-		lightenColor: (color?: string, amount?: number) => string;
 		darkenColor: (color?: string, amount?: number) => string;
+		getBp: (bp: number, rule?: string) => string;
+		lightenColor: (color?: string, amount?: number) => string;
 	};
 };

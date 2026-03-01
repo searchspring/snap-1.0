@@ -18,25 +18,9 @@ const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
 				'.ss__toolbar': {
 					'.ss__layout__row:has(.ss__search-header)': {
-						flexWrap: 'nowrap',
+						margin: `0 0 ${custom.spacing.x4}px 0`,
 						'.ss__search-header': {
-							'&:has(.ss__search-header__subtitle)': {
-								'.ss__search-header__title': {
-									padding: `0 ${custom.spacing.x1}px 0 0`,
-									'&:after': {
-										content: '"."',
-									},
-								},
-							},
-							'.ss__search-header__title, .ss__search-header__subtitle': {
-								display: 'inline',
-							},
-							'.ss__search-header__title': {
-								fontSize: '16px',
-							},
-							'.ss__search-header__subtitle': {
-								fontSize: '14px',
-							},
+							textAlign: 'center',
 						},
 					},
 				},
@@ -61,7 +45,37 @@ const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 				gap: `${custom.spacing.x4}px`,
 			},
 		},
-		[`@media (min-width: ${tabletBp + 1}px)`]: {
+		[`${custom.utils.getBp(tabletBp)}`]: {
+			'&:not(:has(.ss__no-results))': {
+				'.ss__search-collapsible__header-section': {
+					margin: 0,
+					'.ss__toolbar': {
+						'.ss__layout__row:has(.ss__search-header)': {
+							flexWrap: 'nowrap',
+							'.ss__search-header': {
+								textAlign: 'left',
+								'&:has(.ss__search-header__subtitle)': {
+									'.ss__search-header__title': {
+										padding: `0 ${custom.spacing.x1}px 0 0`,
+										'&:after': {
+											content: '"."',
+										},
+									},
+								},
+								'.ss__search-header__title, .ss__search-header__subtitle': {
+									display: 'inline',
+								},
+								'.ss__search-header__title': {
+									fontSize: '16px',
+								},
+								'.ss__search-header__subtitle': {
+									fontSize: '14px',
+								},
+							},
+						},
+					},
+				},
+			},
 			'&:not(.ss__search-collapsible--sidebar-open)': {
 				'&:has(.ss__list__option--selected[title*="2"])': {
 					'.ss__results-grid': {
@@ -76,38 +90,6 @@ const searchCollapsibleStyleScript = (props: SearchCollapsibleProps) => {
 				'&:has(.ss__list__option--selected[title*="4"])': {
 					'.ss__results-grid': {
 						gridTemplateColumns: 'repeat(5, 1fr)',
-					},
-				},
-			},
-		},
-		[`@media (max-width: ${tabletBp}px)`]: {
-			'&:not(:has(.ss__no-results))': {
-				'.ss__search-collapsible__header-section': {
-					'.ss__toolbar': {
-						'.ss__layout__row:has(.ss__search-header)': {
-							flexWrap: 'wrap',
-							margin: `0 0 ${custom.spacing.x4}px 0`,
-							'.ss__search-header': {
-								textAlign: 'center',
-								'&:has(.ss__search-header__subtitle)': {
-									'.ss__search-header__title': {
-										padding: 0,
-										'&:after': {
-											display: 'none',
-										},
-									},
-								},
-								'.ss__search-header__title, .ss__search-header__subtitle': {
-									display: 'block',
-								},
-								'.ss__search-header__title': {
-									fontSize: '22px',
-								},
-								'.ss__search-header__subtitle': {
-									fontSize: '16px',
-								},
-							},
-						},
 					},
 				},
 			},

@@ -23,14 +23,14 @@ const toolbarStyleScript = (props: ToolbarProps) => {
 			},
 		},
 		'.ss__pagination-info': {
-			fontSize: props?.name == 'bottom' ? '14px' : '',
+			fontSize: props?.name == 'bottom' ? '16px' : '18px',
 		},
 		'.ss__banner': {
 			margin: `${custom.spacing.x2}px 0`,
 		},
-		[`@media (max-width: ${mobileBp}px)`]: {
+		[`${custom.utils.getBp(mobileBp)}`]: {
 			'.ss__pagination-info': {
-				fontSize: props?.name == 'bottom' ? '16px' : '18px',
+				fontSize: props?.name == 'bottom' ? '14px' : '16px',
 			},
 		},
 	});

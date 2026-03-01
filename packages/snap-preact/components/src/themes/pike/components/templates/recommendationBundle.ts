@@ -32,28 +32,26 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 		...custom.styles.boxSizing('recommendationBundle', props?.treePath, props?.name),
 		'.ss__recommendation-bundle__title': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
-			...custom.styles.headerText(variables?.colors?.secondary, '22px'),
-			textAlign: 'center',
+			...custom.styles.headerText(variables?.colors?.secondary, '18px'),
 		},
 		'.ss__recommendation-bundle__wrapper': {
-			flexFlow: `row nowrap`,
-			margin: `0 0 -${custom.spacing.x4}px 0`,
+			flexFlow: 'row wrap',
+			width: 'auto',
+			maxWidth: 'none',
+			margin: `0 -${custom.spacing.x1}px`,
 			'& > *': {
 				flex: '0 1 auto',
 				minWidth: '1px',
 				margin: `0 0 ${custom.spacing.x4}px 0`,
 			},
 			'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
-				padding: `0 ${custom.spacing.x4}px 0 0`,
-			},
-			'.ss__recommendation-bundle__wrapper__seed-container': {
-				width: '20%',
+				width: `50%`,
+				padding: `0 ${custom.spacing.x1}px`,
 			},
 			'.ss__recommendation-bundle__wrapper__carousel': {
-				width: '60%',
 				'.ss__recommendation__carousel >': {
 					'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-						bottom: `calc(10.5rem - ${custom.spacing.x3}px)`,
+						bottom: `calc(10.15rem - ${custom.spacing.x4}px)`,
 					},
 				},
 			},
@@ -108,34 +106,34 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				},
 			},
 		},
-		[`@media (max-width: ${tabletBp}px)`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'.ss__recommendation-bundle__title': {
-				textAlign: 'left',
+				fontSize: '22px',
+			},
+		},
+		[`${custom.utils.getBp(mobileBp)}`]: {
+			'.ss__recommendation-bundle__wrapper': {
+				flexFlow: `row nowrap`,
+				margin: `0 0 -${custom.spacing.x4}px 0`,
+				'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
+					padding: `0 ${custom.spacing.x4}px 0 0`,
+				},
+				'.ss__recommendation-bundle__wrapper__seed-container': {
+					width: '25%',
+				},
+			},
+		},
+		[`${custom.utils.getBp(tabletBp)}`]: {
+			'.ss__recommendation-bundle__title': {
+				textAlign: 'center',
 			},
 			'.ss__recommendation-bundle__wrapper': {
 				'.ss__recommendation-bundle__wrapper__seed-container': {
-					width: `25%`,
+					width: `20%`,
 				},
 				'.ss__recommendation-bundle__wrapper__carousel': {
-					width: `50%`,
+					width: '60%',
 				},
-			},
-		},
-		[`@media (max-width: ${mobileBp}px)`]: {
-			'.ss__recommendation-bundle__wrapper': {
-				flexFlow: 'row wrap',
-				width: 'auto',
-				maxWidth: 'none',
-				margin: `0 -${custom.spacing.x1}px`,
-				'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
-					width: `50%`,
-					padding: `0 ${custom.spacing.x1}px`,
-				},
-			},
-		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
-			'.ss__recommendation-bundle__title': {
-				fontSize: '18px',
 			},
 		},
 	});

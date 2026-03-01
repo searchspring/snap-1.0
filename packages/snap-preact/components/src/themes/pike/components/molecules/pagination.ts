@@ -16,10 +16,10 @@ const paginationStyleScript = (props: PaginationProps) => {
 			flexFlow: 'row wrap',
 			alignItems: 'center',
 			justifyContent: 'center',
-			gap: `${custom.spacing.x2}px`,
+			gap: `${custom.spacing.x4}px`,
 			'.ss__pagination__page, span': {
 				padding: 0,
-				fontSize: '14px',
+				fontSize: '16px',
 				color: variables?.colors?.text,
 			},
 			'.ss__pagination__page': {
@@ -33,11 +33,11 @@ const paginationStyleScript = (props: PaginationProps) => {
 				lineHeight: `10px`,
 			},
 		},
-		[`@media (max-width: ${mobileBp}px)`]: {
+		[`${custom.utils.getBp(mobileBp)}`]: {
 			nav: {
-				gap: `${custom.spacing.x4}px`,
+				gap: `${custom.spacing.x2}px`,
 				'.ss__pagination__page, span': {
-					fontSize: '16px',
+					fontSize: '14px',
 				},
 			},
 		},

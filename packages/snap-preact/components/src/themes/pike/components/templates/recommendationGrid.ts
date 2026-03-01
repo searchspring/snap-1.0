@@ -17,21 +17,20 @@ const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 		...custom.styles.boxSizing('recommendationGrid', props?.treePath, props?.name),
 		'.ss__recommendation-grid__title': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
-			...custom.styles.headerText(variables?.colors?.secondary, '22px'),
-			textAlign: 'center',
+			...custom.styles.headerText(variables?.colors?.secondary, '18px'),
 		},
 		'.ss__recommendation-grid__results': {
 			overflowX: 'auto',
 			...custom.styles.scrollbar(),
 		},
-		[`@media (max-width: ${tabletBp}px)`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'.ss__recommendation-grid__title': {
-				textAlign: 'left',
+				fontSize: '22px',
 			},
 		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		[`${custom.utils.getBp(tabletBp)}`]: {
 			'.ss__recommendation-grid__title': {
-				fontSize: '18px',
+				textAlign: 'center',
 			},
 		},
 	});

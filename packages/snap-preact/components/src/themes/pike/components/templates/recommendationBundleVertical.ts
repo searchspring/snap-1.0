@@ -66,8 +66,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 					'&:has(.ss__result--list)': {
 						'.ss__checkbox': {
 							top: '5px',
-							right: 'auto',
-							left: `calc(33.33% - ${custom.spacing.x4}px)`,
+							right: '5px',
 						},
 					},
 					'ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper__seed-badge, .ss__checkbox': {
@@ -105,11 +104,11 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 				display: 'none',
 			},
 		},
-		[`@media (max-width: ${mobileBp - 100}px)`]: {
+		[`${custom.utils.getBp(mobileBp - 100)}`]: {
 			'.ss__recommendation-bundle-vertical__wrapper .ss__recommendation-bundle-vertical__wrapper__selector .ss__recommendation-bundle-vertical__wrapper__selector__result-wrapper:has(.ss__result--list) .ss__checkbox':
 				{
-					right: '5px',
-					left: 'auto',
+					right: 'auto',
+					left: `calc(33.33% - ${custom.spacing.x4}px)`,
 				},
 		},
 	});

@@ -39,9 +39,9 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 			flexFlow: 'row wrap',
 			gap: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
 			'& > *': {
-				width: `calc((100% - ${custom.spacing.x4}px) / 2)`,
 				minWidth: '1px',
-				flex: '0 1 auto',
+				width: 'auto',
+				flex: '1 1 100%',
 			},
 			'.ss__recommendation-bundle-list__wrapper__selector': {
 				'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper': {
@@ -108,10 +108,10 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 				},
 			},
 		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'.ss__recommendation-bundle-list__wrapper > *': {
-				width: 'auto',
-				flex: '1 1 100%',
+				width: `calc((100% - ${custom.spacing.x4}px) / 2)`,
+				flex: '0 1 auto',
 			},
 		},
 	});

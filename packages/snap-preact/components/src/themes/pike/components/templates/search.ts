@@ -9,6 +9,7 @@ const searchStyleScript = (props: SearchProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 
 	// search styles
 	const searchStyles = css({
@@ -32,17 +33,13 @@ const searchStyleScript = (props: SearchProps) => {
 				gap: `${custom.spacing.x4}px`,
 			},
 			'.ss__toolbar': {
-				'.ss__layout__row:has(.ss__pagination-info:last-child)': {
-					flexDirection: 'row-reverse',
-				},
-			},
-		},
-		[`@media (max-width: ${mobileBp}px)`]: {
-			'.ss__search__main-section': {
-				'.ss__toolbar': {
-					'.ss__layout__row:has(.ss__mobile-sidebar)': {
+				'.ss__layout__row': {
+					'&:has(.ss__pagination-info:last-child)': {
+						flexDirection: 'row-reverse',
+					},
+					'&:has(.ss__mobile-sidebar)': {
 						'.ss__mobile-sidebar': {
-							minWidth: '200px',
+							minWidth: '1px',
 							'.ss__mobile-sidebar__slideout__button': {
 								width: '100%',
 							},
@@ -51,12 +48,52 @@ const searchStyleScript = (props: SearchProps) => {
 				},
 			},
 		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'.ss__search__main-section': {
 				'.ss__toolbar': {
 					'.ss__layout__row:has(.ss__mobile-sidebar)': {
 						'.ss__mobile-sidebar': {
-							minWidth: '1px',
+							minWidth: '200px',
+						},
+					},
+				},
+			},
+		},
+		[`${custom.utils.getBp(mobileBp)}`]: {
+			'.ss__search__main-section': {
+				'.ss__toolbar': {
+					'.ss__layout__row': {
+						'&:has(.ss__select)': {
+							'.ss__select': {
+								flex: '1 1 0%',
+							},
+							'.ss__layout__separator': {
+								display: 'none',
+							},
+						},
+						'.ss__pagination-info': {
+							flex: '1 1 100%',
+							order: -1,
+						},
+					},
+				},
+			},
+		},
+		[`${custom.utils.getBp(tabletBp)}`]: {
+			'.ss__search__main-section': {
+				'.ss__toolbar': {
+					'.ss__layout__row': {
+						'&:has(.ss__select)': {
+							'.ss__select': {
+								flex: '0 1 auto',
+							},
+							'.ss__layout__separator': {
+								display: 'block',
+							},
+						},
+						'.ss__pagination-info': {
+							flex: '1 1 0%',
+							order: 0,
 						},
 					},
 				},

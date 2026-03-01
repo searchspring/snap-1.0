@@ -24,7 +24,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 			'& > *': {
 				minWidth: '1px',
 				flex: '0 1 auto',
-				width: `calc((100% - ${custom.spacing.x2 * 5}px) / 6)`,
+				width: `calc((100% - ${custom.spacing.x2 * 2}px) / 3)`,
 			},
 			'& > *, .ss__facets-horizontal__header__dropdown, .ss__mobile-sidebar': {
 				margin: 0,
@@ -107,7 +107,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						gap: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
 						'& > *': {
 							flex: '0 1 auto',
-							width: `calc((100% - ${custom.spacing.x2 * 3}px) / 4)`,
+							width: `calc((100% - ${custom.spacing.x2}px) / 2)`,
 							minWidth: '1px',
 							margin: 0,
 						},
@@ -159,7 +159,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 					display: 'flex',
 				},
 		},
-		[`@media (max-width: ${tabletBp}px)`]: {
+		[`${custom.utils.getBp(mobileBp)}`]: {
 			'.ss__facets-horizontal__header': {
 				'& > *': {
 					width: `calc((100% - ${custom.spacing.x2 * 3}px) / 4)`,
@@ -173,15 +173,15 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				},
 			},
 		},
-		[`@media (max-width: ${mobileBp}px)`]: {
+		[`${custom.utils.getBp(tabletBp)}`]: {
 			'.ss__facets-horizontal__header': {
 				'& > *': {
-					width: `calc((100% - ${custom.spacing.x2 * 2}px) / 3)`,
+					width: `calc((100% - ${custom.spacing.x2 * 5}px) / 6)`,
 				},
 				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
 					[columnsSelector]: {
 						'& > *': {
-							width: `calc((100% - ${custom.spacing.x2}px) / 2)`,
+							width: `calc((100% - ${custom.spacing.x2 * 3}px) / 4)`,
 						},
 					},
 				},

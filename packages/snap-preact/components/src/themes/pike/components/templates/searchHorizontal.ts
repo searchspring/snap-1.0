@@ -26,34 +26,41 @@ const searchHorizontalStyleScript = (props: SearchHorizontalProps) => {
 			'.ss__facets-horizontal': {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
 			},
-		},
-		[`@media (max-width: ${mobileBp}px)`]: {
-			'.ss__search-horizontal__main-section': {
-				'.ss__toolbar': {
-					'.ss__layout__row': {
-						'&:has(.ss__select)': {
-							'.ss__select': {
-								flex: '1 1 0%',
+			'.ss__toolbar': {
+				'.ss__layout__row': {
+					'&:has(.ss__mobile-sidebar)': {
+						'.ss__mobile-sidebar': {
+							minWidth: '1px',
+							'.ss__mobile-sidebar__slideout__button': {
+								width: '100%',
 							},
 						},
-						'&:has(.ss__mobile-sidebar)': {
-							'.ss__mobile-sidebar': {
-								minWidth: '200px',
-								'.ss__mobile-sidebar__slideout__button': {
-									width: '100%',
-								},
-							},
+					},
+					'&:has(.ss__select)': {
+						'.ss__select': {
+							flex: '1 1 0%',
 						},
 					},
 				},
 			},
 		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'.ss__search-horizontal__main-section': {
 				'.ss__toolbar': {
 					'.ss__layout__row:has(.ss__mobile-sidebar)': {
 						'.ss__mobile-sidebar': {
-							minWidth: '1px',
+							minWidth: '200px',
+						},
+					},
+				},
+			},
+		},
+		[`${custom.utils.getBp(mobileBp)}`]: {
+			'.ss__search-horizontal__main-section': {
+				'.ss__toolbar': {
+					'.ss__layout__row:has(.ss__select)': {
+						'.ss__select': {
+							flex: '0 1 auto',
 						},
 					},
 				},
