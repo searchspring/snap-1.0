@@ -267,7 +267,7 @@ export const custom: CustomThemeType = {
 		},
 		getBp: (bp: number, rule?: string) => {
 			// get breakpoint selector
-			rule = (rule && rule == 'min') || rule == 'max' ? rule : 'min';
+			rule = rule && (rule == 'min' || rule == 'max') ? rule : 'min';
 			return `@media (${rule}-width: ${rule == 'min' ? bp + 1 : bp}px)`;
 		},
 		lightenColor: (color?: string, amount?: number) => {

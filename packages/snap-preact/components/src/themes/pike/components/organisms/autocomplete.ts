@@ -21,12 +21,13 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 	// autcomplete styles
 	const autocompleteStyles = css({
 		'&.ss__autocomplete': {
+			flexWrap: 'wrap',
+			top: '48px',
+			left: 0,
+			right: 0,
 			border: `1px solid ${custom.colors.gray02}`,
 			backgroundColor: custom.colors.white,
 			overflow: 'hidden',
-			top: '50px',
-			right: 0,
-			left: 'auto',
 			gap: `${custom.spacing.x4}px`,
 			padding: `${custom.spacing.x4}px`,
 			...custom.styles.boxSizing('autocomplete', props?.treePath, props?.name),
@@ -58,7 +59,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			[headerSelectors]: {
 				margin: `0 0 ${custom.spacing.x4}px 0`,
 				padding: 0,
-				...custom.styles.headerText(variables?.colors?.secondary, '16px'),
+				...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 				lineHeight: 1.2,
 			},
 			[activeSelectors]: {
@@ -67,42 +68,52 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			'& > div': {
 				minWidth: '1px',
 				maxWidth: 'none',
-				flex: '0 1 auto',
-				padding: `0 ${custom.spacing.x4}px`,
+				flex: '1 1 100%',
 				margin: `0 -${custom.spacing.x4}px`,
-			},
-			'.ss__autocomplete__terms, .ss__autocomplete__facets': {
-				flex: '0 0 220px',
-				width: 'auto',
+				padding: `0 ${custom.spacing.x4}px`,
+				paddingBottom: `${custom.spacing.x4}px`,
+				borderBottom: `1px solid ${custom.colors.gray02}`,
+				'&:last-of-type': {
+					paddingBottom: 0,
+					borderBottomWidth: 0,
+				},
 			},
 			'.ss__autocomplete__terms': {
-				backgroundColor: 'transparent',
 				gap: `${custom.spacing.x4}px`,
+				flexFlow: 'row nowrap',
+				backgroundColor: 'transparent',
 				'& > div': {
+					minWidth: '1px',
+					flex: '1 1 0%',
 					'.ss__autocomplete__title': {
 						padding: 0,
 					},
 					'.ss__autocomplete__terms__options': {
+						display: 'flex',
+						gap: `${custom.spacing.x1}px ${custom.spacing.x4}px`,
+						justifyContent: 'flex-start',
 						'.ss__autocomplete__terms__option': {
+							minWidth: '1px',
+							flex: '0 1 auto',
+						},
+						'.ss__autocomplete__terms__option, .ss__autocomplete__terms__option--active': {
 							a: {
-								padding: `${custom.spacing.x2}px 0`,
-								transition: `padding-left 0.5s ease`,
-								fontSize: '16px',
-								em: {
-									color: variables?.colors?.text,
-									fontStyle: 'normal',
-									fontSize: 'inherit',
-									fontWeight: 'inherit',
-								},
+								padding: 0,
 							},
 						},
-						'.ss__autocomplete__terms__option--active': {
-							a: {
-								paddingLeft: `${custom.spacing.x4}px`,
-								backgroundColor: custom.colors.gray01,
-								'&, & em': {
-									...custom.styles.activeText(variables?.colors?.primary),
-								},
+						'.ss__autocomplete__terms__option a': {
+							fontSize: '14px',
+							em: {
+								color: variables?.colors?.text,
+								fontStyle: 'normal',
+								fontSize: 'inherit',
+								fontWeight: 'inherit',
+							},
+						},
+						'.ss__autocomplete__terms__option--active a': {
+							backgroundColor: 'transparent',
+							'&, & em': {
+								...custom.styles.activeText(variables?.colors?.primary),
 							},
 						},
 					},
@@ -110,10 +121,10 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			},
 			'.ss__autocomplete__facets': {
 				'.ss__facets': {
-					flexFlow: 'row wrap',
+					flexFlow: 'row nowrap',
 					gap: `${custom.spacing.x4}px`,
 					'.ss__facet': {
-						flex: '1 1 100%',
+						flex: '1 1 0%',
 						margin: 0,
 						'.ss__facet__header': {
 							borderBottom: 0,
@@ -139,12 +150,12 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					},
 				},
 				'.ss__banner': {
+					display: 'none',
 					margin: `${custom.spacing.x4}px 0 0 0`,
 				},
 			},
 			'.ss__autocomplete__content': {
 				display: 'block',
-				flex: '1 1 0%',
 				overflow: 'visible',
 				'.ss__banner': {
 					margin: `0 0 ${custom.spacing.x4}px 0`,
@@ -162,7 +173,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				'.ss__results': {
 					overflowY: 'auto',
 					overflowX: 'hidden',
-					maxHeight: '60vh',
+					maxHeight: '54vh',
 					...custom.styles.scrollbar(),
 					'.ss__inline-banner': {
 						overflow: 'hidden',
@@ -182,9 +193,13 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				},
 			},
 			'.ss__autocomplete__content__info': {
-				padding: 0,
+				textAlign: 'left',
+				borderTop: `1px solid ${custom.colors.gray02}`,
+				margin: `0 -${custom.spacing.x4}px`,
+				padding: `${custom.spacing.x4}px ${custom.spacing.x4}px 0 ${custom.spacing.x4}px`,
 				a: {
 					position: 'relative',
+					display: 'inline-block',
 					padding: `0 ${custom.spacing.x1 + custom.sizes.icon12}px 0 0`,
 					'&, .ss__icon': {
 						margin: 0,
@@ -212,87 +227,88 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				},
 			},
 		},
-		[`@media (max-width: ${desktopBp}px)`]: {
-			'&.ss__autocomplete': {
-				'.ss__autocomplete__terms, .ss__autocomplete__facets': {
-					flex: '0 0 200px',
-				},
-			},
-		},
-		[`@media (max-width: ${tabletBp}px)`]: {
-			'&.ss__autocomplete': {
-				flexWrap: 'wrap',
-				left: 0,
-				right: 0,
-				width: 'auto',
-				[headerSelectors]: {
-					fontSize: '14px',
-				},
-				'& > div': {
-					flex: '1 1 100%',
-					paddingBottom: `${custom.spacing.x4}px`,
-					borderBottom: `1px solid ${custom.colors.gray02}`,
-					'&:last-of-type': {
-						paddingBottom: 0,
-						borderBottomWidth: 0,
-					},
-				},
-				'.ss__autocomplete__terms, .ss__autocomplete__facets, .ss__autocomplete__content': {
-					flex: '1 1 100%',
-				},
-				'.ss__autocomplete__terms': {
-					flexFlow: 'row nowrap',
-					'& > div': {
-						flex: '1 1 0%',
-						'.ss__autocomplete__terms__options': {
-							display: 'flex',
-							gap: `${custom.spacing.x1}px ${custom.spacing.x4}px`,
-							justifyContent: 'flex-start',
-							'.ss__autocomplete__terms__option': {
-								minWidth: '1px',
-								flex: '0 1 auto',
-							},
-							'.ss__autocomplete__terms__option, .ss__autocomplete__terms__option--active': {
-								a: {
-									padding: 0,
-								},
-							},
-							'.ss__autocomplete__terms__option a': {
-								fontSize: '14px',
-							},
-							'.ss__autocomplete__terms__option--active a': {
-								backgroundColor: 'transparent',
-							},
-						},
-					},
-				},
-				'.ss__autocomplete__facets': {
-					'.ss__facets': {
-						flexWrap: 'nowrap',
-						'.ss__facet': {
-							flex: '1 1 0%',
-						},
-					},
-					'.ss__banner': {
-						display: 'none',
-					},
-				},
-			},
-		},
-		[`@media (max-width: ${mobileBp}px)`]: {
-			'&.ss__autocomplete': {
-				'.ss__autocomplete__content .ss__autocomplete__content__info': {
-					textAlign: 'left',
-				},
-			},
-		},
-		[`@media (max-width: ${custom.breakpoints.small}px)`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small, 'max')}`]: {
 			'&.ss__autocomplete': {
 				'.ss__autocomplete__content__results .ss__results': {
 					gridTemplateColumns: `repeat(2, 1fr)`,
-					'& > *:nth-child(n+3)': {
+					'& > *:nth-child(n + 3)': {
 						display: 'none',
 					},
+				},
+			},
+		},
+		[`${custom.utils.getBp(mobileBp)}`]: {
+			'&.ss__autocomplete': {
+				'.ss__autocomplete__content .ss__autocomplete__content__info': {
+					textAlign: 'right',
+				},
+			},
+		},
+		[`${custom.utils.getBp(tabletBp)}`]: {
+			'&.ss__autocomplete': {
+				right: 0,
+				left: 'auto',
+				'& > div:not(.ss__autocomplete__terms), & > div:not(.ss__autocomplete__terms):last-child': {
+					paddingBottom: 0,
+					borderBottomWidth: 0,
+				},
+				'.ss__autocomplete__facets': {
+					flex: '0 0 200px',
+					'.ss__facets': {
+						flexWrap: 'wrap',
+						'.ss__facet': {
+							flex: '1 1 100%',
+						},
+					},
+					'.ss__banner': {
+						display: 'block',
+					},
+				},
+				'.ss__autocomplete__content': {
+					flex: '1 1 0%',
+					'.ss__autocomplete__content__info': {
+						borderTop: 0,
+						padding: 0,
+						margin: 0,
+					},
+				},
+			},
+		},
+		[`${custom.utils.getBp(desktopBp)}`]: {
+			'&.ss__autocomplete': {
+				[headerSelectors]: {
+					fontSize: '16px',
+				},
+				'.ss__autocomplete__terms, .ss__autocomplete__facets': {
+					flex: '0 0 220px',
+				},
+				'.ss__autocomplete__terms': {
+					flexWrap: 'wrap',
+					alignContent: 'flex-start',
+					paddingBottom: 0,
+					borderBottomWidth: 0,
+					'& > div': {
+						flex: '1 1 100%',
+						'.ss__autocomplete__terms__options': {
+							display: 'block',
+							'.ss__autocomplete__terms__option': {
+								a: {
+									padding: `${custom.spacing.x2}px 0`,
+									transition: `padding-left 0.5s ease`,
+									fontSize: '16px',
+								},
+							},
+							'.ss__autocomplete__terms__option--active': {
+								a: {
+									paddingLeft: `${custom.spacing.x4}px`,
+									backgroundColor: custom.colors.gray01,
+								},
+							},
+						},
+					},
+				},
+				'.ss__autocomplete__content__results .ss__results': {
+					maxHeight: '60vh',
 				},
 			},
 		},
@@ -354,6 +370,7 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		...autocompleteThemeComponentProps.mobile,
 		autocomplete: {
 			...(autocompleteThemeComponentProps.mobile?.['autocomplete'] || {}),
+			width: 'auto',
 		},
 		'autocomplete results': {
 			rows: 1,
@@ -364,6 +381,7 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		...autocompleteThemeComponentProps.tablet,
 		autocomplete: {
 			...(autocompleteThemeComponentProps.tablet?.['autocomplete'] || {}),
+			width: '600px',
 		},
 		'autocomplete facet': {
 			display: {
@@ -390,6 +408,7 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		...autocompleteThemeComponentProps.desktop,
 		autocomplete: {
 			...(autocompleteThemeComponentProps.desktop?.['autocomplete'] || {}),
+			width: '700px',
 		},
 		'autocomplete results': {
 			rows: 2,

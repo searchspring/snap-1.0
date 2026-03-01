@@ -60,6 +60,7 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 			...(autocompleteSlideoutThemeComponentProps.default?.['autocompleteSlideout'] || {}),
 			themeStyleScript: autocompleteSlideoutStyleScript,
 			layout: 'mini',
+			contentTitle: 'Product Suggestions',
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
@@ -68,6 +69,12 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		'autocompleteSlideout recommendationGrid': {
 			rows: 2,
 			columns: 3,
+		},
+		'autocompleteSlideout button.see-more icon': {
+			size: `${custom.sizes.icon12}px`,
+			width: `${custom.sizes.icon12}px`,
+			height: `${custom.sizes.icon12}px`,
+			icon: custom.icons.arrowRight,
 		},
 	},
 	mobile: {
@@ -78,11 +85,11 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		},
 		'autocompleteSlideout results': {
 			rows: 2,
-			columns: 2,
+			columns: 3,
 		},
 		'autocompleteSlideout recommendationGrid': {
 			rows: 2,
-			columns: 2,
+			columns: 3,
 		},
 	},
 	tablet: {

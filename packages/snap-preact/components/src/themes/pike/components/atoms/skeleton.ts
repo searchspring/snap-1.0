@@ -21,8 +21,8 @@ export const skeleton: ThemeComponent<'skeleton', SkeletonProps> = {
 	default: {
 		skeleton: {
 			themeStyleScript: skeletonStyleScript,
-			backgroundColor: custom.colors.gray02,
-			animatedColor: custom.colors.gray01,
+			backgroundColor: custom.colors.gray01,
+			animatedColor: custom.colors.gray02,
 		},
 	},
 };

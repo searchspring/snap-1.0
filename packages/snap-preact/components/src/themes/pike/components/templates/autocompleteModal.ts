@@ -58,7 +58,7 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 				},
 			},
 		},
-		[`@media (max-width: ${desktopBp}px)`]: {
+		[`${custom.utils.getBp(desktopBp)}`]: {
 			'.ss__modal': {
 				'.ss__modal__content': {
 					'.ss__autocomplete-modal__inner': {

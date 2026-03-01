@@ -12,7 +12,6 @@ const searchInputHeight = 40;
 const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const desktopBp = variables?.breakpoints?.desktop || custom.breakpoints.desktop;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	// autocomplete shared styles
@@ -50,39 +49,24 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 							overflow: 'visible',
 						},
 						'.ss__autocomplete': {
-							maxWidth: 'none',
+							maxWidth: '100%',
 							width: props?.width,
+							left: 0,
 							right: 0,
-							left: 'auto',
-							top: 'auto',
-							margin: `${custom.spacing.x4}px auto auto auto`,
+							margin: `${custom.spacing.x2}px auto auto auto`,
 						},
 					},
 				},
 			},
 		},
-		[`@media (max-width: ${desktopBp}px)`]: {
+		[`${custom.utils.getBp(mobileBp)}`]: {
 			'.ss__modal': {
 				'.ss__modal__content': {
 					'.ss__autocomplete-fixed__inner': {
 						'.ss__autocomplete-fixed__inner__layout-wrapper': {
 							'.ss__autocomplete': {
-								right: '-60px',
-							},
-						},
-					},
-				},
-			},
-		},
-		[`@media (max-width: ${mobileBp}px)`]: {
-			'.ss__modal': {
-				'.ss__modal__content': {
-					'.ss__autocomplete-fixed__inner': {
-						'.ss__autocomplete-fixed__inner__layout-wrapper': {
-							'.ss__autocomplete': {
-								maxWidth: '100%',
-								right: 0,
-								left: 0,
+								maxWidth: 'none',
+								left: 'auto',
 							},
 						},
 					},
@@ -173,7 +157,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		autocompleteFixed: {
 			...(autocompleteFixedThemeComponentProps.tablet?.['autocompleteFixed'] || {}),
 			layout: 'standard',
-			width: '640px',
+			width: '600px',
 		},
 		'autocompleteFixed facet': {
 			display: {
@@ -205,7 +189,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		autocompleteFixed: {
 			...(autocompleteFixedThemeComponentProps.desktop?.['autocompleteFixed'] || {}),
 			layout: 'standard',
-			width: '900px',
+			width: '700px',
 		},
 		'autocompleteFixed results': {
 			rows: 2,
