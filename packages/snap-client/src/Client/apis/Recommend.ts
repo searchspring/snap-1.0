@@ -1,5 +1,5 @@
-import { API, ApiConfiguration } from './Abstract';
-import { HTTPHeaders, RecommendPostRequestProfileModel } from '../../types';
+import { API } from './Abstract';
+import { HTTPHeaders, RecommendPostRequestProfileModel, RecommendRequesterPaths } from '../../types';
 import { AppMode } from '@searchspring/snap-toolbox';
 import { transformRecommendationFiltersPost } from '../transforms';
 import { ProfileRequestModel, ProfileResponseModel, RecommendResponseModel, RecommendRequestModel, RecommendPostRequestModel } from '../../types';
@@ -24,26 +24,21 @@ type BatchEntry = {
 };
 
 const BATCH_TIMEOUT = 150;
-export class RecommendAPI extends API {
+export class RecommendAPI extends API<RecommendRequesterPaths> {
 	private batches: {
 		[key: string]: {
 			timeout: number | NodeJS.Timeout;
 			request: RecommendPostRequestModel;
 			entries: BatchEntry[];
 		};
-	};
-
-	constructor(config: ApiConfiguration) {
-		super(config);
-		this.batches = {};
-	}
+	} = {};
 
 	async getProfile(queryParameters: ProfileRequestModel): Promise<ProfileResponseModel> {
 		const headerParameters: HTTPHeaders = {};
 
 		const response = await this.request<ProfileResponseModel>(
 			{
-				path: '/v1/profile',
+				path: this.configuration.paths.profile || '/v1/profile',
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters,
@@ -179,7 +174,7 @@ export class RecommendAPI extends API {
 
 		const response = await this.request<RecommendResponseModel[]>(
 			{
-				path: '/v1/recommend',
+				path: this.configuration.paths.recommend || '/v1/recommend',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,
