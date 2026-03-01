@@ -175,15 +175,6 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					overflowX: 'hidden',
 					maxHeight: '54vh',
 					...custom.styles.scrollbar(),
-					'.ss__inline-banner': {
-						overflow: 'hidden',
-					},
-					'.ss__inline-banner--grid': {
-						maxHeight: '212px',
-					},
-					'.ss__inline-banner--list': {
-						maxHeight: '100px',
-					},
 				},
 				'.ss__results .ss__result.ss__result--grid': {
 					...custom.styles.resultCompact('grid', '', 12),
@@ -362,8 +353,6 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 		},
 		'autocomplete icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 	mobile: {

@@ -135,14 +135,12 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps> 
 		},
 		'mobileSidebar button.close icon': {
 			size: `${custom.sizes.icon16}px`,
-			width: `${custom.sizes.icon16}px`,
-			height: `${custom.sizes.icon16}px`,
 		},
 		'mobileSidebar facets icon.collapse': {
-			fill: 'currentColor',
+			color: 'currentColor',
 		},
 		'mobileSidebar facets icon.expand': {
-			fill: 'currentColor',
+			color: 'currentColor',
 		},
 	},
 };

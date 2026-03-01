@@ -158,23 +158,17 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 		},
 		'recommendationBundle icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,
-			width: `${custom.sizes.icon16 * 2}px`,
-			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
-			fill: custom.colors.secondary,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundle carousel': {
 			spaceBetween: custom.spacing.x4,
 		},
 		'recommendationBundle carousel icon.prev': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 		'recommendationBundle carousel icon.next': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 	mobile: {

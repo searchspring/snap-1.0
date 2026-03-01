@@ -141,8 +141,6 @@ export const variantSelection: ThemeComponent<'variantSelection', VariantSelecti
 		'variantSelection dropdown icon': {
 			icon: custom.icons.arrowDown,
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

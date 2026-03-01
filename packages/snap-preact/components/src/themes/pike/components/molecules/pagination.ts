@@ -54,23 +54,19 @@ export const pagination: ThemeComponent<'pagination', PaginationProps> = {
 		},
 		'pagination icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 		'pagination icon.prev': {
 			icon: custom.icons.arrowLeft,
-			fill: custom.colors.primary,
+			color: custom.colors.primary,
 		},
 		'pagination icon.next': {
 			icon: custom.icons.arrowRight,
-			fill: custom.colors.primary,
+			color: custom.colors.primary,
 		},
 	},
 	mobile: {
 		'pagination icon': {
 			size: `${custom.sizes.icon14}px`,
-			width: `${custom.sizes.icon14}px`,
-			height: `${custom.sizes.icon14}px`,
 		},
 	},
 };

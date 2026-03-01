@@ -51,8 +51,6 @@ export const filter: ThemeComponent<'filter', FilterProps> = {
 		},
 		'filter icon': {
 			size: `${custom.sizes.icon10}px`,
-			width: `${custom.sizes.icon10}px`,
-			height: `${custom.sizes.icon10}px`,
 		},
 	},
 };

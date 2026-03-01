@@ -123,6 +123,7 @@ export const custom: CustomThemeType = {
 		boxSizing: (component: string, treePath?: string, name?: string) => {
 			treePath = treePath ? treePath : component;
 			component = name ? `${component}.${name}` : component; // if name is present, add to component
+			component = treePath.includes('storybook') ? `storybook ${component}` : component; // or if component is in storybook, add it
 
 			// box-sizing rules for uniform sizing
 			// if path and component are same, apply box-sizing

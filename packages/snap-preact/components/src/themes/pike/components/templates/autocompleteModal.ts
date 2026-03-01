@@ -125,8 +125,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		},
 		'autocompleteModal button.see-more icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 			icon: custom.icons.arrowRight,
 		},
 	},

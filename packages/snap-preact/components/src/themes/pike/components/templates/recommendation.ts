@@ -114,13 +114,9 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		},
 		'recommendation carousel icon.prev': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 		'recommendation carousel icon.next': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 	mobile: {
@@ -133,13 +129,9 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		},
 		'recommendation carousel icon.prev': {
 			size: `${custom.sizes.icon08}px`,
-			width: `${custom.sizes.icon08}px`,
-			height: `${custom.sizes.icon08}px`,
 		},
 		'recommendation carousel icon.next': {
 			size: `${custom.sizes.icon08}px`,
-			width: `${custom.sizes.icon08}px`,
-			height: `${custom.sizes.icon08}px`,
 		},
 	},
 	tablet: {
@@ -152,13 +144,9 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		},
 		'recommendation carousel icon.prev': {
 			size: `${custom.sizes.icon10}px`,
-			width: `${custom.sizes.icon10}px`,
-			height: `${custom.sizes.icon10}px`,
 		},
 		'recommendation carousel icon.next': {
 			size: `${custom.sizes.icon10}px`,
-			width: `${custom.sizes.icon10}px`,
-			height: `${custom.sizes.icon10}px`,
 		},
 	},
 	desktop: {

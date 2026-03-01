@@ -203,8 +203,6 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		},
 		'facetsHorizontal dropdown button icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 		'facetsHorizontal dropdown facet': {
 			statefulOverflow: true,

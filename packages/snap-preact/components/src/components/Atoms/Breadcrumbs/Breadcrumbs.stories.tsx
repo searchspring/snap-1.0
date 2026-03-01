@@ -84,7 +84,6 @@ categoryPage.args = {
 			label: 'Fridge',
 		},
 	],
-	separator: '/',
 };
 
 export const SearchPage = (args: BreadcrumbsProps) => <Breadcrumbs {...args} />;

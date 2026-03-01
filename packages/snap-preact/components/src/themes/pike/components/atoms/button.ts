@@ -12,7 +12,8 @@ const buttonStyleScript = (props: ButtonProps) => {
 	const variables = props?.theme?.variables;
 	const activeColors = custom.utils.activeColors(props?.backgroundColor);
 	const buttonColor = activeColors[0];
-	const fontColor = activeColors[1];
+	const borderColor = props?.borderColor ? props.borderColor : activeColors[0];
+	const fontColor = props?.color ? props.color : activeColors[1];
 
 	// shared styles
 	const sharedStyles = css([
@@ -65,12 +66,11 @@ const buttonStyleScript = (props: ButtonProps) => {
 				},
 			},
 			[`&, &:hover, &:not(.ss__button--disabled):hover, ${buttonDisabledSelectors}`]: {
-				border: `1px solid ${buttonColor}`,
+				border: `1px solid ${borderColor}`,
 				backgroundColor: buttonColor,
 			},
 			'.ss__icon.ss__icon--filters': {
 				fill: buttonColor,
-				stroke: fontColor,
 			},
 		},
 	]);
@@ -101,8 +101,6 @@ export const button: ThemeComponent<'button', ButtonProps> = {
 		},
 		'button icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

@@ -93,8 +93,7 @@ export default {
 					summary: 'string',
 				},
 				defaultValue: {
-					summary:
-						'Showing <span class="ss-results-count-range">1-30 of</span> <span class="ss-results-count-total">8,474</span> results <span>for "<span class="ss-results-query">*</span>"</span>',
+					summary: 'Search results',
 				},
 			},
 			control: { type: 'text' },
@@ -114,7 +113,10 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: '<div class="ss-oq">No results found for "<em>*</em>", showing results for "<em>hat</em>" instead.</div>' },
+				defaultValue: {
+					summary:
+						'No results found for "<em>${search?.originalQuery?.string}</em>", showing results for "<em>${search?.query?.string}</em>" instead.',
+				},
 			},
 			control: { type: 'text' },
 		},

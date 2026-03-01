@@ -41,10 +41,10 @@ export const loadMore: ThemeComponent<'loadMore', LoadMoreProps> = {
 			color: custom.colors.primary,
 		},
 		'loadMore icon': {
-			fill: custom.colors.primary,
+			color: custom.colors.primary,
 		},
 		'loadMore button icon': {
-			fill: 'currentColor',
+			color: 'currentColor',
 		},
 	},
 };

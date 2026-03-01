@@ -159,15 +159,6 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		overflowX: 'hidden',
 		maxHeight: isFixed ? '54vh' : '',
 		...custom.styles.scrollbar(),
-		'.ss__inline-banner': {
-			overflow: 'hidden',
-		},
-		'.ss__inline-banner--grid': {
-			maxHeight: '212px',
-		},
-		'.ss__inline-banner--list': {
-			maxHeight: '100px',
-		},
 	});
 
 	// results styles

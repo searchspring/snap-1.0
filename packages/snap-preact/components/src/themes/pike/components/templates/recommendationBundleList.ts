@@ -135,25 +135,19 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 		},
 		'recommendationBundleList icon.bundle-cart-separator': {
 			size: `${plusIconSize}px`,
-			width: `${plusIconSize}px`,
-			height: `${plusIconSize}px`,
 			icon: custom.icons.plus,
-			fill: custom.colors.secondary,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundleList icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,
-			width: `${custom.sizes.icon16 * 2}px`,
-			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
-			fill: custom.colors.secondary,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundleList checkbox': {
 			size: `${custom.sizes.icon16 + 2}px`,
 		},
 		'recommendationBundleList checkbox icon': {
 			size: `${custom.sizes.icon10}px`,
-			width: `${custom.sizes.icon10}px`,
-			height: `${custom.sizes.icon10}px`,
 		},
 	},
 	mobile: {

@@ -125,8 +125,6 @@ export const carousel: ThemeComponent<'carousel', CarouselProps> = {
 		},
 		'carousel icon': {
 			size: `${custom.sizes.icon08}px`,
-			width: `${custom.sizes.icon08}px`,
-			height: `${custom.sizes.icon08}px`,
 		},
 		'carousel icon.prev': {
 			icon: custom.icons.arrowLeft,

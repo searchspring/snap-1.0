@@ -92,11 +92,9 @@ export const searchInput: ThemeComponent<'searchInput', SearchInputProps> = {
 		},
 		'searchInput icon': {
 			size: `${custom.sizes.icon14}px`,
-			width: `${custom.sizes.icon14}px`,
-			height: `${custom.sizes.icon14}px`,
 		},
 		'searchInput button icon': {
-			fill: custom.colors.white,
+			color: custom.colors.white,
 		},
 		'searchInput button.close-search icon': {
 			icon: custom.icons.arrowLeft,

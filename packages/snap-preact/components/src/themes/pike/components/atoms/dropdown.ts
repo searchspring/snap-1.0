@@ -8,14 +8,25 @@ const dropdownStyleScript = (props: DropdownProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
+	// disabled styles
+	const disabled = props?.disabled
+		? {
+				...custom.styles.disabled(),
+		  }
+		: {};
+
 	// dropdown styles
 	const dropdownStyles = css({
 		width: 'auto',
+		...disabled,
 		...custom.styles.boxSizing('dropdown', props?.treePath, props?.name),
+		'.ss__dropdown__button, .ss__dropdown__content': {
+			color: variables?.colors?.text,
+		},
 		'&.ss__dropdown__portal': {
 			'.ss__dropdown__content': {
 				marginTop: `${custom.spacing.x1}px`,
-				...custom.styles.box(variables?.colors?.text, ''),
+				...custom.styles.box(),
 				'.ss__select__select, .ss__variant-selection__options': {
 					margin: 0,
 					padding: 0,

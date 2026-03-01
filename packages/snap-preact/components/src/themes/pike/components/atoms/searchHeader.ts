@@ -17,9 +17,12 @@ const searchHeaderStyleScript = (props: SearchHeaderProps) => {
 		'.ss__search-header__title': {
 			margin: 0,
 			...custom.styles.headerText(variables?.colors?.secondary, '22px'),
+			'& ~ .ss__search-header__subtitle': {
+				marginTop: `${custom.spacing.x2}px`,
+			},
 		},
 		'.ss__search-header__subtitle': {
-			margin: `${custom.spacing.x2}px 0 0 0`,
+			margin: 0,
 			fontSize: '16px',
 			fontWeight: 400,
 			color: variables?.colors?.text,

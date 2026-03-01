@@ -59,8 +59,6 @@ export const facetHierarchyOptions: ThemeComponent<'facetHierarchyOptions', Face
 		},
 		'facetHierarchyOptions icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 	},
 };

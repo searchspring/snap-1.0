@@ -45,14 +45,12 @@ export const rating: ThemeComponent<'rating', RatingProps> = {
 		},
 		'rating icon': {
 			size: `${custom.sizes.icon14}px`,
-			width: `${custom.sizes.icon14}px`,
-			height: `${custom.sizes.icon14}px`,
 		},
 		'rating icon.star--empty': {
-			fill: darkGray,
+			color: darkGray,
 		},
 		'rating icon.star--full': {
-			fill: custom.colors.primary,
+			color: custom.colors.primary,
 		},
 	},
 };

@@ -21,10 +21,11 @@ const iconStyleScript = (props: IconProps) => {
 		minWidth: '1px',
 		flex: flexSize,
 		lineHeight: 1,
+		color: props?.treePath?.includes('storybook') ? variables?.colors?.text : '',
 		...custom.styles.boxSizing('icon', props?.treePath, props?.name),
 		'&.ss__icon--filters': {
 			fill: custom.colors.white,
-			stroke: variables?.colors?.primary,
+			stroke: 'currentColor',
 			circle: {
 				fill: 'inherit',
 			},
@@ -40,9 +41,7 @@ export const icon: ThemeComponent<'icon', IconProps> = {
 		icon: {
 			themeStyleScript: iconStyleScript,
 			size: `${custom.sizes.icon16}px`,
-			width: `${custom.sizes.icon16}px`,
-			height: `${custom.sizes.icon16}px`,
-			fill: 'currentColor',
+			color: 'currentColor',
 		},
 	},
 };

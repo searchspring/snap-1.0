@@ -153,15 +153,11 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 		},
 		'facet icon.collapse': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
-			fill: custom.colors.primary,
+			color: custom.colors.primary,
 		},
 		'facet icon.expand': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
-			fill: custom.colors.primary,
+			color: custom.colors.primary,
 		},
 	},
 };

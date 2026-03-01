@@ -101,8 +101,6 @@ export const slideshow: ThemeComponent<'slideshow', SlideshowProps> = {
 		},
 		'slideshow button icon': {
 			size: `${custom.sizes.icon12}px`,
-			width: `${custom.sizes.icon12}px`,
-			height: `${custom.sizes.icon12}px`,
 		},
 		'slideshow button.prev icon': {
 			icon: custom.icons.arrowLeft,

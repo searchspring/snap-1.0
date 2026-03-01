@@ -134,10 +134,8 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 		},
 		'recommendationBundleVertical icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,
-			width: `${custom.sizes.icon16 * 2}px`,
-			height: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
-			fill: custom.colors.secondary,
+			color: custom.colors.secondary,
 		},
 		'recommendationBundleVertical result': {
 			layout: 'list',

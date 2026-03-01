@@ -7,10 +7,18 @@ import { custom } from '../../custom';
 const inlineBannerStyleScript = (props: InlineBannerProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const isAutocomplete = props?.treePath?.includes('autocomplete') ? true : false;
 
 	// inline banner styles
 	const inlineBannerStyles = css({
+		overflow: isAutocomplete ? 'hidden' : '',
 		...custom.styles.boxSizing('inlineBanner', props?.treePath, props?.name),
+		'&.ss__inline-banner--grid': {
+			maxHeight: isAutocomplete ? '212px' : '',
+		},
+		'&.ss__inline-banner--list': {
+			maxHeight: isAutocomplete ? '100px' : '',
+		},
 	});
 
 	return inlineBannerStyles;
