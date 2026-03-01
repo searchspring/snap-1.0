@@ -74,11 +74,6 @@ export const searchHorizontal: ThemeComponent<'searchHorizontal', SearchHorizont
 		'searchHorizontal results': {
 			columns: 5,
 		},
-		'searchHorizontal facets facet': {
-			showSelectedCount: true,
-			hideSelectedCountParenthesis: false,
-			showClearAllText: true,
-		},
 	},
 	mobile: {
 		...searchHorizontalThemeComponentProps.mobile,
