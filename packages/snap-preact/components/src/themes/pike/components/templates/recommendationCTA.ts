@@ -23,8 +23,8 @@ export const recommendationCTAStyleScript = (props: CTAProps, handle: string, sp
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignContent: 'center',
-		gap: spacing ? spacing : `${custom.spacing.x4}px`,
-		...custom.styles.box(variables?.colors?.text, spacing ? spacing : `${custom.spacing.x4}px`),
+		gap: `${custom.spacing.x2}px`,
+		...custom.styles.box(variables?.colors?.text, spacing ? spacing : `${custom.spacing.x2}px`),
 		'& > *': {
 			flex: '1 1 100%',
 			minWidth: '1px',

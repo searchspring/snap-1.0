@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 import { autocompleteThemeComponentProps } from '../../../themeComponents/autocomplete';
 
 // static variables
-const textSelectors = 'a, div, p';
 const headerSelectors =
 	'.ss__autocomplete__terms .ss__autocomplete__title h5, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__content__info a, .ss__no-results__recommendations h3';
 const activeSelectors =
@@ -30,12 +29,14 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			left: 'auto',
 			gap: `${custom.spacing.x4}px`,
 			padding: `${custom.spacing.x4}px`,
-			'&.ss__autocomplete--only-terms': {
-				width: 'auto',
-			},
 			...custom.styles.boxSizing('autocomplete', props?.treePath, props?.name),
-			[textSelectors]: {
+			'&.ss__autocomplete--only-terms': {
+				width: '100%',
+			},
+			'a, div, p, .ss__button': {
 				fontSize: '12px',
+			},
+			'a, div:not(.ss__button, .ss__rating__icons, .ss__rating__icons .ss__rating__stars .ss__rating__stars__star), p': {
 				lineHeight: 1.5,
 				color: variables?.colors?.text,
 			},
@@ -163,26 +164,21 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 					overflowX: 'hidden',
 					maxHeight: '60vh',
 					...custom.styles.scrollbar(),
-					'.ss__result': {
-						'.ss__result__details': {
-							gap: `${custom.spacing.x1}px`,
-							'&:after': {
-								display: 'none',
-							},
-							'.ss__result__details__pricing': {
-								'.ss__result__price': {
-									fontSize: '14px',
-								},
-								'.ss__price--strike': {
-									fontSize: '12px',
-								},
-							},
-						},
-					},
 					'.ss__inline-banner': {
-						maxHeight: '212px',
 						overflow: 'hidden',
 					},
+					'.ss__inline-banner--grid': {
+						maxHeight: '212px',
+					},
+					'.ss__inline-banner--list': {
+						maxHeight: '100px',
+					},
+				},
+				'.ss__results .ss__result.ss__result--grid': {
+					...custom.styles.resultCompact('grid', '', 12),
+				},
+				'.ss__results .ss__result.ss__result--list': {
+					...custom.styles.resultCompact('', '0 0 80px', 12),
 				},
 			},
 			'.ss__autocomplete__content__info': {
@@ -315,13 +311,12 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 			width: '940px',
 			contentTitle: 'Product Suggestions',
 			termsTitle: 'Search Suggestions',
+			seeMoreButtonIcon: custom.icons.arrowRight,
 		},
 		'autocomplete facets': {
 			limit: 3,
 		},
 		'autocomplete facet': {
-			disableOverflow: true,
-			disableCollapse: true,
 			display: {
 				list: {
 					limit: 5,
@@ -350,7 +345,6 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocomplete icon': {
-			icon: custom.icons.arrowRight,
 			size: `${custom.sizes.icon12}px`,
 			width: `${custom.sizes.icon12}px`,
 			height: `${custom.sizes.icon12}px`,
@@ -362,10 +356,6 @@ export const autocomplete: ThemeComponent<'autocomplete', AutocompleteProps> = {
 			...(autocompleteThemeComponentProps.mobile?.['autocomplete'] || {}),
 		},
 		'autocomplete results': {
-			rows: 1,
-			columns: 3,
-		},
-		'autocomplete recommendationGrid': {
 			rows: 1,
 			columns: 3,
 		},

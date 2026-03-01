@@ -52,7 +52,7 @@ const variantSelectionStyleScript = (props: VariantSelectionProps) => {
 					},
 				},
 				'.ss__dropdown__content': {
-					marginTop: `${custom.spacing.x2}px`,
+					marginTop: `${custom.spacing.x1}px`,
 					'.ss__variant-selection__options': {
 						border: 0,
 						background: 'none',

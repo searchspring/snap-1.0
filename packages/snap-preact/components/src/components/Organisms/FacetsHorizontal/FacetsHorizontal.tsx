@@ -280,7 +280,7 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 						const defaultLang = {
 							dropdownButton: {
 								attributes: {
-									'aria-label': `currently ${selectedFacet?.field === facet.field ? 'open' : 'collapsed'} ${facet.field} facet dropdown ${
+									'aria-label': `currently ${selectedFacet?.field === facet.field ? 'open' : 'collapsed'} ${facet.label} facet dropdown ${
 										(facet as ValueFacet).values?.length ? (facet as ValueFacet).values?.length + ' options' : ''
 									}`,
 								},

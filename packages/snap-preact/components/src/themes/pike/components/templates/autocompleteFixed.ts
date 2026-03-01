@@ -113,8 +113,6 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		},
 		'autocompleteFixed facet': {
 			...(autocompleteFixedThemeComponentProps.default?.['autocompleteFixed facet'] || {}),
-			disableOverflow: true,
-			disableCollapse: true,
 			display: {
 				list: {
 					limit: 5,

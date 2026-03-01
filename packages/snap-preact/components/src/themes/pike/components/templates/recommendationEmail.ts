@@ -30,9 +30,6 @@ const recommendationEmailStyleScript = (props: RecommendationEmailProps) => {
 					height: '20px',
 					...custom.styles.textOverflow(),
 				},
-				'&:after': {
-					display: 'none',
-				},
 			},
 		},
 	});

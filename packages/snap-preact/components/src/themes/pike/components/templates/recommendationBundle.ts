@@ -22,7 +22,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 	// bundle shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle__wrapper__cta': {
-			...recommendationCTAStyleScript(props, 'bundle'),
+			...recommendationCTAStyleScript(props, 'bundle', `${custom.spacing.x4}px`),
 		},
 	});
 

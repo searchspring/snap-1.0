@@ -289,7 +289,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 					)}
 					{!hideRating && <Rating {...subProps.rating} />}
 
-					{!hidePricing && (
+					{!hidePricing && core.price && core.price > 0 ? (
 						<div className="ss__result__details__pricing">
 							{isOnSale ? (
 								<>
@@ -301,7 +301,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 								<Price {...subProps.price} value={core.price!} />
 							)}
 						</div>
-					)}
+					) : null}
 
 					{cloneWithProps(detailSlot, { result, treePath })}
 

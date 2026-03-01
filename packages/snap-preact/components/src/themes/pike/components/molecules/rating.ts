@@ -18,6 +18,9 @@ const ratingStyleScript = (props: RatingProps) => {
 		lineHeight: 1,
 		...custom.styles.boxSizing('rating', props?.treePath, props?.name),
 		'.ss__rating__icons': {
+			'&, .ss__rating__stars .ss__rating__stars__star': {
+				lineHeight: 0,
+			},
 			'.ss__rating__stars': {
 				gap: '2px',
 				gridTemplateColumns: 'repeat(5, 1fr)',

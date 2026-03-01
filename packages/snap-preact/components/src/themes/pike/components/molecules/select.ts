@@ -42,7 +42,7 @@ const selectStyleScript = (props: SelectProps) => {
 					},
 				},
 				'.ss__dropdown__content': {
-					marginTop: `${custom.spacing.x2}px`,
+					marginTop: `${custom.spacing.x1}px`,
 					'.ss__select__select': {
 						margin: 0,
 						padding: 0,

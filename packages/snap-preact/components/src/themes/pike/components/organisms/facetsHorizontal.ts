@@ -45,7 +45,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						maxHeight: 'none',
 						overflowY: 'visible',
 						padding: `${custom.spacing.x4}px`,
-						marginTop: `${custom.spacing.x2}px`,
+						marginTop: `${custom.spacing.x1}px`,
 						right: 0,
 					},
 				},

@@ -42,24 +42,38 @@ const resultStyleScript = (props: ResultProps) => {
 				'.ss__result__add-to-cart-wrapper .ss__button': {
 					width: `100%`,
 				},
+				'.ss__result__details__variant-selection, .ss__result__add-to-cart-wrapper': {
+					marginTop: 'auto',
+				},
+				'.ss__result__details__variant-selection ~ .ss__result__add-to-cart-wrapper, .ss__result__add-to-cart-wrapper ~ .ss__result__details__variant-selection':
+					{
+						marginTop: 0,
+					},
 			},
 		},
 		'&.ss__result--list': {
-			alignItems: 'center',
+			alignItems: 'stretch',
 			gap: `${custom.spacing.x2}px ${custom.spacing.x4}px`,
 			'&, .ss__result__details': {
 				flexFlow: 'row wrap',
 			},
 			'.ss__result__image-wrapper': {
 				flex: '0 0 33.33%',
+				'a, .ss__overlay-badge, .ss__image': {
+					height: '100%',
+				},
+				'.ss__image': {
+					paddingBottom: 0,
+					img: {
+						position: 'static',
+					},
+				},
 			},
 			'.ss__result__details': {
+				alignContent: 'center',
 				flex: '1 1 0%',
 				textAlign: 'left',
 				margin: 0,
-				'&:after': {
-					display: 'none',
-				},
 				'& > *': {
 					flex: '1 1 100%',
 				},
@@ -77,7 +91,7 @@ const resultStyleScript = (props: ResultProps) => {
 					flex: '0 1 auto',
 					order: -1,
 				},
-				'.ss__result__details__variant-selection:not(:empty)': {
+				'.ss__result__details__variant-selection': {
 					display: 'flex',
 					flexFlow: 'row wrap',
 					alignItems: 'center',
@@ -97,25 +111,40 @@ const resultStyleScript = (props: ResultProps) => {
 		},
 		'.ss__result__image-wrapper': {
 			border: `1px solid ${custom.colors.gray02}`,
+			a: {
+				display: 'block',
+			},
+			'.ss__image': {
+				position: 'relative',
+				height: 0,
+				padding: '0 0 100% 0',
+				overflow: 'hidden',
+				'&, img': {
+					display: 'block',
+				},
+				img: {
+					position: 'absolute',
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0,
+					margin: 'auto',
+					width: '100%',
+					height: '100%',
+					objectPosition: 'center center',
+				},
+			},
 		},
 		'.ss__result__details': {
 			display: 'flex',
 			gap: `${custom.spacing.x2}px`,
 			padding: 0,
 			margin: 0,
-			'&:after': {
-				content: '""',
-				display: 'block',
-				margin: `auto 0 -${custom.spacing.x2}px 0`,
-			},
 			'& > *, .ss__result__details__title, .ss__result__details__title, .ss__result__details__pricing': {
 				margin: 0,
 			},
 			'& > *': {
 				minWidth: '1px',
-				'&:empty': {
-					display: 'none',
-				},
 			},
 			'.ss__result__details__title': {
 				order: -2,
@@ -149,13 +178,16 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 				'.ss__result__image-wrapper': {
 					flex: '0 1 auto',
+					'.ss__image': {
+						paddingBottom: '100%',
+						img: {
+							position: 'absolute',
+						},
+					},
 				},
 				'.ss__result__details': {
 					flex: '1 1 0%',
 					textAlign: 'center',
-					'&:after': {
-						display: 'block',
-					},
 					'.ss__callout-badge, .ss__result__details__rating-wrapper': {
 						justifyContent: 'center',
 					},
@@ -165,11 +197,17 @@ const resultStyleScript = (props: ResultProps) => {
 					'.ss__result__details__pricing': {
 						order: 0,
 					},
-					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection .ss__slideshow .ss__slideshow__container .ss__slideshow__track':
+					'.ss__result__details__variant-selection .ss__variant-selection .ss__slideshow .ss__slideshow__container .ss__slideshow__track': {
+						justifyContent: 'center',
+					},
+					'.ss__result__details__variant-selection, .ss__result__add-to-cart-wrapper': {
+						marginTop: 'auto',
+					},
+					'.ss__result__details__variant-selection ~ .ss__result__add-to-cart-wrapper, .ss__result__add-to-cart-wrapper ~ .ss__result__details__variant-selection':
 						{
-							justifyContent: 'center',
+							marginTop: 0,
 						},
-					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection, .ss__result__add-to-cart-wrapper .ss__button': {
+					'.ss__result__details__variant-selection .ss__variant-selection, .ss__result__add-to-cart-wrapper .ss__button': {
 						width: `100%`,
 					},
 				},

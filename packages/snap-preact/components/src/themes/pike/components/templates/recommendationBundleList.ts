@@ -16,7 +16,7 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 	// bundle list shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle-list__wrapper__cta': {
-			...recommendationCTAStyleScript(props, 'bundle-list', `${custom.spacing.x2}px`),
+			...recommendationCTAStyleScript(props, 'bundle-list'),
 		},
 	});
 
@@ -54,18 +54,12 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 					},
 					'.ss__result': {
 						flex: '1 1 0%',
-						'.ss__result__image-wrapper': {
-							display: 'none',
-						},
-						'.ss__result__details': {
-							gap: `${custom.spacing.x1}px`,
-							'&:after': {
-								display: 'none',
-							},
-							'.ss__result__details__pricing .ss__result__price': {
-								fontSize: '14px',
-							},
-						},
+					},
+					'.ss__result.ss__result--grid': {
+						...custom.styles.resultCompact('grid'),
+					},
+					'.ss__result.ss__result--list': {
+						...custom.styles.resultCompact(),
 					},
 				},
 			},

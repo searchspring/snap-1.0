@@ -158,33 +158,40 @@ export const custom: CustomThemeType = {
 				color: color ? color : '',
 			};
 		},
-		resultSmall: (layout?: string, imageWidth?: string, fontSize?: string) => {
+		resultCompact: (layout?: string, imageWidth?: string, fontSize?: number) => {
 			layout = (layout && layout == 'grid') || layout == 'list' ? layout : 'list';
+			fontSize = fontSize ? fontSize : 14;
 
 			// shared styles
 			const sharedStyles = {
 				'&': {
 					gap: `${custom.spacing.x1}px`,
 				},
-				'.ss__result__details__title a, .ss__result__details__pricing .ss__result__price': {
-					fontSize: fontSize ? fontSize : '14px',
+				'.ss__result__details__title a, .ss__result__details__pricing .ss__price--strike, .ss__result__details__pricing .ss__price--strike span': {
+					fontSize: `${fontSize}px`,
+				},
+				'.ss__result__details__pricing .ss__result__price': {
+					fontSize: `${fontSize + 2}px`,
 				},
 				'.ss__result__details__title a': {
 					display: '-webkit-box',
-					'-webkit-box-orient': 'vertical',
+					'-webkitBoxOrient': 'vertical',
 					overflow: 'hidden',
-					'-webkit-line-clamp': '2',
+					'-webkitLineClamp': '2',
+				},
+				'.ss__result__add-to-cart-wrapper': {
+					marginTop: '2.5px',
 				},
 			};
 
-			// small grid styles
+			// compact grid styles
 			const gridStyles = {
 				'.ss__result__details': {
 					...sharedStyles,
 				},
 			};
 
-			// small list styles
+			// compact list styles
 			const listStyles = {
 				'&': {
 					gap: `${custom.spacing.x2}px`,
@@ -197,13 +204,12 @@ export const custom: CustomThemeType = {
 						flex: '1 1 100%',
 					},
 					...sharedStyles,
-					'.ss__result__details__variant-selection:not(:empty) .ss__variant-selection': {
+					'.ss__result__details__variant-selection .ss__variant-selection': {
 						width: '100%',
 					},
 				},
 			};
 
-			// smaller result card
 			return layout == 'grid' ? gridStyles : listStyles;
 		},
 		scrollbar: () => {
@@ -309,7 +315,7 @@ type CustomThemeType = {
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;
 		disabled: () => ObjectNumberOrStringType | ObjectNestedType;
 		headerText: (color?: string, fontSize?: string) => ObjectNumberOrStringType;
-		resultSmall: (layout?: string, imageWidth?: string, fontSize?: string) => ObjectNumberOrStringType | ObjectNestedType;
+		resultCompact: (layout?: string, imageWidth?: string, fontSize?: number) => ObjectNumberOrStringType | ObjectNestedType;
 		scrollbar: () => ObjectNestedType;
 		srOnly: () => ObjectNumberOrStringType;
 		textOverflow: () => ObjectNumberOrStringType;

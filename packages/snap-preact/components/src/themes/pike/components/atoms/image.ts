@@ -17,26 +17,6 @@ const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties[
 		img: {
 			border: 0,
 		},
-		'&.ss__result__image': {
-			position: 'relative',
-			height: 0,
-			padding: '0 0 100% 0',
-			overflow: 'hidden',
-			'&, img': {
-				display: 'block',
-			},
-			img: {
-				position: 'absolute',
-				top: 0,
-				bottom: 0,
-				left: 0,
-				right: 0,
-				margin: 'auto',
-				width: '100%',
-				height: '100%',
-				objectPosition: 'center center',
-			},
-		},
 	});
 
 	return imageStyles;

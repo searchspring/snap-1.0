@@ -3,7 +3,6 @@ import type { AutocompleteLayoutProps } from '../../../../components/Organisms/A
 import { custom } from '../../custom';
 
 // static variables
-const textSelectors = 'a, div, p';
 const headerSelectors =
 	'.ss__terms-list .ss__terms .ss__terms__title h5, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__title';
 const activeSelectors =
@@ -30,8 +29,10 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		gap: `${custom.spacing.x4}px`,
 		border: isSlideout ? 0 : `1px solid ${custom.colors.gray02}`,
 		backgroundColor: custom.colors.white,
-		[textSelectors]: {
+		'a, div, p, .ss__button': {
 			fontSize: '12px',
+		},
+		'a, div:not(.ss__button, .ss__rating__icons, .ss__rating__icons .ss__rating__stars .ss__rating__stars__star), p': {
 			lineHeight: 1.5,
 			color: variables?.colors?.text,
 		},
@@ -155,14 +156,6 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		overflowX: 'hidden',
 		maxHeight: isFixed ? '60vh' : '',
 		...custom.styles.scrollbar(),
-		'.ss__result': {
-			'.ss__result__details': {
-				gap: `${custom.spacing.x1}px`,
-				'&:after': {
-					display: 'none',
-				},
-			},
-		},
 		'.ss__inline-banner': {
 			overflow: 'hidden',
 		},
@@ -180,15 +173,11 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 			'.ss__results': {
 				...resultsLayoutStyles,
 			},
-			'.ss__results-grid': {
-				'.ss__result.ss__result--grid': {
-					...custom.styles.resultSmall('grid', '', '12px'),
-				},
+			'.ss__results .ss__result.ss__result--grid': {
+				...custom.styles.resultCompact('grid', '', 12),
 			},
-			'.ss__results-list': {
-				'.ss__result.ss__result--list': {
-					...custom.styles.resultSmall('', '0 0 80px', '12px'),
-				},
+			'.ss__results .ss__result.ss__result--list': {
+				...custom.styles.resultCompact('', '0 0 80px', 12),
 			},
 		},
 	});
@@ -227,6 +216,12 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 				},
 				'.ss__recommendation-grid__results': {
 					...resultsLayoutStyles,
+				},
+				'.ss__recommendation-grid__results .ss__result.ss__result--grid': {
+					...custom.styles.resultCompact('grid', '', 12),
+				},
+				'.ss__recommendation-grid__results .ss__result.ss__result--list': {
+					...custom.styles.resultCompact('', '0 0 80px', 12),
 				},
 			},
 		},

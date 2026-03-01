@@ -13,7 +13,7 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 	// bundle easy add shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle-easy-add__wrapper__cta': {
-			...recommendationCTAStyleScript(props, 'bundle-easy-add', `${custom.spacing.x2}px`),
+			...recommendationCTAStyleScript(props, 'bundle-easy-add'),
 		},
 	});
 
@@ -38,13 +38,10 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 				'.ss__recommendation-bundle-easy-add__wrapper__selector__result-wrapper': {
 					margin: 0,
 					'.ss__result.ss__result--grid': {
-						...custom.styles.resultSmall('grid'),
-						'.ss__result__details:after': {
-							display: 'none',
-						},
+						...custom.styles.resultCompact('grid'),
 					},
 					'.ss__result.ss__result--list': {
-						...custom.styles.resultSmall(),
+						...custom.styles.resultCompact(),
 					},
 				},
 			},

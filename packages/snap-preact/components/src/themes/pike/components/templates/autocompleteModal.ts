@@ -91,8 +91,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		},
 		'autocompleteModal facet': {
 			...(autocompleteModalThemeComponentProps.default?.['autocompleteModal facet'] || {}),
-			disableOverflow: true,
-			disableCollapse: true,
 			display: {
 				list: {
 					limit: 5,

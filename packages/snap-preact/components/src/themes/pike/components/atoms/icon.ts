@@ -21,6 +21,7 @@ const iconStyleScript = (props: IconProps) => {
 		minWidth: '1px',
 		flex: flexSize,
 		lineHeight: 1,
+		...custom.styles.boxSizing('icon', props?.treePath, props?.name),
 		'&.ss__icon--filters': {
 			fill: custom.colors.white,
 			stroke: variables?.colors?.primary,
