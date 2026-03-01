@@ -267,7 +267,7 @@ transformSearchResponse.filters = (response: SearchResponseType): SearchResponse
 		let type = 'value';
 
 		if (typeof filter.value == 'object') {
-			if (filter && filter.value && filter.value.rangeHigh && filter.value.rangeLow) {
+			if (filter && filter.value && filter.value.rangeHigh != null && filter.value.rangeLow != null) {
 				(type = 'range'),
 					(value = {
 						low: +filter.value.rangeLow,
@@ -373,8 +373,8 @@ transformSearchResponse.facets = (
 				transformedFacet.values = facet.values.map((value): SearchResponseModelFacetRangeBucketsAllOfValues => {
 					return {
 						filtered: value.active,
-						low: value.low == '*' ? undefined : value.low ? +value.low : undefined,
-						high: value.high == '*' ? undefined : value.high ? +value.high : undefined,
+						low: value.low == '*' ? undefined : value.low != null ? +value.low : undefined,
+						high: value.high == '*' ? undefined : value.high != null ? +value.high : undefined,
 						label: value.label,
 						count: value.count,
 					};

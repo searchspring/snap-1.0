@@ -123,6 +123,9 @@ export class Client {
 
 		params = deepmerge(this.globals, params);
 
+		// start meta request immediately so it runs in parallel with suggest/search
+		const metaPromise = this.meta({ siteId: params.siteId || '' });
+
 		const suggestParams: SuggestRequestModel = {
 			siteId: params.siteId || '',
 			language: 'en',
@@ -161,7 +164,7 @@ export class Client {
 			autocomplete: transformedSuggestResults,
 		};
 
-		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), autocompleteResponse]);
+		const [meta, search] = await Promise.all([metaPromise, autocompleteResponse]);
 		return { meta, search };
 	}
 
