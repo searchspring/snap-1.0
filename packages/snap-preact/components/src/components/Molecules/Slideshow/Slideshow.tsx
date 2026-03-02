@@ -11,7 +11,7 @@ import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { LangAttributes } from '../../../hooks/useLang';
 
-const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, gap = 16, overlayNavigation = false, showNavigation }) => {
+const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, slideWidth, gap = 16, overlayNavigation = false, showNavigation }) => {
 	return css({
 		position: 'relative',
 		overflow: 'hidden',
@@ -41,8 +41,15 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 		},
 
 		'.ss__slideshow__slide': {
-			maxWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
-			minWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
+			...(slideWidth
+				? {
+						maxWidth: `${slideWidth}px`,
+						minWidth: `${slideWidth}px`,
+				  }
+				: {
+						maxWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
+						minWidth: `calc((100% - ${slidesToShow * gap}px) / ${slidesToShow})`,
+				  }),
 			marginLeft: `calc(${gap}px / 2)`,
 			marginRight: `calc(${gap}px / 2)`,
 			position: 'relative',
@@ -175,7 +182,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		showNavigation: true,
 		showPagination: true,
 		centerInsufficientSlides: true,
-		slidesToShow: 4,
+		slidesToShow: properties.slideWidth ? undefined : 4,
 		slidesToMove: 1,
 		gap: 10,
 		ariaLabel: 'slideshow',
@@ -201,6 +208,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		ariaLabel,
 		ariaLabelledBy,
 		disableStyles,
+		slideWidth,
 		treePath,
 		overlayNavigation,
 		dragThreshold,
@@ -281,9 +289,26 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(autoPlay);
+	const [containerWidth, setContainerWidth] = useState(0);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 	const slideshowRef = useRef<HTMLDivElement>(null);
 	const trackRef = useRef<HTMLDivElement>(null);
+
+	// Track container width for slideWidth-based visible slide calculation
+	useEffect(() => {
+		const container = trackRef.current?.parentElement;
+		if (!container) return;
+
+		const observer = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				setContainerWidth(entry.contentRect.width);
+			}
+		});
+		observer.observe(container);
+		setContainerWidth(container.offsetWidth);
+
+		return () => observer.disconnect();
+	}, []);
 
 	// Touch/Drag state
 	const [isDragging, setIsDragging] = useState(false);
@@ -316,7 +341,10 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	// slide calculations
 	const totalSlides = normalizedSlides.length;
-	const visibleSlides = Math.min(slidesToShow!, totalSlides);
+	// When slideWidth is provided, compute how many slides fit in the container;
+	// otherwise fall back to the slidesToShow prop.
+	const computedSlidesToShow = slideWidth && containerWidth > 0 ? Math.max(1, Math.floor(containerWidth / slideWidth)) : slidesToShow ?? 4;
+	const visibleSlides = Math.min(computedSlidesToShow, totalSlides);
 	const maxIndex = Math.max(0, totalSlides - visibleSlides);
 
 	// Calculate slide groups for pagination
@@ -329,7 +357,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 
 	// Auto-play functionality
 	useEffect(() => {
-		if (isPlaying && normalizedSlides.length > slidesToShow! && !isDragging) {
+		if (isPlaying && normalizedSlides.length > computedSlidesToShow && !isDragging) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
 					const nextIndex = prevIndex + slidesToMove!;
@@ -355,7 +383,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 				clearInterval(intervalRef.current);
 			}
 		}
-	}, [isPlaying, autoPlayInterval, normalizedSlides.length, slidesToShow, slidesToMove, loop, maxIndex, isDragging]);
+	}, [isPlaying, autoPlayInterval, normalizedSlides.length, computedSlidesToShow, slidesToMove, loop, maxIndex, isDragging]);
 
 	// if all slides are visible, turn off touch dragging.
 	if (totalSlides <= visibleSlides) {
@@ -388,8 +416,8 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	const handleDragEnd = () => {
 		if (!isDragging || !touchDragging) return;
 		const diff = currentX - startX;
-		const containerWidth = trackRef.current?.parentElement?.offsetWidth || 0;
-		const slideWidthPx = containerWidth / visibleSlides;
+		const trackContainerWidth = trackRef.current?.parentElement?.offsetWidth || 0;
+		const slideWidthPx = trackContainerWidth / visibleSlides;
 		const threshold = Math.min(dragThreshold!, slideWidthPx * 0.3); // 30% of slide width or dragThreshold, whichever is smaller
 
 		if (Math.abs(diff) > threshold) {
@@ -406,7 +434,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 		setDragOffset(0);
 
 		// Resume autoplay if it was playing
-		if (isPlaying && normalizedSlides.length > slidesToShow!) {
+		if (isPlaying && normalizedSlides.length > computedSlidesToShow) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
 					const nextIndex = prevIndex + slidesToMove!;
@@ -449,7 +477,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	};
 
 	const handleMouseLeave = () => {
-		if (isPlaying && normalizedSlides.length > slidesToShow! && !isDragging) {
+		if (isPlaying && normalizedSlides.length > computedSlidesToShow && !isDragging) {
 			intervalRef.current = setInterval(() => {
 				setCurrentIndex((prevIndex) => {
 					const nextIndex = prevIndex + slidesToMove!;
@@ -554,15 +582,32 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 	}
 
 	// Simplified transform calculation
-	const slidePercentage = 100 / visibleSlides; // Each visible slide takes this % of container
+	let translateX: number;
+	let translateUnit: 'px' | '%';
 
-	let translateX = -(currentIndex * slidePercentage);
+	if (slideWidth) {
+		// Fixed-width mode: translate by pixel amounts (slideWidth + gap per slide)
+		const gap = props.gap ?? 10;
+		const slideStepPx = slideWidth + gap;
+		translateX = -(currentIndex * slideStepPx);
+		translateUnit = 'px';
 
-	// Apply drag offset
-	if (isDragging && trackRef.current) {
-		const containerWidth = trackRef.current.parentElement?.offsetWidth || 0;
-		const dragPercentage = (dragOffset / containerWidth) * 100;
-		translateX += dragPercentage;
+		// Apply drag offset
+		if (isDragging) {
+			translateX += dragOffset;
+		}
+	} else {
+		// Percentage mode: each slide takes an equal share of the container
+		const slidePercentage = 100 / visibleSlides;
+		translateX = -(currentIndex * slidePercentage);
+		translateUnit = '%';
+
+		// Apply drag offset
+		if (isDragging && trackRef.current) {
+			const containerWidth = trackRef.current.parentElement?.offsetWidth || 0;
+			const dragPercentage = (dragOffset / containerWidth) * 100;
+			translateX += dragPercentage;
+		}
 	}
 
 	// Determine if navigation should be disabled
@@ -627,9 +672,9 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 						ref={trackRef}
 						className={classnames('ss__slideshow__track', {
 							'ss__slideshow__track--dragging': isDragging,
-							'ss__slideshow__track--centered': centerInsufficientSlides && totalSlides <= slidesToShow!,
+							'ss__slideshow__track--centered': centerInsufficientSlides && totalSlides <= computedSlidesToShow,
 						})}
-						style={{ transform: `translateX(${translateX}%)` }}
+						style={{ transform: `translateX(${translateX}${translateUnit})` }}
 						role="group"
 						aria-label={`Slide group ${currentIndex} of ${totalDots}`}
 						// Touch events
@@ -666,7 +711,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 						onMouseMove={touchDragging ? handleMouseMove : undefined}
 					>
 						{normalizedSlides.map((slide, index) => {
-							const isVisible = index >= currentIndex && index < currentIndex + slidesToShow!;
+							const isVisible = index >= currentIndex && index < currentIndex + computedSlidesToShow;
 							const hasClickHandler = !!slide.onClick;
 							const hasContent = !!slide.content;
 							const imageAlt = slide.alt || slideImageAlt || `Image ${index + 1}`;
@@ -709,7 +754,7 @@ export function Slideshow(properties: SlideshowProps): JSX.Element {
 					</div>
 				</div>
 
-				{Boolean(alwaysShowNavigation || (showNavigation && normalizedSlides.length > slidesToShow!)) && (
+				{Boolean(alwaysShowNavigation || (showNavigation && normalizedSlides.length > computedSlidesToShow)) && (
 					<>
 						<div className="ss__slideshow__navigation ss__slideshow__navigation--prev">
 							<Button
@@ -829,6 +874,7 @@ export interface SlideshowProps extends ComponentProps {
 	showPagination?: boolean;
 	loop?: boolean;
 	slidesToShow?: number;
+	slideWidth?: number;
 	slidesToMove?: number;
 	gap?: number;
 	slideImageAlt?: string;
