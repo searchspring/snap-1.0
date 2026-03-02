@@ -1,4 +1,4 @@
-import type { SearchResultStore } from '@searchspring/snap-store-mobx';
+import type { SearchResultStore } from '@athoscommerce/snap-store-mobx';
 
 export function afterStore(controller: AbstractController) {
 	controller.on('init', async ({}, next) => {

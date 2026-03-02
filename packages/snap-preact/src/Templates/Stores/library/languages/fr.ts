@@ -1,4 +1,4 @@
-import type { ValueFacet } from '@searchspring/snap-store-mobx';
+import type { ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { LangComponents } from '../../../../../components/src';
 
 export const fr: LangComponents = {

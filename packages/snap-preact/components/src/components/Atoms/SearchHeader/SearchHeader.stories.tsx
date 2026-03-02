@@ -6,7 +6,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from './readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { SearchHeader, SearchHeaderProps } from './SearchHeader';
 
 export default {

@@ -7,7 +7,7 @@ Renders a slideout with a background overlay. Typically used for a mobile menu s
 
 ## Usage
 ```jsx
-import { Slideout } from '@searchspring/snap-preact-components';
+import { Slideout } from '@athoscommerce/snap-preact-components';
 ```
 
 ### buttonContent

@@ -4,14 +4,14 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react-lite';
 
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { createHoverProps } from '../../../toolbox';
-import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Checkbox, CheckboxProps } from '../Checkbox';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';

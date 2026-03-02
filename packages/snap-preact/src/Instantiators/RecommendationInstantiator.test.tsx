@@ -1,11 +1,11 @@
 import 'whatwg-fetch';
 import { RecommendationInstantiator, RecommendationInstantiatorConfig } from './RecommendationInstantiator';
-import type { PluginGrouping } from '@searchspring/snap-controller';
-import { cookies } from '@searchspring/snap-toolbox';
+import type { PluginGrouping } from '@athoscommerce/snap-controller';
+import { cookies } from '@athoscommerce/snap-toolbox';
 
-import { Logger } from '@searchspring/snap-logger';
-import { MockClient } from '@searchspring/snap-shared';
-import { Next } from '@searchspring/snap-event-manager';
+import { Logger } from '@athoscommerce/snap-logger';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { Next } from '@athoscommerce/snap-event-manager';
 import { waitFor } from '@testing-library/preact';
 
 const DEFAULT_PROFILE = 'trending';
@@ -59,7 +59,7 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('RecommendationInstantiator', () => {
 	beforeEach(() => {
-		delete window.searchspring;
+		delete window.athos;
 		cookies.unset(CART_COOKIE);
 		localStorageMock.clear();
 	});

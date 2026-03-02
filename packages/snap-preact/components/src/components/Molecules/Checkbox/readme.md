@@ -7,7 +7,7 @@ Renders a native or custom checkbox.
 
 ## Usage
 ```jsx
-import { Checkbox } from '@searchspring/snap-preact-components';
+import { Checkbox } from '@athoscommerce/snap-preact-components';
 ```
 
 ### native

@@ -8,8 +8,8 @@ import { Theme, useTheme, CacheProvider, useSnap, useTreePath } from '../../../p
 import { ComponentProps, ComponentMap, StyleScript } from '../../../types';
 import { defaultBadgeComponentMap, mergeProps, mergeStyles } from '../../../utilities';
 import { useComponent } from '../../../hooks';
-import type { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController, RecommendationController, SearchController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import type { SnapTemplates } from '../../../../../src/Templates';
 
 const defaultBadgeStyles: StyleScript<OverlayBadgeProps & { index: number; top: boolean; bottom: boolean; section: string; tag: string }> = ({

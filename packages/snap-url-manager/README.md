@@ -108,7 +108,7 @@ class FacetValue {
 Since the `UrlTranslator` is utilizing `pushState` it is important to prevent the default behavior as shown in the `onClick` above. Each translator can be instantiated with a `Linker` to make this even easier:
 
 ```js
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
 const urlManager = new UrlManager(new UrlTranslator(), reactLinker);
 ```
 

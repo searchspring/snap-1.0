@@ -9,8 +9,8 @@ import { Facet, FacetProps } from '../Facet';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchController, AutocompleteController } from '@searchspring/snap-controller';
-import type { ValueFacet, RangeFacet } from '@searchspring/snap-store-mobx';
+import type { SearchController, AutocompleteController } from '@athoscommerce/snap-controller';
+import type { ValueFacet, RangeFacet } from '@athoscommerce/snap-store-mobx';
 
 const defaultStyles: StyleScript<FacetsProps> = () => {
 	return css({});

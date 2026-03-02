@@ -1,4 +1,4 @@
-import { RecommendationController, RecommendationControllerConfig } from '@searchspring/snap-controller';
+import { RecommendationController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
 import { SnapTemplates } from '../../../src';
 import { Theme, useSnap } from '../providers';
 import { useCreateController } from './useCreateController';

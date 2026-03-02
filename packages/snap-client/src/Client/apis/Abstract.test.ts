@@ -14,6 +14,10 @@ describe('ApiConfiguration', () => {
 			customheader: 'customkey',
 		};
 
+		const customPaths = {
+			search: '/custom-search',
+		};
+
 		const customCacheConfig = {
 			ttl: 2222,
 			enabled: false,
@@ -31,6 +35,7 @@ describe('ApiConfiguration', () => {
 			fetchApi: global.window.fetch,
 			queryParamsStringify: customQueryParamsStringify,
 			headers: customHeaders,
+			paths: customPaths,
 			maxRetry: 2,
 			cache: customCacheConfig,
 		};
@@ -41,12 +46,22 @@ describe('ApiConfiguration', () => {
 		expect(configuration.fetchApi).toBe(config.fetchApi);
 		expect(configuration.queryParamsStringify).toBe(config.queryParamsStringify);
 		expect(configuration.headers).toBe(config.headers);
+		expect(configuration.paths).toBe(config.paths);
 		expect(configuration.maxRetry).toBe(config.maxRetry);
 		expect(configuration.cache).toBe(config.cache);
 	});
 });
 
 describe('Abstract Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('has expected default values', () => {
 		const api = new API(new ApiConfiguration());
 

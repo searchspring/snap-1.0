@@ -66,7 +66,7 @@ const globalTheme = {
 Using a ThemeProvider applies a global theme to all its children components
 
 ```js
-import { ThemeProvider, Button } from '@searchspring/snap-preact-components'
+import { ThemeProvider, Button } from '@athoscommerce/snap-preact-components'
 ```
 
 ```jsx

@@ -1,16 +1,16 @@
 # Snap Client
 
-The `@searchspring/snap-client` package is a client for the Searchspring API. It is a wrapper around the Searchspring API that provides a simple interface for fetching data from the API.
+The `@athoscommerce/snap-client` package is a client for the Athos API. It is a wrapper around the Athos API that provides a simple interface for fetching data from the API.
 
 
 ## ClientGlobals
 
 When constructing a new Client, the first argument is a `ClientGlobals` object. This object can be used to set client search parameters that will apply to all requests made with the client (and subsequently any controllers using the client as a service). Typically only the siteId will be set here, but could be used for setting globally utilized background filters and/or sorts as well.
 
-You can find your Searchspring siteId in the [Searchspring Management Console](https://manage.searchspring.net)
+You can find your Athos siteId in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 ```js
-import { Client } from '@searchspring/snap-client';
+import { Client } from '@athoscommerce/snap-client';
 
 const client = new Client({
 	siteId: '1234567890',
@@ -31,19 +31,18 @@ The second argument is an optional `ClientConfig` object.
 | Option | Type | Description |
 |--------|------|-------------|
 | mode | `string` \| `AppMode` enum <br>(e.g. `'development'`, `'production'`, `AppMode.development`, `AppMode.production`) | Optional. Sets the client mode. `'development'` disables network caching; |
+| initiator | `string` | Optional. Identifies the initiator of requests (e.g. for analytics/debugging). |
 | fetchApi | `WindowOrWorkerGlobalScope['fetch']` | Alternative fetch implementation to use for requests. Defaults to global `fetch`. |
-| meta | `RequesterConfig<MetaRequestModel>` | Configuration for the `meta` endpoint (origin, headers, cache, globals). |
-| search | `RequesterConfig<SearchRequestModel>` | Configuration for the `search` endpoint (origin, headers, cache, globals). |
-| autocomplete | `RequesterConfig<AutocompleteRequestModel> & { requesters?: HybridRequesterConfig }` | Configuration for the `autocomplete` endpoint, including hybrid requesters. |
-| finder | `RequesterConfig<SearchRequestModel>` | Configuration for the `finder` endpoint (origin, headers, cache, globals). |
-| recommend | `RequesterConfig<RecommendRequestModel>` | Configuration for the `recommend` endpoint (origin, headers, cache, globals). |
-| suggest | `RequesterConfig<SuggestRequestModel>` | Configuration for the `suggest` endpoint (origin, headers, cache, globals). |
+| meta | `RequesterConfig<MetaRequestModel, MetaRequesterPaths>` | Configuration for the `meta` endpoint (origin, headers, cache, globals, paths). |
+| search | `RequesterConfig<SearchRequestModel, SearchRequesterPaths>` | Configuration for the `search`, `autocomplete`, `category`, and `finder` endpoints (origin, headers, cache, globals, paths). |
+| recommend | `RequesterConfig<RecommendRequestModel, RecommendRequesterPaths>` | Configuration for the `recommend` endpoint (origin, headers, cache, globals, paths). |
+| suggest | `RequesterConfig<SuggestRequestModel, SuggestRequesterPaths>` | Configuration for the `suggest` and `trending` endpoints (origin, headers, cache, globals, paths). |
 
 
-Where `RequesterConfig<T>` is defined as:
+Where `RequesterConfig<RequestType, PathConfigurationType>` is defined as:
 
 ```js
-type RequesterConfig<T> = {
+type RequesterConfig<RequestType, PathConfigurationType> = {
 	origin?: string;
 	headers?: { [key: string]: string };
 	cache?: {
@@ -53,14 +52,15 @@ type RequesterConfig<T> = {
 		purgeable?: boolean; // default: true - allows the cache to be purged from sessionStorage when maxSize is reached (with exception when used for meta)
 		entries?: { [key: string]: Response }; // default: undefined - allows for pre-populating the cache with entries, primarily used for email recommendations
 	};
-	globals?: Partial<T>;
+	globals?: Partial<RequestType>;
+	paths?: Partial<PathConfigurationType>; // override the default API endpoint paths
 };
 ```
 
 Example: 
 
 ```js
-import { Client } from '@searchspring/snap-client';
+import { Client } from '@athoscommerce/snap-client';
 
 const client = new Client({
 	siteId: '1234567890',
@@ -89,7 +89,7 @@ Both caching and retries can be disabled or configured for each endpoint in the 
 
 ## API Types
 
-The client uses the [@searchspring/snapi-types](https://www.npmjs.com/package/@searchspring/snapi-types) package to define the API types.
+The client uses the [@athoscommerce/snapi-types](https://www.npmjs.com/package/@athoscommerce/snapi-types) package to define the API types.
 
 
 ### Methods
@@ -109,7 +109,7 @@ The `autocomplete` endpoint is used to fetch autocomplete suggestions and result
 
 
 ```js
-const [meta, autocomplete]: [MetaResponseModel, AutocompleteResponseModel] = await client.autocomplete({
+const { meta, search }: { meta: MetaResponseModel; search: AutocompleteResponseModel } = await client.autocomplete({
 	suggestions: {
 		count: 5
 	},
@@ -128,7 +128,22 @@ The `search` endpoint is used to fetch search results for a given search query a
 
 
 ```js
-const [meta, search]: [MetaResponseModel, SearchResponseModel] = await client.search({
+const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel } = await client.search({
+	search: {
+		query: {
+			string: 'search query',
+		},
+	},
+});
+```
+
+
+#### category
+
+The `category` method makes a request to the Searchspring Category API to fetch search results for a given category page.
+
+```js
+const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel } = await client.category({
 	search: {
 		query: {
 			string: 'search query',
@@ -140,10 +155,10 @@ const [meta, search]: [MetaResponseModel, SearchResponseModel] = await client.se
 
 #### finder
 
-The `finder` method makes a request to the Searchspring Finder API to fetch search results for a given search query.
+The `finder` method makes a request to the Athos Finder API to fetch search results for a given search query.
 
 ```js
-const [meta, finder]: [MetaResponseModel, SearchResponseModel] = await client.finder({
+const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel } = await client.finder({
 	search: {
 		query: {
 			string: 'search query',
@@ -160,18 +175,18 @@ const [meta, finder]: [MetaResponseModel, SearchResponseModel] = await client.fi
 
 #### trending
 
-The `trending` method makes a request to the Searchspring Trending API to fetch trending search queries.
+The `trending` method makes a request to the Athos Trending API to fetch trending search queries.
 
 ```js
 const results: TrendingResponseModel = await client.trending({
-	limit: 5
+	limit: 5,
 });
 ```
 
 
 #### recommend
 
-The `recommend` method makes a request to the Searchspring Profile API and Recommend API to fetch recommendations for a given profile tag. This will also request the meta data.
+The `recommend` method makes a request to the Athos Profile API and Recommend API to fetch recommendations for a given profile tag. This will also request the meta data.
 
 ```js
 const results: RecommendCombinedResponseModel = await client.recommend({

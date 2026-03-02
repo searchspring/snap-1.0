@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { ApiConfiguration, ApiConfigurationParameters } from './Abstract';
 import { RecommendAPI } from './Recommend';
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import type { RecommendPostRequestModel } from '../../types';
 
@@ -85,6 +85,52 @@ describe('Recommend Api', () => {
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
 
 		requestMock.mockClear();
+	});
+
+	it('uses configured paths', async () => {
+		const api = new RecommendAPI(
+			new ApiConfiguration({
+				...apiConfig,
+				paths: {
+					profile: '/custom/profile',
+					recommend: '/custom/recommend',
+				},
+			})
+		);
+
+		const requestMock = jest
+			.spyOn(global.window, 'fetch')
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+
+		await api.getProfile({
+			siteId: '8uyt2m',
+			tag: 'dress',
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.athoscommerce.net/custom/profile?siteId=8uyt2m&tag=dress', {
+			body: undefined,
+			headers: {},
+			method: 'GET',
+		});
+
+		await api.postRecommendations({
+			siteId: '8uyt2m',
+			profiles: [
+				{
+					tag: 'dress',
+				},
+			],
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://8uyt2m.a.p13n.athoscommerce.net/custom/recommend', {
+			method: 'POST',
+			body: '{"siteId":"8uyt2m","profiles":[{"tag":"dress"}]}',
+			headers: {
+				'Content-Type': 'text/plain',
+			},
+		});
+
+		requestMock.mockReset();
 	});
 
 	it('can call batchRecommendations', async () => {

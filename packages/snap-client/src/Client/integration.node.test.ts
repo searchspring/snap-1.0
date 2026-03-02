@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { Client } from '@searchspring/snap-client';
+import { Client } from '@athoscommerce/snap-client';
 
 describe('Snap Client Node Integration Tests', () => {
 	const globals = { siteId: '8uyt2m' };

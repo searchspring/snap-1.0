@@ -1,6 +1,6 @@
 # Custom Badge Templates
 
-Custom Badge Templates can be created and sync to the Searchspring Management Console using the Snapfu CLI. See [Welcome > Setup](https://searchspring.github.io/snap/snap-setup) for installing Snapfu
+Custom Badge Templates can be created and sync to the Athos Search & Product Discovery Console using the Snapfu CLI. See [Welcome > Setup](https://searchspring.github.io/snap/snap-setup) for installing Snapfu
 
 ## Initialize Custom Badges
 
@@ -60,7 +60,7 @@ export const CustomBadge = observer((props) => {
 
 ## Syncing Custom Badges
 
-Next we'll sync our custom badge - registering it to the Searchspring Management Console
+Next we'll sync our custom badge - registering it to the Athos Search & Product Discovery Console
 
 ```sh
 snapfu badges sync [badgename]
@@ -102,7 +102,7 @@ The `componentMap` prop can also be used to overwrite the default badge componen
 |-------|----------|-------------|
 | `type` | ✔️ | Should not be changed. It is utilized by the Snapfu CLI when syncing |
 | `name` | ✔️ | Unique badge template identifier |
-| `label` | ✔️ | Label that is displayed when selecting this badge template within the Searchspring Management Console |
+| `label` | ✔️ | Label that is displayed when selecting this badge template within the Athos Search & Product Discovery Console |
 | `description` | ✔️ | Badge template description |
 | `component` | ✔️ | Component name this badge template should use. It should line up with the mapping provided to the `componentMap` props. See `Using Custom Badges` section above |
 | `locations` | ✔️ | A list of template locations this badge template can be placed in. This can be used to restrict certain badges to certain locations. See `Custom Badge Locations` section below for adding locations. See `Badge Template Locations` section below for possible values |
@@ -148,7 +148,7 @@ Badge template parameters is an array of objects. Each object is a template para
 |-------|----------|------|-------------|
 | `name` | ✔️ | string | Unique badge parameter identifier |
 | `type` | ✔️ | string | Parameter value type. Available types: `array`, `string`, `color`, `url`, `integer`, `decimal`, `boolean`, `checkbox`, `toggle`. See example below for example usage of each type |
-| `label` | ✔️ | string | Label that is displayed when selecting this badge parameter within the Searchspring Management Console |
+| `label` | ✔️ | string | Label that is displayed when selecting this badge parameter within the Athos Search & Product Discovery Console |
 | `description` | ✔️ | string | Badge parameter description |
 | `options` | ✔️* | string[] | Required only if `type` is `array`. Define an array of strings containing dropdown value options |
 | `defaultValue` | ➖ | string | Default value that will be used unless specified when configuring a new badge rule. Must be a string regardless of different `type` options |
@@ -243,7 +243,7 @@ Badge template parameters is an array of objects. Each object is a template para
 
 ## Custom Badge Locations
 
-Custom Badge Locations can be created and synced to the Searchspring Management Console using the Snapfu CLI. See [Welcome > Setup](https://searchspring.github.io/snap/snap-setup) for installing Snapfu
+Custom Badge Locations can be created and synced to the Athos Search & Product Discovery Console using the Snapfu CLI. See [Welcome > Setup](https://searchspring.github.io/snap/snap-setup) for installing Snapfu
 
 Custom overlay and callout locations can be created by defining a `locations.json` file in the project. It is recommended to create it at: `src/components/Badges/locations.json`
 
@@ -256,7 +256,7 @@ Custom overlay and callout locations can be created by defining a `locations.jso
 
 `['left' | 'right' | 'callout'].tag` - unique badge location identifier
 
-`['left' | 'right' | 'callout'].name` - badge location name that is displayed when selecting this location within the Searchspring Management Console
+`['left' | 'right' | 'callout'].name` - badge location name that is displayed when selecting this location within the Athos Search & Product Discovery Console
 
 > [!IMPORTANT]
 > It is strongly recommended to keep the default location tags (ie. `left[0].tag="left"`, `right[0].tag="right"`, `callout[0].tag="callout"`) to ensure any existing badges are backwards compatible with additional locations

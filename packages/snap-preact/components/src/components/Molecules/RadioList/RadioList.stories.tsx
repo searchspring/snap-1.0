@@ -3,7 +3,7 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { RadioList, RadioListProps } from './RadioList';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../RadioList/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { Snapify } from '../../../utilities/snapify';
 
 export default {

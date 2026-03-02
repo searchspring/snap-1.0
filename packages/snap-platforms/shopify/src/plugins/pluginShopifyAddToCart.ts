@@ -1,6 +1,6 @@
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { AbstractController } from '@searchspring/snap-controller';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { AbstractController } from '@athoscommerce/snap-controller';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import { ShopifyAddToCartConfig } from '../addToCart';
 import { addToCart as addToCartShopifyFunction } from '../addToCart';
 import type { AbstractPluginConfig } from '../../../common/src/types';

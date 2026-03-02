@@ -9,8 +9,8 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { ComponentProps, StyleScript } from '../../../types';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
-import type { Filter as FilterType } from '@searchspring/snap-store-mobx';
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { Filter as FilterType } from '@athoscommerce/snap-store-mobx';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 

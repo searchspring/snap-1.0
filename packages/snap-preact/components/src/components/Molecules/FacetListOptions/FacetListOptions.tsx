@@ -9,7 +9,7 @@ import { ComponentProps, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Checkbox, CheckboxProps } from '../Checkbox/Checkbox';
 import { createHoverProps } from '../../../toolbox';
-import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Radio, RadioProps } from '../Radio';

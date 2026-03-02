@@ -117,7 +117,7 @@ export class ThemeStore {
 				);
 			});
 			const styleElem = document.createElement('style');
-			styleElem.innerHTML = `<!-- searchspring style injection point for "${this.name}" theme -->`;
+			styleElem.innerHTML = `<!-- athos style injection point for "${this.name}" theme -->`;
 			document.head.appendChild(styleElem);
 			render(<GlobalStyle theme={this.theme} self={this} themeName={this.name} />, styleElem);
 		}

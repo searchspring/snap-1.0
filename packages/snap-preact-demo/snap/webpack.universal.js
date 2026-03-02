@@ -22,7 +22,7 @@ export default merge(common, {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				include: [/node_modules\/\@searchspring/, path.resolve(__dirname, 'src'), path.resolve(__dirname, '../')],
+				include: [/node_modules\/\@athoscommerce/, /node_modules\/\@searchspring/, path.resolve(__dirname, 'src'), path.resolve(__dirname, '../')],
 				use: {
 					loader: 'babel-loader',
 					options: {

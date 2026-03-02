@@ -7,7 +7,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from '../Facets/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Organisms/Facets',

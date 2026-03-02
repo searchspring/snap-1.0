@@ -1,18 +1,21 @@
 import 'whatwg-fetch';
 import { Client } from './Client';
 import type { ClientConfig } from '../types';
-import { MockData } from '@searchspring/snap-shared';
-import { AppMode, version } from '@searchspring/snap-toolbox';
+import { MockData } from '@athoscommerce/snap-shared';
+import { AppMode, version } from '@athoscommerce/snap-toolbox';
 
 const mockData = new MockData();
 
-const wait = (time?: number) => {
-	return new Promise((resolve) => {
-		setTimeout(resolve, time);
-	});
-};
-
 describe('Snap Client', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('requires a siteId during construction', () => {
 		expect(() => {
 			// @ts-ignore
@@ -62,9 +65,6 @@ describe('Snap Client', () => {
 			search: {
 				origin: 'https://snapi.kube.athoscommerce.net/search',
 			},
-			autocomplete: {
-				origin: 'https://snapi.kube.athoscommerce.net/autocomplete',
-			},
 			recommend: {
 				origin: 'https://snapi.kube.athoscommerce.net/recommend',
 			},
@@ -81,10 +81,9 @@ describe('Snap Client', () => {
 
 		expect(clientConfig?.meta?.origin).toBe(config?.meta?.origin);
 
-		//check it merged with the default config
+		// check it merged with the default config
 		expect(clientConfig?.meta?.cache?.purgeable).toBe(false);
 		expect(clientConfig?.search?.origin).toBe(config?.search?.origin);
-		expect(clientConfig?.autocomplete?.origin).toBe(config?.autocomplete?.origin);
 		expect(clientConfig?.recommend?.origin).toBe(config?.recommend?.origin);
 		expect(clientConfig?.suggest?.origin).toBe(config?.suggest?.origin);
 	});
@@ -126,8 +125,14 @@ describe('Snap Client', () => {
 
 	describe('each fetch method uses the expected requester', () => {
 		beforeEach(() => {
+			jest.useFakeTimers({ doNotFake: ['performance'] });
 			jest.clearAllMocks();
 		});
+
+		afterEach(() => {
+			jest.useRealTimers();
+		});
+
 		it('Autocomplete method', async () => {
 			const fetchApiMock = jest
 				.spyOn(global.window, 'fetch')
@@ -136,15 +141,15 @@ describe('Snap Client', () => {
 			const client = new Client({ siteId: '8uyt2m' }, { mode: 'development' });
 
 			//@ts-ignore
-			const autocompleteRequester = client.requesters.autocomplete.requesters.legacy;
+			const searchRequester = client.requesters.search;
 			//@ts-ignore
-			const suggestRequester = client.requesters.autocomplete.requesters.suggest;
+			const suggestRequester = client.requesters.suggest;
 			//@ts-ignore
-			const metaRequester = client.requesters.meta.requesters.legacy;
+			const metaRequester = client.requesters.meta;
 
 			const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 			const suggestRequesterSpy = jest.spyOn(suggestRequester, 'request' as never);
-			const acRequesterSpy = jest.spyOn(autocompleteRequester, 'request' as never);
+			const searchRequesterSpy = jest.spyOn(searchRequester, 'request' as never);
 
 			const acparams = {
 				search: {
@@ -178,12 +183,12 @@ describe('Snap Client', () => {
 				query: {
 					disableSpellCorrect: true,
 					language: 'en',
-					query: ['hello'],
-					siteId: ['8uyt2m'],
+					query: 'hello',
+					siteId: '8uyt2m',
 					suggestionCount: 5,
 				},
 			};
-			const suggestCacheKey = '{"siteId":["8uyt2m"],"language":"en","query":["hello"],"suggestionCount":5,"disableSpellCorrect":true}';
+			const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5,"disableSpellCorrect":true}';
 
 			expect(suggestRequesterSpy).toHaveBeenCalledTimes(1);
 			expect(suggestRequesterSpy.mock.calls).toEqual([
@@ -195,17 +200,17 @@ describe('Snap Client', () => {
 				method: 'GET',
 				path: '/v1/autocomplete',
 				query: {
-					q: undefined,
+					q: 'hello',
 					redirectResponse: 'full',
 					resultsFormat: 'native',
-					siteId: ['8uyt2m'],
+					siteId: '8uyt2m',
 					test: true,
 				},
 			};
-			const acCacheKey = `{"siteId":["8uyt2m"],"redirectResponse":"full","test":true,"ajaxCatalog":"snap/client/${version}\","resultsFormat":"native"}`;
+			const acCacheKey = `{"siteId":"8uyt2m",\"q\":\"hello\","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
-			expect(acRequesterSpy).toHaveBeenCalledTimes(1);
-			expect(acRequesterSpy.mock.calls).toEqual([
+			expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
+			expect(searchRequesterSpy.mock.calls).toEqual([
 				[{ ...acRequest, query: { ajaxCatalog: `snap/client/${version}`, ...acRequest.query } }, acCacheKey], // first call
 			]);
 
@@ -218,7 +223,7 @@ describe('Snap Client', () => {
 			const client = new Client({ siteId: '8uyt2m' }, { mode: 'development' });
 
 			//@ts-ignore
-			const metaRequester = client.requesters.meta.requesters.legacy;
+			const metaRequester = client.requesters.meta;
 
 			const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 
@@ -253,12 +258,12 @@ describe('Snap Client', () => {
 			const client = new Client({ siteId: '8uyt2m' }, { mode: 'development' });
 
 			//@ts-ignore
-			const searchRequester = client.requesters.search.requesters.legacy;
+			const searchRequester = client.requesters.search;
 
 			const searchRequesterSpy = jest.spyOn(searchRequester, 'request' as never);
 
 			//@ts-ignore
-			const metaRequester = client.requesters.meta.requesters.legacy;
+			const metaRequester = client.requesters.meta;
 
 			const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 
@@ -274,10 +279,10 @@ describe('Snap Client', () => {
 				headers: {},
 				method: 'GET',
 				path: '/v1/search',
-				query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, ajaxCatalog: `snap/client/${version}` },
+				query: { resultsFormat: 'native', siteId: '8uyt2m', test: true, ajaxCatalog: `snap/client/${version}` },
 			};
 
-			const searchcacheKey = `{"siteId":["8uyt2m"],"test":true,"ajaxCatalog":"snap/client/${version}\","resultsFormat":"native"}`;
+			const searchcacheKey = `{"siteId":"8uyt2m","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
 			expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
 			expect(searchRequesterSpy.mock.calls).toEqual([[searchparams, searchcacheKey]]);
@@ -340,7 +345,11 @@ describe('Snap Client', () => {
 
 			const recommendprops = { siteId: '8uyt2m', tag: 'dress' };
 
-			await client.recommend(recommendprops);
+			const recommendPromise = client.recommend(recommendprops);
+
+			await jest.runAllTimersAsync();
+
+			await recommendPromise;
 
 			const profileParams = {
 				headers: {},
@@ -380,9 +389,6 @@ describe('Snap Client', () => {
 				[recommendParams, recommendCacheKey],
 			]);
 
-			//wait for batch timeout
-			await wait(300);
-
 			expect(fetchApiMock).toHaveBeenCalledTimes(3);
 			fetchApiMock.mockReset();
 		});
@@ -393,15 +399,15 @@ describe('Snap Client', () => {
 				const client = new Client({ siteId: '8uyt2m' }, { mode: 'development', fetchApi: fetchApiMock });
 
 				//@ts-ignore
-				const autocompleteRequester = client.requesters.autocomplete.requesters.legacy;
+				const searchRequester = client.requesters.search;
 				//@ts-ignore
-				const suggestRequester = client.requesters.autocomplete.requesters.suggest;
+				const suggestRequester = client.requesters.suggest;
 				//@ts-ignore
-				const metaRequester = client.requesters.meta.requesters.legacy;
+				const metaRequester = client.requesters.meta;
 
 				const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 				const suggestRequesterSpy = jest.spyOn(suggestRequester, 'request' as never);
-				const acRequesterSpy = jest.spyOn(autocompleteRequester, 'request' as never);
+				const searchRequesterSpy = jest.spyOn(searchRequester, 'request' as never);
 
 				const acparams = {
 					search: {
@@ -435,12 +441,12 @@ describe('Snap Client', () => {
 					query: {
 						disableSpellCorrect: true,
 						language: 'en',
-						query: ['hello'],
-						siteId: ['8uyt2m'],
+						query: 'hello',
+						siteId: '8uyt2m',
 						suggestionCount: 5,
 					},
 				};
-				const suggestCacheKey = '{"siteId":["8uyt2m"],"language":"en","query":["hello"],"suggestionCount":5,"disableSpellCorrect":true}';
+				const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5,"disableSpellCorrect":true}';
 
 				expect(suggestRequesterSpy).toHaveBeenCalledTimes(1);
 				expect(suggestRequesterSpy.mock.calls).toEqual([
@@ -452,17 +458,17 @@ describe('Snap Client', () => {
 					method: 'GET',
 					path: '/v1/autocomplete',
 					query: {
-						q: undefined,
+						q: 'hello',
 						redirectResponse: 'full',
 						resultsFormat: 'native',
-						siteId: ['8uyt2m'],
+						siteId: '8uyt2m',
 						test: true,
 					},
 				};
-				const acCacheKey = `{"siteId":["8uyt2m"],"redirectResponse":"full","test":true,"ajaxCatalog":"snap/client/${version}\","resultsFormat":"native"}`;
+				const acCacheKey = `{"siteId":"8uyt2m",\"q\":\"hello\","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
-				expect(acRequesterSpy).toHaveBeenCalledTimes(1);
-				expect(acRequesterSpy.mock.calls).toEqual([
+				expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
+				expect(searchRequesterSpy.mock.calls).toEqual([
 					[{ ...acRequest, query: { ajaxCatalog: `snap/client/${version}`, ...acRequest.query } }, acCacheKey], // first call
 				]);
 
@@ -477,7 +483,7 @@ describe('Snap Client', () => {
 				const client = new Client({ siteId: '8uyt2m' }, { mode: 'development', fetchApi: fetchApiMock });
 
 				//@ts-ignore
-				const metaRequester = client.requesters.meta.requesters.legacy;
+				const metaRequester = client.requesters.meta;
 
 				const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 
@@ -509,12 +515,12 @@ describe('Snap Client', () => {
 				const client = new Client({ siteId: '8uyt2m' }, { mode: 'development', fetchApi: fetchApiMock });
 
 				//@ts-ignore
-				const searchRequester = client.requesters.search.requesters.legacy;
+				const searchRequester = client.requesters.search;
 
 				const searchRequesterSpy = jest.spyOn(searchRequester, 'request' as never);
 
 				//@ts-ignore
-				const metaRequester = client.requesters.meta.requesters.legacy;
+				const metaRequester = client.requesters.meta;
 
 				const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 
@@ -526,10 +532,10 @@ describe('Snap Client', () => {
 					headers: {},
 					method: 'GET',
 					path: '/v1/search',
-					query: { resultsFormat: 'native', siteId: ['8uyt2m'], test: true, ajaxCatalog: `snap/client/${version}` },
+					query: { resultsFormat: 'native', siteId: '8uyt2m', test: true, ajaxCatalog: `snap/client/${version}` },
 				};
 
-				const searchcacheKey = `{"siteId":["8uyt2m"],"test":true,"ajaxCatalog":"snap/client/${version}\","resultsFormat":"native"}`;
+				const searchcacheKey = `{"siteId":"8uyt2m","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
 				expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
 				expect(searchRequesterSpy.mock.calls).toEqual([[searchparams, searchcacheKey]]);
@@ -588,7 +594,11 @@ describe('Snap Client', () => {
 
 				const recommendprops = { siteId: '8uyt2m', tag: 'dress' };
 
-				await client.recommend(recommendprops);
+				const recommendPromise = client.recommend(recommendprops);
+
+				await jest.runAllTimersAsync();
+
+				await recommendPromise;
 
 				const profileParams = {
 					headers: {},
@@ -627,9 +637,6 @@ describe('Snap Client', () => {
 					[profileParams, profileCacheKey],
 					[recommendParams, recommendCacheKey],
 				]);
-
-				//wait for batch timeout
-				await wait(300);
 
 				expect(fetchApiMock).toHaveBeenCalledTimes(3);
 				fetchApiMock.mockReset();

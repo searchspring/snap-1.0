@@ -8,7 +8,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { createHoverProps } from '../../../toolbox';
-import type { FacetHierarchyValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetHierarchyValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';

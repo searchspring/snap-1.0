@@ -136,7 +136,6 @@ export type RecommendationBundleListTemplatesLegalProps = Omit<
 	| 'lang'
 	| 'results'
 	| 'seedText'
-	| 'vertical'
 	| 'ctaInline'
 	| 'ctaIcon'
 	| 'vertical'

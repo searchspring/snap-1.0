@@ -1,6 +1,6 @@
 import { h, Fragment } from 'preact';
 
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 

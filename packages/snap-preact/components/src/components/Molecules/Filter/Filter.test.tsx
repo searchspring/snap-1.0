@@ -6,9 +6,9 @@ import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
 import { Filter } from './Filter';
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { MockData } from '@searchspring/snap-shared';
-import { SearchFilterStore } from '@searchspring/snap-store-mobx';
+import { UrlManager, UrlTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
+import { SearchFilterStore } from '@athoscommerce/snap-store-mobx';
 
 describe('Filter Component', () => {
 	const args = {

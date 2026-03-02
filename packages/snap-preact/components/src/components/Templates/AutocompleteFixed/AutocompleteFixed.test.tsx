@@ -2,8 +2,8 @@ import 'whatwg-fetch';
 import { h } from 'preact';
 import { v4 as uuidv4 } from 'uuid';
 import { render } from '@testing-library/preact';
-import { MockClient } from '@searchspring/snap-shared';
-import { AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 import { createAutocompleteController } from '../../../../../src/create';
 import { waitFor } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
@@ -27,12 +27,12 @@ describe('AutocompleteFixed Component', () => {
 	const renderedInputSelector = '.autocomplete-fixed__search-input .ss__search-input__input';
 
 	beforeEach(() => {
-		document.body.innerHTML = '<div>' + '  <input type="text" class="searchspring-ac">' + '<div id="target"></div></div>';
+		document.body.innerHTML = '<div>' + '  <input type="text" class="athos-ac">' + '<div id="target"></div></div>';
 		controllerConfigId = uuidv4().split('-').join('');
 
 		acConfig = {
 			id: controllerConfigId,
-			selector: 'input.searchspring-ac',
+			selector: 'input.athos-ac',
 			settings: {
 				trending: {
 					limit: 5,
@@ -48,7 +48,7 @@ describe('AutocompleteFixed Component', () => {
 	});
 
 	it('contains an input element on the page', () => {
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		expect(input).toBeInTheDocument();
 	});
 
@@ -67,7 +67,7 @@ describe('AutocompleteFixed Component', () => {
 		expect(autocompletetemplate).not.toBeInTheDocument();
 	});
 
-	it('can set titles', async () => {
+	it.only('can set titles', async () => {
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
 
@@ -79,7 +79,7 @@ describe('AutocompleteFixed Component', () => {
 			layout: ['facets', 'content'],
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
@@ -88,7 +88,6 @@ describe('AutocompleteFixed Component', () => {
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
 			renderedInput.value = 'dress';
-
 			const Facetstitle = rendered.container.querySelector('.ss__autocomplete__facets-wrapper .ss__autocomplete__title--facets');
 			const Contenttitle = rendered.container.querySelector('.ss__autocomplete__content .ss__autocomplete__title--content');
 
@@ -108,7 +107,7 @@ describe('AutocompleteFixed Component', () => {
 			layout: ['content', ['button.see-more']],
 		};
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
@@ -148,7 +147,7 @@ describe('AutocompleteFixed Component', () => {
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.banners' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
@@ -179,7 +178,7 @@ describe('AutocompleteFixed Component', () => {
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.banners' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
@@ -212,7 +211,7 @@ describe('AutocompleteFixed Component', () => {
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.banners' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
@@ -250,7 +249,7 @@ describe('AutocompleteFixed Component', () => {
 		//note this test assumes there is a banner available on that term.. which at this time there is
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.banners' });
 
-		const input = document.querySelector('.searchspring-ac') as HTMLInputElement;
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 

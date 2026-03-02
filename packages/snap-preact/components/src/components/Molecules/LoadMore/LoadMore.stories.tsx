@@ -7,7 +7,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { iconPaths } from '../../Atoms/Icon';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../LoadMore/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import type { SearchRequestModelFilterTypeEnum } from '@athoscommerce/snapi-types';
 
 export default {

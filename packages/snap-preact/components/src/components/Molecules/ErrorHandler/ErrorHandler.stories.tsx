@@ -1,7 +1,7 @@
 import { h } from 'preact';
 
 import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
 import { ErrorHandler, ErrorHandlerProps } from './ErrorHandler';
 import { componentArgs, highlightedCode } from '../../../utilities';

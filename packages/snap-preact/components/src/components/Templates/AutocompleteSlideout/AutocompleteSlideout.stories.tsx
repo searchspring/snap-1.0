@@ -6,7 +6,7 @@ import { AutocompleteSlideout, AutocompleteSlideoutProps } from './AutocompleteS
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { useEffect, useState } from 'preact/hooks';
 
 export default {

@@ -1,11 +1,11 @@
 import deepmerge from 'deepmerge';
 
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
-import type { FinderStore } from '@searchspring/snap-store-mobx';
+import type { FinderStore } from '@athoscommerce/snap-store-mobx';
 import type { FinderControllerConfig, ControllerServices, ContextVariables } from '../types';
 
 const defaultConfig: FinderControllerConfig = {

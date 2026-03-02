@@ -7,7 +7,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from './readme.md';
-import type { RecommendationController } from '@searchspring/snap-controller';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Templates/RecommendationGrid',

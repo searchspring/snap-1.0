@@ -4,7 +4,7 @@ Renders a slider to be used with any slider facet. Built using [react-ranger](ht
 
 ## Usage
 ```jsx
-import { FacetSlider } from '@searchspring/snap-preact-components';
+import { FacetSlider } from '@athoscommerce/snap-preact-components';
 ```
 
 ### facet

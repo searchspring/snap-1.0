@@ -2,7 +2,7 @@
 
 ## Usage
 ```jsx
-import { InlineBanner } from '@searchspring/snap-preact-components';
+import { InlineBanner } from '@athoscommerce/snap-preact-components';
 ```
 
 ### banner

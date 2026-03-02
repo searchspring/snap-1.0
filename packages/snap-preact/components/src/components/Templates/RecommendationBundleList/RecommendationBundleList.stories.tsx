@@ -7,10 +7,10 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from './readme.md';
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { Next } from '@searchspring/snap-event-manager';
-import type { RecommendationControllerConfig } from '@searchspring/snap-controller';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { Next } from '@athoscommerce/snap-event-manager';
+import type { RecommendationControllerConfig } from '@athoscommerce/snap-controller';
 import { iconPaths } from '../../Atoms/Icon';
 
 export default {

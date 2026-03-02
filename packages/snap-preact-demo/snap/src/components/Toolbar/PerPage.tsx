@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { Select, withController } from '@searchspring/snap-preact/components';
+import { Select, withController } from '@athoscommerce/snap-preact/components';
 
 type PerPageProps = {
 	controller?: SearchController;

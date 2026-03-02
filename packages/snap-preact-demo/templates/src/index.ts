@@ -1,8 +1,8 @@
-import { SnapTemplates } from '@searchspring/snap-preact';
+import { SnapTemplates } from '@athoscommerce/snap-preact';
 import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
-import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
 const siteId = 'atkzs2';
 
 // const siteId = '8uyt2m';
@@ -12,19 +12,6 @@ const siteId = 'atkzs2';
 // 		origin: `https://${siteId}.a.searchspring.io`,
 // 	},
 // 	search: {
-// 		origin: `https://${siteId}.a.searchspring.io`,
-// 	},
-// 	autocomplete: {
-// 		requesters: {
-// 			suggest: {
-// 				origin: `https://${siteId}.a.searchspring.io`,
-// 			},
-// 			legacy: {
-// 				origin: `https://${siteId}.a.searchspring.io`,
-// 			},
-// 		},
-// 	},
-// 	finder: {
 // 		origin: `https://${siteId}.a.searchspring.io`,
 // 	},
 // 	recommend: {
@@ -94,7 +81,7 @@ let config: SnapTemplatesConfig = {
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-layout',
+				selector: '#athos-layout',
 				component: 'Search',
 			},
 		],
@@ -102,7 +89,7 @@ let config: SnapTemplatesConfig = {
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.searchspring-ac',
+				selector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
 			},
 		],

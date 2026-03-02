@@ -1,4 +1,4 @@
-import { AbstractController, SearchController } from '@searchspring/snap-controller';
+import { AbstractController, SearchController } from '@athoscommerce/snap-controller';
 import { useState } from 'preact/hooks';
 
 export const useControllerStorage = (controller: AbstractController, key: string, defaultVal?: any) => {

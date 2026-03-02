@@ -7,7 +7,7 @@ import { FacetGridOptions, FacetGridOptionsProps } from './FacetGridOptions';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FacetGridOptions/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/FacetGridOptions',

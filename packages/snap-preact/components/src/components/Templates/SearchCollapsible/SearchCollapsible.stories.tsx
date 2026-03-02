@@ -5,7 +5,7 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Search/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { SearchCollapsible, SearchCollapsibleProps } from './SearchCollapsible';
 
 export default {

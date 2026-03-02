@@ -4,7 +4,7 @@ Renders a text badge. It is expected to be used with `CalloutBadge` and `Overlay
 
 ## Usage
 ```jsx
-import { BadgeText } from '@searchspring/snap-preact-components';
+import { BadgeText } from '@athoscommerce/snap-preact-components';
 ```
 
 ### value

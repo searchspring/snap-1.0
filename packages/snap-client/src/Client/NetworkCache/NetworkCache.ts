@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge';
 
 import { CacheConfig, Cache, DefaultCacheConfig } from '../../types';
 
-const CACHE_STORAGE_KEY = 'ss-networkcache';
+const CACHE_STORAGE_KEY = 'athos-networkcache';
 
 const defaultConfig: DefaultCacheConfig = {
 	enabled: true,

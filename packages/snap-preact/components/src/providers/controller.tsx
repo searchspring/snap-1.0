@@ -1,6 +1,6 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
-import type { AbstractController } from '@searchspring/snap-controller';
+import type { AbstractController } from '@athoscommerce/snap-controller';
 
 const ControllerContext = createContext<null | AbstractController>(null);
 

@@ -55,7 +55,7 @@ autocompleteController.unbind();
 ```
 
 ## Search
-This will invoke a search request to Searchspring's search API and populate the store with the response. This should be automatically called by the DOM event binding that occurs when the `bind` method (see above) is invoked.
+This will invoke a search request to Athos' search API and populate the store with the response. This should be automatically called by the DOM event binding that occurs when the `bind` method (see above) is invoked.
 
 ```js
 autocompleteController.search();

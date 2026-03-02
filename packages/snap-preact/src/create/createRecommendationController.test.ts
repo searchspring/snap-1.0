@@ -1,15 +1,15 @@
-import { Client } from '@searchspring/snap-client';
-import { RecommendationStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator, reactLinker, CoreMap, UrlTranslatorSettingsConfig } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
+import { Client } from '@athoscommerce/snap-client';
+import { RecommendationStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator, reactLinker, CoreMap, UrlTranslatorSettingsConfig } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
 
 import { createRecommendationController } from './index';
 
 import type { SnapRecommendationControllerConfig } from '../types';
-import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
+import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 
 const createConfig: SnapRecommendationControllerConfig = {
 	client: {
@@ -40,7 +40,7 @@ const createConfig: SnapRecommendationControllerConfig = {
 
 describe('createRecommendationController', () => {
 	beforeEach(() => {
-		delete window.searchspring;
+		delete window.athos;
 	});
 
 	it('throws when incomplete configuration is used', () => {

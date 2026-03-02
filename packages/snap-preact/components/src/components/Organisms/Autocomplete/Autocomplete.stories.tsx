@@ -6,7 +6,7 @@ import { Autocomplete, AutocompleteProps } from './Autocomplete';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Autocomplete/readme.md';
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Organisms/Autocomplete',

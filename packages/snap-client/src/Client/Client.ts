@@ -1,5 +1,5 @@
-import { AppMode } from '@searchspring/snap-toolbox';
-import { HybridAPI, SuggestAPI, RecommendAPI, ApiConfiguration } from './apis';
+import { AppMode } from '@athoscommerce/snap-toolbox';
+import { SuggestAPI, RecommendAPI, ApiConfiguration, SearchAPI, MetaAPI } from './apis';
 
 import type {
 	ClientGlobals,
@@ -9,6 +9,7 @@ import type {
 	ProfileRequestModel,
 	RecommendRequestModel,
 	RecommendCombinedResponseModel,
+	SuggestRequestModel,
 } from '../types';
 
 import type {
@@ -18,9 +19,11 @@ import type {
 	SearchResponseModel,
 	AutocompleteRequestModel,
 	AutocompleteResponseModel,
+	AutocompleteRequestModelSearchRedirectResponseEnum,
 } from '@athoscommerce/snapi-types';
 
 import deepmerge from 'deepmerge';
+import { transformSuggestResponse } from './transforms';
 
 const defaultConfig: ClientConfig = {
 	mode: AppMode.production,
@@ -29,21 +32,6 @@ const defaultConfig: ClientConfig = {
 			purgeable: false,
 		},
 	},
-	search: {
-		// origin: 'https://snapi.kube.athoscommerce.net'
-	},
-	autocomplete: {
-		// origin: 'https://snapi.kube.athoscommerce.net'
-	},
-	recommend: {
-		// origin: 'https://snapi.kube.athoscommerce.net'
-	},
-	finder: {
-		// origin: 'https://snapi.kube.athoscommerce.net'
-	},
-	suggest: {
-		// origin: 'https://snapi.kube.athoscommerce.net'
-	},
 };
 
 export class Client {
@@ -51,12 +39,10 @@ export class Client {
 	private globals: ClientGlobals;
 	private config: ClientConfig;
 	private requesters: {
-		autocomplete: HybridAPI;
-		meta: HybridAPI;
-		search: HybridAPI;
+		meta: MetaAPI;
+		search: SearchAPI;
 		recommend: RecommendAPI;
 		suggest: SuggestAPI;
-		finder: HybridAPI;
 	};
 
 	constructor(globals: ClientGlobals, config: ClientConfig = {}) {
@@ -72,19 +58,7 @@ export class Client {
 		}
 
 		this.requesters = {
-			autocomplete: new HybridAPI(
-				new ApiConfiguration({
-					fetchApi: this.config.fetchApi,
-					initiator: this.config.initiator,
-					mode: this.mode,
-					origin: this.config.autocomplete?.origin,
-					headers: this.config.autocomplete?.headers,
-					cache: this.config.autocomplete?.cache,
-					globals: this.config.autocomplete?.globals,
-				}),
-				this.config.autocomplete?.requesters
-			),
-			meta: new HybridAPI(
+			meta: new MetaAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,
@@ -93,6 +67,7 @@ export class Client {
 					headers: this.config.meta?.headers,
 					cache: this.config.meta?.cache,
 					globals: this.config.meta?.globals,
+					paths: this.config.meta?.paths,
 				})
 			),
 			recommend: new RecommendAPI(
@@ -101,13 +76,13 @@ export class Client {
 					initiator: this.config.initiator,
 					mode: this.mode,
 					origin: this.config.recommend?.origin,
-					secondaryOrigin: this.config.recommend?.secondaryOrigin,
 					headers: this.config.recommend?.headers,
 					cache: this.config.recommend?.cache,
 					globals: this.config.recommend?.globals,
+					paths: this.config.recommend?.paths,
 				})
 			),
-			search: new HybridAPI(
+			search: new SearchAPI(
 				new ApiConfiguration({
 					fetchApi: this.config.fetchApi,
 					initiator: this.config.initiator,
@@ -116,17 +91,7 @@ export class Client {
 					headers: this.config.search?.headers,
 					cache: this.config.search?.cache,
 					globals: this.config.search?.globals,
-				})
-			),
-			finder: new HybridAPI(
-				new ApiConfiguration({
-					fetchApi: this.config.fetchApi,
-					initiator: this.config.initiator,
-					mode: this.mode,
-					origin: this.config.finder?.origin,
-					headers: this.config.finder?.headers,
-					cache: this.config.finder?.cache,
-					globals: this.config.finder?.globals,
+					paths: this.config.search?.paths,
 				})
 			),
 			suggest: new SuggestAPI(
@@ -138,6 +103,7 @@ export class Client {
 					headers: this.config.suggest?.headers,
 					cache: this.config.suggest?.cache,
 					globals: this.config.suggest?.globals,
+					paths: this.config.suggest?.paths,
 				})
 			),
 		};
@@ -157,7 +123,48 @@ export class Client {
 
 		params = deepmerge(this.globals, params);
 
-		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.autocomplete.getAutocomplete(params)]);
+		// start meta request immediately so it runs in parallel with suggest/search
+		const metaPromise = this.meta({ siteId: params.siteId || '' });
+
+		const suggestParams: SuggestRequestModel = {
+			siteId: params.siteId || '',
+			language: 'en',
+			query: params.search?.query?.string || '',
+			suggestionCount: (params.suggestions || {}).count || 5,
+		};
+
+		if (!((params.search || {}).query || {}).spellCorrection) {
+			suggestParams.disableSpellCorrect = true;
+		}
+
+		const suggestResults = await this.requesters.suggest.getSuggest(suggestParams);
+		const transformedSuggestResults = transformSuggestResponse(suggestResults);
+
+		// Determine the query to use for the search request.
+		// suggested text → correctedQuery → original query.
+		let q: string | undefined =
+			(transformedSuggestResults.suggested || {}).text || transformedSuggestResults.correctedQuery || transformedSuggestResults.query;
+		if (this.requesters.suggest.configuration?.globals?.integratedSpellCorrection) {
+			q = (transformedSuggestResults.suggested || {}).text || transformedSuggestResults.query || transformedSuggestResults.correctedQuery;
+		}
+
+		params.search = params.search || {};
+		params.search.redirectResponse = 'full' as AutocompleteRequestModelSearchRedirectResponseEnum;
+
+		// set the query to the most relevant suggestion
+		// params.search.query = params.search.query || {};
+		if (q && params.search?.query?.string) {
+			params.search.query.string = q;
+		}
+
+		const searchResults = await this.requesters.search.getAutocomplete(params);
+
+		const autocompleteResponse = {
+			...searchResults,
+			autocomplete: transformedSuggestResults,
+		};
+
+		const [meta, search] = await Promise.all([metaPromise, autocompleteResponse]);
 		return { meta, search };
 	}
 
@@ -178,7 +185,7 @@ export class Client {
 	async finder(params: SearchRequestModel = {}): Promise<{ meta: MetaResponseModel; search: SearchResponseModel }> {
 		params = deepmerge(this.globals, params);
 
-		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.finder.getFinder(params)]);
+		const [meta, search] = await Promise.all([this.meta({ siteId: params.siteId || '' }), this.requesters.search.getFinder(params)]);
 		return { meta, search };
 	}
 

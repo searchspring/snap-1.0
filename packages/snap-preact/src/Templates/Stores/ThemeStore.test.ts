@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { waitFor } from '@testing-library/preact';
 
 import { ThemeStore, ThemeStoreThemeConfig, mergeThemeLayers } from './ThemeStore';
-import { StorageStore } from '@searchspring/snap-store-mobx';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
 import type { TemplatesStoreDependencies, TemplateThemeTypes, TemplatesStoreConfigSettings } from './TemplateStore';
 import type { ThemeComplete, ThemeVariables, ThemePartial } from '../../../components/src/providers/theme';
 import { GLOBAL_THEME_NAME } from './TargetStore';
@@ -575,7 +575,7 @@ describe('ThemeStore', () => {
 			const styleElements = document.querySelectorAll('head style')!;
 			expect(styleElements).toHaveLength(2);
 
-			expect(styleElements[0].innerHTML).toBe(`<!-- searchspring style injection point for "${config.name}" theme -->`);
+			expect(styleElements[0].innerHTML).toBe(`<!-- athos style injection point for "${config.name}" theme -->`);
 
 			expect(styleElements[1]).toHaveAttribute('data-emotion', 'ss-global');
 		});

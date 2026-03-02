@@ -5,7 +5,7 @@ import { Product, SearchResultStore } from '../Search/Stores';
 import { CartStore } from '../Cart/CartStore';
 import { RecommendationProfileStore } from './Stores';
 import type { RecommendationStoreConfig, StoreServices } from '../types';
-import type { RecommendCombinedResponseModel } from '@searchspring/snap-client';
+import type { RecommendCombinedResponseModel } from '@athoscommerce/snap-client';
 import { MetaStore } from '../Meta/MetaStore';
 
 export class RecommendationStore extends AbstractStore<RecommendationStoreConfig> {

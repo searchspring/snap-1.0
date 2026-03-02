@@ -5,11 +5,11 @@ import { ThemeProvider } from '../../../providers';
 
 import { OverlayBadge } from './OverlayBadge';
 
-import { MockClient } from '@searchspring/snap-shared';
+import { MockClient } from '@athoscommerce/snap-shared';
 
-import { SearchControllerConfig } from '@searchspring/snap-controller';
+import { SearchControllerConfig } from '@athoscommerce/snap-controller';
 import { createSearchController } from '../../../../../src/create';
-import { Product } from '@searchspring/snap-store-mobx';
+import { Product } from '@athoscommerce/snap-store-mobx';
 
 const globals = { siteId: '8uyt2m' };
 const clientConfig = {
