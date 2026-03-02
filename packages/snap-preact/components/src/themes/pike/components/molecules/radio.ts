@@ -43,10 +43,10 @@ const radioStyleScript = (props: RadioProps) => {
 				...custom.styles.disabled(),
 			},
 			'.ss__radio__input': {
-				position: 'relative',
-				top: '-0.5px',
-				width: `${custom.sizes.icon16}px`,
-				height: `${custom.sizes.icon16}px`,
+				margin: 0,
+				padding: 0,
+				width: props?.size ? props.size : `${custom.sizes.icon16}px`,
+				height: props?.size ? props.size : `${custom.sizes.icon16}px`,
 				lineHeight: 1,
 				cursor: 'pointer',
 			},
@@ -64,10 +64,11 @@ export const radio: ThemeComponent<'radio', RadioProps> = {
 			checkedIcon: 'circle',
 			unCheckedIcon: 'circle',
 			size: `${custom.sizes.icon16}px`,
+			color: custom.colors.primary,
 		},
 		'radio icon': {
-			size: `${custom.sizes.icon08}px`,
-			color: custom.colors.primary,
+			width: `calc(50% + 1px)`,
+			height: `calc(50% + 1px)`,
 		},
 	},
 };
