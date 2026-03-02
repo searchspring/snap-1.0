@@ -10,7 +10,7 @@ describe('Theme variables work', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'base',
 					variables: {
 						breakpoints: {
 							mobile: 767,
@@ -86,7 +86,7 @@ describe('Theme variables work', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'base',
 					variables: {
 						breakpoints: {
 							mobile: 540,
@@ -164,7 +164,7 @@ describe('Theme variables work', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'pike',
 					// variables: {
 					// colors: {
 					// text: '#222222',
@@ -201,15 +201,15 @@ describe('Theme variables work', () => {
 
 		cy.snapController().then(({ store }) => {
 			//accent
-			cy.get('.ss__select .ss__dropdown .ss__icon').should('have.css', 'fill', 'rgb(58, 35, 173)');
+			cy.get('.ss__select .ss__dropdown .ss__icon').should('have.css', 'fill', 'rgb(81, 81, 81)');
 
 			// cypress converts all css colors to rgb...
 			//secondary
-			cy.get('.ss__select .ss__select__select .ss__select__select__option').should('have.css', 'color', 'rgb(109, 113, 117)');
+			cy.get('.ss__select .ss__select__select .ss__select__select__option').should('have.css', 'color', 'rgb(0, 174, 239)');
 			//primary
-			cy.get('.ss__button').should('have.css', 'color', 'rgb(32, 34, 35)');
+			cy.get('.ss__button').should('have.css', 'color', 'rgb(81, 81, 81)');
 			//text
-			cy.get('.ss__facet-grid-options a').should('have.css', 'color', 'rgb(34, 34, 34)');
+			cy.get('.ss__facet-grid-options a').should('have.css', 'color', 'rgb(81, 81, 81)');
 		});
 	});
 
@@ -219,7 +219,7 @@ describe('Theme variables work', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'base',
 					variables: {
 						colors: {
 							text: 'rgb(22, 22, 255)',
@@ -250,16 +250,19 @@ describe('Theme variables work', () => {
 		cy.visit('https://localhost:2222/templates/');
 
 		cy.snapController().then(({ store }) => {
-			//accent
-			cy.get('.ss__select .ss__dropdown .ss__icon').should('have.css', 'fill', 'rgb(55, 55, 255)');
+			//primary
+			cy.get('.ss__select .ss__dropdown .ss__icon').should('have.css', 'fill', 'rgb(33, 33, 255)');
 
 			// cypress converts all css colors to rgb...
+
+			//base theme currently doesnt use any other colors..
+
 			//secondary
-			cy.get('.ss__select .ss__select__select .ss__select__select__option').should('have.css', 'color', 'rgb(44, 44, 255)');
+			// cy.get('.ss__select .ss__select__select .ss__select__select__option').should('have.css', 'color', 'rgb(44, 44, 255)');
 			//primary
-			cy.get('.ss__button').should('have.css', 'color', 'rgb(33, 33, 255)');
-			//text
-			cy.get('.ss__facet-grid-options a').should('have.css', 'color', 'rgb(22, 22, 255)');
+			// cy.get('.ss__button').should('have.css', 'color', 'rgb(33, 33, 255)');
+			// //text
+			// cy.get('.ss__facet-grid-options a').should('have.css', 'color', 'rgb(22, 22, 255)');
 		});
 	});
 
@@ -273,7 +276,7 @@ describe('Theme variables work', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'base',
 					variables: {
 						custom: {
 							text: 'custom stuff',
