@@ -21,7 +21,7 @@ const iconStyleScript = (props: IconProps) => {
 		minWidth: '1px',
 		flex: flexSize,
 		lineHeight: 1,
-		color: props?.treePath?.includes('storybook') ? variables?.colors?.text : '',
+		color: props?.treePath == 'storybook icon' ? variables?.colors?.text : '',
 		...custom.styles.boxSizing('icon', props?.treePath, props?.name),
 		'&.ss__icon--filters': {
 			fill: custom.colors.white,

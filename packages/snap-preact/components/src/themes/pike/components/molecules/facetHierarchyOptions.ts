@@ -15,6 +15,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 	const facetHierarchyStyles = css({
 		...custom.styles.boxSizing('facetHierarchyOptions', props?.treePath, props?.name),
 		'.ss__facet-hierarchy-options__option': {
+			lineHeight: 1.5,
 			color: variables?.colors?.text,
 			gap: `${custom.spacing.x1}px`,
 			padding: 0,

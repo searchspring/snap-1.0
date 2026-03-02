@@ -36,8 +36,10 @@ const checkboxStyleScript = (props: CheckboxProps) => {
 	const nativeCheckboxStyles = css([
 		sharedStyles,
 		{
-			width: `${custom.sizes.icon16}px`,
-			height: `${custom.sizes.icon16}px`,
+			margin: 0,
+			padding: 0,
+			width: props?.size ? props.size : `${custom.sizes.icon16}px`,
+			height: props?.size ? props.size : `${custom.sizes.icon16}px`,
 			lineHeight: 1,
 			cursor: 'pointer',
 			...custom.styles.boxSizing('checkbox', props?.treePath, props?.name),
@@ -57,10 +59,11 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps> = {
 			themeStyleScript: checkboxStyleScript,
 			icon: custom.icons.check,
 			size: `${custom.sizes.icon16}px`,
+			color: custom.colors.primary,
 		},
 		'checkbox icon': {
-			size: `${custom.sizes.icon08}px`,
-			color: custom.colors.primary,
+			width: `calc(50% + 1px)`,
+			height: `calc(50% + 1px)`,
 		},
 	},
 };

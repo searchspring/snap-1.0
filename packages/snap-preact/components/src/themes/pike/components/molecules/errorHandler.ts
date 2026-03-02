@@ -51,7 +51,8 @@ export const errorHandler: ThemeComponent<'errorHandler', ErrorHandlerProps> = {
 			themeStyleScript: errorHandlerStyleScript,
 		},
 		'errorHandler icon': {
-			size: `${custom.sizes.icon14}px`,
+			width: `${custom.sizes.icon14}px`,
+			height: `${custom.sizes.icon14}px`,
 		},
 	},
 };

@@ -82,8 +82,6 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				},
 			},
 			'.ss__facet-palette-options__option__value__count': {
-				position: 'relative',
-				top: isList ? '-1px' : '',
 				fontSize: '10px',
 				color: lightGray,
 			},
@@ -137,6 +135,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 				display: 'block',
 			},
 			'.ss__facet-palette-options__option': {
+				lineHeight: 1.5,
 				minHeight: hasCheckbox ? '' : `${listSize + 2}px`,
 				position: 'relative',
 				gap: `${custom.spacing.x1}px`,
@@ -165,6 +164,8 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 					whiteSpace: 'unset',
 				},
 				'.ss__facet-palette-options__option__value__count': {
+					position: 'relative',
+					top: props?.treePath == 'storybook facetPaletteOptions' ? '1px' : '',
 					margin: 0,
 				},
 			},
@@ -200,6 +201,9 @@ export const facetPaletteOptions: ThemeComponent<'facetPaletteOptions', FacetPal
 					background: paletteColors.rainbow,
 				},
 			},
+		},
+		'facetPaletteOptions checkbox icon': {
+			color: custom.colors.primary,
 		},
 	},
 };

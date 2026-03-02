@@ -8,6 +8,9 @@ const carouselSpacing = custom.spacing.x2;
 const carouselButtonSize = 32;
 const carouselPaginationSize = 12;
 const carouselPaginationSpacing = carouselSpacing + carouselPaginationSize;
+const activeColors = custom.utils.activeColors();
+const buttonColor = activeColors[0];
+const fontColor = activeColors[1];
 
 // CSS in JS style script for the Carousel component
 const carouselStyleScript = (props: CarouselProps) => {
@@ -20,6 +23,14 @@ const carouselStyleScript = (props: CarouselProps) => {
 		width: '100%',
 		minWidth: '1px',
 		...custom.styles.boxSizing('carousel', props?.treePath, props?.name),
+		'&:has(.swiper-pagination)': {
+			'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
+				bottom: `${carouselPaginationSpacing}px`,
+			},
+			'.swiper-container': {
+				paddingBottom: `${carouselPaginationSpacing}px`,
+			},
+		},
 		'.ss__carousel__prev-wrapper--hidden > div, .ss__carousel__next-wrapper--hidden > div': {
 			...custom.styles.disabled(),
 		},
@@ -41,8 +52,8 @@ const carouselStyleScript = (props: CarouselProps) => {
 				width: '100%',
 				height: '100%',
 				lineHeight: 1,
-				backgroundColor: variables?.colors?.primary,
-				color: custom.colors.white,
+				backgroundColor: buttonColor,
+				color: fontColor,
 			},
 			'.swiper-button-disabled': {
 				...custom.styles.disabled(),
@@ -62,9 +73,6 @@ const carouselStyleScript = (props: CarouselProps) => {
 		},
 		'.swiper-container': {
 			margin: '0 auto',
-			'&:has(.swiper-pagination)': {
-				paddingBottom: `${carouselPaginationSpacing}px`,
-			},
 			'& > .swiper-wrapper': {
 				'& > .swiper-slide': {
 					'& > *, .ss__result': {

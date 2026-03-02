@@ -21,9 +21,11 @@ const facetGridOptionsStyleScript = (props: FacetGridOptionsProps) => {
 			height: '100%',
 			aspectRatio: 1,
 			padding: `${custom.spacing.x2}px`,
+			'&, .ss__facet-grid-options__option__value': {
+				overflow: 'hidden',
+			},
 			'.ss__facet-grid-options__option__value': {
 				display: 'block',
-				overflow: 'hidden',
 				maxWidth: '100%',
 				maxHeight: '100%',
 				color: 'inherit',

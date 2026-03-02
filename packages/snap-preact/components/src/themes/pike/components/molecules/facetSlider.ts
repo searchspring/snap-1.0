@@ -31,6 +31,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	const variables = props?.theme?.variables;
 	const hasTicks = props?.showTicks ? true : false;
 	const hasStickyHandles = props?.stickyHandleLabel ? true : false;
+	const trackBorderColor = props?.trackColor != custom.colors.gray01 ? custom.utils.darkenColor(props.trackColor, 0.5) : custom.colors.gray02;
 	const activeColors = custom.utils.activeColors(props?.handleColor);
 
 	// values font styles
@@ -74,7 +75,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 				},
 			},
 			'.ss__facet-slider__segment': {
-				...custom.styles.box('', 0),
+				border: `1px solid ${trackBorderColor}`,
 				...custom.styles.borderRadius(slider.bar),
 			},
 			'.ss__facet-slider__rail': {},
@@ -185,6 +186,7 @@ export const facetSlider: ThemeComponent<'facetSlider', FacetSliderProps> = {
 			themeStyleScript: facetSliderStyleScript,
 			handleColor: custom.colors.primary,
 			handleDraggingColor: custom.colors.primary,
+			trackColor: custom.colors.gray01,
 			railColor: custom.colors.secondary,
 			tickTextColor: custom.colors.text,
 			valueTextColor: custom.colors.text,

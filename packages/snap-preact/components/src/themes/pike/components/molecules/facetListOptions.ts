@@ -16,10 +16,11 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 	const facetListStyles = css({
 		...custom.styles.boxSizing('facetListOptions', props?.treePath, props?.name),
 		'.ss__facet-list-options__option': {
+			lineHeight: 1.5,
 			color: variables?.colors?.text,
 			position: 'relative',
 			gap: `${custom.spacing.x1}px`,
-			padding: props?.hideCheckbox ? `` : `0 0 0 ${checkboxSpacing}px`,
+			padding: props?.hideCheckbox ? 0 : `0 0 0 ${checkboxSpacing}px`,
 			margin: `0 0 ${custom.spacing.x1}px 0`,
 			'&:last-of-type': {
 				marginBottom: 0,
