@@ -1,28 +1,13 @@
+import { AutocompleteResponseModelAllOfAutocomplete } from '@athoscommerce/snapi-types';
 import { SuggestResponseModel } from '../../types';
-export function transformSuggestResponse(response: SuggestResponseModel): any {
+export function transformSuggestResponse(response: SuggestResponseModel): AutocompleteResponseModelAllOfAutocomplete {
 	return {
-		...transformSuggestResponse.query(response),
-		...transformSuggestResponse.correctedQuery(response),
-		...transformSuggestResponse.suggested(response),
-		...transformSuggestResponse.alternatives(response),
+		query: response?.query,
+		correctedQuery: response?.['corrected-query'],
+		suggested: transformSuggestResponse.suggested(response),
+		alternatives: transformSuggestResponse.alternatives(response),
 	};
 }
-
-transformSuggestResponse.query = (response: SuggestResponseModel) => {
-	if (!response?.query) {
-		return {};
-	}
-
-	return { query: response.query };
-};
-
-transformSuggestResponse.correctedQuery = (response: SuggestResponseModel) => {
-	if (typeof response != 'object' || !response['corrected-query']) {
-		return {};
-	}
-
-	return { correctedQuery: response['corrected-query'] };
-};
 
 transformSuggestResponse.suggested = (response: SuggestResponseModel) => {
 	if (typeof response != 'object' || !response.suggested || typeof response.suggested != 'object') {
@@ -30,22 +15,18 @@ transformSuggestResponse.suggested = (response: SuggestResponseModel) => {
 	}
 
 	return {
-		suggested: {
-			text: response.suggested?.text,
-			type: response.suggested?.type,
-			source: response.suggested?.source,
-		},
+		text: response.suggested?.text,
+		type: response.suggested?.type,
+		source: response.suggested?.source,
 	};
 };
 
 transformSuggestResponse.alternatives = (response: SuggestResponseModel) => {
 	const alternatives = response?.alternatives || [];
 
-	return {
-		alternatives: alternatives.map((alternative) => {
-			return {
-				text: alternative.text,
-			};
-		}),
-	};
+	return alternatives.map((alternative) => {
+		return {
+			text: alternative.text,
+		};
+	});
 };

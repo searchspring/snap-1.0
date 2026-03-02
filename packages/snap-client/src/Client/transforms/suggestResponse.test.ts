@@ -38,76 +38,45 @@ const mockResponse = {
 	alternatives: mockAlternatives,
 };
 
+beforeAll(() => {
+	// mock performance to prevent warning in test
+	Object.defineProperty(window, 'performance', {
+		value: {
+			getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+		},
+	});
+});
+
 describe('suggest response transformer', () => {
 	it('calls all relevant transforms', () => {
-		const query = jest.spyOn(transformSuggestResponse, 'query');
-		const correctedQuery = jest.spyOn(transformSuggestResponse, 'correctedQuery');
 		const suggested = jest.spyOn(transformSuggestResponse, 'suggested');
 		const alternatives = jest.spyOn(transformSuggestResponse, 'alternatives');
 
 		transformSuggestResponse(mockResponse);
 
-		expect(query).toHaveBeenCalled();
-		expect(correctedQuery).toHaveBeenCalled();
 		expect(suggested).toHaveBeenCalled();
 		expect(alternatives).toHaveBeenCalled();
 
-		expect(query.mock.calls[0][0]).toEqual(mockResponse);
-		expect(correctedQuery.mock.calls[0][0]).toEqual(mockResponse);
 		expect(suggested.mock.calls[0][0]).toEqual(mockResponse);
 		expect(alternatives.mock.calls[0][0]).toEqual(mockResponse);
 
-		expect(typeof query.mock.results[0].value).toEqual('object');
-		expect(typeof correctedQuery.mock.results[0].value).toEqual('object');
 		expect(typeof suggested.mock.results[0].value).toEqual('object');
 		expect(typeof alternatives.mock.results[0].value).toEqual('object');
 
-		query.mockRestore();
-		correctedQuery.mockRestore();
 		suggested.mockRestore();
 		alternatives.mockRestore();
 	});
-});
 
-describe('suggest response transformer query', () => {
-	it('does not transform the query at all', () => {
-		const mockQueryResponse = {
-			query: mockQuery,
-		};
+	it('inlines query and correctedQuery into output', () => {
+		const result = transformSuggestResponse(mockResponse);
 
-		const response = transformSuggestResponse.query(mockQueryResponse);
-
-		expect(response).toEqual(mockQueryResponse);
-	});
-
-	it('still returns object if passed undefined', () => {
-		// @ts-ignore
-		expect(typeof transformSuggestResponse.query()).toEqual('object');
-		// @ts-ignore
-		expect(typeof transformSuggestResponse.query({})).toEqual('object');
-	});
-});
-
-describe('suggest response transformer corrected-query', () => {
-	it('renames corrected-query property', () => {
-		const response = transformSuggestResponse.correctedQuery({
-			query: mockQuery,
-			'corrected-query': 'yellow',
-		});
-
-		expect(response).toEqual({ correctedQuery: 'yellow' });
-	});
-
-	it('still returns object if passed undefined', () => {
-		// @ts-ignore
-		expect(typeof transformSuggestResponse.correctedQuery()).toEqual('object');
-		// @ts-ignore
-		expect(typeof transformSuggestResponse.correctedQuery({})).toEqual('object');
+		expect(result.query).toEqual(mockQuery);
+		expect(result.correctedQuery).toEqual(mockCorrectedQuery);
 	});
 });
 
 describe('suggest response transformer suggested', () => {
-	it("removes the 'completed' property", () => {
+	it("returns only text, type, and source (omits 'completed')", () => {
 		const mockSuggestedResponse = {
 			query: mockQuery,
 			suggested: mockSuggested,
@@ -115,19 +84,19 @@ describe('suggest response transformer suggested', () => {
 
 		const response = transformSuggestResponse.suggested(mockSuggestedResponse);
 
-		const transformedResponse = {
-			suggested: mockSuggested,
-		};
-		delete transformedResponse?.suggested?.completed;
-
-		expect(response).toEqual(transformedResponse);
+		expect(response).toEqual({
+			text: mockSuggested.text,
+			type: mockSuggested.type,
+			source: mockSuggested.source,
+		});
+		expect(response).not.toHaveProperty('completed');
 	});
 
-	it('returns object with null values if passed undefined', () => {
+	it('returns empty object if passed undefined or missing suggested', () => {
 		// @ts-ignore
-		expect(transformSuggestResponse.suggested()).toEqual({ suggested: undefined });
+		expect(transformSuggestResponse.suggested()).toEqual({});
 		// @ts-ignore
-		expect(transformSuggestResponse.suggested({})).toEqual({ suggested: undefined });
+		expect(transformSuggestResponse.suggested({})).toEqual({});
 	});
 });
 
@@ -146,13 +115,13 @@ describe('suggest response transformer alternatives', () => {
 			};
 		});
 
-		expect(response.alternatives).toEqual(transformedResponse);
+		expect(response).toEqual(transformedResponse);
 	});
 
 	it('returns empty array if passed undefined', () => {
 		// @ts-ignore
-		expect(transformSuggestResponse.alternatives().alternatives).toEqual([]);
+		expect(transformSuggestResponse.alternatives()).toEqual([]);
 		// @ts-ignore
-		expect(transformSuggestResponse.alternatives({}).alternatives).toEqual([]);
+		expect(transformSuggestResponse.alternatives({})).toEqual([]);
 	});
 });

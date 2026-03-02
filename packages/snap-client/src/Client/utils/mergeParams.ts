@@ -3,9 +3,17 @@ export function mergeParams(...args: any[]): any {
 
 	args.reverse().forEach((params) => {
 		Object.keys(params).forEach((key) => {
-			const values = params[key] instanceof Array ? params[key] : [params[key]];
+			const incoming = params[key];
+			const existing = ret[key];
 
-			ret[key] = (ret[key] || []).concat(values);
+			if (incoming instanceof Array) {
+				const base: any[] = existing !== undefined ? (existing instanceof Array ? existing : [existing]) : [];
+				ret[key] = base.concat(incoming.filter((v: any) => base.indexOf(v) === -1));
+			} else if (existing instanceof Array) {
+				ret[key] = existing.indexOf(incoming) === -1 ? [incoming].concat(existing) : existing;
+			} else {
+				ret[key] = incoming;
+			}
 		});
 	});
 

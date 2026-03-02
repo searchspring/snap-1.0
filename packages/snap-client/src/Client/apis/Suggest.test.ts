@@ -3,6 +3,15 @@ import { ApiConfiguration } from './Abstract';
 import { SuggestAPI } from './Suggest';
 
 describe('Suggest Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('has expected default functions', () => {
 		const api = new SuggestAPI(new ApiConfiguration({}));
 
@@ -110,6 +119,70 @@ describe('Suggest Api', () => {
 		});
 
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
+
+		requestMock.mockReset();
+	});
+
+	it('uses configured paths', async () => {
+		const api = new SuggestAPI(
+			new ApiConfiguration({
+				paths: {
+					suggest: '/custom/suggest',
+					trending: '/custom/trending',
+				},
+			})
+		);
+		const requestMock = jest
+			.spyOn(global.window, 'fetch')
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+
+		await api.getSuggest({
+			siteId: '8uyt2m',
+			query: 'dress',
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.athoscommerce.net/custom/suggest?siteId=8uyt2m&query=dress', {
+			body: undefined,
+			headers: {},
+			method: 'GET',
+		});
+
+		await api.postSuggest({
+			siteId: 'abc123',
+			query: 'dress',
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://abc123.a.athoscommerce.net/custom/suggest', {
+			body: '{"siteId":"abc123","query":"dress"}',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			method: 'POST',
+		});
+
+		await api.getTrending({
+			siteId: '8uyt2m',
+			limit: 4,
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(3, 'https://8uyt2m.a.athoscommerce.net/custom/trending?siteId=8uyt2m&limit=4', {
+			body: undefined,
+			headers: {},
+			method: 'GET',
+		});
+
+		await api.postTrending({
+			siteId: '8uuyt2m',
+			limit: 4,
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(4, 'https://8uuyt2m.a.athoscommerce.net/custom/trending', {
+			body: '{"siteId":"8uuyt2m","limit":4}',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			method: 'POST',
+		});
 
 		requestMock.mockReset();
 	});
