@@ -81,7 +81,7 @@ export function Price(properties: PriceProps): JSX.Element {
 }
 
 export type PriceProps = PriceTemplatesLegalProps & ComponentProps<PriceProps>;
-export interface PriceTemplatesLegalProps extends Omit<FormattedNumberProps, 'value'> {
+export interface PriceTemplatesLegalProps extends Omit<FormattedNumberProps, 'value' | 'themeStyleScript'> {
 	value?: number;
 	lineThrough?: boolean;
 }

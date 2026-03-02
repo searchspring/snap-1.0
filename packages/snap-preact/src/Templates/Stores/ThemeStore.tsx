@@ -14,6 +14,7 @@ import {
 	ThemeOverrides,
 	ThemeVariableBreakpoints,
 	ThemeComponents,
+	ThemeComponentsRestricted,
 	ResponsiveKeys,
 	ThemeComplete,
 } from '../../../components/src';
@@ -291,7 +292,7 @@ const arrayMerge = (target: any, source: any, options: any) => {
 	return destination;
 };
 
-function prefixComponentKeys(prefix: string, components?: ThemeComponents): ThemePartial {
+function prefixComponentKeys(prefix: string, components?: ThemeComponents | ThemeComponentsRestricted): ThemePartial {
 	// TODO: remove any?
 	const newComponents: any = {};
 
