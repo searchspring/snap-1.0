@@ -161,6 +161,21 @@ export default {
 			control: { type: 'none' },
 			action: 'onClick',
 		},
+		type: {
+			defaultValue: 'inline',
+			description: 'display type',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: 'inline' },
+			},
+			options: ['inline', 'list'],
+			control: {
+				type: 'select',
+			},
+		},
 		onClearAllClick: {
 			description: 'Filter clear click event handler',
 			table: {

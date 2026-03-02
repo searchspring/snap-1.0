@@ -27,7 +27,7 @@ const controllers: {
 } = {};
 
 const client = {
-	globals: { siteId: '8uyt2m' },
+	globals: { siteId: 'atkzs2' },
 };
 
 export class Snapify {

@@ -192,7 +192,7 @@ export const Gallery = (): JSX.Element => {
 				.map((icon) => {
 					return (
 						<div style={{ marginBottom: '40px' }}>
-							<Icon icon={icon as IconType} size="40px" style={{ padding: '20px' }} />
+							<Icon icon={icon as IconType} size="40px" style={{ margin: '20px' }} />
 							<div style={{ textAlign: 'center' }}>{icon}</div>
 						</div>
 					);

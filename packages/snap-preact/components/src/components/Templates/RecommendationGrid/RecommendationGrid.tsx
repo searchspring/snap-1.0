@@ -8,7 +8,7 @@ import type { Product } from '@athoscommerce/snap-store-mobx';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
 import { ResultTracker } from '../../Trackers/ResultTracker';
@@ -37,11 +37,13 @@ const defaultStyles: StyleScript<RecommendationGridProps> = ({ gapSize, columns 
 
 export const RecommendationGrid = observer((properties: RecommendationGridProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<RecommendationGridProps> = {
 		results: properties.controller?.store?.results,
 		gapSize: '20px',
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
+		treePath: globalTreePath,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
@@ -131,7 +133,13 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 									} else {
 										return (
 											<ResultTracker result={result as Product} controller={controller}>
-												<Result key={(result as Product).id} {...subProps.result} result={result as Product} controller={controller} />
+												<Result
+													key={(result as Product).id}
+													{...subProps.result}
+													result={result as Product}
+													controller={controller}
+													treePath={treePath}
+												/>
 											</ResultTracker>
 										);
 									}

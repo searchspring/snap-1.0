@@ -15,7 +15,7 @@ Snap templates is entirely configuration based. The configuration defines which 
 | `autocomplete` | Autocomplete feature target declarations |
 | `recommendation` | Recommendation feature target declarations |
 
-Here is a minimal example starting configuration to enable search and autocomplete using the `bocachica` theme.
+Here is a minimal example starting configuration to enable search and autocomplete using the `pike` theme.
 
 ```jsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
@@ -27,7 +27,7 @@ new SnapTemplates({
 		currency: 'usd',
 	},
 	theme: {
-		extends: 'bocachica',
+		extends: 'pike',
 	},
 	search: {
 		targets: [

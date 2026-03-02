@@ -7,7 +7,7 @@ import type { SearchController } from '@athoscommerce/snap-controller';
 import { Results, ResultsProps } from '../../Organisms/Results';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ListOption, ResultComponent, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { Sidebar, SidebarProps } from '../../Organisms/Sidebar';
 import { Toolbar, ToolbarProps } from '../../Organisms/Toolbar';
 import { NoResults, NoResultsProps } from '../../Organisms/NoResults';
@@ -56,11 +56,13 @@ const defaultStyles: StyleScript<SearchProps> = (props) => {
 
 export const Search = observer((properties: SearchProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<SearchProps> = {
 		toggleSidebarButtonText: 'Filters',
 		hideToggleSidebarButton: true,
 		mobileDisplayAt: globalTheme?.variables?.breakpoints?.tablet ? `${globalTheme.variables?.breakpoints?.tablet}px` : '991px',
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps(properties.alias || 'search', globalTheme, defaultProps, properties);
@@ -80,6 +82,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 		mobileDisplayAt,
 		toggleSidebarStartClosed,
 		treePath,
+		alias,
 	} = props;
 
 	let classNamePrefix = 'ss__search';
@@ -96,7 +99,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const isMobile = useMediaQuery(`(max-width: ${mobileDisplayAt})`);
 
-	const [sidebarOpenState, setSidebarOpenState] = useState(Boolean(!toggleSidebarStartClosed));
+	const [sidebarOpenState, setSidebarOpenState] = useState(Boolean(alias !== 'searchHorizontal' && !toggleSidebarStartClosed));
 
 	//initialize lang
 	const defaultLang: Partial<SearchLang> = {
@@ -111,7 +114,11 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const ToggleSidebar = (): JSX.Element => {
 		return (
-			<div className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}>
+			<div
+				className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}
+				// @ts-ignore - this is fine.
+				active={sidebarOpenState}
+			>
 				<span {...mergedLang.toggleSidebarButtonText.all}></span>
 			</div>
 		);
@@ -154,7 +161,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			name: 'middle',
 			internalClassName: `${classNamePrefix}__content__toolbar--middle-toolbar`,
 			layout: isMobile
-				? [['mobileSidebar', '_', 'paginationInfo'], ['filterSummary'], ['banner.banner']]
+				? [['mobileSidebar', '_', 'paginationInfo'], ['banner.banner']]
 				: [['sortBy', 'perPage', '_', 'paginationInfo'], ['banner.banner']],
 			toggleSideBarButton: { ...toggleSidebarButtonProps },
 			// inherited props
@@ -168,7 +175,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			// default props
 			name: 'bottom',
 			internalClassName: `${classNamePrefix}__content__toolbar--bottom-toolbar`,
-			layout: [['banner.footer'], ['_', 'pagination']],
+			layout: [['banner.footer'], ['_', 'pagination', '_']],
 			toggleSideBarButton: { ...toggleSidebarButtonProps },
 			// inherited props
 			...defined({

@@ -5,7 +5,7 @@ import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the Checkbox component
 const checkboxStyleScript = ({ color, theme }: CheckboxProps) => {
 	const variables = theme?.variables;
-	const backgroundColorObj = new Color(color || variables?.colors.primary);
+	const backgroundColorObj = new Color(color || variables?.colors.primary || undefined);
 	const backgroundTextColorObj = backgroundColorObj.isDark() ? new Color('#fff') : new Color('#000');
 
 	return css({

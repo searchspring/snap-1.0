@@ -59,7 +59,7 @@ describe('Recommendations', () => {
 					cy.on('window:before:load', (win) => {
 						win.mergeSnapConfig = {
 							theme: {
-								extends: 'bocachica',
+								extends: 'base',
 								overrides: {
 									default: {
 										recommendation: {
@@ -202,7 +202,7 @@ describe('Recommendations', () => {
 						cy.on('window:before:load', (win) => {
 							win.mergeSnapConfig = {
 								theme: {
-									extends: 'bocachica',
+									extends: 'base',
 									overrides: {
 										default: {
 											recommendation: {

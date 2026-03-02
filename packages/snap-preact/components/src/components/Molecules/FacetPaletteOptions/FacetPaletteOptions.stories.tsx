@@ -31,13 +31,7 @@ export default {
 			),
 		},
 	},
-	decorators: [
-		(Story: any) => (
-			<div style={{ maxWidth: '500px' }}>
-				<Story />
-			</div>
-		),
-	],
+	decorators: [(Story: any) => <Story />],
 	argTypes: {
 		values: {
 			description: 'Facet.values store reference',
@@ -222,7 +216,11 @@ const ObservableFacetPaletteOptions = observer(({ args, controller }: { args: Fa
 });
 
 export const Default = (args: FacetPaletteOptionsProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
-	return <ObservableFacetPaletteOptions args={args} controller={controller} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '100%' : '500px' }}>
+			<ObservableFacetPaletteOptions args={args} controller={controller} />
+		</div>
+	);
 };
 
 Default.loaders = [

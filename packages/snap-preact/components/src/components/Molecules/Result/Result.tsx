@@ -53,11 +53,6 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 			},
 		},
 
-		'& .ss__result__details__rating-wrapper': {
-			display: 'flex',
-			justifyContent: 'center',
-		},
-
 		'& .ss__result__details': {
 			padding: '10px',
 			textAlign: 'center',
@@ -292,13 +287,9 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 							/>
 						</div>
 					)}
-					{!hideRating && (
-						<div className="ss__result__details__rating-wrapper">
-							<Rating {...subProps.rating} />
-						</div>
-					)}
+					{!hideRating && <Rating {...subProps.rating} />}
 
-					{!hidePricing && (
+					{!hidePricing && core.price && core.price > 0 ? (
 						<div className="ss__result__details__pricing">
 							{isOnSale ? (
 								<>
@@ -310,11 +301,11 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 								<Price {...subProps.price} value={core.price!} />
 							)}
 						</div>
-					)}
+					) : null}
 
 					{cloneWithProps(detailSlot, { result, treePath })}
 
-					{!hideVariantSelections && (
+					{!hideVariantSelections && result.variants?.selections.length && (
 						<div className="ss__result__details__variant-selection">
 							{result.variants?.selections.map((selection) => {
 								return <VariantSelection {...subProps.variantSelection} selection={selection} />;

@@ -98,6 +98,64 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
+		showSelectedCount: {
+			description: 'shows the number of selected options within the facet headers',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		hideSelectedCountParenthesis: {
+			description: 'specifies if the parenthesis should render around the selected count',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		showClearAllText: {
+			description: 'specifies if the clear all text should render',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		clearAllText: {
+			description: 'text to show in the clear all link',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: 'Clear All' },
+			},
+			control: { type: 'text' },
+		},
+		clearAllIcon: {
+			description: 'Icon to show in the clear all link',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: '' },
+			},
+			options: [...Object.keys(iconPaths)],
+			control: {
+				type: 'select',
+			},
+		},
 		iconExpand: {
 			defaultValue: 'angle-down',
 			description: 'Icon for when facet is collapsed',

@@ -1,15 +1,13 @@
 import { Fragment, h } from 'preact';
-
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Terms, TermsProps } from '../../Molecules/Terms/Terms';
-import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
 
 const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 	return css({
@@ -38,17 +36,21 @@ const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 
 export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultProps: Partial<TermsListProps> = {
 		layout: [['Suggestions'], ['Trending'], ['History']],
-		historyTitle: 'History',
-		trendingTitle: 'Trending',
-		suggestionTitle: 'Suggestions',
+		historyTitle: 'Recent Searches',
+		trendingTitle: 'Popular Searches',
+		suggestionTitle: 'Search Suggestions',
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('termsList', globalTheme, defaultProps, properties);
 	const {
 		layout,
 		historyTitle,
+		verticalOptions,
 		trendingTitle,
 		suggestionTitle,
 		retainHistory,
@@ -62,6 +64,7 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 
 	const subProps: TermsListSubProps = {
 		terms: {
+			vertical: verticalOptions ? true : false,
 			// default props
 			// inherited props
 			...defined({
@@ -97,8 +100,6 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 		if (history?.length) showHistory = true;
 		if (trending?.length) showTrending = true;
 	}
-
-	useCleanUpEmptyDivs(['.ss__terms-list', '.ss__terms-list__row'], '.ss__terms-list__separator');
 
 	const findModule = (module: TermsListModuleNames[] | TermsListModuleNames) => {
 		if (typeof module !== 'string') {
@@ -182,4 +183,5 @@ export type TermsListTemplatesLegalProps = {
 	trendingTitle?: string;
 	retainHistory?: boolean;
 	retainTrending?: boolean;
+	verticalOptions?: boolean;
 };

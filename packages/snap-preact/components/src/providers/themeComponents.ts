@@ -118,7 +118,7 @@ type ThemeComponentNamedSelectorsStartingWithTemplate<
 	| `${TemplateComponentType} ${SubComponentType}.${ComponentNames}`;
 
 export type ThemeComponentRestrictedProps<Props> = Partial<Omit<Props, ThemeComponentOmittedProps>>;
-type ThemeComponentOmittedProps = 'theme' | 'inherits' | 'disableStyles' | 'styleScript';
+type ThemeComponentOmittedProps = 'theme' | 'inherits' | 'disableStyles' | 'styleScript' | 'internalClassName' | 'className';
 
 type ThemeComponentOverridesRestrictedProps<Props> = Partial<Omit<Props, ThemeComponentOverrideOmittedProps>>;
 type ThemeComponentOverrideOmittedProps =
@@ -133,6 +133,7 @@ type ThemeComponentOverrideOmittedProps =
 	| 'filter'
 	| 'lang'
 	| 'internalClassName'
+	| 'className'
 	| 'ref'
 	| 'snap'
 	| 'name'

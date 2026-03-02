@@ -409,6 +409,19 @@ export default {
 				type: 'object',
 			},
 		},
+		display: {
+			defaultValue: {},
+			description: 'Change props per facet display type',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'object',
+				},
+			},
+			control: {
+				type: 'object',
+			},
+		},
 		...componentArgs,
 	},
 };

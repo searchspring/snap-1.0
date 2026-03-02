@@ -10,6 +10,9 @@ export const autocompleteFixedThemeComponentProps: ThemeComponent<'autocompleteF
 			disableOverflow: true,
 			disableCollapse: true,
 			searchable: false,
+			showClearAllText: false,
+			showSelectedCount: false,
+			rangeInputs: false,
 		},
 		'autocompleteFixed facetGridOptions': {
 			// onClick: facetClickEvent,
@@ -40,11 +43,7 @@ export const autocompleteFixedThemeComponentProps: ThemeComponent<'autocompleteF
 	},
 	mobile: {
 		autocompleteFixed: {
-			layout: [['c1']],
-			column1: {
-				layout: [['termsList'], ['content'], ['_', 'button.see-more']],
-				width: '100%',
-			},
+			layout: 'mini',
 		},
 		'autocompleteFixed results': {
 			columns: 2,
