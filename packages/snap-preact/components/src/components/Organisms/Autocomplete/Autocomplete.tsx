@@ -16,10 +16,11 @@ import { Banner, BannerProps } from '../../Atoms/Banner';
 import { Facets, FacetsProps } from '../Facets';
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, FacetDisplay, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { Lang, useA11y, useLang } from '../../../hooks';
+import { IconType } from '../../Atoms/Icon';
 
 // import { useSnap } from '../../../providers';
 // import { useComponent } from '../../../hooks';
@@ -200,6 +201,7 @@ const defaultStyles: StyleScript<AutocompleteProps> = ({
 
 export const Autocomplete = observer((properties: AutocompleteProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<AutocompleteProps> = {
 		termsTitle: '',
@@ -208,6 +210,8 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		facetsTitle: '',
 		contentTitle: '',
 		width: '100%',
+		seeMoreButtonIcon: 'angle-right',
+		treePath: globalTreePath,
 	};
 
 	let props = mergeProps('autocomplete', globalTheme, defaultProps, properties);
@@ -350,6 +354,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		resultComponent,
 		onTermClick,
 		seeMoreButtonText,
+		seeMoreButtonIcon,
 		// templates,
 		disableStyles,
 		className,
@@ -397,7 +402,6 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		icon: {
 			// default props
 			internalClassName: 'ss__autocomplete__icon',
-			icon: 'angle-right',
 			size: '10px',
 			// inherited props
 			...defined({
@@ -772,7 +776,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 										{noResultsSlot ? (
 											cloneWithProps(noResultsSlot, { search, pagination, controller, treePath })
 										) : (
-											<div {...mergedLang.noResultsText?.all}></div>
+											<div className="ss__autocomplete__content__no-results__text" {...mergedLang.noResultsText?.all}></div>
 										)}
 									</div>
 								)}
@@ -796,7 +800,10 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 												{...mergedLang.seeMoreButton.attributes}
 											>
 												<span {...mergedLang.seeMoreButton.value}></span>
-												<Icon {...subProps.icon} />
+												<Icon
+													{...subProps.icon}
+													{...(typeof seeMoreButtonIcon == 'string' ? { icon: seeMoreButtonIcon } : (seeMoreButtonIcon as Partial<IconProps>))}
+												/>
 											</a>
 										</div>
 									) : null
@@ -867,6 +874,7 @@ export interface AutocompleteProps extends ComponentProps {
 	contentTitle?: string;
 	viewportMaxHeight?: boolean;
 	seeMoreButtonText?: string | ((controller: AutocompleteController) => string);
+	seeMoreButtonIcon?: IconType | Partial<IconProps> | boolean;
 	termsSlot?: JSX.Element | JSX.Element[];
 	facetsSlot?: JSX.Element | JSX.Element[];
 	contentSlot?: JSX.Element | JSX.Element[];

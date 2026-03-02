@@ -96,11 +96,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 				alignItems: 'center',
 				justifyContent: 'center',
 				cursor: 'pointer',
-				transition: 'background 0.2s ease',
-
-				'&:hover': {
-					background: 'rgba(255, 255, 255, 1)',
-				},
 
 				'&:disabled': {
 					cursor: 'not-allowed',

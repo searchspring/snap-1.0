@@ -111,16 +111,15 @@ The `hideShowMoreLessText` prop hides the show more / show less text.
 <Facet facet={controller.store.facets[0]} hideShowMoreLessText={true} />
 ```
 
-
 ### showSelectedCount
-The `showSelectedCount` prop shows the number of selected options within the facet in the facet header.
+The `showSelectedCount` prop shows the number of selected options within the facet in the facet header. NOTE: this prop will not work if `justContent` prop enabled. 
 
 ```jsx
 <Facet facet={controller.store.facets[0]} showSelectedCount={true} />
 ```
 
 ### hideSelectedCountParenthesis
-The `hideSelectedCountParenthesis` prop specifies if the parenthesis should render around the selected count in the facet header.
+The `hideSelectedCountParenthesis` prop specifies if the parenthesis should render around the selected count in the facet header. NOTE: this prop will not work if `justContent` prop enabled. 
 
 ```jsx
 <Facet facet={controller.store.facets[0]} hideSelectedCountParenthesis={true} />
@@ -235,6 +234,32 @@ const fieldsProp = {
 <Facet facet={controller.store.facets[0]} fields={fieldsProp} />
 ```
 
+
+### display
+The `display` prop allows you to manually change prop values on a per-facet display type level
+
+```typescript
+const displayProp = {
+	display: {
+		list: {
+			limit: 5,
+		},
+		hierarchy: {
+			limit: 3
+		},
+		grid: {
+			limit: 10
+		},
+		palette: {
+			limit: 20
+		}
+	}
+},
+```
+
+```jsx
+<Facet facet={controller.store.facets[0]} display={displayProp} />
+```
 
 ### optionsSlot
 The `optionsSlot` prop is a JSX element used to manually set the options component used, regardless of the facet.display type. Returns the facet,valueProps, limit, & previewOnFocus prop values.

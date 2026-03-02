@@ -129,7 +129,8 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps): 
 		},
 		searchInput: {
 			// default props
-			internalClassName: 'autocomplete-fixed__search-input',
+			// autocomplete__search-input is required for useAcRenderedInput hook.
+			internalClassName: 'autocomplete-fixed__search-input autocomplete__search-input',
 			placeholderText: inputPlaceholderText || undefined,
 			submitSearchButton: {
 				onClick: () => {

@@ -45,7 +45,7 @@ The `_` module is used a seperator module to center|left|right justify the other
 
 available modules to use in the layout are 
 
-`c1`, `c2`, `c3`, `c4`, `termsList`, `terms.history`, `terms.trending`, `terms.suggestions`, `facets`, `facetsHorizontal`, `button.see-more`, `content`, `_`, `banner.left`, `banner.banner`, `banner.footer`, `banner.header`
+`c1`, `c2`, `c3`, `c4`, `termsList`, `terms.history`, `terms.trending`, `terms.suggestions`, `facets`, `facetsHorizontal`, `button.see-more`, `content`, `no-results`, `_`, `banner.left`, `banner.banner`, `banner.footer`, `banner.header`
 
 
 ```jsx

@@ -237,8 +237,8 @@ DisabledOption.args = {
 	],
 } as GridProps;
 
-export const backgroundImages = (args: GridProps) => <Grid {...args} />;
-backgroundImages.args = {
+export const Images = (args: GridProps) => <Grid {...args} />;
+Images.args = {
 	options: [
 		{
 			value: 'Faded Khaki',

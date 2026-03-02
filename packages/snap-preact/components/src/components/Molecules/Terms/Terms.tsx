@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import type { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
 import { ComponentProps, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { createHoverProps } from '../../../toolbox';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { Term } from '@athoscommerce/snap-store-mobx';
@@ -80,9 +80,12 @@ const emIfyTerm = (term: string, search: string): string => {
 
 export const Terms = observer((properties: TermsProps): JSX.Element => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultProps: Partial<TermsProps> = {
 		vertical: true,
 		previewOnHover: true,
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('terms', globalTheme, defaultProps, properties);

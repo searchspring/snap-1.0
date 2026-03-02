@@ -230,7 +230,7 @@ export default {
 const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
+	<Result {...args} result={controller?.store?.results[20] as Product} />
 );
 
 Default.loaders = [
@@ -243,7 +243,7 @@ Default.loaders = [
 ];
 
 export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
+	<Result {...args} result={controller?.store?.results[20] as Product} />
 );
 
 hideSections.loaders = [
@@ -261,7 +261,7 @@ hideSections.args = {
 };
 
 export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
+	<Result {...args} result={controller?.store?.results[20] as Product} />
 );
 
 truncateTitle.loaders = [

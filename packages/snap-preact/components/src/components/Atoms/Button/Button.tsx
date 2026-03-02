@@ -14,7 +14,7 @@ import deepmerge from 'deepmerge';
 import Color from 'color';
 
 const defaultStyles: StyleScript<ButtonProps> = ({ native, color, backgroundColor, borderColor, theme }) => {
-	const lightenedPrimaryColorObj = new Color(backgroundColor || color || theme?.variables?.colors?.primary).lightness(95);
+	const lightenedPrimaryColorObj = new Color(backgroundColor || color || theme?.variables?.colors?.primary || undefined).lightness(95);
 
 	// no styling on native
 	if (native) {

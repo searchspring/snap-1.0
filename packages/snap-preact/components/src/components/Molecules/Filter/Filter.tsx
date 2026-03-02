@@ -26,6 +26,7 @@ const defaultStyles: StyleScript<FilterProps> = ({}) => {
 		},
 		'& .ss__filter__label': {
 			marginRight: '5px',
+			marginLeft: '5px',
 			fontWeight: 'bold',
 		},
 	});

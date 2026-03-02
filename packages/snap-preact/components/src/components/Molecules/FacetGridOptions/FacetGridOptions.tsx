@@ -15,7 +15,7 @@ import Color from 'color';
 
 const defaultStyles: StyleScript<FacetGridOptionsProps> = ({ columns, gapSize, gridSize, theme }) => {
 	const variables = theme?.variables;
-	const backgroundColor = new Color(variables?.colors.primary);
+	const backgroundColor = new Color(variables?.colors.primary || undefined);
 	const color = backgroundColor.isDark() ? '#fff' : '#000';
 
 	return css({

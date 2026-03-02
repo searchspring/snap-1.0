@@ -17,7 +17,7 @@ import deepmerge from 'deepmerge';
 import Color from 'color';
 
 const defaultStyles: StyleScript<SelectProps> = ({ color, backgroundColor, borderColor, theme, native }) => {
-	const lightenedPrimary = new Color(backgroundColor || color || theme?.variables?.colors?.primary).lightness(95);
+	const lightenedPrimary = new Color(backgroundColor || color || theme?.variables?.colors?.primary || undefined).lightness(95);
 	if (!native) {
 		return css({
 			display: 'inline-flex',

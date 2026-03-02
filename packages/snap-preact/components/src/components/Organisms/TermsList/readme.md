@@ -22,6 +22,22 @@ The `_` module is used a seperator module to center|left|right justify the other
 <TermsList controller={controller} layout={[['Trending'], ['Suggestions'], ['History']]}/>
 ```
 
+### horizontal
+
+The `horizontal` prop specifies if the terms should be rendered horizontally.
+
+```jsx
+<TermsList controller={controller} horizontal={true}/>
+``` 
+
+### verticalOptions
+
+The `verticalOptions` prop specifies if the terms options should be rendered vertically.
+
+```jsx
+<TermsList controller={controller} verticalOptions={true}/>
+``` 
+
 ### historyTitle
 
 The `historyTitle` prop specifies the title to render above the history terms.

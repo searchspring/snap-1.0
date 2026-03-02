@@ -107,11 +107,12 @@ export function mergeProps<GenericComponentProps extends ComponentProps>(
 			mergedProps.theme.variables = globalTheme.variables;
 		}
 
-		//if custom component, re-spread props again
-		if (treePath && treePath.indexOf('customComponent') > -1) {
+		// if custom component, re-spread props again
+		if (treePath && (treePath.indexOf('customComponent') > -1 || treePath.startsWith('storybook'))) {
 			mergedProps = {
 				...mergedProps,
 				...props,
+				treePath,
 			};
 		}
 	}

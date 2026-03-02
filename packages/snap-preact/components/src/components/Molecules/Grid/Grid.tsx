@@ -307,7 +307,6 @@ export function Grid(properties: GridProps): JSX.Element {
 										'ss__grid__option--unavailable': option?.available === false,
 										'ss__grid__option--dark': isDark,
 									})}
-									style={{ background: option.background ? option.background : option.backgroundImageUrl ? undefined : option.value }}
 									onClick={(e) => !disabled && !option?.disabled && makeSelection(e as any, option)}
 									ref={(e) => useA11y(e)}
 									title={option.label || option.value.toString()}
@@ -315,7 +314,10 @@ export function Grid(properties: GridProps): JSX.Element {
 									aria-selected={selected}
 									aria-disabled={option.disabled}
 								>
-									<div className={classnames(`ss__grid__option__inner`, `ss__grid__option__inner--${filters.handleize(option.value.toString())}`)}>
+									<div
+										className={classnames(`ss__grid__option__inner`, `ss__grid__option__inner--${filters.handleize(option.value.toString())}`)}
+										style={{ background: option.background ? option.background : option.backgroundImageUrl ? undefined : option.value }}
+									>
 										{!option.background && option.backgroundImageUrl ? (
 											<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value.toString()} />
 										) : (

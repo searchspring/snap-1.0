@@ -6,8 +6,8 @@ import { ThemeComponent } from '../../../../providers';
 const loadMoreStyleScript = ({ color, backgroundColor, theme }: LoadMoreProps) => {
 	const variables = theme?.variables;
 
-	const barColour = new Color(color || variables?.colors.accent);
-	const backgroundColour = backgroundColor ? new Color(backgroundColor) : barColour.lightness(90);
+	const barColour = new Color(color || variables?.colors.accent || undefined);
+	const backgroundColour = backgroundColor ? new Color(backgroundColor || undefined) : barColour.lightness(90);
 
 	return css({
 		'.ss__button': {
