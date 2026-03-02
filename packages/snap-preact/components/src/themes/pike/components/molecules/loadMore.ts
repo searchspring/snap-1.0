@@ -7,6 +7,7 @@ import { custom } from '../../custom';
 const loadMoreStyleScript = (props: LoadMoreProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const borderColor = props?.backgroundColor != custom.colors.gray01 ? custom.utils.darkenColor(props.backgroundColor, 0.25) : custom.colors.gray02;
 
 	// load more styles
 	const loadMoreStyles = css({
@@ -15,9 +16,13 @@ const loadMoreStyleScript = (props: LoadMoreProps) => {
 			'&, .ss__load-more__progress': {
 				gap: `${custom.spacing.x2}px`,
 			},
+			'.ss__load-more__icon': {
+				margin: 0,
+			},
 			'.ss__load-more__progress': {
 				'.ss__load-more__progress__indicator': {
-					...custom.styles.box('', 0),
+					margin: '0 auto',
+					border: `1px solid ${borderColor}`,
 					...custom.styles.borderRadius(5),
 					'.ss__load-more__progress__indicator__bar': {
 						margin: '-1px',
@@ -39,6 +44,7 @@ export const loadMore: ThemeComponent<'loadMore', LoadMoreProps> = {
 		loadMore: {
 			themeStyleScript: loadMoreStyleScript,
 			color: custom.colors.primary,
+			backgroundColor: custom.colors.gray01,
 		},
 		'loadMore icon': {
 			color: custom.colors.primary,

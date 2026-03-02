@@ -135,8 +135,10 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 								},
 								'&.ss__swatches__slideshow__swatch--disabled, &.ss__swatches__slideshow__swatch--unavailable': {
 									opacity: 1,
-									cursor: 'not-allowed !important',
-									pointerEvents: 'unset',
+									'&, &:before, &:after, *': {
+										pointerEvents: 'unset',
+										cursor: 'not-allowed !important',
+									},
 									'&:before': {
 										maxWidth: `${swatchesSize - 4}px`,
 										top: 0,

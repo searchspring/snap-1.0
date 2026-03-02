@@ -10,19 +10,17 @@ const lightGray = custom.utils.lightenColor();
 const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 
-	// facet hierarchy styles
-	const facetHierarchyStyles = css({
+	// shared styles
+	const sharedStyles = css({
 		...custom.styles.boxSizing('facetHierarchyOptions', props?.treePath, props?.name),
 		'.ss__facet-hierarchy-options__option': {
 			lineHeight: 1.5,
 			color: variables?.colors?.text,
 			gap: `${custom.spacing.x1}px`,
 			padding: 0,
-			margin: `0 0 ${custom.spacing.x1}px 0`,
-			'&:last-of-type': {
-				marginBottom: 0,
-			},
 			'.ss__facet-hierarchy-options__option__value': {
 				margin: 0,
 				'.ss__facet-hierarchy-options__option__value__count': {
@@ -42,13 +40,68 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 		},
 		'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
 			...custom.styles.activeText(variables?.colors?.primary),
-			'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
-				paddingLeft: `${custom.spacing.x6}px`,
-			},
 		},
 	});
 
-	return facetHierarchyStyles;
+	// facet hierarchy list styles
+	const facetHierarchyListStyles = css([
+		sharedStyles,
+		{
+			'.ss__facet-hierarchy-options__option': {
+				margin: `0 0 ${custom.spacing.x1}px 0`,
+				'&:last-of-type': {
+					marginBottom: 0,
+				},
+			},
+			'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
+				'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
+					paddingLeft: `${custom.spacing.x6}px`,
+				},
+			},
+		},
+	]);
+
+	// facet hierarchy horizontal styles
+	const facetHierarchyHorizontalStyles = css([
+		sharedStyles,
+		{
+			flexFlow: 'row wrap',
+			gap: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
+			'.ss__facet-hierarchy-options__option': {
+				flex: '0 1 auto',
+				width: `calc((100% - ${custom.spacing.x2}px) / 2)`,
+				minWidth: '1px',
+				margin: 0,
+				'&.ss__facet-hierarchy-options__option--return, &.ss__facet-hierarchy-options__option--filtered': {
+					width: '100%',
+				},
+				'&.ss__facet-hierarchy-options__option--return': {
+					display: 'flex',
+					alignItems: 'center',
+				},
+				'.ss__facet-hierarchy-options__option__value': {
+					display: 'block',
+					...custom.styles.textOverflow(),
+				},
+			},
+		},
+		{
+			[`${custom.utils.getBp(mobileBp)}`]: {
+				'.ss__facet-hierarchy-options__option': {
+					width: `calc((100% - ${custom.spacing.x2 * 2}px) / 3)`,
+				},
+			},
+		},
+		{
+			[`${custom.utils.getBp(tabletBp)}`]: {
+				'.ss__facet-hierarchy-options__option': {
+					width: `calc((100% - ${custom.spacing.x2 * 3}px) / 4)`,
+				},
+			},
+		},
+	]);
+
+	return props?.horizontal ? facetHierarchyHorizontalStyles : facetHierarchyListStyles;
 };
 
 // FacetHierarchyOptions component props

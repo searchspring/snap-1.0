@@ -27,7 +27,7 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `${custom.spacing.x2}px 0 0 0`,
-				'&:first-child': {
+				'&:first-of-type': {
 					marginTop: 0,
 				},
 			},

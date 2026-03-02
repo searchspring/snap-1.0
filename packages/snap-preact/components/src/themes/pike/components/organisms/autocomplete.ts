@@ -222,7 +222,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 			'&.ss__autocomplete': {
 				'.ss__autocomplete__content__results .ss__results': {
 					gridTemplateColumns: `repeat(2, 1fr)`,
-					'& > *:nth-child(n + 3)': {
+					'& > *:nth-of-type(n + 3)': {
 						display: 'none',
 					},
 				},

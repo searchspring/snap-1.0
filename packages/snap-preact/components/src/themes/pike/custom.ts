@@ -176,9 +176,9 @@ export const custom: CustomThemeType = {
 				},
 				'.ss__result__details__title a': {
 					display: '-webkit-box',
-					'-webkitBoxOrient': 'vertical',
+					WebkitBoxOrient: 'vertical',
 					overflow: 'hidden',
-					'-webkitLineClamp': '2',
+					WebkitLineClamp: '2',
 				},
 				'.ss__result__add-to-cart-wrapper': {
 					marginTop: '2.5px',

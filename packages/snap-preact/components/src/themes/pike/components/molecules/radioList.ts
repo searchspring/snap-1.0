@@ -25,16 +25,18 @@ const radioListStyleScript = (props: RadioListProps) => {
 		},
 		'.ss__radio-list__title, .ss__radio-list__options-wrapper .ss__radio-list__option': {
 			padding: 0,
-			margin: `0 0 ${custom.spacing.x1}px 0`,
 		},
 		'.ss__radio-list__title': {
+			margin: `0 0 ${custom.spacing.x2}px 0`,
 			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 		},
 		'.ss__radio-list__options-wrapper': {
 			'.ss__radio-list__option': {
 				position: 'relative',
+				lineHeight: 1.5,
 				color: variables?.colors?.text,
 				gap: `${custom.spacing.x2}px`,
+				margin: `0 0 ${custom.spacing.x1}px 0`,
 				padding: props?.hideOptionRadios ? `` : `0 0 0 ${radioSpacing}px`,
 				'&:last-of-type': {
 					marginBottom: 0,

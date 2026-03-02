@@ -19,11 +19,11 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	// grid styles
-	const gridStyles = css({
+	// shared styles
+	const sharedStyles = css({
 		...custom.styles.boxSizing('grid', props?.treePath, props?.name),
 		'.ss__grid__title': {
-			margin: `0 0 ${custom.spacing.x1}px 0`,
+			margin: `0 0 ${custom.spacing.x2}px 0`,
 			...custom.styles.headerText(variables?.colors?.secondary, '14px'),
 		},
 		'.ss__grid__options .ss__grid__option .ss__grid__option__inner .ss__grid__option__label, .ss__grid__show-more-wrapper': {
@@ -31,25 +31,13 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 			lineHeight: 1,
 		},
 		'.ss__grid__options': {
-			display: 'flex',
-			flexFlow: 'row wrap',
-			alignItems: 'center',
-			'&:before, &:after': {
-				display: 'none',
-			},
 			'.ss__grid__option': {
-				flex: '0 1 auto',
-				minWidth: '1px',
 				'&, &.ss__grid__option--selected': {
 					border: 0,
 				},
 			},
 			'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
 				position: 'relative',
-				width: `${gridSize}px`,
-				maxHeight: `${gridSize}px`,
-				height: '100%',
-				aspectRatio: 1,
 				'.ss__grid__option__inner': {
 					position: 'relative',
 					width: '100%',
@@ -130,8 +118,10 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 				},
 				'&.ss__grid__option--disabled, &.ss__grid__option--unavailable': {
 					opacity: 1,
-					cursor: 'not-allowed !important',
-					pointerEvents: 'unset',
+					'&, &:before, &:after, *': {
+						pointerEvents: 'unset',
+						cursor: 'not-allowed !important',
+					},
 					'&:before': {
 						maxWidth: `${gridSize - 4}px`,
 						top: 0,
@@ -187,7 +177,35 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 		},
 	});
 
-	return gridStyles;
+	// grid styles
+	const gridStyles = css([
+		sharedStyles,
+		{
+			'.ss__grid__options': {
+				display: 'flex',
+				flexFlow: 'row wrap',
+				alignItems: 'center',
+				'&:before, &:after': {
+					display: 'none',
+				},
+				'.ss__grid__option': {
+					flex: '0 1 auto',
+					minWidth: '1px',
+				},
+				'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
+					width: `${gridSize}px`,
+					maxHeight: `${gridSize}px`,
+					height: '100%',
+					aspectRatio: 1,
+				},
+			},
+		},
+	]);
+
+	// grid column styles
+	const gridColumnStyles = css([sharedStyles]);
+
+	return props?.columns ? gridColumnStyles : gridStyles;
 };
 
 // Grid component props
@@ -195,6 +213,7 @@ export const grid: ThemeComponent<'grid', GridProps> = {
 	default: {
 		grid: {
 			themeStyleScript: gridStyleScript,
+			columns: 0,
 			gapSize: `${custom.spacing.x1}px`,
 			hideLabels: false,
 		},

@@ -5,7 +5,6 @@ import { custom } from '../../custom';
 
 // static variables
 const dropdownButtonHeight = custom.sizes.height;
-const columnsSelector = `.ss__facet-hierarchy-options, .ss__facet-list-options, .ss__facet-palette-options.ss__facet-palette-options--list`;
 
 // CSS in JS style script for the Facets component
 const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
@@ -101,17 +100,6 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 					},
 				},
 				'.ss__dropdown__content': {
-					[columnsSelector]: {
-						display: 'flex',
-						flexFlow: 'row wrap',
-						gap: `${custom.spacing.x1}px ${custom.spacing.x2}px`,
-						'& > *': {
-							flex: '0 1 auto',
-							width: `calc((100% - ${custom.spacing.x2}px) / 2)`,
-							minWidth: '1px',
-							margin: 0,
-						},
-					},
 					'.ss__checkbox, .ss__radio, .ss__search-input .ss__search-input__input, .ss__facet__range-inputs .ss__facet__range-input__input': {
 						backgroundColor: custom.colors.white,
 					},
@@ -120,24 +108,6 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 					},
 					'.ss__facet.ss__facet--showing-all:has(.ss__facet__show-more-less) .ss__facet__options': {
 						maxHeight: '360px',
-					},
-					'.ss__facet-list-options': {
-						'.ss__facet-list-options__option .ss__facet-list-options__option__value': {
-							...custom.styles.textOverflow(),
-						},
-					},
-					'.ss__facet-hierarchy-options': {
-						'.ss__facet-hierarchy-options__option .ss__facet-hierarchy-options__option__value': {
-							...custom.styles.textOverflow(),
-						},
-						'.ss__facet-hierarchy-options__option--return, .ss__facet-hierarchy-options__option--filtered': {
-							width: '100%',
-						},
-						'.ss__facet-hierarchy-options__option.ss__facet-hierarchy-options__option--filtered': {
-							'& ~ .ss__facet-hierarchy-options__option:not(.ss__facet-hierarchy-options__option--filtered)': {
-								paddingLeft: 0,
-							},
-						},
 					},
 					'.ss__facet-grid-options': {
 						'.ss__facet-grid-options__option:not(.ss__facet-grid-options__option--filtered)': {
@@ -164,26 +134,12 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				'& > *': {
 					width: `calc((100% - ${custom.spacing.x2 * 3}px) / 4)`,
 				},
-				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
-					[columnsSelector]: {
-						'& > *': {
-							width: `calc((100% - ${custom.spacing.x2 * 2}px) / 3)`,
-						},
-					},
-				},
 			},
 		},
 		[`${custom.utils.getBp(tabletBp)}`]: {
 			'.ss__facets-horizontal__header': {
 				'& > *': {
 					width: `calc((100% - ${custom.spacing.x2 * 5}px) / 6)`,
-				},
-				'.ss__facets-horizontal__header__dropdown .ss__dropdown__content': {
-					[columnsSelector]: {
-						'& > *': {
-							width: `calc((100% - ${custom.spacing.x2 * 3}px) / 4)`,
-						},
-					},
 				},
 			},
 		},
@@ -206,6 +162,7 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		},
 		'facetsHorizontal dropdown facet': {
 			statefulOverflow: true,
+			horizontal: true,
 			display: {
 				list: {
 					limit: 32,
@@ -223,6 +180,7 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		},
 		'facetsHorizontal mobileSidebar facet': {
 			statefulOverflow: true,
+			horizontal: false,
 			display: {
 				list: {
 					limit: 10,
@@ -237,6 +195,9 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 					limit: 12,
 				},
 			},
+		},
+		'facetsHorizontal facetListOptions': {
+			hideCheckbox: false,
 		},
 		'facetsHorizontal facetGridOptions': {
 			gridSize: '48px',

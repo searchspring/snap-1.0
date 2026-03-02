@@ -22,14 +22,14 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 			border: 0,
 			'& > *': {
 				minWidth: '1px',
-				'&:first-child, &:last-child': {
+				'&:first-of-type, &:last-of-type': {
 					...custom.styles.borderRadius(),
 				},
-				'&:first-child': {
+				'&:first-of-type': {
 					borderTopRightRadius: custom.sizes.radius ? 0 : '',
 					borderBottomRightRadius: custom.sizes.radius ? 0 : '',
 				},
-				'&:last-child': {
+				'&:last-of-type': {
 					borderTopLeftRadius: custom.sizes.radius ? 0 : '',
 					borderBottomLeftRadius: custom.sizes.radius ? 0 : '',
 					overflow: custom.sizes.radius ? `hidden` : ``,

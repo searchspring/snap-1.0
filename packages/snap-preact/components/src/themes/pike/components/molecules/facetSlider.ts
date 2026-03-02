@@ -6,6 +6,7 @@ import { custom } from '../../custom';
 // slider options
 const slider = {
 	handles: 20, // handle size
+	handleInner: 7, // handle inner size,
 	values: 14, // values size
 	bar: 6, // bar size
 	ticks: 17, // size of ticks
@@ -31,7 +32,7 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 	const variables = props?.theme?.variables;
 	const hasTicks = props?.showTicks ? true : false;
 	const hasStickyHandles = props?.stickyHandleLabel ? true : false;
-	const trackBorderColor = props?.trackColor != custom.colors.gray01 ? custom.utils.darkenColor(props.trackColor, 0.5) : custom.colors.gray02;
+	const trackBorderColor = props?.trackColor != custom.colors.gray01 ? custom.utils.darkenColor(props.trackColor, 0.25) : custom.colors.gray02;
 	const activeColors = custom.utils.activeColors(props?.handleColor);
 
 	// values font styles
@@ -89,8 +90,8 @@ const facetSliderStyleScript = (props: FacetSliderProps) => {
 						height: `${slider.handles}px`,
 						lineHeight: `${slider.handles}px`,
 						'&:after': {
-							width: `${slider.handles / 4}px`,
-							height: `${slider.handles / 4}px`,
+							width: `${slider.handleInner}px`,
+							height: `${slider.handleInner}px`,
 							backgroundColor: activeColors[1],
 						},
 						'.ss__facet-slider__handle__label.ss__facet-slider__handle__label--sticky': {

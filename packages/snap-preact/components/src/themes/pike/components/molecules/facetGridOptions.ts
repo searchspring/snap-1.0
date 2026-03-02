@@ -53,7 +53,7 @@ export const facetGridOptions: ThemeComponent<'facetGridOptions', FacetGridOptio
 	default: {
 		facetGridOptions: {
 			themeStyleScript: facetGridOptionsStyleScript,
-			horizontal: true,
+			columns: 0,
 			gridSize: '52px',
 			gapSize: `${custom.spacing.x1}px`,
 		},

@@ -49,6 +49,7 @@ const selectStyleScript = (props: SelectProps) => {
 						border: 0,
 						backgroundColor: 'transparent',
 						'.ss__select__select__option': {
+							lineHeight: 1.5,
 							color: 'inherit',
 							gap: `${custom.spacing.x2}px`,
 							padding: 0,

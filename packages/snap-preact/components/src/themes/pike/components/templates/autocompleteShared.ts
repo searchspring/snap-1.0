@@ -181,7 +181,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
 			{
 				gridTemplateColumns: 'repeat(2, 1fr)',
-				[`& > *:nth-child(n + ${isSlideout ? 5 : 3})`]: {
+				[`& > *:nth-of-type(n + ${isSlideout ? 5 : 3})`]: {
 					display: 'none',
 				},
 			},
