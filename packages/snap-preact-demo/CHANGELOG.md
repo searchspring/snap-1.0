@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/searchspring/snap-1.0/compare/v1.12.1...v1.13.0) (2026-03-02)
+
+### Features
+
+- **client:** reactor of the client to remove Snap API and rename to appropriate API names - additionally refactored transforms for improved typing ([d3c27a2](https://github.com/searchspring/snap-1.0/commit/d3c27a2edafbe4a3b89b17f69fb898862e441b65))
+- **client:** refactored client to simplify requesters - added config for endpoints in each requester ([c2304fd](https://github.com/searchspring/snap-1.0/commit/c2304fd69ed8e6b370c1fa7becc4a5e9bd9fe2e0))
+
 ## [1.12.1](https://github.com/searchspring/snap-1.0/compare/v1.12.0...v1.12.1) (2026-02-25)
 
 **Note:** Version bump only for package @searchspring/snap-preact-demo

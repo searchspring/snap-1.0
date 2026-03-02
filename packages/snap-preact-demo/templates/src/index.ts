@@ -14,19 +14,6 @@ const siteId = 'atkzs2';
 // 	search: {
 // 		origin: `https://${siteId}.a.searchspring.io`,
 // 	},
-// 	autocomplete: {
-// 		requesters: {
-// 			suggest: {
-// 				origin: `https://${siteId}.a.searchspring.io`,
-// 			},
-// 			legacy: {
-// 				origin: `https://${siteId}.a.searchspring.io`,
-// 			},
-// 		},
-// 	},
-// 	finder: {
-// 		origin: `https://${siteId}.a.searchspring.io`,
-// 	},
 // 	recommend: {
 // 		origin: `https://${siteId}.a.searchspring.io`,
 // 	},
