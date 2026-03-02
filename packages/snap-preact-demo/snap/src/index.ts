@@ -78,19 +78,6 @@ if (customOrigin) {
 		search: {
 			origin: customOrigin,
 		},
-		autocomplete: {
-			requesters: {
-				suggest: {
-					origin: customOrigin,
-				},
-				search: {
-					origin: customOrigin,
-				},
-			},
-		},
-		finder: {
-			origin: customOrigin,
-		},
 		// recommend: {
 		// 	origin: recommendOrigin,
 		// },

@@ -22,13 +22,13 @@ export interface RequestOpts {
 	subDomain?: string; // optional subdomain for requests
 }
 
-export class API {
+export class API<PathConfigurationType> {
 	private retryDelay = 1000;
 	private retryCount = 0;
 
 	public cache: NetworkCache;
 
-	constructor(public configuration: ApiConfiguration) {
+	constructor(public configuration: ApiConfiguration<PathConfigurationType>) {
 		this.cache = new NetworkCache(this.configuration.cache);
 	}
 
@@ -132,7 +132,7 @@ export class API {
 
 export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
 
-export interface ApiConfigurationParameters {
+export interface ApiConfigurationParameters<PathConfigurationType = Record<string, string>> {
 	mode?: keyof typeof AppMode | AppMode;
 	initiator?: string;
 	origin?: string; // override url origin
@@ -142,10 +142,11 @@ export interface ApiConfigurationParameters {
 	maxRetry?: number;
 	cache?: CacheConfig;
 	globals?: GenericGlobals;
+	paths?: PathConfigurationType;
 }
 
-export class ApiConfiguration {
-	constructor(private config: ApiConfigurationParameters = {}) {
+export class ApiConfiguration<PathConfigurationType> {
+	constructor(private config: ApiConfigurationParameters<PathConfigurationType> = {}) {
 		if (!config.maxRetry) {
 			this.config.maxRetry = 8;
 		}
@@ -200,6 +201,10 @@ export class ApiConfiguration {
 
 	get mode(): AppMode {
 		return this.config.mode! as AppMode;
+	}
+
+	get paths(): PathConfigurationType {
+		return this.config.paths || ({} as PathConfigurationType);
 	}
 }
 

@@ -1,36 +1,45 @@
 import { AppMode } from '@athoscommerce/snap-toolbox';
-import type {
-	MetaRequestModel,
-	SearchResponseModelResult,
-	SearchRequestModel,
-	AutocompleteRequestModel,
-	MetaResponseModel,
-} from '@athoscommerce/snapi-types';
+import type { MetaRequestModel, SearchResponseModelResult, SearchRequestModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 export type HTTPHeaders = { [key: string]: string };
 
-type RequesterConfig<T> = {
+export type SearchRequesterPaths = {
+	autocomplete?: string;
+	search?: string;
+	category?: string;
+	finder?: string;
+};
+
+export type MetaRequesterPaths = {
+	meta?: string;
+};
+
+export type SuggestRequesterPaths = {
+	suggest?: string;
+	trending?: string;
+};
+
+export type RecommendRequesterPaths = {
+	recommend?: string;
+	profile?: string;
+};
+
+type RequesterConfig<RequestType, PathConfigurationType> = {
 	origin?: string;
 	headers?: HTTPHeaders;
 	cache?: CacheConfig;
-	globals?: Partial<T>;
+	globals?: Partial<RequestType>;
+	paths?: Partial<PathConfigurationType>;
 };
 
 export type ClientConfig = {
 	mode?: keyof typeof AppMode | AppMode;
 	initiator?: string;
 	fetchApi?: WindowOrWorkerGlobalScope['fetch'];
-	meta?: RequesterConfig<MetaRequestModel>;
-	search?: RequesterConfig<SearchRequestModel>;
-	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: AutocompleteRequesterConfig };
-	finder?: RequesterConfig<SearchRequestModel>;
-	recommend?: RequesterConfig<RecommendRequestModel>;
-	suggest?: RequesterConfig<SuggestRequestModel>;
-};
-
-export type AutocompleteRequesterConfig = {
-	suggest?: RequesterConfig<SuggestRequestModel>;
-	search?: RequesterConfig<SearchRequestModel | AutocompleteRequestModel>;
+	meta?: RequesterConfig<MetaRequestModel, MetaRequesterPaths>;
+	search?: RequesterConfig<SearchRequestModel, SearchRequesterPaths>;
+	recommend?: RequesterConfig<RecommendRequestModel, RecommendRequesterPaths>;
+	suggest?: RequesterConfig<SuggestRequestModel, SuggestRequesterPaths>;
 };
 
 export type CacheConfig = Partial<DefaultCacheConfig>;

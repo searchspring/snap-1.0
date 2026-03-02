@@ -625,6 +625,48 @@ describe('search response filterSummary transformer', () => {
 		});
 	});
 
+	it('treats a range filter with a zero lower bound as a range type', () => {
+		const zeroLowFilter = [
+			{
+				field: 'price',
+				value: { rangeLow: '0', rangeHigh: '50' },
+				label: 'Price: $0.00 - $50.00',
+				filterLabel: 'Price',
+				filterValue: '$0.00 - $50.00',
+			},
+		];
+
+		const response = transformSearchResponse.filters({
+			...mockResponse,
+			filterSummary: zeroLowFilter,
+		});
+
+		expect(response[0].type).toBe('range');
+		expect((response[0] as any).value.low).toBe(0);
+		expect((response[0] as any).value.high).toBe(50);
+	});
+
+	it('treats a range filter with a zero upper bound as a range type', () => {
+		const zeroHighFilter = [
+			{
+				field: 'temperature',
+				value: { rangeLow: '-50', rangeHigh: '0' },
+				label: 'Temp: -50 to 0',
+				filterLabel: 'Temperature',
+				filterValue: 'Temp: -50 to 0',
+			},
+		];
+
+		const response = transformSearchResponse.filters({
+			...mockResponse,
+			filterSummary: zeroHighFilter,
+		});
+
+		expect(response[0].type).toBe('range');
+		expect((response[0] as any).value.low).toBe(-50);
+		expect((response[0] as any).value.high).toBe(0);
+	});
+
 	it('returns empty array if passed no data', () => {
 		// @ts-ignore
 		expect(Array.isArray(transformSearchResponse.filters())).toBe(true);
@@ -785,5 +827,51 @@ describe('hierarchy facets', () => {
 
 		expect(hierarchyFacet.values![0].filtered).toBe(false);
 		expect(hierarchyFacet.values![1].filtered).toBe(false);
+	});
+});
+
+describe('range-bucket facet value coercion', () => {
+	const rangeBucketFacet = [
+		{
+			field: 'price',
+			label: 'Price',
+			type: null,
+			collapse: 0,
+			facet_active: 0,
+			values: [
+				{ active: false, type: 'range', low: '0', high: '25', label: '$0 - $25', count: 5 },
+				{ active: false, type: 'range', low: '25', high: '50', label: '$25 - $50', count: 8 },
+				{ active: false, type: 'range', low: '50', high: '*', label: '$50+', count: 3 },
+				{ active: false, type: 'range', low: '*', high: '0', label: 'Up to 0', count: 1 },
+			],
+		},
+	];
+
+	it('coerces a zero lower bound to 0, not undefined', () => {
+		const response = transformSearchResponse.facets({ ...mockResponse, facets: rangeBucketFacet as any });
+		const values = (response[0] as any).values;
+
+		expect(values[0].low).toBe(0);
+		expect(values[0].high).toBe(25);
+	});
+
+	it('coerces a zero upper bound to 0, not undefined', () => {
+		const response = transformSearchResponse.facets({ ...mockResponse, facets: rangeBucketFacet as any });
+		const values = (response[0] as any).values;
+
+		expect(values[3].low).toBeUndefined();
+		expect(values[3].high).toBe(0);
+	});
+
+	it('maps the wildcard sentinel "*" to undefined for both bounds', () => {
+		const response = transformSearchResponse.facets({ ...mockResponse, facets: rangeBucketFacet as any });
+		const values = (response[0] as any).values;
+
+		// low: '50', high: '*'
+		expect(values[2].low).toBe(50);
+		expect(values[2].high).toBeUndefined();
+
+		// low: '*', high: '0'
+		expect(values[3].low).toBeUndefined();
 	});
 });

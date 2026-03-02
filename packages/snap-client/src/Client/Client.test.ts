@@ -65,9 +65,6 @@ describe('Snap Client', () => {
 			search: {
 				origin: 'https://snapi.kube.athoscommerce.net/search',
 			},
-			autocomplete: {
-				origin: 'https://snapi.kube.athoscommerce.net/autocomplete',
-			},
 			recommend: {
 				origin: 'https://snapi.kube.athoscommerce.net/recommend',
 			},
@@ -84,10 +81,9 @@ describe('Snap Client', () => {
 
 		expect(clientConfig?.meta?.origin).toBe(config?.meta?.origin);
 
-		//check it merged with the default config
+		// check it merged with the default config
 		expect(clientConfig?.meta?.cache?.purgeable).toBe(false);
 		expect(clientConfig?.search?.origin).toBe(config?.search?.origin);
-		expect(clientConfig?.autocomplete?.origin).toBe(config?.autocomplete?.origin);
 		expect(clientConfig?.recommend?.origin).toBe(config?.recommend?.origin);
 		expect(clientConfig?.suggest?.origin).toBe(config?.suggest?.origin);
 	});
@@ -145,15 +141,15 @@ describe('Snap Client', () => {
 			const client = new Client({ siteId: '8uyt2m' }, { mode: 'development' });
 
 			//@ts-ignore
-			const autocompleteRequester = client.requesters.autocomplete.requesters.search;
+			const searchRequester = client.requesters.search;
 			//@ts-ignore
-			const suggestRequester = client.requesters.autocomplete.requesters.suggest;
+			const suggestRequester = client.requesters.suggest;
 			//@ts-ignore
 			const metaRequester = client.requesters.meta;
 
 			const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 			const suggestRequesterSpy = jest.spyOn(suggestRequester, 'request' as never);
-			const acRequesterSpy = jest.spyOn(autocompleteRequester, 'request' as never);
+			const searchRequesterSpy = jest.spyOn(searchRequester, 'request' as never);
 
 			const acparams = {
 				search: {
@@ -213,8 +209,8 @@ describe('Snap Client', () => {
 			};
 			const acCacheKey = `{"siteId":"8uyt2m",\"q\":\"hello\","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
-			expect(acRequesterSpy).toHaveBeenCalledTimes(1);
-			expect(acRequesterSpy.mock.calls).toEqual([
+			expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
+			expect(searchRequesterSpy.mock.calls).toEqual([
 				[{ ...acRequest, query: { ajaxCatalog: `snap/client/${version}`, ...acRequest.query } }, acCacheKey], // first call
 			]);
 
@@ -403,15 +399,15 @@ describe('Snap Client', () => {
 				const client = new Client({ siteId: '8uyt2m' }, { mode: 'development', fetchApi: fetchApiMock });
 
 				//@ts-ignore
-				const autocompleteRequester = client.requesters.autocomplete.requesters.search;
+				const searchRequester = client.requesters.search;
 				//@ts-ignore
-				const suggestRequester = client.requesters.autocomplete.requesters.suggest;
+				const suggestRequester = client.requesters.suggest;
 				//@ts-ignore
 				const metaRequester = client.requesters.meta;
 
 				const metaRequesterSpy = jest.spyOn(metaRequester, 'request' as never);
 				const suggestRequesterSpy = jest.spyOn(suggestRequester, 'request' as never);
-				const acRequesterSpy = jest.spyOn(autocompleteRequester, 'request' as never);
+				const searchRequesterSpy = jest.spyOn(searchRequester, 'request' as never);
 
 				const acparams = {
 					search: {
@@ -471,8 +467,8 @@ describe('Snap Client', () => {
 				};
 				const acCacheKey = `{"siteId":"8uyt2m",\"q\":\"hello\","ajaxCatalog":"snap/client/${version}\","resultsFormat":"native","test":true}`;
 
-				expect(acRequesterSpy).toHaveBeenCalledTimes(1);
-				expect(acRequesterSpy.mock.calls).toEqual([
+				expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
+				expect(searchRequesterSpy.mock.calls).toEqual([
 					[{ ...acRequest, query: { ajaxCatalog: `snap/client/${version}`, ...acRequest.query } }, acCacheKey], // first call
 				]);
 

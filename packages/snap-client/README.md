@@ -48,20 +48,20 @@ Optional configuration for each requester. This can be used to specifiy a develo
 ```js
 type ClientConfig = {
 	mode?: keyof typeof AppMode | AppMode;
+	initiator?: string;
 	fetchApi?: WindowOrWorkerGlobalScope['fetch'];
-	meta?: RequesterConfig<MetaRequestModel>;
-	search?: RequesterConfig<SearchRequestModel>;
-	autocomplete?: RequesterConfig<AutocompleteRequestModel> & { requesters?: AutocompleteRequesterConfig };
-	finder?: RequesterConfig<SearchRequestModel>;
-	recommend?: RequesterConfig<RecommendRequestModel>;
-	suggest?: RequesterConfig<SuggestRequestModel>;
+	meta?: RequesterConfig<MetaRequestModel, MetaRequesterPaths>;
+	search?: RequesterConfig<SearchRequestModel, SearchRequesterPaths>; // also used by autocomplete, category, and finder
+	recommend?: RequesterConfig<RecommendRequestModel, RecommendRequesterPaths>;
+	suggest?: RequesterConfig<SuggestRequestModel, SuggestRequesterPaths>; // also used by trending
 };
 
-type RequesterConfig<T> = {
+type RequesterConfig<RequestType, PathConfigurationType> = {
 	origin?: string;
 	headers?: HTTPHeaders;
 	cache?: CacheConfig;
-	globals?: Partial<T>;
+	globals?: Partial<RequestType>;
+	paths?: Partial<PathConfigurationType>;
 };
 
 type CacheConfig = {
@@ -155,7 +155,7 @@ const response = await client.search({
 ```js
 const client = new Client(globals, clientConfig);
 
-const { meta, results } = await client.search({
+const { meta, search } = await client.search({
   search: {
     query: {
       string: 'dress'
@@ -170,7 +170,7 @@ Makes a request to the Athos Search API and returns a promise.
 ```js
 const client = new Client(globals, clientConfig);
 
-const { meta, results } = await client.search({
+const { meta, search } = await client.search({
   search: {
     query: {
       string: 'dress'
@@ -185,7 +185,7 @@ Makes a request to the Athos Autocomplete API and returns a promise.
 ```js
 const client = new Client(globals, clientConfig);
 
-const { meta, results } = await client.autocomplete({
+const { meta, search } = await client.autocomplete({
   suggestions: {
     count: 5
   },
@@ -198,6 +198,22 @@ const { meta, results } = await client.autocomplete({
 });
 ```
 
+## `category` method
+Makes a request to the Searchspring Category API and returns a promise.
+
+```js
+const client = new Client(globals, clientConfig);
+
+const { meta, search } = await client.category({
+  filters: [{
+    field: 'categoryId',
+    value: '12345',
+    type: 'value',
+    background: true,
+  }]
+});
+```
+
 ## `meta` method
 Makes a request to the Athos Search API to fetch meta properties, it returns a promise. The `search` method utilizes this method.
 
@@ -207,7 +223,7 @@ const meta = await client.meta();
 ```
 
 ## `trending` method
-Makes a request to the Athos Trending API and returns a promise.
+Makes a request to the Searchspring Trending API and returns a promise. The `siteId` is sourced from globals automatically, but if provided that siteId would be used.
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -222,7 +238,7 @@ Makes a request to the Athos finder API and returns a promise.
 
 ```js
 const client = new Client(globals, clientConfig);
-const { meta, results } = await client.finder({
+const { meta, search } = await client.finder({
   filters: [{
     type: "value",
     field: "color",
@@ -237,7 +253,7 @@ Makes a request to the Athos Recommend API and returns a promise.
 
 ```js
 const client = new Client(globals, clientConfig);
-const { profile, meta, recommend } = await client.recommend({
+const { profile, meta, results, responseId } = await client.recommend({
   tag: 'similar',
   siteId: 'REPLACE_WITH_YOUR_SITE_ID',
   products: ['product123'],
