@@ -5,8 +5,8 @@ import { observer } from 'mobx-react-lite';
 import { defined, mergeStyles } from '../../../utilities';
 import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
 import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
-import { Product } from '@searchspring/snap-store-mobx';
-import { AbstractController, RecommendationController } from '@searchspring/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
 
 const defaultStyles: StyleScript<RecommendationBundleEasyAddProps> = () => {
 	return css({

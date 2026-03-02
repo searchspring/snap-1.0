@@ -15,8 +15,8 @@ import classNames from 'classnames';
 import { useState } from 'preact/hooks';
 import deepmerge from 'deepmerge';
 import { useLang } from '../../../hooks';
-import { AbstractController, RecommendationController } from '@searchspring/snap-controller';
-import { Product } from '@searchspring/snap-store-mobx';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
 
 const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 	return css({
