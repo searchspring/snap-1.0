@@ -1,17 +1,17 @@
 # Shopify Integration
 
 
-## Searchspring Management Console Actions
+## Athos Search & Product Discovery Console Actions
 
-Log into the Searchspring Management Console (SMC) and perform the following actions:
+Log into the Athos Search & Product Discovery Console (ASD) and perform the following actions:
 
 ### Add IntelliSuggest Tracking
 
-Shopify sites now add IntelliSuggest tracking through "Web Pixel Tracking". In the SMC, check the [Data Feed page](https://manage.searchspring.net/management/data-feed) and ensure this feature is enabled. If it's not, speak with the Solutions team member who setup the account.
+Shopify sites now add IntelliSuggest tracking through "Web Pixel Tracking". In the ASD, check the [Data Feed page](https://console.athoscommerce.net/data-connectors/data-sources) and ensure this feature is enabled. If it's not, speak with the Solutions team member who setup the account.
 
 ### Update Field Settings
 
-On the [Field Settings page](https://manage.searchspring.net/management/field-settings/display-fields), make sure the following fields are updated:
+On the [Field Settings page](https://console.athoscommerce.net/data-configurations/field-settings), make sure the following fields are updated:
 
 | Field | Type | Multi-Valued | Display | Display In Recs |
 |---|---|:---:|:---:|:---:|
@@ -21,11 +21,11 @@ On the [Field Settings page](https://manage.searchspring.net/management/field-se
 | vendor | Text | No | ✓ | |
 | product_type | Text | No | ✓ | |
 
-If settings are changed, perform an [Update Index](https://manage.searchspring.net/management/index/status).
+If settings are changed, perform an [Update Index](https://console.athoscommerce.net/data-sync).
 
 ### "All" Collection Page (Optional)
 
-Most if not all Shopify sites have an "All" collection page located at `[domain]/collections/all`. Typically, products are automatically assigned to this collection and then fed back into our data feed. There have been occasions where this is not true and we don't have the `collection_handle` > `all` assignment in our data feed. If this happens, please inquire with Searchspring support to have this added.
+Most if not all Shopify sites have an "All" collection page located at `[domain]/collections/all`. Typically, products are automatically assigned to this collection and then fed back into our data feed. There have been occasions where this is not true and we don't have the `collection_handle` > `all` assignment in our data feed. If this happens, please inquire with Athos support to have this added.
 
 ## Create a Collection Search Page
 
@@ -50,7 +50,7 @@ To add a search results page, we'll need to create a new collection in Shopify.
 
 ## Theme Integration
 
-Next we'll integrate Searchspring into the theme.
+Next we'll integrate Athos into the theme.
 
 - Create a copy of the current theme to integrate on. It is recommended to do so rather than integrating directly on the live theme initially to allow for testing prior to going live.
 - Online Store > Themes > Live theme > ... > Duplicate
@@ -58,44 +58,44 @@ Next we'll integrate Searchspring into the theme.
 
 ### Theme Settings
 
-Next, we'll add the Searchspring theme settings. Theme settings are defined to provide an interface for defining variables that are used in liquid code. See [Shopify Setting Types](https://shopify.dev/themes/architecture/settings#setting-types) for more information. These theme settings are then accessed by going to Online Store > Themes > [theme name] > Customize button. Click on "Theme settings" in the lower left navigation and on the right side, there should be a "Searchspring" section.
+Next, we'll add the Athos theme settings. Theme settings are defined to provide an interface for defining variables that are used in liquid code. See [Shopify Setting Types](https://shopify.dev/themes/architecture/settings#setting-types) for more information. These theme settings are then accessed by going to Online Store > Themes > [theme name] > Customize button. Click on "Theme settings" in the lower left navigation and on the right side, there should be a "Athos" section.
 
 - Online Store > Themes > [theme name] > ... > Edit code > Config > `settings_schema.json`.
 - At the end of the file, find a closing square bracket `]` on the last line.
-- Before this closing bracket, add code for Searchspring theme settings. The opening comma is needed if there is another configuration before your code paste.
+- Before this closing bracket, add code for Athos theme settings. The opening comma is needed if there is another configuration before your code paste.
 
 ```json
 {
-	"name": "Searchspring",
+	"name": "Athos Commerce",
 	"settings": [
 		{
 			"type": "checkbox",
-			"id": "ss_enable",
-			"label": "Enable Searchspring",
+			"id": "athos_enable",
+			"label": "Enable Athos",
 			"default": true
 		},			
 		{
 			"type": "text",
-			"id": "ss_site_id",
+			"id": "athos_site_id",
 			"label": "Site ID",
 			"default": "REPLACE_WITH_YOUR_SITE_ID"
 		},
 		{
 			"type": "text",
-			"id": "ss_collection_handle",
+			"id": "athos_collection_handle",
 			"label": "Search collection handle",
 			"default": "shop"
 		},
 		{
 			"type": "text",
-			"id": "ss_branch_name",
+			"id": "athos_branch_name",
 			"label": "Branch Name"
 		}
 	]
 }
 ```
 
-- Replace `REPLACE_WITH_YOUR_SITE_ID` on line 15 with the correct siteId found in the Searchspring Management Console.
+- Replace `REPLACE_WITH_YOUR_SITE_ID` on line 15 with the correct siteId found in the Athos Search & Product Discovery Console.
 - (if applicable) Replace `shop` on line 21 with the search collection handle if it was not `shop`.
 
 
@@ -103,9 +103,9 @@ Next, we'll add the Searchspring theme settings. Theme settings are defined to p
 
 Liquid template snippets are used to store code that is used in multiple templates.
 
-Create a new snippet which will be used to store the Searchspring integration script code.
+Create a new snippet which will be used to store the Athos integration script code.
 
-- Online Store > Themes > [theme name] > ... > Edit code > Snippets > Add a new snippet > `ss-script`.
+- Online Store > Themes > [theme name] > ... > Edit code > Snippets > Add a new snippet > `athos-script`.
 
 ### Search Only
 
@@ -113,93 +113,93 @@ Create a new snippet which will be used to store the Searchspring integration sc
 > If you are only integrating Search page functionality, you can use the following snippet. Otherwise skip this section and continue below to install both search and collections functionality.
 
 ```liquid
-{%- if settings.ss_branch_name != blank -%}
-	{% capture ss_branch_name %}/{{ settings.ss_branch_name }}{% endcapture %}
+{%- if settings.athos_branch_name != blank -%}
+	{% capture athos_branch_name %}/{{ settings.athos_branch_name }}{% endcapture %}
 {%- endif -%}
 
 {%- if customer -%}
-	{% capture ss_shopper_config %} 
+	{% capture athos_shopper_config %} 
 		shopper = { id: "{{ customer.id }}" };
 	{% endcapture %}
 {%- endif -%}
 
-{% assign ss_defer_config = ' defer' %}
-{%- if collection.handle and template contains 'collection' and collection.handle == settings.ss_collection_handle -%}
-	{% assign ss_defer_config = '' %}
+{% assign atho_defer_config = ' defer' %}
+{%- if collection.handle and template contains 'collection' and collection.handle == settings.athos_collection_handle -%}
+	{% assign atho_defer_config = '' %}
 {%- endif -%}
 
 {%- if template -%}
-	{% capture ss_template_config %}
+	{% capture athos_template_config %}
 		template = "{{ template }}";
 	{% endcapture -%}
 {%- endif -%}
 
-{% capture ss_money_config %}
+{% capture athos_money_config %}
 	format = "{{ shop.money_format }}";
 {% endcapture %}
 
-{% comment %}Searchspring Script{% endcomment %}
-<script src="https://snapui.searchspring.io/{{ settings.ss_site_id }}{{ ss_branch_name }}/bundle.js" id="searchspring-context"{{ ss_defer_config }}>
-	{{ ss_shopper_config }}{{ ss_template_config }}{{ ss_money_config }}
+{% comment %}Athos Script{% endcomment %}
+<script src="https://snapui.athoscommerce.io/{{ settings.athos_site_id }}{{ athos_branch_name }}/bundle.js" id="athos-context"{{ atho_defer_config }}>
+	{{ athos_shopper_config }}{{ athos_template_config }}{{ athos_money_config }}
 </script>
 ```
 
 ### Search and Collections
 
 ```liquid
-{%- if settings.ss_branch_name != blank -%}
-	{% capture ss_branch_name %}/{{ settings.ss_branch_name }}{% endcapture %}
+{%- if settings.athos_branch_name != blank -%}
+	{% capture athos_branch_name %}/{{ settings.athos_branch_name }}{% endcapture %}
 {%- endif -%}
 
 {%- if customer -%}
-	{% capture ss_shopper_config %} 
+	{% capture athos_shopper_config %} 
 		shopper = { id: "{{ customer.id }}" };
 	{% endcapture %}
 {%- endif -%}
 
-{% assign ss_defer_config = ' defer' %}
+{% assign atho_defer_config = ' defer' %}
 {%- if collection.handle and template contains 'collection' -%}
-	{% assign ss_defer_config = '' %}
-	{%- if collection.handle != settings.ss_collection_handle -%}
-		{% capture ss_collection_config %} 
+	{% assign atho_defer_config = '' %}
+	{%- if collection.handle != settings.athos_collection_handle -%}
+		{% capture athos_collection_config %} 
 			collection = { id: "{{ collection.id }}", name: "{{ collection.title | replace: '"', '&quot;' }}", handle: "{{ collection.handle }}" };
 		{% endcapture %}
 	{%- endif -%}	
 {%- endif -%}
 
 {%- if current_tags -%}
-	{% capture ss_tags_config %}
+	{% capture athos_tags_config %}
 		tags = {{ current_tags | json }};
 	{% endcapture %}
 {%- endif -%}
 
 {%- if template -%}
-	{% capture ss_template_config %}
+	{% capture athos_template_config %}
 		template = "{{ template }}";
 	{% endcapture -%}
 {%- endif -%}
 
-{% capture ss_money_config %}
+{% capture athos_money_config %}
 	format = "{{ shop.money_format }}";
 {% endcapture %}
 
-{% comment %}Searchspring Script{% endcomment %}
-<script src="https://snapui.searchspring.io/{{ settings.ss_site_id }}{{ ss_branch_name }}/bundle.js" id="searchspring-context"{{ ss_defer_config }}>
-	{{ ss_shopper_config }}{{ ss_collection_config }}{{ ss_tags_config }}{{ ss_template_config }}{{ ss_money_config }}
+{% comment %}Athos Script{% endcomment %}
+<script src="https://snapui.athoscommerce.io/{{ settings.athos_site_id }}{{ athos_branch_name }}/bundle.js" id="athos-context"{{ atho_defer_config }}>
+	{{ athos_shopper_config }}{{ athos_collection_config }}{{ athos_tags_config }}{{ athos_template_config }}{{ athos_money_config }}
 </script>
 ```
 
 ### Snippet Installation
 
-Next, we'll integrate the `ss-script` snippet into the theme. We'll have to add the snippet to the theme.liquid file such that it is included on every page.
+Next, we'll integrate the `athos-script` snippet into the theme. We'll have to add the snippet to the theme.liquid file such that it is included on every page.
 It is recommended to install the snippet in the `head` tag so that the script is loaded as soon as possible.
 
 - Online Store > Themes > [theme name] > ... > Edit code > Layout > `theme.liquid`.
 - Before the closing `</head>` tag, add the following code:
 
 ```liquid
-{% if settings.ss_enable %}
-	{% render 'ss-script' %}
+{% if settings.athos_enable %}
+	{% render 'athos-script' %}
 {% endif %}
 ```
 
@@ -210,34 +210,34 @@ It is recommended to install the snippet in the `head` tag so that the script is
 If `body` tag has no `class` attribute:
 
 ```liquid
-<body{% if settings.ss_enable and collection.handle and collection.handle == settings.ss_collection_handle %} class="ss-shop"{% endif %}>
+<body{% if settings.athos_enable and collection.handle and collection.handle == settings.athos_collection_handle %} class="ss-shop"{% endif %}>
 ```
 
 If `body` tag has a `class` attribute, ensure to keep the existing class names and append the `ss-shop` class name to the existing list of class names:
 
 ```liquid
-<body class="shopify-class-name{% if settings.ss_enable and collection.handle and collection.handle == settings.ss_collection_handle %} ss-shop{% endif %}">
+<body class="shopify-class-name{% if settings.athos_enable and collection.handle and collection.handle == settings.athos_collection_handle %} ss-shop{% endif %}">
 ```
 
 ## Collection Page Edits
 
-Next we'll add our target element(s) to the collection page. This is where the Searchspring elements will be injected into, typically two elements are added for a two-column layout: one for content, and one for facets. 
+Next we'll add our target element(s) to the collection page. This is where the Athos elements will be injected into, typically two elements are added for a two-column layout: one for content, and one for facets. 
 
 Targets are defined in your Snap configuration and will only be injected into if they exist on the page.
 
 - Online Store > Themes > [theme name] > ... > Edit code > Templates > `collection.liquid`.
 - `collection.liquid` is a standard Shopify template, but this may not be the file to edit depending on your theme. Look for includes which will tell you where to go, for example: `{% section 'collection-main' %}`. This says that there's additional code for the collection page located in the section file that has the name "collection-main".
-- Once the correct file is found, ensure that all of your search controller targets are added to the collection template. By using the `ss_enable` condition, we can retain Shopify's default functionality for when Searchspring is disabled via the theme settings.
+- Once the correct file is found, ensure that all of your search controller targets are added to the collection template. By using the `athos_enable` condition, we can retain Shopify's default functionality for when Athos is disabled via the theme settings.
 
 ```liquid
-{% if settings.ss_enable %}
-	<div id="searchspring-sidebar" style="min-height: 100vh;"></div>
+{% if settings.athos_enable %}
+	<div id="athos-sidebar" style="min-height: 100vh;"></div>
 {% else %}
 	<!-- existing default filters layout code -->
 {% endif %}
 
-{% if settings.ss_enable %}
-	<div id="searchspring-content" style="min-height: 100vh;"></div>
+{% if settings.athos_enable %}
+	<div id="athos-content" style="min-height: 100vh;"></div>
 {% else %}
 	<!-- existing default grid layout code -->
 {% endif %}
@@ -249,12 +249,12 @@ Next we'll update the search form to submit to the search results collection pag
 
 - Online Store > Themes > [theme name] > ... > Edit code > Layout > `theme.liquid`.
 - Check for the search form. It may not be in this file, but check for its approximate location and then look in includes such as snippets or sections for its actual location. Other possible file names might be `form-search.liquid`, `header.liquid`, etc.
-- Create a copy of the form which you will edit and comment out the old form. This will allow us to retain Shopify's default functionality for when Searchspring is disabled via the theme settings.
+- Create a copy of the form which you will edit and comment out the old form. This will allow us to retain Shopify's default functionality for when Athos is disabled via the theme settings.
 
 ```liquid
-{% if settings.ss_enable %}
-	<form method="get" action="{{ routes.collections_url }}/{{ settings.ss_collection_handle }}">
-		<input id="searchspring-input" type="search" name="q" placeholder="Search" aria-label="Search">
+{% if settings.athos_enable %}
+	<form method="get" action="{{ routes.collections_url }}/{{ settings.athos_collection_handle }}">
+		<input id="athos-input" type="search" name="q" placeholder="Search" aria-label="Search">
 	</form>
 {% else %}
 	<!-- Original form code from file -->
@@ -266,13 +266,13 @@ In your form copy, update the following details:
 | Element | Attribute | Value |
 |---|---|---|
 | form | method | get |
-| form | action | `{{ routes.collections_url }}/{{ settings.ss_collection_handle }}` |
+| form | action | `{{ routes.collections_url }}/{{ settings.athos_collection_handle }}` |
 | input[type="hidden"] | | remove any hidden inputs |
 
 
 ## Integration Code
 
-Up until this point, we've added the Searchspring integration to the theme and collection page. 
+Up until this point, we've added the Athos integration to the theme and collection page. 
 
 Now we'll ensure our integration code captures the context variables.
 
@@ -372,7 +372,7 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },
@@ -434,27 +434,27 @@ export const sharedPlugin = (controller, page) => {
 
 ## Additional Targets (Optional)
 
-In addition to having two targets for a two-column layout, you may want to inject content into other sections of the page such above the content and sidebar to display information such as the search query. Note the addition of `ss-shop` class before `searchspring-header` to ensure the content is only injected on the search page.
+In addition to having two targets for a two-column layout, you may want to inject content into other sections of the page such above the content and sidebar to display information such as the search query. Note the addition of `ss-shop` class before `athos-header` to ensure the content is only injected on the search page.
 
 ```js
 // src/index.js
 targeters: [
 	{
-		selector: '#searchspring-content',
+		selector: '#athos-content',
 		component: async () => {
 			return (await import('./content/content/Content')).Content;
 		},
 		hideTarget: true,
 	},
 	{
-		selector: '#searchspring-sidebar',
+		selector: '#athos-sidebar',
 		component: async () => {
 			return (await import('./sidebar/sidebar/Sidebar')).Sidebar;
 		},
 		hideTarget: true,
 	},
 	{
-		selector: '.ss-shop #searchspring-header',
+		selector: '.ss-shop #athos-header',
 		component: async () => {
 			return (await import('./content/header/Header')).Header;
 		},

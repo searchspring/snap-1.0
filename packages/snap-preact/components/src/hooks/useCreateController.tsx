@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 
-import type { ControllerTypes, ControllerConfigs, Controllers } from '@searchspring/snap-controller';
+import type { ControllerTypes, ControllerConfigs, Controllers } from '@athoscommerce/snap-controller';
 import type { Snap } from '../../../src';
 
 export const useCreateController = <ControllerType extends Controllers>(

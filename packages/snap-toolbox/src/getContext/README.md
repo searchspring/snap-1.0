@@ -2,13 +2,13 @@
 This utility function gets a script tags attributes and innerHTML declarations and returns them in an object.
 
 ```js
-import { getContext } from '@searchspring/snap-toolbox';
+import { getContext } from '@athoscommerce/snap-toolbox';
 ```
 
-The function takes two parameters, the first being an array of script tag attributes or innerHTML variable names to evaluate. The second optional parameter for a script tag element or CSS selector string. If the script tag element is not provided, the function will query the DOM for a Snap script (using src or #searchspring-context selector).
+The function takes two parameters, the first being an array of script tag attributes or innerHTML variable names to evaluate. The second optional parameter for a script tag element or CSS selector string. If the script tag element is not provided, the function will query the DOM for a Snap script (using src or #athos-context selector).
 
-The script element must either have a src containing `snapui.searchspring.io` or an id or type attribute that begins with `searchspring`.  
-For example: `src="https://snapui.searchspring.io/siteId/bundle.js"`, `type="searchspring"`, `type="searchspring/context"`, `type="searchspring/controller"`, or `id="searchspring-context"`.
+The script element must either have a src containing `snapui.athoscommerce.io` or an id or type attribute that equals `athos-context`.  
+For example: `src="https://snapui.athoscommerce.io/siteId/bundle.js"`, `type="searchspring"`, `type="searchspring/context"`, `type="searchspring/controller"`, or `id="athos-context"`.
 
 The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML.
 
@@ -19,7 +19,7 @@ If siteId is passed as a variable to evaluate, it will grab it out of the contex
 ### Example Integration Context
 
 ```html
-<script src="https://snapui.searchspring.io/REPLACE_WITH_YOUR_SITE_ID/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/REPLACE_WITH_YOUR_SITE_ID/bundle.js" id="athos-context">
 	shopper = {
 		id: 'snapdev'
 	};
@@ -32,7 +32,7 @@ const context = getContext(['shopper', 'category']);
 /*
 	context = {
 		type: 'text/javascript',
-		src: 'https://snapui.searchspring.io/REPLACE_WITH_YOUR_SITE_ID/bundle.js',
+		src: 'https://snapui.athoscommerce.io/REPLACE_WITH_YOUR_SITE_ID/bundle.js',
 		shopper: {
 			id: 'snapdev'
 		},

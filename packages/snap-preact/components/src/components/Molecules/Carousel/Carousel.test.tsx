@@ -11,9 +11,9 @@ it('tests', () => {
 // import { Result } from '../../Molecules/Result';
 // import userEvent from '@testing-library/user-event';
 // import { Scrollbar } from 'swiper';
-// import type { Product } from '@searchspring/snap-store-mobx';
+// import type { Product } from '@athoscommerce/snap-store-mobx';
 
-// import { MockData } from '@searchspring/snap-shared';
+// import { MockData } from '@athoscommerce/snap-shared';
 // import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 // const mockData = new MockData();

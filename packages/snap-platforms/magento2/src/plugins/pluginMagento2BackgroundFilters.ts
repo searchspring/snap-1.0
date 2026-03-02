@@ -1,6 +1,6 @@
-import type { ClientGlobals } from '@searchspring/snap-client';
-import type { AbstractController } from '@searchspring/snap-controller';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { ClientGlobals } from '@athoscommerce/snap-client';
+import type { AbstractController } from '@athoscommerce/snap-controller';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import type { AbstractPluginConfig, PluginBackgroundFilterGlobal } from '../../../common/src/types';
 
 export type PluginMagento2BackgroundFiltersConfig = AbstractPluginConfig & {

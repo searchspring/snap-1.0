@@ -10,7 +10,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { sprintf } from '../../../utilities';
-import type { RangeFacet } from '@searchspring/snap-store-mobx';
+import type { RangeFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useA11y, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 

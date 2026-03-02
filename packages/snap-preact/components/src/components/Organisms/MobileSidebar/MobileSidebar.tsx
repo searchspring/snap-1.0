@@ -6,7 +6,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import type { ComponentProps, StyleScript } from '../../../types';
 import { Slideout, SlideoutProps } from '../../Molecules/Slideout';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import type { SideBarModuleNames } from '../Sidebar';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Lang, useA11y, useLang } from '../../../hooks';

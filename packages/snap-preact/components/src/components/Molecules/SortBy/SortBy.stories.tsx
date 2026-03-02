@@ -6,7 +6,7 @@ import { SortBy, SortByProps } from './SortBy';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../SortBy/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 export default {
 	title: 'Molecules/SortBy',
 	component: SortBy,

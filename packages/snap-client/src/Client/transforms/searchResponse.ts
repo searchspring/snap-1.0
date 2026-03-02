@@ -1,4 +1,4 @@
-import { unescapeHTML } from '@searchspring/snap-toolbox';
+import { unescapeHTML } from '@athoscommerce/snap-toolbox';
 
 import {
 	SearchRequestModel,

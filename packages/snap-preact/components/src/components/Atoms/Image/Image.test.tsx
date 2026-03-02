@@ -6,7 +6,7 @@ import { render, waitFor } from '@testing-library/preact';
 import { Image, FALLBACK_IMAGE_URL } from './Image';
 import userEvent from '@testing-library/user-event';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

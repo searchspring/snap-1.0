@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge';
-import type { TrackerEvents } from '@searchspring/snap-tracker';
+import type { TrackerEvents } from '@athoscommerce/snap-tracker';
 import type { SnapConfig } from '../../Snap';
 
 export const SHOPIFY_WEBPIXEL_STORAGE_KEY = 'ssWebPixel';
@@ -62,7 +62,7 @@ export function configureIntegratedSpellCorrection(config: SnapConfig) {
 }
 
 function configureTracking(config: SnapConfig) {
-	// Searchspring's Shopify Web Pixel App compatibility
+	// Athos' Shopify Web Pixel App compatibility
 	let webPixel;
 	try {
 		webPixel = window.sessionStorage?.getItem(SHOPIFY_WEBPIXEL_STORAGE_KEY);

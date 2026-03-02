@@ -1,4 +1,4 @@
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { AutocompleteAPI, SuggestAPI, RecommendAPI, ApiConfiguration, SearchAPI } from './apis';
 
 import type {

@@ -2,8 +2,8 @@
 The finder store is meant to hold the API response and associated selection state. It extends the AbstractStore and the search response by adding several additional properties and methods to make working with the data easier.
 
 ```js
-import { FinderStore, FinderStoreConfig } from '@searchspring/snap-store-mobx'
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { FinderStore, FinderStoreConfig } from '@athoscommerce/snap-store-mobx'
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 const finderConfig: FinderStoreConfig = {
 	id: 'finder',
@@ -26,7 +26,7 @@ console.log(store.toJSON());
 ```
 
 ## `meta` property
-The meta property is an object containing the meta data retrieved from the Searchspring Meta API
+The meta property is an object containing the meta data retrieved from the Athos Meta API
 
 ## `pagination` property
 See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `pagination` property

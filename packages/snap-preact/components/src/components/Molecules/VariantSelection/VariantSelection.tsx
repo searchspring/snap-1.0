@@ -5,13 +5,13 @@ import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ListOption, StyleScript } from '../../../types';
-import type { VariantSelection as VariantSelectionType } from '@searchspring/snap-store-mobx';
+import type { VariantSelection as VariantSelectionType } from '@athoscommerce/snap-store-mobx';
 import { List, ListProps } from '../List';
 import { Swatches, SwatchesProps } from '../Swatches';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import { useA11y } from '../../../hooks';
-import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
+import { fieldNameToComponentName } from '@athoscommerce/snap-toolbox';
 
 const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 	return css({

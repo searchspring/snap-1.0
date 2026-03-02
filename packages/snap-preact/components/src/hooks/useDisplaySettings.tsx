@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 import { BreakpointsProps, BreakpointsEntry } from '../types';
 import { useDeepCompareEffect } from './useDeepCompareEffect';
 

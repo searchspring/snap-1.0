@@ -1,7 +1,7 @@
 import { Fragment, h, ComponentChildren, toChildArray } from 'preact';
 import { jsx, css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
-import type { RecommendationController } from '@searchspring/snap-controller';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../../types';
 import classnames from 'classnames';
 import { mergeStyles } from '../../../../utilities';

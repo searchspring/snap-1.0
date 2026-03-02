@@ -1,4 +1,4 @@
-window.searchspring = window.searchspring || {};
-window.searchspring.managed = true;
+window.athos = window.athos || {};
+window.athos.managed = true;
 
 import('./index');

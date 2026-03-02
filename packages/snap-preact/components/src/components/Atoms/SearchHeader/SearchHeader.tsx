@@ -5,9 +5,9 @@ import { observer } from 'mobx-react-lite';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { mergeProps, mergeStyles } from '../../../utilities';
-import { SearchMerchandisingStore, SearchPaginationStore, SearchQueryStore } from '@searchspring/snap-store-mobx';
+import { SearchMerchandisingStore, SearchPaginationStore, SearchQueryStore } from '@athoscommerce/snap-store-mobx';
 import classnames from 'classnames';
 import { useLang } from '../../../hooks';
 import type { Lang } from '../../../hooks';

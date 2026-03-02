@@ -1,5 +1,5 @@
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
-import { MockData } from '@searchspring/snap-shared';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import { AutocompleteStore } from './AutocompleteStore';
 import { AutocompleteResponseModel, MetaResponseModel, MetaResponseModelFacetDefaults } from '@athoscommerce/snapi-types';
@@ -159,7 +159,7 @@ describe('Autocomplete Store', () => {
 		global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key]);
 		const historyData = ['dress', 'sleep', 'shirt', 'sandal', 'shoes'];
 
-		global.localStorage.setItem(`ss-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
+		global.localStorage.setItem(`athos-history`, JSON.stringify({ history: JSON.stringify(historyData) }));
 		const autocompleteStore = new AutocompleteStore(autocompleteConfig, services);
 
 		autocompleteStore.update(searchData);

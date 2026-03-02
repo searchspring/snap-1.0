@@ -25,25 +25,25 @@ To host your own build files follow the below steps in your project.
 <!-- TODO: Link to playform specific install docs and update here -->
 
 
-## Deploy to Searchspring CDN
+## Deploy to Athos CDN
 
-**Deploying to Searchspring CDN is only possible if the repository is managed by the Searchspring [Github organization](https://github.com/searchspring-implementations)**. Repositories in this organization are typically managed by the Searchspring professional services team and deployed via a CI/CD pipeline using the [snap-action](https://github.com/searchspring/snap-action) Github Action. An invitation can be requested for collaboration.
+**Deploying to Athos CDN is only possible if the repository is managed by the Athos [Github organization](https://github.com/searchspring-implementations)**. Repositories in this organization are typically managed by the Athos professional services team and deployed via a CI/CD pipeline using the [snap-action](https://github.com/searchspring/snap-action) Github Action. An invitation can be requested for collaboration.
 
 Github action runs triggered on the default branch `production` will build and deploy bundle files to this URL:
 
-`https://snapui.searchspring.io/[your_site_id]/bundle.js`
+`https://snapui.athoscommerce.io/[your_site_id]/bundle.js`
 
 Builds on different branch names will be deployed to:
 
-`https://snapui.searchspring.io/[your_site_id]/[branch]/bundle.js`
+`https://snapui.athoscommerce.io/[your_site_id]/[branch]/bundle.js`
 
 ### Github Repository Requirements
 
-- Repository must be managed by the Searchspring [Github organization](https://github.com/searchspring-implementations)
+- Repository must be managed by the Athos [Github organization](https://github.com/searchspring-implementations)
 - Repository must have a default branch named `production`
 - Repository must have repository secrets for each siteId in the repository. Found at `https://github.com/[owner]/[repository]/settings/secrets/actions`
-  - Secret Key Name: `WEBSITE_SECRET_KEY_[SITEID]` where `[SITEID]` should be replaced with the 6 character alphanumeric siteId found in the [Searchspring Management Console](https://manage.searchspring.net). For example: `WEBSITE_SECRET_KEY_ABC123`
-  - Value: `secretKey` located adjacent to the siteId in the [Searchspring Management Console](https://manage.searchspring.net)
+  - Secret Key Name: `WEBSITE_SECRET_KEY_[SITEID]` where `[SITEID]` should be replaced with the 6 character alphanumeric siteId found in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net). For example: `WEBSITE_SECRET_KEY_ABC123`
+  - Value: `secretKey` located adjacent to the siteId in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 - Repository must have a `snap-action` workflow file in the `.github/workflows` directory. See section below.
 - Repository must have a `package.json` file that contains all siteIds associated with this project. See section below.
 
@@ -65,7 +65,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: searchspring/snap-action
-      - name: Run @searchspring/snap-action
+      - name: Run @athoscommerce/snap-action
         uses: ./
 ```
 
@@ -110,19 +110,19 @@ Multi siteId example:
 
 ### Branch Overrides
 
-This functionality is only currently possible with Searchspring managed Snap repositories (https://github.com/searchspring-implementations).
+This functionality is only currently possible with Athos managed Snap repositories (https://github.com/searchspring-implementations).
 
-While browsing a page that contains a Snap integration, appending the `?searchspring-preview=[branchname]` query parameter to the URL will stop the execution of the existing script, and load the build from the `[branchname]` branch `https://snapui.searchspring.io/[siteid]/[branchname]/bundle.js`
+While browsing a page that contains a Snap integration, appending the `?athos-preview=[branchname]` query parameter to the URL will stop the execution of the existing script, and load the build from the `[branchname]` branch `https://snapui.athoscommerce.io/[siteid]/[branchname]/bundle.js`
 
 You will see an interface overlay on the bottom right of the viewport indicating if successful and details of the build.
 
 <img src="https://github.com/searchspring/snap/blob/main/images/branch-override.png?raw=true" />
 
-This will also be persisted across page navigation. To stop previewing a branch build, you must click the `Stop Preview` button in the interface or clear the `ssBranch` cookie. The interface can also be minimized. 
+This will also be persisted across page navigation. To stop previewing a branch build, you must click the `Stop Preview` button in the interface or clear the `athosBranch` cookie. The interface can also be minimized. 
 
 ## Modern vs Universal Builds
 
-If your project is hosted in Searchspring's Github organization, we'll automatically handle serving the appropriate version of the build files for you. However if you are hosting your own build files, you can either: 
+If your project is hosted in Athos' Github organization, we'll automatically handle serving the appropriate version of the build files for you. However if you are hosting your own build files, you can either: 
 
 - only serve the modern build to all users, however this will break functionallity for IE11.
 - change the build targets, although this may impact core web vitals negatively.
@@ -132,20 +132,20 @@ Always serve the build to modern browsers and the universal build only to legacy
 
 ```html
 <!-- Modern browsers - use modern build -->
-<script src="https://snapui.searchspring.io/[siteId]/bundle.js" id="searchspring-context"></script>
+<script src="https://snapui.athoscommerce.io/[siteId]/bundle.js" id="athos-context"></script>
 
 <!-- Legacy browsers - use universal build -->
-<script src="https://snapui.searchspring.io/[siteId]/universal.bundle.js" id="searchspring-context"></script>
+<script src="https://snapui.athoscommerce.io/[siteId]/universal.bundle.js" id="athos-context"></script>
 ```
 
 The modern build is used for projects targeting the latest browsers supporting the latest JavaScript features (ES6 and above). Example modern build files: `bundle.js` & `bundle.chunk.[hash].js`
 
-A browser is considered modern based on the [@searchspring/browserslist-config-snap modern](https://github.com/searchspring/browserslist-config-snap/blob/main/modern/index.js) rules and is included in the preconfigured scaffold.
+A browser is considered modern based on the [@athoscommerce/browserslist-config-snap modern](https://github.com/searchspring/browserslist-config-snap/blob/main/modern/index.js) rules and is included in the preconfigured scaffold.
 
 
 The universal build is used for projects targeting legacy browsers and will transpile any usage of modern JavaScript to ES5 as well as polyfill any missing browser features. If you are not targeting legacy browsers, you can omit deploying the universal built files that are prefixed with `universal.` - Example: `universal.bundle.js` and `universal.bundle.chunk.[hash].js`
 
-A browser is considered legacy based on the [@searchspring/browserslist-config-snap universal](https://github.com/searchspring/browserslist-config-snap/blob/main/universal/index.js) rules and is included in the preconfigured scaffold.
+A browser is considered legacy based on the [@athoscommerce/browserslist-config-snap universal](https://github.com/searchspring/browserslist-config-snap/blob/main/universal/index.js) rules and is included in the preconfigured scaffold.
 
 However, if you are targeting legacy browsers, it is not recommended to always serve the universal build files to all browsers—including modern browsers—as this will impact Core Web Vitals and performance negatively. 
 
@@ -168,7 +168,7 @@ module.exports = /((CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS)[ +]+(14|
 
 Webpack is the default choice of build tooling that all Snapfu templates include and will be preconfigured.
 
-If you are integrating `@searchspring/snap-preact` using other build tools, you may require certain plugins to ensure preact compatibility. 
+If you are integrating `@athoscommerce/snap-preact` using other build tools, you may require certain plugins to ensure preact compatibility. 
 
 We hope to maintain this page with the most common build tools and their respective plugins as we discover them. 
 

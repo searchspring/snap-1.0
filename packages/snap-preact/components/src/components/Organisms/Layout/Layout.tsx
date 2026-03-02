@@ -10,7 +10,7 @@ import { FilterSummary, FilterSummaryProps } from '../FilterSummary';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Pagination, PaginationProps } from '../../Molecules/Pagination';
 import { LoadMore, LoadMoreProps } from '../../Molecules/LoadMore';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { SortBy, SortByProps } from '../../Molecules/SortBy';
 import { PerPage, PerPageProps } from '../../Molecules/PerPage';
 import { LayoutSelector, LayoutSelectorProps } from '../../Molecules/LayoutSelector';
@@ -19,7 +19,7 @@ import { PaginationInfo, PaginationInfoProps } from '../../Atoms/PaginationInfo/
 import { SearchHeader, SearchHeaderProps } from '../../Atoms/SearchHeader/SearchHeader';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Banner, BannerProps } from '../../Atoms/Banner';
-import { ContentType } from '@searchspring/snap-store-mobx';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
 import { Facets, FacetsProps } from '../Facets';
 import { FacetsHorizontal, FacetsHorizontalProps } from '../FacetsHorizontal';
 import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';

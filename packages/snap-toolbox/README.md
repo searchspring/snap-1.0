@@ -6,7 +6,7 @@ A collection of utility tools such as DOM targeting, currency formatting & brows
 ## Installation
 
 ```bash
-npm install --save @searchspring/snap-toolbox
+npm install --save @athoscommerce/snap-toolbox
 ```
 
 
@@ -21,5 +21,5 @@ import {
     url,
     charsParams,
     until,
-} from '@searchspring/snap-toolbox';
+} from '@athoscommerce/snap-toolbox';
 ```

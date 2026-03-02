@@ -1,2 +1,2 @@
-import packageJSON from '@searchspring/snap-toolbox/package.json';
+import packageJSON from '@athoscommerce/snap-toolbox/package.json';
 export const { version } = packageJSON;

@@ -9,7 +9,7 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Filter/readme.md';
 
 import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/Filter',

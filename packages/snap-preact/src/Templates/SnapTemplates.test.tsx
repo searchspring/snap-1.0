@@ -1,4 +1,4 @@
-import { AutocompleteStoreConfigSettings, SearchStoreConfigSettings } from '@searchspring/snap-store-mobx';
+import { AutocompleteStoreConfigSettings, SearchStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
 import {
 	SnapTemplates,
 	mapBreakpoints,

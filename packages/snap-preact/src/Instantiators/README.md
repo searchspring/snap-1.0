@@ -11,7 +11,7 @@ The `RecommendationInstantiator` class handles the targeting and creation of rec
 | `mode` | `keyof typeof AppMode \| AppMode` | No | Application mode (e.g., 'production', 'development'). Defaults to 'production'. |
 | `client` | `object` | No | Client configuration for API communication. |
 | `client.globals` | `ClientGlobals` | Yes* | Global client settings. Must include `siteId` if no services provided. |
-| `client.globals.siteId` | `string` | Yes* | Searchspring site identifier. Required if no client service provided. |
+| `client.globals.siteId` | `string` | Yes* | Athos site identifier. Required if no client service provided. |
 | `client.config` | `ClientConfig` | No | Optional client configuration for cache settings, origins, etc. |
 | `components` | `object` | Yes | Mapping of component names to component loaders. |
 | `components[name]` | `() => Promise<any> \| any` | Yes | Function that loads a component. Keys should match template names (e.g., 'Default', 'Bundle'). |

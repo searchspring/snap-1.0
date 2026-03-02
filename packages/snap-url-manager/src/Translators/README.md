@@ -36,7 +36,7 @@ A `Translator` is passed in to a `UrlManager` during construction:
 import {
 	UrlManager,
 	UrlTranslator,
-} from '@searchspring/snap-url-manager';
+} from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(new UrlTranslator());
 ```

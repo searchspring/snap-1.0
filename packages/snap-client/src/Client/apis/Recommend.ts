@@ -1,6 +1,6 @@
 import { API, ApiConfiguration } from './Abstract';
 import { HTTPHeaders, RecommendPostRequestProfileModel } from '../../types';
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { transformRecommendationFiltersPost } from '../transforms';
 import { ProfileRequestModel, ProfileResponseModel, RecommendResponseModel, RecommendRequestModel, RecommendPostRequestModel } from '../../types';
 import { DEVELOPMENT_MODE_PARAM } from './Search';

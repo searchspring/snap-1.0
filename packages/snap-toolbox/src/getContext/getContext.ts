@@ -53,7 +53,10 @@ export function getContext(evaluate: string[] = [], scriptOrSelector?: HTMLScrip
 
 	if (!scriptOrSelector || typeof scriptOrSelector === 'string') {
 		const scripts = Array.from(
-			document.querySelectorAll((scriptOrSelector as string) || 'script[id^=searchspring], script[src*="snapui.searchspring.io"]')
+			document.querySelectorAll(
+				(scriptOrSelector as string) ||
+					'script[id^=searchspring], script[id=athos-context], script[src*="snapui.searchspring.io"], script[src*="snapui.athoscommerce.io"]'
+			)
 		);
 
 		script = scripts
@@ -71,8 +74,18 @@ export function getContext(evaluate: string[] = [], scriptOrSelector?: HTMLScrip
 		throw new Error('getContext: did not find a script tag');
 	}
 
-	if (!scriptOrSelector && !script.id?.match(/^searchspring/i) && !script.src?.match(/\/\/snapui.searchspring.io/i)) {
-		throw new Error('getContext: did not find a script from Snap CDN or with attribute \'id\' starting with "searchspring"');
+	const scriptElem = script as HTMLScriptElement;
+
+	// check script type
+	if (
+		!scriptOrSelector &&
+		!scriptElem.getAttribute('type')?.match(/^searchspring/i) &&
+		!scriptElem.id?.match(/^searchspring/i) &&
+		!scriptElem.id?.match(/athos-context/) &&
+		!scriptElem.src?.match(/\/\/snapui.searchspring.io/i) &&
+		!scriptElem.src?.match(/\/\/snapui.athoscommerce.io/i)
+	) {
+		throw new Error('getContext: did not find a script from Snap CDN or with attribute (type, id) starting with "athos-context"');
 	}
 
 	if ((evaluate && !Array.isArray(evaluate)) || (evaluate && !evaluate.reduce((accu, name) => accu && typeof name === 'string', true))) {
@@ -142,13 +155,12 @@ export function getContext(evaluate: string[] = [], scriptOrSelector?: HTMLScrip
 	if (evaluate.includes(siteIdString)) {
 		// if we didnt find a siteId in the context, lets grab the id from the src url.
 		if (!variables[siteIdString]) {
-			const siteId = script.getAttribute('src')?.match(/.*snapui.searchspring.io\/([a-zA-Z0-9]{6})\//);
+			const siteId = script.getAttribute('src')?.match(/.*snapui.(?:searchspring|athoscommerce).io\/([a-zA-Z0-9]{6})\//);
 			if (siteId && siteId.length > 1) {
 				variables.siteId = siteId[1];
 			}
 		}
 	}
-
 	return variables;
 }
 

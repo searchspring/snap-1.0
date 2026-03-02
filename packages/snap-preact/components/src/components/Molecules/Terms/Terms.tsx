@@ -4,13 +4,13 @@ import { observer } from 'mobx-react-lite';
 import { css } from '@emotion/react';
 import classnames from 'classnames';
 
-import type { AutocompleteController } from '@searchspring/snap-controller';
-import type { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
+import type { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
 import { ComponentProps, StyleScript } from '../../../types';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { createHoverProps } from '../../../toolbox';
 import { mergeProps, mergeStyles } from '../../../utilities';
-import { Term } from '@searchspring/snap-store-mobx';
+import { Term } from '@athoscommerce/snap-store-mobx';
 import { useLang } from '../../../hooks';
 import type { Lang } from '../../../hooks';
 import deepmerge from 'deepmerge';

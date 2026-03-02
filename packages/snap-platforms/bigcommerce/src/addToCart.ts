@@ -1,4 +1,4 @@
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 
 export type BigCommerceAddToCartConfig = {
 	redirect?: boolean | string;

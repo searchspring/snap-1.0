@@ -1,4 +1,4 @@
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 import { AbstractionGroup } from '../../../../types';
 import { TemplateEditorStore } from '../TemplateEditorStore';
 

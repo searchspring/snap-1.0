@@ -1,13 +1,13 @@
-import { DomTargeter } from '@searchspring/snap-toolbox';
+import { DomTargeter } from '@athoscommerce/snap-toolbox';
 
-import type { Client } from '@searchspring/snap-client';
-import type { AbstractStore } from '@searchspring/snap-store-mobx';
-import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { EventManager, Middleware } from '@searchspring/snap-event-manager';
-import type { Profiler } from '@searchspring/snap-profiler';
-import type { Logger } from '@searchspring/snap-logger';
-import type { Tracker, TrackErrorEvent } from '@searchspring/snap-tracker';
-import type { Target, OnTarget } from '@searchspring/snap-toolbox';
+import type { Client } from '@athoscommerce/snap-client';
+import type { AbstractStore } from '@athoscommerce/snap-store-mobx';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
+import type { EventManager, Middleware } from '@athoscommerce/snap-event-manager';
+import type { Profiler } from '@athoscommerce/snap-profiler';
+import type { Logger } from '@athoscommerce/snap-logger';
+import type { Tracker, TrackErrorEvent } from '@athoscommerce/snap-tracker';
+import type { Target, OnTarget } from '@athoscommerce/snap-toolbox';
 
 import type { ControllerServices, ControllerConfig, Attachments, ContextVariables, PluginFunction } from '../types';
 

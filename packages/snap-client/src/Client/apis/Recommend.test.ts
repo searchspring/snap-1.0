@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { ApiConfiguration, ApiConfigurationParameters } from './Abstract';
 import { RecommendAPI } from './Recommend';
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import type { RecommendPostRequestModel } from '../../types';
 

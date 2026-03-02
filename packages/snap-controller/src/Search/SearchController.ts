@@ -2,11 +2,11 @@ import deepmerge from 'deepmerge';
 import cssEscape from 'css.escape';
 
 import { AbstractController } from '../Abstract/AbstractController';
-import { StorageStore, ErrorType, MerchandisingContentBanner } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, MerchandisingContentBanner } from '@athoscommerce/snap-store-mobx';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes, PageContextVariable } from '../types';
 
-import type { Product, Banner, SearchStore, ValueFacet, SearchStoreConfig } from '@searchspring/snap-store-mobx';
+import type { Product, Banner, SearchStore, ValueFacet, SearchStoreConfig } from '@athoscommerce/snap-store-mobx';
 import type {
 	SearchControllerConfig,
 	SearchAfterSearchObj,
@@ -17,7 +17,7 @@ import type {
 	ElementPositionObj,
 	BeforeSearchObj,
 } from '../types';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import {
 	type SearchRequestModel,
 	type SearchResponseModelResult,
@@ -150,7 +150,7 @@ export class SearchController extends AbstractController {
 
 		this.storage = new StorageStore({
 			type: 'session',
-			key: `ss-controller-${this.config.id}`,
+			key: `athos-controller-${this.config.id}`,
 		});
 
 		if (typeof this.context?.page === 'object' && ['search', 'category'].includes(this.context.page.type)) {

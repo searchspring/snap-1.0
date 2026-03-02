@@ -29,7 +29,7 @@ Cypress.Commands.add('addScripts', (scripts = []) => {
 
 Cypress.Commands.add('addLocalSnap', () => {
 	cy.window().then((window) => {
-		if (!window?.searchspring) {
+		if (!window?.athos) {
 			cy.addScript('https://localhost:3333/bundle.js');
 		}
 	});
@@ -52,10 +52,10 @@ Cypress.Commands.add('snapController', (controllerId = 'search', options) => {
 		return new Cypress.Promise((resolve) => {
 			const checkTimeout = 200;
 			const interval = setInterval(() => {
-				if (window.searchspring?.controller && window.searchspring.controller[controllerId]) {
-					if (!window.searchspring.controller[controllerId].store.loading) {
+				if (window.athos?.controller && window.athos.controller[controllerId]) {
+					if (!window.athos.controller[controllerId].store.loading) {
 						clearInterval(interval);
-						resolve(window.searchspring.controller[controllerId]);
+						resolve(window.athos.controller[controllerId]);
 					}
 				}
 			}, checkTimeout);
@@ -74,10 +74,10 @@ Cypress.Commands.add('snapController', (controllerId = 'search', options) => {
 			return new Cypress.Promise((resolve) => {
 				const checkTimeout = 150;
 				const interval = setInterval(() => {
-					if (window.searchspring?.controller && window.searchspring.controller[controllerId]) {
-						if (!window.searchspring.controller[controllerId].store.loading) {
+					if (window.athos?.controller && window.athos.controller[controllerId]) {
+						if (!window.athos.controller[controllerId].store.loading) {
 							clearInterval(interval);
-							resolve(window.searchspring.controller[controllerId]);
+							resolve(window.athos.controller[controllerId]);
 						}
 					}
 				}, checkTimeout);
@@ -91,9 +91,9 @@ Cypress.Commands.add('waitForBundle', () => {
 		return new Cypress.Promise((resolve) => {
 			const checkTimeout = 100;
 			let interval = setInterval(() => {
-				if (window.searchspring) {
+				if (window.athos) {
 					clearInterval(interval);
-					resolve(window.searchspring);
+					resolve(window.athos);
 				}
 			}, checkTimeout);
 		});

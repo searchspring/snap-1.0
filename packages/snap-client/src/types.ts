@@ -1,4 +1,4 @@
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import type {
 	MetaRequestModel,
 	SearchResponseModelResult,

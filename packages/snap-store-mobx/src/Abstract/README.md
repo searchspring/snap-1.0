@@ -3,7 +3,7 @@
 `SearchStore`, `AutocompleteStore`, and `FinderStore` extend `AbstractStore`. Therefore, the following methods and properties are available in all Stores.
 
 ## `update` method
-Update the store's properties with `data` object that has been retrieved from Searchspring's Search API.
+Update the store's properties with `data` object that has been retrieved from Athos' Search API.
 
 ```js
 const store = new SearchStore();

@@ -6,8 +6,8 @@ import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath, withTracking, withController } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
-import { BannerContent, ContentType } from '@searchspring/snap-store-mobx';
-import type { AutocompleteController, SearchController } from '@searchspring/snap-controller';
+import { BannerContent, ContentType } from '@athoscommerce/snap-store-mobx';
+import type { AutocompleteController, SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../types';
 import { useCallback } from 'preact/hooks';
 

@@ -1,1 +1,1 @@
-export { pluginLogger } from '@searchspring/snap-platforms/common';
+export { pluginLogger } from '@athoscommerce/snap-platforms/common';

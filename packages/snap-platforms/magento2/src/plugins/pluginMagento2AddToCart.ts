@@ -1,6 +1,6 @@
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { AbstractController } from '@searchspring/snap-controller';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { AbstractController } from '@athoscommerce/snap-controller';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import { Magento2AddToCartConfig } from '../addToCart';
 import { addToCart as addToCartMagento2Function } from '../addToCart';
 import type { AbstractPluginConfig } from '../../../common/src/types';

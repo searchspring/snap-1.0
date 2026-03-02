@@ -1,8 +1,8 @@
-![Logo of Searchspring, a division of Athos Commerce](https://raw.githubusercontent.com/searchspring/snap/main/images/division-of-athos.png)
+![Logo of Athos](https://raw.githubusercontent.com/searchspring/snap/main/images/division-of-athos.png)
 
 # Accessibility Statement
 
-Searchspring, a division of Athos Commerce, is committed to providing accessible digital experiences for people with disabilities. We are actively working to identify and remove barriers to access in accordance with recognized accessibility standards and our internal [Accessibility Policy](https://athoscommerce.com/wp-content/uploads/2025/06/Athos-Commerce-Accessibility-Policy.pdf).
+Athos is committed to providing accessible digital experiences for people with disabilities. We are actively working to identify and remove barriers to access in accordance with recognized accessibility standards and our internal [Accessibility Policy](https://athoscommerce.com/wp-content/uploads/2025/06/Athos-Commerce-Accessibility-Policy.pdf).
 
 ## Compliance Status
 

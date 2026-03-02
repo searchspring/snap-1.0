@@ -38,7 +38,7 @@ describe('Theme overrides work', () => {
 					search: {
 						targets: [
 							{
-								selector: '#searchspring-layout',
+								selector: '#athos-layout',
 								component: 'Search',
 							},
 						],
@@ -86,7 +86,7 @@ describe('Theme overrides work', () => {
 					search: {
 						targets: [
 							{
-								selector: '#searchspring-layout',
+								selector: '#athos-layout',
 								component: 'Search',
 							},
 						],
@@ -161,7 +161,7 @@ describe('Theme overrides work', () => {
 					search: {
 						targets: [
 							{
-								selector: '#searchspring-layout',
+								selector: '#athos-layout',
 								component: 'Search',
 							},
 						],
@@ -266,7 +266,7 @@ describe('Theme overrides work', () => {
 					search: {
 						targets: [
 							{
-								selector: '#searchspring-layout',
+								selector: '#athos-layout',
 								component: 'Search',
 							},
 						],
@@ -445,7 +445,7 @@ describe('Theme overrides work', () => {
 					search: {
 						targets: [
 							{
-								selector: '#searchspring-layout',
+								selector: '#athos-layout',
 								component: 'Search',
 							},
 						],

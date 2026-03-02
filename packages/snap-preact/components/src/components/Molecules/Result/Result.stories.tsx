@@ -8,8 +8,8 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Result/readme.md';
 import { ResultsLayout } from '../../../types';
-import type { SearchController } from '@searchspring/snap-controller';
-import { Product } from '@searchspring/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
 
 export default {
 	title: 'Molecules/Result',

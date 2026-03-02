@@ -1,5 +1,5 @@
 import { getInitialUrlState } from './getInitialUrlState';
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 import { InitialUrlConfig } from '../types';
 
 describe('getInitialUrlState function', () => {

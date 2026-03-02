@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps } from '../../../types';
 import { CacheProvider } from '../../../providers';
 import { Search, SearchProps } from '../Search/Search';

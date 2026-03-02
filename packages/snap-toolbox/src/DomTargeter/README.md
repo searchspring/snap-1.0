@@ -2,7 +2,7 @@
 `DomTargeter` is a utility used for rendering components in specified DOM targets. 
 
 ```js
-import { DomTargeter } from '@searchspring/snap-toolbox';
+import { DomTargeter } from '@athoscommerce/snap-toolbox';
 ```
 
 The constructor accepts an array of targets, an onTarget callback function, and optionally the Document.
@@ -15,7 +15,7 @@ Typical usage would be to render a component into the DOM.
 const contentTarget = new DomTargeter(
 	[
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			component: <Content />,
 		},
 	],
@@ -35,7 +35,7 @@ The CSS selector string used to find DOM elements.
 
 ```js
 {
-	selector: '#searchspring-content'
+	selector: '#athos-content'
 }
 ```
 
@@ -262,20 +262,20 @@ const targets = contentTarget.getTargets();
 ## Complete Example
 
 ```js
-import { DomTargeter } from '@searchspring/snap-toolbox';
+import { DomTargeter } from '@athoscommerce/snap-toolbox';
 import { render } from 'preact';
 
 const targeter = new DomTargeter(
 	[
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			component: <SearchResults />,
 			hideTarget: true,
 			autoRetarget: true,
 			unsetTargetMinHeight: true
 		},
 		{
-			selector: '#searchspring-sidebar',
+			selector: '#athos-sidebar',
 			component: <Filters />,
 			inject: {
 				action: 'prepend',

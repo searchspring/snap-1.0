@@ -9,7 +9,7 @@ import {
 
 import { API, HTTPQuery } from '.';
 import { HTTPHeaders } from '../../types';
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { SearchResponseType, transformSearchResponse } from '../transforms/searchResponse';
 import { transformSearchRequest } from '../transforms';
 

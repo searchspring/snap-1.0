@@ -5,10 +5,10 @@ import userEvent from '@testing-library/user-event';
 
 import { LoadMore } from './LoadMore';
 import { ThemeProvider } from '../../../providers';
-import { SearchPaginationStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { SearchPaginationStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 describe('LoadMore Component', () => {
 	const services = {

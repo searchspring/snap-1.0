@@ -9,7 +9,7 @@ Renders a native or custom select dropdown.
 
 ## Usage
 ```jsx
-import { Select } from '@searchspring/snap-preact-components';
+import { Select } from '@athoscommerce/snap-preact-components';
 ```
 
 ### options

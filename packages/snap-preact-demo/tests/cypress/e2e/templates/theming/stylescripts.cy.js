@@ -38,7 +38,7 @@ describe('Theme styling works', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -100,7 +100,7 @@ describe('Theme styling works', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],

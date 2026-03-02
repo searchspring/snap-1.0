@@ -6,9 +6,9 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 
-import type { AutocompleteController, RecommendationControllerConfig } from '@searchspring/snap-controller';
-import { ContentType } from '@searchspring/snap-store-mobx';
-import type { Term } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
+import type { Term } from '@athoscommerce/snap-store-mobx';
 
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { Results, ResultsProps } from '../Results';
@@ -24,7 +24,7 @@ import { Lang, useA11y, useLang } from '../../../hooks';
 // import { useSnap } from '../../../providers';
 // import { useComponent } from '../../../hooks';
 // import { useCreateController } from '../../../hooks/useCreateController';
-// import type { RecommendationController } from '@searchspring/snap-controller';
+// import type { RecommendationController } from '@athoscommerce/snap-controller';
 // import type { FunctionalComponent } from 'preact';
 // import type { SnapTemplates } from '../../../../../src';
 

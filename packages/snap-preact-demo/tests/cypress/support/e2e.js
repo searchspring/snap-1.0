@@ -10,7 +10,7 @@ import './commands';
 import './custom';
 import { ignoredErrors } from './custom';
 
-import { BeaconType } from '@searchspring/snap-tracker';
+import { BeaconType } from '@athoscommerce/snap-tracker';
 
 // ignore 3rd party uncaught exceptions - but not bundle exceptions
 Cypress.on('uncaught:exception', (err) => {

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 import { Icon, IconProps, IconType } from '../Icon';
 
 const defaultStyles: StyleScript<BreadcrumbsProps> = () => {

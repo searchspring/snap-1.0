@@ -14,7 +14,7 @@ Background filters allow a page to be refined without displaying the active filt
 In this example, we'll retrieve the `collection` object from the context and apply it as a category background filter for our search controller.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	collection = {
 		handle: 'Shirts'
 	};
@@ -22,7 +22,7 @@ In this example, we'll retrieve the `collection` object from the context and app
 ```
 
 ```js
-import { getContext } from '@searchspring/snap-toolbox';
+import { getContext } from '@athoscommerce/snap-toolbox';
 
 const context = getContext(['collection']);
 const backgroundFilters = [];

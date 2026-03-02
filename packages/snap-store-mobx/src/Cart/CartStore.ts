@@ -1,6 +1,6 @@
 import { observable, computed, makeObservable } from 'mobx';
-import { EventManager } from '@searchspring/snap-event-manager';
-import type { Middleware } from '@searchspring/snap-event-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import type { Middleware } from '@athoscommerce/snap-event-manager';
 import type { Product } from '../Search/Stores';
 
 export class CartStore {
