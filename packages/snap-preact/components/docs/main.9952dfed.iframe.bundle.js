@@ -6598,10 +6598,10 @@ body.sb-show-main {
 		},
 		(I) => {
 			var _ = (t) => I((I.s = t));
-			I.O(0, [3148], () => _('./storybook-config-entry.js'));
+			I.O(0, [5333], () => _('./storybook-config-entry.js'));
 			var e = I.O();
 		},
 	]);
 })();
 
-//# sourceMappingURL=main.b536ea75.iframe.bundle.js.map
+//# sourceMappingURL=main.9952dfed.iframe.bundle.js.map
