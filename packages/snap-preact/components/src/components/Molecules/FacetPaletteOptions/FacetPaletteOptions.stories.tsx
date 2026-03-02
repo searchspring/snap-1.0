@@ -220,7 +220,11 @@ Default.loaders = [
 ];
 
 export const List = (args: FacetPaletteOptionsProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
-	return <ObservableFacetPaletteOptions args={args} controller={controller} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '100%' : '500px' }}>
+			<ObservableFacetPaletteOptions args={args} controller={controller} />
+		</div>
+	);
 };
 
 List.args = {

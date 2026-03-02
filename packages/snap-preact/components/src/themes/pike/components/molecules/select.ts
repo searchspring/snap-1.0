@@ -11,14 +11,22 @@ const selectStyleScript = (props: SelectProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
+	// shared styles
+	const sharedStyles = css({
+		...custom.styles.boxSizing('select', props?.treePath, props?.name),
+		'&.ss__select--disabled': {
+			...custom.styles.disabled(),
+		},
+	});
+
 	// default styles
 	const defaultStyles = css([
+		sharedStyles,
 		{
 			display: 'block',
-			...custom.styles.boxSizing('select', props?.treePath, props?.name),
 			'.ss__dropdown': {
 				'.ss__dropdown__button .ss__button, .ss__dropdown__content': {
-					...custom.styles.box(variables?.colors?.text),
+					padding: `${custom.spacing.x2}px`,
 				},
 				'.ss__dropdown__button': {
 					'.ss__button': {
@@ -37,11 +45,14 @@ const selectStyleScript = (props: SelectProps) => {
 							},
 							[dropdownIcon]: {
 								transition: 'transform ease 0.5s',
+								marginLeft: 'auto',
 							},
 						},
 					},
 				},
 				'.ss__dropdown__content': {
+					backgroundColor: props?.backgroundColor ? props?.backgroundColor : custom.colors.gray01,
+					border: `1px solid ${props?.borderColor ? props?.borderColor : custom.colors.gray02}`,
 					marginTop: `${custom.spacing.x1}px`,
 					'.ss__select__select': {
 						margin: 0,
@@ -85,15 +96,18 @@ const selectStyleScript = (props: SelectProps) => {
 
 	// native styles
 	const nativeStyles = css([
+		sharedStyles,
 		{
 			display: 'flex',
 			flexFlow: 'row nowrap',
 			alignItems: 'center',
 			gap: `${custom.spacing.x1}px`,
+			padding: `0 ${custom.spacing.x2}px`,
+			backgroundColor: props?.backgroundColor ? props?.backgroundColor : custom.colors.gray01,
+			border: `1px solid ${props?.borderColor ? props?.borderColor : custom.colors.gray02}`,
 			height: `${custom.sizes.height}px`,
 			lineHeight: `${custom.sizes.height}px`,
-			...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`),
-			...custom.styles.boxSizing('select', props?.treePath, props?.name),
+			color: props?.color ? props?.color : variables?.colors?.text,
 			'.ss__select__label, .ss__select__select': {
 				fontSize: '14px',
 			},
@@ -113,9 +127,6 @@ const selectStyleScript = (props: SelectProps) => {
 				'&::-ms-expand': {
 					display: 'none',
 				},
-				'&[disabled]': {
-					...custom.styles.disabled(),
-				},
 			},
 		},
 	]);
@@ -130,6 +141,9 @@ export const select: ThemeComponent<'select', SelectProps> = {
 			themeStyleScript: selectStyleScript,
 			iconOpen: custom.icons.arrowDown,
 			iconClose: custom.icons.arrowDown,
+			color: custom.colors.text,
+			backgroundColor: custom.colors.gray01,
+			borderColor: custom.colors.gray02,
 		},
 		'select icon.open': {
 			size: `${custom.sizes.icon12}px`,

@@ -164,6 +164,9 @@ const resultStyleScript = (props: ResultProps) => {
 							},
 						},
 					},
+					'.ss__result__add-to-cart-wrapper .ss__button': {
+						width: `auto`,
+					},
 				},
 			},
 		},

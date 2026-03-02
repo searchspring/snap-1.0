@@ -22,7 +22,7 @@ export const overlay: ThemeComponent<'overlay', OverlayProps> = {
 	default: {
 		overlay: {
 			themeStyleScript: overlayStyleScript,
-			color: 'rgba(0, 0, 0, 0.80)',
+			color: custom.colors.overlay,
 		},
 	},
 };

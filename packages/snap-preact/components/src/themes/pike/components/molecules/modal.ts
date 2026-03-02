@@ -11,7 +11,6 @@ const modalStyleScript = (props: ModalProps) => {
 	// modal styles
 	const modalStyles = css({
 		cursor: 'pointer',
-		color: variables?.colors?.text,
 		...custom.styles.boxSizing('modal', props?.treePath, props?.name),
 	});
 
@@ -23,7 +22,7 @@ export const modal: ThemeComponent<'modal', ModalProps> = {
 	default: {
 		modal: {
 			themeStyleScript: modalStyleScript,
-			overlayColor: 'rgba(0, 0, 0, 0.80)',
+			overlayColor: custom.colors.overlay,
 		},
 	},
 };

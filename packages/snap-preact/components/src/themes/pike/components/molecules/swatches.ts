@@ -227,5 +227,8 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 			gap: swatchesSpacing,
 			centerInsufficientSlides: true,
 		},
+		'swatches grid': {
+			columns: 4,
+		},
 	},
 };

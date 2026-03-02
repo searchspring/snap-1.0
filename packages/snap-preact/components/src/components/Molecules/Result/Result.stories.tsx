@@ -33,13 +33,7 @@ export default {
 			),
 		},
 	},
-	decorators: [
-		(Story: any) => (
-			<div style={{ maxWidth: '250px' }}>
-				<Story />
-			</div>
-		),
-	],
+	decorators: [(Story: any) => <Story />],
 	argTypes: {
 		controller: {
 			description: 'Controller reference',
@@ -230,7 +224,9 @@ export default {
 const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: 'atkzs2' } });
 
 export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[20] as Product} />
+	<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+		<Result {...args} result={controller?.store?.results[20] as Product} />
+	</div>
 );
 
 Default.loaders = [
@@ -243,7 +239,9 @@ Default.loaders = [
 ];
 
 export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[20] as Product} />
+	<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+		<Result {...args} result={controller?.store?.results[20] as Product} />
+	</div>
 );
 
 hideSections.loaders = [
@@ -261,7 +259,9 @@ hideSections.args = {
 };
 
 export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[20] as Product} />
+	<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+		<Result {...args} result={controller?.store?.results[20] as Product} />
+	</div>
 );
 
 truncateTitle.loaders = [
