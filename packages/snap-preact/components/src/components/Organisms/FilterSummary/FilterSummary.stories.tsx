@@ -7,7 +7,7 @@ import { FilterSummary, FilterSummaryProps } from './FilterSummary';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FilterSummary/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 
 export default {

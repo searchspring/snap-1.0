@@ -1,5 +1,5 @@
-import { Banner, BannerContent, ContentType, MerchandisingContentBanner, Product } from '@searchspring/snap-store-mobx';
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
+import { Banner, BannerContent, ContentType, MerchandisingContentBanner, Product } from '@athoscommerce/snap-store-mobx';
+import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
 import { useEffect, type Ref } from 'preact/hooks';
 import { createImpressionObserver } from '../utilities';
 import { TRACKING_ATTRIBUTE } from '../providers/withTracking';

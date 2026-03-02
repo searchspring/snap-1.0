@@ -4,11 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../../providers';
 
 import { FacetHierarchyOptions } from './FacetHierarchyOptions';
-import { SearchFacetStore, StorageStore, type FacetHierarchyValue } from '@searchspring/snap-store-mobx';
+import { SearchFacetStore, StorageStore, type FacetHierarchyValue } from '@athoscommerce/snap-store-mobx';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
-import { QueryStringTranslator, reactLinker, UrlManager } from '@searchspring/snap-url-manager';
+import { QueryStringTranslator, reactLinker, UrlManager } from '@athoscommerce/snap-url-manager';
 
 const mockData = new MockData();
 const hierarchyFacetMock: SearchResponseModelFacet & SearchResponseModelFacetValueAllOf = mockData

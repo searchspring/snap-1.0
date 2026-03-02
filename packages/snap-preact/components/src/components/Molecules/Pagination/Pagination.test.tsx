@@ -4,10 +4,10 @@ import { render, RenderResult } from '@testing-library/preact';
 import { ThemeProvider } from '../../../providers';
 
 import { Pagination } from './Pagination';
-import { SearchPaginationStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { SearchPaginationStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 describe('Pagination Component', () => {
 	let rendered: RenderResult;

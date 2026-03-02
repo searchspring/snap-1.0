@@ -5,10 +5,10 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Terms, TermsProps } from './Terms';
 import Readme from './readme.md';
-import { AutocompleteController } from '@searchspring/snap-controller';
+import { AutocompleteController } from '@athoscommerce/snap-controller';
 import { Snapify } from '../../../utilities/snapify';
-import { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 import { useState } from 'preact/hooks';
 
 export default {

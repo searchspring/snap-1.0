@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.13.0](https://github.com/searchspring/snap/compare/v1.12.1...v1.13.0) (2026-03-02)
+
+**Note:** Version bump only for package @searchspring/snap-controller
+
+## [1.12.1](https://github.com/searchspring/snap/compare/v1.12.0...v1.12.1) (2026-02-25)
+
+**Note:** Version bump only for package @searchspring/snap-controller
+
+# [1.12.0](https://github.com/searchspring/snap/compare/v1.11.0...v1.12.0) (2026-02-24)
+
+### Bug Fixes
+
+- ac filters reset impressions ([57005a1](https://github.com/searchspring/snap/commit/57005a1147f2c5223f5c2ce593bb75421c56773b))
+- change banner.uid check ([2738b61](https://github.com/searchspring/snap/commit/2738b61b4d172efb297e17d8e7e9fc0d5c79bba8))
+- **controller/finder:** adjusted finder controller stores and tests to ensure tests pass consistently ([fed9a65](https://github.com/searchspring/snap/commit/fed9a658eb9c8064d986d75e5230e80cc6af6bd5))
+- **controller/search:** patching bug around not sending request to category - added tests around page type and new category E2E testing ([022bd88](https://github.com/searchspring/snap/commit/022bd887e3aab421e5527919ff7f5fd8f2fac144))
+- **controller:** adding parentId mapping to search and recommendation controllers ([fb05119](https://github.com/searchspring/snap/commit/fb051199e7ba640f8c4168bf54f1c10e69072c2b))
+- **controller:** adding support for shadow dom click originations for tracking clickthrough events ([ec59ec0](https://github.com/searchspring/snap/commit/ec59ec072d732d80a9a11e0d0b423da64e21373a))
+- move render event to search method for all controllers ([26aea6c](https://github.com/searchspring/snap/commit/26aea6ca30beb3b6ec529bbf0c06e112c175abbf))
+- pr review ([5f2212c](https://github.com/searchspring/snap/commit/5f2212c97a4865033af401eeee4c1d08b01dd8e6))
+- remove \_cached, reimpress products for previous searches when non-inifinite, fix banner impres ([348ff75](https://github.com/searchspring/snap/commit/348ff759147b04d575ab05a3ee46c53c94ee8721))
+- reset input param on new query ([ff1ab8a](https://github.com/searchspring/snap/commit/ff1ab8a712b1c30c3ff1226d1348b37e84ac49cc))
+- update tracker tests, pr review ([6a9d4ad](https://github.com/searchspring/snap/commit/6a9d4add7c9646bc9b8e5fc1b8e757346dcc4117))
+- use cssEscape package ([0b982b8](https://github.com/searchspring/snap/commit/0b982b868bc47d7c7b51abc10ef3a7207864a411))
+- use latest beacon from athos packages, improvements ([9655c11](https://github.com/searchspring/snap/commit/9655c11ad0c0309c113a74f3245cb0ea82c234c0))
+
+### Features
+
+- auto-beaconing changes ([d61f037](https://github.com/searchspring/snap/commit/d61f0378547531b8b19a8a379fca4d8a324fef5c))
+- **controllers:** track Variant Parent Id if available ([a5407ea](https://github.com/searchspring/snap/commit/a5407eae05f1c5e4e2c215394d471dbd72a0f828))
+
 # [1.11.0](https://github.com/searchspring/snap/compare/v1.10.1...v1.11.0) (2026-01-15)
 
 ### Bug Fixes

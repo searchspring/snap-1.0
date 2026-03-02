@@ -1,4 +1,4 @@
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 import { AutocompleteStateStore } from './AutocompleteStateStore';
 

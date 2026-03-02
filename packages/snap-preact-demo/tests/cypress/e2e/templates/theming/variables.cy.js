@@ -47,7 +47,7 @@ describe('Theme variables work', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -123,7 +123,7 @@ describe('Theme variables work', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -189,7 +189,7 @@ describe('Theme variables work', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -239,7 +239,7 @@ describe('Theme variables work', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -304,7 +304,7 @@ describe('Theme variables work', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 							resultComponent: 'CustomResult',
 						},

@@ -3,10 +3,10 @@
 
 import React from 'react';
 import { addons, types } from '@storybook/manager-api';
-import searchspringTheme from './searchspringTheme';
+import athosTheme from './AthosTheme';
 import { ColorPickerTool } from './ColorPickerTool';
 
-addons.setConfig({ theme: searchspringTheme });
+addons.setConfig({ theme: athosTheme });
 
 addons.register('snap-theme-color-picker', () => {
 	addons.add('snap-theme-color-picker/tool', {

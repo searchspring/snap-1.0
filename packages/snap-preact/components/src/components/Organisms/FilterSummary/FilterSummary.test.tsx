@@ -5,9 +5,9 @@ import { ThemeProvider } from '../../../providers';
 import { FilterSummary } from './FilterSummary';
 import userEvent from '@testing-library/user-event';
 
-import { MockData } from '@searchspring/snap-shared';
-import { SearchFilterStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
+import { SearchFilterStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 import { IconType } from '../../Atoms/Icon';
 
 const services = {

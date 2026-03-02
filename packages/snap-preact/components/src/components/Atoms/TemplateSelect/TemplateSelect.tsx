@@ -1,6 +1,6 @@
 import { h, Fragment } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { Controllers } from '@searchspring/snap-controller';
+import { Controllers } from '@athoscommerce/snap-controller';
 import { ThemeProvider, ControllerProvider, SnapProvider, Theme } from '../../../providers';
 import type { SnapTemplates } from '../../../../../src';
 import type { TemplatesStore, TemplateThemeTypes, TemplateTypes } from '../../../../../src/Templates/Stores/TemplateStore';

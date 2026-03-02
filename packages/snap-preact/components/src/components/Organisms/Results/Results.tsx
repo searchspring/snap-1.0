@@ -5,9 +5,9 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
-import type { SearchResultStore, Product, Banner } from '@searchspring/snap-store-mobx';
-import { ContentType } from '@searchspring/snap-store-mobx';
+import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
+import type { SearchResultStore, Product, Banner } from '@athoscommerce/snap-store-mobx';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
 import { InlineBanner, InlineBannerProps } from '../../Atoms/InlineBanner';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, ResultsLayout, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';

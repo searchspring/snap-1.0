@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { withStore, withController, useA11y } from '@searchspring/snap-preact/components';
+import { withStore, withController, useA11y } from '@athoscommerce/snap-preact/components';
 
 type FilterSummaryProps = {
 	store?: SearchStore;

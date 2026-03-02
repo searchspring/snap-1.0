@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 
-import { ErrorType, Product } from '@searchspring/snap-store-mobx';
+import { ErrorType, Product } from '@athoscommerce/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ControllerTypes } from '../types';
 import {
@@ -13,8 +13,8 @@ import {
 	ResultsInner,
 	ClickthroughResultsInner,
 } from '@athoscommerce/beacon';
-import type { Banner, RecommendationStore } from '@searchspring/snap-store-mobx';
-import type { RecommendRequestModel } from '@searchspring/snap-client';
+import type { Banner, RecommendationStore } from '@athoscommerce/snap-store-mobx';
+import type { RecommendRequestModel } from '@athoscommerce/snap-client';
 import type { RecommendationControllerConfig, ControllerServices, ContextVariables } from '../types';
 import { CLICK_DUPLICATION_TIMEOUT, isClickWithinProductLink } from '../utils/isClickWithinProductLink';
 

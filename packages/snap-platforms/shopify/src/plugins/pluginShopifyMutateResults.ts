@@ -1,6 +1,6 @@
-import type { Product, SearchStore, Banner } from '@searchspring/snap-store-mobx';
-import type { AbstractController } from '@searchspring/snap-controller';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Product, SearchStore, Banner } from '@athoscommerce/snap-store-mobx';
+import type { AbstractController } from '@athoscommerce/snap-controller';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import { AbstractPluginConfig } from '../../../common/src/types';
 
 declare global {

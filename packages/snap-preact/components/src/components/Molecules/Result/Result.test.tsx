@@ -5,10 +5,10 @@ import { FALLBACK_IMAGE_URL } from '../../Atoms/Image';
 import { ThemeProvider } from '../../../providers';
 import userEvent from '@testing-library/user-event';
 import { ResultsLayout } from '../../../types';
-import { SearchResultStore } from '@searchspring/snap-store-mobx';
-import { MockData } from '@searchspring/snap-shared';
+import { SearchResultStore } from '@athoscommerce/snap-store-mobx';
+import { MockData } from '@athoscommerce/snap-shared';
 
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import { SearchResponseModelResultVariants } from '@athoscommerce/snapi-types';
 
 const wait = (time?: number) => {

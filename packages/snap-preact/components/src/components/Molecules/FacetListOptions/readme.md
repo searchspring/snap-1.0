@@ -8,7 +8,7 @@ Renders a list of facet options.
 
 ## Usage
 ```jsx
-import { FacetListOptions } from '@searchspring/snap-preact-components';
+import { FacetListOptions } from '@athoscommerce/snap-preact-components';
 ```
 
 ### values

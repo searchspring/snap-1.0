@@ -4,7 +4,7 @@ import { Facets, IndividualFacetType } from './Facets';
 import { ThemeProvider } from '../../../providers';
 import userEvent from '@testing-library/user-event';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

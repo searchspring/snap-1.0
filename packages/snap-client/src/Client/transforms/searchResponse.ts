@@ -1,4 +1,4 @@
-import { unescapeHTML } from '@searchspring/snap-toolbox';
+import { unescapeHTML } from '@athoscommerce/snap-toolbox';
 
 import {
 	SearchRequestModel,
@@ -11,6 +11,16 @@ import {
 	SearchResponseModelResultBadges,
 	SearchResponseModelResultVariants,
 	AutocompleteRequestModel,
+	SearchResponseModel,
+	SearchResponseModelFilter,
+	SearchResponseModelFilterTypeEnum,
+	SearchResponseModelFacet,
+	SearchResponseModelFacetValueAllOfValues,
+	SearchResponseModelFacetRangeBucketsAllOfValues,
+	SearchResponseModelSorting,
+	SearchResponseModelSortingDirectionEnum,
+	SearchResponseModelSearch,
+	SearchResponseModelTracking,
 } from '@athoscommerce/snapi-types';
 
 const CORE_FIELDS = [
@@ -37,14 +47,14 @@ const CORE_FIELDS = [
 	'caption',
 ];
 
-type sortingOption = {
+type SortingOption = {
 	field: string;
 	direction: string;
 	label: string;
 	active?: number;
 };
 
-type rawResult = {
+type RawResult = {
 	available: string;
 	badges?: SearchResponseModelResultBadges[];
 	variants?: SearchResponseModelResultVariants;
@@ -78,7 +88,7 @@ type rawResult = {
 	children?: [];
 };
 
-type facetValue = {
+type FacetValue = {
 	active: boolean;
 	type: string;
 	value: string;
@@ -88,7 +98,7 @@ type facetValue = {
 	high?: string | number;
 };
 
-type facet = {
+type Facet = {
 	hierarchyDelimiter?: string;
 	multiple?: string;
 	active?: any;
@@ -100,13 +110,13 @@ type facet = {
 	type: null | string;
 	collapse: number;
 	facet_active: number;
-	values: facetValue[];
+	values: FacetValue[];
 	step?: number;
 	filtered?: boolean;
 	range?: string[];
 };
 
-type breadcrumb = {
+type Breadcrumb = {
 	field: string;
 	label: string;
 	filterLabel: string;
@@ -115,7 +125,7 @@ type breadcrumb = {
 	removeRefineQuery: [];
 };
 
-export type searchResponseType = {
+export type SearchResponseType = {
 	responseId: string;
 	pagination: {
 		totalResults: number;
@@ -129,12 +139,12 @@ export type searchResponseType = {
 		defaultPerPage: number;
 	};
 	sorting: {
-		options: sortingOption[];
+		options: SortingOption[];
 	};
 	resultLayout?: string;
-	results: rawResult[];
-	facets: facet[];
-	breadcrumbs?: breadcrumb[];
+	results: RawResult[];
+	facets: Facet[];
+	breadcrumbs?: Breadcrumb[];
 	filterSummary: {
 		field: string;
 		filterLabel: string;
@@ -175,48 +185,44 @@ class Result implements SearchResponseModelResult {
 	}
 }
 
-export function transformSearchResponse(response: searchResponseType, request: SearchRequestModel | AutocompleteRequestModel) {
+export function transformSearchResponse(response: SearchResponseType, request: SearchRequestModel | AutocompleteRequestModel): SearchResponseModel {
 	return {
-		...transformSearchResponse.pagination(response),
-		...transformSearchResponse.results(response),
-		...transformSearchResponse.filters(response),
-		...transformSearchResponse.facets(response, request),
-		...transformSearchResponse.sorting(response),
-		...transformSearchResponse.merchandising(response),
-		...transformSearchResponse.search(response, request),
-		...transformSearchResponse.tracking(response),
+		pagination: transformSearchResponse.pagination(response),
+		results: transformSearchResponse.results(response),
+		filters: transformSearchResponse.filters(response),
+		facets: transformSearchResponse.facets(response, request),
+		sorting: transformSearchResponse.sorting(response),
+		merchandising: transformSearchResponse.merchandising(response),
+		search: transformSearchResponse.search(response, request),
+		tracking: transformSearchResponse.tracking(response),
 	};
 }
 
-transformSearchResponse.pagination = (response: searchResponseType): { pagination: SearchResponseModelPagination } => {
+transformSearchResponse.pagination = (response: SearchResponseType): SearchResponseModelPagination => {
 	const pagination = response?.pagination;
 
 	return {
-		pagination: {
-			totalResults: pagination?.totalResults,
-			page: pagination?.currentPage,
-			pageSize: pagination?.perPage,
-			totalPages: pagination?.totalPages,
-		},
+		totalResults: pagination?.totalResults,
+		page: pagination?.currentPage,
+		pageSize: pagination?.perPage,
+		totalPages: pagination?.totalPages,
 	};
 };
 
-transformSearchResponse.results = (response: searchResponseType) => {
+transformSearchResponse.results = (response: SearchResponseType): SearchResponseModelResult[] => {
 	const results = response?.results || [];
 
-	return {
-		results: results.map((result) => {
-			return transformSearchResponse.result(result, response);
-		}),
-	};
+	return results.map((result) => {
+		return transformSearchResponse.result(result, response);
+	});
 };
 
-transformSearchResponse.result = (rawResult: rawResult, response: searchResponseType): SearchResponseModelResult => {
+transformSearchResponse.result = (rawResult: RawResult, response: SearchResponseType): SearchResponseModelResult => {
 	const coreFieldValues: SearchResponseModelResultCoreMappings = CORE_FIELDS.reduce((coreFields, key) => {
-		if (typeof rawResult[key as keyof rawResult] != 'undefined') {
+		if (typeof rawResult[key as keyof RawResult] != 'undefined') {
 			return {
 				...coreFields,
-				[key]: decodeProperty(rawResult[key as keyof rawResult] || ''),
+				[key]: decodeProperty(rawResult[key as keyof RawResult] || ''),
 			};
 		}
 		return coreFields;
@@ -237,7 +243,7 @@ transformSearchResponse.result = (rawResult: rawResult, response: searchResponse
 		.reduce((attributes, key) => {
 			return {
 				...attributes,
-				[key]: decodeProperty(rawResult[key as keyof rawResult] || ''),
+				[key]: decodeProperty(rawResult[key as keyof RawResult] || ''),
 			};
 		}, {});
 
@@ -253,35 +259,36 @@ transformSearchResponse.result = (rawResult: rawResult, response: searchResponse
 	});
 };
 
-transformSearchResponse.filters = (response: searchResponseType): any => {
+transformSearchResponse.filters = (response: SearchResponseType): SearchResponseModelFilter[] => {
 	const filterSummary = response?.filterSummary || [];
 
-	return {
-		filters: filterSummary.map((filter) => {
-			let value = filter.value;
-			let type = 'value';
+	return filterSummary.map((filter) => {
+		let value = filter.value;
+		let type = 'value';
 
-			if (typeof filter.value == 'object') {
-				if (filter && filter.value && filter.value.rangeHigh && filter.value.rangeLow) {
-					(type = 'range'),
-						(value = {
-							low: +filter.value.rangeLow,
-							high: +filter.value.rangeHigh,
-						});
-				}
+		if (typeof filter.value == 'object') {
+			if (filter && filter.value && filter.value.rangeHigh != null && filter.value.rangeLow != null) {
+				(type = 'range'),
+					(value = {
+						low: +filter.value.rangeLow,
+						high: +filter.value.rangeHigh,
+					});
 			}
+		}
 
-			return {
-				type,
-				field: filter.field,
-				label: filter.filterValue,
-				value,
-			};
-		}),
-	};
+		return {
+			type: type as SearchResponseModelFilterTypeEnum,
+			field: filter.field,
+			label: filter.filterValue,
+			value,
+		};
+	});
 };
 
-transformSearchResponse.facets = (response: searchResponseType, request: SearchRequestModel | AutocompleteRequestModel = {}) => {
+transformSearchResponse.facets = (
+	response: SearchResponseType,
+	request: SearchRequestModel | AutocompleteRequestModel = {}
+): SearchResponseModelFacet[] => {
 	const filters = request.filters || [];
 	const facets = response?.facets || [];
 	const limit = request?.facets?.limit;
@@ -301,7 +308,6 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 					type: 'range',
 					step: facet.step,
 					range: {
-						// TODO: change to null
 						low: facet.range[0] == '*' ? undefined : +facet.range[0],
 						high: facet.range[1] == '*' ? undefined : +facet.range[1],
 					},
@@ -309,7 +315,6 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 			}
 			if (facet.active && typeof facet.active != 'boolean' && facet.active.length > 1) {
 				transformedFacet.active = {
-					// TODO: change to null
 					low: facet.active[0] == '*' ? undefined : +facet.active[0],
 					high: facet.active[1] == '*' ? undefined : +facet.active[1],
 				};
@@ -318,7 +323,7 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 			if (facet.type == 'hierarchy') {
 				transformedFacet.type = 'value';
 
-				transformedFacet.values = (facet.values || []).map((value) => {
+				transformedFacet.values = (facet.values || []).map((value): SearchResponseModelFacetValueAllOfValues => {
 					return {
 						filtered: Boolean(value.active),
 						value: value.value,
@@ -346,7 +351,7 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 					}
 
 					newValues.unshift({
-						value: null,
+						value: undefined,
 						filtered: false,
 						label: 'View All',
 					});
@@ -355,7 +360,7 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 				transformedFacet.values = newValues.concat(transformedFacet.values);
 			} else if (facet.values[0].type == 'value') {
 				transformedFacet.type = 'value';
-				transformedFacet.values = facet.values.map((value) => {
+				transformedFacet.values = facet.values.map((value): SearchResponseModelFacetValueAllOfValues => {
 					return {
 						filtered: value.active,
 						value: value.value,
@@ -365,11 +370,11 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 				});
 			} else if (facet.values[0].type == 'range') {
 				transformedFacet.type = 'range-buckets';
-				transformedFacet.values = facet.values.map((value) => {
+				transformedFacet.values = facet.values.map((value): SearchResponseModelFacetRangeBucketsAllOfValues => {
 					return {
 						filtered: value.active,
-						low: value.low == '*' ? null : value.low ? +value.low : null,
-						high: value.high == '*' ? null : value.high ? +value.high : null,
+						low: value.low == '*' ? undefined : value.low != null ? +value.low : undefined,
+						high: value.high == '*' ? undefined : value.high != null ? +value.high : undefined,
 						label: value.label,
 						count: value.count,
 					};
@@ -395,87 +400,68 @@ transformSearchResponse.facets = (response: searchResponseType, request: SearchR
 		});
 	}
 
-	return {
-		facets: transformedFacets,
-	};
+	return transformedFacets;
 };
 
-transformSearchResponse.sorting = (response: searchResponseType) => {
+transformSearchResponse.sorting = (response: SearchResponseType): SearchResponseModelSorting[] => {
 	const sorts = response?.sorting?.options || [];
-	const transformedSorting = sorts
+	return sorts
 		.filter((sort) => sort.active)
 		.map((sort) => {
 			return {
 				field: sort.field,
-				direction: sort.direction,
+				direction: sort.direction as SearchResponseModelSortingDirectionEnum,
 			};
 		});
-
-	return {
-		sorting: transformedSorting,
-	};
 };
 
-transformSearchResponse.merchandising = (response: searchResponseType) => {
+transformSearchResponse.merchandising = (response: SearchResponseType): SearchResponseModelMerchandising => {
 	const merchandising = response?.merchandising;
 
 	if (merchandising?.content && Array.isArray(merchandising.content) && !merchandising.content.length) {
 		merchandising.content = {};
 	}
 
-	const transformedMerchandising: SearchResponseModelMerchandising = {
+	return {
 		redirect: merchandising?.redirect || '',
 		content: merchandising?.content || {},
 		campaigns: merchandising?.triggeredCampaigns || [],
 		personalized: merchandising?.personalized,
 		experiments: merchandising?.experiments || [],
 	};
-
-	return {
-		merchandising: transformedMerchandising,
-	};
 };
 
-transformSearchResponse.search = (response: searchResponseType, request: SearchRequestModel | AutocompleteRequestModel) => {
+transformSearchResponse.search = (
+	response: SearchResponseType,
+	request: SearchRequestModel | AutocompleteRequestModel
+): SearchResponseModelSearch => {
 	const searchObj: {
-		search: {
-			query?: string;
-			didYouMean?: string;
-			matchType?: string;
-			originalQuery?: string;
-		};
+		query?: string;
+		didYouMean?: string;
+		matchType?: SearchResponseModelSearchMatchTypeEnum;
+		originalQuery?: string;
 	} = {
-		search: {
-			query: request?.search?.query?.string,
-			didYouMean: response?.didYouMean?.query,
-			matchType: response?.query?.matchType,
-		},
+		query: request?.search?.query?.string,
+		didYouMean: response?.didYouMean?.query,
+		matchType: response?.query?.matchType,
 	};
 
 	if (response?.query?.corrected && response?.query.original) {
 		// integrated spell correction is enabled
-		searchObj.search.query = response?.query?.corrected;
-		searchObj.search.originalQuery = response?.query?.original;
+		searchObj.query = response?.query?.corrected;
+		searchObj.originalQuery = response?.query?.original;
 	} else if (request?.search?.originalQuery) {
 		// using 'oq'
-		searchObj.search.originalQuery = request?.search?.originalQuery;
+		searchObj.originalQuery = request?.search?.originalQuery;
 	}
 
 	return searchObj;
 };
 
-transformSearchResponse.tracking = (response: searchResponseType) => {
-	const trackingObj: {
-		tracking: {
-			responseId: string;
-		};
-	} = {
-		tracking: {
-			responseId: response.responseId,
-		},
+transformSearchResponse.tracking = (response: SearchResponseType): SearchResponseModelTracking => {
+	return {
+		responseId: response.responseId,
 	};
-
-	return trackingObj;
 };
 
 // used for HTML entities decoding

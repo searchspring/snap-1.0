@@ -1,10 +1,10 @@
 # Formatted Number
 
-Utilizes `formatNumber` from [@searchspring/snap-preact/toolbox](https://searchspring.github.io/snap/#/package-toolbox) to render a `<span>` containing a formatted number.
+Utilizes `formatNumber` from [@athoscommerce/snap-preact/toolbox](https://searchspring.github.io/snap/#/package-toolbox) to render a `<span>` containing a formatted number.
 
 ## Usage
 ```jsx
-import { FormattedNumber } from '@searchspring/snap-preact-components';
+import { FormattedNumber } from '@athoscommerce/snap-preact-components';
 ```
 
 ### value

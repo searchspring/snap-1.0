@@ -1,8 +1,8 @@
 {
-	"name": "@searchspring/snap-platforms",
-	"version": "1.11.0",
+	"name": "@athoscommerce/snap-platforms",
+	"version": "1.13.0",
 	"description": "Snap Platforms Library",
-	"author": "Searchspring",
+	"author": "Athos Commerce",
 	"license": "MIT",
 	"repository": "https://github.com/searchspring/snap",
 	"publishConfig": {
@@ -18,11 +18,11 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@searchspring/snap-toolbox": "1.11.0"
+		"@athoscommerce/snap-toolbox": "1.13.0"
 	},
 	"devDependencies": {
-		"@searchspring/snap-controller": "1.11.0",
-		"@searchspring/snap-store-mobx": "1.11.0"
+		"@athoscommerce/snap-controller": "1.13.0",
+		"@athoscommerce/snap-store-mobx": "1.13.0"
 	},
 	"sideEffects": false,
 	"files": [

@@ -11,7 +11,7 @@ import { useClickOutside } from '../../../hooks';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
 import { useA11y } from '../../../hooks/useA11y';
 import { Overlay, OverlayProps } from '../../Atoms/Overlay';
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 
 const defaultStyles: StyleScript<ModalProps> = () => {
 	return css({

@@ -4,7 +4,7 @@ Changes to the recommendation integration scripts were made in Snap `v0.60.0`. L
 
 ## Prerequisites
 
-Profiles must be setup in the Searchspring Management Console (SMC) and have associated Snap templates selected. The template selected contains a `component` that will be used to render the recommendations profile. This component must be configured in the Snap [RecommendationInstantiator config](https://searchspring.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig)
+Profiles must be setup in the Athos Search & Product Discovery Console (ASD) and have associated Snap templates selected. The template selected contains a `component` that will be used to render the recommendations profile. This component must be configured in the Snap [RecommendationInstantiator config](https://searchspring.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig)
 
 ## Installation
 
@@ -116,7 +116,7 @@ Here's an example that demonstrates deduping:
 
 ## Additional Examples
 
-The examples below assume the `similar` profile has been setup in the Searchspring Management Console (SMC), and that a Snap `bundle.js` script exists on the page and has been configured with a [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators)
+The examples below assume the `similar` profile has been setup in the Athos Search & Product Discovery Console (ASD), and that a Snap `bundle.js` script exists on the page and has been configured with a [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators)
 
 A typical "similar" profile displays products similar to the product passed in via the `products` global context variable.
 

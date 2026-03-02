@@ -1,10 +1,10 @@
 {
-	"name": "@searchspring/snap-tracker",
-	"version": "1.11.0",
+	"name": "@athoscommerce/snap-tracker",
+	"version": "1.13.0",
 	"description": "Snap Tracker",
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
-	"author": "Searchspring",
+	"author": "AthosCommerce",
 	"license": "MIT",
 	"repository": "https://github.com/searchspring/snap",
 	"publishConfig": {
@@ -20,10 +20,10 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@searchspring/snap-store-mobx": "1.11.0",
-		"@searchspring/snap-toolbox": "1.11.0",
+		"@athoscommerce/beacon": "1.0.4",
+		"@athoscommerce/snap-store-mobx": "1.13.0",
+		"@athoscommerce/snap-toolbox": "1.13.0",
 		"@types/uuid": "8.3.4",
-		"@athoscommerce/beacon": "1.0.1",
 		"deepmerge": "4.3.1",
 		"uuid": "9.0.1"
 	},

@@ -12,6 +12,6 @@ export default create({
 	// Toolbar default and active colors
 	barSelectedColor: '#1D4990',
 
-	brandTitle: 'Searchspring Snap Preact',
+	brandTitle: 'Athos Snap Preact',
 	brandImage: athosLogo,
 });

@@ -1,4 +1,4 @@
-import { StorageStore } from '@searchspring/snap-store-mobx';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
 import { GLOBAL_THEME_NAME, TargetStore } from './TargetStore';
 import { TemplatesStoreDependencies, TemplatesStoreConfigSettings, TemplateThemeTypes } from './TemplateStore';
 

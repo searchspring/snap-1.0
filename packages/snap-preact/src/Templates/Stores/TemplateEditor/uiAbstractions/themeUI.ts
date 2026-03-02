@@ -1,4 +1,4 @@
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 import { AbstractionGroup } from '../../../../types';
 import { TemplateEditorStore } from '../TemplateEditorStore';
 

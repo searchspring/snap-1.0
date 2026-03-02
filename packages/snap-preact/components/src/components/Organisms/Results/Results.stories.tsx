@@ -8,7 +8,7 @@ import { Snapify } from '../../../utilities/snapify';
 import { ResultsLayout } from '../../../types';
 
 import Readme from './readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Organisms/Results',

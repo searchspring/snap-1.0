@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react';
 import { useState } from 'preact/hooks';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, ListOption, SwatchOption, StyleScript } from '../../../types';

@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import { FacetPaletteOptions } from './FacetPaletteOptions';
 import { ThemeProvider } from '../../../providers';
-import type { FacetValue } from '@searchspring/snap-store-mobx';
+import type { FacetValue } from '@athoscommerce/snap-store-mobx';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

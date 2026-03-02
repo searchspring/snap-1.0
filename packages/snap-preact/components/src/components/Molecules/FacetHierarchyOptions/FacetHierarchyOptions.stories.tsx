@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import { FacetDisplay } from '../../../types';
 import Readme from '../FacetHierarchyOptions/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { iconPaths } from '../../Atoms/Icon';
 
 export default {

@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { RecommendationBundle, RecommendationBundleProps } from '@searchspring/snap-preact/components';
+import { RecommendationBundle, RecommendationBundleProps } from '@athoscommerce/snap-preact/components';
 import { useEffect } from 'preact/hooks';
 
 import './Bundles.scss';

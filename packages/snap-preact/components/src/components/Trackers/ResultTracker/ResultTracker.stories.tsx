@@ -6,9 +6,9 @@ import { ResultTracker, ResultTrackerProps } from './ResultTracker';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../ResultTracker/readme.md';
 import { Snapify } from '../../../utilities/snapify';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { Result } from '../../Molecules/Result';
-import { Product } from '@searchspring/snap-store-mobx';
+import { Product } from '@athoscommerce/snap-store-mobx';
 
 export default {
 	title: 'Trackers/Result',

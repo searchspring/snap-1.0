@@ -1,10 +1,10 @@
 # Magento2 Integration
 
-## Searchspring Management Console Actions
+## Athos Search & Product Discovery Console Actions
 
 ### Update Field Settings
 
-On the [Field Settings page](https://manage.searchspring.net/management/field-settings/display-fields), make sure the following fields are updated:
+On the [Field Settings page](https://console.athoscommerce.net/data-configurations/field-settings), make sure the following fields are updated:
 
 **For Search Only Integration:**
 
@@ -19,7 +19,7 @@ On the [Field Settings page](https://manage.searchspring.net/management/field-se
 | visibility | Text | , | ✓ |
 | category_hierarchy | Text | \| | ✓ |
 
-If settings are changed, perform an [Update Index](https://manage.searchspring.net/management/index/status).
+If settings are changed, perform an [Update Index](https://console.athoscommerce.net/data-sync).
 
 ## Add IntelliSuggest Tracking
 
@@ -53,7 +53,7 @@ Notify the client which site id to use for the section "How to Install", step 4,
 
 ## Theme Integration
 
-Next we'll integrate Searchspring into the theme.
+Next we'll integrate Athos into the theme.
 
 > [!NOTE]
 > If possible, have the site owner enable Template Path Hints. This will make it easier to find which files need to be changed.
@@ -77,24 +77,24 @@ Next we'll integrate Searchspring into the theme.
 
 ```php
 <?php
-	// Searchspring script flags
-	$ss_enable = true;
+	// Athos script flags
+	$athos_enable = true;
 	
-	// Initial attributes values for Searchspring script tag
-	$ss_site_id = 'REPLACE_WITH_YOUR_SITE_ID';
-	$ss_defer_config = ' defer';
+	// Initial attributes values for Athos script tag
+	$athos_site_id = 'REPLACE_WITH_YOUR_SITE_ID';
+	$athos_defer_config = ' defer';
 
 	// Get data from objectManager
-	$ss_object_manager = \Magento\Framework\App\ObjectManager::getInstance();
-	$ss_category = $ss_object_manager->get('Magento\Framework\Registry')->registry('current_category');
+	$athos_object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+	$athos_category = $athos_object_manager->get('Magento\Framework\Registry')->registry('current_category');
 
 	// Update defer if on search category
-	if (isset($ss_category) && $ss_category->getId() == 000000) {
-		$ss_defer_config = '';
+	if (isset($athos_category) && $athos_category->getId() == 000000) {
+		$athos_defer_config = '';
 	}
 ?>
-<?php if ( $ss_enable ) : ?>
-	<script src="https://snapui.searchspring.io/<?php echo $ss_site_id; ?>/bundle.js" id="searchspring-context"<?php echo $ss_defer_config; ?>></script>
+<?php if ( $athos_enable ) : ?>
+	<script src="https://snapui.athoscommerce.io/<?php echo $athos_site_id; ?>/bundle.js" id="athos-context"<?php echo $athos_defer_config; ?>></script>
 <?php endif; ?>
 ```
 
@@ -102,52 +102,52 @@ Next we'll integrate Searchspring into the theme.
 
 - Replace `REPLACE_WITH_YOUR_SITE_ID` with the correct site id.
 - Replace `000000` with the search category id that was noted when creating the category page.
-- (Optional) If the category path attribute has a parent level you want to exclude, add to the `$ss_category_exclude` array.
+- (Optional) If the category path attribute has a parent level you want to exclude, add to the `$athos_category_exclude` array.
 
 ```php
 <?php
-	// Searchspring script flags
-	$ss_enable = true;
-	$ss_find = '"';
-	$ss_replace = '&quot;';
+	// Athos script flags
+	$athos_enable = true;
+	$athos_find = '"';
+	$athos_replace = '&quot;';
 	
-	// Initial attributes values for Searchspring script tag
-	$ss_site_id = 'REPLACE_WITH_YOUR_SITE_ID';
-	$ss_defer_config = ' defer';
-	$ss_category_config = '';
+	// Initial attributes values for Athos script tag
+	$athos_site_id = 'REPLACE_WITH_YOUR_SITE_ID';
+	$athos_defer_config = ' defer';
+	$athos_category_config = '';
 
 	// Get data from objectManager
-	$ss_object_manager = \Magento\Framework\App\ObjectManager::getInstance();
-	$ss_category = $ss_object_manager->get('Magento\Framework\Registry')->registry('current_category');
+	$athos_object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+	$athos_category = $athos_object_manager->get('Magento\Framework\Registry')->registry('current_category');
 
 	// Update details if on category
-	if (isset($ss_category)) {
-		$ss_category_id = $ss_category->getId();
-		$ss_category_name = str_replace($ss_find, $ss_replace, $ss_category->getName());
-		$ss_category_copy = $ss_category;
-		$ss_category_array = array();
-		$ss_category_exclude = array('Default Category', 'Root Catalog');
+	if (isset($athos_category)) {
+		$athos_category_id = $athos_category->getId();
+		$athos_category_name = str_replace($athos_find, $athos_replace, $athos_category->getName());
+		$athos_category_copy = $athos_category;
+		$athos_category_array = array();
+		$athos_category_exclude = array('Default Category', 'Root Catalog');
 
 		// Build category path and trim characters
-		while (!in_array($ss_category_copy->getName(), $ss_category_exclude)) {
-			$ss_category_array[] = trim(htmlspecialchars($ss_category_copy->getName()));
-			$ss_category_copy = $ss_category_copy->getParentCategory();
+		while (!in_array($athos_category_copy->getName(), $athos_category_exclude)) {
+			$athos_category_array[] = trim(htmlspecialchars($athos_category_copy->getName()));
+			$athos_category_copy = $athos_category_copy->getParentCategory();
 		}
-		$ss_category_join = implode('>', array_reverse($ss_category_array));
-		$ss_category_path = str_replace($ss_find, $ss_replace, $ss_category_join);
+		$athos_category_join = implode('>', array_reverse($athos_category_array));
+		$athos_category_path = str_replace($athos_find, $athos_replace, $athos_category_join);
 
 		// Update defer if on category
-		$ss_defer_config = '';
+		$athos_defer_config = '';
 
 		// Add category filter (but not on search category)
-		if ($ss_category_id != 000000) {
-			$ss_category_config = 'category = { id : "' . $ss_category_id . '", name : "' . $ss_category_name . '", path : "' . $ss_category_path . '" };';
+		if ($athos_category_id != 000000) {
+			$athos_category_config = 'category = { id : "' . $athos_category_id . '", name : "' . $athos_category_name . '", path : "' . $athos_category_path . '" };';
 		}
 	}
 ?>
-<?php if ( $ss_enable ) : ?>
-	<script src="https://snapui.searchspring.io/<?php echo $ss_site_id; ?>/bundle.js" id="searchspring-context"<?php echo $ss_defer_config; ?>>
-		<?php echo $ss_category_config; ?>
+<?php if ( $athos_enable ) : ?>
+	<script src="https://snapui.athoscommerce.io/<?php echo $athos_site_id; ?>/bundle.js" id="athos-context"<?php echo $athos_defer_config; ?>>
+		<?php echo $athos_category_config; ?>
 	</script>
 <?php endif; ?>
 ```
@@ -158,7 +158,7 @@ Magento automatically adds a class based on the name of the page to the body, so
 
 ## Category Page Edits
 
-Next we'll add our target element(s) to the category page. This is where the Searchspring elements will be injected into, typically two elements are added for a two-column layout: one for content, and one for facets.
+Next we'll add our target element(s) to the category page. This is where the Athos elements will be injected into, typically two elements are added for a two-column layout: one for content, and one for facets.
 
 Targets are defined in your Snap configuration and will only be injected into if they exist on the page.
 
@@ -173,7 +173,7 @@ Targets are defined in your Snap configuration and will only be injected into if
 - Some category templates will only display sidebar or results content if products are assigned to the category. Look for conditions that may be checking for product count and adjust as needed (likely altering the product count conditional).
 
 ```php
-<div id="searchspring-content" style="min-height: 100vh;"></div>
+<div id="athos-content" style="min-height: 100vh;"></div>
 ```
 
 ### Category Sidebar
@@ -186,7 +186,7 @@ Targets are defined in your Snap configuration and will only be injected into if
 - Once the correct file is found, ensure that all of your search controller targets are added to the category sidebar.
 
 ```php
-<div id="searchspring-sidebar" style="min-height: 100vh;"></div>
+<div id="athos-sidebar" style="min-height: 100vh;"></div>
 ```
 
 ## Search Form Updates
@@ -198,16 +198,16 @@ Next we'll update the search form to submit to the search results category page 
 > [!CAUTION]
 > If this file doesn't exist, find the root file of the same, make a copy, and upload it to the path above. Try looking in: vendor > magento > magento-search > view > frontend > templates > form.mini.phtml. Do not edit the root files directly because if the client updates Magento, this could erase the changes and break the integration.
 
-- Above the form, add a php flag to enable and disable Searchspring:
+- Above the form, add a php flag to enable and disable Athos:
 
 ```php
-<?php $ss_enable = true; ?>
+<?php $athos_enable = true; ?>
 ```
 
-- Create a copy of the form which you will edit and comment out the old form. This will allow us to retain Magento's default functionality for when Searchspring is disabled.
+- Create a copy of the form which you will edit and comment out the old form. This will allow us to retain Magento's default functionality for when Athos is disabled.
 
 ```php
-<?php if ( $ss_enable ) : ?>
+<?php if ( $athos_enable ) : ?>
 	<!-- Altered form code -->
 <?php else : ?>
 	<!-- Untouched form code -->
@@ -226,7 +226,7 @@ In your form copy, update the following details:
 
 ## Integration Code
 
-Up until this point, we've added the Searchspring integration to the theme and category page.
+Up until this point, we've added the Athos integration to the theme and category page.
 
 Now we'll ensure our integration code captures the context variables and sets up the necessary configuration.
 
@@ -236,7 +236,7 @@ In the `src/scripts` folder, create a plugin called `magento2.js` and add the be
 
 ```js
 // src/scripts/magento2.js
-import { cookies } from '@searchspring/snap-toolbox';
+import { cookies } from '@athoscommerce/snap-toolbox';
 
 export const magento2 = (controller) => {
 	// get shopper id from magento cache
@@ -343,7 +343,7 @@ const snap = new Snap({
 				},
 				targeters: [
 					{
-						selector: '#searchspring-content',
+						selector: '#athos-content',
 						component: async () => {
 							return (await import('./components/Content')).Content;
 						},
@@ -383,7 +383,7 @@ Back in `src/index.js`, adjust context to grab additional values for category in
 ```js
 // src/index.js
 /* context from script tag */
-import { getContext } from '@searchspring/snap-toolbox';
+import { getContext } from '@athoscommerce/snap-toolbox';
 const context = getContext(['category']);
 ```
 
@@ -454,7 +454,7 @@ const snap = new Snap({
 				},
 				targeters: [
 					{
-						selector: '#searchspring-content',
+						selector: '#athos-content',
 						component: async () => {
 							return (await import('./components/Content')).Content;
 						},
@@ -490,27 +490,27 @@ const snap = new Snap({
 
 ## Additional Targets (Optional)
 
-In addition to having two targets for a two-column layout, you may want to inject content into other sections of the page such above the content and sidebar to display information such as the search query. Note the addition of `category-shop` class before `searchspring-header` to ensure the content is only injected on the search page.
+In addition to having two targets for a two-column layout, you may want to inject content into other sections of the page such above the content and sidebar to display information such as the search query. Note the addition of `category-shop` class before `athos-header` to ensure the content is only injected on the search page.
 
 ```js
 // src/index.js
 targeters: [
 	{
-		selector: '#searchspring-content',
+		selector: '#athos-content',
 		component: async () => {
 			return (await import('./components/Content')).Content;
 		},
 		hideTarget: true,
 	},
 	{
-		selector: '#searchspring-sidebar',
+		selector: '#athos-sidebar',
 		component: async () => {
 			return (await import('./components/Sidebar')).Sidebar;
 		},
 		hideTarget: true,
 	},
 	{
-		selector: '.category-shop #searchspring-header',
+		selector: '.category-shop #athos-header',
 		component: async () => {
 			return (await import('./content/header/Header')).Header;
 		},

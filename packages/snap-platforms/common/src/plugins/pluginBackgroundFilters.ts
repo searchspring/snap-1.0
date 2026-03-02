@@ -1,5 +1,5 @@
-import type { ClientGlobals } from '@searchspring/snap-client';
-import type { AbstractController } from '@searchspring/snap-controller';
+import type { ClientGlobals } from '@athoscommerce/snap-client';
+import type { AbstractController } from '@athoscommerce/snap-controller';
 import type { AbstractPluginConfig, PluginBackgroundFilter, PluginBackgroundFilterGlobal, PluginControl } from '../types';
 
 export type PluginBackgroundFiltersConfig = AbstractPluginConfig & {

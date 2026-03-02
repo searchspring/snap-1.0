@@ -8,8 +8,8 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
 import { ResultsLayout } from '../../../types';
 
-import type { Banner } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { Banner } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Atoms/InlineBanner',

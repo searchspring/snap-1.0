@@ -10,9 +10,9 @@ import { defined, Colour, mergeProps, mergeStyles } from '../../../utilities';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
-import type { AbstractController } from '@searchspring/snap-controller';
+import type { AbstractController } from '@athoscommerce/snap-controller';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 

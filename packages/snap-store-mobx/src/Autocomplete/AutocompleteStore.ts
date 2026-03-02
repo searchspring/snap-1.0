@@ -1,6 +1,6 @@
 import { makeObservable, observable } from 'mobx';
 
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import {
 	SearchFilterStore,
@@ -21,7 +21,7 @@ import {
 } from './Stores';
 
 import type { AutocompleteResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
-import type { TrendingResponseModel } from '@searchspring/snap-client';
+import type { TrendingResponseModel } from '@athoscommerce/snap-client';
 import type { AutocompleteStoreConfig, StoreServices } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
 

@@ -19,7 +19,7 @@ Each object in the array defines an entry point on the page where a component wi
 
 ## Example
 
-In this example we're creating a single search controller with two targeters. The `<Content>` component is injected into `<div id="searchspring-content">` and the `<Sidebar>` component is injected into `<div id="searchspring-sidebar">`. Each component will have access to the same controller via it's props.
+In this example we're creating a single search controller with two targeters. The `<Content>` component is injected into `<div id="athos-content">` and the `<Sidebar>` component is injected into `<div id="athos-sidebar">`. Each component will have access to the same controller via it's props.
 
 ```js
 // src/index.js
@@ -38,13 +38,13 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },
                     },
                     {
-                        selector: '#searchspring-sidebar',
+                        selector: '#athos-sidebar',
                         component: async () => {
                             return (await import('./components/Sidebar/Sidebar')).Sidebar;
                         },
@@ -60,8 +60,8 @@ To access the targeters after they have been created, we can first retrieve the 
 
 ```js
 snap.getController('search').then((controller) => {
-    const contentTargeter = controller.targeters['#searchspring-content'];
-    const sidebarTargeter = controller.targeters['#searchspring-sidebar'];
+    const contentTargeter = controller.targeters['#athos-content'];
+    const sidebarTargeter = controller.targeters['#athos-sidebar'];
 });
 ```
 
@@ -71,8 +71,8 @@ A `skeleton` component can be defined to render inside the target until search i
 A [Skeleton component](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-skeleton--default) is available in the components package.
 
 ```jsx
-import { Snap } from '@searchspring/snap-preact';
-import { Skeleton } from '@searchspring/snap-preact-components';
+import { Snap } from '@athoscommerce/snap-preact';
+import { Skeleton } from '@athoscommerce/snap-preact-components';
 
 const ContentSkeleton = () => {
   return (<Skeleton height="300px" width="250px" />);
@@ -85,7 +85,7 @@ const config = {
         id: 'search',
       },
       targeters: [{
-        selector: '#searchspring-content',
+        selector: '#athos-content',
         component: () => import('./Search'),
         skeleton: () => ContentSkeleton,
         hideTarget: false, // Keep target visible to render skeleton

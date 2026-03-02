@@ -15,15 +15,15 @@ For other pages that only contain Recommendations, Autocomplete, or Finders (non
 
 ### Resource Hints
 
-Use link tags with `preconnect` and `dns-prefetch` attributes to establish early connections to Snap CDN and Searchspring API domains:
+Use link tags with `preconnect` and `dns-prefetch` attributes to establish early connections to Snap CDN and Athos API domains:
 
 ```html
 <head>
   <!-- Preconnect to Snap CDN -->
-  <link rel="preconnect" href="https://snapui.searchspring.io">
-  <link rel="dns-prefetch" href="https://snapui.searchspring.io">
+  <link rel="preconnect" href="https://snapui.athoscommerce.io">
+  <link rel="dns-prefetch" href="https://snapui.athoscommerce.io">
   
-  <!-- Preconnect to Searchspring API -->
+  <!-- Preconnect to Athos API -->
   <link rel="preconnect" href="https://[siteId].a.searchspring.io">
   <link rel="dns-prefetch" href="https://[siteId].a.searchspring.io">
 </head>
@@ -105,7 +105,7 @@ controller.on('beforeSearch', ({ controller, request }, next) => {
 By adding a `min-height` to elements that are being targeted by Snap components, you can always reserve space for Snap components to prevent layout shifts. This is especially important for elements that are above the fold. By default, the `min-height` style will automatically be removed when the component is rendered.
 
 ```html
-<div id="searchspring-content" style="min-height: 100vh;">
+<div id="athos-content" style="min-height: 100vh;">
   <!-- Component will render here -->
 </div>
 ```
@@ -115,7 +115,7 @@ By adding a `min-height` to elements that are being targeted by Snap components,
 We recommended using server-side rendered skeletons inside the target elements for the best LCP performance. If this is the case, also set the `renderAfterSearch` property to `true`.
 
 ```html
-<div id="searchspring-content" style="min-height: 100vh;">
+<div id="athos-content" style="min-height: 100vh;">
   <div style="width: 25%; height: 300px; background-color: #f0f0f0;"></div>
   <div style="width: 25%; height: 300px; background-color: #f0f0f0;"></div>
   <div style="width: 25%; height: 300px; background-color: #f0f0f0;"></div>
@@ -124,7 +124,7 @@ We recommended using server-side rendered skeletons inside the target elements f
 ```
 
 ```jsx
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athos/snap-preact';
 
 const config = {
   controllers: {
@@ -133,7 +133,7 @@ const config = {
         id: 'search',
       },
       targeters: [{
-        selector: '#searchspring-content',
+        selector: '#athos-content',
         component: () => import('./Search'),
         renderAfterSearch: true, // Render the skeleton after search is ready
       }]

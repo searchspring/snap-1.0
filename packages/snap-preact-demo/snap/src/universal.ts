@@ -1,5 +1,5 @@
 import 'core-js/features/promise';
-import { polyfills } from '@searchspring/snap-preact';
+import { polyfills } from '@athoscommerce/snap-preact';
 
 const promises = [];
 if (!('fetch' in window)) {
@@ -10,9 +10,9 @@ if (!('Symbol' in window) || !('flatMap' in Array.prototype) || !('includes' in 
 }
 promises.push(polyfills);
 Promise.all(promises).then(() => {
-	window.searchspring = window.searchspring || {};
-	window.searchspring.managed = true;
-	window.searchspring.build = 'universal';
+	window.athos = window.athos || {};
+	window.athos.managed = true;
+	window.athos.build = 'universal';
 
 	import('./index');
 });

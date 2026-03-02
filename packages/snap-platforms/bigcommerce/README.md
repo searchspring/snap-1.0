@@ -11,7 +11,7 @@ The `redirect` property can be set to `false` or supplied with an alternate redi
 The `idFieldName` property takes a stringified path in the result reference, to look for the product id to add. `display.mappings.core.sku` for example. By default it will use `display.mappings.core.uid`.
 
 ```jsx
-import { addToCart } from '@searchspring/snap-platforms/bigcommerce';
+import { addToCart } from '@athoscommerce/snap-platforms/bigcommerce';
 
 export const AddToCart = (props) => {
     const { result } = props;
@@ -60,7 +60,7 @@ Plugin to set up background filters for BigCommerce. Script context is used to a
 This plugin relies on specific BigCommerce script context variables for creating background filters via the integration script context. Both category and brand background filter are supported, and special characters will be automatically handled. See the examples below:
 
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	category = {
 		id : "185",
 		name : "Sinks",
@@ -70,7 +70,7 @@ This plugin relies on specific BigCommerce script context variables for creating
 ```
 
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	brand = {
 		name: "My Favorite Brand",
 	};

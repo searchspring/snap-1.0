@@ -1,5 +1,5 @@
 {
-  "name": "@searchspring/snap",
+  "name": "@athoscommerce/snap",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -13,7 +13,7 @@
     "build:feed": "node ./docs/generateFeed.js",
     "build:metrics": "node ./metrics/generate",
     "test": "jest",
-    "posttest": "npm run test --workspace=@searchspring/snap-preact-demo && npm run cypress:headless --workspace=@searchspring/snap-preact",
+    "posttest": "npm run test --workspace=@athoscommerce/snap-preact-demo && npm run cypress:headless --workspace=@athoscommerce/snap-preact",
     "dev": "lerna exec --parallel --stream 'npm run dev'",
     "dev:docs": "http-server ./ -p 1111 -c-1",
     "lint": "lerna run lint",
@@ -23,7 +23,7 @@
     "clean:docs": "lerna exec --parallel --stream 'rm -rf ./docs'",
     "clean:packages": "lerna exec --parallel --stream 'rm -rf ./node_modules package-lock.json' && rm -rf ./node_modules package-lock.json",
     "format": "lerna exec --parallel --stream 'npm run format'",
-    "storybook:preact": "npm run storybook --workspace=@searchspring/snap-preact",
+    "storybook:preact": "npm run storybook --workspace=@athoscommerce/snap-preact",
     "publish": "lerna publish --exact --conventional-commits --no-git-reset --no-verify-access --force-publish --yes",
     "publish:canary": "lerna publish --exact --canary --pre-dist-tag alpha --conventional-commits --no-git-reset --no-verify-access --force-publish --yes",
     "prepare": "husky install"

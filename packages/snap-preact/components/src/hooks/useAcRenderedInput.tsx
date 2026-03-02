@@ -1,4 +1,4 @@
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { useState, MutableRef, useEffect } from 'preact/hooks';
 
 export function useAcRenderedInput({

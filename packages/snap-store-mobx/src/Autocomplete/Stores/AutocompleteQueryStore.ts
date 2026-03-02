@@ -1,5 +1,5 @@
 import { observable, makeObservable } from 'mobx';
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import type { SearchResponseModelSearchMatchTypeEnum } from '@athoscommerce/snapi-types';
 import type { AutocompleteStoreConfig, StoreServices } from '../../types';
 import { AutocompleteResponseModel } from '@athoscommerce/snapi-types';
