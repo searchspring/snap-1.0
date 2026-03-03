@@ -57,6 +57,7 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 					},
 					'.ss__mobile-sidebar__header__close-button': {
 						padding: 0,
+						margin: '0 0 0 auto',
 						width: 'auto',
 						height: 'auto',
 						lineHeight: '0',
@@ -116,6 +117,9 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 					borderTop: `1px solid ${custom.colors.gray02}`,
 					'.ss__button': {
 						flex: `1 1 0%`,
+						'.ss__button__content': {
+							width: 'auto',
+						},
 					},
 				},
 			},

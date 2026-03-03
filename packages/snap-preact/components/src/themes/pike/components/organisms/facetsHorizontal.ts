@@ -33,7 +33,7 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 				'&.ss__dropdown--open': {
 					'.ss__dropdown__button': {
 						'.ss__dropdown__button__heading': {
-							'.ss__icon': {
+							'.ss__dropdown__button__heading__icon': {
 								transform: 'rotate(180deg)',
 							},
 						},
@@ -92,9 +92,12 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 								'&:hover': {
 									textDecoration: 'none',
 								},
+								'.ss__button__icon': {
+									margin: 0,
+								},
 							},
 						},
-						'.ss__icon': {
+						'.ss__dropdown__button__heading__icon': {
 							transition: 'transform ease 0.5s',
 						},
 					},
@@ -120,7 +123,11 @@ const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 						marginRight: 'auto',
 					},
 					'.ss__facet__show-more-less': {
+						margin: `${custom.spacing.x2}px 0 0 0`,
 						justifyContent: 'center',
+						'.ss__facet__show-more-less__icon': {
+							margin: 0,
+						},
 					},
 				},
 			},
@@ -157,8 +164,8 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 			iconCollapse: custom.icons.arrowDown,
 			alwaysShowFiltersButton: true,
 		},
-		'facetsHorizontal dropdown button icon': {
-			size: `${custom.sizes.icon12}px`,
+		'facetsHorizontal button.reset-facet icon': {
+			size: `${custom.sizes.icon08}px`,
 		},
 		'facetsHorizontal dropdown facet': {
 			statefulOverflow: true,
