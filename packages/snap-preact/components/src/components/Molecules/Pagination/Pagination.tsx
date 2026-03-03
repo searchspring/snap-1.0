@@ -202,9 +202,14 @@ interface PaginationSubProps {
 	icon: IconProps;
 }
 
-export interface PaginationProps extends ComponentProps {
+export type PaginationProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
+	lang?: Partial<PaginationLang>;
+} & PaginationTemplatesLegalProps &
+	ComponentProps<PaginationProps>;
+
+export type PaginationTemplatesLegalProps = {
 	pages?: number;
 	pagesLeft?: number;
 	pagesRight?: number;
@@ -219,8 +224,7 @@ export interface PaginationProps extends ComponentProps {
 	lastButton?: string | JSX.Element;
 	persistFirst?: boolean;
 	persistLast?: boolean;
-	lang?: Partial<PaginationLang>;
-}
+};
 
 export interface PaginationLang {
 	previous: Lang<{

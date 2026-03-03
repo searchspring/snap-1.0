@@ -103,7 +103,8 @@ export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutPr
 		},
 		searchInput: {
 			// default props
-			internalClassName: 'autocomplete-slideout__search-input',
+			// autocomplete__search-input is required for useAcRenderedInput hook.
+			internalClassName: 'autocomplete-slideout__search-input  autocomplete__search-input',
 			inputName: inputName,
 			submitSearchButton: {
 				onClick: () => {
@@ -166,7 +167,7 @@ export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutPr
 				className={classNames('ss__autocomplete-slideout', 'ss__autocomplete-slideout__slideout', className, internalClassName)}
 				active={active}
 			>
-				<div ref={(e) => useA11y(e, 0, true, reset)}>
+				<div className="ss__autocomplete-slideout__inner" ref={(e) => useA11y(e, 0, true, reset)}>
 					{renderInput ? (
 						<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
 					) : (
@@ -190,10 +191,14 @@ interface AutocompleteSlideoutSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteSlideoutProps extends Omit<AutocompleteLayoutProps, 'viewportMaxHeight'>, ComponentProps {
+export type AutocompleteSlideoutProps = {
+	controller: AutocompleteController;
+} & AutocompleteSlideoutTemplatesLegalProps &
+	ComponentProps<AutocompleteSlideoutProps>;
+
+export type AutocompleteSlideoutTemplatesLegalProps = {
 	overlayColor?: string;
 	slideDirection?: SlideDirectionType;
 	buttonSelector?: string | Element;
 	renderInput?: boolean;
-	controller: AutocompleteController;
-}
+} & AutocompleteLayoutProps;

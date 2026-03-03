@@ -12,6 +12,7 @@ const defaultStyles: StyleScript<RatingProps> = () => {
 	return css({
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'center',
 
 		'& .ss__rating__icons': {
 			position: 'relative',
@@ -139,7 +140,9 @@ interface RatingSubProps {
 	emptyIcon: Partial<IconProps>;
 }
 
-export interface RatingProps extends ComponentProps {
+export type RatingProps = RatingTemplatesLegalProps & ComponentProps<RatingProps>;
+
+export type RatingTemplatesLegalProps = {
 	value: number;
 	count?: number;
 	text?: string;
@@ -147,4 +150,4 @@ export interface RatingProps extends ComponentProps {
 	disablePartialFill?: boolean;
 	fullIcon?: IconType | Partial<IconProps>;
 	emptyIcon?: IconType | Partial<IconProps>;
-}
+};

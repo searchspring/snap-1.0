@@ -256,16 +256,20 @@ export function Swatches(properties: SwatchesProps) {
 }
 
 export type SwatchesProps = {
+	breakpoints?: BreakpointsProps;
+} & SwatchesTemplatesLegalProps &
+	ComponentProps<SwatchesProps>;
+
+export type SwatchesTemplatesLegalProps = {
 	options: SwatchOption[];
 	onSelect?: (e: React.MouseEvent<HTMLElement>, option: SwatchOption) => void;
 	selected?: SwatchOption;
 	hideLabels?: boolean;
-	breakpoints?: BreakpointsProps;
 	disabled?: boolean;
 	slideshow?: Partial<SlideshowProps>;
 	grid?: Partial<GridProps>;
 	type?: 'slideshow' | 'grid';
-} & ComponentProps;
+};
 
 interface SwatchesSubProps {
 	slideshow: Partial<SlideshowProps>;

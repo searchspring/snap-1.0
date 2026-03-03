@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Terms, TermsProps } from '../../Molecules/Terms/Terms';
 
@@ -37,17 +37,21 @@ const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 
 export const TermsList = observer((properties: TermsListProps) => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultProps: Partial<TermsListProps> = {
 		layout: [['Suggestions'], ['Trending'], ['History']],
-		historyTitle: 'History',
-		trendingTitle: 'Trending',
-		suggestionTitle: 'Suggestions',
+		historyTitle: 'Recent Searches',
+		trendingTitle: 'Popular Searches',
+		suggestionTitle: 'Search Suggestions',
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('termsList', globalTheme, defaultProps, properties);
 	const {
 		layout,
 		historyTitle,
+		verticalOptions,
 		trendingTitle,
 		suggestionTitle,
 		retainHistory,
@@ -61,6 +65,7 @@ export const TermsList = observer((properties: TermsListProps) => {
 
 	const subProps: TermsListSubProps = {
 		terms: {
+			vertical: verticalOptions ? true : false,
 			// default props
 			// inherited props
 			...defined({
@@ -169,12 +174,17 @@ interface TermsListSubProps {
 
 export type TermsListModuleNames = 'Trending' | 'Suggestions' | 'History' | '_';
 
-export interface TermsListProps extends ComponentProps {
+export type TermsListProps = {
 	controller: AutocompleteController;
+} & TermsListTemplatesLegalProps &
+	ComponentProps<TermsListProps>;
+
+export type TermsListTemplatesLegalProps = {
 	layout?: TermsListModuleNames[] | TermsListModuleNames[][];
 	historyTitle?: string;
 	suggestionTitle?: string;
 	trendingTitle?: string;
 	retainHistory?: boolean;
 	retainTrending?: boolean;
-}
+	verticalOptions?: boolean;
+};

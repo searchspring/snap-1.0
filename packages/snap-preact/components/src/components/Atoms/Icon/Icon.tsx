@@ -88,7 +88,12 @@ export type SVGPathElement = {
 	};
 };
 
-export interface IconProps extends ComponentProps {
+export type IconProps = {
+	name?: IconNames;
+} & IconTemplatesLegalProps &
+	ComponentProps<IconProps>;
+
+export type IconTemplatesLegalProps = {
 	color?: string;
 	fill?: string;
 	stroke?: string;
@@ -100,8 +105,8 @@ export interface IconProps extends ComponentProps {
 	width?: string | number;
 	height?: string | number;
 	viewBox?: string;
-	name?: IconNames;
-}
+};
+
 export type IconNames =
 	| 'bundle-cart'
 	| 'bundle-selector'

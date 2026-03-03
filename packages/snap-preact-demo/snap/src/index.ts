@@ -230,7 +230,7 @@ let config: SnapConfig = {
 					url: '/snap/',
 					fields: [
 						{
-							field: 'collection_handle',
+							field: 'collection_name',
 							label: 'Collection',
 						},
 						{
@@ -242,7 +242,7 @@ let config: SnapConfig = {
 				targeters: [
 					{
 						name: 'finder',
-						selector: '#searchspring-finder',
+						selector: '#athos-finder',
 						component: async () => {
 							return (await import('./components/Finder/Finder')).Finder;
 						},
@@ -262,7 +262,7 @@ let config: SnapConfig = {
 				targeters: [
 					{
 						name: 'finder_hierarchy',
-						selector: '#searchspring-finder-hierarchy',
+						selector: '#athos-finder-hierarchy',
 						component: async () => {
 							return (await import('./components/Finder/Finder')).Finder;
 						},

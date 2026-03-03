@@ -78,9 +78,10 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
-						"['c1' | 'c2' | 'c3' | 'c4' | 'termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']",
+						"['c1' | 'c2' | 'c3' | 'c4' | 'termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']",
 				},
 				defaultValue: { summary: "[['c1','c2', 'c3']]" },
 			},
@@ -89,9 +90,10 @@ export default {
 		column1: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c1" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 				defaultValue: {
 					summary: `{
@@ -105,9 +107,10 @@ export default {
 		column2: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c2" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 				defaultValue: {
 					summary: `{
@@ -121,9 +124,10 @@ export default {
 		column3: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c3" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 				defaultValue: {
 					summary: `{
@@ -137,9 +141,10 @@ export default {
 		column4: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c4" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
-						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
+						"{width: '150px', layout: ['termsList' | 'terms.history' | 'terms.trending'| 'terms.suggestions'| 'facets' | 'facetsHorizontal' | 'button.see-more' | 'content' | 'no-results' | '_' | 'banner.left' | 'banner.banner' | 'banner.footer' | 'banner.header']}",
 				},
 			},
 			control: 'array',
@@ -148,6 +153,7 @@ export default {
 			defaultValue: '100%',
 			description: 'Change width of the component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -159,6 +165,7 @@ export default {
 			defaultValue: false,
 			description: 'automatically add merchandising banners',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -170,6 +177,7 @@ export default {
 			defaultValue: '',
 			description: 'Change facets header title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -181,6 +189,7 @@ export default {
 			defaultValue: '',
 			description: 'Change content header title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -192,6 +201,7 @@ export default {
 			defaultValue: false,
 			description: 'Autocomplete fully visible in viewport',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

@@ -72,10 +72,15 @@ export const Banner = withController<any>(
 	})
 );
 
-export interface BannerProps extends ComponentProps {
+export type BannerProps = {
 	controller?: SearchController | AutocompleteController;
+	name?: BannerNames;
+} & BannerTemplatesLegalProps &
+	ComponentProps<BannerProps>;
+
+export type BannerTemplatesLegalProps = {
 	content?: BannerContent;
 	type: ContentType;
-}
+};
 
 export type BannerNames = 'left' | 'header' | 'banner' | 'footer';

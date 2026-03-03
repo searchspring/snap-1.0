@@ -5,7 +5,7 @@ import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the Select component
 const selectStyleScript = ({ backgroundColor, theme }: SelectProps) => {
 	const variables = theme?.variables;
-	const transparentSecondary = new Color(theme?.variables?.colors?.secondary).opaquer(0.2);
+	const transparentSecondary = new Color(theme?.variables?.colors?.secondary || undefined).opaquer(0.2);
 	return css({
 		'.ss__dropdown': {
 			'.ss__select__dropdown__button': {

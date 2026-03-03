@@ -5,7 +5,7 @@ import { ThemeComponent } from '../../../../providers';
 // CSS in JS style script for the FacetGridOptions component
 const facetGridOptionsStyleScript = ({ theme }: FacetGridOptionsProps) => {
 	const variables = theme?.variables;
-	const backgroundColorObj = new Color(variables?.colors.primary);
+	const backgroundColorObj = new Color(variables?.colors.primary || undefined);
 	const colorObj = backgroundColorObj.isDark() ? new Color('#fff') : new Color('#000');
 
 	return css({

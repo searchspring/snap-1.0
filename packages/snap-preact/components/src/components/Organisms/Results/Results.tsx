@@ -181,16 +181,20 @@ export const Results = observer((properties: ResultsProps) => {
 	) : null;
 });
 
-export interface ResultsProps extends ComponentProps {
+export type ResultsProps = {
+	breakpoints?: BreakpointsProps;
+	controller?: SearchController | AutocompleteController | RecommendationController;
+	resultComponent?: ResultComponent | string;
 	results?: SearchResultStore;
+} & ResultsTemplatesLegalProps &
+	ComponentProps<ResultsProps>;
+
+export type ResultsTemplatesLegalProps = {
 	columns?: number;
 	rows?: number;
 	gapSize?: string;
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
-	breakpoints?: BreakpointsProps;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-	resultComponent?: ResultComponent | string;
-}
+};
 
 interface ResultsSubProps {
 	result: Partial<ResultProps>;

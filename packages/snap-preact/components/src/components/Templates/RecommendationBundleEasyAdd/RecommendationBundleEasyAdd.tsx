@@ -3,8 +3,10 @@ import { css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
 import { defined, mergeStyles } from '../../../utilities';
-import { ComponentProps, StyleScript } from '../../../types';
-import { RecommendationBundle, RecommendationBundleProps } from '../RecommendationBundle';
+import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
+import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
 
 const defaultStyles: StyleScript<RecommendationBundleEasyAddProps> = () => {
 	return css({
@@ -53,11 +55,38 @@ export const RecommendationBundleEasyAdd = observer((properties: RecommendationB
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleEasyAddProps = ComponentProps &
-	Omit<
-		RecommendationBundleProps,
-		'hideSeed' | 'limit' | 'hideCheckboxes' | 'carousel' | 'separatorIcon' | 'separatorIconSeedOnly' | 'preselectedCount' | 'breakpoints'
-	>;
+export type RecommendationBundleEasyAddProps = {
+	controller: RecommendationController & AbstractController;
+	resultComponent?:
+		| ResultComponent<{
+				controller: RecommendationController;
+				seed?: boolean;
+				selected?: boolean;
+				onProductSelect?: (product: Product) => void;
+		  }>
+		| undefined;
+	alias?: string | undefined;
+	lang?: Partial<RecommendationBundleLang> | undefined;
+	results?: Product[] | undefined;
+} & RecommendationBundleEasyAddTemplatesLegalProps &
+	ComponentProps<RecommendationBundleEasyAddProps>;
+
+export type RecommendationBundleEasyAddTemplatesLegalProps = Omit<
+	RecommendationBundleProps,
+	| 'controller'
+	| 'resultComponent'
+	| 'alias'
+	| 'lang'
+	| 'results'
+	| 'hideSeed'
+	| 'limit'
+	| 'hideCheckboxes'
+	| 'carousel'
+	| 'separatorIcon'
+	| 'separatorIconSeedOnly'
+	| 'preselectedCount'
+	| 'breakpoints'
+>;
 
 interface RecommendationBundleEasyAddSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

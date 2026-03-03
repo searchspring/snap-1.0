@@ -45,6 +45,7 @@ export default {
 			defaultValue: false,
 			description: 'prevents the top Toolbar component from rendering',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -56,6 +57,7 @@ export default {
 			defaultValue: false,
 			description: 'prevents the middle Toolbar component from rendering',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -67,12 +69,83 @@ export default {
 			defaultValue: false,
 			description: 'prevents the bottom Toolbar component from rendering',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
+		},
+		toggleSidebarButtonText: {
+			description: 'Text to render in the toggle Sidebar button.',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: '' },
+			},
+			control: { type: 'text' },
+		},
+		toggleSidebarStartClosed: {
+			defaultValue: false,
+			description: 'determines if the sidebar toggle should start closed',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		hideToggleSidebarButton: {
+			defaultValue: false,
+			description: 'hide the toggle Sidebar button',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		mobileDisplayAt: {
+			defaultValue: '',
+			description: 'Media query for when to render the mobileSidebar',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: '' },
+			},
+			control: { type: 'text' },
+		},
+		hideSidebar: {
+			defaultValue: false,
+			description: 'prevents the sidebar component from rendering',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		layoutOptions: {
+			description: 'Options for layout selection',
+			type: { required: false },
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'ListOption[]',
+				},
+			},
+			control: { type: 'object' },
 		},
 		resultComponent: {
 			description: 'Slot for custom result component',

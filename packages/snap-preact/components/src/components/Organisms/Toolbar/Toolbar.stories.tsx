@@ -55,6 +55,7 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						'[`searchHeader` | `breadcrumbs` | `filterSummary` | `mobileSidebar` | `layoutSelector` | `perPage` | `sortBy` | `pagination` | `paginationInfo` | `_` | `button.sidebar-toggle` | `banner.header` | `banner.banner` | `banner.footer` | `facetsHorizontal`]',
@@ -66,6 +67,7 @@ export default {
 		toggleSideBarButton: {
 			description: 'specifies an element to be used as the toggleSideBarButton',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},

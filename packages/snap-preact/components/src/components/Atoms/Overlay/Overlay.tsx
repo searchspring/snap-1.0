@@ -53,10 +53,12 @@ export function Overlay(properties: OverlayProps) {
 	);
 }
 
-export interface OverlayProps extends ComponentProps {
+export type OverlayProps = OverlayTemplatesLegalProps & ComponentProps<OverlayProps>;
+
+export type OverlayTemplatesLegalProps = {
 	active: boolean;
 	color?: string;
 	transitionSpeed?: string;
 	onClick?: (e: React.MouseEvent<HTMLDivElement, Event>) => void;
 	disableA11y?: boolean;
-}
+};

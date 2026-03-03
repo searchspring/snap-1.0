@@ -70,12 +70,16 @@ export const PaginationInfo = observer((properties: PaginationInfoProps) => {
 	) : null;
 });
 
-export interface PaginationInfoProps extends ComponentProps {
+export type PaginationInfoProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
-	infoText?: string | ((data: PaginationInfoPropData) => string);
 	lang?: Partial<PaginationInfoLang>;
-}
+} & PaginationInfoTemplatesLegalProps &
+	ComponentProps<PaginationInfoProps>;
+
+export type PaginationInfoTemplatesLegalProps = {
+	infoText?: string | ((data: PaginationInfoPropData) => string);
+};
 
 export interface PaginationInfoLang {
 	infoText: Lang<PaginationInfoPropData>;

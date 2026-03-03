@@ -49,6 +49,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '' },
 			},
 			control: { type: 'text' },
@@ -59,6 +60,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'rgba(58, 35, 173, 1)' },
 			},
 			control: { type: 'color' },
@@ -69,6 +71,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '#ffffff' },
 			},
 			control: { type: 'color' },
@@ -79,6 +82,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},

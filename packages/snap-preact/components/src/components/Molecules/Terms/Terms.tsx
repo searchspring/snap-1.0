@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import type { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
 import { ComponentProps, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { createHoverProps } from '../../../toolbox';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { Term } from '@athoscommerce/snap-store-mobx';
@@ -80,9 +80,12 @@ const emIfyTerm = (term: string, search: string): string => {
 
 export const Terms = observer((properties: TermsProps) => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultProps: Partial<TermsProps> = {
 		vertical: true,
 		previewOnHover: true,
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps('terms', globalTheme, defaultProps, properties);
@@ -161,18 +164,22 @@ export const Terms = observer((properties: TermsProps) => {
 	) : null;
 });
 
-export interface TermsProps extends ComponentProps {
+export type TermsProps = {
 	controller: AutocompleteController;
 	terms: AutocompleteTermStore;
+	lang?: Partial<TermsLang>;
+	name?: TermsNames;
+} & TermsTemplatesLegalProps &
+	ComponentProps<TermsProps>;
+
+export type TermsTemplatesLegalProps = {
 	title?: string;
 	vertical?: boolean;
 	limit?: number;
 	onTermClick?: (e: React.MouseEvent<Element, MouseEvent>, term: Term) => void;
 	previewOnHover?: boolean;
 	emIfy?: boolean;
-	lang?: Partial<TermsLang>;
-	name?: TermsNames;
-}
+};
 
 export interface TermsLang {
 	term?: Lang<{

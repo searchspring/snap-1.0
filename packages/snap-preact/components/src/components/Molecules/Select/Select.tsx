@@ -17,7 +17,7 @@ import deepmerge from 'deepmerge';
 import Color from 'color';
 
 const defaultStyles: StyleScript<SelectProps> = ({ color, backgroundColor, borderColor, theme, native }) => {
-	const lightenedPrimary = new Color(backgroundColor || color || theme?.variables?.colors?.primary).lightness(95);
+	const lightenedPrimary = new Color(backgroundColor || color || theme?.variables?.colors?.primary || undefined).lightness(95);
 	if (!native) {
 		return css({
 			display: 'inline-flex',
@@ -364,7 +364,12 @@ interface SelectSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface SelectProps extends ComponentProps {
+export type SelectProps = {
+	lang?: Partial<SelectLang>;
+} & SelectTemplatesLegalProps &
+	ComponentProps<SelectProps>;
+
+export type SelectTemplatesLegalProps = {
 	options: ListOption[];
 	backgroundColor?: string;
 	borderColor?: string;
@@ -388,8 +393,7 @@ export interface SelectProps extends ComponentProps {
 	hideIcon?: boolean;
 	hideOptionIcons?: boolean;
 	hideOptionLabels?: boolean;
-	lang?: Partial<SelectLang>;
-}
+};
 
 export interface SelectLang {
 	buttonLabel: Lang<{

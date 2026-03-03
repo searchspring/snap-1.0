@@ -151,13 +151,17 @@ interface SelectSubProps {
 	List: Partial<ListProps>;
 }
 
-export interface PerPageProps extends ComponentProps {
+export type PerPageProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
+	lang?: Partial<PerPageLang>;
+} & PerPageTemplatesLegalProps &
+	ComponentProps<PerPageProps>;
+
+export type PerPageTemplatesLegalProps = {
 	label?: string;
 	type?: 'dropdown' | 'list' | 'radio';
-	lang?: Partial<PerPageLang>;
-}
+};
 
 export interface PerPageLang {
 	label: Lang<{

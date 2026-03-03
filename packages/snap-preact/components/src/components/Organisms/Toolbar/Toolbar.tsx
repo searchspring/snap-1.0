@@ -56,12 +56,16 @@ export const Toolbar = observer((properties: ToolbarProps) => {
 	);
 });
 
-export interface ToolbarProps extends ComponentProps {
+export type ToolbarProps = {
 	controller: SearchController;
 	name?: ToolbarNames;
+} & ToolbarTemplatesLegalProps &
+	ComponentProps<ToolbarProps>;
+
+export type ToolbarTemplatesLegalProps = {
 	layout?: (ModuleNames | ModuleNames[])[];
 	toggleSideBarButton?: Partial<ButtonProps>;
-}
+};
 
 export type ModuleNames =
 	| 'searchHeader'

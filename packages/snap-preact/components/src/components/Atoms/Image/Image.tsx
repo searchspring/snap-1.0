@@ -89,7 +89,9 @@ export function Image(properties: ImageProps) {
 	);
 }
 
-export interface ImageProps extends ComponentProps {
+export type ImageProps = ImageTemplatesLegalProps & ComponentProps<ImageProps>;
+
+export type ImageTemplatesLegalProps = {
 	alt: string;
 	src: string;
 	title?: string;
@@ -102,4 +104,4 @@ export interface ImageProps extends ComponentProps {
 	onLoad?: (e: React.MouseEvent<HTMLImageElement>) => void;
 	onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
 	lazy?: boolean;
-}
+};

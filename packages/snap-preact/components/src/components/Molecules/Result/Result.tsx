@@ -53,11 +53,6 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 			},
 		},
 
-		'& .ss__result__details__rating-wrapper': {
-			display: 'flex',
-			justifyContent: 'center',
-		},
-
 		'& .ss__result__details': {
 			padding: '10px',
 			textAlign: 'center',
@@ -292,13 +287,9 @@ export const Result = observer((properties: ResultProps) => {
 							/>
 						</div>
 					)}
-					{!hideRating && (
-						<div className="ss__result__details__rating-wrapper">
-							<Rating {...subProps.rating} />
-						</div>
-					)}
+					{!hideRating && <Rating {...subProps.rating} />}
 
-					{!hidePricing && (
+					{!hidePricing && core.price && core.price > 0 ? (
 						<div className="ss__result__details__pricing">
 							{isOnSale ? (
 								<>
@@ -310,11 +301,11 @@ export const Result = observer((properties: ResultProps) => {
 								<Price {...subProps.price} value={core.price!} />
 							)}
 						</div>
-					)}
+					) : null}
 
 					{cloneWithProps(detailSlot, { result, treePath })}
 
-					{!hideVariantSelections && (
+					{!hideVariantSelections && result.variants?.selections.length && (
 						<div className="ss__result__details__variant-selection">
 							{result.variants?.selections.map((selection) => {
 								return <VariantSelection {...subProps.variantSelection} selection={selection} />;
@@ -347,8 +338,15 @@ export interface TruncateTitleProps {
 	append?: string;
 }
 
-export interface ResultProps extends ComponentProps {
+export type ResultProps = {
 	result: Product;
+	controller?: SearchController | AutocompleteController | RecommendationController;
+	lang?: Partial<ResultLang>;
+	trackingRef?: MutableRef<HTMLElement | null>;
+} & ResultTemplatesLegalProps &
+	ComponentProps<ResultProps>;
+
+export type ResultTemplatesLegalProps = {
 	hideBadge?: boolean;
 	hideTitle?: boolean;
 	hideImage?: boolean;
@@ -365,10 +363,7 @@ export interface ResultProps extends ComponentProps {
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
 	truncateTitle?: TruncateTitleProps;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, Event>) => void;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-	lang?: Partial<ResultLang>;
-	trackingRef?: MutableRef<HTMLElement | null>;
-}
+};
 
 export interface ResultLang {
 	addToCartButtonText: Lang<ResultPropData>;

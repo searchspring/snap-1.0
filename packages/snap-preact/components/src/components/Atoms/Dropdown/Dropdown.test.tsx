@@ -214,7 +214,7 @@ describe('Dropdown Component', () => {
 
 		const outside = rendered.container.querySelector('.outside')!;
 
-		userEvent.click(outside);
+		await userEvent.click(outside);
 		expect(toggleFn).not.toHaveBeenCalled();
 	});
 
@@ -469,7 +469,7 @@ describe('Dropdown Component', () => {
 
 			const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-			userEvent.click(button);
+			await userEvent.click(button);
 			expect(toggleFn).not.toHaveBeenCalled();
 		});
 

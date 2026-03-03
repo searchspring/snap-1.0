@@ -136,8 +136,7 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 			...clearSearchButton,
 			internalClassName: 'ss__search-input__button--clear-search-button',
 			name: 'clear-search',
-
-			onClick: () => {
+			onClick: (e) => {
 				if (inputRef?.current) {
 					//reset the input value
 					(inputRef?.current as HTMLInputElement).value = '';
@@ -148,8 +147,7 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 
 				setInputValue && setInputValue('');
 
-				// @ts-ignore - this is a button, so it should have an onClick prop?
-				clearSearchButton?.onClick && clearSearchButton.onClick();
+				clearSearchButton?.onClick && clearSearchButton.onClick(e);
 			},
 			// inherited props
 			...defined({
@@ -230,7 +228,6 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 					}}
 					disabled={disabled}
 				/>
-
 				<div className="ss__search-input__icons">
 					{clearSearchButton && inputValue?.length ? <Button {...subProps.clearSearchButton} {...mergedLang.clearSearchButton.all} /> : null}
 
@@ -241,22 +238,26 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 	);
 });
 
-export interface SearchInputProps extends ComponentProps {
+export type SearchInputProps = {
+	lang?: Partial<SearchInputLang>;
+	inputRef?: MutableRef<HTMLInputElement | null>;
 	value?: string;
+} & SearchInputTemplatesLegalProps &
+	ComponentProps<SearchInputProps>;
+
+export type SearchInputTemplatesLegalProps = {
 	placeholderText?: string;
 	submitSearchButton?: Buttons;
 	clearSearchButton?: Buttons;
 	closeSearchButton?: Buttons;
 	inputName?: string;
-	inputRef?: MutableRef<HTMLInputElement | null>;
 	disabled?: boolean;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	disableA11y?: boolean;
-	lang?: Partial<SearchInputLang>;
-}
+};
 
 type Buttons = Partial<ButtonProps> | false;
 

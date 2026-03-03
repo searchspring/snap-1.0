@@ -232,7 +232,12 @@ export function List(properties: ListProps) {
 	) : null;
 }
 
-export interface ListProps extends ComponentProps {
+export type ListProps = {
+	lang?: Partial<ListLang>;
+} & ListTemplatesLegalProps &
+	ComponentProps<ListProps>;
+
+export type ListTemplatesLegalProps = {
 	options: ListOption[];
 	multiSelect?: boolean;
 	hideOptionCheckboxes?: boolean;
@@ -246,8 +251,7 @@ export interface ListProps extends ComponentProps {
 	native?: boolean;
 	selected?: ListOption | ListOption[];
 	requireSelection?: boolean;
-	lang?: Partial<ListLang>;
-}
+};
 
 export interface ListLang {
 	title?: Lang<{

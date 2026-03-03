@@ -15,7 +15,7 @@ import Color from 'color';
 
 const defaultStyles: StyleScript<FacetGridOptionsProps> = ({ columns, gapSize, gridSize, theme }) => {
 	const variables = theme?.variables;
-	const backgroundColor = new Color(variables?.colors.primary);
+	const backgroundColor = new Color(variables?.colors.primary || undefined);
 	const color = backgroundColor.isDark() ? '#fff' : '#000';
 
 	return css({
@@ -156,18 +156,22 @@ export const FacetGridOptions = observer((properties: FacetGridOptionsProps) => 
 	) : null;
 });
 
-export interface FacetGridOptionsProps extends ComponentProps {
+export type FacetGridOptionsProps = {
 	values?: FacetValue[];
+	lang?: Partial<FacetGridOptionsLang>;
+	facet?: ValueFacet;
+} & FacetGridOptionsTemplatesLegalProps &
+	ComponentProps<FacetGridOptionsProps>;
+
+export type FacetGridOptionsTemplatesLegalProps = {
 	columns?: number;
 	gridSize?: string;
 	gapSize?: string;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
-	facet?: ValueFacet;
 	previewOnFocus?: boolean;
 	valueProps?: any;
-	lang?: Partial<FacetGridOptionsLang>;
-}
+};
 
 export interface FacetGridOptionsLang {
 	gridOption: Lang<{

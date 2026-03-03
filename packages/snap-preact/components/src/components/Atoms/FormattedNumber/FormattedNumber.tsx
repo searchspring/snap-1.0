@@ -52,7 +52,10 @@ export function FormattedNumber(properties: FormattedNumberProps) {
 		</CacheProvider>
 	);
 }
-export interface FormattedNumberProps extends ComponentProps {
+
+export type FormattedNumberProps = FormattedNumberTemplatesLegalProps & ComponentProps<FormattedNumberProps>;
+
+export type FormattedNumberTemplatesLegalProps = {
 	value: number;
 	symbol?: string;
 	decimalPlaces?: number;
@@ -61,4 +64,4 @@ export interface FormattedNumberProps extends ComponentProps {
 	decimalSeparator?: string;
 	symbolAfter?: boolean;
 	raw?: boolean;
-}
+};

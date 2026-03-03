@@ -7,7 +7,7 @@ import deepmerge from 'deepmerge';
 import { Carousel, CarouselProps as CarouselProps } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript, BreakpointsEntry } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
@@ -145,6 +145,8 @@ const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean;
 
 export const RecommendationBundle = observer((properties: RecommendationBundleProps) => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
+
 	const defaultCarouselBreakpoints = {
 		0: {
 			slidesPerView: 2,
@@ -179,6 +181,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		onAddToCart: (e, items) => controller?.addToCart && controller.addToCart(items),
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
 		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
+		treePath: globalTreePath,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
@@ -675,12 +678,8 @@ type BundleCarouselProps = {
 	slidesPerView?: number;
 } & Partial<Omit<CarouselProps, 'slidesPerView'>>;
 
-export interface RecommendationBundleProps extends ComponentProps {
+export type RecommendationBundleProps = {
 	controller: RecommendationController;
-	results?: Product[];
-	limit?: number;
-	onAddToCart?: (e: MouseEvent, items: Product[]) => void;
-	title?: JSX.Element | string;
 	breakpoints?: BreakpointsProps;
 	resultComponent?: ResultComponent<{
 		controller: RecommendationController;
@@ -688,6 +687,16 @@ export interface RecommendationBundleProps extends ComponentProps {
 		selected?: boolean;
 		onProductSelect?: (product: Product) => void;
 	}>;
+	alias?: string;
+	lang?: Partial<RecommendationBundleLang>;
+	results?: Product[];
+} & RecommendationBundleTemplatesLegalProps &
+	ComponentProps<RecommendationBundleProps>;
+
+export type RecommendationBundleTemplatesLegalProps = {
+	limit?: number;
+	onAddToCart?: (e: MouseEvent, items: Product[]) => void;
+	title?: JSX.Element | string;
 	preselectedCount?: number;
 	hideCheckboxes?: boolean;
 	hideSeed?: boolean;
@@ -704,14 +713,12 @@ export interface RecommendationBundleProps extends ComponentProps {
 	ctaSlot?: JSX.Element | React.FunctionComponent<BundledCTAProps>;
 	vertical?: boolean;
 	carousel?: BundleCarouselProps;
-	slidesPerView?: number; // TODO: remove this prop?
-	lang?: Partial<RecommendationBundleLang>;
+	slidesPerView?: number;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
-	alias?: string;
-}
+};
 
 export interface RecommendationBundleLang {
 	seedText: Lang<never>;

@@ -65,9 +65,11 @@ export const LoadingBar = observer((properties: LoadingBarProps) => {
 	) : null;
 });
 
-export interface LoadingBarProps extends ComponentProps {
+export type LoadingBarProps = LoadingBarTemplatesLegalProps & ComponentProps<LoadingBarProps>;
+
+export type LoadingBarTemplatesLegalProps = {
 	active: boolean;
 	color?: string;
 	backgroundColor?: string;
 	height?: string;
-}
+};

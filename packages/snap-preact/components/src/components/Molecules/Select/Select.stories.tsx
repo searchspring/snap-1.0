@@ -38,6 +38,7 @@ export default {
 			description: 'Select options from store reference',
 			type: { required: true },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'Array of Option objects',
 				},
@@ -47,6 +48,7 @@ export default {
 		selected: {
 			description: 'Current selected options from store reference',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'Option object',
 				},
@@ -56,6 +58,7 @@ export default {
 		disabled: {
 			description: 'Disable select',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -66,6 +69,7 @@ export default {
 		label: {
 			description: 'Header label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -75,6 +79,7 @@ export default {
 		hideLabel: {
 			description: 'hide the Header label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -85,6 +90,7 @@ export default {
 		clearSelection: {
 			description: 'Unselect label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -94,6 +100,7 @@ export default {
 		hideLabelOnSelection: {
 			description: 'Hide label when selection has been made (non-native only)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -104,6 +111,7 @@ export default {
 		hideSelection: {
 			description: 'Hide the current selection in the dropdown button (non-native only)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -114,6 +122,7 @@ export default {
 		hideIcon: {
 			description: 'Hide the icon in the dropdown button (non-native only)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -124,6 +133,7 @@ export default {
 		hideOptionIcons: {
 			description: 'Hide the icon in the options (non-native only)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -134,6 +144,7 @@ export default {
 		hideOptionLabels: {
 			description: 'Hide the label in the options (non-native only)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -145,6 +156,7 @@ export default {
 			defaultValue: ': ',
 			description: 'Select delimiter',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -155,6 +167,7 @@ export default {
 		color: {
 			description: 'Select color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -164,6 +177,7 @@ export default {
 		borderColor: {
 			description: 'Select border color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -174,6 +188,7 @@ export default {
 		backgroundColor: {
 			description: 'Select background color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -184,6 +199,7 @@ export default {
 		iconColor: {
 			description: 'Select icon color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -195,6 +211,7 @@ export default {
 			defaultValue: 'angle-down',
 			description: 'Icon for when select is closed',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -209,6 +226,7 @@ export default {
 			defaultValue: 'angle-up',
 			description: 'Icon for when select is open',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -223,6 +241,7 @@ export default {
 			defaultValue: false,
 			description: 'Keep dropdown open when an option is selected',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -234,6 +253,7 @@ export default {
 			defaultValue: false,
 			description: 'Open on initial render',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -245,6 +265,7 @@ export default {
 			defaultValue: false,
 			description: 'Use native select element',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -256,6 +277,7 @@ export default {
 			defaultValue: false,
 			description: 'Ignore clicks outside of element',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -266,6 +288,7 @@ export default {
 		onSelect: {
 			description: 'Select onSelect event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

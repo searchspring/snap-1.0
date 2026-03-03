@@ -25,7 +25,7 @@ import type {
 	PluginScrollToTopConfig,
 } from '@athoscommerce/snap-platforms/common';
 import type {
-	ConfigThemeOverrides,
+	ThemeResponsiveComplete,
 	LangComponentOverrides,
 	ResultComponent,
 	ThemeComponents,
@@ -73,7 +73,7 @@ type TemplateStoreThemeConfig = {
 	style?: GlobalThemeStyleScript;
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 	variables?: ThemeVariablesPartial;
-	overrides?: ConfigThemeOverrides;
+	overrides?: ThemeResponsiveComplete;
 };
 
 export type TemplateStoreComponentConfig = {

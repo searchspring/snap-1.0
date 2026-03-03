@@ -317,7 +317,13 @@ export const FacetSlider = observer((properties: FacetSliderProps) => {
 	) : null;
 });
 
-export interface FacetSliderProps extends ComponentProps {
+export type FacetSliderProps = {
+	facet: RangeFacet;
+	lang?: Partial<FacetSliderLang>;
+} & FacetSliderTemplatesLegalProps &
+	ComponentProps<FacetSliderProps>;
+
+export type FacetSliderTemplatesLegalProps = {
 	trackColor?: string;
 	railColor?: string;
 	handleColor?: string;
@@ -328,11 +334,9 @@ export interface FacetSliderProps extends ComponentProps {
 	tickTextColor?: string;
 	stickyHandleLabel?: boolean;
 	separateHandles?: boolean;
-	facet: RangeFacet;
 	onChange?: (values: number[]) => void;
 	onDrag?: (values: number[]) => void;
-	lang?: Partial<FacetSliderLang>;
-}
+};
 
 export interface FacetSliderLang {
 	sliderHandle: Lang<{

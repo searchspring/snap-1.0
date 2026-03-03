@@ -191,7 +191,12 @@ export function RadioList(properties: RadioListProps) {
 	) : null;
 }
 
-export interface RadioListProps extends ComponentProps {
+export type RadioListProps = {
+	lang?: Partial<RadioListLang>;
+} & RadioListTemplatesLegalProps &
+	ComponentProps<RadioListProps>;
+
+export type RadioListTemplatesLegalProps = {
 	options: ListOption[];
 	native?: boolean;
 	hideOptionRadios?: boolean;
@@ -202,8 +207,7 @@ export interface RadioListProps extends ComponentProps {
 	hideTitleText?: boolean;
 	disabled?: boolean;
 	selected?: ListOption;
-	lang?: Partial<RadioListLang>;
-}
+};
 
 export interface RadioListLang {
 	title?: Lang<{

@@ -285,8 +285,13 @@ export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 	);
 });
 
-export interface MobileSidebarProps extends ComponentProps {
+export type MobileSidebarProps = {
 	controller: SearchController;
+	lang?: Partial<MobileSidebarLang>;
+} & MobileSidebarTemplatesLegalProps &
+	ComponentProps<MobileSidebarProps>;
+
+export type MobileSidebarTemplatesLegalProps = {
 	layout?: SideBarModuleNames[] | SideBarModuleNames[][];
 	titleText?: string;
 	hideOpenButtonText?: boolean;
@@ -308,8 +313,7 @@ export interface MobileSidebarProps extends ComponentProps {
 	hideClearButton?: boolean;
 	hideCloseButton?: boolean;
 	displayAt?: string;
-	lang?: Partial<MobileSidebarLang>;
-}
+};
 
 export interface MobileSidebarLang {
 	openButtonText: Lang<never>;

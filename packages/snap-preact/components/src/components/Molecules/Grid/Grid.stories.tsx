@@ -38,6 +38,7 @@ export default {
 			description: 'list of options to display',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'option[]',
 				},
@@ -48,6 +49,7 @@ export default {
 			defaultValue: '',
 			description: 'optional title to render',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -58,6 +60,7 @@ export default {
 		multiSelect: {
 			description: 'enable/disable multiselect',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -68,6 +71,7 @@ export default {
 		onSelect: {
 			description: 'option onSelect event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -78,6 +82,7 @@ export default {
 		selected: {
 			description: 'Current selected option',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | number',
 				},
@@ -87,6 +92,7 @@ export default {
 		hideLabels: {
 			description: 'enable/disable option labels from rendering',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -97,6 +103,7 @@ export default {
 		hideShowLess: {
 			description: 'hide show less button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -108,6 +115,7 @@ export default {
 			defaultValue: 4,
 			description: 'Number of columns in grid',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -118,6 +126,7 @@ export default {
 		rows: {
 			description: 'Number of rows in grid',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -128,6 +137,7 @@ export default {
 			defaultValue: '8px',
 			description: 'Gap size between rows and columns',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -138,6 +148,7 @@ export default {
 		disableOverflowAction: {
 			description: 'enable/disable show more click functionality',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -148,6 +159,7 @@ export default {
 		overflowButtonInGrid: {
 			description: 'render overflow button in the grid or below',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -158,6 +170,7 @@ export default {
 		overflowButton: {
 			description: 'Slot for custom overflow button component.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'component',
 				},
@@ -166,6 +179,7 @@ export default {
 		onOverflowButtonClick: {
 			description: 'Custom onClick event handler for overflow button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -237,8 +251,8 @@ DisabledOption.args = {
 	],
 } as GridProps;
 
-export const backgroundImages = (args: GridProps) => <Grid {...args} />;
-backgroundImages.args = {
+export const Images = (args: GridProps) => <Grid {...args} />;
+Images.args = {
 	options: [
 		{
 			value: 'Faded Khaki',

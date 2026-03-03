@@ -58,6 +58,7 @@ export default {
 				type: {
 					summary: 'string, ()=>string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},

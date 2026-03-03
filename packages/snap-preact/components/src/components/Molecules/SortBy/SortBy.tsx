@@ -153,14 +153,18 @@ interface SelectSubProps {
 	List: Partial<ListProps>;
 }
 
-export interface SortByProps extends ComponentProps {
+export type SortByProps = {
 	sorting?: SearchSortingStore;
 	controller?: SearchController;
+	lang?: Partial<SortByLang>;
+} & SortByTemplatesLegalProps &
+	ComponentProps<SortByProps>;
+
+export type SortByTemplatesLegalProps = {
 	label?: string;
 	hideLabel?: boolean;
 	type?: 'dropdown' | 'list' | 'radio';
-	lang?: Partial<SortByLang>;
-}
+};
 
 export interface SortByLang {
 	label: Lang<{

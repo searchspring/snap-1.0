@@ -129,7 +129,8 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 		},
 		searchInput: {
 			// default props
-			internalClassName: 'autocomplete-fixed__search-input',
+			// autocomplete__search-input is required for useAcRenderedInput hook.
+			internalClassName: 'autocomplete-fixed__search-input autocomplete__search-input',
 			placeholderText: inputPlaceholderText || undefined,
 			submitSearchButton: {
 				onClick: () => {
@@ -266,10 +267,14 @@ interface AutocompleteFixedSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteFixedProps extends AutocompleteLayoutProps, ComponentProps {
+export type AutocompleteFixedProps = {
+	controller: AutocompleteController;
+} & AutocompleteFixedTemplatesLegalProps &
+	ComponentProps<AutocompleteFixedProps>;
+
+export type AutocompleteFixedTemplatesLegalProps = {
 	buttonSelector?: string | Element;
 	overlayColor?: string;
 	renderInput?: boolean;
-	controller: AutocompleteController;
 	offset?: Partial<Omit<inputBounds, 'height'>>;
-}
+} & AutocompleteLayoutProps;

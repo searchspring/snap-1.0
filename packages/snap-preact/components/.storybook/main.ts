@@ -11,7 +11,6 @@ const config: StorybookConfig = {
 		'@storybook/addon-links',
 		'@storybook/addon-themes',
 	],
-
 	// altering webpack config
 	webpackFinal: async (config) => {
 		// typescript - use esbuild-loader for much faster compilation

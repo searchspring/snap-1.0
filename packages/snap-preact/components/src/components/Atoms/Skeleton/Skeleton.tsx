@@ -70,10 +70,11 @@ export const Skeleton = observer((properties: SkeletonProps) => {
 	);
 });
 
-export interface SkeletonProps extends ComponentProps {
+export type SkeletonProps = SkeletonTemplatesLegalProps & ComponentProps<SkeletonProps>;
+export type SkeletonTemplatesLegalProps = {
 	width: string;
 	height: string;
 	round?: boolean;
 	backgroundColor?: string;
 	animatedColor?: string;
-}
+};

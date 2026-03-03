@@ -64,10 +64,13 @@ export const CalloutBadge = observer((properties: CalloutBadgeProps) => {
 	return null;
 });
 
-export interface CalloutBadgeProps extends ComponentProps {
+export type CalloutBadgeProps = {
 	result: Product;
+} & CalloutBadgeTemplatesLegalProps &
+	ComponentProps<CalloutBadgeProps>;
+export type CalloutBadgeTemplatesLegalProps = {
 	tag?: string;
 	renderEmpty?: boolean;
 	componentMap?: ComponentMap;
 	limit?: number;
-}
+};

@@ -21,11 +21,8 @@ const defaultStyles: StyleScript<LoadMoreProps> = ({ pagination, progressIndicat
 		flexDirection: 'column',
 		alignItems: 'center',
 		gap: '20px',
-
 		'& .ss__load-more__button--disabled': {
 			opacity: 0.7,
-			borderColor: 'rgba(51,51,51,0.7)',
-			backgroundColor: 'initial',
 			pointerEvents: 'none',
 			'&:hover': {
 				cursor: 'default',
@@ -237,9 +234,14 @@ interface LoadMoreSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface LoadMoreProps extends ComponentProps {
+export type LoadMoreProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
+	lang?: Partial<LoadMoreLang>;
+} & LoadMoreTemplatesLegalProps &
+	ComponentProps<LoadMoreProps>;
+
+export type LoadMoreTemplatesLegalProps = {
 	autoFetch?: boolean;
 	intersectionOffset?: string;
 	loading?: boolean;
@@ -253,8 +255,7 @@ export interface LoadMoreProps extends ComponentProps {
 	loadingIcon?: IconType | Partial<IconProps>;
 	loadingLocation?: 'button' | 'outside';
 	onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-	lang?: Partial<LoadMoreLang>;
-}
+};
 
 export interface LoadMoreLang {
 	loadMoreButton: Lang<{

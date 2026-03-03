@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge } from '@athoscommerce/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating } from '@athoscommerce/snap-preact/components';
 import { Product } from '@athoscommerce/snap-store-mobx';
 import type { SearchController } from '@athoscommerce/snap-controller';
 
@@ -36,6 +36,7 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 						<Price value={core.price} />
 					)}
 				</div>
+				<Rating value={4.35} count={70} />
 
 				<CalloutBadge result={result}></CalloutBadge>
 			</div>

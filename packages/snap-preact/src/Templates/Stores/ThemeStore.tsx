@@ -13,7 +13,7 @@ import {
 	ThemePartial,
 	ThemeOverrides,
 	ThemeVariableBreakpoints,
-	ThemeComponents,
+	ThemeComponentsRestricted,
 	ResponsiveKeys,
 	ThemeComplete,
 } from '../../../components/src';
@@ -291,12 +291,18 @@ const arrayMerge = (target: any, source: any, options: any) => {
 	return destination;
 };
 
-function prefixComponentKeys(prefix: string, components?: ThemeComponents): ThemePartial {
+function prefixComponentKeys(prefix: string, components?: ThemeComponentsRestricted): ThemePartial {
 	// TODO: remove any?
 	const newComponents: any = {};
 
 	if (components) {
 		Object.keys(components).forEach((key) => {
+			//does the key already have the prefix? - this is needed when using the editor.
+			if (key.indexOf(prefix) === 0) {
+				newComponents[key as keyof typeof newComponents] = components![key as keyof typeof components];
+				return;
+			}
+			// add the prefix to the key
 			newComponents[`${prefix}${key}` as keyof typeof newComponents] = components![key as keyof typeof components];
 		});
 	}

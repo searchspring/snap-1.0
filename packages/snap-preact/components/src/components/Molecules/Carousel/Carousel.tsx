@@ -472,6 +472,10 @@ export const Carousel = observer((properties: CarouselProps) => {
 
 export type CarouselProps = {
 	breakpoints?: BreakpointsProps;
+} & CarouselTemplatesLegalProps &
+	ComponentProps<CarouselProps>;
+
+export type CarouselTemplatesLegalProps = {
 	prevButton?: JSX.Element | string;
 	nextButton?: JSX.Element | string;
 	hideButtons?: boolean;
@@ -492,8 +496,7 @@ export type CarouselProps = {
 	onResize?: () => void;
 	onTransitionEnd?: () => void;
 	slidesPerView?: number | 'auto';
-} & Omit<SwiperOptions, 'breakpoints' | 'slidesPerView'> &
-	ComponentProps;
+} & Omit<SwiperOptions, 'breakpoints' | 'slidesPerView'>;
 
 interface CarouselSubProps {
 	icon: IconProps;

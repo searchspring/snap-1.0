@@ -53,6 +53,7 @@ export default {
 		label: {
 			description: 'Header label text to render.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -62,6 +63,7 @@ export default {
 		type: {
 			description: 'type of Select to render.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: '"dropdown" | "list" | "radio"',
 				},

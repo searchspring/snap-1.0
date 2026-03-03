@@ -160,7 +160,8 @@ export const Slideout = observer((properties: SlideoutProps) => {
 	) : null;
 });
 
-export interface SlideoutProps extends ComponentProps {
+export type SlideoutProps = SlideoutTemplatesLegalProps & ComponentProps<SlideoutProps>;
+export type SlideoutTemplatesLegalProps = {
 	buttonContent?: string | JSX.Element;
 	children?: ComponentChildren;
 	active?: boolean;
@@ -172,7 +173,7 @@ export interface SlideoutProps extends ComponentProps {
 	slideDirection?: SlideDirectionType;
 	rerender?: boolean;
 	buttonSelector?: string | Element;
-}
+};
 
 export type SlideDirectionType = 'top' | 'right' | 'bottom' | 'left';
 interface SlideoutSubProps {

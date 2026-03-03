@@ -163,19 +163,23 @@ export const FacetListOptions = observer((properties: FacetListOptionsProps) => 
 	) : null;
 });
 
-export interface FacetListOptionsProps extends ComponentProps {
+export type FacetListOptionsProps = {
+	facet?: ValueFacet;
 	values?: FacetValue[];
+	lang?: Partial<FacetListOptionsLang>;
+} & FacetListOptionsTemplatesLegalProps &
+	ComponentProps<FacetListOptionsProps>;
+
+export type FacetListOptionsTemplatesLegalProps = {
 	hideCheckbox?: boolean;
 	hideCount?: boolean;
 	hideCountParenthesis?: boolean;
-	facet?: ValueFacet;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
 	valueProps?: any;
 	respectSingleSelect?: boolean;
-	lang?: Partial<FacetListOptionsLang>;
-}
+};
 
 export interface FacetListOptionsLang {
 	listOption: Lang<{
