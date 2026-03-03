@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useRef, useState } from 'preact/hooks';
 import { jsx, css, keyframes } from '@emotion/react';
 import classnames from 'classnames';
@@ -65,7 +65,7 @@ const defaultStyles: StyleScript<LoadMoreProps> = ({ pagination, progressIndicat
 	});
 };
 
-export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
+export const LoadMore = observer((properties: LoadMoreProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<LoadMoreProps> = {
@@ -131,7 +131,7 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 	};
 
 	if (!store) {
-		return <Fragment></Fragment>;
+		return null;
 	}
 
 	const styling = mergeStyles<LoadMoreProps>({ ...props, pagination: store }, defaultStyles);
@@ -189,7 +189,7 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 				)}
 			>
 				{!autoFetch && (
-					<Fragment>
+					<>
 						<Button
 							onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
 								store.next?.url.go({ history: 'replace' });
@@ -201,20 +201,18 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 							<span {...mergedLang.loadMoreButton.value}>{loadMoreText}</span>
 							{loadingIcon && isLoading && loadingLocation === 'button' ? (
 								<Icon {...subProps.icon} {...(typeof loadingIcon == 'string' ? { icon: loadingIcon } : (loadingIcon as Partial<IconProps>))} />
-							) : (
-								<Fragment></Fragment>
-							)}
+							) : null}
 						</Button>
 
 						{loadingIcon && isLoading && loadingLocation === 'outside' && (
 							<Icon {...subProps.icon} {...(typeof loadingIcon == 'string' ? { icon: loadingIcon } : (loadingIcon as Partial<IconProps>))} />
 						)}
-					</Fragment>
+					</>
 				)}
 
 				{(!hideProgressIndicator || !hideProgressText) && (
 					<div className={'ss__load-more__progress'}>
-						<Fragment>
+						<>
 							{!hideProgressIndicator && (
 								<div className={'ss__load-more__progress__indicator'}>
 									<div className={`ss__load-more__progress__indicator__bar`}></div>
@@ -223,14 +221,12 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 							{!hideProgressText && (
 								<div aria-atomic="true" aria-live="polite" className={'ss__load-more__progress__text'} {...mergedLang.progressText?.all}></div>
 							)}
-						</Fragment>
+						</>
 					</div>
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface LoadMoreSubProps {

@@ -1,4 +1,4 @@
-import { Fragment, h, ComponentChildren } from 'preact';
+import { h, ComponentChildren } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -18,7 +18,7 @@ const defaultStyles: StyleScript<IconProps> = ({ color, fill, stroke, theme, wid
 	});
 };
 
-export function Icon(properties: IconProps): JSX.Element {
+export function Icon(properties: IconProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -78,9 +78,7 @@ export function Icon(properties: IconProps): JSX.Element {
 				})()}
 			</svg>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
 export type SVGPathElement = {

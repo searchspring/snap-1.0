@@ -1,5 +1,5 @@
 import { ComponentChildren, h } from 'preact';
-import { useState, StateUpdater, MutableRef, useEffect } from 'preact/hooks';
+import { useState, StateUpdater, MutableRef, useEffect, Dispatch } from 'preact/hooks';
 
 import { css } from '@emotion/react';
 import classnames from 'classnames';
@@ -44,7 +44,7 @@ const defaultStyles: StyleScript<ModalProps> = () => {
 	});
 };
 
-export const Modal = observer((properties: ModalProps): JSX.Element => {
+export const Modal = observer((properties: ModalProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -97,7 +97,7 @@ export const Modal = observer((properties: ModalProps): JSX.Element => {
 		},
 	};
 
-	let showContent: boolean | undefined, setShowContent: undefined | StateUpdater<boolean | undefined>;
+	let showContent: boolean | undefined, setShowContent: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = open === undefined;
 	if (stateful) {

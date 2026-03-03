@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -50,7 +50,7 @@ const defaultStyles: StyleScript<RadioListProps> = () => {
 	});
 };
 
-export function RadioList(properties: RadioListProps): JSX.Element {
+export function RadioList(properties: RadioListProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<RadioListProps> = {
@@ -188,9 +188,7 @@ export function RadioList(properties: RadioListProps): JSX.Element {
 				</ul>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
 export type RadioListProps = {

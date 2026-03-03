@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<PerPageProps> = () => {
 	});
 };
 
-export const PerPage = observer((properties: PerPageProps): JSX.Element => {
+export const PerPage = observer((properties: PerPageProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -142,9 +142,7 @@ export const PerPage = observer((properties: PerPageProps): JSX.Element => {
 				/>
 			)}
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface SelectSubProps {

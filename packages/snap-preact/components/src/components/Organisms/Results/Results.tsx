@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -54,7 +54,7 @@ const defaultStyles: StyleScript<ResultsProps> = ({ gapSize, columns }) => {
 
 const TrackedResultComponent = withTracking<ResultProps>(Result);
 
-export const Results = observer((properties: ResultsProps): JSX.Element => {
+export const Results = observer((properties: ResultsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultBreakpointsProps = {
@@ -135,7 +135,7 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 		if (snap?.templates?.library.import.component.result) {
 			resultComponent = useComponent(snap?.templates?.library.import.component.result, resultComponent);
 			if (!resultComponent) {
-				return <Fragment></Fragment>;
+				return null;
 			}
 		}
 	}
@@ -178,9 +178,7 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type ResultsProps = {

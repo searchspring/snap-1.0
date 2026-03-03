@@ -5,7 +5,7 @@ import { ComponentProps } from '../../../types';
 import { CacheProvider } from '../../../providers';
 import { Search, SearchProps, SearchTemplatesLegalProps } from '../Search/Search';
 
-export const SearchHorizontal = observer((properties: SearchHorizontalProps): JSX.Element => {
+export const SearchHorizontal = observer((properties: SearchHorizontalProps) => {
 	return (
 		<CacheProvider>
 			<Search {...properties} alias="searchHorizontal" internalClassName="ss__search-horizontal" />

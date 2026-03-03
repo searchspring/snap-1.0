@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
 import { SortBy } from './SortBy';
@@ -23,10 +23,10 @@ export const Toolbar = withController(
 		return (
 			<div className="ss-toolbar ss-toolbar-top">
 				<Slideout displayAt={mobileMediaQuery} buttonContent={<SlideoutButton />}>
-					<Fragment>
+					<>
 						<h3>Filters</h3>
 						<SidebarContents />
-					</Fragment>
+					</>
 				</Slideout>
 
 				<div className="ss-toolbar-row">

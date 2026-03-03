@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { Controllers } from '@athoscommerce/snap-controller';
 import { ThemeProvider, ControllerProvider, SnapProvider, Theme } from '../../../providers';
@@ -6,13 +6,13 @@ import type { SnapTemplates } from '../../../../../src';
 import type { TemplatesStore, TemplateThemeTypes, TemplateTypes } from '../../../../../src/Templates/Stores/TemplateStore';
 import type { ResultComponent as ResultComponentType } from '../../../';
 
-export const TemplateSelect = observer((properties: TemplateSelectProps): JSX.Element => {
+export const TemplateSelect = observer((properties: TemplateSelectProps) => {
 	const { snap, templatesStore, targetId, type, controller, ...otherProps } = properties;
 	const { loading } = templatesStore;
 	const targeter = templatesStore.getTarget(type, targetId);
 	if (!targeter) {
 		controller.log.error(`Target "${targetId}" not found in store for type "${type}"`);
-		return <Fragment />;
+		return null;
 	}
 	const Component = templatesStore.library.getComponent(type, targeter.component);
 
@@ -51,9 +51,7 @@ export const TemplateSelect = observer((properties: TemplateSelectProps): JSX.El
 				</ControllerProvider>
 			</ThemeProvider>
 		</SnapProvider>
-	) : (
-		<Fragment />
-	);
+	) : null;
 });
 export interface TemplateSelectProps {
 	templatesStore: TemplatesStore;

@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -199,7 +199,7 @@ const defaultStyles: StyleScript<AutocompleteProps> = ({
 	});
 };
 
-export const Autocomplete = observer((properties: AutocompleteProps): JSX.Element => {
+export const Autocomplete = observer((properties: AutocompleteProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -814,9 +814,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 				) : null}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 const emIfy = (term: string, search: string) => {

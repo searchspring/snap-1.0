@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -35,7 +35,7 @@ const defaultStyles: StyleScript<RecommendationGridProps> = ({ gapSize, columns 
 	});
 };
 
-export const RecommendationGrid = observer((properties: RecommendationGridProps): JSX.Element => {
+export const RecommendationGrid = observer((properties: RecommendationGridProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -158,9 +158,7 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type RecommendationGridProps = {

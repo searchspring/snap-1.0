@@ -2,7 +2,7 @@ import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
@@ -22,7 +22,7 @@ const defaultStyles: StyleScript<BreadcrumbsProps> = () => {
 	});
 };
 
-export const Breadcrumbs = observer((properties: BreadcrumbsProps): JSX.Element => {
+export const Breadcrumbs = observer((properties: BreadcrumbsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

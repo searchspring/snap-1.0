@@ -17,7 +17,6 @@ import { SearchFilterStore } from '@athoscommerce/snap-store-mobx';
 import deepmerge from 'deepmerge';
 import { useLayoutOptions } from '../../../hooks/useLayoutOptions';
 import { componentNameToClassName } from '../../../utilities/componentNameToClassName';
-import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
 
 const defaultStyles: StyleScript<SearchProps> = (props) => {
 	let classNamePrefix = 'ss__search';
@@ -54,7 +53,7 @@ const defaultStyles: StyleScript<SearchProps> = (props) => {
 	});
 };
 
-export const Search = observer((properties: SearchProps): JSX.Element => {
+export const Search = observer((properties: SearchProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -112,7 +111,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 	const lang = deepmerge(defaultLang, props.lang || {});
 	const mergedLang = useLang(lang as any, { filters: store.filters, sidebarOpenState: sidebarOpenState });
 
-	const ToggleSidebar = (): JSX.Element => {
+	const ToggleSidebar = () => {
 		return (
 			<div
 				className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}
@@ -217,8 +216,6 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const styling = mergeStyles<SearchProps>(props, defaultStyles);
 
-	useCleanUpEmptyDivs(['.ss__search__sidebar']);
-
 	return (
 		<CacheProvider>
 			<div
@@ -227,7 +224,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			>
 				<div className={`${classNamePrefix}__header-section`}>{!hideTopToolbar && <Toolbar {...subProps.TopToolbar} controller={controller} />}</div>
 				<div className={`${classNamePrefix}__main-section`}>
-					{!hideSidebar && !isMobile && sidebarOpenState && (
+					{!hideSidebar && !isMobile && sidebarOpenState && store.loaded && store.pagination.totalResults > 0 && (
 						<div className={`${classNamePrefix}__sidebar`}>
 							<Sidebar {...subProps.Sidebar} controller={controller} />
 						</div>

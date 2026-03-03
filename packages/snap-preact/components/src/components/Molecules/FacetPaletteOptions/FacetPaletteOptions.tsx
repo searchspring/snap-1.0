@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -159,7 +159,7 @@ const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSiz
 	});
 };
 
-export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProps): JSX.Element => {
+export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FacetPaletteOptionsProps> = {
@@ -328,11 +328,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 										background: background,
 									}}
 								>
-									{backgroundImageUrl ? (
-										<Image {...subProps.image} src={backgroundImageUrl} alt={value.label || value.value.toString()} />
-									) : (
-										<Fragment />
-									)}
+									{backgroundImageUrl ? <Image {...subProps.image} src={backgroundImageUrl} alt={value.label || value.value.toString()} /> : null}
 									{!hideIcon && value.filtered && layout?.toLowerCase() == 'grid' && <Icon {...subProps.icon} />}
 								</div>
 							</div>
@@ -347,9 +343,7 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type FacetPaletteOptionsProps = {

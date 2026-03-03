@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { filters } from '@athoscommerce/snap-toolbox';
 import { jsx, css } from '@emotion/react';
@@ -19,7 +19,7 @@ const defaultStyles: StyleScript<PriceProps> = ({ theme }) => {
 	});
 };
 
-export function Price(properties: PriceProps): JSX.Element {
+export function Price(properties: PriceProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -65,7 +65,7 @@ export function Price(properties: PriceProps): JSX.Element {
 
 	if (formattedPrice) {
 		return raw ? (
-			<Fragment>{formattedPrice}</Fragment>
+			<>{formattedPrice}</>
 		) : (
 			<CacheProvider>
 				<span {...styling} className={classnames('ss__price', { 'ss__price--strike': lineThrough }, className, internalClassName)}>
@@ -76,7 +76,7 @@ export function Price(properties: PriceProps): JSX.Element {
 			</CacheProvider>
 		);
 	} else {
-		return <Fragment></Fragment>;
+		return null;
 	}
 }
 

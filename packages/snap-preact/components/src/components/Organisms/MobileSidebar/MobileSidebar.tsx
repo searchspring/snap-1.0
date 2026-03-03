@@ -53,7 +53,7 @@ const defaultStyles: StyleScript<MobileSidebarProps> = ({}) => {
 	});
 };
 
-export const MobileSidebar = observer((properties: MobileSidebarProps): JSX.Element => {
+export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

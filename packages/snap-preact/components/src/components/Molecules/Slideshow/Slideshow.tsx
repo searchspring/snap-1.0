@@ -158,7 +158,7 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 	});
 };
 
-export function Slideshow(properties: SlideshowProps): JSX.Element {
+export function Slideshow(properties: SlideshowProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

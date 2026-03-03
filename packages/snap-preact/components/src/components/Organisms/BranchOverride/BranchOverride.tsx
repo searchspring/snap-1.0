@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -243,7 +243,7 @@ const componentThemes = {
 	failureTheme,
 };
 
-export const BranchOverride = (properties: BranchOverrideProps): JSX.Element => {
+export const BranchOverride = (properties: BranchOverrideProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -348,9 +348,7 @@ export const BranchOverride = (properties: BranchOverrideProps): JSX.Element => 
 				</div>
 			</div>
 		</div>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 };
 
 interface BranchOverrideSubProps {

@@ -1,5 +1,5 @@
-import { Fragment, h } from 'preact';
-import { Ref, useState } from 'preact/hooks';
+import { h } from 'preact';
+import { MutableRef, useState } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -74,7 +74,7 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 	});
 };
 
-export const Result = observer((properties: ResultProps): JSX.Element => {
+export const Result = observer((properties: ResultProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<ResultProps> = {
@@ -321,9 +321,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 				</div>
 			</article>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface ResultSubProps {
@@ -344,7 +342,7 @@ export type ResultProps = {
 	result: Product;
 	controller?: SearchController | AutocompleteController | RecommendationController;
 	lang?: Partial<ResultLang>;
-	trackingRef?: Ref<HTMLElement | null>;
+	trackingRef?: MutableRef<HTMLElement | null>;
 } & ResultTemplatesLegalProps &
 	ComponentProps<ResultProps>;
 

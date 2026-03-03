@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -29,7 +29,7 @@ const defaultStyles: StyleScript<PaginationProps> = () => {
 	});
 };
 
-export const Pagination = observer((properties: PaginationProps): JSX.Element => {
+export const Pagination = observer((properties: PaginationProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<PaginationProps> = {
@@ -195,9 +195,7 @@ export const Pagination = observer((properties: PaginationProps): JSX.Element =>
 				</nav>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface PaginationSubProps {

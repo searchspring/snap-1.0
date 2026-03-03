@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -99,7 +99,7 @@ const defaultStyles: StyleScript<FacetHierarchyOptionsProps> = ({ theme, horizon
 	}
 };
 
-export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptionsProps): JSX.Element => {
+export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FacetHierarchyOptionsProps> = {
@@ -201,9 +201,7 @@ export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptions
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type FacetHierarchyOptionsProps = {

@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import { MutableRef, StateUpdater, useState } from 'preact/hooks';
+import { Dispatch, MutableRef, StateUpdater, useState } from 'preact/hooks';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import deepmerge from 'deepmerge';
 import { Lang, LangAttributes, useLang } from '../../../hooks/useLang';
@@ -45,7 +45,7 @@ const defaultStyles: StyleScript<SearchInputProps> = ({ theme }) => {
 	});
 };
 
-export const SearchInput = observer((properties: SearchInputProps): JSX.Element => {
+export const SearchInput = observer((properties: SearchInputProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<SearchInputProps> = {
@@ -106,7 +106,7 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 	} = props;
 
 	let inputValue: string | undefined;
-	let setInputValue: undefined | StateUpdater<string>;
+	let setInputValue: undefined | Dispatch<StateUpdater<string>>;
 
 	const stateful = value === undefined;
 

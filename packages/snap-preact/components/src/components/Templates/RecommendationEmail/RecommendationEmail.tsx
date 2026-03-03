@@ -21,7 +21,7 @@ const defaultStyles: StyleScript<RecommendationEmailProps> = () => {
 	return css({});
 };
 
-export const RecommendationEmail = observer((properties: RecommendationEmailProps): JSX.Element => {
+export const RecommendationEmail = observer((properties: RecommendationEmailProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

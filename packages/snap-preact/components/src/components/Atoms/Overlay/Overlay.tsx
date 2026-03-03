@@ -25,7 +25,7 @@ const defaultStyles: StyleScript<OverlayProps> = ({ transitionSpeed, color }) =>
 	});
 };
 
-export function Overlay(properties: OverlayProps): JSX.Element {
+export function Overlay(properties: OverlayProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

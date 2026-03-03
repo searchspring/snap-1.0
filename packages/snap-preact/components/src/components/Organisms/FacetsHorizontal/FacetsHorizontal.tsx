@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -106,7 +106,7 @@ const defaultStyles: StyleScript<FacetsHorizontalProps> = ({ theme }) => {
 	});
 };
 
-export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JSX.Element => {
+export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -383,9 +383,7 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps): JS
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface FacetsHorizontalSubProps {

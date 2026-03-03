@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -22,7 +22,7 @@ const defaultStyles: StyleScript<LayoutSelectorProps> = ({}) => {
 	});
 };
 
-export const LayoutSelector = observer((properties: LayoutSelectorProps): JSX.Element => {
+export const LayoutSelector = observer((properties: LayoutSelectorProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<LayoutSelectorProps> = {
@@ -154,9 +154,7 @@ export const LayoutSelector = observer((properties: LayoutSelectorProps): JSX.El
 				/>
 			)}
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 interface SelectSubProps {
 	Select: Partial<SelectProps>;

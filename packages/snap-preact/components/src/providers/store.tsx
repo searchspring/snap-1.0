@@ -1,18 +1,20 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
 import type { AbstractStore } from '@athoscommerce/snap-store-mobx';
+import { JSXComponent } from '../types';
 
 const StoreContext = createContext<null | AbstractStore>(null);
+const StoreProviderCast = StoreContext.Provider as JSXComponent;
 
 export const StoreProvider = ({ children, store }: { children: ComponentChildren; store: AbstractStore }) => {
-	return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>;
+	return <StoreProviderCast value={store}>{children}</StoreProviderCast>;
 };
 
 export const useStore = () => useContext(StoreContext);
 
 export function withStore<C extends ComponentType>(Component: C): C {
-	return ((props: any) => (
-		// additional props must come after store prop
-		<Component store={useStore()} {...props} />
-	)) as C;
+	return ((props: any) => {
+		const Comp = Component as JSXComponent;
+		return <Comp store={useStore()} {...props} />;
+	}) as C;
 }

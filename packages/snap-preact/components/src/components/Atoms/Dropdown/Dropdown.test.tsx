@@ -200,7 +200,7 @@ describe('Dropdown Component', () => {
 		expect(toggleFn).toHaveBeenCalled();
 	});
 
-	it('does not fire onToggle prop when clicked outside (while opened) when disableClickOutside prop is true', () => {
+	it('does not fire onToggle prop when clicked outside (while opened) when disableClickOutside prop is true', async () => {
 		const buttonText = 'click me';
 		const contentText = 'this is the content';
 		const toggleFn = jest.fn();
@@ -214,7 +214,7 @@ describe('Dropdown Component', () => {
 
 		const outside = rendered.container.querySelector('.outside')!;
 
-		userEvent.click(outside);
+		await userEvent.click(outside);
 		expect(toggleFn).not.toHaveBeenCalled();
 	});
 
@@ -462,14 +462,14 @@ describe('Dropdown Component', () => {
 			expect(toggleFn).toHaveBeenCalled();
 		});
 
-		it('does not fire onToggle prop when disabled', () => {
+		it('does not fire onToggle prop when disabled', async () => {
 			const toggleFn = jest.fn();
 
 			const rendered = render(<Dropdown button={'open me'} disabled onToggle={toggleFn} />);
 
 			const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-			userEvent.click(button);
+			await userEvent.click(button);
 			expect(toggleFn).not.toHaveBeenCalled();
 		});
 

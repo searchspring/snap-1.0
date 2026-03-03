@@ -1,4 +1,4 @@
-import { h, Fragment, ComponentChildren } from 'preact';
+import { h, ComponentChildren } from 'preact';
 import { useState, useRef } from 'preact/hooks';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -30,7 +30,7 @@ const defaultStyles: StyleScript<RecommendationProps> = ({ vertical }) => {
 	});
 };
 
-export const Recommendation = observer((properties: RecommendationProps): JSX.Element => {
+export const Recommendation = observer((properties: RecommendationProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -110,7 +110,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 		controller.log.error(
 			`<Recommendation> Component received invalid number of children. Must match length of 'results' prop or 'controller.store.results'`
 		);
-		return <Fragment></Fragment>;
+		return null;
 	}
 
 	const subProps: RecommendationSubProps = {

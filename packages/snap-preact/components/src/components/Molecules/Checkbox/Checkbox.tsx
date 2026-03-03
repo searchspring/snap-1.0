@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState, StateUpdater } from 'preact/hooks';
+import { useState, StateUpdater, Dispatch } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -38,7 +38,7 @@ const defaultStyles: StyleScript<CheckboxProps> = ({ size, color, theme, native 
 	}
 };
 
-export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
+export const Checkbox = observer((properties: CheckboxProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -95,7 +95,7 @@ export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
 		},
 	};
 
-	let checkedState: boolean | undefined, setCheckedState: undefined | StateUpdater<boolean | undefined>;
+	let checkedState: boolean | undefined, setCheckedState: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = checked === undefined;
 	if (stateful) {

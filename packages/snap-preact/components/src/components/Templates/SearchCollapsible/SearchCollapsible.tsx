@@ -5,7 +5,7 @@ import { ComponentProps } from '../../../types';
 import { CacheProvider } from '../../../providers';
 import { Search, SearchProps, SearchTemplatesLegalProps } from '../Search/Search';
 
-export const SearchCollapsible = observer((properties: SearchCollapsibleProps): JSX.Element => {
+export const SearchCollapsible = observer((properties: SearchCollapsibleProps) => {
 	return (
 		<CacheProvider>
 			<Search {...properties} alias="searchCollapsible" />

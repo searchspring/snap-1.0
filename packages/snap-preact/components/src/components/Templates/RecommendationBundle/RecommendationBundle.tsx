@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { useRef, useEffect, useState, useMemo } from 'preact/hooks';
@@ -143,7 +143,7 @@ const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean;
 	});
 };
 
-export const RecommendationBundle = observer((properties: RecommendationBundleProps): JSX.Element => {
+export const RecommendationBundle = observer((properties: RecommendationBundleProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -279,7 +279,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 
 	if (!(results && results.length) && !controller.store?.results?.length) {
 		controller.log.error(`<RecommendationBundle> Component has no results to render!`);
-		return <Fragment></Fragment>;
+		return null;
 	}
 
 	const seed = results
@@ -552,7 +552,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 							})}
 						>
 							{carouselEnabled ? (
-								<Fragment>
+								<>
 									{!seedInCarousel && !hideSeed && seed && (
 										<div className={`${classNamePrefix}__wrapper__seed-container`}>
 											<ResultTracker controller={controller} result={seed} track={{ impression: false }}>
@@ -614,7 +614,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 											children={renderedResults}
 										/>
 									</div>
-								</Fragment>
+								</>
 							) : (
 								<>{renderedResults}</>
 							)}
@@ -668,9 +668,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 type BundleCarouselProps = {

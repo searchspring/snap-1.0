@@ -47,7 +47,7 @@ const defaultStyles: StyleScript<SkeletonProps> = ({ width, height, round, backg
 	});
 };
 
-export const Skeleton = observer((properties: SkeletonProps): JSX.Element => {
+export const Skeleton = observer((properties: SkeletonProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

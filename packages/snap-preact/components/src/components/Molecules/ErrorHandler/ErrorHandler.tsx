@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -118,7 +118,7 @@ const defaultStyles: StyleScript<ErrorHandlerProps> = ({ theme }) => {
 	});
 };
 
-export const ErrorHandler = observer((properties: ErrorHandlerProps): JSX.Element => {
+export const ErrorHandler = observer((properties: ErrorHandlerProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -229,9 +229,7 @@ export const ErrorHandler = observer((properties: ErrorHandlerProps): JSX.Elemen
 				})()}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type ErrorHandlerProps = {

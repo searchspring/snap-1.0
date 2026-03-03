@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { css } from '@emotion/react';
@@ -78,7 +78,7 @@ const emIfyTerm = (term: string, search: string): string => {
 	return `<em>${term}</em>`;
 };
 
-export const Terms = observer((properties: TermsProps): JSX.Element => {
+export const Terms = observer((properties: TermsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -161,9 +161,7 @@ export const Terms = observer((properties: TermsProps): JSX.Element => {
 				</ul>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type TermsProps = {

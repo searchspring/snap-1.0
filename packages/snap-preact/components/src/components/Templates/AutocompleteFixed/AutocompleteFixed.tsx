@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useEffect, useRef, useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -53,7 +53,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 	});
 };
 
-export const AutocompleteFixed = observer((properties: AutocompleteFixedProps): JSX.Element => {
+export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) => {
 	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<AutocompleteFixedProps> = {
@@ -232,30 +232,26 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps): 
 		<CacheProvider>
 			<div {...styling} className={classNames('ss__autocomplete-fixed', className, internalClassName)}>
 				<Modal {...subProps.modal}>
-					<Fragment>
-						<div className="ss__autocomplete-fixed__inner" ref={(e) => useA11y(e, 0, true, reset)}>
-							{renderInput ? (
-								<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
-							) : (
-								<></>
-							)}
-							<div className="ss__autocomplete-fixed__inner__layout-wrapper">
-								<AutocompleteLayout
-									{...acProps}
-									{...subProps.autocompleteLayout}
-									input={_input!}
-									controller={controller}
-									treePath={`${treePath} modal`}
-								/>
-							</div>
+					<div className="ss__autocomplete-fixed__inner" ref={(e) => useA11y(e, 0, true, reset)}>
+						{renderInput ? (
+							<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
+						) : (
+							<></>
+						)}
+						<div className="ss__autocomplete-fixed__inner__layout-wrapper">
+							<AutocompleteLayout
+								{...acProps}
+								{...subProps.autocompleteLayout}
+								input={_input!}
+								controller={controller}
+								treePath={`${treePath} modal`}
+							/>
 						</div>
-					</Fragment>
+					</div>
 				</Modal>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface inputBounds {

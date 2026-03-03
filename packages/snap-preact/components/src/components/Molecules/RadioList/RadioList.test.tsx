@@ -198,7 +198,11 @@ describe('RadioList Component', () => {
 
 		expect(optionElements).toBeInTheDocument();
 
-		expect(optionElements.innerHTML).toBe(`<label class=\"ss__radio-list__option__label\">${options[0].label}</label>`);
+		const radio = optionElements.querySelector('.ss__radio-list__option__radio');
+		const labelEl = optionElements.querySelector('.ss__radio-list__option__label');
+		expect(radio).not.toBeInTheDocument();
+		expect(labelEl).toBeInTheDocument();
+		expect(labelEl).toHaveTextContent(options[0].label as string);
 
 		await userEvent.click(optionElements);
 
@@ -216,9 +220,15 @@ describe('RadioList Component', () => {
 		expect(label).not.toBeInTheDocument();
 		expect(optionElements).toBeInTheDocument();
 
-		expect(optionElements.innerHTML).toBe(
-			'<span ss-path="radioList radio" class="ss__radio ss__radio-list__option__radio ss-1ht1rvx" ss-lang="radio" role="radio" aria-checked="false"><svg ss-name="inactive" ss-path="radioList radio icon" class="ss__icon ss__icon--bullet-o ss__radio__icon ss-1i8ck7b" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><circle cx="28" cy="28" r="20" stroke-width="3" fill="white"></circle></svg></span>'
-		);
+		const radioSpan = optionElements.querySelector('.ss__radio-list__option__radio');
+		expect(radioSpan).toBeInTheDocument();
+		expect(radioSpan).toHaveAttribute('ss-lang', 'radio');
+		expect(radioSpan).toHaveAttribute('role', 'radio');
+		expect(radioSpan).toHaveAttribute('aria-checked', 'false');
+
+		const radioIcon = radioSpan?.querySelector('.ss__radio__icon');
+		expect(radioIcon).toBeInTheDocument();
+		expect(radioIcon).toHaveClass('ss__icon--bullet-o');
 
 		await userEvent.click(optionElements);
 

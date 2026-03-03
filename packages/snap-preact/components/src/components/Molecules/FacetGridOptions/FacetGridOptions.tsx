@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -80,7 +80,7 @@ const defaultStyles: StyleScript<FacetGridOptionsProps> = ({ columns, gapSize, g
 	});
 };
 
-export const FacetGridOptions = observer((properties: FacetGridOptionsProps): JSX.Element => {
+export const FacetGridOptions = observer((properties: FacetGridOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -153,9 +153,7 @@ export const FacetGridOptions = observer((properties: FacetGridOptionsProps): JS
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type FacetGridOptionsProps = {
