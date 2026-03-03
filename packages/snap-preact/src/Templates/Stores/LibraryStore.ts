@@ -1,6 +1,6 @@
 import { h } from 'preact';
 
-import type { Theme, ThemeComplete, ThemeMinimal } from '../../../components/src';
+import type { JSXComponent, Theme, ThemeComplete, ThemeMinimal } from '../../../components/src';
 import { transformTranslationsToTheme, type TemplateCustomComponentTypes, type TemplateTypes } from './TemplateStore';
 import type { TemplateStoreComponentConfig } from './TemplateStore';
 import type { PluginFunction } from '@athoscommerce/snap-controller';
@@ -24,8 +24,6 @@ type LibraryComponentImport = {
 type LibraryComponentMap = {
 	[componentName: string]: JSXComponent;
 };
-
-type JSXComponent = (props: any) => h.JSX.Element | null;
 
 export type LibraryImports = {
 	theme: {
@@ -338,7 +336,7 @@ export class LibraryStore {
 		}
 	}
 
-	getComponent(type: TemplateTypes, name: string): ((props: any) => h.JSX.Element | null) | undefined {
+	getComponent(type: TemplateTypes, name: string): JSXComponent | undefined {
 		const paths = type.split('/');
 		paths.push(name);
 		let importPath: any = this.components;

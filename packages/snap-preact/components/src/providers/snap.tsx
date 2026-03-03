@@ -1,8 +1,7 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
 import type { Snap, SnapTemplates } from '../../../src';
-
-type JSXComponent = (props: any) => h.JSX.Element | null;
+import { JSXComponent } from '../types';
 
 const SnapContext = createContext<undefined | Snap | SnapTemplates>(undefined);
 const SnapProviderCast = SnapContext.Provider as JSXComponent;

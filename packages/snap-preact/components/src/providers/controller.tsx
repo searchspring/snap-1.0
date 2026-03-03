@@ -1,8 +1,7 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
 import type { AbstractController } from '@athoscommerce/snap-controller';
-
-type JSXComponent = (props: any) => h.JSX.Element | null;
+import { JSXComponent } from '../types';
 
 const ControllerContext = createContext<null | AbstractController>(null);
 const ControllerProviderCast = ControllerContext.Provider as JSXComponent;

@@ -4,6 +4,7 @@ import type { SearchController, AutocompleteController, RecommendationController
 import type { ContentType, BannerContent } from '@athoscommerce/snap-store-mobx';
 import { createImpressionObserver } from '../utilities';
 import { useEffect, useCallback, useRef } from 'preact/hooks';
+import { JSXComponent } from '../types';
 
 export const TRACKING_ATTRIBUTE = 'sstracking';
 interface WithTrackingProps {
@@ -16,7 +17,7 @@ interface WithTrackingProps {
 }
 
 export function withTracking<Props extends WithTrackingProps>(WrappedComponent: ComponentType<Props>) {
-	const WrappedComponentCast = WrappedComponent as (props: any) => h.JSX.Element | null;
+	const WrappedComponentCast = WrappedComponent as JSXComponent;
 	const WithTracking = (props: Props) => {
 		const { controller, result, banner, type, content, ...restProps } = props;
 

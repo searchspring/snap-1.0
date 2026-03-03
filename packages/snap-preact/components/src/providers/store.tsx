@@ -1,8 +1,7 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
 import type { AbstractStore } from '@athoscommerce/snap-store-mobx';
-
-type JSXComponent = (props: any) => h.JSX.Element | null;
+import { JSXComponent } from '../types';
 
 const StoreContext = createContext<null | AbstractStore>(null);
 const StoreProviderCast = StoreContext.Provider as JSXComponent;

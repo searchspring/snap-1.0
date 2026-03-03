@@ -1,12 +1,10 @@
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
-import { ComponentMap } from '../types';
+import { ComponentMap, JSXComponent } from '../types';
 
-type JSXComponent = ((props: any) => h.JSX.Element | null) | undefined;
-
-export const useComponent = (map: ComponentMap, name: string): JSXComponent => {
-	const [importedComponent, setImportedComponent] = useState<JSXComponent>(undefined);
+export const useComponent = (map: ComponentMap, name: string): JSXComponent | undefined => {
+	const [importedComponent, setImportedComponent] = useState<JSXComponent | undefined>(undefined);
 
 	useEffect(() => {
 		const importFn = map[name];

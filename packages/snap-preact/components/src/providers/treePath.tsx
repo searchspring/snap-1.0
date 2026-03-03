@@ -1,7 +1,6 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
-
-type JSXComponent = (props: any) => h.JSX.Element | null;
+import { JSXComponent } from '../types';
 
 const TreePathContext = createContext<null | string>(null);
 const TreePathProviderCast = TreePathContext.Provider as JSXComponent;

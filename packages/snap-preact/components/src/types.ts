@@ -110,6 +110,8 @@ export type SwatchOption = ListOption & {
 	background?: string;
 };
 
+export type JSXComponent = (props: any) => h.JSX.Element | null;
+
 export type ComponentMap = {
-	[componentName: string]: (args?: any) => Promise<(props: any) => h.JSX.Element | null> | ((props: any) => h.JSX.Element | null);
+	[componentName: string]: (args?: any) => Promise<JSXComponent> | JSXComponent;
 };

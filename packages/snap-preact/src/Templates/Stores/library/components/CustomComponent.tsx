@@ -1,7 +1,6 @@
 import { h } from 'preact';
 import { CustomComponentWrapper } from './CustomComponentWrapper';
-
-type JSXComponent = (props: any) => h.JSX.Element | null;
+import { JSXComponent } from '../../../../../components/src/types';
 
 export const CustomComponent = async (props: CustomComponentProps) => {
 	const { type, name, componentFn } = props;
