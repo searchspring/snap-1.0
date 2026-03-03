@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { RecommendationStore, RecommendationStoreConfig } from '@athoscommerce/snap-store-mobx';
 import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
 import { Tracker } from '@athoscommerce/snap-tracker';
