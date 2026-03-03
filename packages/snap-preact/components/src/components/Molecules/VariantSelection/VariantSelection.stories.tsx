@@ -53,6 +53,7 @@ export default {
 		type: {
 			description: 'selection type',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'selection type',
 				},
@@ -66,6 +67,7 @@ export default {
 		onSelect: {
 			description: 'onSelect callback',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption)',
 				},

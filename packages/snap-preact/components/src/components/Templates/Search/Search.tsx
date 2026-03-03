@@ -249,11 +249,16 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 	);
 });
 
-//todo improve the controller spreading here..
-export interface SearchProps extends ComponentProps {
+export type SearchProps = {
 	controller: SearchController;
-	mobileDisplayAt?: string;
+	lang?: Partial<SearchLang>;
+	alias?: 'searchCollapsible' | 'searchHorizontal';
 	resultComponent?: ResultComponent;
+} & SearchTemplatesLegalProps &
+	ComponentProps<SearchProps>;
+
+export type SearchTemplatesLegalProps = {
+	mobileDisplayAt?: string;
 	hideSidebar?: boolean;
 	hideTopToolbar?: boolean;
 	hideMiddleToolbar?: boolean;
@@ -261,10 +266,8 @@ export interface SearchProps extends ComponentProps {
 	toggleSidebarButtonText?: string;
 	toggleSidebarStartClosed?: boolean;
 	hideToggleSidebarButton?: boolean;
-	lang?: Partial<SearchLang>;
 	layoutOptions?: ListOption[];
-	alias?: 'searchCollapsible' | 'searchHorizontal';
-}
+};
 
 export interface SearchLang {
 	toggleSidebarButtonText?: Lang<{ filters: SearchFilterStore; sidebarOpenState: boolean }>;

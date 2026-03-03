@@ -146,7 +146,13 @@ interface ButtonSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface ButtonProps extends ComponentProps<ButtonProps> {
+export type ButtonProps = {
+	lang?: Partial<ButtonLang>;
+	name?: ButtonNames;
+} & ButtonTemplatesLegalProps &
+	ComponentProps<ButtonProps>;
+
+export type ButtonTemplatesLegalProps = {
 	backgroundColor?: string;
 	borderColor?: string;
 	color?: string;
@@ -157,9 +163,7 @@ export interface ButtonProps extends ComponentProps<ButtonProps> {
 	native?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	disableA11y?: boolean;
-	lang?: Partial<ButtonLang>;
-	name?: ButtonNames;
-}
+};
 
 export interface ButtonLang {
 	button?: Lang<never>;

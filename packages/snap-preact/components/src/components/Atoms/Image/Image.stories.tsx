@@ -60,6 +60,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -70,6 +71,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -79,6 +81,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -89,6 +92,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'string' },
 			},
 			control: { type: 'text' },
@@ -100,6 +104,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: true },
 			},
 			control: { type: 'boolean' },
@@ -110,6 +115,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -119,6 +125,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onError',
@@ -129,6 +136,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onLoad',
@@ -139,6 +147,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onClick',
@@ -149,6 +158,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onMouseOver',
@@ -159,6 +169,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onMouseOut',

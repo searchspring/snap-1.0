@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import type { SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps } from '../../../types';
 import { CacheProvider } from '../../../providers';
-import { Search, SearchProps } from '../Search/Search';
+import { Search, SearchProps, SearchTemplatesLegalProps } from '../Search/Search';
 
 export const SearchCollapsible = observer((properties: SearchCollapsibleProps): JSX.Element => {
 	return (
@@ -14,6 +14,11 @@ export const SearchCollapsible = observer((properties: SearchCollapsibleProps): 
 });
 
 //todo improve the controller spreading here..
-export interface SearchCollapsibleProps extends SearchProps, ComponentProps {
+
+export type SearchCollapsibleProps = {
 	controller: SearchController;
-}
+} & SearchProps &
+	SearchCollapsibleTemplatesLegalProps &
+	ComponentProps<SearchCollapsibleProps>;
+
+export type SearchCollapsibleTemplatesLegalProps = SearchTemplatesLegalProps;

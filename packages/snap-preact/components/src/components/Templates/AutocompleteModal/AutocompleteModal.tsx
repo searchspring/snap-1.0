@@ -225,10 +225,14 @@ interface AutocompleteModalSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteModalProps extends Omit<AutocompleteLayoutProps, 'viewportMaxHeight'>, ComponentProps {
+export type AutocompleteModalProps = {
+	controller: AutocompleteController;
+} & AutocompleteModalTemplatesLegalProps &
+	ComponentProps<AutocompleteModalProps>;
+
+export type AutocompleteModalTemplatesLegalProps = {
 	buttonSelector?: string | Element;
 	overlayColor?: string;
 	renderInput?: boolean;
 	height?: string;
-	controller: AutocompleteController;
-}
+} & AutocompleteLayoutProps;

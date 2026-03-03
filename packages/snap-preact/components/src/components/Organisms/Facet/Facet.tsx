@@ -804,11 +804,13 @@ interface FacetSubProps {
 	showMoreLessIcon: Partial<IconProps>;
 }
 
-export interface FacetProps extends OptionalFacetProps {
+export type FacetProps = {
+	lang?: Partial<FacetLang>;
 	facet: ValueFacet | RangeFacet;
-}
+} & FacetTemplatesLegalProps &
+	ComponentProps<FacetProps>;
 
-interface OptionalFacetProps extends ComponentProps {
+export type FacetTemplatesLegalProps = {
 	disableCollapse?: boolean;
 	color?: string;
 	iconCollapse?: IconType | Partial<IconProps>;
@@ -841,8 +843,7 @@ interface OptionalFacetProps extends ComponentProps {
 	rangeInputsSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;
-	lang?: Partial<FacetLang>;
-}
+};
 
 export interface FacetLang {
 	showMoreText: Lang<{

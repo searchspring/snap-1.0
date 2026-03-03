@@ -271,10 +271,14 @@ interface AutocompleteFixedSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteFixedProps extends AutocompleteLayoutProps, ComponentProps {
+export type AutocompleteFixedProps = {
+	controller: AutocompleteController;
+} & AutocompleteFixedTemplatesLegalProps &
+	ComponentProps<AutocompleteFixedProps>;
+
+export type AutocompleteFixedTemplatesLegalProps = {
 	buttonSelector?: string | Element;
 	overlayColor?: string;
 	renderInput?: boolean;
-	controller: AutocompleteController;
 	offset?: Partial<Omit<inputBounds, 'height'>>;
-}
+} & AutocompleteLayoutProps;

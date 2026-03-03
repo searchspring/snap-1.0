@@ -832,9 +832,15 @@ type Column = {
 	alignContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
 };
 
-export interface AutocompleteLayoutProps extends ComponentProps {
+export type AutocompleteLayoutProps = {
 	input: Element | string;
+	resultComponent?: ResultComponent;
 	controller: AutocompleteController;
+	lang?: Partial<AutocompleteLayoutLang>;
+} & AutocompleteLayoutTemplatesLegalProps &
+	ComponentProps<AutocompleteLayoutProps>;
+
+export type AutocompleteLayoutTemplatesLegalProps = {
 	layout?: ModuleNamesWithColumns[] | PrebuiltLayouts;
 
 	column1?: Column;
@@ -848,7 +854,6 @@ export interface AutocompleteLayoutProps extends ComponentProps {
 	viewportMaxHeight?: boolean;
 	width?: string;
 	onReset?: () => void;
-	resultComponent?: ResultComponent;
 	templates?: {
 		recommendation?: {
 			enabled: boolean;
@@ -857,8 +862,7 @@ export interface AutocompleteLayoutProps extends ComponentProps {
 			config?: Partial<RecommendationControllerConfig>;
 		};
 	};
-	lang?: Partial<AutocompleteLayoutLang>;
-}
+};
 
 export interface AutocompleteLayoutLang {
 	facetsTitle: Lang<{

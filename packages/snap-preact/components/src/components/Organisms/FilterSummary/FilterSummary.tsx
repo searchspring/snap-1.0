@@ -80,7 +80,6 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 		clearAllIcon: 'close-thin',
 		filterIcon: 'close-thin',
 		filters: properties.controller?.store?.filters,
-		onClearAllClick: () => properties.controller?.urlManager.remove('filter').remove('page').go(),
 		separator: ':',
 		treePath: globalTreePath,
 	};
@@ -169,7 +168,10 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 							internalClassName={`${subProps?.filter?.internalClassName} ss__filter-summary__clear-all`}
 							hideFacetLabel
 							valueLabel={clearAllLabel}
-							onClick={(e) => onClearAllClick && onClearAllClick(e)}
+							onClick={(e) => {
+								onClearAllClick && onClearAllClick(e);
+								properties.controller?.urlManager.remove('filter').remove('page').go();
+							}}
 							lang={{
 								filter: { attributes: { 'aria-label': clearAllLabel } },
 							}}
@@ -183,8 +185,14 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 	);
 });
 
-export interface FilterSummaryProps extends ComponentProps {
+export type FilterSummaryProps = {
 	filters?: FilterType[];
+	controller?: SearchController | AutocompleteController;
+	lang?: Partial<FilterSummaryLang>;
+} & FilterSummaryTemplatesLegalProps &
+	ComponentProps<FilterSummaryProps>;
+
+export type FilterSummaryTemplatesLegalProps = {
 	type?: 'inline' | 'list';
 	title?: string;
 	hideTitle?: boolean;
@@ -196,9 +204,7 @@ export interface FilterSummaryProps extends ComponentProps {
 	hideClearAll?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, filterFilter: FilterType) => void;
 	onClearAllClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-	controller?: SearchController | AutocompleteController;
-	lang?: Partial<FilterSummaryLang>;
-}
+};
 
 export interface FilterSummaryLang {
 	title: Lang<{

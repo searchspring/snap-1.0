@@ -39,6 +39,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			options: [...Object.keys(iconPaths)],
 			control: {
@@ -51,6 +52,7 @@ export default {
 				type: {
 					summary: 'string | SVGPathElement[]',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -60,6 +62,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -69,6 +72,7 @@ export default {
 				type: {
 					summary: 'string, JSX',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 		},
@@ -78,6 +82,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'theme.variables.colors.primary' },
 			},
 			control: { type: 'color' },
@@ -88,6 +93,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'color' },
 		},
@@ -97,6 +103,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'color' },
 		},
@@ -107,6 +114,7 @@ export default {
 				type: {
 					summary: 'string | number',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '16px' },
 			},
 			control: { type: 'text' },
@@ -117,6 +125,7 @@ export default {
 				type: {
 					summary: 'string | number',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -126,6 +135,7 @@ export default {
 				type: {
 					summary: 'string | number',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -136,6 +146,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '0 0 56 56' },
 			},
 			control: { type: 'text' },

@@ -63,6 +63,7 @@ export default {
 		hideBadge: {
 			description: 'Hide badge',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -73,6 +74,7 @@ export default {
 		hideVariantSelections: {
 			description: 'Hide variant Selections',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -83,6 +85,7 @@ export default {
 		hideTitle: {
 			description: 'Hide title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -93,6 +96,7 @@ export default {
 		hidePricing: {
 			description: 'Hide pricing',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -103,6 +107,7 @@ export default {
 		hideImage: {
 			description: 'Hide image',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -113,6 +118,7 @@ export default {
 		hideRating: {
 			description: 'Hide ratings',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -123,6 +129,7 @@ export default {
 		hideAddToCartButton: {
 			description: 'Hide add to cart button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -133,6 +140,7 @@ export default {
 		addToCartButtonText: {
 			description: 'add to cart button text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -142,6 +150,7 @@ export default {
 		addToCartButtonSuccessText: {
 			description: 'add to cart button text to show after adding to cart',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -151,6 +160,7 @@ export default {
 		addToCartButtonSuccessTimeout: {
 			description: 'time in ms to show the success button text before reverting back to standard text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -160,6 +170,7 @@ export default {
 		onAddToCartClick: {
 			description: 'function to run on add to cart button click',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -171,6 +182,7 @@ export default {
 		detailSlot: {
 			description: 'Slot for more product details (under price)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -181,6 +193,7 @@ export default {
 			defaultValue: '',
 			description: 'Fallback image url',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -192,6 +205,7 @@ export default {
 			defaultValue: {},
 			description: 'truncate title options object',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -204,6 +218,7 @@ export default {
 			description: 'Results layout',
 			defaultValue: ResultsLayout.grid,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -216,6 +231,7 @@ export default {
 		onClick: {
 			description: 'Custom onClick event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

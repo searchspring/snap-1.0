@@ -352,14 +352,19 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 	);
 });
 
-export interface FacetPaletteOptionsProps extends ComponentProps {
+export type FacetPaletteOptionsProps = {
+	lang?: Partial<FacetPaletteOptionsLang>;
+	facet?: ValueFacet;
 	values?: FacetValue[];
+} & FacetPaletteOptionsTemplatesLegalProps &
+	ComponentProps<FacetPaletteOptionsProps>;
+
+export type FacetPaletteOptionsTemplatesLegalProps = {
 	hideLabel?: boolean;
 	columns?: number;
 	gridSize?: string;
 	gapSize?: string;
 	hideIcon?: boolean;
-	facet?: ValueFacet;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
@@ -374,8 +379,7 @@ export interface FacetPaletteOptionsProps extends ComponentProps {
 			backgroundImageUrl?: string;
 		};
 	};
-	lang?: Partial<FacetPaletteOptionsLang>;
-}
+};
 
 export interface FacetPaletteOptionsLang {
 	paletteOption: Lang<{

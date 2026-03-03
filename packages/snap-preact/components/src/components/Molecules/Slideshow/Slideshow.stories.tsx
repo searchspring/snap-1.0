@@ -37,6 +37,7 @@ export default {
 		slides: {
 			description: 'Array of slides to display in the slideshow',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string[] | SlideshowImage[]',
 				},
@@ -46,6 +47,7 @@ export default {
 		fallbackImage: {
 			description: 'Specifies a default image URL to display when an image fails to load',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -56,6 +58,7 @@ export default {
 		autoPlay: {
 			description: 'Enable automatic slideshow progression',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -66,6 +69,7 @@ export default {
 		autoPlayInterval: {
 			description: 'Time in milliseconds between auto-play transitions',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -76,6 +80,7 @@ export default {
 		showNavigation: {
 			description: 'Show previous/next navigation buttons',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -86,6 +91,7 @@ export default {
 		overlayNavigation: {
 			description: 'Controls if the previous/next navigation buttons should overlay the images or render outside of them',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -96,6 +102,7 @@ export default {
 		showPagination: {
 			description: 'Show pagination dots at bottom',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -106,6 +113,7 @@ export default {
 		loop: {
 			description: 'Allow continuous looping of slides',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -117,6 +125,7 @@ export default {
 			description:
 				'Always show navigation buttons even when slides count is below slidesPerView threshold. Useful for maintaining consistent layout in product card grids.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -127,6 +136,7 @@ export default {
 		centerInsufficientSlides: {
 			description: 'Center slides when there are fewer slides than slidesPerView',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 				defaultValue: { summary: true },
 			},
@@ -135,6 +145,7 @@ export default {
 		slidesToShow: {
 			description: 'Number of slides visible at once',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -145,6 +156,7 @@ export default {
 		slidesToMove: {
 			description: 'Number of slides to move on each navigation',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -155,6 +167,7 @@ export default {
 		touchDragging: {
 			description: 'Controls if the slideshow should have drag navigation enabled',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 				defaultValue: { summary: true },
 			},
@@ -163,6 +176,7 @@ export default {
 		dragThreshold: {
 			description: 'Sets the drag sensitivity in pixels',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'number' },
 				defaultValue: { summary: 50 },
 			},
@@ -171,6 +185,7 @@ export default {
 		slideImageAlt: {
 			description: 'Provides default alt text for images, which will be appended with the image number for accessibility',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'string' },
 			},
 			control: { type: 'text' },
@@ -178,6 +193,7 @@ export default {
 		ariaLabel: {
 			description: 'Provides an accessible label for the entire slideshow component',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'string' },
 				defaultValue: { summary: '"slideshow"' },
 			},
@@ -186,6 +202,7 @@ export default {
 		ariaLabelledBy: {
 			description: 'References the ID of an element that labels the slideshow',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'string' },
 			},
 			control: { type: 'text' },
@@ -193,6 +210,7 @@ export default {
 		gap: {
 			description: 'Sets the spacing between slides in pixels',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'number' },
 				defaultValue: { summary: 10 },
 			},

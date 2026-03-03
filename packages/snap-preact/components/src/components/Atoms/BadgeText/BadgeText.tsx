@@ -47,8 +47,9 @@ export const BadgeText = observer((properties: BadgeTextProps): JSX.Element => {
 	);
 });
 
-export interface BadgeTextProps extends ComponentProps<BadgeTextProps> {
+export type BadgeTextProps = BadgeTextTemplatesLegalProps & ComponentProps<BadgeTextProps>;
+export type BadgeTextTemplatesLegalProps = {
 	value: string;
 	colorText?: string;
 	tag?: string;
-}
+};

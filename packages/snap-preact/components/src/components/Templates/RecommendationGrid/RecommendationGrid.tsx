@@ -163,21 +163,25 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 	);
 });
 
-export interface RecommendationGridProps extends ComponentProps {
+export type RecommendationGridProps = {
 	controller: RecommendationController;
-	title?: string;
+	breakpoints?: BreakpointsProps;
+	resultComponent?: ResultComponent;
 	results?: Product[];
+} & RecommendationGridTemplatesLegalProps &
+	ComponentProps<RecommendationGridProps>;
+
+export type RecommendationGridTemplatesLegalProps = {
+	title?: string;
 	columns?: number;
 	rows?: number;
 	gapSize?: string;
 	trim?: boolean;
-	breakpoints?: BreakpointsProps;
-	resultComponent?: ResultComponent;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
-}
+};
 
 interface RecommendationGridSubProps {
 	result: Partial<ResultProps>;

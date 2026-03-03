@@ -180,7 +180,13 @@ export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
 interface CheckboxSubProps {
 	icon: IconProps;
 }
-export interface CheckboxProps extends ComponentProps {
+
+export type CheckboxProps = {
+	lang?: Partial<CheckboxLang>;
+} & CheckboxTemplatesLegalProps &
+	ComponentProps<CheckboxProps>;
+
+export type CheckboxTemplatesLegalProps = {
 	checked?: boolean;
 	color?: string;
 	disabled?: boolean;
@@ -191,8 +197,7 @@ export interface CheckboxProps extends ComponentProps {
 	startChecked?: boolean;
 	native?: boolean;
 	disableA11y?: boolean;
-	lang?: Partial<CheckboxLang>;
-}
+};
 
 export interface CheckboxLang {
 	checkbox: Lang<{

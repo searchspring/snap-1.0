@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import { css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
-import { ComponentProps, StyleScript } from '../../../types';
+import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeStyles } from '../../../utilities';
-import { RecommendationBundle, RecommendationBundleProps } from '../RecommendationBundle';
+import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
 import { Price, PriceProps } from '../../Atoms/Price';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps } from '../../Atoms/Icon';
@@ -15,6 +15,8 @@ import classNames from 'classnames';
 import { useState } from 'preact/hooks';
 import deepmerge from 'deepmerge';
 import { useLang } from '../../../hooks';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
 
 const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 	return css({
@@ -109,11 +111,37 @@ export const RecommendationBundleList = observer((properties: RecommendationBund
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleListProps = Omit<
+export type RecommendationBundleListProps = {
+	controller: RecommendationController & AbstractController;
+	resultComponent?:
+		| ResultComponent<{
+				controller: RecommendationController;
+				seed?: boolean;
+				selected?: boolean;
+				onProductSelect?: (product: Product) => void;
+		  }>
+		| undefined;
+	alias?: string | undefined;
+	lang?: Partial<RecommendationBundleLang> | undefined;
+	results?: Product[] | undefined;
+} & RecommendationBundleListTemplatesLegalProps &
+	ComponentProps<RecommendationBundleListProps>;
+
+export type RecommendationBundleListTemplatesLegalProps = Omit<
 	RecommendationBundleProps,
-	'seedText' | 'vertical' | 'ctaInline' | 'ctaIcon' | 'vertical' | 'slidesPerView' | 'carousel' | 'breakpoints'
-> &
-	ComponentProps;
+	| 'controller'
+	| 'resultComponent'
+	| 'alias'
+	| 'lang'
+	| 'results'
+	| 'seedText'
+	| 'ctaInline'
+	| 'ctaIcon'
+	| 'vertical'
+	| 'slidesPerView'
+	| 'carousel'
+	| 'breakpoints'
+>;
 
 interface RecommendationBundleListSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

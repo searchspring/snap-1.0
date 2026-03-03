@@ -47,6 +47,7 @@ export default {
 			defaultValue: 6,
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -58,6 +59,7 @@ export default {
 			defaultValue: false,
 			description: 'Always render MobileSidebar regardless of facet overflow set my limit prop',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -69,6 +71,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide the filters button',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 				defaultValue: { summary: false },
 			},
@@ -78,6 +81,7 @@ export default {
 			description: 'Callback function for when a facet option is clicked',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'function' },
 			},
 			action: 'onFacetOptionClick',
@@ -86,6 +90,7 @@ export default {
 			defaultValue: true,
 			description: 'Render facet options as a dropdown overlay',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -96,6 +101,7 @@ export default {
 		showSelectedCount: {
 			description: 'shows the number of selected options within the facet headers',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -106,6 +112,7 @@ export default {
 		hideSelectedCountParenthesis: {
 			description: 'specifies if the parenthesis should render around the selected count',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -116,6 +123,7 @@ export default {
 		showClearAllText: {
 			description: 'specifies if the clear all text should render',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -126,6 +134,7 @@ export default {
 		clearAllText: {
 			description: 'text to show in the clear all link',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -136,6 +145,7 @@ export default {
 		clearAllIcon: {
 			description: 'Icon to show in the clear all link',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -150,6 +160,7 @@ export default {
 			defaultValue: 'angle-down',
 			description: 'Icon for when facet is collapsed',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -164,6 +175,7 @@ export default {
 			defaultValue: 'angle-up',
 			description: 'Icon for when facet is expanded',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

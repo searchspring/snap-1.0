@@ -49,9 +49,10 @@ export const BadgeRectangle = observer((properties: BadgeRectangleProps): JSX.El
 	);
 });
 
-export interface BadgeRectangleProps extends ComponentProps<BadgeRectangleProps> {
+export type BadgeRectangleProps = BadgeRectangleTemplatesLegalProps & ComponentProps<BadgeRectangleProps>;
+export type BadgeRectangleTemplatesLegalProps = {
 	value: string;
 	color?: string;
 	colorText?: string;
 	tag?: string;
-}
+};

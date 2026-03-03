@@ -92,6 +92,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: {
 					summary: 'Search results',
 				},
@@ -104,6 +105,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -113,6 +115,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: {
 					summary:
 						'No results found for "<em>${search?.originalQuery?.string}</em>", showing results for "<em>${search?.query?.string}</em>" instead.',
@@ -126,6 +129,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '<span>No results found.</span>' },
 			},
 			control: { type: 'text' },
@@ -136,6 +140,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'Did you mean <a href=${search?.didYouMean?.url.href}>${search?.didYouMean?.string}</a>?' },
 			},
 			control: { type: 'text' },
@@ -146,6 +151,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: {
 					summary:
 						'We couldn\'t find an exact match for "<span className="ss__search-header__results-query">${search?.query?.string}</span>", but here\'s something similar:',
@@ -159,6 +165,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -169,6 +176,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -179,6 +187,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -189,6 +198,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -199,6 +209,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -209,6 +220,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },

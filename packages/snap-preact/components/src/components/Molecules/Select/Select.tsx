@@ -366,7 +366,12 @@ interface SelectSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface SelectProps extends ComponentProps {
+export type SelectProps = {
+	lang?: Partial<SelectLang>;
+} & SelectTemplatesLegalProps &
+	ComponentProps<SelectProps>;
+
+export type SelectTemplatesLegalProps = {
 	options: ListOption[];
 	backgroundColor?: string;
 	borderColor?: string;
@@ -390,8 +395,7 @@ export interface SelectProps extends ComponentProps {
 	hideIcon?: boolean;
 	hideOptionIcons?: boolean;
 	hideOptionLabels?: boolean;
-	lang?: Partial<SelectLang>;
-}
+};
 
 export interface SelectLang {
 	buttonLabel: Lang<{

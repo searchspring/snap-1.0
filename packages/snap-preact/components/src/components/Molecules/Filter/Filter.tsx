@@ -126,17 +126,21 @@ export const Filter = observer((properties: FilterProps): JSX.Element => {
 	);
 });
 
-export interface FilterProps extends ComponentProps {
+export type FilterProps = {
+	lang?: Partial<FilterLang>;
 	filter?: FilterType;
+	url?: UrlManager;
+} & FilterTemplatesLegalProps &
+	ComponentProps<FilterProps>;
+
+export type FilterTemplatesLegalProps = {
 	facetLabel?: string;
 	valueLabel?: string;
-	url?: UrlManager;
 	hideFacetLabel?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 	icon?: IconType | Partial<IconProps>;
 	separator?: string;
-	lang?: Partial<FilterLang>;
-}
+};
 
 export interface FilterLang {
 	filter: Lang<{

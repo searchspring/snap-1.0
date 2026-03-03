@@ -680,12 +680,8 @@ type BundleCarouselProps = {
 	slidesPerView?: number;
 } & Partial<Omit<CarouselProps, 'slidesPerView'>>;
 
-export interface RecommendationBundleProps extends ComponentProps {
+export type RecommendationBundleProps = {
 	controller: RecommendationController;
-	results?: Product[];
-	limit?: number;
-	onAddToCart?: (e: MouseEvent, items: Product[]) => void;
-	title?: JSX.Element | string;
 	breakpoints?: BreakpointsProps;
 	resultComponent?: ResultComponent<{
 		controller: RecommendationController;
@@ -693,6 +689,16 @@ export interface RecommendationBundleProps extends ComponentProps {
 		selected?: boolean;
 		onProductSelect?: (product: Product) => void;
 	}>;
+	alias?: string;
+	lang?: Partial<RecommendationBundleLang>;
+	results?: Product[];
+} & RecommendationBundleTemplatesLegalProps &
+	ComponentProps<RecommendationBundleProps>;
+
+export type RecommendationBundleTemplatesLegalProps = {
+	limit?: number;
+	onAddToCart?: (e: MouseEvent, items: Product[]) => void;
+	title?: JSX.Element | string;
 	preselectedCount?: number;
 	hideCheckboxes?: boolean;
 	hideSeed?: boolean;
@@ -709,14 +715,12 @@ export interface RecommendationBundleProps extends ComponentProps {
 	ctaSlot?: JSX.Element | React.FunctionComponent<BundledCTAProps>;
 	vertical?: boolean;
 	carousel?: BundleCarouselProps;
-	slidesPerView?: number; // TODO: remove this prop?
-	lang?: Partial<RecommendationBundleLang>;
+	slidesPerView?: number;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
-	alias?: string;
-}
+};
 
 export interface RecommendationBundleLang {
 	seedText: Lang<never>;

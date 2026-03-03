@@ -812,7 +812,12 @@ export interface SlideshowSlide {
 	content?: JSX.Element;
 }
 
-export interface SlideshowProps extends ComponentProps {
+export type SlideshowProps = {
+	lang?: Partial<SlideshowLang>;
+} & SlideshowTemplatesLegalProps &
+	ComponentProps<SlideshowProps>;
+
+export type SlideshowTemplatesLegalProps = {
 	slides: (string | SlideshowSlide)[];
 	fallbackImage?: string;
 	autoPlay?: boolean;
@@ -831,8 +836,7 @@ export interface SlideshowProps extends ComponentProps {
 	ariaLabelledBy?: string;
 	touchDragging?: boolean;
 	dragThreshold?: number;
-	lang?: Partial<SlideshowLang>;
-}
+};
 
 interface SlideshowSubProps {
 	Image: Partial<ImageProps>;

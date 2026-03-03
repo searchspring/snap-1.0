@@ -91,15 +91,19 @@ export const Sidebar = observer((properties: SidebarProps): JSX.Element => {
 
 export type SideBarModuleNames = 'filterSummary' | 'sortBy' | 'perPage' | 'facets' | 'banner.left' | 'paginationInfo' | 'layoutSelector' | '_';
 
-export interface SidebarProps extends ComponentProps {
+export type SidebarProps = {
 	controller: SearchController;
+	lang?: Partial<SidebarLang>;
+} & SidebarTemplatesLegalProps &
+	ComponentProps<SidebarProps>;
+
+export type SidebarTemplatesLegalProps = {
 	layout?: SideBarModuleNames[] | SideBarModuleNames[][];
 	titleText?: string;
 	hideTitleText?: boolean;
 	sticky?: boolean;
 	stickyOffset?: number;
-	lang?: Partial<SidebarLang>;
-}
+};
 
 export interface SidebarLang {
 	titleText: Lang<{

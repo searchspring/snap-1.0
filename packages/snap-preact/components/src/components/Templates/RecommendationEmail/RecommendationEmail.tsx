@@ -98,9 +98,13 @@ export type RecommendationEmailProps = {
 	controller?: RecommendationController;
 	results?: Product[];
 	resultComponent?: ResultComponent<{ email: boolean }>;
+} & RecommendationEmailTemplatesLegalProps &
+	ComponentProps<RecommendationEmailProps>;
+
+export type RecommendationEmailTemplatesLegalProps = {
 	resultProps?: Partial<ResultProps> | Record<string, any>;
 	resultWidth?: string;
-} & ComponentProps;
+};
 
 interface RecommendationEmailSubProps {
 	result: Partial<ResultProps>;

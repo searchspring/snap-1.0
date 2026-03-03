@@ -63,6 +63,7 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.0)',
 			description: 'Slideout overlay color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -74,6 +75,7 @@ export default {
 			defaultValue: 'left',
 			description: 'Slideout slide direction',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -84,6 +86,7 @@ export default {
 		buttonSelector: {
 			description: 'Slideout button selector. (defaults to input)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, jsx',
 				},
@@ -94,6 +97,7 @@ export default {
 			defaultValue: true,
 			description: 'render a second input inside autocomplete window that gets auto focused on open.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -124,6 +128,7 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"['c1' | 'c2' | 'c3' | 'c4' | 'Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']",
@@ -135,6 +140,7 @@ export default {
 		column1: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c1" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -151,6 +157,7 @@ export default {
 		column2: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c2" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -167,6 +174,7 @@ export default {
 		column3: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c3" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -183,6 +191,7 @@ export default {
 		column4: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c4" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -194,6 +203,7 @@ export default {
 			defaultValue: '500px',
 			description: 'Change width of the component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -205,6 +215,7 @@ export default {
 			defaultValue: false,
 			description: 'automatically add merchandising banners',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -216,6 +227,7 @@ export default {
 			defaultValue: '',
 			description: 'Change facets header title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -227,6 +239,7 @@ export default {
 			defaultValue: '',
 			description: 'Change content header title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

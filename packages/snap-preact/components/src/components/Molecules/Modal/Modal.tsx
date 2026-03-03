@@ -211,7 +211,9 @@ export const Modal = observer((properties: ModalProps): JSX.Element => {
 	);
 });
 
-export interface ModalProps extends ComponentProps {
+export type ModalProps = ModalTemplatesLegalProps & ComponentProps<ModalProps>;
+
+export type ModalTemplatesLegalProps = {
 	button?: string | JSX.Element;
 	lockScroll?: boolean;
 	buttonSelector?: string | Element;
@@ -225,7 +227,7 @@ export interface ModalProps extends ComponentProps {
 	disableA11y?: boolean;
 	overlayColor?: string;
 	onOverlayClick?: (event: React.MouseEvent<HTMLDivElement, Event>) => void;
-}
+};
 
 interface ModalSubProps {
 	overlay: Partial<OverlayProps>;

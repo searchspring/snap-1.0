@@ -163,11 +163,15 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 	return <Fragment>{children}</Fragment>;
 });
 
-export interface OverlayBadgeProps extends ComponentProps {
+export type OverlayBadgeProps = {
 	result: Product;
 	controller: SearchController | AutocompleteController | RecommendationController;
-	children: ComponentChildren;
+} & OverlayBadgeTemplatesLegalProps &
+	ComponentProps<OverlayBadgeProps>;
+
+export type OverlayBadgeTemplatesLegalProps = {
 	renderEmpty?: boolean;
-	componentMap?: ComponentMap;
 	limit?: number;
-}
+	children: ComponentChildren;
+	componentMap?: ComponentMap;
+};
