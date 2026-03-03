@@ -1,4 +1,4 @@
-import { FunctionalComponent, RenderableProps } from 'preact';
+import { h } from 'preact';
 
 import type { Theme, ThemeComplete, ThemeMinimal } from '../../../components/src';
 import { transformTranslationsToTheme, type TemplateCustomComponentTypes, type TemplateTypes } from './TemplateStore';
@@ -18,12 +18,14 @@ import { pluginLogger } from './library/plugins/common/pluginLogger';
 import { CustomComponent } from './library/components/CustomComponent';
 
 type LibraryComponentImport = {
-	[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+	[componentName: string]: (args?: any) => Promise<JSXComponent>;
 };
 
 type LibraryComponentMap = {
-	[componentName: string]: FunctionalComponent<RenderableProps<any>>;
+	[componentName: string]: JSXComponent;
 };
+
+type JSXComponent = (props: any) => h.JSX.Element | null;
 
 export type LibraryImports = {
 	theme: {
@@ -55,36 +57,36 @@ export type LibraryImports = {
 	};
 	component: {
 		search: {
-			Search: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchCollapsible: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchHorizontal: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Search: (args?: any) => Promise<JSXComponent>;
+			SearchCollapsible: (args?: any) => Promise<JSXComponent>;
+			SearchHorizontal: (args?: any) => Promise<JSXComponent>;
 		};
 		autocomplete: {
-			AutocompleteFixed: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			AutocompleteModal: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			AutocompleteSlideout: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			AutocompleteFixed: (args?: any) => Promise<JSXComponent>;
+			AutocompleteModal: (args?: any) => Promise<JSXComponent>;
+			AutocompleteSlideout: (args?: any) => Promise<JSXComponent>;
 		};
 		recommendation: {
 			bundle: {
-				RecommendationBundle: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationBundleEasyAdd: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationBundleList: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationBundleVertical: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+				RecommendationBundle: (args?: any) => Promise<JSXComponent>;
+				RecommendationBundleEasyAdd: (args?: any) => Promise<JSXComponent>;
+				RecommendationBundleList: (args?: any) => Promise<JSXComponent>;
+				RecommendationBundleVertical: (args?: any) => Promise<JSXComponent>;
 			};
 			default: {
-				Recommendation: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationGrid: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+				Recommendation: (args?: any) => Promise<JSXComponent>;
+				RecommendationGrid: (args?: any) => Promise<JSXComponent>;
 			};
 			email: {
-				RecommendationEmail: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+				RecommendationEmail: (args?: any) => Promise<JSXComponent>;
 			};
 		};
 		badge: {
-			[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			[componentName: string]: (args?: any) => Promise<JSXComponent>;
 		};
 		result: {
-			Result: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Result: (args?: any) => Promise<JSXComponent>;
+			[componentName: string]: (args?: any) => Promise<JSXComponent>;
 		};
 	};
 	language: {
@@ -324,7 +326,7 @@ export class LibraryStore {
 		}
 	}
 
-	getComponent(type: TemplateTypes, name: string): FunctionalComponent<RenderableProps<any>> | undefined {
+	getComponent(type: TemplateTypes, name: string): ((props: any) => h.JSX.Element | null) | undefined {
 		const paths = type.split('/');
 		paths.push(name);
 		let importPath: any = this.components;
@@ -337,11 +339,7 @@ export class LibraryStore {
 		return importPath;
 	}
 
-	async addComponentImport(
-		type: TemplateCustomComponentTypes,
-		name: string,
-		componentFn: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>> | FunctionalComponent<RenderableProps<any>>
-	) {
+	async addComponentImport(type: TemplateCustomComponentTypes, name: string, componentFn: (args?: any) => Promise<JSXComponent> | JSXComponent) {
 		// only allow certain types: 'results' and 'badges' - otherwise section components could be added (eg: 'search')
 		if (ALLOWED_CUSTOM_COMPONENT_TYPES.includes(type) && this.components[type]) {
 			this.import.component[type][name] = async () => {

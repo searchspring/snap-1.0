@@ -81,7 +81,7 @@ const CSS = {
 		}),
 };
 
-export const Toggle = observer((properties: ToggleProps): JSX.Element => {
+export const Toggle = observer((properties: ToggleProps) => {
 	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<ToggleProps> = {

@@ -13,7 +13,7 @@ const CSS = {
 	toggle: ({}: Partial<FacetToggleProps>) => css({}),
 };
 
-export const FacetToggle = observer((properties: FacetToggleProps): JSX.Element => {
+export const FacetToggle = observer((properties: FacetToggleProps) => {
 	const globalTheme: Theme = useTheme();
 
 	let value: FacetValue | undefined = undefined;
@@ -72,9 +72,7 @@ export const FacetToggle = observer((properties: FacetToggleProps): JSX.Element 
 				/>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface FacetToggleProps extends ComponentProps {

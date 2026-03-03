@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -34,7 +34,7 @@ const defaultStyles: StyleScript<InlineBannerProps> = ({ width }) => {
 
 export const InlineBanner = withController<any>(
 	withTracking(
-		observer((properties: InlineBannerProps): JSX.Element => {
+		observer((properties: InlineBannerProps) => {
 			const globalTheme: Theme = useTheme();
 			const globalTreePath = useTreePath();
 
@@ -69,9 +69,7 @@ export const InlineBanner = withController<any>(
 						}}
 					/>
 				</CacheProvider>
-			) : (
-				<Fragment></Fragment>
-			);
+			) : null;
 		})
 	)
 );

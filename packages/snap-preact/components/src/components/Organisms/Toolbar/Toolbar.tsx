@@ -14,7 +14,7 @@ const defaultStyles: StyleScript<ToolbarProps> = ({}) => {
 	return css({});
 };
 
-export const Toolbar = observer((properties: ToolbarProps): JSX.Element => {
+export const Toolbar = observer((properties: ToolbarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

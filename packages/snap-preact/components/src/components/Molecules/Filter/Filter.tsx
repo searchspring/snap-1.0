@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -32,7 +32,7 @@ const defaultStyles: StyleScript<FilterProps> = ({}) => {
 };
 
 // TODO: look into urlManager and how it connects in this case, left the href out for the time being
-export const Filter = observer((properties: FilterProps): JSX.Element => {
+export const Filter = observer((properties: FilterProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FilterProps> = {
@@ -120,9 +120,7 @@ export const Filter = observer((properties: FilterProps): JSX.Element => {
 				</Button>
 			</a>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface FilterProps extends ComponentProps {

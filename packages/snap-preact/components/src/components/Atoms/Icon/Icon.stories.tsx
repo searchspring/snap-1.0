@@ -163,7 +163,7 @@ CustomPath.args = {
 	viewBox: '0 0 70 70',
 };
 
-export const Gallery = (): JSX.Element => {
+export const Gallery = () => {
 	const legacyPaths = ['layout-large', 'layout-grid'];
 
 	return (

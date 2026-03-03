@@ -70,7 +70,7 @@ const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 
 const alias = 'recommendationBundleList';
 
-export const RecommendationBundleList = observer((properties: RecommendationBundleListProps): JSX.Element => {
+export const RecommendationBundleList = observer((properties: RecommendationBundleListProps) => {
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {
 		name: properties.controller?.store?.profile?.tag?.toLowerCase(),
@@ -128,7 +128,7 @@ interface BundleCTASubProps {
 	subtotalPrice: Partial<PriceProps>;
 	button: Partial<ButtonProps>;
 }
-export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
+export const CTASlot = observer((props: BundledCTAProps) => {
 	const cartStore = props.cartStore;
 
 	const classNamePrefix = `ss__${componentNameToClassName(alias)}`;

@@ -1,4 +1,4 @@
-import { ComponentChildren, Fragment, h } from 'preact';
+import { ComponentChildren, h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -64,7 +64,7 @@ const defaultStyles: StyleScript<OverlayBadgeProps> = ({ controller }) => {
 	});
 };
 
-export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Element => {
+export const OverlayBadge = observer((properties: OverlayBadgeProps) => {
 	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
@@ -80,13 +80,13 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 
 	if (!children) {
 		controller?.log?.warn('OverlayBadge component must have children');
-		return <Fragment />;
+		return null;
 	}
 
 	const meta = controller?.store?.meta;
 	if (!meta) {
 		controller?.log?.warn('Controller must have a meta store');
-		return <Fragment>{children}</Fragment>;
+		return <>{children}</>;
 	}
 	const group = 'overlay';
 
@@ -144,7 +144,7 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 										{slot.badges.map((badge) => {
 											const BadgeComponent = useComponent(badgeComponentMap, badge.component);
 											if (!BadgeComponent) {
-												return <Fragment />;
+												return null;
 											}
 
 											return <BadgeComponent {...badge} {...badge.parameters} treePath={treePath} />;
@@ -160,7 +160,7 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 		);
 	}
 
-	return <Fragment>{children}</Fragment>;
+	return <>{children}</>;
 });
 
 export interface OverlayBadgeProps extends ComponentProps {

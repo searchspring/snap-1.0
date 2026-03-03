@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<BannerProps> = () => {
 };
 
 export const Banner = withController<any>(
-	observer((properties: BannerProps): JSX.Element => {
+	observer((properties: BannerProps) => {
 		const globalTheme: Theme = useTheme();
 		const globalTreePath = useTreePath();
 		const defaultProps: Partial<BannerProps> = {
@@ -38,7 +38,7 @@ export const Banner = withController<any>(
 
 		if (type === ContentType.INLINE) {
 			console.warn(`BannerType '${ContentType.INLINE}' is not supported in <Banner /> component`);
-			return <Fragment></Fragment>;
+			return null;
 		}
 
 		const styling = mergeStyles<BannerProps>(props, defaultStyles);
@@ -46,7 +46,7 @@ export const Banner = withController<any>(
 		const banner = content?.[type]?.[0];
 		const value = banner?.value;
 		if (!type || !value) {
-			return <Fragment></Fragment>;
+			return null;
 		}
 		const Content = useCallback(
 			withTracking((trackingProps) => {

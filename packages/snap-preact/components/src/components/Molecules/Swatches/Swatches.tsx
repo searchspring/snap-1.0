@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import classnames from 'classnames';
 import { css } from '@emotion/react';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -69,7 +69,7 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 	});
 };
 
-export function Swatches(properties: SwatchesProps): JSX.Element {
+export function Swatches(properties: SwatchesProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -225,9 +225,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 							>
 								{!option.background && option.backgroundImageUrl ? (
 									<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value?.toString()} />
-								) : (
-									<Fragment />
-								)}
+								) : null}
 								{!hideLabels && <span className="ss__swatches__slideshow__swatch__value">{label || option.value}</span>}
 							</div>
 						</div>
@@ -254,9 +252,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
 export type SwatchesProps = {

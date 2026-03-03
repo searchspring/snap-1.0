@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -23,7 +23,7 @@ const defaultStyles: StyleScript<SortByProps> = () => {
 	});
 };
 
-export const SortBy = observer((properties: SortByProps): JSX.Element => {
+export const SortBy = observer((properties: SortByProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -144,9 +144,7 @@ export const SortBy = observer((properties: SortByProps): JSX.Element => {
 				/>
 			)}
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface SelectSubProps {

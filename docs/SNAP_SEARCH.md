@@ -113,7 +113,7 @@ For inline banners, the `<InlineBanner/>` component should be used instead. An e
 // src/components/Content/Content.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { ControllerProvider, Banner, Pagination } from '@athoscommerce/snap-preact-components';
 import { Results } from '../Results/Results';
 import { NoResults } from '../NoResults/NoResults';
@@ -149,7 +149,7 @@ The `search` property contains information about the current query, typically di
 // src/components/SearchHeader/SearchHeader.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController } from '@athoscommerce/snap-preact-components';
 
 export const SearchHeader = withController(observer((props) => {
@@ -207,7 +207,7 @@ The `pagination` property is not only used for information about the current que
 // src/components/Pagination/Pagination.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController } from '@athoscommerce/snap-preact-components';
 
 export const Pagination = withController(observer((props) => {
@@ -256,7 +256,7 @@ Sorting settings can be configured in the [Athos Search & Product Discovery Cons
 // src/components/SortBy/SortBy.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController } from '@athoscommerce/snap-preact-components';
 
 export const SortBy = withController(observer((props) => {
@@ -319,7 +319,7 @@ Note: if you will be creating a custom Result component, the `withTracking` hook
 // src/components/Results/Results.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController, withTracking, InlineBanner, Price } from '@athoscommerce/snap-preact-components';
 
 export const Results = withController(observer((props) => {
@@ -398,7 +398,7 @@ Facets with a `type` value of `value` or `range-buckets` will contain the follow
 // src/components/Facets/Facets.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetOptionsHierarchy, FacetSlider } from '@athoscommerce/snap-preact-components';
 
 export const Facets = withController(observer((props) => {
@@ -474,7 +474,7 @@ Typically used to display a filter summary with options to remove filters.
 // src/components/FilterSummary/FilterSummary.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController } from '@athoscommerce/snap-preact-components';
 
 export const FilterSummary = withController(observer((props) => {

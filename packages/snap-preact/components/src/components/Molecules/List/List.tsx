@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { useState } from 'preact/hooks';
 import { jsx, css } from '@emotion/react';
@@ -61,7 +61,7 @@ const defaultStyles: StyleScript<ListProps> = ({ horizontal }) => {
 	});
 };
 
-export function List(properties: ListProps): JSX.Element {
+export function List(properties: ListProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -229,9 +229,7 @@ export function List(properties: ListProps): JSX.Element {
 				</ul>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
 export interface ListProps extends ComponentProps {

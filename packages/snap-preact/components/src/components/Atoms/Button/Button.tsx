@@ -1,4 +1,4 @@
-import { h, Fragment, ComponentChildren } from 'preact';
+import { h, ComponentChildren } from 'preact';
 
 import { css } from '@emotion/react';
 import classnames from 'classnames';
@@ -50,7 +50,7 @@ const defaultStyles: StyleScript<ButtonProps> = ({ native, color, backgroundColo
 	});
 };
 
-export const Button = observer((properties: ButtonProps): JSX.Element => {
+export const Button = observer((properties: ButtonProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -137,9 +137,7 @@ export const Button = observer((properties: ButtonProps): JSX.Element => {
 				</div>
 			)}
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface ButtonSubProps {

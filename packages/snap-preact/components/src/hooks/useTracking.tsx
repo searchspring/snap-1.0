@@ -1,6 +1,6 @@
 import { Banner, BannerContent, ContentType, MerchandisingContentBanner, Product } from '@athoscommerce/snap-store-mobx';
 import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
-import { useEffect, type Ref } from 'preact/hooks';
+import { useEffect, type MutableRef } from 'preact/hooks';
 import { createImpressionObserver } from '../utilities';
 import { TRACKING_ATTRIBUTE } from '../providers/withTracking';
 
@@ -12,7 +12,7 @@ interface UseTrackingProps {
 	content?: BannerContent;
 }
 
-export function useTracking({ controller, result, banner, type, content }: UseTrackingProps): { trackingRef: Ref<HTMLElement | null> } {
+export function useTracking({ controller, result, banner, type, content }: UseTrackingProps): { trackingRef: MutableRef<HTMLElement | null> } {
 	if (!controller) {
 		console.warn('Warning: No controller provided to useTracking');
 	}

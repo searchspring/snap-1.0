@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -43,7 +43,7 @@ const defaultStyles: StyleScript<FacetListOptionsProps> = ({ horizontal, theme, 
 	});
 };
 
-export const FacetListOptions = observer((properties: FacetListOptionsProps): JSX.Element => {
+export const FacetListOptions = observer((properties: FacetListOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -160,9 +160,7 @@ export const FacetListOptions = observer((properties: FacetListOptionsProps): JS
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface FacetListOptionsProps extends ComponentProps {

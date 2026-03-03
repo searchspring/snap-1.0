@@ -73,7 +73,7 @@ In this example, the `Recs` component is a wrapper around the `Recommendation` c
 // components/Recommendations/Recs.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { useEffect } from 'preact/hooks';
 import { Recommendation } from '@athoscommerce/snap-preact-components';
 
@@ -161,7 +161,7 @@ The example `Bundled` component below uses the `RecommendationBundle` component 
 
 import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { RecommendationBundle } from '@athoscommerce/snap-preact-components';
 
 import './Bundled.scss';

@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { jsx } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
@@ -12,7 +12,7 @@ import type { CartStore } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 
-export const BundledCTA = observer((properties: BundledCTAProps): JSX.Element => {
+export const BundledCTA = observer((properties: BundledCTAProps) => {
 	const props: BundledCTAProps = {
 		// default props
 		// global theme
@@ -75,24 +75,20 @@ export const BundledCTA = observer((properties: BundledCTAProps): JSX.Element =>
 			{ctaSlot ? (
 				cloneWithProps(ctaSlot, props)
 			) : (
-				<Fragment>
+				<>
 					<div className={`${classNamePrefix}__wrapper__cta__subtotal`} aria-atomic="false" aria-live="polite">
 						{ctaIcon ? (
 							<div className={`${classNamePrefix}__wrapper__cta__subtotal__icon__wrapper`}>
 								<Icon {...subProps.icon} {...(typeof ctaIcon == 'string' ? { icon: ctaIcon } : (ctaIcon as Partial<IconProps>))} />
 							</div>
-						) : (
-							<Fragment></Fragment>
-						)}
+						) : null}
 						<span className={`${classNamePrefix}__wrapper__cta__subtotal__title`} {...mergedLang.ctaSubtotalTitle?.all}></span>
 						<div className={`${classNamePrefix}__wrapper__cta__subtotal__prices`}>
 							{cartStore.msrp && cartStore.msrp !== cartStore.price ? (
 								<label className={`${classNamePrefix}__wrapper__cta__subtotal__strike`}>
 									Was <Price {...subProps.subtotalStrike} lineThrough={true} value={cartStore.msrp} />
 								</label>
-							) : (
-								<Fragment></Fragment>
-							)}
+							) : null}
 							<label className={`${classNamePrefix}__wrapper__cta__subtotal__price`}>
 								<Price {...subProps.subtotalPrice} value={cartStore.price} />
 							</label>
@@ -110,7 +106,7 @@ export const BundledCTA = observer((properties: BundledCTAProps): JSX.Element =>
 					>
 						{addedToCart ? ctaButtonSuccessText : ctaButtonText}
 					</Button>
-				</Fragment>
+				</>
 			)}
 		</div>
 	);

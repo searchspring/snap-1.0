@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -43,7 +43,7 @@ const defaultStyles: StyleScript<RatingProps> = () => {
 	});
 };
 
-export const Rating = observer((properties: RatingProps): JSX.Element => {
+export const Rating = observer((properties: RatingProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<RatingProps> = {
@@ -131,9 +131,7 @@ export const Rating = observer((properties: RatingProps): JSX.Element => {
 				{text ? <span className="ss__rating__text">{text}</span> : <></>}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface RatingSubProps {

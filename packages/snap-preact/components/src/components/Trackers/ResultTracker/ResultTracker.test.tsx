@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { render, waitFor } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../../providers/theme';
@@ -97,7 +97,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result}>
 							<div className={`findMe findMe${idx}`} key={idx}>
@@ -105,7 +105,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			// Trigger intersection for all observed elements
@@ -166,7 +166,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} track={{ impression: false }}>
 							<div className={'findMe'} key={idx}>
@@ -174,7 +174,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			// Trigger intersection for all observed elements
@@ -256,7 +256,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} disableStyles>
 							<div className={'findMe'} key={idx}>
@@ -264,7 +264,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			const CarouselElement = rendered.container.querySelector('.ss__recommendation-result-tracker');
@@ -286,7 +286,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} className={className}>
 							<div className={'findMe'} key={idx}>
@@ -294,7 +294,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 			const CarouselElement = rendered.container.querySelector('.ss__recommendation-result-tracker');
 			expect(CarouselElement).toBeInTheDocument();
@@ -348,7 +348,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} theme={theme}>
 							<div className={'findMe'} key={idx}>
@@ -356,7 +356,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			const ChildElement = rendered.container.querySelector('.findMe');

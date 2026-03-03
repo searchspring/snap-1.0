@@ -17,7 +17,7 @@ const defaultStyles: StyleScript<RecommendationBundleVerticalProps> = () => {
 	});
 };
 
-export const RecommendationBundleVertical = observer((properties: RecommendationBundleVerticalProps): JSX.Element => {
+export const RecommendationBundleVertical = observer((properties: RecommendationBundleVerticalProps) => {
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {
 		name: properties.controller?.store?.profile?.tag?.toLowerCase(),

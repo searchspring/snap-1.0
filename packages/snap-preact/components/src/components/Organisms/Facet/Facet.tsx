@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useRef, useState, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
@@ -122,7 +122,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 	});
 };
 
-export const Facet = observer((properties: FacetProps): JSX.Element => {
+export const Facet = observer((properties: FacetProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -461,9 +461,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 const FacetContent = (
@@ -536,7 +534,7 @@ const FacetContent = (
 	const submitButtonRef: MutableRef<any> = useRef();
 
 	return (
-		<Fragment>
+		<>
 			{searchable && searchableFacet.allowableTypes.includes(facet.display) && (
 				<SearchInput
 					{...subProps.searchInput}
@@ -680,7 +678,7 @@ const FacetContent = (
 					{overflowSlot ? (
 						cloneWithProps(overflowSlot, { facet, treePath })
 					) : (
-						<Fragment>
+						<>
 							<Icon
 								{...subProps.showMoreLessIcon}
 								treePath={treePath}
@@ -693,11 +691,11 @@ const FacetContent = (
 									{...(((facet as ValueFacet)?.overflow?.remaining || 0) > 0 ? mergedLang!.showMoreText?.all : mergedLang!.showLessText?.all)}
 								></span>
 							)}
-						</Fragment>
+						</>
 					)}
 				</div>
 			)}
-		</Fragment>
+		</>
 	);
 };
 

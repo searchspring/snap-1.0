@@ -253,22 +253,21 @@ describe('RecommendationBundle Component', async () => {
 						})}
 					</div>
 				</div>
-			) : (
-				<Fragment></Fragment>
-			);
+			) : null;
 		});
 
 		mount(
 			<RecommendationBundle
 				controller={controller}
 				ctaSlot={<CtaSlot />}
-				resultComponent={<ResultComponent />}
+				resultComponent={ResultComponent}
 				onAddToCart={cy.stub().as('onAddToCart')}
 			/>
 		);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
 		cy.get('.ss__recommendation-bundle .findMe').should('exist');
+		cy.get('.ss__recommendation-bundle .standardSelections').should('exist');
 
 		cy.get('.ss__recommendation-bundle .findMe .bundlePrice').should('exist').should('have.text', '306.98');
 		cy.get('.ss__recommendation-bundle .findMe .strikePrice').should('exist').should('have.text', '311.98');

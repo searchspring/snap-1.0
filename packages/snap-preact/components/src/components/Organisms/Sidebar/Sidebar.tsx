@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react-lite';
@@ -25,7 +25,7 @@ const defaultStyles: StyleScript<SidebarProps> = ({ stickyOffset }) => {
 	});
 };
 
-export const Sidebar = observer((properties: SidebarProps): JSX.Element => {
+export const Sidebar = observer((properties: SidebarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -84,9 +84,7 @@ export const Sidebar = observer((properties: SidebarProps): JSX.Element => {
 				</div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type SideBarModuleNames = 'filterSummary' | 'sortBy' | 'perPage' | 'facets' | 'banner.left' | 'paginationInfo' | 'layoutSelector' | '_';

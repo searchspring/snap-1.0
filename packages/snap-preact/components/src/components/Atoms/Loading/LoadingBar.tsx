@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css, keyframes } from '@emotion/react';
 import classnames from 'classnames';
@@ -41,7 +41,7 @@ const defaultStyles: StyleScript<LoadingBarProps> = ({ color, height, background
 	});
 };
 
-export const LoadingBar = observer((properties: LoadingBarProps): JSX.Element => {
+export const LoadingBar = observer((properties: LoadingBarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -62,9 +62,7 @@ export const LoadingBar = observer((properties: LoadingBarProps): JSX.Element =>
 				<div className="ss__loading-bar__bar"></div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface LoadingBarProps extends ComponentProps {

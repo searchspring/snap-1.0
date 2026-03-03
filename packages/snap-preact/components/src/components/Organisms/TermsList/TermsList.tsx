@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -9,7 +9,6 @@ import { ComponentProps, StyleScript } from '../../../types';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Terms, TermsProps } from '../../Molecules/Terms/Terms';
-import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
 
 const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 	return css({
@@ -36,7 +35,7 @@ const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 	});
 };
 
-export const TermsList = observer((properties: TermsListProps): JSX.Element => {
+export const TermsList = observer((properties: TermsListProps) => {
 	const globalTheme: Theme = useTheme();
 	const defaultProps: Partial<TermsListProps> = {
 		layout: [['Suggestions'], ['Trending'], ['History']],
@@ -98,11 +97,12 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 		if (trending?.length) showTrending = true;
 	}
 
-	useCleanUpEmptyDivs(['.ss__terms-list', '.ss__terms-list__row'], '.ss__terms-list__separator');
-
 	const findModule = (module: TermsListModuleNames[] | TermsListModuleNames) => {
 		if (typeof module !== 'string') {
-			return <div className="ss__terms-list__row">{module?.map((subModule) => findModule(subModule))}</div>;
+			const children = module?.map((subModule) => findModule(subModule));
+			const hasContent = module?.some((subModule, i) => subModule !== '_' && children[i]);
+			if (!hasContent) return null;
+			return <div className="ss__terms-list__row">{children}</div>;
 		}
 
 		if (module == '_') {
@@ -138,6 +138,7 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 		}
 
 		if (module == 'Suggestions') {
+			if (!suggestions.length) return null;
 			return (
 				<Terms
 					internalClassName={'ss__terms-list__terms--suggestions'}
@@ -151,17 +152,15 @@ export const TermsList = observer((properties: TermsListProps): JSX.Element => {
 		}
 	};
 
-	return layout?.length ? (
+	const modules = layout?.map((module) => findModule(module as TermsListModuleNames));
+
+	return modules?.some(Boolean) ? (
 		<CacheProvider>
 			<div {...styling} className={classnames('ss__terms-list', className, internalClassName)}>
-				{layout?.map((module) => {
-					return findModule(module as TermsListModuleNames);
-				})}
+				{modules}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface TermsListSubProps {

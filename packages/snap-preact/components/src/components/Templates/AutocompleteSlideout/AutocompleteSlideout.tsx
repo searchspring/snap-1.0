@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useEffect, useRef, useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -30,7 +30,7 @@ const defaultStyles: StyleScript<AutocompleteSlideoutProps> = ({}) => {
 	});
 };
 
-export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutProps): JSX.Element => {
+export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutProps) => {
 	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<AutocompleteSlideoutProps> = {
@@ -182,9 +182,7 @@ export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutPr
 				</div>
 			</Slideout>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 interface AutocompleteSlideoutSubProps {
 	autocompleteLayout: Partial<AutocompleteLayoutProps>;

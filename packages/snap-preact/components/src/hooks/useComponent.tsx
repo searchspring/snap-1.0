@@ -1,21 +1,23 @@
+import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 
-import type { FunctionalComponent } from 'preact';
 import { ComponentMap } from '../types';
 
-export const useComponent = (map: ComponentMap, name: string): undefined | FunctionalComponent<any> => {
-	const [importedComponent, setImportedComponent] = useState<undefined | FunctionalComponent>(undefined);
+type JSXComponent = ((props: any) => h.JSX.Element | null) | undefined;
+
+export const useComponent = (map: ComponentMap, name: string): JSXComponent => {
+	const [importedComponent, setImportedComponent] = useState<JSXComponent>(undefined);
 
 	useEffect(() => {
 		const importFn = map[name];
 		if (importFn && typeof importFn === 'function') {
 			const componentFn = importFn();
 			if (componentFn instanceof Promise) {
-				componentFn.then((component: FunctionalComponent) => {
-					setImportedComponent(() => component);
+				componentFn.then((component) => {
+					setImportedComponent(() => component as JSXComponent);
 				});
 			} else {
-				setImportedComponent(() => componentFn);
+				setImportedComponent(() => componentFn as JSXComponent);
 			}
 		}
 	}, []);

@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -147,7 +147,7 @@ const defaultStyles: StyleScript<FacetSliderProps> = ({
 	});
 };
 
-export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element => {
+export const FacetSlider = observer((properties: FacetSliderProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -314,9 +314,7 @@ export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element 
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface FacetSliderProps extends ComponentProps {

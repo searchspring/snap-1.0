@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState, StateUpdater } from 'preact/hooks';
+import { useState, StateUpdater, Dispatch } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -33,7 +33,7 @@ const defaultStyles: StyleScript<RadioProps> = ({ size, native }) => {
 	}
 };
 
-export const Radio = observer((properties: RadioProps): JSX.Element => {
+export const Radio = observer((properties: RadioProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -102,7 +102,7 @@ export const Radio = observer((properties: RadioProps): JSX.Element => {
 		},
 	};
 
-	let checkedState: boolean | undefined, setCheckedState: undefined | StateUpdater<boolean | undefined>;
+	let checkedState: boolean | undefined, setCheckedState: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = checked === undefined;
 	if (stateful) {

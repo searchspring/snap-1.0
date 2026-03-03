@@ -1,8 +1,8 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
@@ -21,7 +21,7 @@ const defaultStyles: StyleScript<BadgePillProps> = ({ color, colorText }) => {
 		borderRadius: '1em',
 	});
 };
-export const BadgePill = observer((properties: BadgePillProps): JSX.Element => {
+export const BadgePill = observer((properties: BadgePillProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -44,9 +44,7 @@ export const BadgePill = observer((properties: BadgePillProps): JSX.Element => {
 				<span className="ss__badge-pill__value">{value}</span>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment />
-	);
+	) : null;
 });
 
 export interface BadgePillProps extends ComponentProps<BadgePillProps> {

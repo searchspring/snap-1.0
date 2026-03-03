@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -79,7 +79,7 @@ const defaultStyles: StyleScript<SelectProps> = ({ color, backgroundColor, borde
 	}
 };
 
-export const Select = observer((properties: SelectProps): JSX.Element => {
+export const Select = observer((properties: SelectProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -355,9 +355,7 @@ export const Select = observer((properties: SelectProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface SelectSubProps {

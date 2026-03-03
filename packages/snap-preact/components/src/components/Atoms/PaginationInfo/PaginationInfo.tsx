@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -16,7 +16,7 @@ const defaultStyles: StyleScript<PaginationInfoProps> = ({}) => {
 	return css({});
 };
 
-export const PaginationInfo = observer((properties: PaginationInfoProps): JSX.Element => {
+export const PaginationInfo = observer((properties: PaginationInfoProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -67,9 +67,7 @@ export const PaginationInfo = observer((properties: PaginationInfoProps): JSX.El
 				{...mergedLang.infoText?.all}
 			></div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface PaginationInfoProps extends ComponentProps {

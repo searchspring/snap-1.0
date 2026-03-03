@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -29,7 +29,7 @@ const defaultStyles: StyleScript<FilterSummaryProps> = () => {
 	});
 };
 
-export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Element => {
+export const FilterSummary = observer((properties: FilterSummaryProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -127,9 +127,7 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 				</div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface FilterSummaryProps extends ComponentProps {

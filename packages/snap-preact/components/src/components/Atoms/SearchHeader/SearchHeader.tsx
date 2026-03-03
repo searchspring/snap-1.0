@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
@@ -17,7 +17,7 @@ const defaultStyles: StyleScript<SearchHeaderProps> = () => {
 	return css({});
 };
 
-export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Element => {
+export const SearchHeader = observer((properties: SearchHeaderProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -102,7 +102,7 @@ export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Elemen
 				{landingPage ? (
 					<h3 className={classnames('ss__search-header__title', 'ss__search-header__title--landing-page')}>{landingPage.title}</h3>
 				) : (
-					<Fragment>
+					<>
 						{pagination?.totalResults ? (
 							<>
 								{!hideExpandedSearchText && search?.matchType && search.matchType == 'expanded' ? (
@@ -161,7 +161,7 @@ export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Elemen
 						{(subtitleText || lang.subtitleText.value) && !hideSubtitleText && (
 							<h5 className={classnames('ss__search-header__subtitle')} aria-atomic="true" aria-live="polite" {...mergedLang.subtitleText?.all}></h5>
 						)}
-					</Fragment>
+					</>
 				)}
 			</header>
 		</CacheProvider>

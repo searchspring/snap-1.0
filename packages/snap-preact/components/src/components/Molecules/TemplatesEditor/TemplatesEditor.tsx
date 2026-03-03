@@ -315,7 +315,7 @@ const CSS = {
 		}),
 };
 
-export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.Element => {
+export const TemplatesEditor = observer((properties: TemplatesEditorProps) => {
 	const { onRemoveClick, templatesStore, editorStore, snap } = properties;
 
 	const styling: RootNodeProperties = {

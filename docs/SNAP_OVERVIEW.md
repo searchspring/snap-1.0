@@ -51,7 +51,7 @@ To provide a reference to the controller via props to any subcomponents, we can 
 // src/components/Content/Content.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { ControllerProvider } from '@athoscommerce/snap-preact-components';
 import { Results } from '../Results/Results';
 
@@ -74,7 +74,7 @@ Finally, the `observer` higher order component is used to make the component rea
 // src/components/Results/Results.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { withController, InlineBanner, Result } from '@athoscommerce/snap-preact-components';
 
 export const Results = withController(observer((props) => {
