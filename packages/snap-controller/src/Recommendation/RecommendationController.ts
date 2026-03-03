@@ -184,8 +184,13 @@ export class RecommendationController extends AbstractController {
 				};
 				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
 				this.config.beacon?.enabled && this.tracker.events.recommendations.impression({ data, siteId: this.config.globals?.siteId });
-				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
-				this.events[responseId].product[result.id].impression = true;
+
+				if (this.events && this.events[responseId]) {
+					this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
+					this.events[responseId].product[result.id].impression = true;
+				} else {
+					this.log.warn('RecommendationController: Something went wrong trying to send impression event for ', result.id);
+				}
 			},
 			addToCart: (result: Product): void => {
 				if (!result) {
