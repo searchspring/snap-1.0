@@ -13,6 +13,7 @@ import type {
 import type {
 	PluginAddToCartConfig as PluginMagento2AddToCartConfig,
 	PluginBackgroundFiltersConfig as PluginMagento2BackgroundFiltersConfig,
+	PluginBaseConfig as PluginMagento2BaseConfig,
 } from '@athoscommerce/snap-platforms/magento2';
 import type {
 	PluginAddToCartConfig as PluginBigCommerceAddToCartConfig,
@@ -100,6 +101,7 @@ export type BigCommercePlugins = {
 };
 
 export type Magento2Plugins = {
+	base?: PluginMagento2BaseConfig;
 	backgroundFilters?: PluginMagento2BackgroundFiltersConfig;
 	addToCart?: PluginMagento2AddToCartConfig;
 };
