@@ -10,3 +10,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 # [1.0.0](https://github.com/athoscommerce/snap/compare/v0.74.0...v1.0.0) (2026-03-04)
 
 **Note:** Version bump only for package @athoscommerce/snap-event-manager
+
+# [1.0.0](https://github.com/athoscommerce/snap/compare/v0.74.0...v1.0.0) (2026-03-04)
+
+**Note:** Version bump only for package @athoscommerce/snap-event-manager
