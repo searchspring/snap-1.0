@@ -1,10 +1,10 @@
 # Recommendations Integration
 
-Changes to the recommendation integration scripts were made in Snap `v0.60.0`. Legacy Recommendation Integrations docs can still be found [`here`](https://searchspring.github.io/snap/snap-recommendations-legacy)
+Changes to the recommendation integration scripts were made in Snap `v0.60.0`. Legacy Recommendation Integrations docs can still be found [`here`](https://athoscommerce.github.io/snap/snap-recommendations-legacy)
 
 ## Prerequisites
 
-Profiles must be setup in the Athos Search & Product Discovery Console (ASD) and have associated Snap templates selected. The template selected contains a `component` that will be used to render the recommendations profile. This component must be configured in the Snap [RecommendationInstantiator config](https://searchspring.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig)
+Profiles must be setup in the Athos Search & Product Discovery Console (ASD) and have associated Snap templates selected. The template selected contains a `component` that will be used to render the recommendations profile. This component must be configured in the Snap [RecommendationInstantiator config](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig)
 
 ## Installation
 
@@ -60,7 +60,7 @@ Context variables are set within the script blocks and can be used to set either
 | options.dedupe | boolean (default: `true`) | all | dedupe products across all profiles in the batch |   |
 | options.query | string | dynamic custom | query to search |   |
 | options.filters | array of filters | all | optional recommendation filters |   |
-| options.realtime | boolean | all | optional update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) |   |
+| options.realtime | boolean | all | optional update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) |   |
 | options.limit | number (default: 20, max: 20) | all | optional maximum number of results to display, can also be set globally via RecommendationController config globals |   |
 
 
@@ -116,7 +116,7 @@ Here's an example that demonstrates deduping:
 
 ## Additional Examples
 
-The examples below assume the `similar` profile has been setup in the Athos Search & Product Discovery Console (ASD), and that a Snap `bundle.js` script exists on the page and has been configured with a [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators)
+The examples below assume the `similar` profile has been setup in the Athos Search & Product Discovery Console (ASD), and that a Snap `bundle.js` script exists on the page and has been configured with a [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators)
 
 A typical "similar" profile displays products similar to the product passed in via the `products` global context variable.
 

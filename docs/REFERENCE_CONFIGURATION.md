@@ -9,8 +9,8 @@ Required. Config object that is passed to the core `@athoscommerce/snap-client` 
 
 | Option | Type | Description |
 |---|---|---|
-| client.globals | `Partial<ClientGlobals>` | Base query parameters to the API; these are parameters that will ALWAYS be included on every request. At the bare minimum, `siteId` is required and can be obtained in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net). See [Snap client](https://github.com/searchspring/snap/tree/main/packages/snap-client) for more information. |
-| client.config | `ClientConfig` | Optional. See [Snap client](https://github.com/searchspring/snap/tree/main/packages/snap-client) for more information. |
+| client.globals | `Partial<ClientGlobals>` | Base query parameters to the API; these are parameters that will ALWAYS be included on every request. At the bare minimum, `siteId` is required and can be obtained in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net). See [Snap client](https://github.com/athoscommerce/snap/tree/main/packages/snap-client) for more information. |
+| client.config | `ClientConfig` | Optional. See [Snap client](https://github.com/athoscommerce/snap/tree/main/packages/snap-client) for more information. |
 
 
 ## Mode
@@ -30,7 +30,7 @@ Optional Context object to be used to set the global context. If no context is p
 
 ## URL
 
-Optional. [`UrlTranslator` config](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/Url/README.md) object that is passed to the core `@athoscommerce/snap-url-manager` package used by all controllers. This parameter configuration will be applied to all controllers created via Snap, but can be specified per controller for specific customization.
+Optional. [`UrlTranslator` config](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url/README.md) object that is passed to the core `@athoscommerce/snap-url-manager` package used by all controllers. This parameter configuration will be applied to all controllers created via Snap, but can be specified per controller for specific customization.
 
 | Option | Type | Description |
 |---|---|---|
@@ -47,7 +47,7 @@ Optional. [`UrlTranslator` config](https://github.com/searchspring/snap/tree/mai
 
 | Option | Type | Description |
 |---|---|---|
-| instantiators | `{ recommendation?: RecommendationInstantiatorConfig }` | Optional. Custom instantiators for advanced controller/component instantiation, such as recommendations. See [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators) for more information. |
+| instantiators | `{ recommendation?: RecommendationInstantiatorConfig }` | Optional. Custom instantiators for advanced controller/component instantiation, such as recommendations. See [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators) for more information. |
 
 ## Controllers
 
@@ -76,7 +76,7 @@ Integrated spell correction is disabled by default. When disabled and a query is
 
 Enabling integrated spell correction `config.features.integratedSpellCorrection.enabled = true` will still retrieve terms from the suggest API to display, however the query that was entered will be used as the term sent to the search API. Spell correction will occur within the search API. The correction and original query is returned in the response and available to be render. Upon submitting the autocomplete form, a `fallbackQuery` parameter is also submitted. This contains a value of the highest scoring suggested term and will be searched for if the initial query yields 0 results.
 
-Note: Enabling integrated spell correction modifies [AutocompleteController](https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Autocomplete)'s config by setting `config.settings.integratedSpellCorrection = true`
+Note: Enabling integrated spell correction modifies [AutocompleteController](https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Autocomplete)'s config by setting `config.settings.integratedSpellCorrection = true`
 
 
 ## Snap Methods
@@ -112,7 +112,7 @@ snap.getControllers('search', 'autocomplete').then(([search, autocomplete]) => {
 ### getInstantiator
 
 
-Snap also provides a method to retrieve instantiators. Instantiatiors are used to create instances of the [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators) class, which is responsible for instantiating recommendations.
+Snap also provides a method to retrieve instantiators. Instantiatiors are used to create instances of the [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators) class, which is responsible for instantiating recommendations.
 
 ```js
 const snap = new Snap(config);
@@ -126,7 +126,7 @@ snap.getInstantiator('recommendation').then((instantiator) => {
 
 | Property | Description |
 |---|---|
-| `client` | A reference to the [snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) default instance used when constructing all controllers |
-| `tracker` | A reference to the [snap-tracker](https://github.com/searchspring/snap/tree/main/packages/snap-tracker) default instance used when constructing all controllers. It can also be used to access storage helper methods and event tracking methods. |
+| `client` | A reference to the [snap-client](https://github.com/athoscommerce/snap/tree/main/packages/snap-client) default instance used when constructing all controllers |
+| `tracker` | A reference to the [snap-tracker](https://github.com/athoscommerce/snap/tree/main/packages/snap-tracker) default instance used when constructing all controllers. It can also be used to access storage helper methods and event tracking methods. |
 | `context` | A reference to the context object used when constructing all controllers. |
 | `controllers` | An object containing all controllers that have been constructed. |

@@ -6,7 +6,7 @@ Snap URL Manager is available on each controller via `controller.urlManager`. It
 
 A `urlManager` is constructed with a `Translator` instance. This is the translator that manages your URL scheme, as well as rules for updating the URL. For now, we'll use the included translator that uses query strings and hash fragments and utilizes pushState to modify the URL in the browser.
 
-See [Translators](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators) for more info.
+See [Translators](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators) for more info.
 
 Depending on the translator, the instantiated `urlManager` will automatically start tracking from the browser URL.
 
@@ -124,7 +124,7 @@ class FacetValue {
 }
 ```
 
-See [Linkers](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/linkers) for more info.
+See [Linkers](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/linkers) for more info.
 
 ## Subscribe to URL changes
 

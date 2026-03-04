@@ -19,7 +19,7 @@ const OUTPUT_FILE = 'snap-docs.json';
 			{
 				name: 'Preact',
 				route: '/preact-components',
-				path: './packages/snap-preact-components/src/',
+				path: './packages/snap-preact/components/src/',
 			},
 		];
 

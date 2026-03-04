@@ -314,8 +314,6 @@ export const sharedPlugin = (controller, site, page) => {
 };
 ```
 
-For a fuller example, please see the template repo [here](https://github.com/searchspring/snapfu-template-preact-implementations/tree/production/src).
-
 ### Category and Brand Integration (Optional)
 
 If integrating on category and brand pages, follow these steps. If not, skip this section.

@@ -84,7 +84,7 @@ controller.log.imageText({
 
 ## `profile` method
 
-This method takes any number of parameters and logs them to the console. The first parameter is special and takes a [Snap profile](https://searchspring.github.io/snap/reference-profiler). If mode is set to `LogMode.PRODUCTION`, `profile` logs will not be displayed.
+This method takes any number of parameters and logs them to the console. The first parameter is special and takes a [Snap profile](https://athoscommerce.github.io/snap/reference-profiler). If mode is set to `LogMode.PRODUCTION`, `profile` logs will not be displayed.
 ```js
 const searchProfile = controller.profiler.create({ 
 	type: 'event', 
@@ -106,7 +106,7 @@ The `emoji` property contains various emojis that can be used
 
 The following emojis are available:
 
-<img src="https://github.com/searchspring/snap/blob/main/images/emojis.png?raw=true" />
+<img src="https://github.com/athoscommerce/snap/blob/main/images/emojis.png?raw=true" />
 
 ```js
 const emoji = {
@@ -134,7 +134,7 @@ The `colors` property contains various colors that can be used
 
 The following colors are available:
 
-<img src="https://github.com/searchspring/snap/blob/main/images/colors.png?raw=true" />
+<img src="https://github.com/athoscommerce/snap/blob/main/images/colors.png?raw=true" />
 
 ```js
 const colors = {

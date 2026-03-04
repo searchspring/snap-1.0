@@ -36,4 +36,4 @@ Contains an object with the following properties:
 
 `display` - object containing details regarding the template and any template parameters
 ## `results` property
-See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `results` property
+See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `results` property

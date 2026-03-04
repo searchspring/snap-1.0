@@ -23,52 +23,58 @@ import('./docs/documents.js').then(function (_) {
 	const replaces = flattenDocumentLinks(documents)
 		.filter((link) => link.type === 'markdown')
 		.map((link) => {
-			return { a: `(https://searchspring.github.io/snap${link.route}`, b: `(.${link.route}` };
+			return { a: `(https://athoscommerce.github.io/snap${link.route}`, b: `(.${link.route}` };
 		})
 		.flat()
 		.concat([
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search)', b: '(./reference-store-search)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Autocomplete)', b: '(./reference-store-autocomplete)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Recommendation)', b: '(./reference-store-recommendation)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Finder)', b: '(./reference-store-finder)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Storage)', b: '(./reference-store-storage)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)', b: '(./reference-store-abstract)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Cart)', b: '(./reference-store-cart)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Meta)', b: '(./reference-store-meta)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Search)', b: '(./reference-controller-search)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Autocomplete)', b: '(./reference-controller-autocomplete)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Finder)', b: '(./reference-controller-finder)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search)', b: '(./reference-store-search)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Autocomplete)', b: '(./reference-store-autocomplete)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Recommendation)', b: '(./reference-store-recommendation)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Finder)', b: '(./reference-store-finder)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Storage)', b: '(./reference-store-storage)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)', b: '(./reference-store-abstract)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Cart)', b: '(./reference-store-cart)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Meta)', b: '(./reference-store-meta)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Search)', b: '(./reference-controller-search)' },
 			{
-				a: '(https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Recommendation)',
+				a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Autocomplete)',
+				b: '(./reference-controller-autocomplete)',
+			},
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Finder)', b: '(./reference-controller-finder)' },
+			{
+				a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Recommendation)',
 				b: '(./reference-controller-recommendation)',
 			},
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-url-manager)', b: '(./reference-url-manager)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-event-manager)', b: '(./reference-event-manager)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-logger)', b: '(./reference-logger)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-tracker)', b: '(./reference-tracker)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md)', b: '(./snap-tracking)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#', b: '(./snap-tracking#' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager)', b: '(./reference-url-manager)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-event-manager)', b: '(./reference-event-manager)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-logger)', b: '(./reference-logger)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-tracker)', b: '(./reference-tracker)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md)', b: '(./snap-tracking)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#', b: '(./snap-tracking#' },
 			{
-				a: '(https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)',
+				a: '(https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)',
 				b: '(./snap-tracking#cart-attribute-tracking)',
 			},
-			{ a: '(https://github.com/searchspring/snap/tree/main/packages/snap-client)', b: '(./snap-client)' },
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-client)', b: '(./snap-client)' },
 			{
-				a: '(https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/Url)',
+				a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url)',
 				b: '(./reference-snap-preact-url-translator)',
 			},
 			{
-				a: '(https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/QueryString)',
+				a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/QueryString)',
 				b: '(./reference-url-manager-query-string-translator)',
 			},
 			{
-				a: '(https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/linkers/react)',
+				a: '(https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/linkers/react)',
 				b: '(./reference-url-manager-react-linker)',
 			},
-			{ a: '(https://github.com/searchspring/snap/tree/main/docs/REFERENCE_CONFIGURATION_MIDDLEWARE.md)', b: '(./reference-snap-preact-middleware)' },
-			{ a: '(https://github.com/searchspring/snap/tree/main/docs/REFERENCE_VARIANTS.md)', b: '(./reference-variants)' },
-			{ a: '(https://searchspring.github.io/snap/preact-components)', b: '(./preact-components)' },
-			{ a: '(https://searchspring.github.io/snap/preact-components?params=', b: '(./preact-components?params=' },
+			{
+				a: '(https://github.com/athoscommerce/snap/tree/main/docs/REFERENCE_CONFIGURATION_MIDDLEWARE.md)',
+				b: '(./reference-snap-preact-middleware)',
+			},
+			{ a: '(https://github.com/athoscommerce/snap/tree/main/docs/REFERENCE_VARIANTS.md)', b: '(./reference-variants)' },
+			{ a: '(https://athoscommerce.github.io/snap/preact-components)', b: '(./preact-components)' },
+			{ a: '(https://athoscommerce.github.io/snap/preact-components?params=', b: '(./preact-components?params=' },
 		]);
 
 	const modifyLinks = (markdown) => {

@@ -1,6 +1,6 @@
 # Recommendations
 
-While it is possible to construct recommendation controllers via the Snap configuration, it is recommended to utilize the [RecommendationInstantiator config](https://searchspring.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig) instead for integration of recommendations. The `RecommendationInstantiator` will only create recommendation controllers if the page contains recommendation profiles.
+While it is possible to construct recommendation controllers via the Snap configuration, it is recommended to utilize the [RecommendationInstantiator config](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig) instead for integration of recommendations. The `RecommendationInstantiator` will only create recommendation controllers if the page contains recommendation profiles.
 
 There are three types of recommendations that Athos offers:
 
@@ -9,13 +9,13 @@ There are three types of recommendations that Athos offers:
 - Email Recommendations (documentation coming soon)
 <!-- TODO: Add Email Recommendations Docs -->
 
-This guide will cover usage of the Default templates that are available in the Athos Search & Product Discovery Console. If you are looking to create a custom template, please refer to the [Custom Templates reference](https://searchspring.github.io/snap/reference-custom-recommendation-templates)
+This guide will cover usage of the Default templates that are available in the Athos Search & Product Discovery Console. If you are looking to create a custom template, please refer to the [Custom Templates reference](https://athoscommerce.github.io/snap/reference-custom-recommendation-templates)
 
-Changes to the recommendation integration scripts were made in Snap `v0.60.0`. Legacy Recommendation Integrations docs can still be found [`here`](https://searchspring.github.io/snap/snap-recommendations-legacy)
+Changes to the recommendation integration scripts were made in Snap `v0.60.0`. Legacy Recommendation Integrations docs can still be found [`here`](https://athoscommerce.github.io/snap/snap-recommendations-legacy)
 
 
 ## More Information
-See [Recommendations Controller reference](https://searchspring.github.io/snap/reference-controller-recommendation) for more information on all available context variables that can be used to configure recommendations. The reference also contains more information regarding batching, ordering, deduplication, filtering, examples, and more.
+See [Recommendations Controller reference](https://athoscommerce.github.io/snap/reference-controller-recommendation) for more information on all available context variables that can be used to configure recommendations. The reference also contains more information regarding batching, ordering, deduplication, filtering, examples, and more.
 
 ## Product Recommendations / Personalized Recommendations
 
@@ -47,7 +47,7 @@ const snap = new Snap({
 Note that the component is not required to be named `Default`, however `instantiators.recommendation.component` must contain the `Default` key as seen in the example above.
 
 
-This example assumes a `recently-viewed` profile has been configured in the Athos Search & Product Discovery Console (ASD) with the `Default` template selected. The profile (specified via the `tag` property) will render inside the `.ss__recs__recently-viewed` element below the script block. While the target element can be placed anywhere on the page, it's recommended to group elements with their corresponding script blocks for easier integration management. The component configuration is handled within the [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators).
+This example assumes a `recently-viewed` profile has been configured in the Athos Search & Product Discovery Console (ASD) with the `Default` template selected. The profile (specified via the `tag` property) will render inside the `.ss__recs__recently-viewed` element below the script block. While the target element can be placed anywhere on the page, it's recommended to group elements with their corresponding script blocks for easier integration management. The component configuration is handled within the [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators).
 
 ```html
 <script type="searchspring/recommendations">
@@ -67,7 +67,7 @@ This example assumes a `recently-viewed` profile has been configured in the Atho
 
 
 ### Recommendation Component
-In this example, the `Recs` component is a wrapper around the `Recommendation` component from the `@athoscommerce/snap-preact-components` package. See [Components Preact > Recommendation](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Forganisms-recommendation--default) for more details.
+In this example, the `Recs` component is a wrapper around the `Recommendation` component from the `@athoscommerce/snap-preact-components` package. See [Components Preact > Recommendation](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Forganisms-recommendation--default) for more details.
 
 ```jsx
 // components/Recommendations/Recs.jsx
@@ -130,7 +130,7 @@ const snap = new Snap({
 
 Note that the component is not required to be named `Bundle`, however `instantiators.recommendation.component` must contain the `Bundle` key as seen in the example above.
 
-This example assumes a `bundle` profile has been configured in the Athos Search & Product Discovery Console (ASD) with the `Bundle` template selected. The profile (specified via the `tag` property) will render inside the `.ss__recs__bundle` element below the script block. While the target element can be placed anywhere on the page, it's recommended to group elements with their corresponding script blocks for easier integration management. The component configuration is handled within the [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators). 
+This example assumes a `bundle` profile has been configured in the Athos Search & Product Discovery Console (ASD) with the `Bundle` template selected. The profile (specified via the `tag` property) will render inside the `.ss__recs__bundle` element below the script block. While the target element can be placed anywhere on the page, it's recommended to group elements with their corresponding script blocks for easier integration management. The component configuration is handled within the [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators). 
 
 The `products` global context variable is required for bundle recommendations to specify the sku of the currently viewed product.
 
@@ -154,7 +154,7 @@ The `products` global context variable is required for bundle recommendations to
 ```
 
 ### Bundle Component
-The example `Bundled` component below uses the `RecommendationBundle` component imported from the snap component library. See [Components Preact > RecommendationBundle](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Forganisms-recommendationbundle--default) for more details. 
+The example `Bundled` component below uses the `RecommendationBundle` component imported from the snap component library. See [Components Preact > RecommendationBundle](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Forganisms-recommendationbundle--default) for more details. 
 
 ```jsx
 // components/Recommendations/Bundled.jsx

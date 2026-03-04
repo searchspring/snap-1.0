@@ -27,7 +27,7 @@ const scrollToTopConfig = {
 ```
 
 ### Snap Templates
-To use a common plugin in [SnapTemplates](https://github.com/searchspring/snap/blob/main/docs/TEMPLATES_ABOUT.md), it can be defined and configured in the `config.plugins.common` section (no import necessary).
+To use a common plugin in [SnapTemplates](https://github.com/athoscommerce/snap/blob/main/docs/TEMPLATES_ABOUT.md), it can be defined and configured in the `config.plugins.common` section (no import necessary).
 
 ```jsx
 const scrollToTopConfig = {

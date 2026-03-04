@@ -109,7 +109,7 @@ Contains the field name, ie. 'ss_price'.
 If any of the facet's values have been filtered, the facet `filtered` property will be `true`.
 
 ### `custom` property
-See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)
 
 Example inside of a `SearchController` middleware:
 
@@ -415,7 +415,7 @@ Core product attributes object
 
 `result.quantity` integer used in the cart store for automatically updating the bundle pricing and quantities for add to cart functions. 
 
-`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variant Integration Docs](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
+`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variant Integration Docs](https://github.com/athoscommerce/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
 
 
 ### `children` property
@@ -431,7 +431,7 @@ Array of product variants. Each variant contains the same properties as the pare
 
 
 ### `custom` property
-See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)
 
 
 

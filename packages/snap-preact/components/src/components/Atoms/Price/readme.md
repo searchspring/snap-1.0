@@ -1,6 +1,6 @@
 # Price
 
-Utilizes `currency` from [@athoscommerce/snap-preact/toolbox](https://searchspring.github.io/snap/#/package-toolbox) to render a `<span>` containing a formatted number.
+Utilizes `currency` from [@athoscommerce/snap-preact/toolbox](https://athoscommerce.github.io/snap/#/package-toolbox) to render a `<span>` containing a formatted number.
 
 ## Usage
 ```jsx

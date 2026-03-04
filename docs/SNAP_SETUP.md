@@ -79,7 +79,7 @@ Visit the website you are developing for, then click the extension to enable it 
 
 The page will reload with the local development bundle [https://localhost:3333/bundle.js](https://localhost:3333/bundle.js) injected into the current website. While `npm run dev` is running, the page will automatically reload upon saving any code modifications.
 
-For more information, see the [Snapfu Chrome Extension](https://github.com/searchspring/snapfu-extension) repository.
+For more information, see the [Snapfu Chrome Extension](https://github.com/athoscommerce/snapfu-extension) repository.
 
 
 

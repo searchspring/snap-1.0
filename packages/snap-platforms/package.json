@@ -4,7 +4,7 @@
 	"description": "Snap Platforms Library",
 	"author": "Athos Commerce",
 	"license": "MIT",
-	"repository": "https://github.com/searchspring/snap",
+	"repository": "https://github.com/athoscommerce/snap",
 	"publishConfig": {
 		"access": "public"
 	},

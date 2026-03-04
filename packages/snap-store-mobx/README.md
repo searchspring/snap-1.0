@@ -7,11 +7,11 @@ Although `@athoscommerce/snap-store-mobx` is published as a standalone package, 
 Each controller will have a store as a property. For example, the `SearchController` will have a `store` property that is an instance of the `SearchStore`.
 
 See more information on the available stores below:
-- [AbstractStore](https://searchspring.github.io/snap/reference-store-abstract)
-- [SearchStore](https://searchspring.github.io/snap/reference-store-search)
-- [AutocompleteStore](https://searchspring.github.io/snap/reference-store-autocomplete)
-- [RecommendationStore](https://searchspring.github.io/snap/reference-store-recommendation)
-- [FinderStore](https://searchspring.github.io/snap/reference-store-finder)
-- [StorageStore](https://searchspring.github.io/snap/reference-store-storage)
-- [MetaStore](https://searchspring.github.io/snap/reference-store-meta)
-- [CartStore](https://searchspring.github.io/snap/reference-store-cart)
+- [AbstractStore](https://athoscommerce.github.io/snap/reference-store-abstract)
+- [SearchStore](https://athoscommerce.github.io/snap/reference-store-search)
+- [AutocompleteStore](https://athoscommerce.github.io/snap/reference-store-autocomplete)
+- [RecommendationStore](https://athoscommerce.github.io/snap/reference-store-recommendation)
+- [FinderStore](https://athoscommerce.github.io/snap/reference-store-finder)
+- [StorageStore](https://athoscommerce.github.io/snap/reference-store-storage)
+- [MetaStore](https://athoscommerce.github.io/snap/reference-store-meta)
+- [CartStore](https://athoscommerce.github.io/snap/reference-store-cart)
