@@ -131,6 +131,9 @@ export const recommendationBundleVertical: ThemeComponent<'recommendationBundleV
 			separatorIconSeedOnly: false,
 			limit: 8,
 		},
+		'recommendationBundleVertical checkbox icon': {
+			color: custom.colors.primary,
+		},
 		'recommendationBundleVertical icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,

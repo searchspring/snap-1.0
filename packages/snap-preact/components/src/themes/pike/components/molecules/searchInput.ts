@@ -22,14 +22,14 @@ const searchInputStyleScript = (props: SearchInputProps) => {
 			border: 0,
 			'& > *': {
 				minWidth: '1px',
-				'&:first-of-type, &:last-of-type': {
+				'&:first-child, &:last-child': {
 					...custom.styles.borderRadius(),
 				},
-				'&:first-of-type': {
+				'&:first-child': {
 					borderTopRightRadius: custom.sizes.radius ? 0 : '',
 					borderBottomRightRadius: custom.sizes.radius ? 0 : '',
 				},
-				'&:last-of-type': {
+				'&:last-child': {
 					borderTopLeftRadius: custom.sizes.radius ? 0 : '',
 					borderBottomLeftRadius: custom.sizes.radius ? 0 : '',
 					overflow: custom.sizes.radius ? `hidden` : ``,
@@ -93,14 +93,12 @@ export const searchInput: ThemeComponent<'searchInput', SearchInputProps> = {
 		'searchInput icon': {
 			size: `${custom.sizes.icon14}px`,
 		},
-		'searchInput button icon': {
-			color: custom.colors.white,
-		},
 		'searchInput button.close-search icon': {
 			icon: custom.icons.arrowLeft,
 		},
 		'searchInput button.clear-search icon': {
 			icon: custom.icons.close,
+			stroke: 'currentColor',
 		},
 		'searchInput button.submit-search icon': {
 			icon: custom.icons.search,

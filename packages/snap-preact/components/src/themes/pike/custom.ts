@@ -25,6 +25,7 @@ export const custom: CustomThemeType = {
 		black: '#000000',
 		gray01: '#f8f8f8', // lighter gray: bg color under terms, dropdown, checkboxes
 		gray02: '#ebebeb', // light gray: borders for autocomplete, dropdown, checkboxes
+		overlay: 'rgba(0, 0, 0, 0.80)', // color used for overlays
 	},
 	fonts: {
 		weight01: 700, // main font weight
@@ -142,11 +143,12 @@ export const custom: CustomThemeType = {
 			// disabled styles
 			return {
 				'&': {
-					opacity: 0.65,
-					pointerEvents: 'unset',
-				},
-				'&, *': {
 					cursor: 'not-allowed !important',
+					opacity: 0.65,
+				},
+				'*': {
+					pointerEvents: 'none',
+					opacity: 1,
 				},
 			};
 		},

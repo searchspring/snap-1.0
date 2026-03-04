@@ -75,6 +75,11 @@ export const recommendationCTAStyleScript = (props: CTAProps, handle: string, sp
 				},
 			},
 		},
+		[`${recommendationHandle}__cta__button`]: {
+			flexWrap: 'nowrap',
+			textOverflow: 'ellipsis',
+			whiteSpace: 'nowrap',
+		},
 	});
 
 	return sharedStyles;

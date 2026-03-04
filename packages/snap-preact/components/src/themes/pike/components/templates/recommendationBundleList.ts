@@ -26,7 +26,7 @@ const recommendationBundleListStyleScript = (props: RecommendationBundleListProp
 		'.ss__recommendation-profile-tracker': {
 			'& > *': {
 				margin: `${custom.spacing.x2}px 0 0 0`,
-				'&:first-of-type': {
+				'&:first-child': {
 					marginTop: 0,
 				},
 			},
@@ -132,6 +132,13 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 			ctaButtonSuccessText: 'Added!',
 			limit: 6,
 		},
+		'recommendationBundleList checkbox': {
+			size: `${custom.sizes.icon16 + 2}px`,
+		},
+		'recommendationBundleList checkbox icon': {
+			color: custom.colors.primary,
+			size: `${custom.sizes.icon10}px`,
+		},
 		'recommendationBundleList icon.bundle-cart-separator': {
 			size: `${plusIconSize}px`,
 			icon: custom.icons.plus,
@@ -141,12 +148,6 @@ export const recommendationBundleList: ThemeComponent<'recommendationBundleList'
 			size: `${custom.sizes.icon16 * 2}px`,
 			icon: custom.icons.bag,
 			color: custom.colors.secondary,
-		},
-		'recommendationBundleList checkbox': {
-			size: `${custom.sizes.icon16 + 2}px`,
-		},
-		'recommendationBundleList checkbox icon': {
-			size: `${custom.sizes.icon10}px`,
 		},
 	},
 	mobile: {

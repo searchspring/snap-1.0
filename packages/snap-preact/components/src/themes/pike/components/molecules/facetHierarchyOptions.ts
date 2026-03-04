@@ -49,7 +49,7 @@ const facetHierarchyOptionsStyleScript = (props: FacetHierarchyOptionsProps) => 
 		{
 			'.ss__facet-hierarchy-options__option': {
 				margin: `0 0 ${custom.spacing.x1}px 0`,
-				'&:last-of-type': {
+				'&:last-child': {
 					marginBottom: 0,
 				},
 			},

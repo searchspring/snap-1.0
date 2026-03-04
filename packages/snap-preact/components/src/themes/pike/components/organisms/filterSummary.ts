@@ -7,7 +7,10 @@ import { custom } from '../../custom';
 const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const isSidebar = props?.treePath && (props.treePath.includes('sidebar') || props.treePath.includes('mobileSidebar')) ? true : false;
+	const isSidebar =
+		props?.treePath && (props.treePath.includes('sidebar') || props.treePath.includes('mobileSidebar') || props.treePath.includes('storybook'))
+			? true
+			: false;
 
 	// filter summary styles
 	const filterSummaryStyles = isSidebar
@@ -80,7 +83,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 				'.ss__filter-summary__filters': {
 					'.ss__filter': {
 						margin: isSidebar ? `0 0 ${custom.spacing.x1}px 0` : 0,
-						'&:last-of-type': {
+						'&:last-child': {
 							marginBottom: isSidebar ? 0 : '',
 						},
 						'.ss__filter__button': {
@@ -110,6 +113,8 @@ export const filterSummary: ThemeComponent<'filterSummary', FilterSummaryProps> 
 	default: {
 		filterSummary: {
 			themeStyleScript: filterSummaryStyleScript,
+			clearAllIcon: custom.icons.close,
+			filterIcon: custom.icons.close,
 		},
 	},
 };

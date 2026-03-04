@@ -20,13 +20,13 @@ const dropdownStyleScript = (props: DropdownProps) => {
 		width: 'auto',
 		...disabled,
 		...custom.styles.boxSizing('dropdown', props?.treePath, props?.name),
-		'.ss__dropdown__button, .ss__dropdown__content': {
-			color: variables?.colors?.text,
-		},
 		'&.ss__dropdown__portal': {
 			'.ss__dropdown__content': {
 				marginTop: `${custom.spacing.x1}px`,
-				...custom.styles.box(),
+				...custom.styles.box(variables?.colors?.text),
+				'ul, ul li': {
+					listStyle: 'none',
+				},
 				'.ss__select__select, .ss__variant-selection__options': {
 					margin: 0,
 					padding: 0,
@@ -35,10 +35,11 @@ const dropdownStyleScript = (props: DropdownProps) => {
 				},
 				'.ss__select__select .ss__select__select__option, .ss__variant-selection__options .ss__variant-selection__option': {
 					color: 'inherit',
+					lineHeight: 1.5,
 					gap: `${custom.spacing.x2}px`,
 					padding: 0,
 					margin: `0 0 ${custom.spacing.x1}px 0`,
-					'&:last-of-type': {
+					'&:last-child': {
 						marginBottom: '0',
 					},
 					'&:hover': {

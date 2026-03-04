@@ -8,19 +8,35 @@ const termsListStyleScript = (props: TermsListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 
-	// terms list styles
-	const termsListStyles = css({
+	// shared styles
+	const sharedStyles = css({
 		backgroundColor: 'transparent',
-		flexFlow: 'row nowrap',
+		alignContent: 'flex-start',
 		gap: `${custom.spacing.x4}px`,
 		...custom.styles.boxSizing('termsList', props?.treePath, props?.name),
-		'.ss__terms-list__row': {
-			flex: '1 1 0%',
-			minWidth: '1px',
-		},
 	});
 
-	return termsListStyles;
+	// terms list horizontal styles
+	const termsListHorizontalStyles = css([
+		sharedStyles,
+		{
+			flexFlow: 'row nowrap',
+			'.ss__terms-list__row': {
+				flex: '1 1 0%',
+				minWidth: '1px',
+			},
+		},
+	]);
+
+	// terms list vertical styles
+	const termsListVerticalStyles = css([
+		sharedStyles,
+		{
+			flexFlow: 'column nowrap',
+		},
+	]);
+
+	return props?.verticalOptions ? termsListVerticalStyles : termsListHorizontalStyles;
 };
 
 // TermsList component props

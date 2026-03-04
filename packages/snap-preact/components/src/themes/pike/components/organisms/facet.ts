@@ -16,7 +16,7 @@ const facetStyleScript = (props: FacetProps) => {
 		...custom.styles.boxSizing('facet', props?.treePath, props?.name),
 		'&.ss__facet--collapsed': {
 			'.ss__facet__header': {
-				'.ss__icon': {
+				'.ss__facet__dropdown__icon': {
 					transform: 'rotate(0deg)',
 				},
 			},
@@ -34,7 +34,7 @@ const facetStyleScript = (props: FacetProps) => {
 			padding: ` 0 0 ${custom.spacing.x2}px 0`,
 			borderBottom: `2px solid ${variables?.colors?.primary}`,
 			gap: `${custom.spacing.x2}px`,
-			...custom.styles.headerText(props?.color || variables?.colors?.secondary, '16px'),
+			...custom.styles.headerText('', '16px'),
 			'.ss__facet__header__inner': {
 				flex: '1 1 0%',
 				gap: `${custom.spacing.x1}px`,
@@ -60,9 +60,12 @@ const facetStyleScript = (props: FacetProps) => {
 					'&:hover': {
 						textDecoration: 'none',
 					},
+					'.ss__button__icon': {
+						margin: 0,
+					},
 				},
 			},
-			'.ss__icon': {
+			'.ss__facet__dropdown__icon': {
 				transition: 'transform ease 0.5s',
 				transform: 'rotate(180deg)',
 			},
@@ -129,7 +132,7 @@ const facetStyleScript = (props: FacetProps) => {
 			gap: `${custom.spacing.x2}px`,
 			...custom.styles.activeText(variables?.colors?.primary),
 			lineHeight: 1,
-			'.ss__icon': {
+			'.ss__facet__show-more-less__icon': {
 				margin: 0,
 				width: `${custom.sizes.icon10}px`,
 				height: `${custom.sizes.icon10}px`,
@@ -150,14 +153,17 @@ export const facet: ThemeComponent<'facet', FacetProps> = {
 			iconExpand: custom.icons.arrowDown,
 			iconOverflowMore: custom.icons.plus,
 			iconOverflowLess: custom.icons.minus,
+			color: custom.colors.secondary,
+			iconColor: custom.colors.primary,
 		},
 		'facet icon.collapse': {
 			size: `${custom.sizes.icon12}px`,
-			color: custom.colors.primary,
 		},
 		'facet icon.expand': {
 			size: `${custom.sizes.icon12}px`,
-			color: custom.colors.primary,
+		},
+		'facet button.reset-facet icon': {
+			size: `${custom.sizes.icon08}px`,
 		},
 	},
 };

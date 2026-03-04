@@ -38,7 +38,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 				gap: `${custom.spacing.x2}px`,
 				margin: `0 0 ${custom.spacing.x1}px 0`,
 				padding: props?.hideOptionRadios ? `` : `0 0 0 ${radioSpacing}px`,
-				'&:last-of-type': {
+				'&:last-child': {
 					marginBottom: 0,
 				},
 				'.ss__radio-list__option__label, .ss__radio-list__option__icon': {
@@ -56,6 +56,9 @@ const radioListStyleScript = (props: RadioListProps) => {
 					position: 'relative',
 					top: '-1px',
 				},
+			},
+			'.ss__radio-list__option--disabled': {
+				...custom.styles.disabled(),
 			},
 			'.ss__radio-list__option--selected': {
 				...custom.styles.activeText(variables?.colors?.primary),

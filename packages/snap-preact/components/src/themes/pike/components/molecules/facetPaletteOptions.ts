@@ -138,7 +138,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 			gap: `${custom.spacing.x1}px`,
 			padding: `${hasCheckbox ? 0 : '2px'} 0 0 ${listPadding}px`,
 			margin: `0 0 ${custom.spacing.x1}px 0`,
-			'&:last-of-type': {
+			'&:last-child': {
 				marginBottom: 0,
 			},
 			'.ss__checkbox, .ss__radio, .ss__facet-palette-options__option__wrapper': {
@@ -178,7 +178,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 			},
 			'.ss__facet-palette-options__option': {
 				margin: `0 0 ${custom.spacing.x1}px 0`,
-				'&:last-of-type': {
+				'&:last-child': {
 					marginBottom: 0,
 				},
 			},

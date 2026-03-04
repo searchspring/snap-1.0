@@ -51,7 +51,7 @@ const facetListOptionsStyleScript = (props: FacetListOptionsProps) => {
 		{
 			'.ss__facet-list-options__option': {
 				margin: `0 0 ${custom.spacing.x1}px 0`,
-				'&:last-of-type': {
+				'&:last-child': {
 					marginBottom: 0,
 				},
 			},

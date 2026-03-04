@@ -237,7 +237,7 @@ const config: RecommendationControllerConfig = {
 	tag: 'bundle',
 	globals: {
 		siteId: 'atkzs2',
-		products: ['C-AD-W1-1869P'],
+		products: ['VW1982-UQZ-AS'],
 	},
 };
 

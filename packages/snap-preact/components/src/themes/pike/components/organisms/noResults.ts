@@ -19,7 +19,9 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 				...custom.styles.headerText(variables?.colors?.secondary, '20px'),
 			},
 			'ul li, p': {
+				fontSize: '14px',
 				color: variables?.colors?.text,
+				lineHeight: 1.5,
 			},
 			a: {
 				color: variables?.colors?.primary,
@@ -34,10 +36,18 @@ const noResultsStyleScript = (props: NoResultsProps) => {
 				li: {
 					listStyle: 'disc',
 					margin: `0 0 ${custom.spacing.x1}px 0`,
-					'&:last-of-type': {
+					'&:last-child': {
 						marginBottom: 0,
 					},
 				},
+			},
+		},
+		'.ss__no-results__contact': {
+			'.ss__no-results__contact__title': {
+				fontWeight: 'normal',
+				fontSize: '14px',
+				color: variables?.colors?.text,
+				lineHeight: 1.5,
 			},
 		},
 		'.ss__no-results__recommendations': {
@@ -58,6 +68,7 @@ export const noResults: ThemeComponent<'noResults', NoResultsProps> = {
 	default: {
 		noResults: {
 			themeStyleScript: noResultsStyleScript,
+			contactsTitleText: `Still can't find what you're looking for? <a href="/contact-us">Contact us</a>.`,
 		},
 	},
 };

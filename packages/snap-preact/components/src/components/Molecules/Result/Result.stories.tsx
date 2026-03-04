@@ -33,13 +33,7 @@ export default {
 			),
 		},
 	},
-	decorators: [
-		(Story: any) => (
-			<div style={{ maxWidth: '250px' }}>
-				<Story />
-			</div>
-		),
-	],
+	decorators: [(Story: any) => <Story />],
 	argTypes: {
 		controller: {
 			description: 'Controller reference',
@@ -252,7 +246,11 @@ export const Default = (args: ResultProps, { loaded: { controller } }: { loaded:
 		...resultToUse.display.mappings.core,
 		rating: 4.5,
 	};
-	return <Result {...args} result={resultToUse} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+			<Result {...args} result={resultToUse} />
+		</div>
+	);
 };
 
 Default.loaders = [
@@ -271,7 +269,11 @@ export const hideSections = (args: ResultProps, { loaded: { controller } }: { lo
 		...resultToUse.display.mappings.core,
 		rating: 4.5,
 	};
-	return <Result {...args} result={resultToUse} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+			<Result {...args} result={resultToUse} />
+		</div>
+	);
 };
 
 hideSections.loaders = [
@@ -295,7 +297,11 @@ export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { l
 		...resultToUse.display.mappings.core,
 		rating: 4.5,
 	};
-	return <Result {...args} result={resultToUse} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+			<Result {...args} result={resultToUse} />
+		</div>
+	);
 };
 
 truncateTitle.loaders = [

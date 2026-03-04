@@ -75,7 +75,7 @@ export type RecommendationBundleVerticalProps = {
 
 export type RecommendationBundleVerticalTemplatesLegalProps = Omit<
 	RecommendationBundleProps,
-	'controller' | 'resultComponent' | 'alias' | 'lang' | 'results' | 'vertical' | 'ctaInline'
+	'controller' | 'resultComponent' | 'alias' | 'lang' | 'results' | 'vertical' | 'ctaInline' | 'carousel' | 'slidesPerView'
 >;
 
 interface RecommendationBundleVerticalSubProps {

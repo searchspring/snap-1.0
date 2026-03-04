@@ -62,6 +62,12 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 			layout: 'mini',
 			contentTitle: 'Product Suggestions',
 		},
+		'autocompleteSlideout terms': {
+			vertical: false,
+		},
+		'autocompleteSlideout termsList': {
+			verticalOptions: false,
+		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
@@ -81,6 +87,12 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 			...(autocompleteSlideoutThemeComponentProps.mobile?.['autocompleteSlideout'] || {}),
 			layout: 'mini',
 		},
+		'autocompleteSlideout terms': {
+			vertical: false,
+		},
+		'autocompleteSlideout termsList': {
+			verticalOptions: false,
+		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
@@ -96,6 +108,12 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 			...(autocompleteSlideoutThemeComponentProps.tablet?.['autocompleteSlideout'] || {}),
 			layout: 'mini',
 		},
+		'autocompleteSlideout terms': {
+			vertical: false,
+		},
+		'autocompleteSlideout termsList': {
+			verticalOptions: false,
+		},
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
@@ -110,6 +128,12 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		autocompleteSlideout: {
 			...(autocompleteSlideoutThemeComponentProps.desktop?.['autocompleteSlideout'] || {}),
 			layout: 'mini',
+		},
+		'autocompleteSlideout terms': {
+			vertical: false,
+		},
+		'autocompleteSlideout termsList': {
+			verticalOptions: false,
 		},
 		'autocompleteSlideout results': {
 			rows: 2,

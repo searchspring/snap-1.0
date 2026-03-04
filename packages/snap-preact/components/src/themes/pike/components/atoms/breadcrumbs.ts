@@ -22,7 +22,7 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 			li: {
 				display: 'block',
 				padding: 0,
-				'&:last-of-type': {
+				'&:last-child': {
 					...custom.styles.activeText(variables?.colors?.primary),
 				},
 			},

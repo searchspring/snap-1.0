@@ -4,9 +4,9 @@ import { custom } from '../../custom';
 
 // static variables
 const headerSelectors =
-	'.ss__terms-list .ss__terms .ss__terms__title h5, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__title';
+	'.ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__header, .ss__autocomplete__content .ss__autocomplete__content__results .ss__autocomplete__title h5, .ss__autocomplete__button--see-more .ss__button__content, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__title';
 const activeSelectors =
-	'.ss__terms-list .ss__terms .ss__terms__options .ss__terms__option.ss__terms__option--active a, .ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more:hover .ss__button__content';
+	'.ss__autocomplete__facets .ss__facets .ss__facet .ss__facet__options .ss__facet-list-options .ss__facet-list-options__option--filtered, .ss__autocomplete__content .ss__autocomplete__content__results .ss__results .ss__result:hover .ss__result__details .ss__result__details__title a, .ss__autocomplete__button--see-more:hover .ss__button__content';
 
 // CSS in JS style script for the Autocomplete Layout component
 export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, template: string) => {
@@ -30,12 +30,11 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		gap: `${custom.spacing.x4}px`,
 		border: isSlideout ? 0 : `1px solid ${custom.colors.gray02}`,
 		backgroundColor: custom.colors.white,
-		'a, div, p, .ss__button': {
+		'div, p, .ss__button': {
 			fontSize: '12px',
 		},
-		'a, div:not(.ss__button, .ss__rating__icons, .ss__rating__icons .ss__rating__stars .ss__rating__stars__star), p': {
+		'div:not(.ss__button, .ss__rating__icons, .ss__rating__icons .ss__rating__stars .ss__rating__stars__star), p': {
 			lineHeight: 1.5,
-			color: variables?.colors?.text,
 		},
 		a: {
 			display: 'block',
@@ -61,21 +60,18 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		[activeSelectors]: {
 			...custom.styles.activeText(variables?.colors?.primary),
 		},
-		'.ss__terms-list .ss__terms .ss__terms__options .ss__terms__option a': {
-			fontSize: '14px',
-		},
 	});
 
 	// shared layout styles
 	const sharedLayoutStyles = css({
 		alignContent: 'flex-start',
 		'& > .ss__autocomplete__row': {
-			flex: '1 1 100%',
+			flex: isSlideout ? `1 1 100%` : `1 1 calc(100% + ${custom.spacing.x8}px)`,
 			minWidth: '1px',
 			padding: isSlideout ? `0 0 ${custom.spacing.x4}px 0` : `0 ${custom.spacing.x4}px ${custom.spacing.x4}px ${custom.spacing.x4}px`,
 			margin: isSlideout ? 0 : `0 -${custom.spacing.x4}px`,
 			borderBottom: `1px solid ${custom.colors.gray02}`,
-			'&:last-of-type': {
+			'&:last-child': {
 				borderBottomWidth: 0,
 				paddingBottom: 0,
 			},
@@ -122,7 +118,8 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 						'.ss__facet-hierarchy-options .ss__facet-hierarchy-options__option, .ss__facet-list-options .ss__facet-list-options__option': {
 							padding: 0,
 							margin: `0 0 ${custom.spacing.x1}px 0`,
-							'&:last-of-type': {
+							fontSize: '12px',
+							'&:last-child': {
 								marginBottom: 0,
 							},
 						},
@@ -181,7 +178,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		'.ss__autocomplete__content__results .ss__results, .ss__autocomplete__content__no-results .ss__autocomplete__content__no-results__recommendations .ss__recommendation-grid__results':
 			{
 				gridTemplateColumns: 'repeat(2, 1fr)',
-				[`& > *:nth-of-type(n + ${isSlideout ? 5 : 3})`]: {
+				[`& > *:nth-child(n + ${isSlideout ? 5 : 3})`]: {
 					display: 'none',
 				},
 			},
@@ -257,12 +254,12 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 					alignContent: 'flex-start',
 					minWidth: '1px',
 					maxWidth: 'none',
-					flex: '1 1 100%',
+					flex: isSlideout ? `1 1 100%` : `1 1 calc(100% + ${custom.spacing.x8}px)`,
 					margin: `0 -${custom.spacing.x4}px`,
 					padding: `0 ${custom.spacing.x4}px`,
 					paddingBottom: `${custom.spacing.x4}px`,
 					borderBottom: `1px solid ${custom.colors.gray02}`,
-					'&:last-of-type': {
+					'&:last-child': {
 						paddingBottom: 0,
 						borderBottomWidth: 0,
 					},
@@ -300,7 +297,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 						paddingBottom: 0,
 						borderBottomWidth: 0,
 						'&:has(.ss__autocomplete__terms-wrapper)': {
-							flex: '1 1 100%',
+							flex: isSlideout ? `1 1 100%` : `1 1 calc(100% + ${custom.spacing.x8}px)`,
 							paddingBottom: `${custom.spacing.x4}px`,
 							borderBottomWidth: '1px',
 						},
@@ -341,32 +338,6 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 						},
 					},
 				},
-				'.ss__terms-list': {
-					flexWrap: 'wrap',
-					alignContent: 'flex-start',
-					'.ss__terms-list__row': {
-						flex: '1 1 100%',
-						'.ss__terms': {
-							width: '100%',
-							'.ss__terms__options': {
-								display: 'block',
-								'.ss__terms__option': {
-									a: {
-										padding: `${custom.spacing.x2}px 0`,
-										transition: `padding-left 0.5s ease`,
-										fontSize: '16px',
-									},
-								},
-								'.ss__terms__option--active': {
-									a: {
-										paddingLeft: `${custom.spacing.x4}px`,
-										backgroundColor: custom.colors.gray01,
-									},
-								},
-							},
-						},
-					},
-				},
 				'.ss__autocomplete__content__results .ss__results': {
 					maxHeight: isFixed ? '60vh' : '',
 				},
@@ -381,7 +352,7 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 		termsWrapperStyles,
 		contentStyles,
 		{
-			'.ss__autocomplete__content .ss__autocomplete__content-inner > *:last-of-type': {
+			'.ss__autocomplete__content .ss__autocomplete__content-inner > *:last-child': {
 				marginBottom: 0,
 			},
 		},
