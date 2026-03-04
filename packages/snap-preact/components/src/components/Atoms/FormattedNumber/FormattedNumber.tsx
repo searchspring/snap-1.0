@@ -1,7 +1,7 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import classnames from 'classnames';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -12,7 +12,7 @@ const defaultStyles: StyleScript<FormattedNumberProps> = () => {
 	return css({});
 };
 
-export function FormattedNumber(properties: FormattedNumberProps): JSX.Element {
+export function FormattedNumber(properties: FormattedNumberProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -43,7 +43,7 @@ export function FormattedNumber(properties: FormattedNumberProps): JSX.Element {
 	const styling = mergeStyles<FormattedNumberProps>(props, defaultStyles);
 
 	return raw ? (
-		<Fragment>{formattedNumber}</Fragment>
+		<>{formattedNumber}</>
 	) : (
 		<CacheProvider>
 			<span className={classnames('ss__formatted-number', className, internalClassName)} {...styling}>
@@ -52,7 +52,10 @@ export function FormattedNumber(properties: FormattedNumberProps): JSX.Element {
 		</CacheProvider>
 	);
 }
-export interface FormattedNumberProps extends ComponentProps {
+
+export type FormattedNumberProps = FormattedNumberTemplatesLegalProps & ComponentProps<FormattedNumberProps>;
+
+export type FormattedNumberTemplatesLegalProps = {
 	value: number;
 	symbol?: string;
 	decimalPlaces?: number;
@@ -61,4 +64,4 @@ export interface FormattedNumberProps extends ComponentProps {
 	decimalSeparator?: string;
 	symbolAfter?: boolean;
 	raw?: boolean;
-}
+};

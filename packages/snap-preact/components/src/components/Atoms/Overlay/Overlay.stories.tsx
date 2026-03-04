@@ -36,6 +36,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: {
@@ -49,6 +50,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'rgba(0,0,0,0.8)' },
 			},
 			control: { type: 'color' },
@@ -60,6 +62,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '0.25s' },
 			},
 			control: { type: 'text' },
@@ -70,6 +73,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onClick',

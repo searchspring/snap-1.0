@@ -1,7 +1,7 @@
 import { h } from 'preact';
 
 import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
 import { ErrorHandler, ErrorHandlerProps } from './ErrorHandler';
 import { componentArgs, highlightedCode } from '../../../utilities';
@@ -63,6 +63,7 @@ export default {
 		onRetryClick: {
 			description: 'Retry button click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

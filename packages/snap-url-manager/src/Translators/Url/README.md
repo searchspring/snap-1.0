@@ -75,7 +75,6 @@ The `serialize` and `deserialize` methods are abstracted away by the `UrlManager
 Default core parameter configuration:
 ```js
 query: { name: 'q', type: 'query' },
-oq: { name: 'oq', type: 'query' },
 rq: { name: 'rq', type: 'query' },
 tag: { name: 'tag', type: 'query' },
 page: { name: 'page', type: 'query' },
@@ -87,7 +86,7 @@ filter: { name: 'filter', type: 'hash' },
 All of the core parameters can be fully customized via the `parameters.core` configuration. For example, the `query` core parameter by default is named `'q'` and is set as a `query` parameter type. This could be changed to any query name and either `hash` or `query` parameter type.
 
 ```js
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(
 	new UrlTranslator({
@@ -112,7 +111,7 @@ If you wanted to make all of the core parameters `query` or `hash` types, you co
 The `settings.corePrefix` configuration allows for all of the core parameters to be prefixed with a string. This adds the specified prefix to the default or custom name configuration for each core parameter.
 
 ```js
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(
 	new UrlTranslator({
@@ -141,7 +140,7 @@ console.log(setUrlManager.href); // /search.html#/ss-que:bright/ss-p:3/ss-filter
 A custom parameter is any non-core parameter. The `UrlTranslator` will automatically determine how to handle parameters found in the URL when it is initialized. However for parameters that do not yet exist, the default behavior is to treat them as hash fragments. This can be customized using the `settings.customType` configuration. In the example below, the 'view' custom parameter is set as a `query` type and the 'store' custom parameter is set to a `hash` type (default `customType` setting of 'hash').
 
 ```js
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(
 	new UrlTranslator({
@@ -167,7 +166,7 @@ console.log(setUrlManager.href); // /search?view=spring#/store:products
 `urlRoot` specifies a root URL to use when URLs are created in the `serialize` method. By default any parameters in the `urlRoot` will be preserved and added to the final serialized URL; this can be disabled by setting the `settings.serializeUrlRoot` configuration to `false`.
 
 ```js
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(
 	new UrlTranslator({

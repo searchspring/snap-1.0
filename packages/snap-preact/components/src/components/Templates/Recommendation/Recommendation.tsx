@@ -1,4 +1,4 @@
-import { h, Fragment, ComponentChildren } from 'preact';
+import { h, ComponentChildren } from 'preact';
 import { useState, useRef } from 'preact/hooks';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -7,14 +7,14 @@ import deepmerge from 'deepmerge';
 
 import type { SwiperOptions } from 'swiper/types';
 
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 
 import { Carousel, CarouselProps, defaultCarouselBreakpoints, defaultVerticalCarouselBreakpoints } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { useIntersection } from '../../../hooks';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
@@ -30,8 +30,9 @@ const defaultStyles: StyleScript<RecommendationProps> = ({ vertical }) => {
 	});
 };
 
-export const Recommendation = observer((properties: RecommendationProps): JSX.Element => {
+export const Recommendation = observer((properties: RecommendationProps) => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<RecommendationProps> = {
 		breakpoints: properties.vertical
@@ -41,6 +42,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 		loop: true,
 		title: properties.controller?.store?.profile?.display?.templateParameters?.title,
 		description: properties.controller?.store?.profile?.display?.templateParameters?.description,
+		treePath: globalTreePath,
 	};
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
@@ -108,7 +110,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 		controller.log.error(
 			`<Recommendation> Component received invalid number of children. Must match length of 'results' prop or 'controller.store.results'`
 		);
-		return <Fragment></Fragment>;
+		return null;
 	}
 
 	const subProps: RecommendationSubProps = {
@@ -168,7 +170,7 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 								{title}
 							</h3>
 						)}
-						{description && <h4 className="ss__recommendation__description">{description}</h4>}
+						{description && <p className="ss__recommendation__description">{description}</p>}
 
 						<Carousel
 							prevButton={prevButton}
@@ -223,10 +225,16 @@ export const Recommendation = observer((properties: RecommendationProps): JSX.El
 
 export type RecommendationProps = {
 	controller: RecommendationController;
+	resultComponent?: ResultComponent;
+	lang?: Partial<RecommendationLang>;
+	breakpoints?: BreakpointsProps;
+} & RecommendationTemplatesLegalProps &
+	ComponentProps<RecommendationProps>;
+
+export type RecommendationTemplatesLegalProps = {
 	title?: JSX.Element | string;
 	description?: string;
 	hideTitle?: boolean;
-	breakpoints?: BreakpointsProps;
 	prevButton?: JSX.Element | string;
 	nextButton?: JSX.Element | string;
 	hideButtons?: boolean;
@@ -235,8 +243,6 @@ export type RecommendationProps = {
 	pagination?: boolean;
 	children?: ComponentChildren;
 	vertical?: boolean;
-	resultComponent?: ResultComponent;
-	lang?: Partial<RecommendationLang>;
 	scrollbar?: boolean;
 	lazyRender?: {
 		enabled: boolean;

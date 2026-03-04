@@ -7,7 +7,7 @@ import { FacetPaletteOptions, FacetPaletteOptionsProps } from './FacetPaletteOpt
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FacetPaletteOptions/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/FacetPaletteOptions',
@@ -31,13 +31,7 @@ export default {
 			),
 		},
 	},
-	decorators: [
-		(Story: any) => (
-			<div style={{ maxWidth: '500px' }}>
-				<Story />
-			</div>
-		),
-	],
+	decorators: [(Story: any) => <Story />],
 	argTypes: {
 		values: {
 			description: 'Facet.values store reference',
@@ -63,6 +57,7 @@ export default {
 			defaultValue: 4,
 			description: 'Number of columns in palette. Not applicable if using horizontal prop',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -74,6 +69,7 @@ export default {
 			defaultValue: '45px',
 			description: 'Size of each palette item. Does not apply if using `columns` prop',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -85,6 +81,7 @@ export default {
 			defaultValue: '8px',
 			description: 'Gap size between rows and columns',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -95,6 +92,7 @@ export default {
 		hideLabel: {
 			description: 'Hide facet option label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -105,6 +103,7 @@ export default {
 		hideCount: {
 			description: 'Hide facet option count',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -115,6 +114,7 @@ export default {
 		hideCheckbox: {
 			description: 'Hide facet option checkbox',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -126,6 +126,7 @@ export default {
 			description: 'facet option layout',
 			defaultValue: 'grid',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -138,6 +139,7 @@ export default {
 		hideIcon: {
 			description: 'Hide facet option icon',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -149,6 +151,7 @@ export default {
 			defaultValue: false,
 			description: 'Render facet options horizontally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -159,6 +162,7 @@ export default {
 		previewOnFocus: {
 			description: 'Invoke facet value preview upon focus',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -169,6 +173,7 @@ export default {
 		valueProps: {
 			description: 'Object of facet value props',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -179,6 +184,7 @@ export default {
 		onClick: {
 			description: 'Facet option click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -189,6 +195,7 @@ export default {
 		colorMapping: {
 			description: 'Object of color mapping values',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -209,7 +216,11 @@ const ObservableFacetPaletteOptions = observer(({ args, controller }: { args: Fa
 });
 
 export const Default = (args: FacetPaletteOptionsProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
-	return <ObservableFacetPaletteOptions args={args} controller={controller} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '100%' : '500px' }}>
+			<ObservableFacetPaletteOptions args={args} controller={controller} />
+		</div>
+	);
 };
 
 Default.loaders = [
@@ -222,7 +233,11 @@ Default.loaders = [
 ];
 
 export const List = (args: FacetPaletteOptionsProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
-	return <ObservableFacetPaletteOptions args={args} controller={controller} />;
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '100%' : '500px' }}>
+			<ObservableFacetPaletteOptions args={args} controller={controller} />
+		</div>
+	);
 };
 
 List.args = {

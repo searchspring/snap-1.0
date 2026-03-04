@@ -5,7 +5,7 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { FacetSlider, FacetSliderProps } from './FacetSlider';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../FacetSlider/readme.md';
-import type { RangeFacet } from '@searchspring/snap-store-mobx';
+import type { RangeFacet } from '@athoscommerce/snap-store-mobx';
 
 // unfortunatley we have to hardcode the searchresponse data here rather than use the Snap-Shared
 // mockdata due to issues with storybook being unable to bundle MockData due to it using fs
@@ -71,6 +71,7 @@ export default {
 		showTicks: {
 			description: 'enables/disables ticks',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -82,6 +83,7 @@ export default {
 			defaultValue: 20,
 			description: 'distance between ticks',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -92,6 +94,7 @@ export default {
 		tickTextColor: {
 			description: 'ticks color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -101,6 +104,7 @@ export default {
 		trackColor: {
 			description: 'Slider track color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -110,6 +114,7 @@ export default {
 		railColor: {
 			description: 'Slider rail Color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -119,6 +124,7 @@ export default {
 		valueTextColor: {
 			description: 'Slider value Text Color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -128,6 +134,7 @@ export default {
 		handleColor: {
 			description: 'Slider handle color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -137,6 +144,7 @@ export default {
 		stickyHandleLabel: {
 			description: 'enables/disables sticky handle labels',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -147,6 +155,7 @@ export default {
 		separateHandles: {
 			description: 'separates slider handles by one step value to prevent min and max from being equal',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -157,6 +166,7 @@ export default {
 		handleDraggingColor: {
 			description: 'Slider handle color when dragging',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -166,6 +176,7 @@ export default {
 		onDrag: {
 			description: 'Slider onDrag event handler - fires as the slider is dragged (should not be used to trigger searches)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -177,6 +188,7 @@ export default {
 			description:
 				'Slider onChange event handler - fires after touchEnd and before URL manager updates (used to trigger search and allows for value mutation)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

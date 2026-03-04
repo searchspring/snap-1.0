@@ -4,14 +4,14 @@ import { MobileSidebar } from './MobileSidebar';
 import { ThemeProvider } from '../../../providers';
 import { v4 as uuidv4 } from 'uuid';
 
-import { SearchStore, SearchStoreConfig } from '@searchspring/snap-store-mobx';
-import { SearchController, SearchControllerConfig } from '@searchspring/snap-controller';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { MockClient } from '@searchspring/snap-shared';
-import { QueryStringTranslator, UrlManager, reactLinker } from '@searchspring/snap-url-manager';
+import { SearchStore, SearchStoreConfig } from '@athoscommerce/snap-store-mobx';
+import { SearchController, SearchControllerConfig } from '@athoscommerce/snap-controller';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { QueryStringTranslator, UrlManager, reactLinker } from '@athoscommerce/snap-url-manager';
 import userEvent from '@testing-library/user-event';
 
 const globals = { siteId: '8uyt2m' };

@@ -6,7 +6,7 @@ import { Sidebar, SidebarProps } from './Sidebar';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Organisms/Sidebar',
@@ -51,17 +51,19 @@ export default {
 		layout: {
 			description: 'specifies the layout of the sidebar',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: "['filterSummary' | 'sortBy' | 'perPage' | 'facets' | 'banner.left' | 'paginationInfo' | 'layoutSelector' | '_']",
 				},
 				defaultValue: { summary: "[['filterSummary'], ['sortBy', 'perPage'], ['facets'], ['banner.left']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		titleText: {
 			description: 'Text to render in the sidebar title',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -73,6 +75,7 @@ export default {
 			defaultValue: false,
 			description: 'hides the sidebar title component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -83,6 +86,7 @@ export default {
 		sticky: {
 			description: 'specifies if the sidebar should be sticky',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'boolean' },
 			},
 			control: { type: 'boolean' },
@@ -90,6 +94,7 @@ export default {
 		stickyOffset: {
 			description: 'specifies the offset of the sidebar when sticky is true',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'number' },
 			},
 			control: { type: 'number' },

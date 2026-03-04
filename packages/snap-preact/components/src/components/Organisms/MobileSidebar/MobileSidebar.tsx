@@ -6,7 +6,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import type { ComponentProps, StyleScript } from '../../../types';
 import { Slideout, SlideoutProps } from '../../Molecules/Slideout';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import type { SideBarModuleNames } from '../Sidebar';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Lang, useA11y, useLang } from '../../../hooks';
@@ -53,7 +53,7 @@ const defaultStyles: StyleScript<MobileSidebarProps> = ({}) => {
 	});
 };
 
-export const MobileSidebar = observer((properties: MobileSidebarProps): JSX.Element => {
+export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -74,7 +74,6 @@ export const MobileSidebar = observer((properties: MobileSidebarProps): JSX.Elem
 		controller,
 		layout,
 		hideHeader,
-		hideFooter,
 		hideApplyButton,
 		clearButtonIcon,
 		hideCloseButton,
@@ -98,6 +97,11 @@ export const MobileSidebar = observer((properties: MobileSidebarProps): JSX.Elem
 		internalClassName,
 		treePath,
 	} = props;
+
+	let hideFooter = props.hideFooter;
+	if (hideApplyButton && hideClearButton) {
+		hideFooter = true;
+	}
 
 	const styling = mergeStyles<MobileSidebarProps>(props, defaultStyles);
 
@@ -285,8 +289,13 @@ export const MobileSidebar = observer((properties: MobileSidebarProps): JSX.Elem
 	);
 });
 
-export interface MobileSidebarProps extends ComponentProps {
+export type MobileSidebarProps = {
 	controller: SearchController;
+	lang?: Partial<MobileSidebarLang>;
+} & MobileSidebarTemplatesLegalProps &
+	ComponentProps<MobileSidebarProps>;
+
+export type MobileSidebarTemplatesLegalProps = {
 	layout?: SideBarModuleNames[] | SideBarModuleNames[][];
 	titleText?: string;
 	hideOpenButtonText?: boolean;
@@ -308,8 +317,7 @@ export interface MobileSidebarProps extends ComponentProps {
 	hideClearButton?: boolean;
 	hideCloseButton?: boolean;
 	displayAt?: string;
-	lang?: Partial<MobileSidebarLang>;
-}
+};
 
 export interface MobileSidebarLang {
 	openButtonText: Lang<never>;

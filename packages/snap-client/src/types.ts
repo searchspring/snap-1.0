@@ -1,4 +1,4 @@
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import type { MetaRequestModel, SearchResponseModelResult, SearchRequestModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 export type HTTPHeaders = { [key: string]: string };
@@ -76,7 +76,6 @@ export type SuggestRequestModel = {
 	suggestionCount?: number;
 	productCount?: number;
 	disableSpellCorrect?: boolean;
-	integratedSpellCorrection?: boolean;
 };
 
 export type SuggestResponseModelSuggestion = {

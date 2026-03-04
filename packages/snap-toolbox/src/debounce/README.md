@@ -2,7 +2,7 @@
 A function used to delay frequent inputs
 
 ```typescript
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 ```
 
 ## `debounce` function

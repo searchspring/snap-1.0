@@ -2,9 +2,9 @@ import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import { SearchHeader } from './SearchHeader';
 import { ThemeProvider } from '../../../providers';
-import { MockData } from '@searchspring/snap-shared';
-import { SearchMerchandisingStore, SearchPaginationStore, SearchQueryStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
+import { SearchMerchandisingStore, SearchPaginationStore, SearchQueryStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 describe('Search Header Component', () => {
 	const services = {

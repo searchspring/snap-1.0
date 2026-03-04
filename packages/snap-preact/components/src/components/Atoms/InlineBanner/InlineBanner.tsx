@@ -1,14 +1,14 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath, withController, withTracking } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
-import type { Banner } from '@searchspring/snap-store-mobx';
+import type { Banner } from '@athoscommerce/snap-store-mobx';
 import { useA11y } from '../../../hooks/useA11y';
 import { ComponentProps, StyleScript, ResultsLayout } from '../../../types';
 import { observer } from 'mobx-react-lite';
-import { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
+import { AutocompleteController, RecommendationController, SearchController } from '@athoscommerce/snap-controller';
 
 const defaultStyles: StyleScript<InlineBannerProps> = ({ width }) => {
 	return css({
@@ -34,7 +34,7 @@ const defaultStyles: StyleScript<InlineBannerProps> = ({ width }) => {
 
 export const InlineBanner = withController<any>(
 	withTracking(
-		observer((properties: InlineBannerProps): JSX.Element => {
+		observer((properties: InlineBannerProps) => {
 			const globalTheme: Theme = useTheme();
 			const globalTreePath = useTreePath();
 
@@ -69,18 +69,20 @@ export const InlineBanner = withController<any>(
 						}}
 					/>
 				</CacheProvider>
-			) : (
-				<Fragment></Fragment>
-			);
+			) : null;
 		})
 	)
 );
 
-export interface InlineBannerProps extends ComponentProps {
+export type InlineBannerProps = {
+	controller?: SearchController | AutocompleteController | RecommendationController;
 	banner: Banner;
+} & InlineBannerTemplatesLegalProps &
+	ComponentProps<InlineBannerProps>;
+
+export type InlineBannerTemplatesLegalProps = {
 	width?: string;
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
 	onClick?: (e: React.MouseEvent, banner: Banner) => void;
 	disableA11y?: boolean;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-}
+};

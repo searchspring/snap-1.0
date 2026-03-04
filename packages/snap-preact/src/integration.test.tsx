@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 import '@testing-library/jest-dom';
 import { cleanup, waitFor } from '@testing-library/preact';
 
-import { cookies } from '@searchspring/snap-toolbox';
+import { cookies } from '@athoscommerce/snap-toolbox';
 
 import { Snap, SnapConfig, DEV_COOKIE, BRANCH_PARAM, BRANCH_COOKIE } from './Snap';
 import { SHOPIFY_WEBPIXEL_STORAGE_KEY } from './utils/configureSnapFeatures/configureSnapFeatures';
@@ -57,7 +57,7 @@ describe('Snap Preact Integration', () => {
 		};
 
 		const contextString = `config = ${JSON.stringify(context.config)}; shopper = ${JSON.stringify(context.shopper)};`;
-		document.body.innerHTML = `<script id="searchspring-context">${contextString}</script>`;
+		document.body.innerHTML = `<script id="athos-context">${contextString}</script>`;
 	});
 
 	afterEach(cleanup);
@@ -73,13 +73,13 @@ describe('Snap Preact Integration', () => {
 		expect(snap.client.mode).toBe('production');
 	});
 
-	it(`automatically grabs context from #searchspring-context using 'getContext'`, () => {
+	it(`automatically grabs context from #athos-context using 'getContext'`, () => {
 		const snap = new Snap(baseConfig);
 
 		expect(snap.context).toStrictEqual(context);
 	});
 
-	it(`merges context from #searchspring-context with context in the config and the context takes priority`, () => {
+	it(`merges context from #athos-context with context in the config and the context takes priority`, () => {
 		const contextConfig = {
 			...baseConfig,
 			context: {
@@ -102,7 +102,7 @@ describe('Snap Preact Integration', () => {
 		};
 
 		const contextString = `config = ${JSON.stringify(config)}; shopper = ${JSON.stringify(context.shopper)};`;
-		document.body.innerHTML = `<script id="searchspring-context">${contextString}</script>`;
+		document.body.innerHTML = `<script id="athos-context">${contextString}</script>`;
 
 		const snap = new Snap(baseConfig);
 
@@ -119,7 +119,7 @@ describe('Snap Preact Integration', () => {
 		};
 
 		const contextString = `config = ${JSON.stringify(config)}; shopper = ${JSON.stringify(context.shopper)};`;
-		document.body.innerHTML = `<script id="searchspring-context">${contextString}</script>`;
+		document.body.innerHTML = `<script id="athos-context">${contextString}</script>`;
 
 		const snap = new Snap(baseConfig);
 

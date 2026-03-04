@@ -1,13 +1,13 @@
 import 'whatwg-fetch';
 import { v4 as uuidv4 } from 'uuid';
-import { Client, ClientConfig } from '@searchspring/snap-client';
-import { SearchStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { SearchController, SearchControllerConfig } from '@searchspring/snap-controller';
+import { Client, ClientConfig } from '@athoscommerce/snap-client';
+import { SearchStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { SearchController, SearchControllerConfig } from '@athoscommerce/snap-controller';
 
 // Minimal legacy-format search response expected by transformSearchResponse
 const mockLegacySearchResponse = {
@@ -45,7 +45,7 @@ const mockLegacySearchResponse = {
 describe('Snap Client Integration Tests', () => {
 	describe('NetworkCache integration tests', () => {
 		const globals = { siteId: '8uyt2m' };
-		const CACHE_STORAGE_KEY = 'ss-networkcache';
+		const CACHE_STORAGE_KEY = 'athos-networkcache';
 
 		const searchConfig: SearchControllerConfig = {
 			id: 'search',

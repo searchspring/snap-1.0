@@ -1,13 +1,13 @@
 import 'whatwg-fetch';
 import { v4 as uuidv4 } from 'uuid';
 
-import { FinderStore, StoreServices } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { MockClient } from '@searchspring/snap-shared';
+import { FinderStore, StoreServices } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { MockClient } from '@athoscommerce/snap-shared';
 
 import { FinderControllerConfig } from '../types';
 import { FinderController } from './FinderController';

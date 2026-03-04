@@ -10,7 +10,6 @@ The `AutocompleteController` is used when making queries to the API `autocomplet
 | selector | css selector for input elements that DOM events should be bound to | ➖ | ✔️ |
 | action | optional way to override the form action or provide one when it does not exist | ➖ |   |
 | globals | keys defined here will be passed to the API request (can overwrite global config)| ➖ |   |
-| settings.integratedSpellCorrection | integrated spell correction feature flag | false |   |
 | settings.initializeFromUrl | initialize the controller with query parameter from URL (pre-fill input with current search) | true |   |
 | settings.disableClickOutside | prevent the autocomplete from closing on clicks to the document | false |   |
 | settings.syncInputs | if the selector targets multiple inputs, the value of those inputs will be synced | true |   |
@@ -55,7 +54,7 @@ autocompleteController.unbind();
 ```
 
 ## Search
-This will invoke a search request to Searchspring's search API and populate the store with the response. This should be automatically called by the DOM event binding that occurs when the `bind` method (see above) is invoked.
+This will invoke a search request to Athos' search API and populate the store with the response. This should be automatically called by the DOM event binding that occurs when the `bind` method (see above) is invoked.
 
 ```js
 autocompleteController.search();
@@ -129,4 +128,4 @@ autocompleteController.addToCart([autocompleteController.store.results[0]]);
 - Always invoked after `addToCart()` method has been invoked
 
 ## Variants
-For variant integration details, see [Variant Integration Docs](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
+For variant integration details, see [Variant Integration Docs](https://github.com/athoscommerce/snap/blob/main/docs/INTEGRATION_VARIANTS.md)

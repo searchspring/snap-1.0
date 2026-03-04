@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -9,14 +9,14 @@ import { Facet, FacetProps } from '../Facet';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchController, AutocompleteController } from '@searchspring/snap-controller';
-import type { ValueFacet, RangeFacet } from '@searchspring/snap-store-mobx';
+import type { SearchController, AutocompleteController } from '@athoscommerce/snap-controller';
+import type { ValueFacet, RangeFacet } from '@athoscommerce/snap-store-mobx';
 
 const defaultStyles: StyleScript<FacetsProps> = () => {
 	return css({});
 };
 
-export const Facets = observer((properties: FacetsProps): JSX.Element => {
+export const Facets = observer((properties: FacetsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -90,9 +90,7 @@ export const Facets = observer((properties: FacetsProps): JSX.Element => {
 				))}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface FacetsSubProps {
@@ -101,9 +99,13 @@ interface FacetsSubProps {
 
 export type IndividualFacetType = ValueFacet | RangeFacet;
 
-export interface FacetsProps extends ComponentProps {
+export type FacetsProps = {
 	facets?: IndividualFacetType[];
-	limit?: number;
 	controller?: SearchController | AutocompleteController;
+} & FacetsTemplatesLegalProps &
+	ComponentProps<FacetsProps>;
+
+export type FacetsTemplatesLegalProps = {
+	limit?: number;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
-}
+};

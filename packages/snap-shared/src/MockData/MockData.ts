@@ -11,7 +11,7 @@
 import * as fs from 'fs';
 import deepmerge from 'deepmerge';
 import type { MetaResponseModel, SearchResponseModel, AutocompleteResponseModel } from '@athoscommerce/snapi-types';
-import { RecommendCombinedResponseModel } from '@searchspring/snap-client';
+import { RecommendCombinedResponseModel } from '@athoscommerce/snap-client';
 
 type MockDataConfig = {
 	siteId?: string;

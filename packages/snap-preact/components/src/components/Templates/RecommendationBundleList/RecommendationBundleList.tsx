@@ -1,9 +1,9 @@
 import { h } from 'preact';
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
-import { ComponentProps, StyleScript } from '../../../types';
-import { defined, mergeStyles } from '../../../utilities';
-import { RecommendationBundle, RecommendationBundleProps } from '../RecommendationBundle';
+import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
+import { defined, mergeProps, mergeStyles } from '../../../utilities';
+import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
 import { Price, PriceProps } from '../../Atoms/Price';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps } from '../../Atoms/Icon';
@@ -15,6 +15,9 @@ import classNames from 'classnames';
 import { useState } from 'preact/hooks';
 import deepmerge from 'deepmerge';
 import { useLang } from '../../../hooks';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import { Theme } from '../../../providers';
 
 const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 	return css({
@@ -44,7 +47,6 @@ const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 
 			'.ss__button': {
 				cursor: 'pointer',
-				border: '1px solid black',
 			},
 			'.ss__recommendation-bundle-list__wrapper__cta__inner__images': {
 				display: 'flex',
@@ -70,7 +72,9 @@ const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 
 const alias = 'recommendationBundleList';
 
-export const RecommendationBundleList = observer((properties: RecommendationBundleListProps): JSX.Element => {
+export const RecommendationBundleList = observer((properties: RecommendationBundleListProps) => {
+	const globalTheme: Theme = useTheme();
+
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {
 		name: properties.controller?.store?.profile?.tag?.toLowerCase(),
@@ -105,16 +109,44 @@ export const RecommendationBundleList = observer((properties: RecommendationBund
 			treePath,
 		},
 	};
-	const styling = mergeStyles<RecommendationBundleListProps>(_properties, defaultStyles);
+
+	const mergedProps = mergeProps(alias, globalTheme, {}, _properties);
+	const styling = mergeStyles<RecommendationBundleListProps>(mergedProps, defaultStyles);
 
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleListProps = Omit<
+export type RecommendationBundleListProps = {
+	controller: RecommendationController & AbstractController;
+	resultComponent?:
+		| ResultComponent<{
+				controller: RecommendationController;
+				seed?: boolean;
+				selected?: boolean;
+				onProductSelect?: (product: Product) => void;
+		  }>
+		| undefined;
+	alias?: string | undefined;
+	lang?: Partial<RecommendationBundleLang> | undefined;
+	results?: Product[] | undefined;
+} & RecommendationBundleListTemplatesLegalProps &
+	ComponentProps<RecommendationBundleListProps>;
+
+export type RecommendationBundleListTemplatesLegalProps = Omit<
 	RecommendationBundleProps,
-	'seedText' | 'vertical' | 'ctaInline' | 'ctaIcon' | 'vertical' | 'slidesPerView' | 'carousel' | 'breakpoints'
-> &
-	ComponentProps;
+	| 'controller'
+	| 'resultComponent'
+	| 'alias'
+	| 'lang'
+	| 'results'
+	| 'seedText'
+	| 'ctaInline'
+	| 'ctaIcon'
+	| 'vertical'
+	| 'slidesPerView'
+	| 'carousel'
+	| 'breakpoints'
+>;
 
 interface RecommendationBundleListSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;
@@ -128,7 +160,7 @@ interface BundleCTASubProps {
 	subtotalPrice: Partial<PriceProps>;
 	button: Partial<ButtonProps>;
 }
-export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
+export const CTASlot = observer((props: BundledCTAProps) => {
 	const cartStore = props.cartStore;
 
 	const classNamePrefix = `ss__${componentNameToClassName(alias)}`;
@@ -202,7 +234,7 @@ export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
 	const mergedLang = useLang(lang as any, {});
 
 	return (
-		<div className={`${classNamePrefix}__wrapper__cta`}>
+		<>
 			<div className={`${classNamePrefix}__wrapper__cta__inner`}>
 				<div className={`${classNamePrefix}__wrapper__cta__inner__images`}>
 					{cartStore.items.map((item: any) => {
@@ -242,13 +274,13 @@ export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
 					</div>
 				</div>
 			</div>
-			<div>
+			<div className={`${classNamePrefix}__cta__button__wrapper`}>
 				<Button
 					{...subProps.button}
 					disabled={cartStore.items.length == 0}
 					disableStyles
-					internalClassName={classNames(`${classNamePrefix}__wrapper__cta__button`, {
-						[`${classNamePrefix}__wrapper__cta__button--added`]: addedToCart,
+					internalClassName={classNames(`${classNamePrefix}__cta__button`, {
+						[`${classNamePrefix}__cta__button--added`]: addedToCart,
 					})}
 					aria-live={addedToCart}
 					onClick={(e) => props.onAddToCart(e)}
@@ -257,6 +289,6 @@ export const CTASlot = observer((props: BundledCTAProps): JSX.Element => {
 					{props.addedToCart ? props.ctaButtonSuccessText : props.ctaButtonText}
 				</Button>
 			</div>
-		</div>
+		</>
 	);
 });

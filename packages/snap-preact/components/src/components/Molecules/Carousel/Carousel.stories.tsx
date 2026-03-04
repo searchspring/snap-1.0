@@ -3,7 +3,6 @@ import { h } from 'preact';
 import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 
 import { Carousel, CarouselProps } from './Carousel';
-import { Icon, iconPaths, IconType } from '../../Atoms/Icon';
 import { componentArgs, Colour, highlightedCode } from '../../../utilities';
 import Readme from './readme.md';
 
@@ -49,6 +48,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: true },
 			},
 			control: { type: 'boolean' },
@@ -60,6 +60,7 @@ export default {
 				type: {
 					summary: 'boolean | SwiperOptions.pagination',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -71,6 +72,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -81,6 +83,7 @@ export default {
 				type: {
 					summary: 'SwiperModule[]',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '[Navigation, Pagination]' },
 			},
 			control: { type: 'none' },
@@ -92,6 +95,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -102,6 +106,7 @@ export default {
 				type: {
 					summary: 'string | JSX Element',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -111,6 +116,7 @@ export default {
 				type: {
 					summary: 'string | JSX Element',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -133,6 +139,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -143,6 +150,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onNextButtonClick',
@@ -153,6 +161,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onPrevButtonClick',
@@ -163,6 +172,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onClick',
@@ -173,6 +183,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onInit',
@@ -190,7 +201,16 @@ export const Colors = (props: CarouselProps) => {
 	return (
 		<Carousel {...props}>
 			{colors.map((number, index) => (
-				<div style={{ height: '100px', width: '100px', background: color.lighten(index * carouselStep).hex, margin: '0 auto' }}></div>
+				<div
+					style={{
+						height: props?.vertical ? '100%' : '100px',
+						width: '100%',
+						minHeight: '1px',
+						minWidth: '1px',
+						background: color.lighten(index * carouselStep).hex,
+						margin: '0 auto',
+					}}
+				></div>
 			))}
 		</Carousel>
 	);
@@ -199,21 +219,4 @@ Colors.args = {
 	pagination: true,
 	hideButtons: true,
 	loop: false,
-};
-
-const iconPathStep = Math.floor(180 / Object.keys(iconPaths).length);
-
-export const Icons = (props: CarouselProps) => {
-	return (
-		<Carousel {...props}>
-			{Object.keys(iconPaths).map((icon, index) => {
-				return (
-					<div style={{ margin: '0 auto', textAlign: 'center' }}>
-						<Icon icon={icon as IconType} color={color.lighten(index * iconPathStep).hex} size="80px" style={{ padding: '20px' }} />
-						<div style={{ textAlign: 'center' }}>{icon}</div>
-					</div>
-				);
-			})}
-		</Carousel>
-	);
 };

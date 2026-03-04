@@ -1,13 +1,13 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
-import type { SearchController, SearchControllerConfig } from '@searchspring/snap-controller';
+import type { SearchController, SearchControllerConfig } from '@athoscommerce/snap-controller';
 
 import { VariantSelection, VariantSelectionProps } from './VariantSelection';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import Readme from '../VariantSelection/readme.md';
 import { Snapify } from '../../../utilities/snapify';
-import { Next } from '@searchspring/snap-event-manager';
+import { Next } from '@athoscommerce/snap-event-manager';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 export default {
@@ -53,6 +53,7 @@ export default {
 		type: {
 			description: 'selection type',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'selection type',
 				},
@@ -66,6 +67,7 @@ export default {
 		onSelect: {
 			description: 'onSelect callback',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption)',
 				},

@@ -6,7 +6,7 @@ import { SortBy, SortByProps } from './SortBy';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../SortBy/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 export default {
 	title: 'Molecules/SortBy',
 	component: SortBy,
@@ -52,6 +52,7 @@ export default {
 		label: {
 			description: 'Header label text to render.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -61,6 +62,7 @@ export default {
 		hideLabel: {
 			description: 'hide header label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -71,6 +73,7 @@ export default {
 		type: {
 			description: 'type of Select to render.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: '"dropdown" | "list" | "radio"',
 				},

@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState, StateUpdater } from 'preact/hooks';
+import { useState, StateUpdater, Dispatch } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -33,7 +33,7 @@ const defaultStyles: StyleScript<RadioProps> = ({ size, native }) => {
 	}
 };
 
-export const Radio = observer((properties: RadioProps): JSX.Element => {
+export const Radio = observer((properties: RadioProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -43,6 +43,7 @@ export const Radio = observer((properties: RadioProps): JSX.Element => {
 		disableA11y: false,
 		checkedIcon: 'bullet',
 		unCheckedIcon: 'bullet-o',
+		color: globalTheme.variables?.colors.primary || '#000000',
 		treePath: globalTreePath,
 	};
 
@@ -102,7 +103,7 @@ export const Radio = observer((properties: RadioProps): JSX.Element => {
 		},
 	};
 
-	let checkedState: boolean | undefined, setCheckedState: undefined | StateUpdater<boolean | undefined>;
+	let checkedState: boolean | undefined, setCheckedState: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = checked === undefined;
 	if (stateful) {
@@ -182,7 +183,13 @@ interface RadioSubProps {
 	activeIcon: Partial<IconProps>;
 	inactiveIcon: Partial<IconProps>;
 }
-export interface RadioProps extends ComponentProps {
+
+export type RadioProps = {
+	lang?: Partial<RadioLang>;
+} & RadioTemplatesLegalProps &
+	ComponentProps<RadioProps>;
+
+export type RadioTemplatesLegalProps = {
 	checked?: boolean;
 	color?: string;
 	disabled?: boolean;
@@ -193,8 +200,7 @@ export interface RadioProps extends ComponentProps {
 	startChecked?: boolean;
 	native?: boolean;
 	disableA11y?: boolean;
-	lang?: Partial<RadioLang>;
-}
+};
 
 export interface RadioLang {
 	radio: Lang<{

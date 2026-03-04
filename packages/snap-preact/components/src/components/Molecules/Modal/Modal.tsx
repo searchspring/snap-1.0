@@ -1,5 +1,5 @@
 import { ComponentChildren, h } from 'preact';
-import { useState, StateUpdater, MutableRef, useEffect } from 'preact/hooks';
+import { useState, StateUpdater, MutableRef, useEffect, Dispatch } from 'preact/hooks';
 
 import { css } from '@emotion/react';
 import classnames from 'classnames';
@@ -11,7 +11,7 @@ import { useClickOutside } from '../../../hooks';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
 import { useA11y } from '../../../hooks/useA11y';
 import { Overlay, OverlayProps } from '../../Atoms/Overlay';
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 
 const defaultStyles: StyleScript<ModalProps> = () => {
 	return css({
@@ -44,7 +44,7 @@ const defaultStyles: StyleScript<ModalProps> = () => {
 	});
 };
 
-export const Modal = observer((properties: ModalProps): JSX.Element => {
+export const Modal = observer((properties: ModalProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -97,7 +97,7 @@ export const Modal = observer((properties: ModalProps): JSX.Element => {
 		},
 	};
 
-	let showContent: boolean | undefined, setShowContent: undefined | StateUpdater<boolean | undefined>;
+	let showContent: boolean | undefined, setShowContent: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = open === undefined;
 	if (stateful) {
@@ -211,7 +211,9 @@ export const Modal = observer((properties: ModalProps): JSX.Element => {
 	);
 });
 
-export interface ModalProps extends ComponentProps {
+export type ModalProps = ModalTemplatesLegalProps & ComponentProps<ModalProps>;
+
+export type ModalTemplatesLegalProps = {
 	button?: string | JSX.Element;
 	lockScroll?: boolean;
 	buttonSelector?: string | Element;
@@ -225,7 +227,7 @@ export interface ModalProps extends ComponentProps {
 	disableA11y?: boolean;
 	overlayColor?: string;
 	onOverlayClick?: (event: React.MouseEvent<HTMLDivElement, Event>) => void;
-}
+};
 
 interface ModalSubProps {
 	overlay: Partial<OverlayProps>;

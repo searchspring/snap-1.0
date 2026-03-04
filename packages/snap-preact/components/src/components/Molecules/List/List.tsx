@@ -1,10 +1,10 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { useState } from 'preact/hooks';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, ListOption, StyleScript } from '../../../types';
@@ -61,7 +61,7 @@ const defaultStyles: StyleScript<ListProps> = ({ horizontal }) => {
 	});
 };
 
-export function List(properties: ListProps): JSX.Element {
+export function List(properties: ListProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -229,12 +229,15 @@ export function List(properties: ListProps): JSX.Element {
 				</ul>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
-export interface ListProps extends ComponentProps {
+export type ListProps = {
+	lang?: Partial<ListLang>;
+} & ListTemplatesLegalProps &
+	ComponentProps<ListProps>;
+
+export type ListTemplatesLegalProps = {
 	options: ListOption[];
 	multiSelect?: boolean;
 	hideOptionCheckboxes?: boolean;
@@ -248,8 +251,7 @@ export interface ListProps extends ComponentProps {
 	native?: boolean;
 	selected?: ListOption | ListOption[];
 	requireSelection?: boolean;
-	lang?: Partial<ListLang>;
-}
+};
 
 export interface ListLang {
 	title?: Lang<{

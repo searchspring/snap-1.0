@@ -6,7 +6,7 @@ import { Banner, BannerProps } from './Banner';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Atoms/Banner',
@@ -31,6 +31,15 @@ export default {
 		},
 	},
 	argTypes: {
+		controller: {
+			description: 'Controller reference',
+			table: {
+				type: {
+					summary: 'Controller',
+				},
+			},
+			control: { type: 'none' },
+		},
 		content: {
 			description: 'Banner content store reference',
 			type: { required: true },
@@ -38,6 +47,7 @@ export default {
 				type: {
 					summary: 'banner content store object',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 		},
@@ -48,6 +58,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			options: ['header', 'footer', 'left', 'inline', 'banner'],
 			control: {

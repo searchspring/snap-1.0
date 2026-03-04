@@ -9,10 +9,10 @@ module.exports = defineConfig({
 		devServer: {
 			framework: 'react',
 			bundler: 'webpack',
+			webpackConfig,
 		},
 	},
 	chromeWebSecurity: false,
 	video: false,
 	screenshotOnRunFailure: false,
-	webpackConfig,
 });

@@ -63,6 +63,13 @@ The `disabled` prop will put the inputs in a disabled state.
 <RadioList options={store.options} disabled={true} />
 ```
 
+### horizontal
+The `horizontal` prop will determine if the radio list options should render horizontally.
+
+```jsx
+<RadioList options={store.options} horizontal={true} />
+```
+
 ### selected
 The `selected` prop specifies the currently selected Option object. 
 

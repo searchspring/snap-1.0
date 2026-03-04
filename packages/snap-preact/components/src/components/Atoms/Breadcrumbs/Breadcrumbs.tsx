@@ -2,11 +2,11 @@ import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 import { Icon, IconProps, IconType } from '../Icon';
 
 const defaultStyles: StyleScript<BreadcrumbsProps> = () => {
@@ -22,7 +22,7 @@ const defaultStyles: StyleScript<BreadcrumbsProps> = () => {
 	});
 };
 
-export const Breadcrumbs = observer((properties: BreadcrumbsProps): JSX.Element => {
+export const Breadcrumbs = observer((properties: BreadcrumbsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -95,7 +95,12 @@ export const Breadcrumbs = observer((properties: BreadcrumbsProps): JSX.Element 
 	);
 });
 
-export interface BreadcrumbsProps extends ComponentProps<BreadcrumbsProps> {
+export type BreadcrumbsProps = {
+	controller?: SearchController;
+} & BreadcrumbsTemplatesLegalProps &
+	ComponentProps<BreadcrumbsProps>;
+
+export type BreadcrumbsTemplatesLegalProps = {
 	data?:
 		| {
 				label: string;
@@ -107,8 +112,7 @@ export interface BreadcrumbsProps extends ComponentProps<BreadcrumbsProps> {
 		  }[]);
 	separator?: string | JSX.Element | false;
 	separatorIcon?: IconType | Partial<IconProps> | false;
-	controller?: SearchController;
-}
+};
 
 interface BreadcrumbsSubProps {
 	icon: Partial<IconProps>;

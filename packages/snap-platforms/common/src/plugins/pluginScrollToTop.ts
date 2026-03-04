@@ -1,4 +1,4 @@
-import type { AbstractController, ElementPositionObj, SearchController } from '@searchspring/snap-controller';
+import type { AbstractController, ElementPositionObj, SearchController } from '@athoscommerce/snap-controller';
 import { AbstractPluginConfig } from '../types';
 
 export type ScrollBehavior = 'auto' | 'instant' | 'smooth';

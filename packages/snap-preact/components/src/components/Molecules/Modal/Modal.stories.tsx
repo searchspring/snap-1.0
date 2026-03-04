@@ -32,6 +32,7 @@ export default {
 		button: {
 			description: 'Button content to toggle the modal',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -41,6 +42,7 @@ export default {
 		buttonSelector: {
 			description: 'Button selector to toggle the modal',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -51,6 +53,7 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.8)',
 			description: 'Modal overlay color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -61,6 +64,7 @@ export default {
 		onOverlayClick: {
 			description: 'Function to call when the overlay is clicked',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: Event)',
 				},
@@ -71,6 +75,7 @@ export default {
 		content: {
 			description: 'Content to be displayed in modal',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -80,6 +85,7 @@ export default {
 		children: {
 			description: 'Content to be displayed in modal',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -89,6 +95,7 @@ export default {
 		disabled: {
 			description: 'Disable modal - prevents all click events',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -99,6 +106,7 @@ export default {
 		lockScroll: {
 			description: 'Lock the Scroll on the body when the modal is open',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -109,6 +117,7 @@ export default {
 		open: {
 			description: 'Pass a value here to control the state externally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -119,6 +128,7 @@ export default {
 		startOpen: {
 			description: 'modal state is open on initial render - used with internal state only',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -129,6 +139,7 @@ export default {
 		disableClickOutside: {
 			description: 'Ignore clicks outside of element',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -139,6 +150,7 @@ export default {
 		onClick: {
 			description: 'modal click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: Event)',
 				},
@@ -149,6 +161,7 @@ export default {
 		disableA11y: {
 			description: 'boolean to disable autoset ally properties',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

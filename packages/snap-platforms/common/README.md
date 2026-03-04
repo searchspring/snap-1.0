@@ -4,14 +4,14 @@ The common platform library gives you helper functions and plugins to use for al
 ## Plugins Usage
 
 ### Snap Config
-To use the platform library in Snap, simply import what you wish to use from `@searchspring/snap-platforms/common` and connect it to the controller `config.plugins`.
+To use the platform library in Snap, simply import what you wish to use from `@athoscommerce/snap-platforms/common` and connect it to the controller `config.plugins`.
 
 ```jsx
-import { pluginScrollToTop } from '@searchspring/snap-platforms/common';
+import { pluginScrollToTop } from '@athoscommerce/snap-platforms/common';
 
 const scrollToTopConfig = {
 	enabled: true,
-	selector: '#searchspring-layout',
+	selector: '#athos-layout',
 };
 
 ...
@@ -27,12 +27,12 @@ const scrollToTopConfig = {
 ```
 
 ### Snap Templates
-To use a common plugin in [SnapTemplates](https://github.com/searchspring/snap/blob/main/docs/TEMPLATES_ABOUT.md), it can be defined and configured in the `config.plugins.common` section (no import necessary).
+To use a common plugin in [SnapTemplates](https://github.com/athoscommerce/snap/blob/main/docs/TEMPLATES_ABOUT.md), it can be defined and configured in the `config.plugins.common` section (no import necessary).
 
 ```jsx
 const scrollToTopConfig = {
 	enabled: true,
-	selector: '#searchspring-layout',
+	selector: '#athos-layout',
 }
 ...
 	plugins: {
@@ -44,13 +44,13 @@ const scrollToTopConfig = {
 ```
 
 ### Snap Controller 
-To use the platform library with a controller, simply import what you wish to use from `@searchspring/snap-platforms/common`.
+To use the platform library with a controller, simply import what you wish to use from `@athoscommerce/snap-platforms/common`.
 
 ```jsx
-import { pluginScrollToTop } from '@searchspring/snap-platforms/common';
+import { pluginScrollToTop } from '@athoscommerce/snap-platforms/common';
 const scrollToTopConfig = {
 	enabled: true,
-	selector: '#searchspring-layout',
+	selector: '#athos-layout',
 }
 controller.plugin(pluginScrollToTop, scrollToTopConfig);
 ```
@@ -78,7 +78,7 @@ const addToCartConfig = {
 ```
 
 ### pluginBackgroundFilters
-Plugin to set up background filters. You can configure background filters for tags, collections, or any other available field. Background filters can be provided via the plugin config, or through script context. Field names and values must align with data setup in the Searchspring Management Console.
+Plugin to set up background filters. You can configure background filters for tags, collections, or any other available field. Background filters can be provided via the plugin config, or through script context. Field names and values must align with data setup in the Athos Search & Product Discovery Console.
 
 > [!NOTE]
 > The common backgroundFilters plugin provides a generic way for setting background filters. If you are using a supported platform (Shopify, Magento2 or BigCommerce), you should use the plugin specific to your platform.
@@ -118,7 +118,7 @@ const backgroundFiltersConfig = {
 The above example shows a config that can be applied to the plugin directly. This plugin also supports setting background filters via the integration script context, which allows for more dynamic background filters set within the store platform templates. The example below shows a background filter for `collection=mens` being set via the integration script context variable `backgroundFilters`.
 
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	backgroundFilters = [
 		{
 			type: 'value',
@@ -132,7 +132,7 @@ The above example shows a config that can be applied to the plugin directly. Thi
 Additionaly, if not all controllers should have a specific background filter applied, there is support to apply each filter to specific controllers via `controllerIds` and `controllerTypes` configurations. When using `controllerIds` specific controller ids can be supplied or regex can be used to match on multiple controllers. The `controllerTypes` uses the `controller.type` property to filter out controllers; valid types are `search`, `autocomplete`, `recommendation`, and `finder`. The example bellow will apply the background filter to any controllers that are of type `search`.
 
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	backgroundFilters = [
 		{
 			type: 'value',
@@ -172,7 +172,7 @@ Configures the behavior of scrolling to the top of the page after a search has o
 ```jsx
 const scrollToTopConfig = {
 	enabled: true,
-	selector: '#searchspring-layout',
+	selector: '#athos-layout',
 	options: {
 		top: 0,
 		left: 0,

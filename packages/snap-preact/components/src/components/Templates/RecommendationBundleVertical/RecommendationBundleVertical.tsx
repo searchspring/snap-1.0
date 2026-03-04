@@ -1,10 +1,13 @@
 import { h } from 'preact';
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
-import { defined, mergeStyles } from '../../../utilities';
-import { ComponentProps, StyleScript } from '../../../types';
-import { RecommendationBundle, RecommendationBundleProps } from '../RecommendationBundle';
+import { defined, mergeProps, mergeStyles } from '../../../utilities';
+import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
+import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
+import { Theme } from '../../../providers';
 
 const defaultStyles: StyleScript<RecommendationBundleVerticalProps> = () => {
 	return css({
@@ -17,7 +20,10 @@ const defaultStyles: StyleScript<RecommendationBundleVerticalProps> = () => {
 	});
 };
 
-export const RecommendationBundleVertical = observer((properties: RecommendationBundleVerticalProps): JSX.Element => {
+const alias = 'recommendationBundleVertical';
+export const RecommendationBundleVertical = observer((properties: RecommendationBundleVerticalProps) => {
+	const globalTheme: Theme = useTheme();
+
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {
 		name: properties.controller?.store?.profile?.tag?.toLowerCase(),
@@ -34,7 +40,7 @@ export const RecommendationBundleVertical = observer((properties: Recommendation
 				enabled: false,
 			},
 			separatorIcon: false,
-			alias: 'recommendationBundleVertical',
+			alias: alias,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -45,12 +51,32 @@ export const RecommendationBundleVertical = observer((properties: Recommendation
 		},
 	};
 
-	const styling = mergeStyles<RecommendationBundleVerticalProps>(_properties, defaultStyles);
+	const mergedProps = mergeProps(alias, globalTheme, {}, _properties);
+	const styling = mergeStyles<RecommendationBundleVerticalProps>(mergedProps, defaultStyles);
 
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleVerticalProps = Omit<RecommendationBundleProps, 'vertical' | 'ctaInline'> & ComponentProps;
+export type RecommendationBundleVerticalProps = {
+	controller: RecommendationController & AbstractController;
+	resultComponent?:
+		| ResultComponent<{
+				controller: RecommendationController;
+				seed?: boolean;
+				selected?: boolean;
+				onProductSelect?: (product: Product) => void;
+		  }>
+		| undefined;
+	alias?: string | undefined;
+	lang?: Partial<RecommendationBundleLang> | undefined;
+	results?: Product[] | undefined;
+} & RecommendationBundleVerticalTemplatesLegalProps &
+	ComponentProps<RecommendationBundleVerticalProps>;
+
+export type RecommendationBundleVerticalTemplatesLegalProps = Omit<
+	RecommendationBundleProps,
+	'controller' | 'resultComponent' | 'alias' | 'lang' | 'results' | 'vertical' | 'ctaInline' | 'carousel' | 'slidesPerView'
+>;
 
 interface RecommendationBundleVerticalSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

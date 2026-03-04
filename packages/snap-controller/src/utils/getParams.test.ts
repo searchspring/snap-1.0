@@ -1,5 +1,5 @@
 import { getSearchParams } from './getParams';
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 let urlManager: UrlManager;
 
@@ -85,25 +85,6 @@ describe('getParams', () => {
 					string: searchQuery,
 				},
 				subQuery,
-			},
-		});
-	});
-
-	it('uses "oq" from UrlManager state', () => {
-		const searchQuery = 'shirt';
-		const originalQuery = 'shit';
-
-		urlManager = urlManager.merge('query', searchQuery);
-		urlManager = urlManager.merge('oq', originalQuery);
-
-		const params = getSearchParams(urlManager.state);
-
-		expect(params).toStrictEqual({
-			search: {
-				query: {
-					string: searchQuery,
-				},
-				originalQuery,
 			},
 		});
 	});

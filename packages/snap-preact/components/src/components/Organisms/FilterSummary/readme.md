@@ -6,7 +6,7 @@ Renders all selected filters including a wrapper with a title and a 'clear all' 
 - Filter
 ## Usage
 ```jsx
-import { FilterSummary } from '@searchspring/snap-preact-components';
+import { FilterSummary } from '@athoscommerce/snap-preact-components';
 ```
 
 ### controller
@@ -76,6 +76,13 @@ The `hideClearAll` prop prevents the 'clear all' button from rendering.
 
 ```jsx
 <FilterSummary filters={controller.store.filters} hideClearAll={true} />
+```
+
+### type
+The `type` prop determines what layout the filters should be rendered as. Options are `list` or `inline`. `inline` is default.
+
+```jsx
+<FilterSummary filters={controller.store.filters} type={'list'} />
 ```
 
 ### Events

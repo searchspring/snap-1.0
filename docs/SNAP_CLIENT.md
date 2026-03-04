@@ -1,16 +1,16 @@
 # Snap Client
 
-The `@searchspring/snap-client` package is a client for the Searchspring API. It is a wrapper around the Searchspring API that provides a simple interface for fetching data from the API.
+The `@athoscommerce/snap-client` package is a client for the Athos API. It is a wrapper around the Athos API that provides a simple interface for fetching data from the API.
 
 
 ## ClientGlobals
 
 When constructing a new Client, the first argument is a `ClientGlobals` object. This object can be used to set client search parameters that will apply to all requests made with the client (and subsequently any controllers using the client as a service). Typically only the siteId will be set here, but could be used for setting globally utilized background filters and/or sorts as well.
 
-You can find your Searchspring siteId in the [Searchspring Management Console](https://manage.searchspring.net)
+You can find your Athos siteId in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 ```js
-import { Client } from '@searchspring/snap-client';
+import { Client } from '@athoscommerce/snap-client';
 
 const client = new Client({
 	siteId: '1234567890',
@@ -60,7 +60,7 @@ type RequesterConfig<RequestType, PathConfigurationType> = {
 Example: 
 
 ```js
-import { Client } from '@searchspring/snap-client';
+import { Client } from '@athoscommerce/snap-client';
 
 const client = new Client({
 	siteId: '1234567890',
@@ -89,7 +89,7 @@ Both caching and retries can be disabled or configured for each endpoint in the 
 
 ## API Types
 
-The client uses the [@searchspring/snapi-types](https://www.npmjs.com/package/@searchspring/snapi-types) package to define the API types.
+The client uses the [@athoscommerce/snapi-types](https://www.npmjs.com/package/@athoscommerce/snapi-types) package to define the API types.
 
 
 ### Methods
@@ -116,7 +116,6 @@ const { meta, search }: { meta: MetaResponseModel; search: AutocompleteResponseM
 	search: {
 		query: {
 			string: 'search query',
-			spellCorrection: true
 		}
 	}
 });
@@ -140,7 +139,7 @@ const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel }
 
 #### category
 
-The `category` method makes a request to the Searchspring Category API to fetch search results for a given category page.
+The `category` method makes a request to the Athos Category API to fetch search results for a given category page.
 
 ```js
 const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel } = await client.category({
@@ -155,7 +154,7 @@ const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel }
 
 #### finder
 
-The `finder` method makes a request to the Searchspring Finder API to fetch search results for a given search query.
+The `finder` method makes a request to the Athos Finder API to fetch search results for a given search query.
 
 ```js
 const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel } = await client.finder({
@@ -175,7 +174,7 @@ const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel }
 
 #### trending
 
-The `trending` method makes a request to the Searchspring Trending API to fetch trending search queries.
+The `trending` method makes a request to the Athos Trending API to fetch trending search queries.
 
 ```js
 const results: TrendingResponseModel = await client.trending({
@@ -186,7 +185,7 @@ const results: TrendingResponseModel = await client.trending({
 
 #### recommend
 
-The `recommend` method makes a request to the Searchspring Profile API and Recommend API to fetch recommendations for a given profile tag. This will also request the meta data.
+The `recommend` method makes a request to the Athos Profile API and Recommend API to fetch recommendations for a given profile tag. This will also request the meta data.
 
 ```js
 const results: RecommendCombinedResponseModel = await client.recommend({

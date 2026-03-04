@@ -5,10 +5,11 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Terms, TermsProps } from './Terms';
 import Readme from './readme.md';
-import { AutocompleteController } from '@searchspring/snap-controller';
+import { AutocompleteController } from '@athoscommerce/snap-controller';
 import { Snapify } from '../../../utilities/snapify';
-import { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
+import { useState } from 'preact/hooks';
 
 export default {
 	title: 'Molecules/Terms',
@@ -72,6 +73,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -82,6 +84,7 @@ export default {
 				type: {
 					summary: 'number',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'number' },
 		},
@@ -91,6 +94,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: true },
 			},
 			control: { type: 'boolean' },
@@ -101,6 +105,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'boolean' },
 		},
@@ -110,6 +115,7 @@ export default {
 				type: {
 					summary: 'function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onTermClick',
@@ -120,6 +126,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: true },
 			},
 			control: { type: 'boolean' },
@@ -142,53 +149,55 @@ const snapInstance = Snapify.autocomplete({
 });
 
 export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
+	const [termState, setTermState] = useState(false);
+
 	const mockTerms: AutocompleteTermStore = [
 		{
-			active: false,
-			preview: () => console.log(''),
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
 			value: 'dress',
 			url: {
-				href: 'www.dress.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'drss',
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
 			url: {
-				href: 'www.drss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'dreees',
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
 			url: {
-				href: 'www.dreees.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'dres',
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
 			url: {
-				href: 'www.dres.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'dss',
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
 			url: {
-				href: 'www.dss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'ress',
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
 			url: {
-				href: 'www.ress.com',
+				href: '#',
 			} as UrlManager,
 		},
 	];

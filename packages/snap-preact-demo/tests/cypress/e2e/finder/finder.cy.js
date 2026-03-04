@@ -9,7 +9,7 @@ const config = {
 	selectors: {
 		finder: {
 			wrapper: '.finder-container',
-			findButton: 'button.searchspring-finder_submit',
+			findButton: 'button.ss__finder_submit',
 		},
 	},
 };

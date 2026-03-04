@@ -5,7 +5,7 @@ Theming in Snap Templates is the primary method of customizing a template. A the
 new SnapTemplates({
 	...
 	theme: {
-		extends: 'bocachica',
+		extends: 'base',
 		styles: globalStyles,
 		resultComponent: 'Result',
 		variables: { ... },
@@ -15,7 +15,7 @@ new SnapTemplates({
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-templates',
+				selector: '#athos-templates',
 				component: 'Search',
 			},
 		],
@@ -61,7 +61,7 @@ Each theme will have a common set of shared variables (ie. colors and breakpoint
 new SnapTemplates({
 	...
 	theme: {
-		extends: 'bocachica',
+		extends: 'base',
 		variables: {
 			breakpoints: { mobile: 768, tablet: 1024, desktop: 1280 },
 			colors: {
@@ -96,7 +96,7 @@ const globalStyles = (theme) => {
 new SnapTemplates({
 	...
 	theme: {
-		extends: 'bocachica',
+		extends: 'base',
 		style: globalStyles,
 	},
 	...
@@ -120,7 +120,7 @@ import { css } from '@emotion/react';
 new SnapTemplates({
 	...
 	theme: {
-		extends: 'bocachica',
+		extends: 'base',
 		overrides: {
 			default: {
 				image: {
@@ -153,7 +153,7 @@ Here's an example that demonstrates targeting specific subcomponents:
 new SnapTemplates({
 	...
 	theme: {
-		extends: 'bocachica',
+		extends: 'base',
 		overrides: {
 			default: {
 				'carousel icon.next': {
@@ -191,7 +191,7 @@ In the following example, the number of columns for the `search results` compone
 new SnapTemplates({
 	...
 	theme: {
-		extends: 'bocachica',
+		extends: 'base',
 		overrides: {
 			default: {
 				'search results': {

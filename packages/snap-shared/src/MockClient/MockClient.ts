@@ -1,5 +1,5 @@
 import type { MetaResponseModel, SearchResponseModel, AutocompleteResponseModel } from '@athoscommerce/snapi-types';
-import { Client, ClientGlobals, ClientConfig, TrendingResponseModel } from '@searchspring/snap-client';
+import { Client, ClientGlobals, ClientConfig, TrendingResponseModel } from '@athoscommerce/snap-client';
 import { MockData } from '../MockData/MockData';
 
 /*

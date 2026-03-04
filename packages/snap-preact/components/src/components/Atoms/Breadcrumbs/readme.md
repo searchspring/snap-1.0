@@ -4,7 +4,7 @@ Renders a list of breadcrumbs.
 
 ## Usage
 ```jsx
-import { Breadcrumbs } from '@searchspring/snap-preact-components';
+import { Breadcrumbs } from '@athoscommerce/snap-preact-components';
 ```
 
 ### data

@@ -1,4 +1,4 @@
-import { unescapeHTML } from '@searchspring/snap-toolbox';
+import { unescapeHTML } from '@athoscommerce/snap-toolbox';
 
 import {
 	SearchRequestModel,
@@ -450,9 +450,6 @@ transformSearchResponse.search = (
 		// integrated spell correction is enabled
 		searchObj.query = response?.query?.corrected;
 		searchObj.originalQuery = response?.query?.original;
-	} else if (request?.search?.originalQuery) {
-		// using 'oq'
-		searchObj.originalQuery = request?.search?.originalQuery;
 	}
 
 	return searchObj;

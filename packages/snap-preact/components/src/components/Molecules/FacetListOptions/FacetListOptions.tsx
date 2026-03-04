@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -9,7 +9,7 @@ import { ComponentProps, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Checkbox, CheckboxProps } from '../Checkbox/Checkbox';
 import { createHoverProps } from '../../../toolbox';
-import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Radio, RadioProps } from '../Radio';
@@ -43,7 +43,7 @@ const defaultStyles: StyleScript<FacetListOptionsProps> = ({ horizontal, theme, 
 	});
 };
 
-export const FacetListOptions = observer((properties: FacetListOptionsProps): JSX.Element => {
+export const FacetListOptions = observer((properties: FacetListOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -160,24 +160,26 @@ export const FacetListOptions = observer((properties: FacetListOptionsProps): JS
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FacetListOptionsProps extends ComponentProps {
+export type FacetListOptionsProps = {
+	facet?: ValueFacet;
 	values?: FacetValue[];
+	lang?: Partial<FacetListOptionsLang>;
+} & FacetListOptionsTemplatesLegalProps &
+	ComponentProps<FacetListOptionsProps>;
+
+export type FacetListOptionsTemplatesLegalProps = {
 	hideCheckbox?: boolean;
 	hideCount?: boolean;
 	hideCountParenthesis?: boolean;
-	facet?: ValueFacet;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
 	valueProps?: any;
 	respectSingleSelect?: boolean;
-	lang?: Partial<FacetListOptionsLang>;
-}
+};
 
 export interface FacetListOptionsLang {
 	listOption: Lang<{

@@ -9,7 +9,7 @@ Renders a swatch component.
 
 ## Usage
 ```jsx
-import { Swatches } from '@searchspring/snap-preact-components';
+import { Swatches } from '@athoscommerce/snap-preact-components';
 ```
 
 ### options

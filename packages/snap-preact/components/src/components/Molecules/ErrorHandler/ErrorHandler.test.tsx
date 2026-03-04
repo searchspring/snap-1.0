@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
 import { ThemeProvider } from '../../../providers/theme';
 import { ErrorHandler } from './ErrorHandler';

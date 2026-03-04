@@ -334,14 +334,27 @@ describe('Select Component', () => {
 			const selectedIndex = 1;
 			const rendered = render(<Select hideSelection label={label} selected={options[selectedIndex]} options={options} />);
 
-			const icon = rendered.container.querySelector('.ss__select__dropdown__button__icon');
 			const button = rendered.container.querySelector('.ss__select__dropdown__button');
-			const selection = rendered.container.querySelector('.ss__select__selection');
+			const icon = button?.querySelector('.ss__select__dropdown__button__icon');
+			const selection = button?.querySelector('.ss__select__selection');
+			const labelEl = button?.querySelector('.ss__select__label');
+			const labelInner = labelEl?.querySelector('label');
+			const separator = labelEl?.querySelector('.ss__select__label__separator');
 
 			expect(icon).toBeInTheDocument();
-			expect(button?.innerHTML).toBe(
-				'<span class="ss__button__content"><span class="ss__select__label" ss-lang="buttonLabel" aria-label="selectme dropdown, 7 options , Currently selected option is Orange"><label ss-lang="buttonLabel">selectme</label><span class="ss__select__label__separator">: </span></span><svg ss-name="close" ss-path="select dropdown button icon" class="ss__icon ss__icon--angle-down ss__select__dropdown__button__icon ss-14a8xqe" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><path d="M56 16.329c0 0.449-0.224 0.954-0.561 1.291l-26.148 26.148c-0.337 0.337-0.842 0.561-1.291 0.561s-0.954-0.224-1.291-0.561l-26.148-26.148c-0.337-0.337-0.561-0.842-0.561-1.291s0.224-0.954 0.561-1.291l2.806-2.806c0.337-0.337 0.786-0.561 1.291-0.561 0.449 0 0.954 0.224 1.291 0.561l22.052 22.052 22.052-22.052c0.337-0.337 0.842-0.561 1.291-0.561s0.954 0.224 1.291 0.561l2.806 2.806c0.337 0.337 0.561 0.842 0.561 1.291z"></path></svg></span>'
-			);
+			expect(icon).toHaveClass('ss__icon--angle-down');
+
+			expect(labelEl).toBeInTheDocument();
+			expect(labelEl).toHaveAttribute('ss-lang', 'buttonLabel');
+			expect(labelEl).toHaveAttribute('aria-label', 'selectme dropdown, 7 options , Currently selected option is Orange');
+
+			expect(labelInner).toBeInTheDocument();
+			expect(labelInner).toHaveAttribute('ss-lang', 'buttonLabel');
+			expect(labelInner).toHaveTextContent(label);
+
+			expect(separator).toBeInTheDocument();
+			expect(separator).toHaveTextContent(':');
+
 			expect(selection).not.toBeInTheDocument();
 		});
 
@@ -350,16 +363,28 @@ describe('Select Component', () => {
 			const selectedIndex = 1;
 			const rendered = render(<Select hideIcon label={label} selected={options[selectedIndex]} options={options} />);
 
-			const icon = rendered.container.querySelector('.ss__select__dropdown__button__icon');
 			const button = rendered.container.querySelector('.ss__select__dropdown__button');
-			const selection = rendered.container.querySelector('.ss__select__selection');
+			const icon = button?.querySelector('.ss__select__dropdown__button__icon');
+			const selection = button?.querySelector('.ss__select__selection');
+			const labelEl = button?.querySelector('.ss__select__label');
+			const labelInner = labelEl?.querySelector('label');
+			const separator = labelEl?.querySelector('.ss__select__label__separator');
 
 			expect(icon).not.toBeInTheDocument();
 
-			expect(button?.innerHTML).toBe(
-				'<span class="ss__button__content"><span class="ss__select__label" ss-lang="buttonLabel" aria-label="selectme dropdown, 7 options , Currently selected option is Orange"><label ss-lang="buttonLabel">selectme</label><span class="ss__select__label__separator">: </span></span><span class="ss__select__selection">Orange</span></span>'
-			);
+			expect(labelEl).toBeInTheDocument();
+			expect(labelEl).toHaveAttribute('ss-lang', 'buttonLabel');
+			expect(labelEl).toHaveAttribute('aria-label', 'selectme dropdown, 7 options , Currently selected option is Orange');
+
+			expect(labelInner).toBeInTheDocument();
+			expect(labelInner).toHaveAttribute('ss-lang', 'buttonLabel');
+			expect(labelInner).toHaveTextContent(label);
+
+			expect(separator).toBeInTheDocument();
+			expect(separator).toHaveTextContent(':');
+
 			expect(selection).toBeInTheDocument();
+			expect(selection).toHaveTextContent(options[selectedIndex].label as string);
 		});
 
 		it('can hideOptionLabels', async () => {

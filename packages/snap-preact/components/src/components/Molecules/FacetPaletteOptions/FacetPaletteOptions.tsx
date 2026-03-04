@@ -1,21 +1,22 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react-lite';
 
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { createHoverProps } from '../../../toolbox';
-import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Checkbox, CheckboxProps } from '../Checkbox';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import Color from 'color';
+import { Image, ImageProps } from '../../Atoms/Image';
 
 const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSize, gapSize, horizontal, theme }) => {
 	return css({
@@ -62,6 +63,11 @@ const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSiz
 					strokeWidth: '3px',
 					strokeLinejoin: 'round',
 					opacity: 0,
+				},
+
+				'&.ss__facet-palette-options__option__palette--image': {
+					paddingTop: '0',
+					height: 'auto',
 				},
 			},
 			'.ss__facet-palette-options__option__value': {
@@ -153,7 +159,7 @@ const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSiz
 	});
 };
 
-export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProps): JSX.Element => {
+export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FacetPaletteOptionsProps> = {
@@ -201,6 +207,17 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 				icon: 'close-thin',
 				color: 'white',
 				size: '40%',
+			}),
+			// component theme overrides
+			theme: props?.theme,
+			treePath,
+		},
+		image: {
+			// default props
+			internalClassName: 'ss__facet-palette-options__image',
+			// inherited props
+			...defined({
+				disableStyles,
 			}),
 			// component theme overrides
 			theme: props?.theme,
@@ -262,6 +279,13 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 							? lowerCaseColorMapping[value.label.toLowerCase()].background
 							: value.value;
 
+					const backgroundImageUrl =
+						lowerCaseColorMapping &&
+						lowerCaseColorMapping[value.label.toLowerCase()] &&
+						lowerCaseColorMapping[value.label.toLowerCase()].backgroundImageUrl
+							? lowerCaseColorMapping[value.label.toLowerCase()].backgroundImageUrl
+							: undefined;
+
 					let isDark = false;
 					if (background) {
 						try {
@@ -297,12 +321,14 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 								<div
 									className={classnames(
 										'ss__facet-palette-options__option__palette',
-										`ss__facet-palette-options__option__palette--${filters.handleize(value.value)}`
+										`ss__facet-palette-options__option__palette--${filters.handleize(value.value)}`,
+										{ 'ss__facet-palette-options__option__palette--image': backgroundImageUrl }
 									)}
 									style={{
 										background: background,
 									}}
 								>
+									{backgroundImageUrl ? <Image {...subProps.image} src={backgroundImageUrl} alt={value.label || value.value.toString()} /> : null}
 									{!hideIcon && value.filtered && layout?.toLowerCase() == 'grid' && <Icon {...subProps.icon} />}
 								</div>
 							</div>
@@ -317,19 +343,22 @@ export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProp
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FacetPaletteOptionsProps extends ComponentProps {
+export type FacetPaletteOptionsProps = {
+	lang?: Partial<FacetPaletteOptionsLang>;
+	facet?: ValueFacet;
 	values?: FacetValue[];
+} & FacetPaletteOptionsTemplatesLegalProps &
+	ComponentProps<FacetPaletteOptionsProps>;
+
+export type FacetPaletteOptionsTemplatesLegalProps = {
 	hideLabel?: boolean;
 	columns?: number;
 	gridSize?: string;
 	gapSize?: string;
 	hideIcon?: boolean;
-	facet?: ValueFacet;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
@@ -341,10 +370,10 @@ export interface FacetPaletteOptionsProps extends ComponentProps {
 		[name: string]: {
 			label?: string;
 			background?: string;
+			backgroundImageUrl?: string;
 		};
 	};
-	lang?: Partial<FacetPaletteOptionsLang>;
-}
+};
 
 export interface FacetPaletteOptionsLang {
 	paletteOption: Lang<{
@@ -354,6 +383,7 @@ export interface FacetPaletteOptionsLang {
 }
 
 interface FacetPaletteOptionsSubProps {
-	icon: IconProps;
-	checkbox: CheckboxProps;
+	icon: Partial<IconProps>;
+	checkbox: Partial<CheckboxProps>;
+	image: Partial<ImageProps>;
 }

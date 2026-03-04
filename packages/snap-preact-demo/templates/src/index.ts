@@ -1,8 +1,8 @@
-import { SnapTemplates } from '@searchspring/snap-preact';
+import { SnapTemplates } from '@athoscommerce/snap-preact';
 import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
-import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
 const siteId = 'atkzs2';
 
 // const siteId = '8uyt2m';
@@ -23,12 +23,13 @@ const siteId = 'atkzs2';
 // };
 let config: SnapTemplatesConfig = {
 	config: {
-		siteId,
+		siteId: siteId,
 		language: 'en',
 		currency: 'usd',
 		platform: 'other',
 		// client: clientConfig
 	},
+
 	plugins: {
 		common: {
 			addToCart: {
@@ -42,13 +43,14 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'base',
+		extends: 'pike',
+		//resultComponent: 'CustomResult',
 		variables: {
-			breakpoints: {
-				mobile: 768,
-				tablet: 1024,
-				desktop: 1280,
-			},
+			// breakpoints: {
+			// 	mobile: 767,
+			// 	tablet: 1024,
+			// 	desktop: 1280,
+			// },
 			// colors: {
 			// 	primary: '#6d7175',
 			// 	secondary: '#202223',
@@ -64,6 +66,7 @@ let config: SnapTemplatesConfig = {
 		email: {
 			Email: {
 				component: 'RecommendationEmail',
+				//resultComponent: 'EmailResult',
 			},
 		},
 		default: {
@@ -80,18 +83,36 @@ let config: SnapTemplatesConfig = {
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-layout',
-				component: 'Search',
+				selector: '#athos-layout',
+				component: 'SearchCollapsible',
 			},
 		],
+		settings: {
+			variants: {
+				showDisabledSelectionValues: true,
+			},
+			// infinite: {
+			// 	backfill: 5,
+			// },
+		},
 	},
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.searchspring-ac',
+				selector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
 			},
 		],
+		settings: {
+			history: {
+				limit: 6,
+				showResults: true,
+			},
+			trending: {
+				limit: 6,
+				showResults: true,
+			},
+		},
 	},
 };
 

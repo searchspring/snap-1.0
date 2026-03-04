@@ -1,4 +1,4 @@
-import { Fragment, h, ComponentChildren } from 'preact';
+import { h, ComponentChildren } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -18,7 +18,7 @@ const defaultStyles: StyleScript<IconProps> = ({ color, fill, stroke, theme, wid
 	});
 };
 
-export function Icon(properties: IconProps): JSX.Element {
+export function Icon(properties: IconProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -33,6 +33,7 @@ export function Icon(properties: IconProps): JSX.Element {
 	const {
 		color,
 		icon,
+		fill,
 		path,
 		children,
 		size,
@@ -71,16 +72,14 @@ export function Icon(properties: IconProps): JSX.Element {
 					if (children) {
 						return children;
 					} else if (pathType === 'string') {
-						return <path fill={disableStyles ? color : undefined} d={iconPath as string} />;
+						return <path fill={disableStyles ? fill || color || undefined : undefined} d={iconPath as string} />;
 					} else if (iconPath && pathType === 'object' && Array.isArray(iconPath)) {
 						return (iconPath as SVGPathElement[]).map((p, i) => <p.type key={i} {...p.attributes} />);
 					}
 				})()}
 			</svg>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
 export type SVGPathElement = {
@@ -90,7 +89,12 @@ export type SVGPathElement = {
 	};
 };
 
-export interface IconProps extends ComponentProps {
+export type IconProps = {
+	name?: IconNames;
+} & IconTemplatesLegalProps &
+	ComponentProps<IconProps>;
+
+export type IconTemplatesLegalProps = {
 	color?: string;
 	fill?: string;
 	stroke?: string;
@@ -102,8 +106,8 @@ export interface IconProps extends ComponentProps {
 	width?: string | number;
 	height?: string | number;
 	viewBox?: string;
-	name?: IconNames;
-}
+};
+
 export type IconNames =
 	| 'bundle-cart'
 	| 'bundle-selector'
@@ -119,4 +123,6 @@ export type IconNames =
 	| 'close'
 	| 'option'
 	| 'expand'
-	| 'collapse';
+	| 'collapse'
+	| 'overflow-more'
+	| 'overflow-less';

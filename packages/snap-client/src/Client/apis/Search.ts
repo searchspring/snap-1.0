@@ -2,7 +2,7 @@ import { AutocompleteRequestModel, AutocompleteResponseModel, SearchRequestModel
 
 import { API } from '.';
 import { SearchRequesterPaths } from '../../types';
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { SearchResponseType, transformSearchResponse } from '../transforms/searchResponse';
 import { transformSearchRequest } from '../transforms';
 

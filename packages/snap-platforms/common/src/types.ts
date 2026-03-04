@@ -1,4 +1,4 @@
-import { ControllerTypes } from '@searchspring/snap-controller';
+import { ControllerTypes } from '@athoscommerce/snap-controller';
 
 type ValueBackgroundFilter = {
 	type: 'value';

@@ -8,8 +8,8 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../OverlayBadge/readme.md';
 
-import type { SearchController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 
 export default {
 	title: 'Molecules/OverlayBadge',
@@ -79,6 +79,7 @@ export default {
 			description: 'Overlay content to be displayed',
 			type: { required: true },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -87,6 +88,7 @@ export default {
 		componentMap: {
 			description: 'Component map containing custom badge component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -96,6 +98,7 @@ export default {
 		renderEmpty: {
 			description: 'Render wrapper element even when there are no badges',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -106,6 +109,7 @@ export default {
 		limit: {
 			description: 'Number of badges per slot',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},

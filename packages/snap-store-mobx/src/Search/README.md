@@ -2,7 +2,7 @@
 The search store is meant to hold the search API response and associated state. It extends the AbstractStore and the search response by adding several additional properties and methods to make working with the data easier.
 
 ## `meta` property
-The meta property is an object containing the meta data retrieved from the Searchspring Meta API. The majority of this data is used elsewhere in constructing other SearchStore data like 'sorting' and 'facets'.
+The meta property is an object containing the meta data retrieved from the Athos Meta API. The majority of this data is used elsewhere in constructing other SearchStore data like 'sorting' and 'facets'.
 
 ## `merchandising` property
 
@@ -109,7 +109,7 @@ Contains the field name, ie. 'ss_price'.
 If any of the facet's values have been filtered, the facet `filtered` property will be `true`.
 
 ### `custom` property
-See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)
 
 Example inside of a `SearchController` middleware:
 
@@ -135,11 +135,11 @@ cntrlr.on('afterStore', async ({ controller }, next) => {
 
 ### `collapse` property
 
-Collapse state that will contain an initial state that can be defined in the Searchspring Management Console, or toggled programmatically using `toggleCollapse()`.
+Collapse state that will contain an initial state that can be defined in the Athos Search & Product Discovery Console, or toggled programmatically using `toggleCollapse()`.
 
 
 ### `display` property
-Contains the facet display type as configured in the Searchspring Management Console.
+Contains the facet display type as configured in the Athos Search & Product Discovery Console.
 
 ```js
 enum FacetDisplay {
@@ -152,7 +152,7 @@ enum FacetDisplay {
 ```
 
 ### `label` property
-Contains the facet label as configured in the Searchspring Management Console.
+Contains the facet label as configured in the Athos Search & Product Discovery Console.
 
 ### `storage` property
 This is a reference to the `StorageStore` instance that is used to store the current facet state for `collapse` and `overflow`; this preserves these states as additional API queries are made (think faceting, pagination, etc...). The `SearchStore` automatically manages this stored state.
@@ -182,7 +182,7 @@ Contains an object with `low` and `high` properties. This represents the current
 ### `formatSeparator` property
 Only applicable to facets where `type` is `range`.
 
-The text to separate `min` and `max` values. Typically set to `-` and is configured in the Searchspring Management Console.
+The text to separate `min` and `max` values. Typically set to `-` and is configured in the Athos Search & Product Discovery Console.
 
 
 ### `formatValue` property
@@ -190,7 +190,7 @@ Only applicable to facets where `type` is `range`.
 
 A [printf format string](https://en.wikipedia.org/wiki/Printf_format_string) for how to format numerical values.
 
-Configurable in the Searchspring Management Console and typically set to `$%01.2f`.
+Configurable in the Athos Search & Product Discovery Console and typically set to `$%01.2f`.
 
 For example, `9.99` with a formateValue of `$%01.2f` will be formatted to `$9.99`.
 
@@ -218,7 +218,7 @@ Typical usage is to use this with a search input for each facet, allowing a user
 
 Only applicable to facets where `type` is `value` or `range-buckets`
 
-Facet `multiple` can be configured per facet in the Searchspring Management Console to the following values:
+Facet `multiple` can be configured per facet in the Athos Search & Product Discovery Console to the following values:
 
 `single` - a facet can only contain a single active selection at any given time
 
@@ -295,7 +295,7 @@ If `type` is `banner`, id will be set to `ssid-${banner.config.position.index}`
 
 ### `attributes` property
 Only applicable to results with `type` of `product` or `child`
-Product attributes object. Will contain all attributes that have been indexed and enabled in the Searchspring Management Console
+Product attributes object. Will contain all attributes that have been indexed and enabled in the Athos Search & Product Discovery Console
 
 ```json
 "attributes": {
@@ -415,7 +415,7 @@ Core product attributes object
 
 `result.quantity` integer used in the cart store for automatically updating the bundle pricing and quantities for add to cart functions. 
 
-`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variant Integration Docs](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
+`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variant Integration Docs](https://github.com/athoscommerce/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
 
 
 ### `children` property
@@ -431,7 +431,7 @@ Array of product variants. Each variant contains the same properties as the pare
 
 
 ### `custom` property
-See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)
 
 
 
