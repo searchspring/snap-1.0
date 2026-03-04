@@ -97,7 +97,7 @@ The `seeMoreButtonIcon` prop will display the given icon in the see more button.
 ```
 
 ### seeMoreButtonText
-The `seeMoreButtonText` prop will display the given text in the see more button. It can also take a function returning a string. The function is pased the Autocomplete controller. 
+The `seeMoreButtonText` prop will display the given text in the see more button. It can also take a function returning a string. The function is passed the Autocomplete controller. 
 
 ```jsx
 <Autocomplete controller={controller} input={'#searchInput'} seeMoreButtonText={'See More!'} />
