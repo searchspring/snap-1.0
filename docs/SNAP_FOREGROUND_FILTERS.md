@@ -59,7 +59,7 @@ const snap = new Snap(config);
 
 The `initial.parameters` object is keyed by `UrlManager` state parameters - such as filter, sort, page, and pageSize. Any valid `UrlManager` state parameters are available for usage here, even custom parameters; however, filter is the most likely to be used here.
 
-There is also an optional `ignoreParameter` param you can set on the `initial.settings` object, this allows for specifying additional UrlManager state parameters to be added to the ignore list. See example where the `initial.state` filter `on_sale:yes` will be set even if there are other `filter` params present in the UrlManager state. The default values in the `ignoreParameter` are `query`, `tag` and `fallbackQuery`. This list is used to determine wether or not to apply the initial state provided - if the UrlManager state contains any states that are not being ignored, the initial state will not be applied.
+There is also an optional `ignoreParameters` param you can set on the `initial.settings` object, this allows for specifying additional UrlManager state parameters to be added to the ignore list. See example where the `initial.state` filter `on_sale:yes` will be set even if there are other `filter` params present in the UrlManager state. The default values in the `ignoreParameters` are `query`, `tag` and `fallbackQuery`. This list is used to determine whether or not to apply the initial state provided - if the UrlManager state contains any states that are not being ignored, the initial state will not be applied.
 
 ```js
 const config = {
