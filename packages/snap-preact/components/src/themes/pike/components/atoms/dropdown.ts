@@ -39,7 +39,7 @@ const dropdownStyleScript = (props: DropdownProps) => {
 					gap: `${custom.spacing.x2}px`,
 					padding: 0,
 					margin: `0 0 ${custom.spacing.x1}px 0`,
-					'&:last-of-type': {
+					'&:last-child': {
 						marginBottom: '0',
 					},
 					'&:hover': {

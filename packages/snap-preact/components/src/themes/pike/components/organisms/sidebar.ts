@@ -21,6 +21,9 @@ const sidebarStyleScript = (props: SidebarProps) => {
 			},
 			'.ss__select': {
 				width: '100%',
+				'.ss__dropdown .ss__dropdown__content': {
+					zIndex: 6,
+				},
 			},
 		},
 	});

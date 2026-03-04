@@ -30,9 +30,16 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 	const bundleStyles = css({
 		margin: `${custom.spacing.x8}px 0`,
 		...custom.styles.boxSizing('recommendationBundle', props?.treePath, props?.name),
-		'.ss__recommendation-bundle__title': {
+		'.ss__recommendation-bundle__title, .ss__recommendation-bundle__description': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
+		},
+		'.ss__recommendation-bundle__title': {
 			...custom.styles.headerText(variables?.colors?.secondary, '18px'),
+		},
+		'.ss__recommendation-bundle__description': {
+			fontSize: '14px',
+			fontWeight: 'normal',
+			color: variables?.colors?.text,
 		},
 		'.ss__recommendation-bundle__wrapper': {
 			flexFlow: 'row wrap',
@@ -41,12 +48,16 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			margin: `0 -${custom.spacing.x1}px`,
 			'& > *': {
 				flex: '0 1 auto',
+				width: 'auto',
 				minWidth: '1px',
-				margin: `0 0 ${custom.spacing.x4}px 0`,
 			},
 			'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
-				width: `50%`,
+				flex: '1 1 0%',
 				padding: `0 ${custom.spacing.x1}px`,
+			},
+			'.ss__recommendation-bundle__wrapper__cta': {
+				marginTop: 0,
+				flex: '1 1 100%',
 			},
 			'.ss__recommendation-bundle__wrapper__carousel': {
 				'.ss__recommendation__carousel >': {
@@ -54,9 +65,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 						bottom: `calc(10.15rem - ${custom.spacing.x4}px)`,
 					},
 				},
-			},
-			'.ss__recommendation-bundle__wrapper__cta': {
-				flex: '1 1 0%',
 			},
 			'.ss__result-tracker, .ss__recommendation-bundle__wrapper__selector, .ss__recommendation-bundle__wrapper__selector .ss__recommendation-bundle__wrapper__selector__result-wrapper, .ss__result':
 				{
@@ -106,6 +114,9 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 				},
 			},
 		},
+		'.ss__recommendation-bundle__wrapper__cta': {
+			margin: `${custom.spacing.x4}px 0 0 0`,
+		},
 		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'.ss__recommendation-bundle__title': {
 				fontSize: '22px',
@@ -114,25 +125,23 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 		[`${custom.utils.getBp(mobileBp)}`]: {
 			'.ss__recommendation-bundle__wrapper': {
 				flexFlow: `row nowrap`,
-				margin: `0 0 -${custom.spacing.x4}px 0`,
+				margin: props?.ctaInline ? 0 : `0 -${custom.spacing.x2}px`,
 				'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__carousel': {
-					padding: `0 ${custom.spacing.x4}px 0 0`,
+					padding: props?.ctaInline ? `0 ${custom.spacing.x4}px 0 0` : `0 ${custom.spacing.x2}px`,
 				},
-				'.ss__recommendation-bundle__wrapper__seed-container': {
-					width: '25%',
+				'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__cta': {
+					flex: '0 1 auto',
+					width: props?.ctaInline ? `25%` : `33.33%`,
 				},
 			},
 		},
 		[`${custom.utils.getBp(tabletBp)}`]: {
-			'.ss__recommendation-bundle__title': {
+			'.ss__recommendation-bundle__title, .ss__recommendation-bundle__description': {
 				textAlign: 'center',
 			},
 			'.ss__recommendation-bundle__wrapper': {
-				'.ss__recommendation-bundle__wrapper__seed-container': {
-					width: `20%`,
-				},
-				'.ss__recommendation-bundle__wrapper__carousel': {
-					width: '60%',
+				'.ss__recommendation-bundle__wrapper__seed-container, .ss__recommendation-bundle__wrapper__cta': {
+					width: props?.ctaInline ? `20%` : `25%`,
 				},
 			},
 		},
@@ -155,6 +164,9 @@ export const recommendationBundle: ThemeComponent<'recommendationBundle', Recomm
 			ctaButtonSuccessText: 'Added!',
 			separatorIcon: false,
 			separatorIconSeedOnly: false,
+		},
+		'recommendationBundle checkbox icon': {
+			color: custom.colors.primary,
 		},
 		'recommendationBundle icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,

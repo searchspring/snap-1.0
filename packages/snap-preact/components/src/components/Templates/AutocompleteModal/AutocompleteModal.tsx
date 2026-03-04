@@ -32,7 +32,7 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 			left: 0,
 			right: 0,
 			top: '10vh',
-			maxHeight: '80vh',
+			maxHeight: height ? 'initial' : '80vh',
 			overflow: 'scroll',
 			marginLeft: 'auto',
 			marginRight: 'auto',

@@ -83,7 +83,7 @@ const filterSummaryStyleScript = (props: FilterSummaryProps) => {
 				'.ss__filter-summary__filters': {
 					'.ss__filter': {
 						margin: isSidebar ? `0 0 ${custom.spacing.x1}px 0` : 0,
-						'&:last-of-type': {
+						'&:last-child': {
 							marginBottom: isSidebar ? 0 : '',
 						},
 						'.ss__filter__button': {

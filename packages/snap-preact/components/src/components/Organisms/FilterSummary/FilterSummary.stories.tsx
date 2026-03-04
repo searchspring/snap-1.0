@@ -187,7 +187,7 @@ const snapInstance = Snapify.search({
 		filters: [
 			{
 				type: 'value',
-				field: 'color_family',
+				field: 'color',
 				value: 'Blue',
 			} as SearchRequestModelFilterValue,
 			{

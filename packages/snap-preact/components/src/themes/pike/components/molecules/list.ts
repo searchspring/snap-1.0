@@ -16,6 +16,9 @@ const listStyleScript = (props: ListProps) => {
 	// shared styles
 	const sharedStyles = css({
 		...custom.styles.boxSizing('list', props?.treePath, props?.name),
+		'&.ss__list--disabled': {
+			...custom.styles.disabled(),
+		},
 		'.ss__list__title, .ss__list__options': {
 			width: '100%',
 		},
@@ -65,7 +68,7 @@ const listStyleScript = (props: ListProps) => {
 			'.ss__list__options': {
 				'.ss__list__option': {
 					margin: `0 0 ${custom.spacing.x1}px 0`,
-					'&:last-of-type': {
+					'&:last-child': {
 						marginBottom: 0,
 					},
 				},

@@ -31,28 +31,6 @@ The `results` prop specifies a reference to the results store array to use inste
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} results={controller.store.results} />
 ```
 
-### carousel 
-The `carousel` prop specifies an object of carousel settings. These settings will be merged with the default settings (listed below). All valid Carousel component props (and any non-documented SwiperJS props) can be used here. The below example uses the `prevButton`, `nextButton` and `loop` props from the Carousel:
-
-```jsx
-type BundleCarouselProps = {
-	enabled: boolean;
-	seedInCarousel?: boolean;
-} & CarouselProps
-
-const customCarouselProps = {
-	enabled: false
-}
-
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ customCarouselProps } />
-```
-
-### enabled
-The `enabled` prop is a sub prop under the `carousel` prop. It specifies weather the bundle should render as a carousel or not.
-
-```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ enabled:true } />
-```
 
 ### hideSeed
 The `hideSeed` prop specifies if the seed result should be rendered or not.  
@@ -61,43 +39,8 @@ The `hideSeed` prop specifies if the seed result should be rendered or not.
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeed={true} />
 ```
 
-### seedInCarousel
-The `seedInCarousel` prop is a sub prop under the `carousel` prop. It specifies if the seed product should be included in the carousel or not.  
-
-```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ seedInCarousel:true } />
-```
-
-### pagination
-The `pagination` prop is a sub prop under the `carousel` prop. It specifies if the carousel should display pagination dots. 
-
-```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ pagination:true } />
-```
-
-### hideButtons
-The `hideButtons` is a sub prop under the `carousel` prop. It specifies if the carousel should hide prev/next buttons.
-
-```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ hideButtons:true }><Recommendation/>
-```
-
-### prevButton
-The `prevButton` prop is a sub prop under the `carousel` prop. It specifies the previous button element of the carousel. This can be a string or JSX element. 
-
-```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ prevButton: '<' } />
-```
-
-### nextButton
-The `nextButton` prop  is a sub prop under the `carousel` prop. It specifies the next button element of the carousel. This can be a string or JSX element. 
-
-```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ nextButton: '>' } />
-```
-
 ### title
-The `title` prop specifies the carousel title
+The `title` prop specifies the bundle title
 
 ```jsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} title={'Recommended Bundle'} />
@@ -218,45 +161,30 @@ const customLazyRenderProps = {
 ```
 
 ### breakpoints
-An object that modifies the responsive behavior of the carousel at various viewports. 
+An object that modifies the responsive behavior of the bundle at various viewports. 
 
 The object key specified the viewport for when the parameters will be applied. 
 
-The default configuration contains the following properties, however **`any BundleRecommendation props`**, or [Swiper API parameters](https://swiperjs.com/react#swiper-props) can also be specified. 
-
-`slidesPerView` - number of products to display per page
-
-`slidesPerGroup` - number of products to scroll by when next/previous button is clicked
-
-`spaceBetween` - spacing between each product
+The configuration can take any **`RecommendationBundleVertical props`**, 
 
 ```typescript
-const defaultRecommendationBreakpoints = {
+const customRecommendationBreakpoints = {
 	0: {
-		carousel: {
-			enabled: false,
-		},
 		limit: 2
 	},
 	768: {
-		slidesPerView: 3,
-		slidesPerGroup: 3,
-		spaceBetween: 10,
+		limit: 3
 	},
 	1024: {
-		slidesPerView: 3,
-		slidesPerGroup: 3,
-		spaceBetween: 10,
+		limit: 4
 	},
 	1200: {
-		slidesPerView: 4,
-		slidesPerGroup: 4,
-		spaceBetween: 10,
+		limit: 5
 	},
 };
 ```
 
 ```jsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} breakpoints={defaultRecommendationBreakpoints} />
+<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} breakpoints={customRecommendationBreakpoints} />
 ```
 

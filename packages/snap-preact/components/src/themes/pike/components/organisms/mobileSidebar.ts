@@ -76,7 +76,7 @@ const mobileSidebarStyleScript = (props: MobileSidebarProps) => {
 						'& > *': {
 							borderBottom: `1px solid ${custom.colors.gray02}`,
 							padding: `${custom.spacing.x4}px`,
-							'&:last-of-type': {
+							'&:last-child': {
 								borderBottomWidth: 0,
 							},
 						},

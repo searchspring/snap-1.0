@@ -36,8 +36,6 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 					top: '5vh',
 					display: 'flex',
 					flexFlow: 'column nowrap',
-					height: 'auto',
-					maxHeight: props?.height ? props?.height : '80vh',
 					maxWidth: '1000px',
 					overflow: 'visible',
 					'& > .ss__search-input': {
@@ -46,6 +44,9 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 						margin: 0,
 						'.ss__button, .ss__search-input__button--close-search-button': {
 							width: `${searchInputHeight}px`,
+						},
+						'.ss__search-input__input': {
+							backgroundColor: custom.colors.white,
 						},
 					},
 					'.ss__autocomplete': {
@@ -83,8 +84,13 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 			themeStyleScript: autocompleteModalStyleScript,
 			layout: 'standard',
 			width: '90vw',
-			height: '90vh',
 			contentTitle: 'Product Suggestions',
+		},
+		'autocompleteModal terms': {
+			vertical: true,
+		},
+		'autocompleteModal termsList': {
+			verticalOptions: true,
 		},
 		'autocompleteModal facets': {
 			limit: 3,
@@ -134,6 +140,12 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 			...(autocompleteModalThemeComponentProps.mobile?.['autocompleteModal'] || {}),
 			layout: 'mini',
 		},
+		'autocompleteModal terms': {
+			vertical: false,
+		},
+		'autocompleteModal termsList': {
+			verticalOptions: false,
+		},
 		'autocompleteModal results': {
 			rows: 1,
 			columns: 3,
@@ -148,6 +160,12 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.tablet?.['autocompleteModal'] || {}),
 			layout: 'standard',
+		},
+		'autocompleteModal terms': {
+			vertical: false,
+		},
+		'autocompleteModal termsList': {
+			verticalOptions: false,
 		},
 		'autocompleteModal facet': {
 			display: {
@@ -179,6 +197,12 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		autocompleteModal: {
 			...(autocompleteModalThemeComponentProps.desktop?.['autocompleteModal'] || {}),
 			layout: 'standard',
+		},
+		'autocompleteModal terms': {
+			vertical: false,
+		},
+		'autocompleteModal termsList': {
+			verticalOptions: false,
 		},
 		'autocompleteModal results': {
 			rows: 2,

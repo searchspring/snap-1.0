@@ -104,20 +104,6 @@ export default {
 			},
 			control: { type: 'number' },
 		},
-		carousel: {
-			description: 'Carousel settings object',
-			defaultValue: {
-				enabled: true,
-				loop: false,
-			},
-			table: {
-				type: {
-					summary: 'object',
-				},
-				defaultValue: { summary: 'Carousel settings object' },
-			},
-			control: { type: 'object' },
-		},
 		preselectedCount: {
 			description: 'Number of results to have selected by default. (seed included)',
 			table: {
@@ -267,7 +253,7 @@ const config: RecommendationControllerConfig = {
 	tag: 'bundle',
 	globals: {
 		siteId: 'atkzs2',
-		products: ['C-AD-W1-1869P'],
+		products: ['VW1982-UQZ-AS'],
 	},
 };
 

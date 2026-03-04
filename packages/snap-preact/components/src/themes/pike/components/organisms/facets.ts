@@ -16,7 +16,7 @@ const facetsStyleScript = (props: FacetsProps) => {
 			width: 'auto',
 			'.ss__facet': {
 				margin: `0 0 ${custom.spacing.x6}px 0`,
-				'&:last-of-type': {
+				'&:last-child': {
 					marginBottom: 0,
 				},
 			},

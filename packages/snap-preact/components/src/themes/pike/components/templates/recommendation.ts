@@ -10,25 +10,47 @@ const arrowSizes = {
 	mobile: 28,
 	tablet: 32,
 };
+const carouselOptions = {
+	spacing: custom.spacing.x2,
+	button: 32, // size of previous next buttons
+	pagination: 12, // size of pagination bullets
+	scrollbar: 6, // size of scrollbar
+};
 
 // CSS in JS style script for the Recommendation component
 const recommendationStyleScript = (props: RecommendationProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const desktopBp = variables?.breakpoints?.desktop || custom.breakpoints.desktop;
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+
+	// spacing and position variables for features
+	let spacing = 0;
+	if (props?.pagination && props?.scrollbar) {
+		spacing = carouselOptions.spacing * 2 + carouselOptions.pagination + carouselOptions.scrollbar;
+	} else if (props?.pagination && !props?.scrollbar) {
+		spacing = carouselOptions.spacing + carouselOptions.pagination;
+	} else if (!props?.pagination && props?.scrollbar) {
+		spacing = carouselOptions.spacing + carouselOptions.scrollbar;
+	}
 
 	// recommendation styles
 	const recommendationStyles = css({
 		margin: `${custom.spacing.x8}px 0`,
 		position: 'relative',
 		...custom.styles.boxSizing('recommendation', props?.treePath, props?.name),
-		'.ss__recommendation__title': {
+		'.ss__recommendation__title, .ss__recommendation__description': {
 			margin: `0 0 ${custom.spacing.x4}px 0`,
+		},
+		'.ss__recommendation__title': {
 			paddingRight: `${arrowSizes.default * 2 + custom.spacing.x1 + custom.spacing.x2}px`,
 			...custom.styles.headerText(variables?.colors?.secondary, '18px'),
 			...custom.styles.textOverflow(),
+		},
+		'.ss__recommendation__description': {
+			fontSize: '14px',
+			fontWeight: 'normal',
+			color: variables?.colors?.text,
 		},
 		'.ss__carousel': {
 			position: 'static',
@@ -71,7 +93,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 			},
 		},
 		[`${custom.utils.getBp(tabletBp)}`]: {
-			'.ss__recommendation__title': {
+			'.ss__recommendation__title, .ss__recommendation__description': {
 				textAlign: 'center',
 			},
 			'.ss__carousel': {
@@ -79,20 +101,13 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 				padding: `0 ${custom.spacing.x4 + arrowSizes.tablet}px`,
 				'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
 					top: 0,
-					bottom: `calc(10.15rem - ${custom.spacing.x4}px)`,
+					bottom: `calc(10.15rem + ${spacing - custom.spacing.x4}px)`,
 					width: `${arrowSizes.tablet}px`,
 					height: `${arrowSizes.tablet}px`,
 				},
 				'.ss__carousel__prev-wrapper': {
 					right: `auto`,
 					left: 0,
-				},
-			},
-		},
-		[`${custom.utils.getBp(desktopBp)}`]: {
-			'.ss__carousel': {
-				'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-					bottom: `calc(11rem - ${custom.spacing.x4}px)`,
 				},
 			},
 		},

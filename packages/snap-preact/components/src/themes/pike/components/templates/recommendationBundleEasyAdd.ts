@@ -45,10 +45,16 @@ const recommendationBundleEasyAddStyleScript = (props: RecommendationBundleEasyA
 					},
 				},
 			},
+			'.ss__recommendation-bundle-easy-add__wrapper__cta': {
+				margin: `${custom.spacing.x2}px 0 0 0`,
+			},
 		},
-		'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal': {
-			'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__icon__wrapper': {
-				display: 'none',
+		'.ss__recommendation-bundle-easy-add__wrapper__cta': {
+			width: 'auto',
+			'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal': {
+				'.ss__recommendation-bundle-easy-add__wrapper__cta__subtotal__icon__wrapper': {
+					display: 'none',
+				},
 			},
 		},
 	});
@@ -68,6 +74,9 @@ export const recommendationBundleEasyAdd: ThemeComponent<'recommendationBundleEa
 			themeStyleScript: recommendationBundleEasyAddStyleScript,
 			ctaButtonText: 'Add Both to Cart',
 			ctaButtonSuccessText: 'Added!',
+		},
+		'recommendationBundleEasyAdd checkbox icon': {
+			color: custom.colors.primary,
 		},
 		'recommendationBundleEasyAdd icon.bundle-cart': {
 			size: `${custom.sizes.icon16 * 2}px`,

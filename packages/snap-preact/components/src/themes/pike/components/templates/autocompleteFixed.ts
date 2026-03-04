@@ -92,6 +92,12 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 			viewportMaxHeight: false,
 			contentTitle: 'Product Suggestions',
 		},
+		'autocompleteFixed terms': {
+			vertical: true,
+		},
+		'autocompleteFixed termsList': {
+			verticalOptions: true,
+		},
 		'autocompleteFixed facets': {
 			limit: 3,
 		},
@@ -141,6 +147,12 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 			layout: 'mini',
 			width: 'auto',
 		},
+		'autocompleteFixed terms': {
+			vertical: false,
+		},
+		'autocompleteFixed termsList': {
+			verticalOptions: false,
+		},
 		'autocompleteFixed results': {
 			rows: 1,
 			columns: 3,
@@ -156,6 +168,12 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 			...(autocompleteFixedThemeComponentProps.tablet?.['autocompleteFixed'] || {}),
 			layout: 'standard',
 			width: '600px',
+		},
+		'autocompleteFixed terms': {
+			vertical: false,
+		},
+		'autocompleteFixed termsList': {
+			verticalOptions: false,
 		},
 		'autocompleteFixed facet': {
 			display: {
@@ -188,6 +206,12 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 			...(autocompleteFixedThemeComponentProps.desktop?.['autocompleteFixed'] || {}),
 			layout: 'standard',
 			width: '700px',
+		},
+		'autocompleteFixed terms': {
+			vertical: false,
+		},
+		'autocompleteFixed termsList': {
+			verticalOptions: false,
 		},
 		'autocompleteFixed results': {
 			rows: 2,

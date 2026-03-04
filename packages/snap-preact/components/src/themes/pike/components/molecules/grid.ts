@@ -4,7 +4,6 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // static variables
-const gridSize = 42;
 const gridSelector = 'ss__grid__option';
 const darkSelector = `&.${gridSelector}--dark, &:has(.${gridSelector}__inner--grey), &:has(.${gridSelector}__inner--gray)`;
 const imageSelector = '&:has(.ss__image)';
@@ -18,9 +17,10 @@ const fontColor = activeColors[1];
 const gridStyleScript = (props: Partial<GridProps>) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
+	const columns = props?.columns ? props.columns : 4;
 
-	// shared styles
-	const sharedStyles = css({
+	// grid styles
+	const gridStyles = css({
 		...custom.styles.boxSizing('grid', props?.treePath, props?.name),
 		'.ss__grid__title': {
 			margin: `0 0 ${custom.spacing.x2}px 0`,
@@ -31,13 +31,23 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 			lineHeight: 1,
 		},
 		'.ss__grid__options': {
+			display: 'flex',
+			flexFlow: 'row wrap',
+			alignItems: 'center',
+			justifyContent: 'center',
+			'&:before': {
+				display: 'none',
+			},
 			'.ss__grid__option': {
+				minWidth: '1px',
+				flex: '0 1 auto',
 				'&, &.ss__grid__option--selected': {
 					border: 0,
 				},
 			},
 			'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
 				position: 'relative',
+				width: `calc((100% - (${props?.gapSize ? props.gapSize : custom.spacing.x1} * ${columns - 1})) / ${columns})`,
 				'.ss__grid__option__inner': {
 					position: 'relative',
 					width: '100%',
@@ -123,7 +133,7 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 						cursor: 'not-allowed !important',
 					},
 					'&:before': {
-						maxWidth: `${gridSize - 4}px`,
+						maxWidth: 'calc(100% - 4px)',
 						top: 0,
 						bottom: 0,
 						zIndex: 3,
@@ -163,49 +173,29 @@ const gridStyleScript = (props: Partial<GridProps>) => {
 					},
 				},
 			},
+			'.ss__grid__show-more-wrapper': {
+				'.ss__grid__show-more, .ss__grid__show-less': {
+					paddingLeft: `${custom.spacing.x1}px`,
+				},
+			},
 		},
 		'.ss__grid__show-more-wrapper': {
 			'&:not(.ss__grid__option)': {
 				margin: `${custom.spacing.x1}px 0 0 0`,
+				'.ss__grid__show-more, .ss__grid__show-less': {
+					lineHeight: 1.5,
+				},
 			},
 			'&, .ss__grid__show-more': {
 				cursor: 'pointer',
 			},
-			'.ss__grid__show-more': {
+			'.ss__grid__show-more, .ss__grid__show-less': {
 				...custom.styles.activeText(variables?.colors?.primary),
 			},
 		},
 	});
 
-	// grid styles
-	const gridStyles = css([
-		sharedStyles,
-		{
-			'.ss__grid__options': {
-				display: 'flex',
-				flexFlow: 'row wrap',
-				alignItems: 'center',
-				'&:before, &:after': {
-					display: 'none',
-				},
-				'.ss__grid__option': {
-					flex: '0 1 auto',
-					minWidth: '1px',
-				},
-				'.ss__grid__option:not(.ss__grid__show-more-wrapper)': {
-					width: `${gridSize}px`,
-					maxHeight: `${gridSize}px`,
-					height: '100%',
-					aspectRatio: 1,
-				},
-			},
-		},
-	]);
-
-	// grid column styles
-	const gridColumnStyles = css([sharedStyles]);
-
-	return props?.columns ? gridColumnStyles : gridStyles;
+	return gridStyles;
 };
 
 // Grid component props
@@ -213,7 +203,7 @@ export const grid: ThemeComponent<'grid', GridProps> = {
 	default: {
 		grid: {
 			themeStyleScript: gridStyleScript,
-			columns: 0,
+			columns: 4,
 			gapSize: `${custom.spacing.x1}px`,
 			hideLabels: false,
 		},

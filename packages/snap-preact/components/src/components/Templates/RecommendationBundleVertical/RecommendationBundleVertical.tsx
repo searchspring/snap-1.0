@@ -50,7 +50,8 @@ export const RecommendationBundleVertical = observer((properties: Recommendation
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleVerticalProps = Omit<RecommendationBundleProps, 'vertical' | 'ctaInline'> & ComponentProps;
+export type RecommendationBundleVerticalProps = Omit<RecommendationBundleProps, 'vertical' | 'ctaInline' | 'carousel' | 'slidesPerView'> &
+	ComponentProps;
 
 interface RecommendationBundleVerticalSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

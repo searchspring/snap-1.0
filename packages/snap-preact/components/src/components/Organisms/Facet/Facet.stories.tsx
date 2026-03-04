@@ -469,7 +469,7 @@ Palette.loaders = [
 // Grid Facet
 
 const ObservableGridFacet = observer(({ args, controller }: { args: FacetProps; controller: SearchController }) => {
-	const facet = controller?.store?.facets.filter((facet) => facet.field === 'collection_handle').pop();
+	const facet = controller?.store?.facets.filter((facet) => facet.field === 'size').pop();
 	if (facet) {
 		return <Facet {...args} facet={facet} />;
 	}
