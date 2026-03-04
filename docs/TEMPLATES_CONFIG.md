@@ -213,14 +213,6 @@ new SnapTemplates({
 See [UrlTranslator configuration](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url) for more documentation
 
 
-### Feature toggles
-
-| Configuration Option | Description | Type | Default |
-|----------------------|-------------|------|---------|
-| `features` | Feature toggles | Object | ➖ |
-| `features.integratedSpellCorrection.enabled` | Enable integrated spell correction | Boolean | true |
-
-
 ### Templates Theming
 Theming in Snap Templates is the primary method of customizing a template. 
 

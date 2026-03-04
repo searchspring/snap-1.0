@@ -122,7 +122,6 @@ export type FinderFieldConfig = {
 };
 
 export type AutocompleteStoreConfigSettings = {
-	integratedSpellCorrection?: boolean;
 	initializeFromUrl?: boolean;
 	syncInputs?: boolean;
 	serializeForm?: boolean;

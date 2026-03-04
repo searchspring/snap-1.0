@@ -781,7 +781,7 @@ export class Snap {
 													action: 'after', // before, after, append, prepend
 													element: () => {
 														const acContainer = document.createElement('div');
-														acContainer.className = 'athos__autocomplete--target';
+														acContainer.className = 'ss__autocomplete--target';
 														acContainer.addEventListener('click', (e) => {
 															e.stopPropagation();
 														});

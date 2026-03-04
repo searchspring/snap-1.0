@@ -25,11 +25,6 @@ export function getSearchParams(state: ImmutableUrlState): Record<string, any> {
 		params.search.subQuery = state.rq;
 	}
 
-	if (state.oq) {
-		params.search = params.search || {};
-		params.search.originalQuery = state.oq;
-	}
-
 	if (state.fallbackQuery) {
 		params.search = params.search || {};
 		params.search.fallbackQuery = state.fallbackQuery;

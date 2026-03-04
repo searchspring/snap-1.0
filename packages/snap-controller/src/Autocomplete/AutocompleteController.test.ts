@@ -26,7 +26,7 @@ const acConfigBase = {
 	globals: {
 		suggestions: { count: 4 },
 		search: {
-			query: { spellCorrection: true },
+			query: {},
 		},
 		pagination: { pageSize: 6 },
 	},
@@ -848,13 +848,11 @@ describe('Autocomplete Controller', () => {
 		beforeSubmitfn.mockClear();
 	});
 
-	it('adds fallback query when integrated spell correct setting is enabled', async () => {
-		let acConfig2 = { ...acConfig, settings: { integratedSpellCorrection: true } };
-
+	it('adds fallback query', async () => {
 		document.body.innerHTML = '<div><form action="/search.html"><input type="text" id="search_query"></form></div>';
-		const controller = new AutocompleteController(acConfig2, {
+		const controller = new AutocompleteController(acConfig, {
 			client: new MockClient(globals, {}),
-			store: new AutocompleteStore(acConfig2, services),
+			store: new AutocompleteStore(acConfig, services),
 			urlManager,
 			eventManager: new EventManager(),
 			profiler: new Profiler(),
@@ -893,93 +891,7 @@ describe('Autocomplete Controller', () => {
 		beforeSubmitfn!.mockClear();
 	});
 
-	it('can submit with form with original query when corrected query', async () => {
-		document.body.innerHTML = '<div><form action="/search.html"><input type="text" id="search_query"></form></div>';
-		const controller = new AutocompleteController(acConfig, {
-			client: new MockClient(globals, {}),
-			store: new AutocompleteStore(acConfig, services),
-			urlManager,
-			eventManager: new EventManager(),
-			profiler: new Profiler(),
-			logger: new Logger(),
-			tracker: new Tracker(globals),
-		});
-		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'corrected', siteId: '8uyt2m' });
-
-		await controller.bind();
-
-		const query = 'dresss';
-		let inputEl: HTMLInputElement | null;
-
-		await waitFor(() => {
-			inputEl = document.querySelector(controller.config.selector);
-			expect(inputEl).toBeDefined();
-		});
-
-		const form = inputEl!.form;
-
-		inputEl!.focus();
-		inputEl!.value = query;
-
-		await controller.search();
-
-		const beforeSubmitfn = jest.spyOn(controller.eventManager, 'fire');
-		form?.dispatchEvent(new Event('submit', { bubbles: true }));
-
-		await waitFor(() => {
-			const oqInputEl: HTMLInputElement | null = form!.querySelector('input[name="oq"]');
-			expect(oqInputEl!).toBeDefined();
-			expect(oqInputEl!.value).toBe(query);
-		});
-
-		beforeSubmitfn!.mockClear();
-	});
-
-	it('can submit without form and config.action with original query', async () => {
-		document.body.innerHTML = '<div><input type="text" id="search_query"></div>';
-		acConfig.action = '/search.html';
-
-		const controller = new AutocompleteController(acConfig, {
-			client: new MockClient(globals, {}),
-			store: new AutocompleteStore(acConfig, services),
-			urlManager,
-			eventManager: new EventManager(),
-			profiler: new Profiler(),
-			logger: new Logger(),
-			tracker: new Tracker(globals),
-		});
-		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'corrected', siteId: '8uyt2m' });
-
-		await controller.bind();
-		const inputEl: HTMLInputElement | null = document.querySelector(controller.config.selector);
-
-		const query = 'dresss';
-		inputEl!.focus();
-		inputEl!.value = query;
-
-		inputEl!.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, keyCode: KEY_ENTER }));
-
-		await waitFor(() => {
-			expect(controller.store.search.originalQuery).toBeDefined();
-		});
-
-		// @ts-ignore
-		delete window.location;
-		window.location = {
-			...window.location,
-			href: '', // jest does not support window location changes
-		};
-
-		inputEl!.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, keyCode: KEY_ENTER }));
-
-		await waitFor(() => {
-			expect(window.location.href).toContain(`oq=${query}`);
-			expect(window.location.href).not.toContain(`fallbackQuery=`);
-			expect(window.location.href).toContain(acConfig.action);
-		});
-	});
-
-	it('can submit with setting.integratedSpellCorrection and have fallbackQuery query', async () => {
+	it('will submit with fallbackQuery query', async () => {
 		document.body.innerHTML = '<div><input type="text" id="search_query"></div>';
 		acConfig = {
 			...acConfig,
@@ -987,7 +899,6 @@ describe('Autocomplete Controller', () => {
 			action: '/search',
 			settings: {
 				initializeFromUrl: true,
-				integratedSpellCorrection: true,
 			},
 		};
 
@@ -1000,7 +911,7 @@ describe('Autocomplete Controller', () => {
 			logger: new Logger(),
 			tracker: new Tracker(globals),
 		});
-		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'correctedIntegratedSpellCorrection', siteId: '8uyt2m' });
+		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'spellCorrection', siteId: '8uyt2m' });
 
 		const query = 'rumper';
 		controller.urlManager = controller.urlManager.set('query', query);

@@ -288,11 +288,6 @@ let site = {
 		query: 'search_query',
 		page: 'p',
 	},
-	features: {
-		integratedSpellCorrection: {
-			enabled: true,
-		},
-	},
 };
 
 /* set up page details config */

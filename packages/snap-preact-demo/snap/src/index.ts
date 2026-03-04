@@ -89,11 +89,6 @@ if (customOrigin) {
 
 let config: SnapConfig = {
 	mode: 'development', // should be removed for 'production' usage
-	features: {
-		integratedSpellCorrection: {
-			enabled: true,
-		},
-	},
 	url: {
 		parameters: {
 			core: {

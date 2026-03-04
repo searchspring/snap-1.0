@@ -192,7 +192,6 @@ const { meta, search } = await client.autocomplete({
   search: {
     query: {
       string: 'yellw',
-      spellCorrection: true
     }
   }
 });

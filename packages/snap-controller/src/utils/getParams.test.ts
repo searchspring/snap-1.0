@@ -89,25 +89,6 @@ describe('getParams', () => {
 		});
 	});
 
-	it('uses "oq" from UrlManager state', () => {
-		const searchQuery = 'shirt';
-		const originalQuery = 'shit';
-
-		urlManager = urlManager.merge('query', searchQuery);
-		urlManager = urlManager.merge('oq', originalQuery);
-
-		const params = getSearchParams(urlManager.state);
-
-		expect(params).toStrictEqual({
-			search: {
-				query: {
-					string: searchQuery,
-				},
-				originalQuery,
-			},
-		});
-	});
-
 	it('uses "fallbackQuery" from UrlManager state', () => {
 		const searchQuery = 'red drezz';
 		const fallbackQuery = 'red dress';

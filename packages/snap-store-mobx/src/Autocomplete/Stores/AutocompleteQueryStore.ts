@@ -19,7 +19,7 @@ export class AutocompleteQueryStore {
 	public matchType: SearchResponseModelSearchMatchTypeEnum;
 
 	constructor(params: AutocompleteQueryStoreConfig) {
-		const { services, data, config } = params || {};
+		const { services, data } = params || {};
 		const { search, autocomplete } = data?.autocomplete || {};
 		const observables: Observables = {};
 
@@ -29,13 +29,8 @@ export class AutocompleteQueryStore {
 		}
 
 		if (autocomplete?.correctedQuery) {
-			if (config.settings?.integratedSpellCorrection) {
-				this.correctedQuery = new Query(services.urlManager, autocomplete.correctedQuery);
-				observables.correctedQuery = observable;
-			} else if (autocomplete.query) {
-				this.originalQuery = new Query(services.urlManager, autocomplete.query);
-				observables.originalQuery = observable;
-			}
+			this.correctedQuery = new Query(services.urlManager, autocomplete.correctedQuery);
+			observables.correctedQuery = observable;
 		}
 
 		this.matchType = search?.matchType as SearchResponseModelSearchMatchTypeEnum;

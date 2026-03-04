@@ -9,7 +9,7 @@ Foreground filters provide a way for pre-applying a filter on page load. The app
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `initial.settings` | Object | ➖ | - | Global configuration settings for initial state |
-| `initial.settings.ignoreParameters` | string[] | ➖ | `['query', 'tag', 'oq', 'fallbackQuery']` | Parameters to ignore when determining whether to apply initial state |
+| `initial.settings.ignoreParameters` | string[] | ➖ | `['query', 'tag', 'fallbackQuery']` | Parameters to ignore when determining whether to apply initial state |
 | `initial.settings.useDefaultIgnoreParameters` | boolean | ➖ | `true` | Whether to use the default ignore parameters list |
 | `parameters` | Object | ✔️ | - | UrlManager state parameters to set initially |
 | `initial.parameters.filter` | Object | ➖ | - | Filter state configuration |
@@ -59,7 +59,7 @@ const snap = new Snap(config);
 
 The `initial.parameters` object is keyed by `UrlManager` state parameters - such as filter, sort, page, and pageSize. Any valid `UrlManager` state parameters are available for usage here, even custom parameters; however, filter is the most likely to be used here.
 
-There is also an optional `ignoreParameter` param you can set on the `initial.settings` object, this allows for specifying additional UrlManager state parameters to be added to the ignore list. See example where the `initial.state` filter `on_sale:yes` will be set even if there are other `filter` params present in the UrlManager state. The default values in the `ignoreParameter` are `query`, `tag`, `oq` and `fallbackQuery`. This list is used to determine wether or not to apply the initial state provided - if the UrlManager state contains any states that are not being ignored, the initial state will not be applied.
+There is also an optional `ignoreParameters` param you can set on the `initial.settings` object, this allows for specifying additional UrlManager state parameters to be added to the ignore list. See example where the `initial.state` filter `on_sale:yes` will be set even if there are other `filter` params present in the UrlManager state. The default values in the `ignoreParameters` are `query`, `tag` and `fallbackQuery`. This list is used to determine whether or not to apply the initial state provided - if the UrlManager state contains any states that are not being ignored, the initial state will not be applied.
 
 ```js
 const config = {
