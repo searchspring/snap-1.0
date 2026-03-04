@@ -5,7 +5,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import packageJSON from '../../../package.json';
 import 'cypress-wait-until';
 
 Cypress.Commands.add('addScript', (script) => {
