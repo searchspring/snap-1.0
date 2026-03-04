@@ -29,7 +29,7 @@ describe('BranchOverride Component', () => {
 			expect(overrideElement.classList).toHaveLength(3);
 
 			const styles = getComputedStyle(overrideElement);
-			expect(styles.background).toBe('rgba(255, 255, 255, 0.95)');
+			expect(styles.background).toBe('rgba(29, 73, 144, 0.9)');
 		});
 
 		// branch name
@@ -51,7 +51,7 @@ describe('BranchOverride Component', () => {
 			const overrideElement = rendered.container.querySelector('.ss__branch-override')!;
 			expect(overrideElement).toBeInTheDocument();
 			const styles = getComputedStyle(overrideElement);
-			expect(styles.background).toBe('rgba(59, 35, 173, 0.9)');
+			expect(styles.background).toBe('rgba(26, 29, 36, 0.9)');
 		});
 	});
 
