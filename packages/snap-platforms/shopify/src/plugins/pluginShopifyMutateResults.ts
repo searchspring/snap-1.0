@@ -18,8 +18,8 @@ export type PluginShopifyMutateResultsConfig = {
 } & AbstractPluginConfig;
 
 export const pluginShopifyMutateResults = (cntrlr: AbstractController, config?: PluginShopifyMutateResultsConfig) => {
-	// do nothing if plugin is not enabled
-	if (config?.enabled !== true) return;
+	// do nothing if plugin is disabled
+	if (config?.enabled === false) return;
 
 	// mutatation collectionInUrl
 	const collectionHandle = cntrlr.context.collection?.handle;

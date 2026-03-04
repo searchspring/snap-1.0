@@ -132,8 +132,9 @@ describe('shopify/pluginMutateResults', () => {
 				name: 'Collection Name',
 			};
 			controller.context.collection = collectionContext;
+			controller.context.page = { type: 'category' };
 
-			pluginShopifyMutateResults(controller);
+			pluginShopifyMutateResults(controller, { mutations: { collectionInUrl: { enabled: true } } });
 
 			await controller.search();
 
