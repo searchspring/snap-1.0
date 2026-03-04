@@ -476,7 +476,6 @@ export const Facet = observer((properties: FacetProps) => {
 		(facet as RangeFacet)?.active?.high !== (facet as RangeFacet)?.range?.high ||
 		(facet as RangeFacet)?.active?.low !== (facet as RangeFacet)?.range?.low;
 
-	console.log(justContent);
 	return facet && renderFacet ? (
 		<CacheProvider>
 			<div

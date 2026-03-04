@@ -271,47 +271,47 @@ export const Default = (args: AutocompleteModalProps, { loaded: { controller } }
 			preview: () => setTermState('dress'),
 			value: 'dress',
 			url: {
-				href: 'www.dress.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'drss',
-			preview: () => setTermState('drss'),
-			value: 'drss',
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
 			url: {
-				href: 'www.drss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'dreees',
-			preview: () => setTermState('dreees'),
-			value: 'dreees',
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
 			url: {
-				href: 'www.dreees.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'dres',
-			preview: () => setTermState('dres'),
-			value: 'dres',
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
 			url: {
-				href: 'www.dres.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'dss',
-			preview: () => setTermState('dss'),
-			value: 'dss',
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
 			url: {
-				href: 'www.dss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'ress',
-			preview: () => setTermState('ress'),
-			value: 'ress',
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
 			url: {
-				href: 'www.ress.com',
+				href: '#',
 			} as UrlManager,
 		},
 	];
