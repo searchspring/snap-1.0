@@ -23,14 +23,14 @@ export const pluginShopifyMutateResults = (cntrlr: AbstractController, config?: 
 
 	// mutatation collectionInUrl
 	const collectionHandle = cntrlr.context.collection?.handle;
-	if (config?.mutations?.collectionInUrl?.enabled !== false && collectionHandle) {
+	if (config?.mutations?.collectionInUrl?.enabled === true && collectionHandle) {
 		if (!window.Shopify) {
 			cntrlr.log.warn('shopify/pluginMutateResults: window.Shopify not found!');
 			return;
 		}
 
 		// only proceed if controller is search and page type is category
-		if (cntrlr.type == 'search' && cntrlr.context.page.type == 'category') {
+		if (cntrlr.type == 'search' && cntrlr.context.page?.type == 'category') {
 			cntrlr.on('afterStore', async ({ controller }: { controller: SearchController }, next: Next) => {
 				const { results } = controller.store as SearchStore;
 
