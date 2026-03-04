@@ -57,7 +57,7 @@ export default {
 				},
 				defaultValue: { summary: "[['filterSummary'], ['sortBy', 'perPage'], ['facets'], ['banner.left']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		titleText: {
 			description: 'Text to render in the sidebar title',

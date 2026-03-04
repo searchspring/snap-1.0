@@ -18,7 +18,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 	const variables = props?.theme?.variables;
 	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
-
 	// bundle shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle__wrapper__cta': {

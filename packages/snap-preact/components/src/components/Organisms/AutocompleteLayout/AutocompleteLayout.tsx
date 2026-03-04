@@ -433,7 +433,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		},
 	};
 
-	const { search, terms, trending, results, merchandising, pagination, filters, facets, state, loading } = controller.store;
+	const { search, terms, trending, results, merchandising, pagination, filters, facets, state, loading, loaded } = controller.store;
 	const history = controller.store.history || [];
 
 	// you can pass in a selector or the actual input element,
@@ -643,7 +643,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		if (module == 'content' && showResults) {
 			return (
 				<div className="ss__autocomplete__content">
-					{results.length > 0 || !loading ? (
+					{results.length > 0 || loaded ? (
 						<div className="ss__autocomplete__content-inner">
 							{!excludeBanners ? <Banner {...subProps.banner} content={merchandising.content} type={ContentType.HEADER} name={'header'} /> : null}
 							{!excludeBanners ? <Banner {...subProps.banner} content={merchandising.content} type={ContentType.BANNER} name={'banner'} /> : null}
@@ -656,7 +656,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 									) : null}
 									<Results results={results} {...subProps.results} controller={controller} />
 								</div>
-							) : !loading ? (
+							) : loaded ? (
 								<div className="ss__autocomplete__content__no-results">
 									<div className="ss__autocomplete__content__no-results__text" {...mergedLang.noResultsText?.all}></div>
 									{RecommendationTemplateComponent && recsController?.store?.loaded ? (

@@ -96,12 +96,8 @@ The `seeMoreButtonIcon` prop will display the given icon in the see more button.
 <Autocomplete controller={controller} input={'#searchInput'} seeMoreButtonIcon={'angle-right'} />
 ```
 
-The `seeMoreButtonText` prop can also take a function returning a string. The function is pased the Autocomplete controller. 
-
-```jsx
-
 ### seeMoreButtonText
-The `seeMoreButtonText` prop will display the given text in the see more button.
+The `seeMoreButtonText` prop will display the given text in the see more button. It can also take a function returning a string. The function is passed the Autocomplete controller. 
 
 ```jsx
 <Autocomplete controller={controller} input={'#searchInput'} seeMoreButtonText={'See More!'} />
@@ -306,8 +302,6 @@ const CustomOnClickFunc = (e) => {
 ```jsx
 <Autocomplete controller={controller} input={'#searchInput'} onFacetOptionClick={CustomOnClickFunc} />
 ```
-
-
 
 ### onTermClick
 The `onTermClick` prop contains a custom onClick event handler for Suggested & Trending Terms. Function is passed the click event. 

@@ -190,18 +190,6 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
-		vertical: {
-			description: 'set the recommendation to render vertically',
-			defaultValue: false,
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: false },
-			},
-			control: { type: 'boolean' },
-		},
 		separatorIconSeedOnly: {
 			description: 'boolean to only have seperator Icon for the seed product',
 			table: {

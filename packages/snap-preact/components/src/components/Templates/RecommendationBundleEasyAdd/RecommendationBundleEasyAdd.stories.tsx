@@ -108,17 +108,6 @@ export default {
 			},
 			control: { type: 'text' },
 		},
-		vertical: {
-			description: 'set the recommendation to render vertically',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: true },
-			},
-			control: { type: 'boolean' },
-		},
 		ctaButtonText: {
 			description: 'text to render in add to cart button',
 			table: {

@@ -62,7 +62,7 @@ export default {
 				},
 				defaultValue: { summary: "['mobileSidebar', 'filterSummary', 'paginationInfo', 'sortBy', 'perPage', 'pagination']" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		toggleSideBarButton: {
 			description: 'specifies an element to be used as the toggleSideBarButton',

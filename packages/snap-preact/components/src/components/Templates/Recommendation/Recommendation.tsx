@@ -170,7 +170,7 @@ export const Recommendation = observer((properties: RecommendationProps) => {
 								{title}
 							</h3>
 						)}
-						{description && <h4 className="ss__recommendation__description">{description}</h4>}
+						{description && <p className="ss__recommendation__description">{description}</p>}
 
 						<Carousel
 							prevButton={prevButton}

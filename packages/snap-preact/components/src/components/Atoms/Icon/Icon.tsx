@@ -33,6 +33,7 @@ export function Icon(properties: IconProps) {
 	const {
 		color,
 		icon,
+		fill,
 		path,
 		children,
 		size,
@@ -71,7 +72,7 @@ export function Icon(properties: IconProps) {
 					if (children) {
 						return children;
 					} else if (pathType === 'string') {
-						return <path fill={disableStyles ? color : undefined} d={iconPath as string} />;
+						return <path fill={disableStyles ? fill || color || undefined : undefined} d={iconPath as string} />;
 					} else if (iconPath && pathType === 'object' && Array.isArray(iconPath)) {
 						return (iconPath as SVGPathElement[]).map((p, i) => <p.type key={i} {...p.attributes} />);
 					}
@@ -122,4 +123,6 @@ export type IconNames =
 	| 'close'
 	| 'option'
 	| 'expand'
-	| 'collapse';
+	| 'collapse'
+	| 'overflow-more'
+	| 'overflow-less';

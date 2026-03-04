@@ -86,18 +86,6 @@ export default {
 			},
 			action: 'onFacetOptionClick',
 		},
-		overlay: {
-			defaultValue: true,
-			description: 'Render facet options as a dropdown overlay',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: true },
-			},
-			control: { type: 'boolean' },
-		},
 		showSelectedCount: {
 			description: 'shows the number of selected options within the facet headers',
 			table: {

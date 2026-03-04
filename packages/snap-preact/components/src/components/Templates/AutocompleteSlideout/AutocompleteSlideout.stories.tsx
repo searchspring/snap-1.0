@@ -8,6 +8,8 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { useEffect, useState } from 'preact/hooks';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 
 export default {
 	title: 'Templates/AutocompleteSlideout',
@@ -135,7 +137,7 @@ export default {
 				},
 				defaultValue: { summary: "[['button.see-more'],['termsList'], ['content']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column1: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c1" layout',
@@ -152,7 +154,7 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column2: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c2" layout',
@@ -169,7 +171,7 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column3: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c3" layout',
@@ -186,7 +188,7 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column4: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c4" layout',
@@ -197,7 +199,7 @@ export default {
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		width: {
 			defaultValue: '500px',
@@ -265,6 +267,61 @@ const snapInstance = Snapify.autocomplete({
 });
 
 export const Default = (args: AutocompleteSlideoutProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
+	const [termState, setTermState] = useState(false);
+
+	const mockTerms: AutocompleteTermStore = [
+		{
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
+			value: 'dress',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+	];
+
+	controller.store.history = mockTerms;
+
 	const [inputFound, setInputFound] = useState(false);
 
 	useEffect(() => {

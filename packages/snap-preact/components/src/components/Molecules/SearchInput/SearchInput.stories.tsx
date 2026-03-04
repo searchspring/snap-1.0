@@ -102,7 +102,7 @@ export default {
 			table: {
 				category: 'Templates Legal',
 				type: {
-					summary: `{ icon: 'search' }`,
+					summary: `{ icon: 'search-thin' }`,
 				},
 			},
 			control: { type: 'object' },
@@ -166,6 +166,6 @@ export default {
 export const Default = (args: SearchInputProps) => <SearchInput {...args} />;
 
 Default.args = {
-	submitSearchButton: { icon: 'search' },
+	submitSearchButton: { icon: 'search-thin' },
 	clearSearchButton: { icon: 'close-thin' },
 };

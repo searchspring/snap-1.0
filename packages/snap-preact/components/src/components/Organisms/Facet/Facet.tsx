@@ -210,7 +210,7 @@ export const Facet = observer((properties: FacetProps) => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		button: {
 			// inherited props
@@ -219,7 +219,7 @@ export const Facet = observer((properties: FacetProps) => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		showMoreLessIcon: {
 			// default props
@@ -508,7 +508,7 @@ export const Facet = observer((properties: FacetProps) => {
 								aria-level={3}
 								{...mergedLang.dropdownButton.attributes}
 							>
-								<div className="ss__facet__header__inner">
+								<span className="ss__facet__header__inner">
 									<span {...mergedLang.dropdownButton.value}>{facet?.label}</span>
 									{showSelectedCount && selectedCount && facet.type !== 'range' ? (
 										<span className="ss__facet__header__selected-count">{hideSelectedCountParenthesis ? selectedCount : `(${selectedCount})`}</span>
@@ -529,7 +529,7 @@ export const Facet = observer((properties: FacetProps) => {
 									) : (
 										<></>
 									)}
-								</div>
+								</span>
 								{!disableCollapse && (
 									<Icon
 										{...subProps.icon}
@@ -537,7 +537,6 @@ export const Facet = observer((properties: FacetProps) => {
 											? { ...(typeof iconExpand == 'string' ? { icon: iconExpand } : (iconExpand as Partial<IconProps>)) }
 											: { ...(typeof iconCollapse == 'string' ? { icon: iconCollapse } : (iconCollapse as Partial<IconProps>)) })}
 										name={facet?.collapsed ? 'expand' : 'collapse'}
-										treePath={props.treePath}
 									/>
 								)}
 							</div>
@@ -773,6 +772,7 @@ const FacetContent = (
 							<Icon
 								{...subProps.showMoreLessIcon}
 								treePath={treePath}
+								name={(overflowState?.remaining || 0) > 0 ? 'overflow-more' : 'overflow-less'}
 								{...((overflowState?.remaining || 0) > 0
 									? { ...(typeof iconOverflowMore == 'string' ? { icon: iconOverflowMore } : (iconOverflowMore as Partial<IconProps>)) }
 									: { ...(typeof iconOverflowLess == 'string' ? { icon: iconOverflowLess } : (iconOverflowLess as Partial<IconProps>)) })}

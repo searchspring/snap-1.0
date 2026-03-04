@@ -119,6 +119,17 @@ export default {
 			control: { type: 'none' },
 			action: 'onSelect',
 		},
+		horizontal: {
+			description: 'boolean to set the radio list in a horizontal layout',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
 		disabled: {
 			description: 'boolean to set the select in a disabled state',
 			table: {

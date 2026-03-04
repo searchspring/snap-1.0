@@ -245,9 +245,15 @@ export default {
 
 const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: 'atkzs2' } });
 
-export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[20] as Product} />
-);
+export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	const resultToUse = controller?.store?.results[7] as Product;
+	//force a rating to show up for the demo since ratings are hidden by default and not all products have ratings
+	resultToUse.display.mappings.core = {
+		...resultToUse.display.mappings.core,
+		rating: 4.5,
+	};
+	return <Result {...args} result={resultToUse} />;
+};
 
 Default.loaders = [
 	async () => {
@@ -258,9 +264,15 @@ Default.loaders = [
 	},
 ];
 
-export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[20] as Product} />
-);
+export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	const resultToUse = controller?.store?.results[7] as Product;
+	//force a rating to show up for the demo since ratings are hidden by default and not all products have ratings
+	resultToUse.display.mappings.core = {
+		...resultToUse.display.mappings.core,
+		rating: 4.5,
+	};
+	return <Result {...args} result={resultToUse} />;
+};
 
 hideSections.loaders = [
 	async () => {
@@ -276,9 +288,15 @@ hideSections.args = {
 	hidePricing: true,
 };
 
-export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[20] as Product} />
-);
+export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	const resultToUse = controller?.store?.results[7] as Product;
+	//force a rating to show up for the demo since ratings are hidden by default and not all products have ratings
+	resultToUse.display.mappings.core = {
+		...resultToUse.display.mappings.core,
+		rating: 4.5,
+	};
+	return <Result {...args} result={resultToUse} />;
+};
 
 truncateTitle.loaders = [
 	async () => {
