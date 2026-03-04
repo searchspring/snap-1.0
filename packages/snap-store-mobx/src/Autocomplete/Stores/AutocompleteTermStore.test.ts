@@ -13,9 +13,6 @@ const services = {
 let config = {
 	id: 'autocomplete',
 	selector: 'input.athos-ac',
-	settings: {
-		integratedSpellCorrection: true,
-	},
 };
 
 const mockData = new MockData();

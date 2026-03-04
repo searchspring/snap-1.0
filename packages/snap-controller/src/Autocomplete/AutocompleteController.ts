@@ -29,7 +29,7 @@ const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;
 const KEY_ENTER = 13;
 const KEY_ESCAPE = 27;
-const PARAM_ORIGINAL_QUERY = 'oq';
+
 const PARAM_FALLBACK_QUERY = 'fallbackQuery';
 
 const defaultConfig: AutocompleteControllerConfig = {
@@ -41,7 +41,6 @@ const defaultConfig: AutocompleteControllerConfig = {
 		enabled: true,
 	},
 	settings: {
-		integratedSpellCorrection: false,
 		initializeFromUrl: true,
 		syncInputs: true,
 		serializeForm: false,
@@ -508,23 +507,14 @@ export class AutocompleteController extends AbstractController {
 
 					e.preventDefault();
 
-					// when spellCorrection is enabled
-					if (this.config.globals?.search?.query?.spellCorrection) {
-						// wait until loading is complete before submission
-						while (this.store.loading) {
-							await timeout(INPUT_DELAY);
-						}
+					// wait until loading is complete before submission
+					while (this.store.loading) {
+						await timeout(INPUT_DELAY);
+					}
 
-						if (this.config.settings!.integratedSpellCorrection) {
-							//set fallbackQuery to the correctedQuery
-							if (this.store.search.correctedQuery) {
-								actionUrl = actionUrl?.set(PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
-							}
-						} else if (this.store.search.originalQuery) {
-							// use corrected query and originalQuery
-							input.value = this.store.search.query?.string!;
-							actionUrl = actionUrl?.set(PARAM_ORIGINAL_QUERY, this.store.search.originalQuery.string);
-						}
+					// set fallbackQuery to the correctedQuery
+					if (this.store.search.correctedQuery) {
+						actionUrl = actionUrl?.set(PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
 					}
 
 					actionUrl = actionUrl?.set('query', input.value);
@@ -570,25 +560,14 @@ export class AutocompleteController extends AbstractController {
 
 				e.preventDefault();
 
-				// when spellCorrection is enabled
-				if (this.config.globals?.search?.query?.spellCorrection) {
-					// wait until loading is complete before submission
-					while (this.store.loading) {
-						await timeout(INPUT_DELAY);
-					}
+				// wait until loading is complete before submission
+				while (this.store.loading) {
+					await timeout(INPUT_DELAY);
+				}
 
-					if (this.config.settings!.integratedSpellCorrection) {
-						//set fallbackQuery to the correctedQuery
-						if (this.store.search.correctedQuery) {
-							addHiddenFormInput(form, PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
-						}
-					} else if (this.store.search.originalQuery) {
-						// use corrected query and originalQuery
-						if (input) {
-							input.value = this.store.search.query?.string!;
-						}
-						addHiddenFormInput(form, PARAM_ORIGINAL_QUERY, this.store.search.originalQuery.string);
-					}
+				// set fallbackQuery to the correctedQuery
+				if (this.store.search.correctedQuery) {
+					addHiddenFormInput(form, PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
 				}
 
 				// wait for input delay

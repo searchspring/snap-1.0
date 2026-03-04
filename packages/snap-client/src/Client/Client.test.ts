@@ -181,14 +181,13 @@ describe('Snap Client', () => {
 				method: 'GET',
 				path: '/v1/suggest',
 				query: {
-					disableSpellCorrect: true,
 					language: 'en',
 					query: 'hello',
 					siteId: '8uyt2m',
 					suggestionCount: 5,
 				},
 			};
-			const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5,"disableSpellCorrect":true}';
+			const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5}';
 
 			expect(suggestRequesterSpy).toHaveBeenCalledTimes(1);
 			expect(suggestRequesterSpy.mock.calls).toEqual([
@@ -439,14 +438,13 @@ describe('Snap Client', () => {
 					method: 'GET',
 					path: '/v1/suggest',
 					query: {
-						disableSpellCorrect: true,
 						language: 'en',
 						query: 'hello',
 						siteId: '8uyt2m',
 						suggestionCount: 5,
 					},
 				};
-				const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5,"disableSpellCorrect":true}';
+				const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5}';
 
 				expect(suggestRequesterSpy).toHaveBeenCalledTimes(1);
 				expect(suggestRequesterSpy.mock.calls).toEqual([

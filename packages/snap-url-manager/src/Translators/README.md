@@ -135,7 +135,6 @@ type UrlState = {
 	pageSize?: number;
 	query?: string;
 	rq?: string;
-	oq?: string;
 	filter?: UrlStateFilter;
 	sort?: UrlStateSort | Array<UrlStateSort>;
 	tag?: string;

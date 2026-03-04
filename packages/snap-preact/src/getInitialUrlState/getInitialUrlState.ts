@@ -2,7 +2,7 @@ import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import { InitialUrlConfig } from '../types';
 
 const VALID_ACTIONS = ['merge', 'set'];
-const DEFAULT_IGNORE_PARAMETERS = ['query', 'tag', 'oq', 'fallbackQuery'];
+const DEFAULT_IGNORE_PARAMETERS = ['query', 'tag', 'fallbackQuery'];
 
 export const getInitialUrlState = (intitialStateConfig: InitialUrlConfig, urlManager: UrlManager): UrlManager => {
 	const { parameters } = intitialStateConfig;

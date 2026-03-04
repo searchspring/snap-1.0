@@ -23,29 +23,16 @@ export class AutocompleteTermStore extends Array<Term> {
 	}
 
 	constructor(params: AutocompleteTermStoreConfig) {
-		const { config, data } = params || {};
-		const { autocomplete, search, pagination } = data?.autocomplete || {};
+		const { data } = params || {};
+		const { autocomplete, search } = data?.autocomplete || {};
 		const suggestions = [...(autocomplete?.alternatives ? autocomplete.alternatives : []).map((term) => term.text)] as string[];
 
-		if (config?.settings?.integratedSpellCorrection) {
-			if (autocomplete?.correctedQuery && search?.query && autocomplete.correctedQuery.toLowerCase() != search.query.toLowerCase()) {
-				// the query was corrected
-				suggestions.unshift(autocomplete.correctedQuery);
-			}
-
-			search?.query && suggestions.unshift(search.query);
-		} else {
-			if (autocomplete?.suggested?.text) {
-				// a suggestion for query
-				suggestions.unshift(autocomplete.suggested.text);
-			} else if (autocomplete?.correctedQuery && pagination?.totalResults) {
-				// the query was corrected
-				suggestions.unshift(autocomplete.correctedQuery);
-			} else if (autocomplete?.query && pagination?.totalResults) {
-				// there were no suggestions or corrections,
-				suggestions.unshift(autocomplete?.query);
-			}
+		if (autocomplete?.correctedQuery && search?.query && autocomplete.correctedQuery.toLowerCase() != search.query.toLowerCase()) {
+			// the query was corrected
+			suggestions.unshift(autocomplete.correctedQuery);
 		}
+
+		search?.query && suggestions.unshift(search.query);
 
 		const terms: Array<Term> = [];
 

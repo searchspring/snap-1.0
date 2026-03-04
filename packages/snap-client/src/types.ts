@@ -76,7 +76,6 @@ export type SuggestRequestModel = {
 	suggestionCount?: number;
 	productCount?: number;
 	disableSpellCorrect?: boolean;
-	integratedSpellCorrection?: boolean;
 };
 
 export type SuggestResponseModelSuggestion = {

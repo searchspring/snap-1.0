@@ -116,7 +116,6 @@ const { meta, search }: { meta: MetaResponseModel; search: AutocompleteResponseM
 	search: {
 		query: {
 			string: 'search query',
-			spellCorrection: true
 		}
 	}
 });
