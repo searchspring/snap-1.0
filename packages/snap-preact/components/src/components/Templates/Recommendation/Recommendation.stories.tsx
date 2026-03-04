@@ -155,18 +155,6 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
-		vertical: {
-			defaultValue: false,
-			description: 'Recommendation carousel direction',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: false },
-			},
-			control: { type: 'boolean' },
-		},
 		hideButtons: {
 			defaultValue: false,
 			description: 'Hide prev/next buttons',

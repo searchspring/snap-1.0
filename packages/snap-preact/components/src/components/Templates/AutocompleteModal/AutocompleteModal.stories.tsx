@@ -8,6 +8,8 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { useEffect, useState } from 'preact/hooks';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 
 export default {
 	title: 'Templates/AutocompleteModal',
@@ -111,7 +113,7 @@ export default {
 				},
 				defaultValue: { summary: "[['button.see-more'],['termsList'], ['content']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column1: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c1" layout',
@@ -128,7 +130,7 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column2: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c2" layout',
@@ -145,7 +147,7 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column3: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c3" layout',
@@ -162,7 +164,7 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column4: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c4" layout',
@@ -173,7 +175,7 @@ export default {
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		width: {
 			defaultValue: '500px',
@@ -261,6 +263,61 @@ const snapInstance = Snapify.autocomplete({
 });
 
 export const Default = (args: AutocompleteModalProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
+	const [termState, setTermState] = useState(false);
+
+	const mockTerms: AutocompleteTermStore = [
+		{
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
+			value: 'dress',
+			url: {
+				href: 'www.dress.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'drss',
+			preview: () => setTermState('drss'),
+			value: 'drss',
+			url: {
+				href: 'www.drss.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'dreees',
+			preview: () => setTermState('dreees'),
+			value: 'dreees',
+			url: {
+				href: 'www.dreees.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'dres',
+			preview: () => setTermState('dres'),
+			value: 'dres',
+			url: {
+				href: 'www.dres.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'dss',
+			preview: () => setTermState('dss'),
+			value: 'dss',
+			url: {
+				href: 'www.dss.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'ress',
+			preview: () => setTermState('ress'),
+			value: 'ress',
+			url: {
+				href: 'www.ress.com',
+			} as UrlManager,
+		},
+	];
+
+	controller.store.history = mockTerms;
+
 	const [inputFound, setInputFound] = useState(false);
 
 	useEffect(() => {

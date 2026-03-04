@@ -78,7 +78,7 @@ export default {
 				},
 				defaultValue: { summary: "[['Suggestions'], ['Trending'], ['History']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		historyTitle: {
 			description: 'history terms title',

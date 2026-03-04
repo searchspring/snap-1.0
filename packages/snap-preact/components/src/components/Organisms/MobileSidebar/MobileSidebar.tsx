@@ -74,7 +74,6 @@ export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 		controller,
 		layout,
 		hideHeader,
-		hideFooter,
 		hideApplyButton,
 		clearButtonIcon,
 		hideCloseButton,
@@ -98,6 +97,11 @@ export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 		internalClassName,
 		treePath,
 	} = props;
+
+	let hideFooter = props.hideFooter;
+	if (hideApplyButton && hideClearButton) {
+		hideFooter = true;
+	}
 
 	const styling = mergeStyles<MobileSidebarProps>(props, defaultStyles);
 

@@ -43,6 +43,7 @@ export const Radio = observer((properties: RadioProps) => {
 		disableA11y: false,
 		checkedIcon: 'bullet',
 		unCheckedIcon: 'bullet-o',
+		color: globalTheme.variables?.colors.primary || '#000000',
 		treePath: globalTreePath,
 	};
 

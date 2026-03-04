@@ -1,8 +1,8 @@
 import { h } from 'preact';
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
-import { defined, mergeStyles } from '../../../utilities';
+import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
 import { Price, PriceProps } from '../../Atoms/Price';
 import { Button, ButtonProps } from '../../Atoms/Button';
@@ -17,6 +17,7 @@ import deepmerge from 'deepmerge';
 import { useLang } from '../../../hooks';
 import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
 import { Product } from '@athoscommerce/snap-store-mobx';
+import { Theme } from '../../../providers';
 
 const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 	return css({
@@ -72,6 +73,8 @@ const defaultStyles: StyleScript<RecommendationBundleListProps> = () => {
 const alias = 'recommendationBundleList';
 
 export const RecommendationBundleList = observer((properties: RecommendationBundleListProps) => {
+	const globalTheme: Theme = useTheme();
+
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {
 		name: properties.controller?.store?.profile?.tag?.toLowerCase(),
@@ -106,7 +109,9 @@ export const RecommendationBundleList = observer((properties: RecommendationBund
 			treePath,
 		},
 	};
-	const styling = mergeStyles<RecommendationBundleListProps>(_properties, defaultStyles);
+
+	const mergedProps = mergeProps(alias, globalTheme, {}, _properties);
+	const styling = mergeStyles<RecommendationBundleListProps>(mergedProps, defaultStyles);
 
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });

@@ -541,9 +541,9 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 							</h3>
 						)}
 						{description && (
-							<h4 className="ss__recommendation-bundle__description">
+							<p className="ss__recommendation-bundle__description">
 								<span>{description}</span>
-							</h4>
+							</p>
 						)}
 						<div
 							className={classnames(`${classNamePrefix}__wrapper`, {

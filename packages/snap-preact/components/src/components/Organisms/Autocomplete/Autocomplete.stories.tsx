@@ -8,6 +8,9 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Autocomplete/readme.md';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { iconPaths } from '../../Atoms/Icon';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
+import { useState } from 'preact/hooks';
 
 export default {
 	title: 'Organisms/Autocomplete',
@@ -408,6 +411,61 @@ const snapInstance = Snapify.autocomplete({
 
 export const Default = (args: AutocompleteProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
 	// bind after input exists
+	const [termState, setTermState] = useState(false);
+
+	const mockTerms: AutocompleteTermStore = [
+		{
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
+			value: 'dress',
+			url: {
+				href: 'www.dress.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'drss',
+			preview: () => setTermState('drss'),
+			value: 'drss',
+			url: {
+				href: 'www.drss.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'dreees',
+			preview: () => setTermState('dreees'),
+			value: 'dreees',
+			url: {
+				href: 'www.dreees.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'dres',
+			preview: () => setTermState('dres'),
+			value: 'dres',
+			url: {
+				href: 'www.dres.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'dss',
+			preview: () => setTermState('dss'),
+			value: 'dss',
+			url: {
+				href: 'www.dss.com',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'ress',
+			preview: () => setTermState('ress'),
+			value: 'ress',
+			url: {
+				href: 'www.ress.com',
+			} as UrlManager,
+		},
+	];
+
+	controller.store.history = mockTerms;
+
 	setTimeout(() => {
 		controller.bind();
 	});

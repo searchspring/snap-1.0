@@ -32,15 +32,13 @@ const facetsHorizontalStyleScript = ({ theme }: FacetsHorizontalProps) => {
 				},
 			},
 		},
-		'&.ss__facets-horizontal--overlay': {
-			'& .ss__facets-horizontal__header__dropdown': {
-				'&.ss__dropdown--open': {
-					'& .ss__dropdown__button': {
-						boxShadow: '0 6px 12px 1px #0000001f',
-					},
-					'& .ss__dropdown__content': {
-						boxShadow: '0 6px 12px 1px #0000001f',
-					},
+		'& .ss__facets-horizontal__header__dropdown': {
+			'&.ss__dropdown--open': {
+				'& .ss__dropdown__button': {
+					boxShadow: '0 6px 12px 1px #0000001f',
+				},
+				'& .ss__dropdown__content': {
+					boxShadow: '0 6px 12px 1px #0000001f',
 				},
 			},
 		},

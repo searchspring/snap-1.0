@@ -157,7 +157,7 @@ export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: 
 			preview: () => setTermState('dress'),
 			value: 'dress',
 			url: {
-				href: 'www.dress.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
@@ -165,7 +165,7 @@ export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: 
 			preview: () => setTermState('drss'),
 			value: 'drss',
 			url: {
-				href: 'www.drss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
@@ -173,7 +173,7 @@ export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: 
 			preview: () => setTermState('dreees'),
 			value: 'dreees',
 			url: {
-				href: 'www.dreees.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
@@ -181,7 +181,7 @@ export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: 
 			preview: () => setTermState('dres'),
 			value: 'dres',
 			url: {
-				href: 'www.dres.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
@@ -189,7 +189,7 @@ export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: 
 			preview: () => setTermState('dss'),
 			value: 'dss',
 			url: {
-				href: 'www.dss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
@@ -197,7 +197,7 @@ export const Default = (args: TermsProps, { loaded: { controller } }: { loaded: 
 			preview: () => setTermState('ress'),
 			value: 'ress',
 			url: {
-				href: 'www.ress.com',
+				href: '#',
 			} as UrlManager,
 		},
 	];

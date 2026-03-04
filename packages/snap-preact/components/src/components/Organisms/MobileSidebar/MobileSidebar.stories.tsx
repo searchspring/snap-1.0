@@ -70,7 +70,7 @@ export default {
 				},
 				defaultValue: { summary: "[['filterSummary'], ['sortBy', 'perPage'], ['facets'], ['banner.left']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		openButtonText: {
 			description: 'Text to render in the slideout button',

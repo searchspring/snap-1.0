@@ -12,9 +12,14 @@ import { Lang, useA11y, useLang } from '../../../hooks';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import deepmerge from 'deepmerge';
 
-const defaultStyles: StyleScript<RadioListProps> = () => {
+const defaultStyles: StyleScript<RadioListProps> = ({ horizontal }) => {
 	return css({
 		'& .ss__radio-list__options-wrapper': {
+			display: 'flex',
+			flexDirection: horizontal ? 'row' : 'column',
+			alignItems: horizontal ? 'center' : undefined,
+			justifyItems: 'flex-start',
+
 			border: 'none',
 			listStyle: 'none',
 			padding: '0px',
@@ -56,7 +61,6 @@ export function RadioList(properties: RadioListProps) {
 	const defaultProps: Partial<RadioListProps> = {
 		treePath: globalTreePath,
 	};
-
 	const props = mergeProps('radioList', globalTheme, defaultProps, properties);
 
 	const {
@@ -205,6 +209,7 @@ export type RadioListTemplatesLegalProps = {
 	onSelect?: (e: React.MouseEvent<HTMLElement>, option: ListOption) => void;
 	titleText?: string;
 	hideTitleText?: boolean;
+	horizontal?: boolean;
 	disabled?: boolean;
 	selected?: ListOption;
 };

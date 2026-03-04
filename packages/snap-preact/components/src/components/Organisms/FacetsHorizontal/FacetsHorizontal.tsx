@@ -13,10 +13,9 @@ import type { SearchController, AutocompleteController } from '@athoscommerce/sn
 import type { RangeFacet, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import type { IndividualFacetType } from '../Facets/Facets';
 import { MobileSidebar, MobileSidebarProps } from '../MobileSidebar';
-import { Lang, useA11y, useClickOutside, useLang } from '../../../hooks';
+import { Lang, useClickOutside, useLang } from '../../../hooks';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
-import { useEffect } from 'react';
 import { Button, ButtonProps } from '../../Atoms/Button';
 
 const defaultStyles: StyleScript<FacetsHorizontalProps> = ({ theme }) => {
@@ -88,13 +87,6 @@ const defaultStyles: StyleScript<FacetsHorizontalProps> = ({ theme }) => {
 				},
 			},
 		},
-		'&.ss__facets-horizontal--overlay': {
-			'& .ss__facets-horizontal__header__dropdown': {
-				'&.ss__dropdown--open': {
-					'& .ss__dropdown__content': {},
-				},
-			},
-		},
 		'& .ss__facet__show-more-less': {
 			display: 'block',
 			margin: '8px 8px 0 8px',
@@ -112,7 +104,6 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 
 	const defaultProps: Partial<FacetsHorizontalProps> = {
 		limit: 6,
-		overlay: true,
 		iconCollapse: 'angle-up',
 		iconExpand: 'angle-down',
 		clearAllText: 'Clear All',
@@ -125,7 +116,6 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 	const {
 		facets,
 		limit,
-		overlay,
 		alwaysShowFiltersButton,
 		hideFiltersButton,
 		onFacetOptionClick,
@@ -225,15 +215,13 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 			justContent: true,
 			// this should be turned on if there is ever a filters button rendering.
 			statefulOverflow: !hideFiltersButton && (isOverflowing || alwaysShowFiltersButton) ? true : undefined,
-			// horizontal: true,
 			// inherited props
 			...defined({
 				disableStyles,
-				overlay,
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath: overlay ? `${treePath} dropdown` : treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		MobileSidebar: {
 			// default props
@@ -256,16 +244,11 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 		selectedFacet && setSelectedFacet(undefined);
 	});
 
-	let contentRef: any;
-	useEffect(() => {
-		!overlay && contentRef?.focus();
-	}, [selectedFacet]);
-
 	//todo investigate keyboard navigation here when overlay prop is true/false
 	return (facetsToShow && facetsToShow?.length > 0) || isOverflowing ? (
 		<CacheProvider>
 			<div
-				className={classnames('ss__facets-horizontal', { 'ss__facets-horizontal--overlay': overlay }, className, internalClassName)}
+				className={classnames('ss__facets-horizontal', className, internalClassName)}
 				ref={innerRef as React.LegacyRef<HTMLDivElement>}
 				{...styling}
 			>
@@ -350,9 +333,9 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 										/>
 									</div>
 								}
-								disableOverlay={!overlay}
+								disableOverlay={false}
 							>
-								{overlay ? <Facet {...subProps.facet} facet={facet} /> : undefined}
+								<Facet {...subProps.facet} facet={facet} />
 							</Dropdown>
 						);
 					})}
@@ -360,27 +343,6 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 						<MobileSidebar controller={controller as any} {...subProps.MobileSidebar}></MobileSidebar>
 					)}
 				</div>
-
-				{!overlay && selectedFacet && (
-					<div
-						ref={(e) => {
-							useA11y(e, 0, true, () => {
-								setSelectedFacet(undefined);
-								setTimeout(() => {
-									(innerRef.current?.querySelector('.ss__dropdown__button__heading') as HTMLElement)?.focus();
-								});
-							});
-							contentRef = e;
-						}}
-						className={classnames(
-							'ss__facets-horizontal__content',
-							`ss__facets-horizontal__content--${selectedFacet.display}`,
-							`ss__facets-horizontal__content--${selectedFacet.field}`
-						)}
-					>
-						<Facet {...subProps.facet} facet={facets?.find((facet) => facet.field === selectedFacet.field)!} />
-					</div>
-				)}
 			</div>
 		</CacheProvider>
 	) : null;
@@ -409,7 +371,6 @@ export type FacetsHorizontalTemplatesLegalProps = {
 	clearAllIcon?: IconType | Partial<IconProps>;
 
 	limit?: number;
-	overlay?: boolean;
 	alwaysShowFiltersButton?: boolean;
 	hideFiltersButton?: boolean;
 	iconCollapse?: IconType | Partial<IconProps>;

@@ -52,7 +52,7 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 		placeholderText: 'Search',
 		treePath: globalTreePath,
 		submitSearchButton: {
-			icon: 'search',
+			icon: 'search-thin',
 		},
 		clearSearchButton: {
 			icon: 'close-thin',
