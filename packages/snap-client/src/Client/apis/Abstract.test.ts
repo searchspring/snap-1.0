@@ -31,7 +31,7 @@ describe('ApiConfiguration', () => {
 
 		const config: ApiConfigurationParameters = {
 			mode: 'development',
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			queryParamsStringify: customQueryParamsStringify,
 			headers: customHeaders,
@@ -117,7 +117,7 @@ describe('Abstract Api', () => {
 
 	it('can pass in all the props', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 			maxRetry: 2,
@@ -160,7 +160,7 @@ describe('Abstract Api', () => {
 		const queryParamMockfn = jest.fn(() => 'here');
 
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			queryParamsStringify: queryParamMockfn,
 		};
@@ -177,7 +177,7 @@ describe('Abstract Api', () => {
 
 	it('can use createFetchParams', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 		};
@@ -208,7 +208,7 @@ describe('Abstract Api', () => {
 		expect(() => api.createFetchParams(badContext)).toThrowError(`Request failed. Missing "siteId" parameter.`);
 
 		const config2: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 			maxRetry: 2,
@@ -219,7 +219,7 @@ describe('Abstract Api', () => {
 		const contextWithQuery = { ...context, query: { key: 'value' } };
 		// @ts-ignore
 		const params = api2.createFetchParams(contextWithQuery);
-		expect(params.url).toBe('https://searchspring.com/v1/autocomplete?key=value');
+		expect(params.url).toBe('https://athoscommerce.com/v1/autocomplete?key=value');
 	});
 
 	it('can handle subDomain parameter in createFetchParams', async () => {
@@ -272,7 +272,7 @@ describe('Abstract Api', () => {
 
 	it('can use cacheKey', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 		};
@@ -331,7 +331,7 @@ describe('Abstract Api', () => {
 
 	it('can handle 429s', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 			maxRetry: 2,
@@ -363,7 +363,7 @@ describe('Abstract Api', () => {
 				message: 'FAILED',
 				method: 'POST',
 				status: 429,
-				url: 'https://searchspring.com/v1/autocomplete',
+				url: 'https://athoscommerce.com/v1/autocomplete',
 			},
 		});
 

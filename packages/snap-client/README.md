@@ -198,7 +198,7 @@ const { meta, search } = await client.autocomplete({
 ```
 
 ## `category` method
-Makes a request to the Searchspring Category API and returns a promise.
+Makes a request to the Athos Category API and returns a promise.
 
 ```js
 const client = new Client(globals, clientConfig);
@@ -222,7 +222,7 @@ const meta = await client.meta();
 ```
 
 ## `trending` method
-Makes a request to the Searchspring Trending API and returns a promise. The `siteId` is sourced from globals automatically, but if provided that siteId would be used.
+Makes a request to the Athos Trending API and returns a promise. The `siteId` is sourced from globals automatically, but if provided that siteId would be used.
 
 ```js
 const client = new Client(globals, clientConfig);

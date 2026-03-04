@@ -5,7 +5,6 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-import packageJSON from '../../../package.json';
 import 'cypress-wait-until';
 
 Cypress.Commands.add('addScript', (script) => {
@@ -33,12 +32,6 @@ Cypress.Commands.add('addLocalSnap', () => {
 			cy.addScript('https://localhost:3333/bundle.js');
 		}
 	});
-});
-
-Cypress.Commands.add('addCloudSnap', (branch = 'production') => {
-	cy.intercept(/.*snapui.searchspring.io\/.*\/bundle.js$/).as('script');
-	cy.intercept(/.*snapui.athoscommerce.io\/.*\/bundle.js$/).as('script');
-	cy.addScript(`https://snapui.athoscommerce.io/${packageJSON.searchspring.siteId}/${branch}/bundle.js`);
 });
 
 Cypress.Commands.add('snapController', (controllerId = 'search', options) => {

@@ -95,7 +95,7 @@ Optional `Context` object to be used to set the global context. If no context is
 ### config.client
 A single client instance will be created and shared across all services using the provided config. 
 
-See [@athoscommerce/snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) documentation for full client config options.
+See [@athoscommerce/snap-client](https://github.com/athoscommerce/snap/tree/main/packages/snap-client) documentation for full client config options.
 
 ```js
 const config = {
@@ -139,14 +139,14 @@ const config = {
 
 `recommendation.config.batched` - optional boolean (default: `true`) to batch multiple recommendations into a single network request
 
-`recommendation.selector` - optional selector to target recommendation instances if using a non-standard installation. Selector provided will replace the default selector: `script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"]`
+`recommendation.selector` - optional selector to target recommendation instances if using a non-standard installation. Selector provided will replace the default selector: `script[type="athos/recommendations"], script[type="athos/recommend"]`
 
 `recommendation.services` - optional object of `ControllerServices` 
 
 
 
 ### config.url
-The `url` object contains the config provided to each [`UrlTranslator`](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/Url) created by Snap Preact.
+The `url` object contains the config provided to each [`UrlTranslator`](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url) created by Snap Preact.
 
 ```js
 const config = {
@@ -166,10 +166,10 @@ The `controllers` object contains a list of controllers to create for each contr
 
 Available controllers:
 
-- [SearchController](https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Search) 
-- [AutocompleteController](https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Autocomplete)
-- [FinderController](https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Finder)
-- [RecommendationController](https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Recommendation)
+- [SearchController](https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Search) 
+- [AutocompleteController](https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Autocomplete)
+- [FinderController](https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Finder)
+- [RecommendationController](https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Recommendation)
 
 ```js
 const config = {
@@ -255,19 +255,19 @@ const { search } = snap.controllers;
 After instantiating an instance of Snap, the following properties can be accessed. 
 
 ### eventManager 
-A reference to the shared [@athoscommerce/snap-event-manager](https://github.com/searchspring/snap/tree/main/packages/snap-event-manager) instance. 
+A reference to the shared [@athoscommerce/snap-event-manager](https://github.com/athoscommerce/snap/tree/main/packages/snap-event-manager) instance. 
 
 ### config
 A reference to the config that was provided.
 
 ### logger
-A reference to the shared [@athoscommerce/snap-logger](https://github.com/searchspring/snap/tree/main/packages/snap-logger) instance used by each controller.
+A reference to the shared [@athoscommerce/snap-logger](https://github.com/athoscommerce/snap/tree/main/packages/snap-logger) instance used by each controller.
 
 ### client
-A reference to the shared [@athoscommerce/snap-client](https://github.com/searchspring/snap/tree/main/packages/snap-client) instance used by each controller.
+A reference to the shared [@athoscommerce/snap-client](https://github.com/athoscommerce/snap/tree/main/packages/snap-client) instance used by each controller.
 
 ### tracker
-A reference to the shared [@athoscommerce/snap-tracker](https://github.com/searchspring/snap/tree/main/packages/snap-tracker) instance used by each controller.
+A reference to the shared [@athoscommerce/snap-tracker](https://github.com/athoscommerce/snap/tree/main/packages/snap-tracker) instance used by each controller.
 
 ### controllers
 An object containing all controllers that have been created. 

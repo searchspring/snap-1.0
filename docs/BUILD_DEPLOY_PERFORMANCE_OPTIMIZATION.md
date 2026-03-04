@@ -24,8 +24,8 @@ Use link tags with `preconnect` and `dns-prefetch` attributes to establish early
   <link rel="dns-prefetch" href="https://snapui.athoscommerce.io">
   
   <!-- Preconnect to Athos API -->
-  <link rel="preconnect" href="https://[siteId].a.searchspring.io">
-  <link rel="dns-prefetch" href="https://[siteId].a.searchspring.io">
+  <link rel="preconnect" href="https://[siteId].a.athoscommerce.net">
+  <link rel="dns-prefetch" href="https://[siteId].a.athoscommerce.net">
 </head>
 ```
 
@@ -37,7 +37,7 @@ Use link tags with `preconnect` and `dns-prefetch` attributes to establish early
 
 For images that are part of the LCP element (above the fold), consider disabling lazy loading.
 
-The [Image](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-image--default) component has lazy loading enabled by default. 
+The [Image](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-image--default) component has lazy loading enabled by default. 
 
 Otherwise, if you are not using the `Image` component, ensure product images are optimized by setting the `loading` attribute to `lazy`: 
 

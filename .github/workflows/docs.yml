@@ -19,8 +19,8 @@ jobs:
 
       - name: Set Github credentials
         run: |
-          git config user.name searchspring-machine
-          git config user.email machine@searchspring.com
+          git config user.name athos-machine
+          git config user.email machine@athoscommerce.com
 
       - name: Merge main into docs branch
         run: |
@@ -29,9 +29,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@searchspring'
+          node-version: 24
 
       - name: Configure Variables
         run: |
@@ -52,9 +50,7 @@ jobs:
 
       - name: Install packages
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.SEARCHSPRING_PUBLISH }}
-      
+
       - name: Build
         run: |
           npm run build
@@ -81,6 +77,10 @@ jobs:
 
       - name: Copy Files to S3
         run: |
+          aws s3 sync --acl public-read packages/snap-preact-demo/snap/dist s3://${{ secrets.SNAPFU_AWS_BUCKET }}/snap/${{ env.current_tag }}
+          aws s3 sync --acl public-read packages/snap-preact-demo/public/snap s3://${{ secrets.SNAPFU_AWS_BUCKET }}/snap/${{ env.current_tag }}
+          aws s3 sync --acl public-read packages/snap-preact-demo/snap/dist s3://${{ secrets.SNAPFU_AWS_BUCKET }}/snap/production
+          aws s3 sync --acl public-read packages/snap-preact-demo/public/snap s3://${{ secrets.SNAPFU_AWS_BUCKET }}/snap/production
           aws s3 sync --acl public-read packages/snap-preact-demo/templates/dist s3://${{ secrets.SNAPFU_AWS_BUCKET }}/templates/${{ env.current_tag }}
           aws s3 sync --acl public-read packages/snap-preact-demo/public/templates s3://${{ secrets.SNAPFU_AWS_BUCKET }}/templates/${{ env.current_tag }}
           aws s3 sync --acl public-read packages/snap-preact-demo/templates/dist s3://${{ secrets.SNAPFU_AWS_BUCKET }}/templates/production
@@ -90,4 +90,10 @@ jobs:
         env:
           AWS_MAX_ATTEMPTS: 9
         run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.SNAPFU_AWS_DISTRIBUTION_ID }} --paths "/snap/*"
           aws cloudfront create-invalidation --distribution-id ${{ secrets.SNAPFU_AWS_DISTRIBUTION_ID }} --paths "/templates/*"
+
+      - name: Request Re-index of Feed
+        run: |
+          sleep 3
+          curl -v -XPUT -u atwhsb:${{ secrets.DOCS_WEBSITE_SECRET_KEY }} https://index-api.athoscommerce.net/api/index/feed?feedId=82

@@ -28,8 +28,7 @@ steps:
                 - update:
                     properties:
                         "dependencies": {
-                            "@athoscommerce/snap-${args.framework}": "${args.version}",
-                            "@athoscommerce/snap-${args.framework}-components": "${args.version}"
+                            "@athoscommerce/snap-${args.framework}": "${args.version}"
                         }
 `.trim();
 

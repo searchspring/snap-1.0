@@ -96,4 +96,4 @@ export const Results = withController(observer((props) => {
 
 ## Preact Component Library
 
-Snap provides an extensive [library of Preact components](https://searchspring.github.io/snap/preact-components) that can be used exclusively or in combination with custom components throughout your project. 
+Snap provides an extensive [library of Preact components](https://athoscommerce.github.io/snap/preact-components) that can be used exclusively or in combination with custom components throughout your project. 

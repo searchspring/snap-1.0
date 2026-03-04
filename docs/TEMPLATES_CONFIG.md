@@ -32,7 +32,7 @@ new SnapTemplates({
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-templates',
+				selector: '#athos-templates',
 				component: 'Search',
 			},
 		],
@@ -86,7 +86,7 @@ Plugins provide functionality to tie into various events within the Snap control
 
 
 > [!NOTE]
-> See common plugins documentation under the [Packages > Platform](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/common) section.
+> See common plugins documentation under the [Packages > Platform](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/common) section.
 
 
 ### Shopify Plugins
@@ -100,7 +100,7 @@ When `config.platform` is `shopify`, the following plugins are available:
 
 
 > [!NOTE]
-> See shopify specific plugins documentation under the [Packages > Platform > Shopify](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/shopify) section.
+> See shopify specific plugins documentation under the [Packages > Platform > Shopify](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/shopify) section.
 
 
 ### Magento2 Plugins
@@ -113,7 +113,7 @@ When `config.platform` is `magento2`, the following plugins are available:
 
 
 > [!NOTE]
-> See Magento specific plugins documentation under the [Packages > Platform > Magento2](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/magento2) section.
+> See Magento specific plugins documentation under the [Packages > Platform > Magento2](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/magento2) section.
 
 
 ### BigCommerce Plugins
@@ -126,7 +126,7 @@ When `config.platform` is `bigCommerce`, the following plugins are available:
 
 
 > [!NOTE]
-> See BigCommerce specific plugins documentation under the [Packages > Platform > BigCommerce](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/bigcommerce) section.
+> See BigCommerce specific plugins documentation under the [Packages > Platform > BigCommerce](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/bigcommerce) section.
 
 
 ### Language Translations
@@ -210,13 +210,13 @@ new SnapTemplates({
 |----------------------|-------------|------|---------|
 | `url` | UrlTranslator configuration | UrlTranslatorConfig Object | ➖ |
 
-See [UrlTranslator configuration](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/Url) for more documentation
+See [UrlTranslator configuration](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url) for more documentation
 
 
 ### Templates Theming
 Theming in Snap Templates is the primary method of customizing a template. 
 
-See [Theming](https://github.com/searchspring/snap/blob/main/docs/TEMPLATES_THEMING.md) for more extensive documentation.
+See [Theming](https://github.com/athoscommerce/snap/blob/main/docs/TEMPLATES_THEMING.md) for more extensive documentation.
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|

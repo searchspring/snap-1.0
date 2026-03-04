@@ -51,7 +51,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: '//cdn.searchspring.net/ajax_search/img/default_image.png' },
+				defaultValue: { summary: '//cdn.athoscommerce.net/snap/images/fallback.png' },
 			},
 			control: { type: 'text' },
 		},

@@ -1,7 +1,7 @@
 # Snap Event Manager
 
 
-The Snap Event Manager is available on each controller via `controller.eventManager` and is used to create events and attach middleware to them. Events are recommended to be configured via [Configuration Middleware](https://github.com/searchspring/snap/tree/main/docs/REFERENCE_CONFIGURATION_MIDDLEWARE.md) to hook into controller events at critical times in the life cycle. It also allows for custom events to be used throughout your implementation.
+The Snap Event Manager is available on each controller via `controller.eventManager` and is used to create events and attach middleware to them. Events are recommended to be configured via [Configuration Middleware](https://github.com/athoscommerce/snap/tree/main/docs/REFERENCE_CONFIGURATION_MIDDLEWARE.md) to hook into controller events at critical times in the life cycle. It also allows for custom events to be used throughout your implementation.
 
 
 ## Controller usage

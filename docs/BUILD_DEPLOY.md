@@ -20,14 +20,14 @@ To host your own build files follow the below steps in your project.
 2. In your terminal run the command `npm run build`, will output build files to `./dist` 
 3. Navigate to `./dist` and copy the generated build files 
 4. Go to the codebase of your E-commerce platform (Shopify, BigCommerce, Magento, etc.) and copy/paste the generated build files in a directory (most platforms have an ***assets*** directory) 
-5. On the frontend of the site, add a script block as outlined in the [integration](https://searchspring.github.io/snap/build-deploy-integration) section - be sure to change the `src` attribute to point to the `bundle.js` file and align the URL with your self-hosted build files (eg: /assets/bundle.js)
+5. On the frontend of the site, add a script block as outlined in the [integration](https://athoscommerce.github.io/snap/build-deploy-integration) section - be sure to change the `src` attribute to point to the `bundle.js` file and align the URL with your self-hosted build files (eg: /assets/bundle.js)
 
 <!-- TODO: Link to playform specific install docs and update here -->
 
 
 ## Deploy to Athos CDN
 
-**Deploying to Athos CDN is only possible if the repository is managed by the Athos [Github organization](https://github.com/searchspring-implementations)**. Repositories in this organization are typically managed by the Athos professional services team and deployed via a CI/CD pipeline using the [snap-action](https://github.com/searchspring/snap-action) Github Action. An invitation can be requested for collaboration.
+**Deploying to Athos CDN is only possible if the repository is managed by the Athos [Github organization](https://github.com/snap-implementations)**. Repositories in this organization are typically managed by the Athos professional services team and deployed via a CI/CD pipeline using the [snap-action](https://github.com/searchspring/snap-action) Github Action. An invitation can be requested for collaboration.
 
 Github action runs triggered on the default branch `production` will build and deploy bundle files to this URL:
 
@@ -39,7 +39,7 @@ Builds on different branch names will be deployed to:
 
 ### Github Repository Requirements
 
-- Repository must be managed by the Athos [Github organization](https://github.com/searchspring-implementations)
+- Repository must be managed by the Athos [Github organization](https://github.com/snap-implementations)
 - Repository must have a default branch named `production`
 - Repository must have repository secrets for each siteId in the repository. Found at `https://github.com/[owner]/[repository]/settings/secrets/actions`
   - Secret Key Name: `WEBSITE_SECRET_KEY_[SITEID]` where `[SITEID]` should be replaced with the 6 character alphanumeric siteId found in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net). For example: `WEBSITE_SECRET_KEY_ABC123`
@@ -80,7 +80,7 @@ Single siteId example:
 ```json
 {
     ...
-    "searchspring": {
+    "athos": {
         "siteId": {
             "abc123": {
                 "name": "site1.com"
@@ -95,7 +95,7 @@ Multi siteId example:
 ```json
 {
     ...
-    "searchspring": {
+    "athos": {
         "siteId": {
             "abc123": {
                 "name": "site1.com"
@@ -110,13 +110,13 @@ Multi siteId example:
 
 ### Branch Overrides
 
-This functionality is only currently possible with Athos managed Snap repositories (https://github.com/searchspring-implementations).
+This functionality is only currently possible with Athos managed Snap repositories (https://github.com/snap-implementations).
 
 While browsing a page that contains a Snap integration, appending the `?athos-preview=[branchname]` query parameter to the URL will stop the execution of the existing script, and load the build from the `[branchname]` branch `https://snapui.athoscommerce.io/[siteid]/[branchname]/bundle.js`
 
 You will see an interface overlay on the bottom right of the viewport indicating if successful and details of the build.
 
-<img src="https://github.com/searchspring/snap/blob/main/images/branch-override.png?raw=true" />
+<img src="https://github.com/athoscommerce/snap/blob/main/images/branch-override.png?raw=true" />
 
 This will also be persisted across page navigation. To stop previewing a branch build, you must click the `Stop Preview` button in the interface or clear the `athosBranch` cookie. The interface can also be minimized. 
 

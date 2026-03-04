@@ -989,7 +989,7 @@ describe('Autocomplete Controller', () => {
 		inputEl.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, keyCode: KEY_ENTER }));
 
 		await waitFor(() => {
-			expect(window.location.href).toContain('https://searchspring.com/?redirect');
+			expect(window.location.href).toContain('https://athoscommerce.com/?redirect');
 		});
 	});
 
@@ -1037,7 +1037,7 @@ describe('Autocomplete Controller', () => {
 			href: '', // jest does not support window location changes
 		};
 
-		expect(controller.store.merchandising.redirect).toBe('https://searchspring.com/?redirect');
+		expect(controller.store.merchandising.redirect).toBe('https://athoscommerce.com/?redirect');
 		// change the input to a new query
 		inputEl.value = 'dress';
 		inputEl.dispatchEvent(new Event('input', { bubbles: true }));

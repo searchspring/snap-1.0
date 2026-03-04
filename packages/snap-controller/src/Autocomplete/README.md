@@ -128,4 +128,4 @@ autocompleteController.addToCart([autocompleteController.store.results[0]]);
 - Always invoked after `addToCart()` method has been invoked
 
 ## Variants
-For variant integration details, see [Variant Integration Docs](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
+For variant integration details, see [Variant Integration Docs](https://github.com/athoscommerce/snap/blob/main/docs/INTEGRATION_VARIANTS.md)

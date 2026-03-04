@@ -69,7 +69,7 @@ Contains a reference to the current focused `HTMLInputElement`
 Contains the currently focused input value being searched
 
 ### `url` property
-Contains a reference to the [UrlManager](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager) that was linked using the `link` method
+Contains a reference to the [UrlManager](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager) that was linked using the `link` method
 
 ## `Lock` object
 A `Lock` object contains a private boolean state. The initial state can be defined in the constructor, default is `false`
@@ -107,12 +107,12 @@ console.log(lock.locked) // true
 ```
 
 ## `storage` property
-Contains a reference to the [StorageStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Storage)
+Contains a reference to the [StorageStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Storage)
 
 <!-- TODO: update link -->
 
 ## `merchandising` property
-Contains redirect and banner merchandising data that the Search API returned. See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `merchandising` property
+Contains redirect and banner merchandising data that the Search API returned. See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `merchandising` property
 
 ## `search` property
 Contains an object with the following properties:
@@ -148,7 +148,7 @@ This will also lock the term state, and unlock facets state.
 
 
 ## `facets` property
-An array of facets. See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `facets` property
+An array of facets. See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `facets` property
 
 In addition to all the search facets functionally, the Autocomplete facets will have an added `preview` method
 
@@ -157,13 +157,13 @@ See `terms.preview` for `facets.preview` usage
 
 
 ## `filters` property
-See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `filters` property
+See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `filters` property
 
 ## `results` property
-See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `results` property
+See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `results` property
 
 ## `pagination` property
-See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `pagination` property
+See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `pagination` property
 
 ## `sorting` property
-See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `sorting` property
+See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `sorting` property

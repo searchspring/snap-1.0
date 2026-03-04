@@ -33,9 +33,9 @@ The bundle should be included in the <head> tag, ideally near the top of the nod
 
 ## Context Variables
 
-Context variables are conditionally rendered within the `bundle.js` script's innerHTML via server side code or template logic. They provide various context variables that can be utilized by the Snap integration. Typically these variables are used to specify category page details (for [background filtering](https://searchspring.github.io/snap/snap-background-filters)), shopper details (for personalization), merchandising segmentation, or any other custom variables needed for the integration.
+Context variables are conditionally rendered within the `bundle.js` script's innerHTML via server side code or template logic. They provide various context variables that can be utilized by the Snap integration. Typically these variables are used to specify category page details (for [background filtering](https://athoscommerce.github.io/snap/snap-background-filters)), shopper details (for personalization), merchandising segmentation, or any other custom variables needed for the integration.
 
-The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML. These variables are retrieved using the [getContext](https://searchspring.github.io/snap/reference-toolbox-getcontext) function at run time.
+The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML. These variables are retrieved using the [getContext](https://athoscommerce.github.io/snap/reference-toolbox-getcontext) function at run time.
 
 There are a few core context variables utilized by Snap, `shopper`, `merchandising` and `config` - these are reserved context variable names and should not be utilized for custom context functionality.
 
@@ -109,5 +109,5 @@ Example using multiple context variables together.
 
 ## Content Security Policy
 
-If your site requires a strict [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP), an entry of `https://*.searchspring.io` should be added to your CSP configuration to ensure Athos is functional. 
+If your site requires a strict [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP), an entry of `https://*.athoscommerce.io` should be added to your CSP configuration to ensure Athos is functional. 
 

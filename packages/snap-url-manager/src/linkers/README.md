@@ -3,4 +3,4 @@ A `linker` is passed in when instantiating a `UrlManager`. The `linker` provides
 
 Linker-specific documentation:
 
-- [reactLinker](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/linkers/react)
+- [reactLinker](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/linkers/react)

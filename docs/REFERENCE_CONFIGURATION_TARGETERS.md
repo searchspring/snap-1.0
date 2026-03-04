@@ -68,7 +68,7 @@ snap.getController('search').then((controller) => {
 ## Skeleton Component
 A `skeleton` component can be defined to render inside the target until search is ready to render the `component`.
 
-A [Skeleton component](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-skeleton--default) is available in the components package.
+A [Skeleton component](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-skeleton--default) is available in the components package.
 
 ```jsx
 import { Snap } from '@athoscommerce/snap-preact';

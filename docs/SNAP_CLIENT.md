@@ -139,7 +139,7 @@ const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel }
 
 #### category
 
-The `category` method makes a request to the Searchspring Category API to fetch search results for a given category page.
+The `category` method makes a request to the Athos Category API to fetch search results for a given category page.
 
 ```js
 const { meta, search }: { meta: MetaResponseModel; search: SearchResponseModel } = await client.category({

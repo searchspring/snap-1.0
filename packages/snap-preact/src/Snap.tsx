@@ -461,7 +461,7 @@ export class Snap {
 
 			// log version
 			this.logger.imageText({
-				url: 'https://snapui.searchspring.io/favicon.svg',
+				url: 'https://snapui.athoscommerce.io/favicon.svg',
 				text: `[${version}]`,
 				style: `color: ${this.logger.colors.indigo}; font-weight: bold;`,
 			});
@@ -551,10 +551,8 @@ export class Snap {
 
 						// reset the global athos object
 						try {
-							delete window.searchspring;
 							delete window.athos;
 						} catch (e) {
-							window.searchspring = undefined;
 							window.athos = undefined;
 						}
 

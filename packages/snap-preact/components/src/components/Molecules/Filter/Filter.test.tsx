@@ -79,7 +79,7 @@ describe('Filter Component', () => {
 	});
 
 	it('has a url value when passed one', () => {
-		const url = 'www.searchspring.com';
+		const url = 'www.athoscommerce.com';
 		const urlManager = new UrlManager(new UrlTranslator({ urlRoot: url }), reactLinker);
 
 		const rendered = render(<Filter {...args} url={urlManager} />);

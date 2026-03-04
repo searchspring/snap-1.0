@@ -693,7 +693,7 @@ describe('mergeThemeLayers function', () => {
 						},
 						{
 							title: 'email us',
-							content: 'snap@searchspring.com',
+							content: 'snap@athoscommerce.com',
 						},
 					],
 				},
@@ -753,7 +753,7 @@ describe('mergeThemeLayers function', () => {
 						},
 						{
 							title: 'email us',
-							content: 'snap@searchspring.com',
+							content: 'snap@athoscommerce.com',
 						},
 					],
 				},

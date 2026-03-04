@@ -7,7 +7,7 @@ describe('getContext', () => {
 
 	it('expects an array of strings as the first parameter', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 
 		// invalid param that should throw
 		expect(() => {
@@ -48,7 +48,7 @@ describe('getContext', () => {
 		}).toThrow();
 
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		// invalid param that should throw
 		expect(() => {
 			// @ts-ignore
@@ -69,7 +69,7 @@ describe('getContext', () => {
 		}).not.toThrow();
 	});
 
-	it(`automatically finds script in document when it has an 'id' that starts with "athos-context"`, () => {
+	it(`automatically finds script in document when it has an 'id' that is "athos-context"`, () => {
 		expect(() => {
 			const id = 'athos-context';
 			const scriptTag = document.createElement('script');
@@ -82,8 +82,35 @@ describe('getContext', () => {
 		}).not.toThrow();
 	});
 
+	it(`automatically finds script in document when it has an 'id' that is "searchspring-context"`, () => {
+		expect(() => {
+			const id = 'searchspring-context';
+			const scriptTag = document.createElement('script');
+			scriptTag.id = id;
+
+			document.body.appendChild(scriptTag);
+
+			const context = getContext();
+			expect(context).toStrictEqual({});
+		}).not.toThrow();
+	});
+
+	it(`automatically finds script in document when it has a 'src' that matches "snapui.athoscommerce.io"`, () => {
+		const siteId = 'atkzs2';
+		expect(() => {
+			const src = `https://snapui.athoscommerce.io/${siteId}/test/bundle.js`;
+			const scriptTag = document.createElement('script');
+			scriptTag.src = src;
+
+			document.body.appendChild(scriptTag);
+
+			const context = getContext();
+			expect(context).toStrictEqual({});
+		}).not.toThrow();
+	});
+
 	it(`automatically finds script in document when it has a 'src' that matches "snapui.searchspring.io"`, () => {
-		const siteId = 'y56s6x';
+		const siteId = 'atkzs2';
 		expect(() => {
 			const src = `https://snapui.searchspring.io/${siteId}/test/bundle.js`;
 			const scriptTag = document.createElement('script');
@@ -97,7 +124,7 @@ describe('getContext', () => {
 	});
 
 	it(`automatically finds script in document when it has a 'src' that matches "snapui.athoscommerce.io"`, () => {
-		const siteId = 'y56s6x';
+		const siteId = 'atkzs2';
 		expect(() => {
 			const src = `https://snapui.athoscommerce.io/${siteId}/test/bundle.js`;
 			const scriptTag = document.createElement('script');
@@ -111,9 +138,9 @@ describe('getContext', () => {
 	});
 
 	it(`returns src siteId over if siteID is not set as a context variable`, () => {
-		const siteId = 'y56s6x';
+		const siteId = 'atkzs2';
 		expect(() => {
-			const src = `https://snapui.searchspring.io/${siteId}/test/bundle.js`;
+			const src = `https://snapui.athoscommerce.io/${siteId}/test/bundle.js`;
 			const scriptTag = document.createElement('script');
 			scriptTag.src = src;
 
@@ -125,10 +152,10 @@ describe('getContext', () => {
 	});
 
 	it(`returns context siteId over src siteID`, () => {
-		const siteId = 'y56s6x';
+		const siteId = 'atkzs2';
 		const otherSiteId = 'test12';
 		expect(() => {
-			const src = `https://snapui.searchspring.io/${siteId}/test/bundle.js`;
+			const src = `https://snapui.athoscommerce.io/${siteId}/test/bundle.js`;
 			const scriptTag = document.createElement('script');
 			scriptTag.src = src;
 			scriptTag.innerHTML = `
@@ -148,7 +175,7 @@ describe('getContext', () => {
 		};
 
 		const snapScriptTestTag = document.createElement('script');
-		snapScriptTestTag.src = 'https://snapui.searchspring.io/y56s6x/test/bundle.js';
+		snapScriptTestTag.src = 'https://snapui.athoscommerce.io/atkzs2/test/bundle.js';
 		document.body.appendChild(snapScriptTestTag);
 
 		const scriptTag = document.createElement('script');
@@ -159,7 +186,7 @@ describe('getContext', () => {
 		document.body.appendChild(scriptTag);
 
 		const snapScriptTag = document.createElement('script');
-		snapScriptTag.src = 'https://snapui.searchspring.io/y56s6x/bundle.js';
+		snapScriptTag.src = 'https://snapui.athoscommerce.io/atkzs2/bundle.js';
 		document.body.appendChild(snapScriptTag);
 
 		const context = getContext(['shopper']);
@@ -198,8 +225,8 @@ describe('getContext', () => {
 
 	it('only gets attributes from the script that are part of the requested variables', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring/recommend');
-		scriptTag.setAttribute('id', 'searchspring-recommend');
+		scriptTag.setAttribute('type', 'athos/recommend');
+		scriptTag.setAttribute('id', 'athos-recommend');
 		scriptTag.innerHTML = `
 			siteId = 'abc123';
 			shopperId = 'snap';
@@ -207,15 +234,15 @@ describe('getContext', () => {
 
 		const vars = getContext(['siteId'], scriptTag);
 		expect(vars).toHaveProperty('siteId', 'abc123');
-		expect(vars).not.toHaveProperty('type', 'searchspring/recommend');
-		expect(vars).not.toHaveProperty('id', 'searchspring-recommend');
+		expect(vars).not.toHaveProperty('type', 'athos/recommend');
+		expect(vars).not.toHaveProperty('id', 'athos-recommend');
 		expect(vars).not.toHaveProperty('shopperId', 'snap');
 	});
 
 	it('can be told which variables to evaluate returns an object containing those variables', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring/recommend');
-		scriptTag.setAttribute('id', 'searchspring-recommend');
+		scriptTag.setAttribute('type', 'athos/recommend');
+		scriptTag.setAttribute('id', 'athos-recommend');
 		scriptTag.innerHTML = `
 			siteId = 'abc123';
 			shopperId = 'snap';
@@ -224,13 +251,13 @@ describe('getContext', () => {
 		const vars = getContext(['siteId', 'shopperId', 'type', 'id'], scriptTag);
 		expect(vars).toHaveProperty('siteId', 'abc123');
 		expect(vars).toHaveProperty('shopperId', 'snap');
-		expect(vars).toHaveProperty('type', 'searchspring/recommend');
-		expect(vars).toHaveProperty('id', 'searchspring-recommend');
+		expect(vars).toHaveProperty('type', 'athos/recommend');
+		expect(vars).toHaveProperty('id', 'athos-recommend');
 	});
 
 	it('supports evaluation of all valid javascript', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring/recommend');
+		scriptTag.setAttribute('type', 'athos/recommend');
 		scriptTag.innerHTML = `
 			func = () => 'returned value';
 			options = {
@@ -250,7 +277,7 @@ describe('getContext', () => {
 
 	it('supports evaluation of all valid javascript - errors will not throw but will be undefined', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring/recommend');
+		scriptTag.setAttribute('type', 'athos/recommend');
 		scriptTag.innerHTML = `
 			error = window.dne.property
 		`;
@@ -264,8 +291,8 @@ describe('getContext', () => {
 
 	it('does not throw an error when variables exist already, but are not in evaluation list', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring/recommend');
-		scriptTag.setAttribute('id', 'searchspring-recommend');
+		scriptTag.setAttribute('type', 'athos/recommend');
+		scriptTag.setAttribute('id', 'athos-recommend');
 		scriptTag.innerHTML = `
 			siteId = 'abc123';
 			globalVar = 'snap';
@@ -278,8 +305,8 @@ describe('getContext', () => {
 
 	it('does not attempt to evaluate variable assignments when they are within quotes', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring/recommend');
-		scriptTag.setAttribute('id', 'searchspring-recommend');
+		scriptTag.setAttribute('type', 'athos/recommend');
+		scriptTag.setAttribute('id', 'athos-recommend');
 		scriptTag.innerHTML = 'format = "<span class=money>${{amount}}</span>";';
 
 		expect(() => {
@@ -291,7 +318,7 @@ describe('getContext', () => {
 
 	it('logs an error when there is invalid syntax in the script context', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			valid = 'valid';
 			invalid = syntax error;
@@ -311,7 +338,7 @@ describe('getContext', () => {
 
 	it('does not throw an error when keywords are provided in the evaluate array, but logs an error', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 
 		const consoleError = jest.spyOn(console, 'error');
 
@@ -331,7 +358,7 @@ describe('getContext', () => {
 
 	it('does not throw when keywords are using in inner script variables but logs an error and returns an empty context', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			class = "should-not-evaluate";
 			const = "should-not-evaluate";
@@ -362,7 +389,7 @@ describe('getContext', () => {
 
 	it('allows javascript keywords in object properties and string values', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			config = {
 				class: "class",
@@ -384,7 +411,7 @@ describe('getContext', () => {
 describe('variable name parsing', () => {
 	it('correctly identifies variable names when quotes are present', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			realVar = "something = 123";
 			anotherVar = 'test = value';
@@ -402,7 +429,7 @@ describe('variable name parsing', () => {
 
 	it('handles template literals correctly', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			template = \`
 				<div>
@@ -421,7 +448,7 @@ describe('variable name parsing', () => {
 
 	it('handles HTML attributes that look like assignments', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			html = '<div class="test" data-value="something = 123"></div>';
 			value = 'real value';
@@ -435,7 +462,7 @@ describe('variable name parsing', () => {
 
 	it('handles nested quotes correctly', () => {
 		const scriptTag = document.createElement('script');
-		scriptTag.setAttribute('type', 'searchspring');
+		scriptTag.setAttribute('type', 'athos');
 		scriptTag.innerHTML = `
 			config = "{ \\"nested = value\\": true }";
 			actual = 123;

@@ -1,6 +1,6 @@
 # Search
 
-To set up Search using Snap, we'll need to define a search controller in our Snap configuration. See [SearchController reference](https://searchspring.github.io/snap/reference-controller-search) for all available configuration options.
+To set up Search using Snap, we'll need to define a search controller in our Snap configuration. See [SearchController reference](https://athoscommerce.github.io/snap/reference-controller-search) for all available configuration options.
 
 
 ```js
@@ -98,7 +98,7 @@ const snap = new Snap({
 
 ## Search Store
 
-This section covers the properties available on the Search Store via a Search Controller with examples of how to implement common custom components. Alternatively, equivalent and additional components are available in the `@athoscommerce/snap-preact-components` package. See [Preact Component Library](https://searchspring.github.io/snap/preact-components) for all available components and their usage.
+This section covers the properties available on the Search Store via a Search Controller with examples of how to implement common custom components. Alternatively, equivalent and additional components are available in the `@athoscommerce/snap-preact-components` package. See [Preact Component Library](https://athoscommerce.github.io/snap/preact-components) for all available components and their usage.
 
 
 ### SearchController.store.merchandising
@@ -107,7 +107,7 @@ The `merchandising` property contains merchandising redirects and banner content
 
 The available banner types include: `header`, `banner`, `footer`, `left`, `inline`
 
-For inline banners, the `<InlineBanner/>` component should be used instead. An example of this usage can be found in the [store.results](https://searchspring.github.io/snap/snap-search#searchcontrollerstoreresults) section below.
+For inline banners, the `<InlineBanner/>` component should be used instead. An example of this usage can be found in the [store.results](https://athoscommerce.github.io/snap/snap-search#searchcontrollerstoreresults) section below.
 
 ```jsx
 // src/components/Content/Content.jsx
@@ -201,7 +201,7 @@ export const SearchHeader = withController(observer((props) => {
 
 ### SearchController.store.pagination
 
-The `pagination` property is not only used for information about the current query, but also contains everything needed for handling pagination of a query that yields multiple pages. Invoking the `getPages` method will retrieve the specified number of page objects. For more about the pagination store, checkout the [Search Controller reference](https://searchspring.github.io/snap/reference-controller-search).
+The `pagination` property is not only used for information about the current query, but also contains everything needed for handling pagination of a query that yields multiple pages. Invoking the `getPages` method will retrieve the specified number of page objects. For more about the pagination store, checkout the [Search Controller reference](https://athoscommerce.github.io/snap/reference-controller-search).
 
 ```jsx
 // src/components/Pagination/Pagination.jsx
@@ -309,11 +309,11 @@ Each result object contains the following notable properties:
 
 `result.display` an object used for display in result components. Containing the currently set display state from the `result.mask` combined with the underlying core data for the result. 
 
-`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variants Reference](https://github.com/searchspring/snap/tree/main/docs/REFERENCE_VARIANTS.md)
+`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variants Reference](https://github.com/athoscommerce/snap/tree/main/docs/REFERENCE_VARIANTS.md)
 
-`result.custom` an empty object that is not modified by core Snap packages. This is available for you to modify and store custom data to be rendered. See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+`result.custom` an empty object that is not modified by core Snap packages. This is available for you to modify and store custom data to be rendered. See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)
 
-Note: if you will be creating a custom Result component, the `withTracking` hook is required to capture product impression and click analytics. See [Tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#impressions) for more information.
+Note: if you will be creating a custom Result component, the `withTracking` hook is required to capture product impression and click analytics. See [Tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#impressions) for more information.
 
 ```jsx
 // src/components/Results/Results.jsx
