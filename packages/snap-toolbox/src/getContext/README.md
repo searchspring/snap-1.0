@@ -58,7 +58,7 @@ const context = getContext(['shopper', 'category']);
 ```
 
 ```js
-const scriptTag = document.querySelector('script[type="athos/recommend"');
+const scriptTag = document.querySelector('script[type="athos/recommend"]');
 const context = getContext(['product', 'shopper', 'options'], scriptTag);
 /*
 	context = {
