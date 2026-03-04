@@ -210,7 +210,7 @@ export const Facet = observer((properties: FacetProps) => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		button: {
 			// inherited props
@@ -219,7 +219,7 @@ export const Facet = observer((properties: FacetProps) => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		showMoreLessIcon: {
 			// default props
@@ -476,6 +476,7 @@ export const Facet = observer((properties: FacetProps) => {
 		(facet as RangeFacet)?.active?.high !== (facet as RangeFacet)?.range?.high ||
 		(facet as RangeFacet)?.active?.low !== (facet as RangeFacet)?.range?.low;
 
+	console.log(justContent);
 	return facet && renderFacet ? (
 		<CacheProvider>
 			<div
@@ -537,7 +538,6 @@ export const Facet = observer((properties: FacetProps) => {
 											? { ...(typeof iconExpand == 'string' ? { icon: iconExpand } : (iconExpand as Partial<IconProps>)) }
 											: { ...(typeof iconCollapse == 'string' ? { icon: iconCollapse } : (iconCollapse as Partial<IconProps>)) })}
 										name={facet?.collapsed ? 'expand' : 'collapse'}
-										treePath={props.treePath}
 									/>
 								)}
 							</div>
