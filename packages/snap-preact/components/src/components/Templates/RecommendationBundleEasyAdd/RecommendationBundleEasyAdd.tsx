@@ -1,10 +1,13 @@
 import { h } from 'preact';
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
-import { defined, mergeStyles } from '../../../utilities';
-import { ComponentProps, StyleScript } from '../../../types';
-import { RecommendationBundle, RecommendationBundleProps } from '../RecommendationBundle';
+import { defined, mergeProps, mergeStyles } from '../../../utilities';
+import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
+import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
+import { Theme } from '../../../providers';
 
 const defaultStyles: StyleScript<RecommendationBundleEasyAddProps> = () => {
 	return css({
@@ -14,7 +17,10 @@ const defaultStyles: StyleScript<RecommendationBundleEasyAddProps> = () => {
 	});
 };
 
-export const RecommendationBundleEasyAdd = observer((properties: RecommendationBundleEasyAddProps): JSX.Element => {
+const alias = 'recommendationBundleEasyAdd';
+export const RecommendationBundleEasyAdd = observer((properties: RecommendationBundleEasyAddProps) => {
+	const globalTheme: Theme = useTheme();
+
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {
 		name: properties.controller?.store?.profile?.tag?.toLowerCase(),
@@ -31,7 +37,7 @@ export const RecommendationBundleEasyAdd = observer((properties: RecommendationB
 			ctaButtonText: 'Add Both',
 			ctaInline: false,
 			hideSeed: true,
-			alias: 'recommendationBundleEasyAdd',
+			alias: alias,
 			// vertical: true,
 			limit: 1,
 			carousel: {
@@ -48,16 +54,44 @@ export const RecommendationBundleEasyAdd = observer((properties: RecommendationB
 		},
 	};
 
-	const styling = mergeStyles<RecommendationBundleEasyAddProps>(_properties, defaultStyles);
+	const mergedProps = mergeProps(alias, globalTheme, {}, _properties);
+	const styling = mergeStyles<RecommendationBundleEasyAddProps>(mergedProps, defaultStyles);
 
 	return <RecommendationBundle controller={controller} {...styling} {...subProps.recommendationBundle} {...additionalProps} />;
 });
 
-export type RecommendationBundleEasyAddProps = ComponentProps &
-	Omit<
-		RecommendationBundleProps,
-		'hideSeed' | 'limit' | 'hideCheckboxes' | 'carousel' | 'separatorIcon' | 'separatorIconSeedOnly' | 'preselectedCount' | 'breakpoints'
-	>;
+export type RecommendationBundleEasyAddProps = {
+	controller: RecommendationController & AbstractController;
+	resultComponent?:
+		| ResultComponent<{
+				controller: RecommendationController;
+				seed?: boolean;
+				selected?: boolean;
+				onProductSelect?: (product: Product) => void;
+		  }>
+		| undefined;
+	alias?: string | undefined;
+	lang?: Partial<RecommendationBundleLang> | undefined;
+	results?: Product[] | undefined;
+} & RecommendationBundleEasyAddTemplatesLegalProps &
+	ComponentProps<RecommendationBundleEasyAddProps>;
+
+export type RecommendationBundleEasyAddTemplatesLegalProps = Omit<
+	RecommendationBundleProps,
+	| 'controller'
+	| 'resultComponent'
+	| 'alias'
+	| 'lang'
+	| 'results'
+	| 'hideSeed'
+	| 'limit'
+	| 'hideCheckboxes'
+	| 'carousel'
+	| 'separatorIcon'
+	| 'separatorIconSeedOnly'
+	| 'preselectedCount'
+	| 'breakpoints'
+>;
 
 interface RecommendationBundleEasyAddSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

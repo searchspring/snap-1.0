@@ -76,7 +76,7 @@ describe('SearchInput Component', () => {
 		const func = jest.fn();
 		const rendered = render(<SearchInput value={''} submitSearchButton={{ onClick: func }} />);
 		const searchButton = rendered.container.querySelector('.ss__search-input__button--submit-search-button');
-		const searchButtonIcon = rendered.container.querySelector('.ss__search-input__button--submit-search-button .ss__icon--search');
+		const searchButtonIcon = rendered.container.querySelector('.ss__search-input__button--submit-search-button .ss__icon--search-thin');
 		expect(searchButton).toBeInTheDocument();
 		expect(searchButtonIcon).toBeInTheDocument();
 

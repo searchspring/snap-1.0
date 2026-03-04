@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState, StateUpdater } from 'preact/hooks';
+import { useState, StateUpdater, Dispatch } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -38,7 +38,7 @@ const defaultStyles: StyleScript<CheckboxProps> = ({ size, color, theme, native 
 	}
 };
 
-export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
+export const Checkbox = observer((properties: CheckboxProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -95,7 +95,7 @@ export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
 		},
 	};
 
-	let checkedState: boolean | undefined, setCheckedState: undefined | StateUpdater<boolean | undefined>;
+	let checkedState: boolean | undefined, setCheckedState: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = checked === undefined;
 	if (stateful) {
@@ -180,7 +180,13 @@ export const Checkbox = observer((properties: CheckboxProps): JSX.Element => {
 interface CheckboxSubProps {
 	icon: IconProps;
 }
-export interface CheckboxProps extends ComponentProps {
+
+export type CheckboxProps = {
+	lang?: Partial<CheckboxLang>;
+} & CheckboxTemplatesLegalProps &
+	ComponentProps<CheckboxProps>;
+
+export type CheckboxTemplatesLegalProps = {
 	checked?: boolean;
 	color?: string;
 	disabled?: boolean;
@@ -191,8 +197,7 @@ export interface CheckboxProps extends ComponentProps {
 	startChecked?: boolean;
 	native?: boolean;
 	disableA11y?: boolean;
-	lang?: Partial<CheckboxLang>;
-}
+};
 
 export interface CheckboxLang {
 	checkbox: Lang<{

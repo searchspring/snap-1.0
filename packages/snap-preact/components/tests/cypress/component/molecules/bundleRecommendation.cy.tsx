@@ -1,12 +1,12 @@
-import { Fragment, h } from 'preact';
-import { RecommendationStore, RecommendationStoreConfig } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { Tracker } from '@searchspring/snap-tracker';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Client } from '@searchspring/snap-client';
-import { RecommendationController } from '@searchspring/snap-controller';
+import { h } from 'preact';
+import { RecommendationStore, RecommendationStoreConfig } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Client } from '@athoscommerce/snap-client';
+import { RecommendationController } from '@athoscommerce/snap-controller';
 import { RecommendationBundle } from '../../../../src/components/Templates/RecommendationBundle';
 import { mount } from '@cypress/react';
 import { ThemeProvider } from '../../../../src/providers';
@@ -46,9 +46,9 @@ let controller: RecommendationController;
 
 describe('RecommendationBundle Component', async () => {
 	beforeEach(async () => {
-		cy.intercept('POST', '**/recommend', json);
-		cy.intercept('GET', '**/profile.json', profile);
-		cy.intercept('GET', '**/meta.json', meta);
+		cy.intercept('POST', '**/v1/recommend', json);
+		cy.intercept('GET', '**/v1/profile', profile);
+		cy.intercept('GET', '**/v1/meta', meta);
 
 		const client = new Client(globals, {});
 
@@ -253,22 +253,21 @@ describe('RecommendationBundle Component', async () => {
 						})}
 					</div>
 				</div>
-			) : (
-				<Fragment></Fragment>
-			);
+			) : null;
 		});
 
 		mount(
 			<RecommendationBundle
 				controller={controller}
 				ctaSlot={<CtaSlot />}
-				resultComponent={<ResultComponent />}
+				resultComponent={ResultComponent}
 				onAddToCart={cy.stub().as('onAddToCart')}
 			/>
 		);
 
 		cy.get('.ss__recommendation-bundle').should('exist');
 		cy.get('.ss__recommendation-bundle .findMe').should('exist');
+		cy.get('.ss__recommendation-bundle .standardSelections').should('exist');
 
 		cy.get('.ss__recommendation-bundle .findMe .bundlePrice').should('exist').should('have.text', '306.98');
 		cy.get('.ss__recommendation-bundle .findMe .strikePrice').should('exist').should('have.text', '311.98');

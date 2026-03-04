@@ -2,8 +2,8 @@
 The finder store is meant to hold the API response and associated selection state. It extends the AbstractStore and the search response by adding several additional properties and methods to make working with the data easier.
 
 ```js
-import { FinderStore, FinderStoreConfig } from '@searchspring/snap-store-mobx'
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { FinderStore, FinderStoreConfig } from '@athoscommerce/snap-store-mobx'
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
 const finderConfig: FinderStoreConfig = {
 	id: 'finder',
@@ -26,23 +26,23 @@ console.log(store.toJSON());
 ```
 
 ## `meta` property
-The meta property is an object containing the meta data retrieved from the Searchspring Meta API
+The meta property is an object containing the meta data retrieved from the Athos Meta API
 
 ## `pagination` property
-See [SearchStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Search) `pagination` property
+See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `pagination` property
 
 ## `config` property
 
 A reference to the `FinderStoreConfig` object that was provided to instantiate the FinderStore
 
 ## `data` property
-A reference to the data stored in the [StorageStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Storage) for this selection
+A reference to the data stored in the [StorageStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Storage) for this selection
 
 ## `storage` property
-A reference to the [StorageStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Storage)
+A reference to the [StorageStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Storage)
 
 ## `persistedStorage` property
-A reference to the [StorageStore](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Storage) used for persisting finder selections (requires `config.persist.enabled` to be `true`)
+A reference to the [StorageStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Storage) used for persisting finder selections (requires `config.persist.enabled` to be `true`)
 
 ## `persisted` property
 The `persisted` property is used to determine if finder selections have been persisted. (requires `config.persist.enabled` to be `true`)
@@ -83,7 +83,7 @@ selections[0].select(value)
 ```
 
 ### `controller` property
-A reference to the [FinderController](https://github.com/searchspring/snap/tree/main/packages/snap-controller/src/Finder)
+A reference to the [FinderController](https://github.com/athoscommerce/snap/tree/main/packages/snap-controller/src/Finder)
 
 ### `type` property
 Inherited from `facet.type` of the facet name that was provided in the config
@@ -117,4 +117,4 @@ Contains the value of the selection that was made.
 
 ### `custom` property
 
-See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)

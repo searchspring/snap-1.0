@@ -4,7 +4,7 @@ After building the project and uploading the build files to your CDN or hosting 
 
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
     // context variables go here
 </script>
 ```
@@ -21,21 +21,21 @@ The bundle should be included in the <head> tag, ideally near the top of the nod
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snap Integration Example</title>
 
-    <script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+    <script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
         // context variables go here
     </script>
 </head>
 <body>
-    <div id="searchspring-content"><!-- an element that will be injected into --></div>
+    <div id="athos-content"><!-- an element that will be injected into --></div>
 </body>
 </html>
 ```
 
 ## Context Variables
 
-Context variables are conditionally rendered within the `bundle.js` script's innerHTML via server side code or template logic. They provide various context variables that can be utilized by the Snap integration. Typically these variables are used to specify category page details (for [background filtering](https://searchspring.github.io/snap/snap-background-filters)), shopper details (for personalization), merchandising segmentation, or any other custom variables needed for the integration.
+Context variables are conditionally rendered within the `bundle.js` script's innerHTML via server side code or template logic. They provide various context variables that can be utilized by the Snap integration. Typically these variables are used to specify category page details (for [background filtering](https://athoscommerce.github.io/snap/snap-background-filters)), shopper details (for personalization), merchandising segmentation, or any other custom variables needed for the integration.
 
-The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML. These variables are retrieved using the [getContext](https://searchspring.github.io/snap/reference-toolbox-getcontext) function at run time.
+The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML. These variables are retrieved using the [getContext](https://athoscommerce.github.io/snap/reference-toolbox-getcontext) function at run time.
 
 There are a few core context variables utilized by Snap, `shopper`, `merchandising` and `config` - these are reserved context variable names and should not be utilized for custom context functionality.
 
@@ -44,7 +44,7 @@ There are a few core context variables utilized by Snap, `shopper`, `merchandisi
 | shopper.id | logged in user unique identifier | all | required for personalization functionality |
 | shopper.cart | array of cart objects, each object in the array should contain `uid` (required), `parentId` (required), `sku`, `price`, `qty` | all | current cart contents, required if checkout process does not contain a dedicated cart page (ie. slideout cart) |
 | currency.code | currency code string, ie. 'EUR' (ISO 4217) | all | currency code of the shopper's cart contents or order confirmation. Used for beacon events containing pricing data |
-| merchandising.segments | array of strings used for merchandising | any | segmented merchandising allows for custom control over products returned on search requests and must also be setup within the Searchspring Management Console (SMC) |
+| merchandising.segments | array of strings used for merchandising | any | segmented merchandising allows for custom control over products returned on search requests and must also be setup within the Athos Search & Product Discovery Console (ASD) |
 | config | object containing Snap configurations | any | advanced usage of Snap (not recommended for standard integrations) |
 | page.type | 'search' (default) or 'category' | PLP | explicitly indicate the page type (category or search). This is used to differentiate category and search beacon events. If not provided, the page type will be inferred as 'category' if a common category background filter is present. |
 
@@ -53,7 +53,7 @@ There are a few core context variables utilized by Snap, `shopper`, `merchandisi
 The custom variable example below shows a custom context being added for 'page'. The value would typically be assigned server side using template logic. This would be used to possibly toggle the siteId utilized by the client (to fetch different catalog data) or to modify text or currency displays.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	page = "404";
 </script>
 ```
@@ -61,7 +61,7 @@ The custom variable example below shows a custom context being added for 'page'.
 When used, shopper context should always include at least an `id`; the `cart` contents can optionally be provided to ensure personalization is applied on every page. Standard Snap integrations will automatically take this context data and apply it for personalization.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	shopper = {
 		id: '[REPLACE WITH LOGGED IN SHOPPER ID]',
 		cart: [
@@ -83,7 +83,7 @@ When used, shopper context should always include at least an `id`; the `cart` co
 Merchandising segmentation will automatically be applied if passed in via a script context variable. Standard Snap integrations will automatically take this context data and apply it for merchandising.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	merchandising = {
 		segments: ['segment1', 'segment2']
 	};
@@ -93,7 +93,7 @@ Merchandising segmentation will automatically be applied if passed in via a scri
 Example using multiple context variables together.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	page = "404";
 	shopper = {
 		id: 'canadian@shopper.com'
@@ -109,5 +109,5 @@ Example using multiple context variables together.
 
 ## Content Security Policy
 
-If your site requires a strict [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP), an entry of `https://*.searchspring.io` should be added to your CSP configuration to ensure Searchspring is functional. 
+If your site requires a strict [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP), an entry of `https://*.athoscommerce.io` should be added to your CSP configuration to ensure Athos is functional. 
 

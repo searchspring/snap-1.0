@@ -17,7 +17,7 @@ Renders a single complete facet. This includes determining the correct options t
 
 ## Usage
 ```jsx
-import { Facet } from '@searchspring/snap-preact-components';
+import { Facet } from '@athoscommerce/snap-preact-components';
 ```
 
 ### facet

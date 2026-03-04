@@ -1,16 +1,16 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { css } from '@emotion/react';
 import classnames from 'classnames';
 
-import type { AutocompleteController } from '@searchspring/snap-controller';
-import type { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
+import type { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
 import { ComponentProps, StyleScript } from '../../../types';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { createHoverProps } from '../../../toolbox';
 import { mergeProps, mergeStyles } from '../../../utilities';
-import { Term } from '@searchspring/snap-store-mobx';
+import { Term } from '@athoscommerce/snap-store-mobx';
 import { useLang } from '../../../hooks';
 import type { Lang } from '../../../hooks';
 import deepmerge from 'deepmerge';
@@ -78,7 +78,7 @@ const emIfyTerm = (term: string, search: string): string => {
 	return `<em>${term}</em>`;
 };
 
-export const Terms = observer((properties: TermsProps): JSX.Element => {
+export const Terms = observer((properties: TermsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -161,23 +161,25 @@ export const Terms = observer((properties: TermsProps): JSX.Element => {
 				</ul>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface TermsProps extends ComponentProps {
+export type TermsProps = {
 	controller: AutocompleteController;
 	terms: AutocompleteTermStore;
+	lang?: Partial<TermsLang>;
+	name?: TermsNames;
+} & TermsTemplatesLegalProps &
+	ComponentProps<TermsProps>;
+
+export type TermsTemplatesLegalProps = {
 	title?: string;
 	vertical?: boolean;
 	limit?: number;
 	onTermClick?: (e: React.MouseEvent<Element, MouseEvent>, term: Term) => void;
 	previewOnHover?: boolean;
 	emIfy?: boolean;
-	lang?: Partial<TermsLang>;
-	name?: TermsNames;
-}
+};
 
 export interface TermsLang {
 	term?: Lang<{

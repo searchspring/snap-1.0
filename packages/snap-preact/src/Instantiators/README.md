@@ -11,7 +11,7 @@ The `RecommendationInstantiator` class handles the targeting and creation of rec
 | `mode` | `keyof typeof AppMode \| AppMode` | No | Application mode (e.g., 'production', 'development'). Defaults to 'production'. |
 | `client` | `object` | No | Client configuration for API communication. |
 | `client.globals` | `ClientGlobals` | Yes* | Global client settings. Must include `siteId` if no services provided. |
-| `client.globals.siteId` | `string` | Yes* | Searchspring site identifier. Required if no client service provided. |
+| `client.globals.siteId` | `string` | Yes* | Athos site identifier. Required if no client service provided. |
 | `client.config` | `ClientConfig` | No | Optional client configuration for cache settings, origins, etc. |
 | `components` | `object` | Yes | Mapping of component names to component loaders. |
 | `components[name]` | `() => Promise<any> \| any` | Yes | Function that loads a component. Keys should match template names (e.g., 'Default', 'Bundle'). |
@@ -23,7 +23,7 @@ The `RecommendationInstantiator` class handles the targeting and creation of rec
 | `config.variants` | `VariantConfig` | No | Configuration for variant handling. |
 | `config.middleware` | `object` | No | Event middleware configuration. |
 | `config.plugins` | `PluginGrouping[]` | No | Plugin configurations. |
-| `selector` | `string` | No | Custom selector for targeting script elements. Defaults to `'script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"]'`. |
+| `selector` | `string` | No | Custom selector for targeting script elements. Defaults to `'script[type="athos/recommendations"], script[type="athos/recommend"]'`. |
 | `url` | `UrlTranslatorConfig` | No | URL translation configuration for state management. |
 | `context` | `ContextVariables` | No | Context variables available to components. |
 

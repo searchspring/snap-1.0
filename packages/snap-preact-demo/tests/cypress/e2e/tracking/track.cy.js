@@ -11,7 +11,7 @@ describe('Tracking Beacon 2.0', () => {
 	it('tracked shopper login', () => {
 		cy.visit('https://localhost:2222/snap');
 
-		cy.wait(`@beacon2/shopper/login`).then(({ request, response }) => {
+		cy.wait(`@beacon/shopper/login`).then(({ request, response }) => {
 			const { context } = JSON.parse(request.body);
 			expect(context).to.have.property('shopperId').to.be.a('string');
 			expect(context).to.have.property('initiator').to.be.a('string');
@@ -32,7 +32,7 @@ describe('Tracking Beacon 2.0', () => {
 	it('has context data with currency, attribution', () => {
 		cy.visit('https://localhost:2222/snap/category.html?ss_attribution=email:emailTag');
 
-		cy.wait(`@beacon2/shopper/login`).then(({ request, response }) => {
+		cy.wait(`@beacon/shopper/login`).then(({ request, response }) => {
 			const { context } = JSON.parse(request.body);
 			expect(context).to.have.property('shopperId').to.be.a('string');
 			expect(context).to.have.property('initiator').to.be.a('string');
@@ -54,7 +54,7 @@ describe('Tracking Beacon 2.0', () => {
 
 	it('tracked search render, impression, clickthrough', () => {
 		cy.visit('https://localhost:2222/snap/');
-		new Cypress.Promise.all([cy.wait(`@beacon2/search/render`), cy.wait(`@beacon2/search/impression`)])
+		new Cypress.Promise.all([cy.wait(`@beacon/search/render`), cy.wait(`@beacon/search/impression`)])
 			.then(([render, impression]) => {
 				expect(render.response.body).to.have.property('success').to.equal(true);
 				const { context: context1, data: data1 } = JSON.parse(render.request.body);
@@ -99,7 +99,7 @@ describe('Tracking Beacon 2.0', () => {
 						// Click on first product
 						cy.get(`.ss__result a[href='${firstResult.mappings.core.url}']`).first().click({ force: true });
 
-						cy.wait(`@beacon2/search/clickthrough`).then((clickthrough) => {
+						cy.wait(`@beacon/search/clickthrough`).then((clickthrough) => {
 							expect(clickthrough.response.body).to.have.property('success').to.equal(true);
 
 							const { context: context3, data: data3 } = JSON.parse(clickthrough.request.body);
@@ -154,7 +154,7 @@ describe('Tracking Beacon 2.0', () => {
 	it('tracked category render, impression, clickthrough', () => {
 		cy.visit('https://localhost:2222/snap/category.html');
 
-		new Cypress.Promise.all([cy.wait(`@beacon2/category/render`), cy.wait(`@beacon2/category/impression`)]).then(([render, impression]) => {
+		new Cypress.Promise.all([cy.wait(`@beacon/category/render`), cy.wait(`@beacon/category/impression`)]).then(([render, impression]) => {
 			expect(render.response.body).to.have.property('success').to.equal(true);
 			const { context, data } = JSON.parse(render.request.body);
 			expect(context).to.be.an('object');
@@ -165,14 +165,14 @@ describe('Tracking Beacon 2.0', () => {
 
 		// Click on first product
 		cy.get('.ss__result a').first().click({ force: true });
-		cy.wait(`@beacon2/category/clickthrough`).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/category/clickthrough`).its('response.statusCode').should('eq', 200);
 	});
 
 	it('tracked autocomplete render, impression, clickthrough', () => {
 		cy.visit('https://localhost:2222/snap/');
 		cy.get('input[name="q"]').type('s');
 
-		new Cypress.Promise.all([cy.wait(`@beacon2/autocomplete/render`), cy.wait(`@beacon2/autocomplete/impression`)]).then(([render, impression]) => {
+		new Cypress.Promise.all([cy.wait(`@beacon/autocomplete/render`), cy.wait(`@beacon/autocomplete/impression`)]).then(([render, impression]) => {
 			expect(render.response.body).to.have.property('success').to.equal(true);
 			const { context, data } = JSON.parse(render.request.body);
 			expect(context).to.be.an('object');
@@ -187,7 +187,7 @@ describe('Tracking Beacon 2.0', () => {
 		// Click on first product
 		cy.get('.ss__autocomplete .ss__result a').first().click({ force: true });
 
-		cy.wait(`@beacon2/autocomplete/clickthrough`).then(({ request, response }) => {
+		cy.wait(`@beacon/autocomplete/clickthrough`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { data } = JSON.parse(request.body);
@@ -197,19 +197,19 @@ describe('Tracking Beacon 2.0', () => {
 
 	it('tracked autocomplete impression only once per unique search query', () => {
 		let counter = 0;
-		cy.intercept('POST', /beacon.searchspring.io\/beacon\/v2\/.*\/autocomplete\/impression/, (req) => {
+		cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/autocomplete\/impression/, (req) => {
 			counter++;
 			req.reply({ success: true });
-		}).as('beacon2/autocomplete/impression-custom');
+		}).as('beacon/autocomplete/impression-custom');
 
 		cy.visit('https://localhost:2222');
 		cy.get('input[name="q"]').type('s');
-		cy.wait(`@beacon2/autocomplete/impression-custom`).then(({ request, response }) => {
+		cy.wait(`@beacon/autocomplete/impression-custom`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			expect(counter).to.equal(1);
 
-			cy.intercept('POST', /beacon.searchspring.io\/beacon\/v2\/.*\/autocomplete\/impression/, (req) => {
+			cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/autocomplete\/impression/, (req) => {
 				counter++;
 				req.reply({ success: true });
 			});
@@ -232,7 +232,7 @@ describe('Tracking Beacon 2.0', () => {
 		cy.visit('https://localhost:2222/snap/product.html');
 
 		cy.scrollTo('bottom'); // Scroll down to trigger render in viewport
-		cy.wait(`@beacon2/recommendations/render`).then(({ request, response }) => {
+		cy.wait(`@beacon/recommendations/render`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { context, data } = JSON.parse(request.body);
@@ -244,7 +244,7 @@ describe('Tracking Beacon 2.0', () => {
 		cy.wait(2000);
 		cy.scrollTo('bottom'); // Scroll down to trigger impressions
 
-		cy.wait(`@beacon2/recommendations/impression`, { timeout: 10000 }).then(({ request, response }) => {
+		cy.wait(`@beacon/recommendations/impression`, { timeout: 10000 }).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { data } = JSON.parse(request.body);
@@ -255,7 +255,7 @@ describe('Tracking Beacon 2.0', () => {
 		// Click on first product
 		cy.get('.ss__recommendation .ss__result a').first().click({ force: true });
 
-		cy.wait(`@beacon2/recommendations/clickthrough`).then(({ request, response }) => {
+		cy.wait(`@beacon/recommendations/clickthrough`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { data } = JSON.parse(request.body);
@@ -268,16 +268,16 @@ describe('Tracking Beacon 2.0', () => {
 		cy.visit('https://localhost:2222/snap/bundle.html');
 
 		cy.scrollTo('bottom'); // Scroll down to trigger render in viewport
-		cy.wait(`@beacon2/recommendations/render`).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/recommendations/render`).its('response.statusCode').should('eq', 200);
 
 		cy.wait(2000);
 		cy.scrollTo('bottom'); // Scroll down to trigger impressions
 
-		cy.wait(`@beacon2/recommendations/impression`, { timeout: 10000 }).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/recommendations/impression`, { timeout: 10000 }).its('response.statusCode').should('eq', 200);
 
 		cy.get('.ss__recommendation-bundle__wrapper__cta__button').click({ force: true });
 
-		cy.wait(`@beacon2/recommendations/addtocart`).then(({ request, response }) => {
+		cy.wait(`@beacon/recommendations/addtocart`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { data } = JSON.parse(request.body);
@@ -292,12 +292,12 @@ describe('Tracking Beacon 2.0', () => {
 		// Click on first product
 		cy.get('.ss__recommendation-bundle .ss__result a').first().click({ force: true });
 
-		cy.wait(`@beacon2/recommendations/clickthrough`).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/recommendations/clickthrough`).its('response.statusCode').should('eq', 200);
 	});
 
 	it('tracked page view', () => {
 		cy.visit('https://localhost:2222/snap/product.html');
-		cy.wait(`@beacon2/product/pageview`).then(({ request, response }) => {
+		cy.wait(`@beacon/product/pageview`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { context, data } = JSON.parse(request.body);
@@ -309,7 +309,7 @@ describe('Tracking Beacon 2.0', () => {
 
 	it('tracked order transaction', () => {
 		cy.visit('https://localhost:2222/snap/order.html');
-		cy.wait(`@beacon2/order/transaction`).then(({ request, response }) => {
+		cy.wait(`@beacon/order/transaction`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { context, data } = JSON.parse(request.body);
@@ -332,7 +332,7 @@ describe('Tracking Beacon 2.0', () => {
 			controller.tracker.events.error.snap({ data: { message: 'test' } });
 		});
 
-		cy.wait(`@beacon2/log/snap`).then(({ request, response }) => {
+		cy.wait(`@beacon/log/snap`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { context, data } = JSON.parse(request.body);

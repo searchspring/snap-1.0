@@ -1,4 +1,4 @@
-import { ComponentChildren, Fragment, h } from 'preact';
+import { ComponentChildren, h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,8 +8,8 @@ import { Theme, useTheme, CacheProvider, useSnap, useTreePath } from '../../../p
 import { ComponentProps, ComponentMap, StyleScript } from '../../../types';
 import { defaultBadgeComponentMap, mergeProps, mergeStyles } from '../../../utilities';
 import { useComponent } from '../../../hooks';
-import type { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController, RecommendationController, SearchController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import type { SnapTemplates } from '../../../../../src/Templates';
 
 const defaultBadgeStyles: StyleScript<OverlayBadgeProps & { index: number; top: boolean; bottom: boolean; section: string; tag: string }> = ({
@@ -64,7 +64,7 @@ const defaultStyles: StyleScript<OverlayBadgeProps> = ({ controller }) => {
 	});
 };
 
-export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Element => {
+export const OverlayBadge = observer((properties: OverlayBadgeProps) => {
 	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
@@ -80,13 +80,13 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 
 	if (!children) {
 		controller?.log?.warn('OverlayBadge component must have children');
-		return <Fragment />;
+		return null;
 	}
 
 	const meta = controller?.store?.meta;
 	if (!meta) {
 		controller?.log?.warn('Controller must have a meta store');
-		return <Fragment>{children}</Fragment>;
+		return <>{children}</>;
 	}
 	const group = 'overlay';
 
@@ -144,7 +144,7 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 										{slot.badges.map((badge) => {
 											const BadgeComponent = useComponent(badgeComponentMap, badge.component);
 											if (!BadgeComponent) {
-												return <Fragment />;
+												return null;
 											}
 
 											return <BadgeComponent {...badge} {...badge.parameters} treePath={treePath} />;
@@ -160,14 +160,18 @@ export const OverlayBadge = observer((properties: OverlayBadgeProps): JSX.Elemen
 		);
 	}
 
-	return <Fragment>{children}</Fragment>;
+	return <>{children}</>;
 });
 
-export interface OverlayBadgeProps extends ComponentProps {
+export type OverlayBadgeProps = {
 	result: Product;
 	controller: SearchController | AutocompleteController | RecommendationController;
-	children: ComponentChildren;
+} & OverlayBadgeTemplatesLegalProps &
+	ComponentProps<OverlayBadgeProps>;
+
+export type OverlayBadgeTemplatesLegalProps = {
 	renderEmpty?: boolean;
-	componentMap?: ComponentMap;
 	limit?: number;
-}
+	children: ComponentChildren;
+	componentMap?: ComponentMap;
+};

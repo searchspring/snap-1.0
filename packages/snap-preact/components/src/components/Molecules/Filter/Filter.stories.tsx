@@ -9,7 +9,7 @@ import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Filter/readme.md';
 
 import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/Filter',
@@ -46,6 +46,7 @@ export default {
 		facetLabel: {
 			description: 'Filter field',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -55,6 +56,7 @@ export default {
 		valueLabel: {
 			description: 'Filter value',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -73,6 +75,7 @@ export default {
 		hideFacetLabel: {
 			description: 'Hide facet label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -83,6 +86,7 @@ export default {
 		separator: {
 			description: 'Filter delimiter',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -93,6 +97,7 @@ export default {
 			defaultValue: 'close-thin',
 			description: 'Icon name',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -106,6 +111,7 @@ export default {
 		onClick: {
 			description: 'Facet option click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

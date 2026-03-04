@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -9,8 +9,8 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { ComponentProps, StyleScript } from '../../../types';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
-import type { Filter as FilterType } from '@searchspring/snap-store-mobx';
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { Filter as FilterType } from '@athoscommerce/snap-store-mobx';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 
@@ -33,7 +33,7 @@ const defaultStyles: StyleScript<FilterProps> = ({}) => {
 };
 
 // TODO: look into urlManager and how it connects in this case, left the href out for the time being
-export const Filter = observer((properties: FilterProps): JSX.Element => {
+export const Filter = observer((properties: FilterProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FilterProps> = {
@@ -121,22 +121,24 @@ export const Filter = observer((properties: FilterProps): JSX.Element => {
 				</Button>
 			</a>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FilterProps extends ComponentProps {
+export type FilterProps = {
+	lang?: Partial<FilterLang>;
 	filter?: FilterType;
+	url?: UrlManager;
+} & FilterTemplatesLegalProps &
+	ComponentProps<FilterProps>;
+
+export type FilterTemplatesLegalProps = {
 	facetLabel?: string;
 	valueLabel?: string;
-	url?: UrlManager;
 	hideFacetLabel?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 	icon?: IconType | Partial<IconProps>;
 	separator?: string;
-	lang?: Partial<FilterLang>;
-}
+};
 
 export interface FilterLang {
 	filter: Lang<{

@@ -42,7 +42,7 @@ searchController.init();
 ```
 
 ## Search
-This will invoke a search request to Searchspring's search API and populate the store with the response.
+This will invoke a search request to Athos's search API and populate the store with the response.
 
 ```js
 searchController.search();
@@ -169,7 +169,7 @@ By default when using the infinite configuration, additional pages are appended 
 import { h, Fragment, Component } from 'preact';
 import { useRef } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
-import { ControllerProvider, useIntersection, Results } from '@searchspring/snap-preact-components';
+import { ControllerProvider, useIntersection, Results } from '@athoscommerce/snap-preact-components';
 
 @observer
 export class Content extends Component {
@@ -257,4 +257,4 @@ export class Content extends Component {
 - Always invoked after `addToCart()` method has been invoked
 
 ## Variants
-For variant integration details, see [Variant Integration Docs](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
+For variant integration details, see [Variant Integration Docs](https://github.com/athoscommerce/snap/blob/main/docs/INTEGRATION_VARIANTS.md)

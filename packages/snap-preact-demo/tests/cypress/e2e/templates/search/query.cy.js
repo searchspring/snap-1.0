@@ -4,7 +4,8 @@ describe('Query', () => {
 	it('runs the query', () => {
 		cy.visit(`https://localhost:2222/templates/?q=${query}`);
 
-		cy.snapController().then(({ store }) => {
+		cy.snapController().then(({ store, page }) => {
+			expect(page.type).to.equal('search');
 			expect(store.search.query.string).to.equal(query);
 			expect(store).to.haveOwnProperty('pagination');
 			expect(store.pagination.totalResults).to.be.greaterThan(0);
@@ -26,10 +27,10 @@ describe('Query', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				autocomplete: {
-					inputSelector: 'input.searchspring-ac',
+					inputSelector: 'input.athos-ac',
 					targets: [
 						{
-							selector: 'input.searchspring-ac',
+							selector: 'input.athos-ac',
 							component: 'Autocomplete',
 						},
 					],

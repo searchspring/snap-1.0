@@ -1,12 +1,12 @@
 # Search
 
-To set up Search using Snap, we'll need to define a search controller in our Snap configuration. See [SearchController reference](https://searchspring.github.io/snap/reference-controller-search) for all available configuration options.
+To set up Search using Snap, we'll need to define a search controller in our Snap configuration. See [SearchController reference](https://athoscommerce.github.io/snap/reference-controller-search) for all available configuration options.
 
 
 ```js
 // src/index.js
 
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const snap = new Snap({
     client: {
@@ -22,7 +22,7 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },
@@ -56,7 +56,7 @@ For example, if a global variable `snapConfig` exists on the page (must be defin
 ```js
 // src/index.js
 
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const backgroundFilters = [];
 if (snapConfig?.category) {
@@ -84,7 +84,7 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },
@@ -98,23 +98,23 @@ const snap = new Snap({
 
 ## Search Store
 
-This section covers the properties available on the Search Store via a Search Controller with examples of how to implement common custom components. Alternatively, equivalent and additional components are available in the `@searchspring/snap-preact-components` package. See [Preact Component Library](https://searchspring.github.io/snap/preact-components) for all available components and their usage.
+This section covers the properties available on the Search Store via a Search Controller with examples of how to implement common custom components. Alternatively, equivalent and additional components are available in the `@athoscommerce/snap-preact-components` package. See [Preact Component Library](https://athoscommerce.github.io/snap/preact-components) for all available components and their usage.
 
 
 ### SearchController.store.merchandising
 
-The `merchandising` property contains merchandising redirects and banner content. It is recommended to utilize the `<Banner/>` component from `@searchspring/snap-preact-components` to display the various merchandising banners.
+The `merchandising` property contains merchandising redirects and banner content. It is recommended to utilize the `<Banner/>` component from `@athoscommerce/snap-preact-components` to display the various merchandising banners.
 
 The available banner types include: `header`, `banner`, `footer`, `left`, `inline`
 
-For inline banners, the `<InlineBanner/>` component should be used instead. An example of this usage can be found in the [store.results](https://searchspring.github.io/snap/snap-search#searchcontrollerstoreresults) section below.
+For inline banners, the `<InlineBanner/>` component should be used instead. An example of this usage can be found in the [store.results](https://athoscommerce.github.io/snap/snap-search#searchcontrollerstoreresults) section below.
 
 ```jsx
 // src/components/Content/Content.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { ControllerProvider, Banner, Pagination } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { ControllerProvider, Banner, Pagination } from '@athoscommerce/snap-preact-components';
 import { Results } from '../Results/Results';
 import { NoResults } from '../NoResults/NoResults';
 import { SearchHeader } from '../SearchHeader/SearchHeader';
@@ -149,8 +149,8 @@ The `search` property contains information about the current query, typically di
 // src/components/SearchHeader/SearchHeader.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { withController } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { withController } from '@athoscommerce/snap-preact-components';
 
 export const SearchHeader = withController(observer((props) => {
     const { controller } = props;
@@ -201,14 +201,14 @@ export const SearchHeader = withController(observer((props) => {
 
 ### SearchController.store.pagination
 
-The `pagination` property is not only used for information about the current query, but also contains everything needed for handling pagination of a query that yields multiple pages. Invoking the `getPages` method will retrieve the specified number of page objects. For more about the pagination store, checkout the [Search Controller reference](https://searchspring.github.io/snap/reference-controller-search).
+The `pagination` property is not only used for information about the current query, but also contains everything needed for handling pagination of a query that yields multiple pages. Invoking the `getPages` method will retrieve the specified number of page objects. For more about the pagination store, checkout the [Search Controller reference](https://athoscommerce.github.io/snap/reference-controller-search).
 
 ```jsx
 // src/components/Pagination/Pagination.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { withController } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { withController } from '@athoscommerce/snap-preact-components';
 
 export const Pagination = withController(observer((props) => {
 	const { controller } = props;
@@ -250,14 +250,14 @@ export const Pagination = withController(observer((props) => {
 
 The `sorting` property contains sorting options applicable to the current query. Typically used to render a `<select>` dropdown of sorting options. 
 
-Sorting settings can be configured in the [Searchspring Management Console](https://manage.searchspring.net/)
+Sorting settings can be configured in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 ```jsx
 // src/components/SortBy/SortBy.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { withController } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { withController } from '@athoscommerce/snap-preact-components';
 
 export const SortBy = withController(observer((props) => {
 	const { controller } = props;
@@ -295,7 +295,7 @@ Each result object contains the following notable properties:
 
 `result.type` will be 'product' or 'banner' (inline banner)
 
-`result.mappings.core` core attributes configured in the [Searchspring Management Console](https://manage.searchspring.net/)
+`result.mappings.core` core attributes configured in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 `result.attributes` remaining attributes
 
@@ -309,18 +309,18 @@ Each result object contains the following notable properties:
 
 `result.display` an object used for display in result components. Containing the currently set display state from the `result.mask` combined with the underlying core data for the result. 
 
-`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variants Reference](https://github.com/searchspring/snap/tree/main/docs/REFERENCE_VARIANTS.md)
+`result.variants` contains information about product variants like size and color options, as well as the variant selections data. (requires variants to be enabled and configured) For more variant integration information, see [Variants Reference](https://github.com/athoscommerce/snap/tree/main/docs/REFERENCE_VARIANTS.md)
 
-`result.custom` an empty object that is not modified by core Snap packages. This is available for you to modify and store custom data to be rendered. See [`custom` property](https://github.com/searchspring/snap/tree/main/packages/snap-store-mobx/src/Abstract)
+`result.custom` an empty object that is not modified by core Snap packages. This is available for you to modify and store custom data to be rendered. See [`custom` property](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Abstract)
 
-Note: if you will be creating a custom Result component, the `withTracking` hook is required to capture product impression and click analytics. See [Tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#impressions) for more information.
+Note: if you will be creating a custom Result component, the `withTracking` hook is required to capture product impression and click analytics. See [Tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#impressions) for more information.
 
 ```jsx
 // src/components/Results/Results.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { withController, withTracking, InlineBanner, Price } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { withController, withTracking, InlineBanner, Price } from '@athoscommerce/snap-preact-components';
 
 export const Results = withController(observer((props) => {
 	const { controller } = props;
@@ -362,7 +362,7 @@ The `facets` property contains an array of facet objects for the current query.
 
 Each result object contains the following notable properties:
 
-`facet.collapsed` facet collapse state. Facets can be configured to start collapsed by default in the [Searchspring Management Console](https://manage.searchspring.net/)
+`facet.collapsed` facet collapse state. Facets can be configured to start collapsed by default in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 `facet.toggleCollapse` a method that toggles the collapse state for this facet
 
@@ -372,11 +372,11 @@ Each result object contains the following notable properties:
 
 `facet.field` the raw facet field name
 
-`facet.display` the facet display type - used to conditionally render different facet components. Available display types: `list` (default), `grid`, `palette`, `hierarchy`, `slider`. Facet display types can be configured in the [Searchspring Management Console](https://manage.searchspring.net/)
+`facet.display` the facet display type - used to conditionally render different facet components. Available display types: `list` (default), `grid`, `palette`, `hierarchy`, `slider`. Facet display types can be configured in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
 The example below displays a custom `FacetOptionsList` component for facets with a display type of `list`.
 
-The `@searchspring/snap-preact-components` component library includes the following components that can be imported or used as a reference: `FacetListOptions`, `FacetGridOptions`, `FacetPaletteOptions`, `FacetHierarchyOptions`, `FacetSlider`
+The `@athoscommerce/snap-preact-components` component library includes the following components that can be imported or used as a reference: `FacetListOptions`, `FacetGridOptions`, `FacetPaletteOptions`, `FacetHierarchyOptions`, `FacetSlider`
 
 `facet.type` the facet type - Available facet types: `range`, `value`, `range-buckets`. 
 
@@ -398,8 +398,8 @@ Facets with a `type` value of `value` or `range-buckets` will contain the follow
 // src/components/Facets/Facets.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetOptionsHierarchy, FacetSlider } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetOptionsHierarchy, FacetSlider } from '@athoscommerce/snap-preact-components';
 
 export const Facets = withController(observer((props) => {
 	const { controller } = props;
@@ -442,7 +442,7 @@ const Facet = withController(observer((props) => {
 	) : null;
 }));
 
-// custom FacetOptionsList component instead of importing from @searchspring/snap-preact-components
+// custom FacetOptionsList component instead of importing from @athoscommerce/snap-preact-components
 const FacetOptionsList = withController(observer((props) => {
 	const { facet } = props;
 	const values = facet.refinedValues;
@@ -474,8 +474,8 @@ Typically used to display a filter summary with options to remove filters.
 // src/components/FilterSummary/FilterSummary.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { withController } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { withController } from '@athoscommerce/snap-preact-components';
 
 export const FilterSummary = withController(observer((props) => {
 	const { controller } = props;

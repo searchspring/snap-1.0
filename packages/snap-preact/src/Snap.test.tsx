@@ -2,16 +2,16 @@ import 'whatwg-fetch';
 
 import { cleanup, waitFor } from '@testing-library/preact';
 
-import { MockClient } from '@searchspring/snap-shared';
-import { Tracker, TrackerGlobals } from '@searchspring/snap-tracker';
-import { Logger } from '@searchspring/snap-logger';
-import { cookies, version } from '@searchspring/snap-toolbox';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { Tracker, TrackerGlobals } from '@athoscommerce/snap-tracker';
+import { Logger } from '@athoscommerce/snap-logger';
+import { cookies, version } from '@athoscommerce/snap-toolbox';
 
-import type { SearchControllerConfig, AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import type { SearchControllerConfig, AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 
 import { Snap, SnapConfig, DEV_COOKIE } from './Snap';
-import type { AutocompleteStore } from '@searchspring/snap-store-mobx';
-import { ClientGlobals } from '@searchspring/snap-client';
+import type { AutocompleteStore } from '@athoscommerce/snap-store-mobx';
+import { ClientGlobals } from '@athoscommerce/snap-client';
 
 const generateBaseConfig = (): SnapConfig => {
 	return {
@@ -44,7 +44,7 @@ const resetAllCookies = () => {
 	}
 };
 
-// attribute click tracking tests before snap-preact tests as it deletes window.searchspring
+// attribute click tracking tests before snap-preact tests as it deletes window.athos
 describe('Attribute Click Tracking', () => {
 	afterEach(() => {
 		global.document.body.innerHTML = '';
@@ -193,9 +193,9 @@ describe('Attribute Click Tracking', () => {
 
 describe('Snap Preact', () => {
 	beforeEach(() => {
-		delete window.searchspring;
+		delete window.athos;
 
-		document.body.innerHTML = `<script id="searchspring-context"></script><div id="searchspring-content" style="min-height: 100vh"></div>`;
+		document.body.innerHTML = `<script id="athos-context"></script><div id="athos-content" style="min-height: 100vh"></div>`;
 	});
 
 	afterEach(cleanup);
@@ -263,7 +263,7 @@ describe('Snap Preact', () => {
 	});
 
 	it('merges config found in context and prioritizes the config found in the context', () => {
-		document.body.innerHTML = `<script id="searchspring-context">config = { client: { globals: { siteId: 'yyyyyy' } } };</script>`;
+		document.body.innerHTML = `<script id="athos-context">config = { client: { globals: { siteId: 'yyyyyy' } } };</script>`;
 		const baseConfig = generateBaseConfig();
 		const snap = new Snap(baseConfig);
 
@@ -272,7 +272,7 @@ describe('Snap Preact', () => {
 	});
 
 	it('merges contexts and prioritizes the context found in the script', () => {
-		document.body.innerHTML = `<script id="searchspring-context">shopper = { id: 'snapdevscript' };</script>`;
+		document.body.innerHTML = `<script id="athos-context">shopper = { id: 'snapdevscript' };</script>`;
 		const baseConfig = generateBaseConfig();
 		const contextConfig = {
 			...baseConfig,
@@ -316,9 +316,9 @@ describe('Snap Preact', () => {
 	it('exposes itself globally on the window', () => {
 		const baseConfig = generateBaseConfig();
 		const snap = new Snap(baseConfig);
-		expect(window.searchspring).toBeDefined();
-		expect(window.searchspring.context).toBe(snap.context);
-		expect(window.searchspring.client).toBe(snap.client);
+		expect(window.athos).toBeDefined();
+		expect(window.athos.context).toBe(snap.context);
+		expect(window.athos.client).toBe(snap.client);
 	});
 
 	it('automatically tracks the shopper id when provided', () => {
@@ -394,7 +394,7 @@ describe('Snap Preact', () => {
 			error: new Error('test error'),
 			message: 'something went wrong!',
 			lineno: 1,
-			filename: 'https://snapui.searchspring.io/test.js',
+			filename: 'https://snapui.athoscommerce.io/test.js',
 		});
 
 		// @ts-ignore - jest event listener mock
@@ -413,7 +413,7 @@ describe('Snap Preact', () => {
 			error: new Error('test error'),
 			message: 'something went wrong!',
 			lineno: 1,
-			filename: 'https://snapui.searchspring.io/test.js',
+			filename: 'https://snapui.athoscommerce.io/test.js',
 		});
 
 		snap.handlers.error(error);
@@ -525,7 +525,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-dne',
+									selector: '#athos-dne',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -565,7 +565,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => Component,
 								},
@@ -588,16 +588,16 @@ describe('Snap Preact', () => {
 
 			// @ts-ignore - deleting required property
 			delete searchConfig.controllers.search[0].targeters[0].selector;
-			delete window.searchspring.controller.search;
+			delete window.athos.controller.search;
 			new Snap(searchConfig, { client, logger });
 			expect(spy).toHaveBeenCalledTimes(1);
 
 			// invalid config - logs error due to missing component
-			searchConfig.controllers.search[0].targeters[0].selector = '#searchspring-content';
+			searchConfig.controllers.search[0].targeters[0].selector = '#athos-content';
 
 			// @ts-ignore - deleting required property
 			delete searchConfig.controllers.search[0].targeters[0].component;
-			delete window.searchspring.controller.search;
+			delete window.athos.controller.search;
 			new Snap(searchConfig, { client, logger });
 			expect(spy).toHaveBeenCalledTimes(2);
 
@@ -616,7 +616,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -660,7 +660,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									onTarget,
 									component: () => Component,
@@ -694,7 +694,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -706,7 +706,7 @@ describe('Snap Preact', () => {
 				},
 			};
 
-			let contentElem = document.querySelector('#searchspring-content');
+			let contentElem = document.querySelector('#athos-content');
 			expect(contentElem).not.toBeNull();
 
 			// initially element has a minHeight
@@ -734,7 +734,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -783,7 +783,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-content',
+									selector: '#athos-content',
 									renderAfterSearch: true,
 									hideTarget: true,
 									component: () => {
@@ -839,7 +839,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									prefetch: true,
-									selector: '#searchspring-dne',
+									selector: '#athos-dne',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -930,7 +930,7 @@ describe('Snap Preact', () => {
 
 		it(`logs an error when targeter has invalid configuration`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="searchspring-context"></script><input type="text" class="ss-ac-input"/>`;
+			document.body.innerHTML = `<script id="athos-context"></script><input type="text" class="ss-ac-input"/>`;
 
 			const acConfig = {
 				...baseConfig,
@@ -965,7 +965,7 @@ describe('Snap Preact', () => {
 			new Snap(acConfig, { client, logger });
 			expect(spy).toHaveBeenCalledTimes(1);
 
-			acConfig.controllers.autocomplete[0].targeters[0].selector = '#searchspring-content';
+			acConfig.controllers.autocomplete[0].targeters[0].selector = '#athos-content';
 			// @ts-ignore - deleting required property
 			delete acConfig.controllers.autocomplete[0].targeters[0].component;
 			new Snap(acConfig, { client, logger });
@@ -976,7 +976,7 @@ describe('Snap Preact', () => {
 
 		it(`creates targeter provided in config`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="searchspring-context"></script><input type="text" class="ss-ac-input"/>`;
+			document.body.innerHTML = `<script id="athos-context"></script><input type="text" class="ss-ac-input"/>`;
 
 			const acConfig = {
 				...baseConfig,
@@ -1012,7 +1012,7 @@ describe('Snap Preact', () => {
 			const baseConfig = generateBaseConfig();
 			const onTarget = jest.fn();
 
-			document.body.innerHTML = `<script id="searchspring-context"></script><input type="text" class="ss-ac-input"/>`;
+			document.body.innerHTML = `<script id="athos-context"></script><input type="text" class="ss-ac-input"/>`;
 
 			const acConfig = {
 				...baseConfig,
@@ -1040,91 +1040,6 @@ describe('Snap Preact', () => {
 			await snap.getController('ac');
 			await wait();
 			expect(onTarget).toHaveBeenCalledTimes(1);
-		});
-
-		it(`sets integratedSpellCorrection feature flag`, async () => {
-			const baseConfig = generateBaseConfig();
-
-			document.body.innerHTML = `<script id="searchspring-context"></script><input type="text" class="ss-ac-input"/>`;
-
-			const acConfig = {
-				...baseConfig,
-				features: {
-					integratedSpellCorrection: {
-						enabled: true,
-					},
-				},
-				controllers: {
-					autocomplete: [
-						{
-							config: {
-								selector: '.ss-ac-input',
-								id: 'ac',
-							},
-							targeters: [
-								{
-									selector: '.ss-ac-input',
-									hideTarget: true,
-									component: async () => Component,
-								},
-							],
-						},
-					],
-				},
-			};
-			const client = new MockClient(acConfig.client!.globals as ClientGlobals);
-			const snap = new Snap(acConfig, { client });
-			const ac = await snap.getController('ac');
-			await wait();
-
-			// @ts-ignore - private class variable
-			expect(snap.config.client.config?.autocomplete?.requesters?.suggest?.globals?.integratedSpellCorrection).toBe(true);
-			expect((ac.config as AutocompleteControllerConfig).settings!.integratedSpellCorrection).toBe(true);
-			expect((ac.config as AutocompleteControllerConfig).globals!.search?.query?.spellCorrection).toBe(true);
-		});
-
-		it(`preserves controller integratedSpellCorrection setting when feature flag is set`, async () => {
-			const baseConfig = generateBaseConfig();
-
-			document.body.innerHTML = `<script id="searchspring-context"></script><input type="text" class="ss-ac-input"/>`;
-
-			const acConfig = {
-				...baseConfig,
-				features: {
-					integratedSpellCorrection: {
-						enabled: true,
-					},
-				},
-				controllers: {
-					autocomplete: [
-						{
-							config: {
-								selector: '.ss-ac-input',
-								id: 'ac',
-								settings: {
-									integratedSpellCorrection: false,
-								},
-							},
-							targeters: [
-								{
-									selector: '.ss-ac-input',
-									hideTarget: true,
-									component: async () => Component,
-								},
-							],
-						},
-					],
-				},
-			};
-			const client = new MockClient(acConfig.client!.globals as ClientGlobals);
-			const snap = new Snap(acConfig, { client });
-			const ac = await snap.getController('ac');
-			await wait();
-
-			// @ts-ignore - private class variable
-			expect(snap.config.client.config?.autocomplete?.requesters?.suggest?.globals?.integratedSpellCorrection).toBe(true);
-			expect((ac.config as AutocompleteControllerConfig).settings!.integratedSpellCorrection).toBe(false);
-			expect((ac.config as AutocompleteControllerConfig).globals!.search?.query?.spellCorrection).toBe(undefined);
 		});
 	});
 
@@ -1201,7 +1116,7 @@ describe('Snap Preact', () => {
 
 		it(`logs an error when targeter has invalid configuration`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="searchspring-context"></script><div id="searchspring-finder-hierarchy"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="athos-finder-hierarchy"></div>`;
 
 			const finderConfig = {
 				...baseConfig,
@@ -1220,7 +1135,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									name: 'finder_hierarchy',
-									selector: '#searchspring-finder-hierarchy',
+									selector: '#athos-finder-hierarchy',
 									component: async () => Component,
 								},
 							],
@@ -1243,7 +1158,7 @@ describe('Snap Preact', () => {
 			await wait();
 			expect(spy).toHaveBeenCalledTimes(1);
 
-			finderConfig.controllers.finder[0].targeters[0].selector = '#searchspring-content';
+			finderConfig.controllers.finder[0].targeters[0].selector = '#athos-content';
 			// @ts-ignore - deleting required property
 			delete finderConfig.controllers.finder[0].targeters[0].component;
 			new Snap(finderConfig, { client, logger });
@@ -1255,7 +1170,7 @@ describe('Snap Preact', () => {
 
 		it(`creates targeter provided in config`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="searchspring-context"></script><div id="searchspring-finder-hierarchy"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="athos-finder-hierarchy"></div>`;
 
 			const finderConfig = {
 				...baseConfig,
@@ -1274,7 +1189,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									name: 'finderTargeter',
-									selector: '#searchspring-finder-hierarchy',
+									selector: '#athos-finder-hierarchy',
 									component: async () => Component,
 								},
 							],
@@ -1295,7 +1210,7 @@ describe('Snap Preact', () => {
 			const baseConfig = generateBaseConfig();
 			const onTarget = jest.fn();
 
-			document.body.innerHTML = `<script id="searchspring-context"></script><div id="searchspring-finder-hierarchy"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="athos-finder-hierarchy"></div>`;
 
 			const finderConfig = {
 				...baseConfig,
@@ -1314,7 +1229,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									name: 'finderTargeter',
-									selector: '#searchspring-finder-hierarchy',
+									selector: '#athos-finder-hierarchy',
 									component: async () => Component,
 									onTarget,
 								},
@@ -1390,7 +1305,7 @@ describe('Snap Preact', () => {
 
 		it(`logs an error when targeter has invalid configuration`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="searchspring-context"></script><div id="ss-trending-recs"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="ss-trending-recs"></div>`;
 
 			const recommendationConfig = {
 				...baseConfig,
@@ -1437,7 +1352,7 @@ describe('Snap Preact', () => {
 
 		it(`creates targeter provided in config`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="searchspring-context"></script><div id="ss-trending-recs"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="ss-trending-recs"></div>`;
 
 			const recommendationConfig = {
 				...baseConfig,
@@ -1471,7 +1386,7 @@ describe('Snap Preact', () => {
 			const baseConfig = generateBaseConfig();
 			const onTarget = jest.fn();
 
-			document.body.innerHTML = `<script id="searchspring-context"></script><div id="ss-trending-recs"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="ss-trending-recs"></div>`;
 
 			const recommendationConfig = {
 				...baseConfig,
@@ -1512,8 +1427,8 @@ describe('Snap Preact', () => {
 			expect(snap.eventManager.fire).toBeDefined();
 			expect(snap.eventManager.on).toBeDefined();
 
-			expect(window.searchspring.on).toBeDefined();
-			expect(window.searchspring.fire).toBeDefined();
+			expect(window.athos.on).toBeDefined();
+			expect(window.athos.fire).toBeDefined();
 
 			const func = jest.fn();
 

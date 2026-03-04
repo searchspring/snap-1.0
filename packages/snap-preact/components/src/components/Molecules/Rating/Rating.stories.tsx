@@ -34,6 +34,7 @@ export default {
 			description: 'The rating value (out of five)',
 			type: { required: true },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -44,6 +45,7 @@ export default {
 			description: 'The number of ratings or reviews',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -54,6 +56,7 @@ export default {
 			type: { required: false },
 			description: 'Additional text to be rendered.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -64,6 +67,7 @@ export default {
 			description: 'Force to render even when value is 0 or undefined',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -75,6 +79,7 @@ export default {
 			description: 'Disables fractional stars - will round down',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -85,6 +90,7 @@ export default {
 		fullIcon: {
 			description: 'Icon to render in for a full star',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -98,6 +104,7 @@ export default {
 		emptyIcon: {
 			description: 'Icon to render for an empty star',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

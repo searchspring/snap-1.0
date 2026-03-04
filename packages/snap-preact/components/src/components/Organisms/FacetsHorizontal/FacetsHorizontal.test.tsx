@@ -5,7 +5,7 @@ import { IndividualFacetType } from '../Facets/Facets';
 import { ThemeProvider } from '../../../providers';
 import userEvent from '@testing-library/user-event';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
@@ -45,19 +45,6 @@ describe('FacetsHorizontal Component', () => {
 		expect(mobileSidebar).toBeInTheDocument();
 	});
 
-	it('renders as dropdown overlay using overlay prop', () => {
-		const args = {
-			facets: searchResponse.facets as IndividualFacetType[],
-			overlay: true,
-		};
-		const rendered = render(<FacetsHorizontal {...args} />);
-
-		const facetElement = rendered.container.querySelector(
-			`.ss__facets-horizontal--overlay .ss__facets-horizontal__header .ss__facets-horizontal__header__dropdown--${args.facets[0].field} .ss__facet__options`
-		);
-		expect(facetElement).toBeInTheDocument();
-	});
-
 	it('renders with className', () => {
 		const args = {
 			facets: searchResponse.facets as IndividualFacetType[],
@@ -79,7 +66,7 @@ describe('FacetsHorizontal Component', () => {
 		const rendered = render(<FacetsHorizontal {...args} />);
 
 		const facetsHorizontalElement = rendered.container.querySelector('.ss__facets-horizontal');
-		expect(facetsHorizontalElement?.classList).toHaveLength(2);
+		expect(facetsHorizontalElement?.classList).toHaveLength(1);
 	});
 
 	describe('FacetsHorizontal lang works', () => {

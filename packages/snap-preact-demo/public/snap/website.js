@@ -22,7 +22,7 @@ function setShopperID() {
 	var id = modalInput.value;
 
 	if (id) {
-		window.searchspring.tracker.track.shopper.login({
+		athos.tracker.track.shopper.login({
 			id: id,
 		});
 		modal.classList.remove(activeClass);

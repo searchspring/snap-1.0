@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -10,7 +10,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { sprintf } from '../../../utilities';
-import type { RangeFacet } from '@searchspring/snap-store-mobx';
+import type { RangeFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useA11y, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 
@@ -147,7 +147,7 @@ const defaultStyles: StyleScript<FacetSliderProps> = ({
 	});
 };
 
-export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element => {
+export const FacetSlider = observer((properties: FacetSliderProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -314,12 +314,16 @@ export const FacetSlider = observer((properties: FacetSliderProps): JSX.Element 
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FacetSliderProps extends ComponentProps {
+export type FacetSliderProps = {
+	facet: RangeFacet;
+	lang?: Partial<FacetSliderLang>;
+} & FacetSliderTemplatesLegalProps &
+	ComponentProps<FacetSliderProps>;
+
+export type FacetSliderTemplatesLegalProps = {
 	trackColor?: string;
 	railColor?: string;
 	handleColor?: string;
@@ -330,11 +334,9 @@ export interface FacetSliderProps extends ComponentProps {
 	tickTextColor?: string;
 	stickyHandleLabel?: boolean;
 	separateHandles?: boolean;
-	facet: RangeFacet;
 	onChange?: (values: number[]) => void;
 	onDrag?: (values: number[]) => void;
-	lang?: Partial<FacetSliderLang>;
-}
+};
 
 export interface FacetSliderLang {
 	sliderHandle: Lang<{

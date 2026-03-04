@@ -60,8 +60,8 @@ describe('BundledRecommendations', () => {
 		});
 
 		it('snap bundle exists on product page', () => {
-			cy.waitForBundle().then((searchspring) => {
-				expect(searchspring).to.exist;
+			cy.waitForBundle().then((athos) => {
+				expect(athos).to.exist;
 			});
 		});
 	});
@@ -166,8 +166,8 @@ describe('BundledRecommendations', () => {
 			});
 
 			it('snap bundle exists on product page', () => {
-				cy.waitForBundle().then((searchspring) => {
-					expect(searchspring).to.exist;
+				cy.waitForBundle().then((athos) => {
+					expect(athos).to.exist;
 				});
 			});
 

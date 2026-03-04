@@ -1,10 +1,10 @@
 # Recommendations Integration
 
-Changes to the recommendation integration scripts were made in Snap `v0.60.0`. Legacy Recommendation Integrations docs can still be found [`here`](https://searchspring.github.io/snap/snap-recommendations-legacy)
+Changes to the recommendation integration scripts were made in Snap `v0.60.0`. Legacy Recommendation Integrations docs can still be found [`here`](https://athoscommerce.github.io/snap/snap-recommendations-legacy)
 
 ## Prerequisites
 
-Profiles must be setup in the Searchspring Management Console (SMC) and have associated Snap templates selected. The template selected contains a `component` that will be used to render the recommendations profile. This component must be configured in the Snap [RecommendationInstantiator config](https://searchspring.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig)
+Profiles must be setup in the Athos Search & Product Discovery Console (ASD) and have associated Snap templates selected. The template selected contains a `component` that will be used to render the recommendations profile. This component must be configured in the Snap [RecommendationInstantiator config](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators#recommendationinstantiatorconfig)
 
 ## Installation
 
@@ -15,7 +15,7 @@ Recommendations script blocks can be placed anywhere on the page and will automa
 - Or **Additional profiles** being added should be appended to the existing script block in the `profiles` array and can be conditionally rendered (via templating logic) based on the page type. However if the page does not contain any elements matching any of the profile's `selector`, the profile will also not be rendered so alternatively the `div` element can be conditionally rendered instead. We do not recommend creating a new script block for each profile, as this will result in multiple API requests and products will not be deduplicated across profiles. Batching profiles is important for deduplication of recommended products across profiles on the same page (see [Deduping](#deduping)).
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
     profiles = [
         {
             tag: 'recently-viewed',
@@ -60,12 +60,12 @@ Context variables are set within the script blocks and can be used to set either
 | options.dedupe | boolean (default: `true`) | all | dedupe products across all profiles in the batch |   |
 | options.query | string | dynamic custom | query to search |   |
 | options.filters | array of filters | all | optional recommendation filters |   |
-| options.realtime | boolean | all | optional update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) |   |
+| options.realtime | boolean | all | optional update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) |   |
 | options.limit | number (default: 20, max: 20) | all | optional maximum number of results to display, can also be set globally via RecommendationController config globals |   |
 
 
 ## Batching and Ordering
-Each "searchspring/recommendations" script block groups multiple recommendation profiles into a single API request, known as a batch. By default, the script tag fetches recommendations for all profiles with a matching selector in one batched request. The order of profiles in the array determines their priority within the batch.
+Each "athos/recommendations" script block groups multiple recommendation profiles into a single API request, known as a batch. By default, the script tag fetches recommendations for all profiles with a matching selector in one batched request. The order of profiles in the array determines their priority within the batch.
 
 While batching all profiles together is generally the most efficient approach, there may be cases where separate batching is preferred. For instance, recommendations for a mini cart (side cart) might not require de-duplication with other recommendations. You can disable de-duplication for a specific profile by setting `dedupe: false` in its options, or create a separate batch by using an additional script tag.
 
@@ -86,7 +86,7 @@ You can disable deduping for specific profiles by setting `options.dedupe: false
 Here's an example that demonstrates deduping:
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	globals = {
 		products: ['product123']
 	};
@@ -116,12 +116,12 @@ Here's an example that demonstrates deduping:
 
 ## Additional Examples
 
-The examples below assume the `similar` profile has been setup in the Searchspring Management Console (SMC), and that a Snap `bundle.js` script exists on the page and has been configured with a [`RecommendationInstantiator`](https://searchspring.github.io/snap/reference-snap-preact-instantiators)
+The examples below assume the `similar` profile has been setup in the Athos Search & Product Discovery Console (ASD), and that a Snap `bundle.js` script exists on the page and has been configured with a [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators)
 
 A typical "similar" profile displays products similar to the product passed in via the `products` global context variable.
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	globals = {
 		products: ['product123']
 	};
@@ -137,7 +137,7 @@ A typical "similar" profile displays products similar to the product passed in v
 If tracking scripts are not in place, `cross-sell` profiles may require the cart contents to be provided.
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	globals = {
 		cart: ['product123']
 	};
@@ -153,7 +153,7 @@ If tracking scripts are not in place, `cross-sell` profiles may require the cart
 If the shopper identifier is not being captured by the `bundle.js` context, it must be provided for proper personalization.
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	globals = {
 		shopper: {
 			id: 'buyer@shopper.com'
@@ -172,7 +172,7 @@ If the shopper identifier is not being captured by the `bundle.js` context, it m
 The example below filters the recommendations for products matching field `color` with a value `blue` and `red`, as well as a field `price` with a range from `0` to `20`.
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	profiles = [
 		{
 			tag: 'customers-also-bought',

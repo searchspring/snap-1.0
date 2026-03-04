@@ -2,11 +2,11 @@ import deepmerge from 'deepmerge';
 import cssEscape from 'css.escape';
 
 import { AbstractController } from '../Abstract/AbstractController';
-import { StorageStore, ErrorType, MerchandisingContentBanner } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, MerchandisingContentBanner } from '@athoscommerce/snap-store-mobx';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes, PageContextVariable } from '../types';
 
-import type { Product, Banner, SearchStore, ValueFacet, SearchStoreConfig } from '@searchspring/snap-store-mobx';
+import type { Product, Banner, SearchStore, ValueFacet, SearchStoreConfig } from '@athoscommerce/snap-store-mobx';
 import type {
 	SearchControllerConfig,
 	SearchAfterSearchObj,
@@ -17,7 +17,7 @@ import type {
 	ElementPositionObj,
 	BeforeSearchObj,
 } from '../types';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import {
 	type SearchRequestModel,
 	type SearchResponseModelResult,
@@ -150,7 +150,7 @@ export class SearchController extends AbstractController {
 
 		this.storage = new StorageStore({
 			type: 'session',
-			key: `ss-controller-${this.config.id}`,
+			key: `athos-controller-${this.config.id}`,
 		});
 
 		if (typeof this.context?.page === 'object' && ['search', 'category'].includes(this.context.page.type)) {
@@ -392,7 +392,11 @@ export class SearchController extends AbstractController {
 					this.log.warn('No banner provided to track.banner.impression');
 					return;
 				}
-				if (this.events[responseId]?.banner[uid]?.impression) {
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events[responseId]?.banner[uid]?.impression) {
 					return;
 				}
 				const banner: BannersInner = { uid };
@@ -412,7 +416,14 @@ export class SearchController extends AbstractController {
 					this.log.warn('No banner provided to track.banner.click');
 					return;
 				}
+
 				const { responseId, uid } = banner;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				if (isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.banner[uid]?.clickThrough) {
 						return;
@@ -430,6 +441,12 @@ export class SearchController extends AbstractController {
 					this.log.warn('No banner provided to track.banner.clickThrough');
 					return;
 				}
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const banner: ClickthroughBannersInner = { uid };
 				const data: ClickthroughSchemaData = {
 					responseId,
@@ -450,7 +467,14 @@ export class SearchController extends AbstractController {
 					this.log.warn('No result provided to track.product.clickThrough');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const target = e.target as HTMLAnchorElement;
 				const resultHref = (result as Product).display?.mappings.core?.url || (result as Product).mappings.core?.url || '';
 				const elemHref = target?.getAttribute('href');
@@ -506,7 +530,14 @@ export class SearchController extends AbstractController {
 					this.log.warn('No result provided to track.product.click');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				if (result.type === 'banner' && isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.product[result.id]?.inlineBannerClickThrough) {
 						return;
@@ -534,8 +565,13 @@ export class SearchController extends AbstractController {
 					this.log.warn('No result provided to track.product.impression');
 					return;
 				}
+
 				const responseId = result.responseId;
-				if (this.events[responseId]?.product[result.id]?.impression) {
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events[responseId]?.product[result.id]?.impression) {
 					return;
 				}
 				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
@@ -564,7 +600,14 @@ export class SearchController extends AbstractController {
 					this.log.warn('No result provided to track.product.addToCart');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const product: BeaconProduct = {
 					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 					uid: result.id,
@@ -742,7 +785,7 @@ export class SearchController extends AbstractController {
 				} else {
 					// infinite with no backfills.
 
-					const infiniteResponse = await this.client.search(params);
+					const infiniteResponse = await this.client[this.page.type](params);
 					meta = infiniteResponse.meta;
 					search = infiniteResponse.search;
 
@@ -757,7 +800,7 @@ export class SearchController extends AbstractController {
 				// clear previousResults to prevent infinite scroll from using them
 				this.previousResults = [];
 
-				const searchResponse = await this.client.search(params);
+				const searchResponse = await this.client[this.page.type](params);
 				meta = searchResponse.meta;
 				search = searchResponse.search;
 

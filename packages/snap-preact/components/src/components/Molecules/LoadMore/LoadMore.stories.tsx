@@ -7,7 +7,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { iconPaths } from '../../Atoms/Icon';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../LoadMore/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import type { SearchRequestModelFilterTypeEnum } from '@athoscommerce/snapi-types';
 
 export default {
@@ -54,6 +54,7 @@ export default {
 		autoFetch: {
 			description: 'Automatically load more results when component comes into viewport',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -65,6 +66,7 @@ export default {
 			defaultValue: '0px',
 			description: 'Defines the IntersectionObserver rootMargin',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -75,6 +77,7 @@ export default {
 		loading: {
 			description: 'Loading state',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -86,6 +89,7 @@ export default {
 			defaultValue: 'Load More',
 			description: 'Load more button text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -96,6 +100,7 @@ export default {
 		color: {
 			description: 'Color of the indicator active state',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -106,6 +111,7 @@ export default {
 		backgroundColor: {
 			description: 'Background color of the indicator',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -116,6 +122,7 @@ export default {
 		progressIndicatorWidth: {
 			description: 'Progress indicator width in pixels',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -126,6 +133,7 @@ export default {
 		progressIndicatorSize: {
 			description: 'Progress indicator size in pixels',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -136,6 +144,7 @@ export default {
 		hideProgressIndicator: {
 			description: 'Hide progress indicator',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -146,6 +155,7 @@ export default {
 		hideProgressText: {
 			description: 'Hide progress text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -157,6 +167,7 @@ export default {
 			description: 'Loading icon',
 			defaultValue: 'spinner',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -171,6 +182,7 @@ export default {
 			description: 'Location of loading indicator',
 			defaultValue: 'button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -184,6 +196,7 @@ export default {
 		onClick: {
 			description: 'Button click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: Event)',
 				},

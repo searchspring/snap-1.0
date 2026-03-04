@@ -1,31 +1,31 @@
 import { observable, makeObservable } from 'mobx';
-import { StorageStore, StorageType } from '@searchspring/snap-store-mobx';
+import { StorageStore, StorageType } from '@athoscommerce/snap-store-mobx';
 import { SnapTemplatesConfig } from '../SnapTemplates';
 import { ThemeStore, ThemeStoreThemeConfig } from './ThemeStore';
 import { TargetStore } from './TargetStore';
 import { CurrencyCodes, LanguageCodes, LibraryImports, LibraryStore } from './LibraryStore';
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 import type {
 	PluginAddToCartConfig as PluginShopifyAddToCartConfig,
 	PluginBackgroundFiltersConfig as PluginShopifyBackgroundFiltersConfig,
 	PluginMutateResultsConfig as PluginShopifyMutateResultsConfig,
-} from '@searchspring/snap-platforms/shopify';
+} from '@athoscommerce/snap-platforms/shopify';
 import type {
 	PluginAddToCartConfig as PluginMagento2AddToCartConfig,
 	PluginBackgroundFiltersConfig as PluginMagento2BackgroundFiltersConfig,
-} from '@searchspring/snap-platforms/magento2';
+} from '@athoscommerce/snap-platforms/magento2';
 import type {
 	PluginAddToCartConfig as PluginBigCommerceAddToCartConfig,
 	PluginBackgroundFiltersConfig as PluginBigcommerceBackgroundFiltersConfig,
-} from '@searchspring/snap-platforms/bigcommerce';
+} from '@athoscommerce/snap-platforms/bigcommerce';
 import type {
 	PluginAddToCartConfig,
 	PluginBackgroundFiltersConfig,
 	PluginLoggerConfig,
 	PluginScrollToTopConfig,
-} from '@searchspring/snap-platforms/common';
+} from '@athoscommerce/snap-platforms/common';
 import type {
-	ConfigThemeOverrides,
+	ThemeResponsiveComplete,
 	LangComponentOverrides,
 	ResultComponent,
 	ThemeComponents,
@@ -34,7 +34,7 @@ import type {
 	ThemeVariablesPartial,
 } from '../../../components/src';
 import type { GlobalThemeStyleScript, IntegrationPlatforms } from '../../types';
-import type { ClientConfig } from '@searchspring/snap-client';
+import type { ClientConfig } from '@athoscommerce/snap-client';
 
 export type TemplateThemeTypes = 'library' | 'local';
 export type TemplateTypes = 'search' | 'autocomplete' | `recommendation/${RecsTemplateTypes}`;
@@ -73,7 +73,7 @@ type TemplateStoreThemeConfig = {
 	style?: GlobalThemeStyleScript;
 	resultComponent?: keyof LibraryImports['component']['result'] | (string & NonNullable<unknown>);
 	variables?: ThemeVariablesPartial;
-	overrides?: ConfigThemeOverrides;
+	overrides?: ThemeResponsiveComplete;
 };
 
 export type TemplateStoreComponentConfig = {
@@ -128,7 +128,7 @@ export type TemplateStoreConfigConfig = {
 };
 
 const RESIZE_DEBOUNCE = 100;
-export const TEMPLATE_STORE_KEY = 'ss-templates';
+export const TEMPLATE_STORE_KEY = 'athos-templates';
 
 export type TemplateStoreConfig = {
 	config: TemplateStoreConfigConfig;

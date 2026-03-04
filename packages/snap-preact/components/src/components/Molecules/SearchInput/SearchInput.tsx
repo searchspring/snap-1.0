@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import { MutableRef, StateUpdater, useState } from 'preact/hooks';
+import { Dispatch, MutableRef, StateUpdater, useState } from 'preact/hooks';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import deepmerge from 'deepmerge';
 import { Lang, LangAttributes, useLang } from '../../../hooks/useLang';
@@ -45,14 +45,14 @@ const defaultStyles: StyleScript<SearchInputProps> = ({ theme }) => {
 	});
 };
 
-export const SearchInput = observer((properties: SearchInputProps): JSX.Element => {
+export const SearchInput = observer((properties: SearchInputProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<SearchInputProps> = {
 		placeholderText: 'Search',
 		treePath: globalTreePath,
 		submitSearchButton: {
-			icon: 'search',
+			icon: 'search-thin',
 		},
 		clearSearchButton: {
 			icon: 'close-thin',
@@ -106,7 +106,7 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 	} = props;
 
 	let inputValue: string | undefined;
-	let setInputValue: undefined | StateUpdater<string>;
+	let setInputValue: undefined | Dispatch<StateUpdater<string>>;
 
 	const stateful = value === undefined;
 
@@ -238,22 +238,26 @@ export const SearchInput = observer((properties: SearchInputProps): JSX.Element 
 	);
 });
 
-export interface SearchInputProps extends ComponentProps {
+export type SearchInputProps = {
+	lang?: Partial<SearchInputLang>;
+	inputRef?: MutableRef<HTMLInputElement | null>;
 	value?: string;
+} & SearchInputTemplatesLegalProps &
+	ComponentProps<SearchInputProps>;
+
+export type SearchInputTemplatesLegalProps = {
 	placeholderText?: string;
 	submitSearchButton?: Buttons;
 	clearSearchButton?: Buttons;
 	closeSearchButton?: Buttons;
 	inputName?: string;
-	inputRef?: MutableRef<HTMLInputElement | null>;
 	disabled?: boolean;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onKeyUp?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 	disableA11y?: boolean;
-	lang?: Partial<SearchInputLang>;
-}
+};
 
 type Buttons = Partial<ButtonProps> | false;
 

@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -7,8 +7,8 @@ import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchPaginationStore } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchPaginationStore } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import deepmerge from 'deepmerge';
 import { Lang, useLang } from '../../../hooks';
 
@@ -16,7 +16,7 @@ const defaultStyles: StyleScript<PaginationInfoProps> = ({}) => {
 	return css({});
 };
 
-export const PaginationInfo = observer((properties: PaginationInfoProps): JSX.Element => {
+export const PaginationInfo = observer((properties: PaginationInfoProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -67,17 +67,19 @@ export const PaginationInfo = observer((properties: PaginationInfoProps): JSX.El
 				{...mergedLang.infoText?.all}
 			></div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface PaginationInfoProps extends ComponentProps {
+export type PaginationInfoProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
-	infoText?: string | ((data: PaginationInfoPropData) => string);
 	lang?: Partial<PaginationInfoLang>;
-}
+} & PaginationInfoTemplatesLegalProps &
+	ComponentProps<PaginationInfoProps>;
+
+export type PaginationInfoTemplatesLegalProps = {
+	infoText?: string | ((data: PaginationInfoPropData) => string);
+};
 
 export interface PaginationInfoLang {
 	infoText: Lang<PaginationInfoPropData>;

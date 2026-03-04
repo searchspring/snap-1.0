@@ -1,11 +1,11 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps } from '../../../types';
 import { CacheProvider } from '../../../providers';
-import { Search, SearchProps } from '../Search/Search';
+import { Search, SearchProps, SearchTemplatesLegalProps } from '../Search/Search';
 
-export const SearchHorizontal = observer((properties: SearchHorizontalProps): JSX.Element => {
+export const SearchHorizontal = observer((properties: SearchHorizontalProps) => {
 	return (
 		<CacheProvider>
 			<Search {...properties} alias="searchHorizontal" internalClassName="ss__search-horizontal" />
@@ -13,7 +13,10 @@ export const SearchHorizontal = observer((properties: SearchHorizontalProps): JS
 	);
 });
 
-//todo improve the controller spreading here..
-export interface SearchHorizontalProps extends SearchProps, ComponentProps {
+export type SearchHorizontalProps = {
 	controller: SearchController;
-}
+} & SearchProps &
+	SearchHorizontalTemplatesLegalProps &
+	ComponentProps<SearchHorizontalProps>;
+
+export type SearchHorizontalTemplatesLegalProps = SearchTemplatesLegalProps;

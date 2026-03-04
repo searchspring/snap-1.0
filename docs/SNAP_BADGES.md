@@ -1,11 +1,11 @@
 # Badges
 
-Badges are self-configured in the Searchspring Management Console. 
+Badges are self-configured in the Athos Search & Product Discovery Console. 
 
 > [!NOTE]
 > This feature may not be enabled by default. Please contact your account manager to enable this feature.
 
-To displays badges the Result card must include the [OverlayBadge](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fmolecules-overlaybadge--default) and [CalloutBadge](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fmolecules-calloutbadge--default) components
+To displays badges the Result card must include the [OverlayBadge](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fmolecules-overlaybadge--default) and [CalloutBadge](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fmolecules-calloutbadge--default) components
 
 
 ## OverlayBadge
@@ -31,9 +31,9 @@ The `OverlayBadge` and `CalloutBadge` components are responsible for displaying 
 
 The default badges available: 
 
-- [BadgePill](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgepill--default)
-- [BadgeText](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgetext--default)
-- [BadgeRectangle](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgerectangle--default)
-- [BadgeImage](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgeimage--default)
+- [BadgePill](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgepill--default)
+- [BadgeText](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgetext--default)
+- [BadgeRectangle](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgerectangle--default)
+- [BadgeImage](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-badgeimage--default)
 
-Additional custom badge components can be created and synced to the Searchspring Management Console using the Snapfu CLI. See [Custom Badge Templates reference](https://searchspring.github.io/snap/reference-custom-badge-templates)
+Additional custom badge components can be created and synced to the Athos Search & Product Discovery Console using the Snapfu CLI. See [Custom Badge Templates reference](https://athoscommerce.github.io/snap/reference-custom-badge-templates)

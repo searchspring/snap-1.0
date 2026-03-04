@@ -37,6 +37,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -47,6 +48,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'theme.variables.colors.primary' },
 			},
 			control: { type: 'color' },
@@ -57,6 +59,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'theme.variables.colors.secondary' },
 			},
 			control: { type: 'color' },
@@ -68,6 +71,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '5px' },
 			},
 			control: { type: 'text' },

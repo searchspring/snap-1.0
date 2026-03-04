@@ -1,16 +1,16 @@
 import 'whatwg-fetch';
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { render, waitFor } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../../providers/theme';
-import { RecommendationStore, RecommendationStoreConfig } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { Tracker } from '@searchspring/snap-tracker';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { MockClient } from '@searchspring/snap-shared';
-import { RecommendationController } from '@searchspring/snap-controller';
+import { RecommendationStore, RecommendationStoreConfig } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { RecommendationController } from '@athoscommerce/snap-controller';
 import { ResultTracker } from './ResultTracker';
 
 const globals = { siteId: '8uyt2m' };
@@ -97,7 +97,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result}>
 							<div className={`findMe findMe${idx}`} key={idx}>
@@ -105,7 +105,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			// Trigger intersection for all observed elements
@@ -166,7 +166,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} track={{ impression: false }}>
 							<div className={'findMe'} key={idx}>
@@ -174,7 +174,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			// Trigger intersection for all observed elements
@@ -256,7 +256,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} disableStyles>
 							<div className={'findMe'} key={idx}>
@@ -264,7 +264,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			const CarouselElement = rendered.container.querySelector('.ss__recommendation-result-tracker');
@@ -286,7 +286,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} className={className}>
 							<div className={'findMe'} key={idx}>
@@ -294,7 +294,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 			const CarouselElement = rendered.container.querySelector('.ss__recommendation-result-tracker');
 			expect(CarouselElement).toBeInTheDocument();
@@ -348,7 +348,7 @@ describe('ResultTracker Component', () => {
 			await controller.search();
 
 			const rendered = render(
-				<Fragment>
+				<>
 					{controller.store.results.map((result, idx) => (
 						<ResultTracker controller={controller} result={result} theme={theme}>
 							<div className={'findMe'} key={idx}>
@@ -356,7 +356,7 @@ describe('ResultTracker Component', () => {
 							</div>
 						</ResultTracker>
 					))}
-				</Fragment>
+				</>
 			);
 
 			const ChildElement = rendered.container.querySelector('.findMe');

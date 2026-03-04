@@ -4,7 +4,7 @@ The Snap Tracker is a core service available on each controller via `controller.
 
 
 ## Snap Integration Usage
-See [Integration Tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md) for how and where to implement tracking events.
+See [Integration Tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md) for how and where to implement tracking events.
 
 
 <!-- TODO: Include when beacon.js is public -->

@@ -1,6 +1,6 @@
 import { ComponentChildren, h } from 'preact';
 import { createPortal } from 'preact/compat';
-import { useState, StateUpdater, MutableRef, useRef, useEffect } from 'preact/hooks';
+import { useState, StateUpdater, MutableRef, useRef, useEffect, Dispatch } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -37,7 +37,7 @@ const defaultStyles: StyleScript<DropdownProps> = ({ disableOverlay }) => {
 	});
 };
 
-export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
+export const Dropdown = observer((properties: DropdownProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -71,7 +71,7 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 		usePortal,
 	} = props;
 
-	let dropdownOpen: boolean | undefined, setDropdownOpen: undefined | StateUpdater<boolean | undefined>;
+	let dropdownOpen: boolean | undefined, setDropdownOpen: undefined | Dispatch<StateUpdater<boolean | undefined>>;
 
 	const stateful = open === undefined;
 	if (stateful) {
@@ -249,7 +249,8 @@ export const Dropdown = observer((properties: DropdownProps): JSX.Element => {
 	);
 });
 
-export interface DropdownProps extends ComponentProps {
+export type DropdownProps = DropdownTemplatesLegalProps & ComponentProps<DropdownProps>;
+export type DropdownTemplatesLegalProps = {
 	button: string | JSX.Element;
 	content?: string | JSX.Element;
 	children?: ComponentChildren;
@@ -267,4 +268,4 @@ export interface DropdownProps extends ComponentProps {
 	focusTrapContent?: boolean;
 	disableA11y?: boolean;
 	usePortal?: boolean;
-}
+};

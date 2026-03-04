@@ -2,10 +2,10 @@ import 'whatwg-fetch';
 import { v4 as uuidv4 } from 'uuid';
 import type { SearchControllerConfig } from '../../../../snap-controller/src/types';
 import { NetworkCache } from '../NetworkCache/NetworkCache';
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 const mockData = new MockData();
-const CACHE_STORAGE_KEY = 'ss-networkcache';
+const CACHE_STORAGE_KEY = 'athos-networkcache';
 
 const typedResponse = mockData.meta() as Response;
 
@@ -258,7 +258,7 @@ describe('Network Cache', () => {
 	describe('get function behavior', () => {
 		it('can retrieve a cached response with ignored keys during back/forward navigation', async () => {
 			const cache = new NetworkCache();
-			const url = '/api/search/search.json';
+			const url = '/v1/search';
 			const payload = { q: 'dress', lastViewed: ['123'], cart: ['456'] };
 			const key = `${url}${JSON.stringify(payload)}`;
 			const cachedPayload = { q: 'dress', lastViewed: ['789'], cart: ['012'] };
@@ -280,7 +280,7 @@ describe('Network Cache', () => {
 
 		it('does not retrieve a cached response with different non-ignored keys during back/forward navigation', async () => {
 			const cache = new NetworkCache();
-			const url = '/api/search/search.json';
+			const url = '/v1/search';
 			const payload = { q: 'dress', lastViewed: ['123'], cart: ['456'] };
 			const key = `${url}${JSON.stringify(payload)}`;
 			const cachedPayload = { q: 'shoes', lastViewed: ['789'], cart: ['012'] };
@@ -302,7 +302,7 @@ describe('Network Cache', () => {
 
 		it('does not ignore keys during normal navigation', async () => {
 			const cache = new NetworkCache();
-			const url = '/api/search/search.json';
+			const url = '/v1/search';
 			const payload = { q: 'dress', lastViewed: ['123'], cart: ['456'] };
 			const key = `${url}${JSON.stringify(payload)}`;
 			const cachedPayload = { q: 'dress', lastViewed: ['789'], cart: ['012'] };

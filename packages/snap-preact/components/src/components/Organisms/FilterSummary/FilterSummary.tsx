@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,8 +8,8 @@ import { Filter, FilterProps } from '../../Molecules/Filter';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchController, AutocompleteController } from '@searchspring/snap-controller';
-import type { Filter as FilterType } from '@searchspring/snap-store-mobx';
+import type { SearchController, AutocompleteController } from '@athoscommerce/snap-controller';
+import type { Filter as FilterType } from '@athoscommerce/snap-store-mobx';
 import { IconProps, IconType } from '../../Atoms/Icon';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
@@ -69,7 +69,7 @@ const defaultStyles: StyleScript<FilterSummaryProps> = (props) => {
 	});
 };
 
-export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Element => {
+export const FilterSummary = observer((properties: FilterSummaryProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -80,7 +80,6 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 		clearAllIcon: 'close-thin',
 		filterIcon: 'close-thin',
 		filters: properties.controller?.store?.filters,
-		onClearAllClick: () => properties.controller?.urlManager.remove('filter').remove('page').go(),
 		separator: ':',
 		treePath: globalTreePath,
 	};
@@ -169,7 +168,10 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 							internalClassName={`${subProps?.filter?.internalClassName} ss__filter-summary__clear-all`}
 							hideFacetLabel
 							valueLabel={clearAllLabel}
-							onClick={(e) => onClearAllClick && onClearAllClick(e)}
+							onClick={(e) => {
+								onClearAllClick && onClearAllClick(e);
+								properties.controller?.urlManager.remove('filter').remove('page').go();
+							}}
 							lang={{
 								filter: { attributes: { 'aria-label': clearAllLabel } },
 							}}
@@ -178,13 +180,17 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 				</div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FilterSummaryProps extends ComponentProps {
+export type FilterSummaryProps = {
 	filters?: FilterType[];
+	controller?: SearchController | AutocompleteController;
+	lang?: Partial<FilterSummaryLang>;
+} & FilterSummaryTemplatesLegalProps &
+	ComponentProps<FilterSummaryProps>;
+
+export type FilterSummaryTemplatesLegalProps = {
 	type?: 'inline' | 'list';
 	title?: string;
 	hideTitle?: boolean;
@@ -196,9 +202,7 @@ export interface FilterSummaryProps extends ComponentProps {
 	hideClearAll?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, filterFilter: FilterType) => void;
 	onClearAllClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-	controller?: SearchController | AutocompleteController;
-	lang?: Partial<FilterSummaryLang>;
-}
+};
 
 export interface FilterSummaryLang {
 	title: Lang<{

@@ -1,10 +1,10 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import { useState } from 'preact/hooks';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, ListOption, SwatchOption, StyleScript } from '../../../types';
@@ -129,7 +129,7 @@ const defaultStyles: StyleScript<GridProps> = ({ gapSize, columns, theme, disabl
 	});
 };
 
-export function Grid(properties: GridProps): JSX.Element {
+export function Grid(properties: GridProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<GridProps> = {
@@ -272,13 +272,9 @@ export function Grid(properties: GridProps): JSX.Element {
 					<span className={'ss__grid__show-more'} {...mergedLang.showMoreText.value}></span>
 				) : remainder ? (
 					<span className={'ss__grid__show-less'} {...mergedLang.showLessText.value}></span>
-				) : (
-					<Fragment />
-				)}
+				) : null}
 			</div>
-		) : (
-			<Fragment />
-		);
+		) : null;
 	};
 
 	return typeof options == 'object' && options?.length ? (
@@ -320,27 +316,28 @@ export function Grid(properties: GridProps): JSX.Element {
 									>
 										{!option.background && option.backgroundImageUrl ? (
 											<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value.toString()} />
-										) : (
-											<Fragment />
-										)}
-										{!hideLabels ? <label className="ss__grid__option__label">{option.label || option.value}</label> : <Fragment />}
+										) : null}
+										{!hideLabels ? <label className="ss__grid__option__label">{option.label || option.value}</label> : null}
 									</div>
 								</div>
 							);
 						}
 					})}
-					{overflowButtonInGrid ? <OverflowButtonElem /> : <Fragment />}
+					{overflowButtonInGrid ? <OverflowButtonElem /> : null}
 				</div>
 
-				{!overflowButtonInGrid ? <OverflowButtonElem /> : <Fragment />}
+				{!overflowButtonInGrid ? <OverflowButtonElem /> : null}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
-export interface GridProps extends ComponentProps {
+export type GridProps = {
+	lang?: Partial<GridLang>;
+} & GridTemplatesLegalProps &
+	ComponentProps<GridProps>;
+
+export type GridTemplatesLegalProps = {
 	options: SwatchOption[];
 	hideLabels?: boolean;
 	multiSelect?: boolean;
@@ -356,9 +353,8 @@ export interface GridProps extends ComponentProps {
 	overflowButton?: JSX.Element;
 	overflowButtonInGrid?: boolean;
 	onOverflowButtonClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, status: boolean, remainder: number) => void;
-	lang?: Partial<GridLang>;
 	disableA11y?: boolean;
-}
+};
 
 export interface GridLang {
 	showMoreText: Lang<{

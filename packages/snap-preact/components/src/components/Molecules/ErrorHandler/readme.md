@@ -8,7 +8,7 @@ Renders error messages.
 
 ## Usage
 ```jsx
-import { ErrorHandler } from '@searchspring/snap-preact-components';
+import { ErrorHandler } from '@athoscommerce/snap-preact-components';
 ```
 
 ### controller
@@ -22,7 +22,7 @@ The `controller` prop specifies a reference to a Snap controller. This is the st
 The `error` prop provides an alternative means of utilizing the component to display errors messages.
 
 ```jsx
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 const errorObject = {
 	code: 500,
 	type: ErrorType.ERROR,
@@ -43,7 +43,7 @@ When a request has been rate limited, a 'warning' error with code `429` will be 
 ```
 
 ```jsx
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 const errorObject = {
 	code: 429,
 	type: ErrorType.WARNING,
@@ -59,7 +59,7 @@ const errorObject = {
 ## ErrorHandle Types
 
 ```js
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
 export enum ErrorType {
 	WARNING = 'warning',

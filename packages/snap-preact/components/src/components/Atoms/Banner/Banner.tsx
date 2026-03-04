@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -6,8 +6,8 @@ import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath, withTracking, withController } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
-import { BannerContent, ContentType } from '@searchspring/snap-store-mobx';
-import type { AutocompleteController, SearchController } from '@searchspring/snap-controller';
+import { BannerContent, ContentType } from '@athoscommerce/snap-store-mobx';
+import type { AutocompleteController, SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../types';
 import { useCallback } from 'preact/hooks';
 
@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<BannerProps> = () => {
 };
 
 export const Banner = withController<any>(
-	observer((properties: BannerProps): JSX.Element => {
+	observer((properties: BannerProps) => {
 		const globalTheme: Theme = useTheme();
 		const globalTreePath = useTreePath();
 		const defaultProps: Partial<BannerProps> = {
@@ -38,7 +38,7 @@ export const Banner = withController<any>(
 
 		if (type === ContentType.INLINE) {
 			console.warn(`BannerType '${ContentType.INLINE}' is not supported in <Banner /> component`);
-			return <Fragment></Fragment>;
+			return null;
 		}
 
 		const styling = mergeStyles<BannerProps>(props, defaultStyles);
@@ -46,7 +46,7 @@ export const Banner = withController<any>(
 		const banner = content?.[type]?.[0];
 		const value = banner?.value;
 		if (!type || !value) {
-			return <Fragment></Fragment>;
+			return null;
 		}
 		const Content = useCallback(
 			withTracking((trackingProps) => {
@@ -72,10 +72,15 @@ export const Banner = withController<any>(
 	})
 );
 
-export interface BannerProps extends ComponentProps {
+export type BannerProps = {
 	controller?: SearchController | AutocompleteController;
+	name?: BannerNames;
+} & BannerTemplatesLegalProps &
+	ComponentProps<BannerProps>;
+
+export type BannerTemplatesLegalProps = {
 	content?: BannerContent;
 	type: ContentType;
-}
+};
 
 export type BannerNames = 'left' | 'header' | 'banner' | 'footer';

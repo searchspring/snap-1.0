@@ -4,7 +4,7 @@ Renders a text badge in the shape of a rectangle. It is expected to be used with
 
 ## Usage
 ```jsx
-import { BadgeRectangle } from '@searchspring/snap-preact-components';
+import { BadgeRectangle } from '@athoscommerce/snap-preact-components';
 ```
 
 ### value

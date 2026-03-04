@@ -6,7 +6,7 @@ Renders all selected filters including a wrapper with a title and a 'clear all' 
 - Filter
 ## Usage
 ```jsx
-import { FilterSummary } from '@searchspring/snap-preact-components';
+import { FilterSummary } from '@athoscommerce/snap-preact-components';
 ```
 
 ### controller

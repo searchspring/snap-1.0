@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { ApiConfiguration, ApiConfigurationParameters } from './Abstract';
 import { RecommendAPI } from './Recommend';
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import type { RecommendPostRequestModel } from '../../types';
 
@@ -38,7 +38,7 @@ describe('Recommend Api', () => {
 			method: 'GET',
 		};
 
-		const requestUrl = 'https://8uyt2m.a.athoscommerce.io/api/personalized-recommendations/profile.json?siteId=8uyt2m&tag=dress';
+		const requestUrl = 'https://8uyt2m.a.athoscommerce.net/v1/profile?siteId=8uyt2m&tag=dress';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -74,7 +74,7 @@ describe('Recommend Api', () => {
 			],
 		};
 
-		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -85,6 +85,52 @@ describe('Recommend Api', () => {
 		expect(requestMock).toHaveBeenCalledWith(requestUrl, params);
 
 		requestMock.mockClear();
+	});
+
+	it('uses configured paths', async () => {
+		const api = new RecommendAPI(
+			new ApiConfiguration({
+				...apiConfig,
+				paths: {
+					profile: '/custom/profile',
+					recommend: '/custom/recommend',
+				},
+			})
+		);
+
+		const requestMock = jest
+			.spyOn(global.window, 'fetch')
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+
+		await api.getProfile({
+			siteId: '8uyt2m',
+			tag: 'dress',
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.athoscommerce.net/custom/profile?siteId=8uyt2m&tag=dress', {
+			body: undefined,
+			headers: {},
+			method: 'GET',
+		});
+
+		await api.postRecommendations({
+			siteId: '8uyt2m',
+			profiles: [
+				{
+					tag: 'dress',
+				},
+			],
+		});
+
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://8uyt2m.a.p13n.athoscommerce.net/custom/recommend', {
+			method: 'POST',
+			body: '{"siteId":"8uyt2m","profiles":[{"tag":"dress"}]}',
+			headers: {
+				'Content-Type': 'text/plain',
+			},
+		});
+
+		requestMock.mockReset();
 	});
 
 	it('can call batchRecommendations', async () => {
@@ -98,7 +144,7 @@ describe('Recommend Api', () => {
 			body: `{"profiles":[{"tag":"similar"}],"siteId":"8uyt2m"}`,
 		};
 
-		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const requestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -137,7 +183,7 @@ describe('Recommend Api', () => {
 		product: 'marnie-runner-2-7x10',
 	};
 
-	const RequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+	const RequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 	it('batchRecommendations batches as expected', async () => {
 		const api = new RecommendAPI(new ApiConfiguration(apiConfig));
@@ -353,8 +399,8 @@ describe('Recommend Api', () => {
 		};
 
 		expect(requestMock).toHaveBeenCalledTimes(2);
-		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend', firstBatchPOSTParams);
-		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend', secondBatchPOSTParams);
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend', firstBatchPOSTParams);
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend', secondBatchPOSTParams);
 		requestMock.mockReset();
 	});
 
@@ -448,8 +494,8 @@ describe('Recommend Api', () => {
 		};
 
 		expect(requestMock).toHaveBeenCalledTimes(2);
-		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend', POSTParams8uyt2m);
-		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://123abc.a.p13n.athoscommerce.io/v1/recommend', POSTParams123abc);
+		expect(requestMock).toHaveBeenNthCalledWith(1, 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend', POSTParams8uyt2m);
+		expect(requestMock).toHaveBeenNthCalledWith(2, 'https://123abc.a.p13n.athoscommerce.net/v1/recommend', POSTParams123abc);
 		requestMock.mockReset();
 	});
 
@@ -721,7 +767,7 @@ describe('Recommend Api', () => {
 			}),
 		};
 
-		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const POSTRequestMock = jest
 			.spyOn(global.window, 'fetch')
@@ -845,7 +891,7 @@ describe('Recommend Api', () => {
 			}),
 		};
 
-		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const mockResponse = Array.from({ length }, () => mockData.recommend());
 		const POSTRequestMock = jest
@@ -926,7 +972,7 @@ describe('Recommend Api', () => {
 			}),
 		};
 
-		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.io/v1/recommend';
+		const POSTRequestUrl = 'https://8uyt2m.a.p13n.athoscommerce.net/v1/recommend';
 
 		const mockResponse = Array.from({ length }, () => mockData.recommend());
 		const POSTRequestMock = jest

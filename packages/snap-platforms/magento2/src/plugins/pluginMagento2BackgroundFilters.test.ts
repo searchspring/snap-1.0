@@ -2,14 +2,14 @@ import {
 	pluginMagento2BackgroundFilters as pluginBackgroundFilters,
 	PluginMagento2BackgroundFiltersConfig as PluginBackgroundFilterConfig,
 } from './pluginMagento2BackgroundFilters';
-import { MockClient } from '@searchspring/snap-shared';
-import { AutocompleteStore, SearchStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { AutocompleteStore, SearchStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { AutocompleteController, RecommendationController, SearchController } from '@athoscommerce/snap-controller';
 
 const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);
 const services = {

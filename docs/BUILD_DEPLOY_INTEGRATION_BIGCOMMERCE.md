@@ -1,17 +1,17 @@
 # BigCommerce Integration
 
-## Searchspring Management Console Actions
+## Athos Search & Product Discovery Console Actions
 
 ### Update Field Settings
 
-On the [Field Settings page](https://manage.searchspring.net/management/field-settings/display-fields), make sure the following fields are updated:
+On the [Field Settings page](https://console.athoscommerce.net/data-configurations/field-settings), make sure the following fields are updated:
 
 | Field | Type | Multi-Valued | Display |
 |---|---|:---:|:---:|
 | categories_hierarchy | Text | | ✓ |
 | brand | Text | No | ✓ |
 
-If settings are changed, perform an [Update Index](https://manage.searchspring.net/management/index/status).
+If settings are changed, perform an [Update Index](https://console.athoscommerce.net/data-sync).
 
 ## Add IntelliSuggest Tracking
 
@@ -27,21 +27,21 @@ See [IntelliSuggest Tracking for BigCommerce Stencil](https://searchspring.zende
 
 | Option | Value |
 |---|---|
-| Name | Searchspring |
-| URL | /searchspring/ |
+| Name | Athos |
+| URL | /athos/ |
 | Parent Category | -- No Parent Category -- |
 | Template Layout File | Default (aka category.html) |
 | Search Engine Optimization > Page Title | (leave blank) |
 
-- On the "Product Categories" listing, set the "Searchspring" category to Visible in Menu > No ("x" icon).
-- On the "Product Categories" listing, click Actions > New Sub Category to the right of the "Searchspring" row.
+- On the "Product Categories" listing, set the "Athos" category to Visible in Menu > No ("x" icon).
+- On the "Product Categories" listing, click Actions > New Sub Category to the right of the "Athos" row.
 - Set the category details to the following:
 
 | Option | Value |
 |---|---|
 | Name | Search Results |
 | URL | /shop/ |
-| Parent Category | Searchspring |
+| Parent Category | Athos |
 | Template Layout File | Default (aka category.html) |
 | Search Engine Optimization > Page Title | Search Results |
 
@@ -54,11 +54,11 @@ See [IntelliSuggest Tracking for BigCommerce Stencil](https://searchspring.zende
 
 ## Theme Integration
 
-Next we'll integrate Searchspring into the theme.
+Next we'll integrate Athos into the theme.
 
 - Create a copy of the current theme to integrate on. It is recommended to do so rather than integrating directly on the live theme initially to allow for testing prior to going live.
 - Storefront > My Themes > Live theme > Advanced > Make a Copy.
-- Rename the duplicated theme to something like "Theme Name - Searchspring".
+- Rename the duplicated theme to something like "Theme Name - Athos".
 - Previewing an unpublished theme copy is not particularly easy with BigCommerce as there is no preview theme link. First, right click on "My Themes" in the left navigation and open this in a new tab. An extra tab is needed so you can go back through the BigCommerce admin and edit code. On either tab, next to the copy of your theme there should be an icon that looks like three dots "...". Click this then "Customize". If asked which theme style you want to view, pick the option that looks like the site (typically the first) and "Continue". This tab will now be used to preview the theme.
 
 ### Base.html Edits
@@ -75,28 +75,28 @@ Next we'll integrate Searchspring into the theme.
 - If your search page url was not `/shop/`, update this as needed.
 
 ```handlebars
-{{!-- START: Searchspring Integration code --}}
+{{!-- START: Athos Integration code --}}
 
 {{!-- define initial variables --}}
-{{assignVar 'ss_site_id' 'REPLACE_WITH_YOUR_SITE_ID'}}
-{{assignVar 'ss_search_url' '/shop/'}}
-{{assignVar 'ss_page_type' 'other'}}
+{{assignVar 'athos_site_id' 'REPLACE_WITH_YOUR_SITE_ID'}}
+{{assignVar 'athos_search_url' '/shop/'}}
+{{assignVar 'athos_page_type' 'other'}}
 
 {{!-- check if on search page --}}
 {{#if category}}
-	{{#contains category.url (getVar 'ss_search_url')}}{{assignVar 'ss_page_type' 'search'}}{{else}}{{assignVar 'ss_page_type' 'category'}}{{/contains}}
+	{{#contains category.url (getVar 'athos_search_url')}}{{assignVar 'athos_page_type' 'search'}}{{else}}{{assignVar 'athos_page_type' 'category'}}{{/contains}}
 {{else if brand}}
-	{{assignVar 'ss_page_type' 'brand'}}
+	{{assignVar 'athos_page_type' 'brand'}}
 {{/if}}
 
 {{!-- create integration script --}}
-<script type="text/javascript" src="https://snapui.searchspring.io/{{getVar 'ss_site_id'}}/bundle.js" id="searchspring-context"{{#if (getVar 'ss_page_type') '==' 'search'}} defer{{/if}}>
+<script type="text/javascript" src="https://snapui.athos.io/{{getVar 'athos_site_id'}}/bundle.js" id="athos-context"{{#if (getVar 'athos_page_type') '==' 'search'}} defer{{/if}}>
 	{{#if customer}}
 		shopper = { id : "{{ customer.id }}", group : "{{ customer.customer_group_id }}" };
 	{{/if}}
 </script>
 
-{{!-- END: Searchspring Integration code --}}
+{{!-- END: Athos Integration code --}}
 ```
 
 #### Search, Category, and Brand
@@ -106,39 +106,39 @@ Next we'll integrate Searchspring into the theme.
 - Replace the `>` character in the breadcrumb trail if the data is using a different delimiter.
 
 ```handlebars
-{{!-- START: Searchspring Integration code --}}
+{{!-- START: Athos Integration code --}}
 
 {{!-- define initial variables --}}
-{{assignVar 'ss_site_id' 'REPLACE_WITH_YOUR_SITE_ID'}}
-{{assignVar 'ss_search_url' '/shop/'}}
-{{assignVar 'ss_page_type' 'other'}}
-{{assignVar 'ss_is_loaded' 'false'}}
+{{assignVar 'athos_site_id' 'REPLACE_WITH_YOUR_SITE_ID'}}
+{{assignVar 'athos_search_url' '/shop/'}}
+{{assignVar 'athos_page_type' 'other'}}
+{{assignVar 'athos_is_loaded' 'false'}}
 
 {{!-- check if results should load --}}
 {{#or category brand}}
-	{{assignVar 'ss_is_loaded' 'true'}}
+	{{assignVar 'athos_is_loaded' 'true'}}
 {{/or}}
 
 {{!-- check if on search page --}}
 {{#if category}}
-	{{#contains category.url (getVar 'ss_search_url')}}{{assignVar 'ss_page_type' 'search'}}{{else}}{{assignVar 'ss_page_type' 'category'}}{{/contains}}
+	{{#contains category.url (getVar 'athos_search_url')}}{{assignVar 'athos_page_type' 'search'}}{{else}}{{assignVar 'athos_page_type' 'category'}}{{/contains}}
 {{else if brand}}
-	{{assignVar 'ss_page_type' 'brand'}}
+	{{assignVar 'athos_page_type' 'brand'}}
 {{/if}}
 
 {{!-- create integration script --}}
-<script type="text/javascript" src="https://snapui.searchspring.io/{{getVar 'ss_site_id'}}/bundle.js" id="searchspring-context"{{#if (getVar 'ss_is_loaded') '==' 'false'}} defer{{/if}}>
+<script type="text/javascript" src="https://snapui.athoscommerce.io/{{getVar 'athos_site_id'}}/bundle.js" id="athos-context"{{#if (getVar 'athos_is_loaded') '==' 'false'}} defer{{/if}}>
 	{{#if customer}}
 		shopper = { id : "{{ customer.id }}", group : "{{ customer.customer_group_id }}" };
 	{{/if}}
-	{{#if (getVar 'ss_page_type') '==' 'category'}}
+	{{#if (getVar 'athos_page_type') '==' 'category'}}
 		category = { id : "{{ category.id }}", name : "{{#replace '"' category.name}}&quot;{{else}}{{category.name}}{{/replace}}", path : "{{#each breadcrumbs}}{{#unless @first}}{{#replace '"' name}}&quot;{{else}}{{name}}{{/replace}}{{#unless @last}}>{{/unless}}{{/unless}}{{/each}}" };
-	{{else if (getVar 'ss_page_type') '==' 'brand'}}
+	{{else if (getVar 'athos_page_type') '==' 'brand'}}
 		brand = { name: "{{#replace '"' brand.name}}&quot;{{else}}{{brand.name}}{{/replace}}" };
 	{{/if}}
 </script>
 
-{{!-- END: Searchspring Integration code --}}
+{{!-- END: Athos Integration code --}}
 ```
 
 ### Body Class Name
@@ -148,18 +148,18 @@ Next we'll integrate Searchspring into the theme.
 If `body` tag has no `class` attribute:
 
 ```handlebars
-<body{{#if (getVar 'ss_page_type') '==' 'search'}} class="ss-shop"{{/if}}>
+<body{{#if (getVar 'athos_page_type') '==' 'search'}} class="ss-shop"{{/if}}>
 ```
 
 If `body` tag has a `class` attribute, ensure to keep the existing class names and append the `ss-shop` class name to the existing list of class names:
 
 ```handlebars
-<body class="bigcommerce-class-name{{#if (getVar 'ss_page_type') '==' 'search'}} ss-shop{{/if}}">
+<body class="bigcommerce-class-name{{#if (getVar 'athos_page_type') '==' 'search'}} ss-shop{{/if}}">
 ```
 
 ## Category and Brand Page Edits
 
-Next we'll add our target element(s) to the category and brand pages. This is where the Searchspring elements will be injected into, typically two elements are added for a two-column layout: one for content, and one for facets.
+Next we'll add our target element(s) to the category and brand pages. This is where the Athos elements will be injected into, typically two elements are added for a two-column layout: one for content, and one for facets.
 
 Targets are defined in your Snap configuration and will only be injected into if they exist on the page.
 
@@ -167,15 +167,15 @@ Targets are defined in your Snap configuration and will only be injected into if
 
 - Storefront > My Themes > [theme name] > "..." icon > Edit Theme Files > templates > pages > category.html.
 - `category.html` is a standard BigCommerce template, but this may not be the file to edit. Look for includes which will tell you where to go, for example: `{{> thing/parent/child}}`. This says that there's additional code for the category page located in another file that has the name "child".
-- Once the correct file is found, ensure that all of your search controller targets are added to the category template. Use theme comments to hide the store's default product grid, thus speeding up load time for Searchspring.
+- Once the correct file is found, ensure that all of your search controller targets are added to the category template. Use theme comments to hide the store's default product grid, thus speeding up load time for Athos.
 
 ```handlebars
-<div id="searchspring-sidebar" style="min-height: 100vh;"></div>
+<div id="athos-sidebar" style="min-height: 100vh;"></div>
 {{!-- 
 	<!-- default filters layout -->
 --}}
 
-<div id="searchspring-content" style="min-height: 100vh;"></div>
+<div id="athos-content" style="min-height: 100vh;"></div>
 {{!-- 
 	<!-- default grid layout -->
 --}}
@@ -199,15 +199,15 @@ Show an element only when on the `shop` category:
 - Storefront > My Themes > [theme name] > "..." icon > Edit Theme Files > templates > pages > brand.html.
 - Make sure you are within `brand.html` as `brands.html` file contains the listing of all brands.
 - `brand.html` is a standard BigCommerce template, but this may not be the file to edit. Look for includes which will tell you where to go, for example: `{{> thing/parent/child}}`. This says that there's additional code for the brand page located in another file that has the name "child".
-- Once the correct file is found, ensure that all of your search controller targets are added to the brand template. Use theme comments to hide the store's default product grid, thus speeding up load time for Searchspring.
+- Once the correct file is found, ensure that all of your search controller targets are added to the brand template. Use theme comments to hide the store's default product grid, thus speeding up load time for Athos.
 
 ```handlebars
-<div id="searchspring-sidebar" style="min-height: 100vh;"></div>
+<div id="athos-sidebar" style="min-height: 100vh;"></div>
 {{!-- 
 	<!-- default filters layout -->
 --}}
 
-<div id="searchspring-content" style="min-height: 100vh;"></div>
+<div id="athos-content" style="min-height: 100vh;"></div>
 {{!-- 
 	<!-- default grid layout -->
 --}}
@@ -245,7 +245,7 @@ In your form copy, update the following details:
 
 ## Integration Code
 
-Up until this point, we've added the Searchspring integration to the theme and category/brand pages.
+Up until this point, we've added the Athos integration to the theme and category/brand pages.
 
 Now we'll ensure our integration code captures the context variables and sets up the necessary configuration.
 
@@ -255,9 +255,9 @@ For tracking shopper data used in personalization features, we need to include c
 
 ```js
 // src/index.js
-/* searchspring imports */
-import { Snap } from '@searchspring/snap-preact';
-import { getContext } from '@searchspring/snap-toolbox';
+/* athos imports */
+import { Snap } from '@athoscommerce/snap-preact';
+import { getContext } from '@athoscommerce/snap-toolbox';
 
 /* context from script tag */
 const context = getContext(['shopper', 'siteId']);
@@ -288,11 +288,6 @@ let site = {
 		query: 'search_query',
 		page: 'p',
 	},
-	features: {
-		integratedSpellCorrection: {
-			enabled: true,
-		},
-	},
 };
 
 /* set up page details config */
@@ -313,8 +308,6 @@ export const sharedPlugin = (controller, site, page) => {
 	controller.store.custom = { ...controller.store.custom, site: site, page: page };
 };
 ```
-
-For a fuller example, please see the template repo [here](https://github.com/searchspring/snapfu-template-preact-implementations/tree/production/src).
 
 ### Category and Brand Integration (Optional)
 
@@ -414,7 +407,7 @@ const snap = new Snap({
                 },
                 targeters: [
                     {
-                        selector: '#searchspring-content',
+                        selector: '#athos-content',
                         component: async () => {
                             return (await import('./components/Content/Content')).Content;
                         },
@@ -431,27 +424,27 @@ const snap = new Snap({
 
 ## Additional Targets (Optional)
 
-In addition to having two targets for a two-column layout, you may want to inject content into other sections of the page such above the content and sidebar to display information such as the search query. Note the addition of `ss-shop` class before `searchspring-header` to ensure the content is only injected on the search page.
+In addition to having two targets for a two-column layout, you may want to inject content into other sections of the page such above the content and sidebar to display information such as the search query. Note the addition of `ss-shop` class before `athos-header` to ensure the content is only injected on the search page.
 
 ```js
 // src/index.js
 targeters: [
 	{
-		selector: '#searchspring-content',
+		selector: '#athos-content',
 		component: async () => {
 			return (await import('./content/content/Content')).Content;
 		},
 		hideTarget: true,
 	},
 	{
-		selector: '#searchspring-sidebar',
+		selector: '#athos-sidebar',
 		component: async () => {
 			return (await import('./sidebar/sidebar/Sidebar')).Sidebar;
 		},
 		hideTarget: true,
 	},
 	{
-		selector: '.ss-shop #searchspring-header',
+		selector: '.ss-shop #athos-header',
 		component: async () => {
 			return (await import('./content/header/Header')).Header;
 		},

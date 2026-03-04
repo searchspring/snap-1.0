@@ -1,13 +1,13 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore, ErrorType, Product, Banner, MerchandisingContentBanner } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, Product, Banner, MerchandisingContentBanner } from '@athoscommerce/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
 
-import { AutocompleteStore } from '@searchspring/snap-store-mobx';
+import { AutocompleteStore } from '@athoscommerce/snap-store-mobx';
 import type { AutocompleteControllerConfig, AutocompleteAfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import type { AutocompleteRequestModel, AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
 import {
 	type Product as BeaconProduct,
@@ -29,7 +29,7 @@ const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;
 const KEY_ENTER = 13;
 const KEY_ESCAPE = 27;
-const PARAM_ORIGINAL_QUERY = 'oq';
+
 const PARAM_FALLBACK_QUERY = 'fallbackQuery';
 
 const defaultConfig: AutocompleteControllerConfig = {
@@ -41,7 +41,6 @@ const defaultConfig: AutocompleteControllerConfig = {
 		enabled: true,
 	},
 	settings: {
-		integratedSpellCorrection: false,
 		initializeFromUrl: true,
 		syncInputs: true,
 		serializeForm: false,
@@ -145,7 +144,7 @@ export class AutocompleteController extends AbstractController {
 		// persist trending terms in local storage
 		this.storage = new StorageStore({
 			type: 'session',
-			key: `ss-controller-${this.config.id}`,
+			key: `athos-controller-${this.config.id}`,
 		});
 
 		// add 'afterSearch' middleware
@@ -194,8 +193,13 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No banner provided to track.banner.impression');
 					return;
 				}
+
 				const { responseId, uid } = _banner;
-				if (this.events[responseId]?.banner?.[uid]?.impression) {
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events?.[responseId]?.banner?.[uid]?.impression) {
 					return;
 				}
 
@@ -215,7 +219,14 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No banner provided to track.banner.click');
 					return;
 				}
+
 				const { responseId, uid } = banner;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				if (isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.banner[uid]?.clickThrough) {
 						return;
@@ -233,6 +244,12 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No banner uid provided to track.banner.clickThrough');
 					return;
 				}
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const banner: ClickthroughBannersInner = { uid };
 				const data: ClickthroughSchemaData = {
 					responseId,
@@ -253,7 +270,14 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No result provided to track.product.clickThrough');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const item: ClickthroughResultsInner = {
 					type,
@@ -278,7 +302,13 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No result provided to track.product.click');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
 
 				if (result.type === 'banner' && isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.product[result.id]?.inlineBannerClickThrough) {
@@ -307,10 +337,16 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No result provided to track.product.impression');
 					return;
 				}
+
 				const responseId = result.responseId;
-				if (this.events?.[responseId]?.product[result.id]?.impression) {
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events?.[responseId]?.product[result.id]?.impression) {
 					return;
 				}
+
 				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const item: ResultsInner = {
 					type,
@@ -337,7 +373,14 @@ export class AutocompleteController extends AbstractController {
 					this.log.warn('No result provided to track.product.addToCart');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const product: BeaconProduct = {
 					parentId: result.id,
 					uid: result.id,
@@ -464,23 +507,14 @@ export class AutocompleteController extends AbstractController {
 
 					e.preventDefault();
 
-					// when spellCorrection is enabled
-					if (this.config.globals?.search?.query?.spellCorrection) {
-						// wait until loading is complete before submission
-						while (this.store.loading) {
-							await timeout(INPUT_DELAY);
-						}
+					// wait until loading is complete before submission
+					while (this.store.loading) {
+						await timeout(INPUT_DELAY);
+					}
 
-						if (this.config.settings!.integratedSpellCorrection) {
-							//set fallbackQuery to the correctedQuery
-							if (this.store.search.correctedQuery) {
-								actionUrl = actionUrl?.set(PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
-							}
-						} else if (this.store.search.originalQuery) {
-							// use corrected query and originalQuery
-							input.value = this.store.search.query?.string!;
-							actionUrl = actionUrl?.set(PARAM_ORIGINAL_QUERY, this.store.search.originalQuery.string);
-						}
+					// set fallbackQuery to the correctedQuery
+					if (this.store.search.correctedQuery) {
+						actionUrl = actionUrl?.set(PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
 					}
 
 					actionUrl = actionUrl?.set('query', input.value);
@@ -526,25 +560,14 @@ export class AutocompleteController extends AbstractController {
 
 				e.preventDefault();
 
-				// when spellCorrection is enabled
-				if (this.config.globals?.search?.query?.spellCorrection) {
-					// wait until loading is complete before submission
-					while (this.store.loading) {
-						await timeout(INPUT_DELAY);
-					}
+				// wait until loading is complete before submission
+				while (this.store.loading) {
+					await timeout(INPUT_DELAY);
+				}
 
-					if (this.config.settings!.integratedSpellCorrection) {
-						//set fallbackQuery to the correctedQuery
-						if (this.store.search.correctedQuery) {
-							addHiddenFormInput(form, PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
-						}
-					} else if (this.store.search.originalQuery) {
-						// use corrected query and originalQuery
-						if (input) {
-							input.value = this.store.search.query?.string!;
-						}
-						addHiddenFormInput(form, PARAM_ORIGINAL_QUERY, this.store.search.originalQuery.string);
-					}
+				// set fallbackQuery to the correctedQuery
+				if (this.store.search.correctedQuery) {
+					addHiddenFormInput(form, PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
 				}
 
 				// wait for input delay

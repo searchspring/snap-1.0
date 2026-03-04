@@ -1,9 +1,9 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useRef, useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
 import { css } from '@emotion/react';
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
@@ -67,7 +67,7 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 	});
 };
 
-export const AutocompleteModal = observer((properties: AutocompleteModalProps): JSX.Element => {
+export const AutocompleteModal = observer((properties: AutocompleteModalProps) => {
 	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<AutocompleteModalProps> = {
@@ -195,28 +195,24 @@ export const AutocompleteModal = observer((properties: AutocompleteModalProps): 
 		<CacheProvider>
 			<div {...styling} className={classNames('ss__autocomplete-modal', className, internalClassName)}>
 				<Modal {...subProps.modal}>
-					<Fragment>
-						<div className="ss__autocomplete-modal__inner" ref={(e) => useA11y(e, 0, true, reset)}>
-							{renderInput ? (
-								<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
-							) : (
-								<></>
-							)}
-							<AutocompleteLayout
-								{...acProps}
-								{...subProps.autocompleteLayout}
-								input={_input!}
-								controller={controller}
-								treePath={`${treePath} modal`}
-							/>
-						</div>
-					</Fragment>
+					<div className="ss__autocomplete-modal__inner" ref={(e) => useA11y(e, 0, true, reset)}>
+						{renderInput ? (
+							<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
+						) : (
+							<></>
+						)}
+						<AutocompleteLayout
+							{...acProps}
+							{...subProps.autocompleteLayout}
+							input={_input!}
+							controller={controller}
+							treePath={`${treePath} modal`}
+						/>
+					</div>
 				</Modal>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface AutocompleteModalSubProps {
@@ -225,10 +221,14 @@ interface AutocompleteModalSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteModalProps extends Omit<AutocompleteLayoutProps, 'viewportMaxHeight'>, ComponentProps {
+export type AutocompleteModalProps = {
+	controller: AutocompleteController;
+} & AutocompleteModalTemplatesLegalProps &
+	ComponentProps<AutocompleteModalProps>;
+
+export type AutocompleteModalTemplatesLegalProps = {
 	buttonSelector?: string | Element;
 	overlayColor?: string;
 	renderInput?: boolean;
 	height?: string;
-	controller: AutocompleteController;
-}
+} & AutocompleteLayoutProps;

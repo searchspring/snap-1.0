@@ -2,7 +2,7 @@
 An interface for storing data in the browser session storage, local storage, cookies, or memory
 
 ```js
-import { StorageStore } from '@searchspring/snap-store-mobx';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
 
 const config = {
 	type: 'session',

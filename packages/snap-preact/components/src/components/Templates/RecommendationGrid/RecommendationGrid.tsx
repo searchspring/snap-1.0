@@ -1,10 +1,10 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -35,7 +35,7 @@ const defaultStyles: StyleScript<RecommendationGridProps> = ({ gapSize, columns 
 	});
 };
 
-export const RecommendationGrid = observer((properties: RecommendationGridProps): JSX.Element => {
+export const RecommendationGrid = observer((properties: RecommendationGridProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -158,26 +158,28 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface RecommendationGridProps extends ComponentProps {
+export type RecommendationGridProps = {
 	controller: RecommendationController;
-	title?: string;
+	breakpoints?: BreakpointsProps;
+	resultComponent?: ResultComponent;
 	results?: Product[];
+} & RecommendationGridTemplatesLegalProps &
+	ComponentProps<RecommendationGridProps>;
+
+export type RecommendationGridTemplatesLegalProps = {
+	title?: string;
 	columns?: number;
 	rows?: number;
 	gapSize?: string;
 	trim?: boolean;
-	breakpoints?: BreakpointsProps;
-	resultComponent?: ResultComponent;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
-}
+};
 
 interface RecommendationGridSubProps {
 	result: Partial<ResultProps>;

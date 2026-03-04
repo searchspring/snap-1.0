@@ -13,7 +13,7 @@ import {
 	ThemePartial,
 	ThemeOverrides,
 	ThemeVariableBreakpoints,
-	ThemeComponents,
+	ThemeComponentsRestricted,
 	ResponsiveKeys,
 	ThemeComplete,
 } from '../../../components/src';
@@ -116,7 +116,7 @@ export class ThemeStore {
 				);
 			});
 			const styleElem = document.createElement('style');
-			styleElem.innerHTML = `<!-- searchspring style injection point for "${this.name}" theme -->`;
+			styleElem.innerHTML = `<!-- athos style injection point for "${this.name}" theme -->`;
 			document.head.appendChild(styleElem);
 			render(<GlobalStyle theme={this.theme} self={this} themeName={this.name} />, styleElem);
 		}
@@ -291,7 +291,7 @@ const arrayMerge = (target: any, source: any, options: any) => {
 	return destination;
 };
 
-function prefixComponentKeys(prefix: string, components?: ThemeComponents): ThemePartial {
+function prefixComponentKeys(prefix: string, components?: ThemeComponentsRestricted): ThemePartial {
 	// TODO: remove any?
 	const newComponents: any = {};
 

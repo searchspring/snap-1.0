@@ -1,3 +1,3 @@
-export * from '@searchspring/snap-toolbox';
+export * from '@athoscommerce/snap-toolbox';
 
 // future toolbox things for preact only

@@ -19,8 +19,8 @@ jobs:
 
       - name: Set Github credentials
         run: |
-          git config user.name searchspring-machine
-          git config user.email machine@searchspring.com
+          git config user.name athos-machine
+          git config user.email machine@athoscommerce.com
 
       - name: Merge main into develop branch
         run: |

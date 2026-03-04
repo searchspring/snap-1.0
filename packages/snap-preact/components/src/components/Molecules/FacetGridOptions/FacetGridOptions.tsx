@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,7 +8,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { FacetValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import Color from 'color';
@@ -80,7 +80,7 @@ const defaultStyles: StyleScript<FacetGridOptionsProps> = ({ columns, gapSize, g
 	});
 };
 
-export const FacetGridOptions = observer((properties: FacetGridOptionsProps): JSX.Element => {
+export const FacetGridOptions = observer((properties: FacetGridOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -153,23 +153,25 @@ export const FacetGridOptions = observer((properties: FacetGridOptionsProps): JS
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FacetGridOptionsProps extends ComponentProps {
+export type FacetGridOptionsProps = {
 	values?: FacetValue[];
+	lang?: Partial<FacetGridOptionsLang>;
+	facet?: ValueFacet;
+} & FacetGridOptionsTemplatesLegalProps &
+	ComponentProps<FacetGridOptionsProps>;
+
+export type FacetGridOptionsTemplatesLegalProps = {
 	columns?: number;
 	gridSize?: string;
 	gapSize?: string;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
-	facet?: ValueFacet;
 	previewOnFocus?: boolean;
 	valueProps?: any;
-	lang?: Partial<FacetGridOptionsLang>;
-}
+};
 
 export interface FacetGridOptionsLang {
 	gridOption: Lang<{

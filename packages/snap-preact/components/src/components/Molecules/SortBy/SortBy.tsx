@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -7,8 +7,8 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ListOption, StyleScript } from '../../../types';
 import { Select, SelectProps } from '../Select';
-import { SearchSortingStore } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import { SearchSortingStore } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { RadioList, RadioListProps } from '../RadioList';
 import { List, ListProps } from '../List';
 import { Lang } from '../../../hooks';
@@ -23,7 +23,7 @@ const defaultStyles: StyleScript<SortByProps> = () => {
 	});
 };
 
-export const SortBy = observer((properties: SortByProps): JSX.Element => {
+export const SortBy = observer((properties: SortByProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -144,9 +144,7 @@ export const SortBy = observer((properties: SortByProps): JSX.Element => {
 				/>
 			)}
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface SelectSubProps {
@@ -155,14 +153,18 @@ interface SelectSubProps {
 	List: Partial<ListProps>;
 }
 
-export interface SortByProps extends ComponentProps {
+export type SortByProps = {
 	sorting?: SearchSortingStore;
 	controller?: SearchController;
+	lang?: Partial<SortByLang>;
+} & SortByTemplatesLegalProps &
+	ComponentProps<SortByProps>;
+
+export type SortByTemplatesLegalProps = {
 	label?: string;
 	hideLabel?: boolean;
 	type?: 'dropdown' | 'list' | 'radio';
-	lang?: Partial<SortByLang>;
-}
+};
 
 export interface SortByLang {
 	label: Lang<{

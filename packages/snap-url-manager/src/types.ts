@@ -28,7 +28,6 @@ export type UrlState = {
 	pageSize?: number;
 	query?: string;
 	rq?: string;
-	oq?: string;
 	fallbackQuery?: string;
 	filter?: UrlStateFilter;
 	sort?: UrlStateSort | Array<UrlStateSort>;

@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { useRef, useEffect, useState, useMemo } from 'preact/hooks';
@@ -13,8 +13,8 @@ import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
 import { ResultTracker } from '../../Trackers/ResultTracker';
 import { IconProps, IconType } from '../../Atoms/Icon';
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { CartStore, Product } from '@searchspring/snap-store-mobx';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { CartStore, Product } from '@athoscommerce/snap-store-mobx';
 import { BundleSelector, BundleSelectorProps } from './BundleSelector';
 import { BundledCTA, BundledCTAProps } from './BundleCTA';
 import { Lang } from '../../../hooks';
@@ -143,7 +143,7 @@ const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean;
 	});
 };
 
-export const RecommendationBundle = observer((properties: RecommendationBundleProps): JSX.Element => {
+export const RecommendationBundle = observer((properties: RecommendationBundleProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -279,7 +279,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 
 	if (!(results && results.length) && !controller.store?.results?.length) {
 		controller.log.error(`<RecommendationBundle> Component has no results to render!`);
-		return <Fragment></Fragment>;
+		return null;
 	}
 
 	const seed = results
@@ -541,9 +541,9 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 							</h3>
 						)}
 						{description && (
-							<h4 className="ss__recommendation-bundle__description">
+							<p className="ss__recommendation-bundle__description">
 								<span>{description}</span>
-							</h4>
+							</p>
 						)}
 						<div
 							className={classnames(`${classNamePrefix}__wrapper`, {
@@ -552,7 +552,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 							})}
 						>
 							{carouselEnabled ? (
-								<Fragment>
+								<>
 									{!seedInCarousel && !hideSeed && seed && (
 										<div className={`${classNamePrefix}__wrapper__seed-container`}>
 											<ResultTracker controller={controller} result={seed} track={{ impression: false }}>
@@ -614,7 +614,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 											children={renderedResults}
 										/>
 									</div>
-								</Fragment>
+								</>
 							) : (
 								<>{renderedResults}</>
 							)}
@@ -668,9 +668,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 type BundleCarouselProps = {
@@ -680,12 +678,8 @@ type BundleCarouselProps = {
 	slidesPerView?: number;
 } & Partial<Omit<CarouselProps, 'slidesPerView'>>;
 
-export interface RecommendationBundleProps extends ComponentProps {
+export type RecommendationBundleProps = {
 	controller: RecommendationController;
-	results?: Product[];
-	limit?: number;
-	onAddToCart?: (e: MouseEvent, items: Product[]) => void;
-	title?: JSX.Element | string;
 	breakpoints?: BreakpointsProps;
 	resultComponent?: ResultComponent<{
 		controller: RecommendationController;
@@ -693,6 +687,16 @@ export interface RecommendationBundleProps extends ComponentProps {
 		selected?: boolean;
 		onProductSelect?: (product: Product) => void;
 	}>;
+	alias?: string;
+	lang?: Partial<RecommendationBundleLang>;
+	results?: Product[];
+} & RecommendationBundleTemplatesLegalProps &
+	ComponentProps<RecommendationBundleProps>;
+
+export type RecommendationBundleTemplatesLegalProps = {
+	limit?: number;
+	onAddToCart?: (e: MouseEvent, items: Product[]) => void;
+	title?: JSX.Element | string;
 	preselectedCount?: number;
 	hideCheckboxes?: boolean;
 	hideSeed?: boolean;
@@ -709,14 +713,12 @@ export interface RecommendationBundleProps extends ComponentProps {
 	ctaSlot?: JSX.Element | React.FunctionComponent<BundledCTAProps>;
 	vertical?: boolean;
 	carousel?: BundleCarouselProps;
-	slidesPerView?: number; // TODO: remove this prop?
-	lang?: Partial<RecommendationBundleLang>;
+	slidesPerView?: number;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
-	alias?: string;
-}
+};
 
 export interface RecommendationBundleLang {
 	seedText: Lang<never>;

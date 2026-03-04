@@ -102,10 +102,3 @@ The `onFacetOptionClick` callback function for when a facet option is clicked.
 ```jsx
 <FacetsHorizontal controller={controller} onFacetOptionClick={clickfunc}/>
 ```
-
-### overlay
-The `overlay` prop will render the facet options in a dropdown overlay.
-
-```jsx
-<FacetsHorizontal controller={controller} overlay={true}/>
-```

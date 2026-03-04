@@ -1,8 +1,8 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { Autocomplete as LibraryAutocomplete } from '@searchspring/snap-preact/components';
-import type { Snap, SnapTemplates } from '@searchspring/snap-preact';
+import { Autocomplete as LibraryAutocomplete } from '@athoscommerce/snap-preact/components';
+import type { Snap, SnapTemplates } from '@athoscommerce/snap-preact';
 
 type AutocompleteProps = {
 	controller?: AutocompleteController;

@@ -1,4 +1,4 @@
-import type { AbstractController } from '@searchspring/snap-controller';
+import type { AbstractController } from '@athoscommerce/snap-controller';
 import { AbstractPluginConfig } from '../types';
 
 export type PluginLoggerConfig = AbstractPluginConfig;

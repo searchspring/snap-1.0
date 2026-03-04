@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+
 permissions:
   id-token: write  # Required for OIDC
   contents: write
@@ -11,9 +12,6 @@ permissions:
 jobs:
   Publish:
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,16 +21,14 @@ jobs:
 
       - name: Set Github credentials
         run: |
-          git config user.name searchspring-machine
-          git config user.email machine@searchspring.com
+          git config user.name athos-machine
+          git config user.email machine@athoscommerce.com
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@searchspring'
-          # registry-url: 'https://registry.npmjs.org'
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -61,8 +57,6 @@ jobs:
 
       - name: Publish packages
         run: npm run publish
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

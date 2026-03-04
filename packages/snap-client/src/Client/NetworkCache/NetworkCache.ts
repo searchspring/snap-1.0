@@ -2,7 +2,7 @@ import deepmerge from 'deepmerge';
 
 import { CacheConfig, Cache, DefaultCacheConfig } from '../../types';
 
-const CACHE_STORAGE_KEY = 'ss-networkcache';
+const CACHE_STORAGE_KEY = 'athos-networkcache';
 
 const defaultConfig: DefaultCacheConfig = {
 	enabled: true,
@@ -59,8 +59,8 @@ export class NetworkCache {
 				if (Object.keys(this.memoryCache).length && key) {
 					let storageKey = key;
 
-					//this only applies to search calls
-					if (ignoreKeys.length && key.startsWith('/api/search/search.json')) {
+					// this only applies to search calls
+					if (ignoreKeys.length && key.startsWith('/v1/search')) {
 						try {
 							const url = key.split('{')[0];
 							const payload = '{' + key.split('{')[1];

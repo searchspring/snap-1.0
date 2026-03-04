@@ -5,7 +5,7 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { Toolbar, ToolbarProps } from './Toolbar';
 
 export default {
@@ -55,17 +55,19 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						'[`searchHeader` | `breadcrumbs` | `filterSummary` | `mobileSidebar` | `layoutSelector` | `perPage` | `sortBy` | `pagination` | `paginationInfo` | `_` | `button.sidebar-toggle` | `banner.header` | `banner.banner` | `banner.footer` | `facetsHorizontal`]',
 				},
 				defaultValue: { summary: "['mobileSidebar', 'filterSummary', 'paginationInfo', 'sortBy', 'perPage', 'pagination']" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		toggleSideBarButton: {
 			description: 'specifies an element to be used as the toggleSideBarButton',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},

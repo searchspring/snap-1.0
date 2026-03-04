@@ -4,7 +4,7 @@ import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
 
 // CSS in JS style script for the Image component
-const imageStyleScript = (props: ImageProps & { visibility: React.CSSProperties['visibility'] }) => {
+const imageStyleScript = (props: ImageProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 

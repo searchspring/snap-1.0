@@ -14,6 +14,10 @@ describe('ApiConfiguration', () => {
 			customheader: 'customkey',
 		};
 
+		const customPaths = {
+			search: '/custom-search',
+		};
+
 		const customCacheConfig = {
 			ttl: 2222,
 			enabled: false,
@@ -27,10 +31,11 @@ describe('ApiConfiguration', () => {
 
 		const config: ApiConfigurationParameters = {
 			mode: 'development',
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			queryParamsStringify: customQueryParamsStringify,
 			headers: customHeaders,
+			paths: customPaths,
 			maxRetry: 2,
 			cache: customCacheConfig,
 		};
@@ -41,12 +46,22 @@ describe('ApiConfiguration', () => {
 		expect(configuration.fetchApi).toBe(config.fetchApi);
 		expect(configuration.queryParamsStringify).toBe(config.queryParamsStringify);
 		expect(configuration.headers).toBe(config.headers);
+		expect(configuration.paths).toBe(config.paths);
 		expect(configuration.maxRetry).toBe(config.maxRetry);
 		expect(configuration.cache).toBe(config.cache);
 	});
 });
 
 describe('Abstract Api', () => {
+	beforeAll(() => {
+		// mock performance to prevent warning in test
+		Object.defineProperty(window, 'performance', {
+			value: {
+				getEntriesByType: jest.fn().mockReturnValue([{ type: 'navigate' }]),
+			},
+		});
+	});
+
 	it('has expected default values', () => {
 		const api = new API(new ApiConfiguration());
 
@@ -102,7 +117,7 @@ describe('Abstract Api', () => {
 
 	it('can pass in all the props', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 			maxRetry: 2,
@@ -145,7 +160,7 @@ describe('Abstract Api', () => {
 		const queryParamMockfn = jest.fn(() => 'here');
 
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			queryParamsStringify: queryParamMockfn,
 		};
@@ -162,7 +177,7 @@ describe('Abstract Api', () => {
 
 	it('can use createFetchParams', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 		};
@@ -172,7 +187,7 @@ describe('Abstract Api', () => {
 
 		const body = { siteId: '8uyt2m' };
 		const context = {
-			path: '/api/v1/autocomplete',
+			path: '/v1/autocomplete',
 			method: 'POST',
 			headers: config.headers,
 			body: body,
@@ -182,7 +197,7 @@ describe('Abstract Api', () => {
 		//@ts-ignore
 		const fetchParams = api.createFetchParams(context);
 		expect(fetchParams).toBeDefined();
-		expect(fetchParams.url).toBe(`${config.origin}/api/v1/autocomplete`);
+		expect(fetchParams.url).toBe(`${config.origin}/v1/autocomplete`);
 		expect(fetchParams.init.body).toBe(JSON.stringify(body));
 		expect(fetchParams.init.headers).toStrictEqual(customHeaders);
 		expect(fetchParams.init.method).toBe('POST');
@@ -193,7 +208,7 @@ describe('Abstract Api', () => {
 		expect(() => api.createFetchParams(badContext)).toThrowError(`Request failed. Missing "siteId" parameter.`);
 
 		const config2: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 			maxRetry: 2,
@@ -204,7 +219,7 @@ describe('Abstract Api', () => {
 		const contextWithQuery = { ...context, query: { key: 'value' } };
 		// @ts-ignore
 		const params = api2.createFetchParams(contextWithQuery);
-		expect(params.url).toBe('https://searchspring.com/api/v1/autocomplete?key=value');
+		expect(params.url).toBe('https://athoscommerce.com/v1/autocomplete?key=value');
 	});
 
 	it('can handle subDomain parameter in createFetchParams', async () => {
@@ -217,7 +232,7 @@ describe('Abstract Api', () => {
 
 		const body = { siteId: '8uyt2m' };
 		const contextWithSubDomain = {
-			path: '/api/v1/autocomplete',
+			path: '/v1/autocomplete',
 			method: 'POST',
 			headers: config.headers,
 			body: body,
@@ -227,11 +242,11 @@ describe('Abstract Api', () => {
 		// test with subDomain - should generate URL with subdomain in the path
 		// @ts-ignore - private method
 		const fetchParamsWithSubDomain = api.createFetchParams(contextWithSubDomain);
-		expect(fetchParamsWithSubDomain.url).toBe('https://8uyt2m.a.test.athoscommerce.io/api/v1/autocomplete');
+		expect(fetchParamsWithSubDomain.url).toBe('https://8uyt2m.a.test.athoscommerce.net/v1/autocomplete');
 
 		// test without subDomain - should generate URL without subdomain
 		const contextWithoutSubDomain = {
-			path: '/api/v1/autocomplete',
+			path: '/v1/autocomplete',
 			method: 'POST',
 			headers: config.headers,
 			body: body,
@@ -239,7 +254,7 @@ describe('Abstract Api', () => {
 
 		// @ts-ignore - private method
 		const fetchParamsWithoutSubDomain = api.createFetchParams(contextWithoutSubDomain);
-		expect(fetchParamsWithoutSubDomain.url).toBe('https://8uyt2m.a.athoscommerce.io/api/v1/autocomplete');
+		expect(fetchParamsWithoutSubDomain.url).toBe('https://8uyt2m.a.athoscommerce.net/v1/autocomplete');
 
 		// test with custom origin and subDomain - origin should take precedence
 		const configWithOrigin: ApiConfigurationParameters = {
@@ -252,12 +267,12 @@ describe('Abstract Api', () => {
 
 		// @ts-ignore - private method
 		const fetchParamsWithOrigin = apiWithOrigin.createFetchParams(contextWithSubDomain);
-		expect(fetchParamsWithOrigin.url).toBe('https://custom-origin.com/api/v1/autocomplete');
+		expect(fetchParamsWithOrigin.url).toBe('https://custom-origin.com/v1/autocomplete');
 	});
 
 	it('can use cacheKey', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 		};
@@ -266,14 +281,14 @@ describe('Abstract Api', () => {
 
 		const body = { siteId: '8uyt2m' };
 		const context = {
-			path: '/api/v1/autocomplete',
+			path: '/v1/autocomplete',
 			method: 'POST',
 			headers: config.headers,
 			body: body,
 		};
 
 		//can use the cacheKey
-		const cacheKey = '/api/v1/autocomplete' + JSON.stringify(body);
+		const cacheKey = '/v1/autocomplete' + JSON.stringify(body);
 
 		let request;
 		//@ts-ignore
@@ -316,7 +331,7 @@ describe('Abstract Api', () => {
 
 	it('can handle 429s', async () => {
 		const config: ApiConfigurationParameters = {
-			origin: 'https://searchspring.com',
+			origin: 'https://athoscommerce.com',
 			fetchApi: global.window.fetch,
 			headers: customHeaders,
 			maxRetry: 2,
@@ -326,7 +341,7 @@ describe('Abstract Api', () => {
 
 		const body = { siteId: '8uyt2m' };
 		const context = {
-			path: '/api/v1/autocomplete',
+			path: '/v1/autocomplete',
 			method: 'POST',
 			headers: config.headers,
 			body: body,
@@ -348,7 +363,7 @@ describe('Abstract Api', () => {
 				message: 'FAILED',
 				method: 'POST',
 				status: 429,
-				url: 'https://searchspring.com/api/v1/autocomplete',
+				url: 'https://athoscommerce.com/v1/autocomplete',
 			},
 		});
 

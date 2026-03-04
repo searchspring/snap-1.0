@@ -1,8 +1,8 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
@@ -21,7 +21,7 @@ const defaultStyles: StyleScript<BadgeRectangleProps> = ({ color, colorText }) =
 	});
 };
 
-export const BadgeRectangle = observer((properties: BadgeRectangleProps): JSX.Element => {
+export const BadgeRectangle = observer((properties: BadgeRectangleProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -44,14 +44,13 @@ export const BadgeRectangle = observer((properties: BadgeRectangleProps): JSX.El
 				<span className="ss__badge-rectangle__value">{value}</span>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment />
-	);
+	) : null;
 });
 
-export interface BadgeRectangleProps extends ComponentProps<BadgeRectangleProps> {
+export type BadgeRectangleProps = BadgeRectangleTemplatesLegalProps & ComponentProps<BadgeRectangleProps>;
+export type BadgeRectangleTemplatesLegalProps = {
 	value: string;
 	color?: string;
 	colorText?: string;
 	tag?: string;
-}
+};

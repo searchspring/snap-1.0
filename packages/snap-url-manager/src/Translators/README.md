@@ -2,8 +2,8 @@
 
 This is general documentation for translators. Translator-specific documentation:
 
-- [UrlTranslator](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/Url)
-- [QueryStringTranslator](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/QueryString)
+- [UrlTranslator](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url)
+- [QueryStringTranslator](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/QueryString)
 
 A `UrlManager` is instantiated with a translator. The `Translator` defines the behavior of the `UrlManager` instance. They have a couple jobs:
 
@@ -36,7 +36,7 @@ A `Translator` is passed in to a `UrlManager` during construction:
 import {
 	UrlManager,
 	UrlTranslator,
-} from '@searchspring/snap-url-manager';
+} from '@athoscommerce/snap-url-manager';
 
 const urlManager = new UrlManager(new UrlTranslator());
 ```
@@ -135,7 +135,6 @@ type UrlState = {
 	pageSize?: number;
 	query?: string;
 	rq?: string;
-	oq?: string;
 	filter?: UrlStateFilter;
 	sort?: UrlStateSort | Array<UrlStateSort>;
 	tag?: string;

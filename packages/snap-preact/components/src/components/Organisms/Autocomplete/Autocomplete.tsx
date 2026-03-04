@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -6,9 +6,9 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 
-import type { AutocompleteController, RecommendationControllerConfig } from '@searchspring/snap-controller';
-import { ContentType } from '@searchspring/snap-store-mobx';
-import type { Term } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
+import type { Term } from '@athoscommerce/snap-store-mobx';
 
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { Results, ResultsProps } from '../Results';
@@ -25,7 +25,7 @@ import { IconType } from '../../Atoms/Icon';
 // import { useSnap } from '../../../providers';
 // import { useComponent } from '../../../hooks';
 // import { useCreateController } from '../../../hooks/useCreateController';
-// import type { RecommendationController } from '@searchspring/snap-controller';
+// import type { RecommendationController } from '@athoscommerce/snap-controller';
 // import type { FunctionalComponent } from 'preact';
 // import type { SnapTemplates } from '../../../../../src';
 
@@ -199,7 +199,7 @@ const defaultStyles: StyleScript<AutocompleteProps> = ({
 	});
 };
 
-export const Autocomplete = observer((properties: AutocompleteProps): JSX.Element => {
+export const Autocomplete = observer((properties: AutocompleteProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -814,9 +814,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 				) : null}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 const emIfy = (term: string, search: string) => {
@@ -853,9 +851,15 @@ interface AutocompleteSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface AutocompleteProps extends ComponentProps {
-	input: Element | string;
+export type AutocompleteProps = {
+	lang?: Partial<AutocompleteLang>;
 	controller: AutocompleteController;
+	breakpoints?: BreakpointsProps;
+} & AutocompleteTemplatesLegalProps &
+	ComponentProps<AutocompleteProps>;
+
+export type AutocompleteTemplatesLegalProps = {
+	input: Element | string;
 	hideTerms?: boolean;
 	hideFacets?: boolean;
 	hideContent?: boolean;
@@ -881,7 +885,6 @@ export interface AutocompleteProps extends ComponentProps {
 	resultsSlot?: JSX.Element | JSX.Element[];
 	noResultsSlot?: JSX.Element | JSX.Element[];
 	linkSlot?: JSX.Element | JSX.Element[];
-	breakpoints?: BreakpointsProps;
 	width?: string;
 	resultComponent?: ResultComponent;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
@@ -894,8 +897,7 @@ export interface AutocompleteProps extends ComponentProps {
 			config?: Partial<RecommendationControllerConfig>;
 		};
 	};
-	lang?: Partial<AutocompleteLang>;
-}
+};
 
 export interface AutocompleteLang {
 	termsTitle: Lang<{

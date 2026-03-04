@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -79,7 +79,7 @@ const defaultStyles: StyleScript<SelectProps> = ({ color, backgroundColor, borde
 	}
 };
 
-export const Select = observer((properties: SelectProps): JSX.Element => {
+export const Select = observer((properties: SelectProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -355,9 +355,7 @@ export const Select = observer((properties: SelectProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface SelectSubProps {
@@ -366,7 +364,12 @@ interface SelectSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface SelectProps extends ComponentProps {
+export type SelectProps = {
+	lang?: Partial<SelectLang>;
+} & SelectTemplatesLegalProps &
+	ComponentProps<SelectProps>;
+
+export type SelectTemplatesLegalProps = {
 	options: ListOption[];
 	backgroundColor?: string;
 	borderColor?: string;
@@ -390,8 +393,7 @@ export interface SelectProps extends ComponentProps {
 	hideIcon?: boolean;
 	hideOptionIcons?: boolean;
 	hideOptionLabels?: boolean;
-	lang?: Partial<SelectLang>;
-}
+};
 
 export interface SelectLang {
 	buttonLabel: Lang<{

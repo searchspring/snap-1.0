@@ -5,10 +5,10 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { TermsList, TermsListProps } from './TermsList';
 import Readme from './readme.md';
-import { AutocompleteController } from '@searchspring/snap-controller';
+import { AutocompleteController } from '@athoscommerce/snap-controller';
 import { Snapify } from '../../../utilities/snapify';
-import type { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
 import { useState } from 'preact/hooks';
 
 export default {
@@ -72,16 +72,18 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified order',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: "['History' | 'Trending' | 'Suggestions' | '_']",
 				},
 				defaultValue: { summary: "[['Suggestions'], ['Trending'], ['History']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		historyTitle: {
 			description: 'history terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -92,6 +94,7 @@ export default {
 		verticalOptions: {
 			description: 'boolean to specify if the terms should be displayed vertically',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -102,6 +105,7 @@ export default {
 		suggestionTitle: {
 			description: 'suggested terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -112,6 +116,7 @@ export default {
 		trendingTitle: {
 			description: 'trending terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -122,6 +127,7 @@ export default {
 		retainHistory: {
 			description: 'boolean to specify if the history terms should always be rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -132,6 +138,7 @@ export default {
 		retainTrending: {
 			description: 'boolean to specify if the trending terms should always be rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -165,47 +172,47 @@ export const Default = (args: TermsListProps, { loaded: { controller } }: { load
 			preview: () => setTermState('dress'),
 			value: 'dress',
 			url: {
-				href: 'www.dress.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'drss',
-			preview: () => setTermState('drss'),
-			value: 'drss',
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
 			url: {
-				href: 'www.drss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'dreees',
-			preview: () => setTermState('dreees'),
-			value: 'dreees',
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
 			url: {
-				href: 'www.dreees.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'dres',
-			preview: () => setTermState('dres'),
-			value: 'dres',
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
 			url: {
-				href: 'www.dres.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'dss',
-			preview: () => setTermState('dss'),
-			value: 'dss',
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
 			url: {
-				href: 'www.dss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: termState === 'ress',
-			preview: () => setTermState('ress'),
-			value: 'ress',
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
 			url: {
-				href: 'www.ress.com',
+				href: '#',
 			} as UrlManager,
 		},
 	];

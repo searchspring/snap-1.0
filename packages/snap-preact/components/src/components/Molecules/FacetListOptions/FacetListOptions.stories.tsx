@@ -7,7 +7,7 @@ import { FacetListOptions, FacetListOptionsProps } from './FacetListOptions';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FacetListOptions/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/FacetListOptions',
@@ -56,6 +56,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide facet option checkbox',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -67,6 +68,7 @@ export default {
 			defaultValue: false,
 			description: 'will render radios instead of checkboxes if facet.multiple == "single"',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -78,6 +80,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide facet option count',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -89,6 +92,7 @@ export default {
 			defaultValue: false,
 			description: 'Render facet options horizontally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -100,6 +104,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide facet option count parenthesis',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -110,6 +115,7 @@ export default {
 		previewOnFocus: {
 			description: 'Invoke facet value preview upon focus',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -120,6 +126,7 @@ export default {
 		valueProps: {
 			description: 'Object of facet value props',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -130,6 +137,7 @@ export default {
 		onClick: {
 			description: 'Facet option click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

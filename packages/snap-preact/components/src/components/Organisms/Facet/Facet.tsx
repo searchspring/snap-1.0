@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useRef, useState, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
@@ -14,7 +14,7 @@ import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { ComponentProps, FacetDisplay, StyleScript } from '../../../types';
-import type { ValueFacet, RangeFacet, FacetHierarchyValue, FacetValue, FacetRangeValue } from '@searchspring/snap-store-mobx';
+import type { ValueFacet, RangeFacet, FacetHierarchyValue, FacetValue, FacetRangeValue } from '@athoscommerce/snap-store-mobx';
 
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -23,7 +23,7 @@ import { useA11y } from '../../../hooks/useA11y';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Button, ButtonProps } from '../../Atoms/Button';
-import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
+import { fieldNameToComponentName } from '@athoscommerce/snap-toolbox';
 import { LangAttributesObj } from '../../../hooks/useLang';
 
 const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme }) => {
@@ -122,7 +122,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 	});
 };
 
-export const Facet = observer((properties: FacetProps): JSX.Element => {
+export const Facet = observer((properties: FacetProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -210,7 +210,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		button: {
 			// inherited props
@@ -219,7 +219,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		showMoreLessIcon: {
 			// default props
@@ -508,7 +508,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 								aria-level={3}
 								{...mergedLang.dropdownButton.attributes}
 							>
-								<div className="ss__facet__header__inner">
+								<span className="ss__facet__header__inner">
 									<span {...mergedLang.dropdownButton.value}>{facet?.label}</span>
 									{showSelectedCount && selectedCount && facet.type !== 'range' ? (
 										<span className="ss__facet__header__selected-count">{hideSelectedCountParenthesis ? selectedCount : `(${selectedCount})`}</span>
@@ -529,7 +529,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 									) : (
 										<></>
 									)}
-								</div>
+								</span>
 								{!disableCollapse && (
 									<Icon
 										{...subProps.icon}
@@ -537,7 +537,6 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 											? { ...(typeof iconExpand == 'string' ? { icon: iconExpand } : (iconExpand as Partial<IconProps>)) }
 											: { ...(typeof iconCollapse == 'string' ? { icon: iconCollapse } : (iconCollapse as Partial<IconProps>)) })}
 										name={facet?.collapsed ? 'expand' : 'collapse'}
-										treePath={props.treePath}
 									/>
 								)}
 							</div>
@@ -548,9 +547,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 const FacetContent = (
@@ -632,7 +629,7 @@ const FacetContent = (
 	}
 
 	return (
-		<Fragment>
+		<>
 			{searchable && searchableFacet.allowableTypes.includes(facet.display) && (
 				<SearchInput
 					{...subProps.searchInput}
@@ -771,10 +768,11 @@ const FacetContent = (
 					{overflowSlot ? (
 						cloneWithProps(overflowSlot, { facet, treePath })
 					) : (
-						<Fragment>
+						<>
 							<Icon
 								{...subProps.showMoreLessIcon}
 								treePath={treePath}
+								name={(overflowState?.remaining || 0) > 0 ? 'overflow-more' : 'overflow-less'}
 								{...((overflowState?.remaining || 0) > 0
 									? { ...(typeof iconOverflowMore == 'string' ? { icon: iconOverflowMore } : (iconOverflowMore as Partial<IconProps>)) }
 									: { ...(typeof iconOverflowLess == 'string' ? { icon: iconOverflowLess } : (iconOverflowLess as Partial<IconProps>)) })}
@@ -782,11 +780,11 @@ const FacetContent = (
 							{!hideShowMoreLessText && (
 								<span {...((overflowState?.remaining || 0) > 0 ? mergedLang!.showMoreText?.all : mergedLang!.showLessText?.all)}></span>
 							)}
-						</Fragment>
+						</>
 					)}
 				</div>
 			)}
-		</Fragment>
+		</>
 	);
 };
 
@@ -804,11 +802,13 @@ interface FacetSubProps {
 	showMoreLessIcon: Partial<IconProps>;
 }
 
-export interface FacetProps extends OptionalFacetProps {
+export type FacetProps = {
+	lang?: Partial<FacetLang>;
 	facet: ValueFacet | RangeFacet;
-}
+} & FacetTemplatesLegalProps &
+	ComponentProps<FacetProps>;
 
-interface OptionalFacetProps extends ComponentProps {
+export type FacetTemplatesLegalProps = {
 	disableCollapse?: boolean;
 	color?: string;
 	iconCollapse?: IconType | Partial<IconProps>;
@@ -841,8 +841,7 @@ interface OptionalFacetProps extends ComponentProps {
 	rangeInputsSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;
-	lang?: Partial<FacetLang>;
-}
+};
 
 export interface FacetLang {
 	showMoreText: Lang<{

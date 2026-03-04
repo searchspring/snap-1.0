@@ -6,7 +6,7 @@ describe('Infinite Setting Test', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'SearchHorizontal',
 						},
 					],

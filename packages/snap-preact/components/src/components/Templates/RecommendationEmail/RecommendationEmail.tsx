@@ -2,8 +2,8 @@ import { h } from 'preact';
 import { css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
-import type { AbstractController, RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import classnames from 'classnames';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -21,7 +21,7 @@ const defaultStyles: StyleScript<RecommendationEmailProps> = () => {
 	return css({});
 };
 
-export const RecommendationEmail = observer((properties: RecommendationEmailProps): JSX.Element => {
+export const RecommendationEmail = observer((properties: RecommendationEmailProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -98,9 +98,13 @@ export type RecommendationEmailProps = {
 	controller?: RecommendationController;
 	results?: Product[];
 	resultComponent?: ResultComponent<{ email: boolean }>;
+} & RecommendationEmailTemplatesLegalProps &
+	ComponentProps<RecommendationEmailProps>;
+
+export type RecommendationEmailTemplatesLegalProps = {
 	resultProps?: Partial<ResultProps> | Record<string, any>;
 	resultWidth?: string;
-} & ComponentProps;
+};
 
 interface RecommendationEmailSubProps {
 	result: Partial<ResultProps>;

@@ -15,7 +15,7 @@ The `formKey` property allows you to pass a custom form key to use in the add to
 The `uenc` property allows you to pass a custom `uenc` code to use in the add to cart call. 
 
 ```jsx
-import { addToCart } from '@searchspring/snap-platforms/magento2';
+import { addToCart } from '@athoscommerce/snap-platforms/magento2';
 
 export const AddToCart = (props) => {
     const { result } = props;
@@ -72,7 +72,7 @@ Plugin to set up background filters for Magento2. Script context is used to auto
 This plugin relies on specific Magento2 script context variables for creating background filters via the integration script context. Category and visibility background filtering are supported, and special characters will be automatically handled. See the examples below:
 
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	category = {
 		path : "Kitchen>Sinks",
 	};

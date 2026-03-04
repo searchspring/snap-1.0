@@ -7,14 +7,13 @@ import classnames from 'classnames';
 import { Theme, useTheme, useSnap, useTreePath } from '../../../providers';
 import { cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps } from '../../../types';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import { useComponent } from '../../../hooks/useComponent';
 import { useCreateController } from '../../../hooks/useCreateController';
-import type { RecommendationController, RecommendationControllerConfig } from '@searchspring/snap-controller';
+import type { RecommendationController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
 import type { RecommendationGridProps, RecommendationProps, ResultComponent, StyleScript } from '../../../';
-import type { FunctionalComponent } from 'preact';
 import type { SnapTemplates } from '../../../../../src';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import deepmerge from 'deepmerge';
 import { useLang } from '../../../hooks';
 import type { Lang } from '../../../hooks';
@@ -24,7 +23,7 @@ const defaultStyles: StyleScript<NoResultsProps> = ({}) => {
 	return css({});
 };
 
-export const NoResults = observer((properties: NoResultsProps): JSX.Element => {
+export const NoResults = observer((properties: NoResultsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -67,7 +66,7 @@ export const NoResults = observer((properties: NoResultsProps): JSX.Element => {
 	const suggestionsExist = suggestionsList && Array.isArray(suggestionsList) && suggestionsList.length !== 0;
 	const contactsExist = contactsList && Array.isArray(contactsList) && contactsList.length !== 0;
 
-	let recommendationTemplateComponent: FunctionalComponent<{ controller: RecommendationController; name: string }> | undefined;
+	let recommendationTemplateComponent: ((props: RecommendationProps | RecommendationGridProps) => h.JSX.Element | null) | undefined;
 	let recommendationTemplateResultComponent: ResultComponent | undefined;
 	let recsController: RecommendationController | undefined;
 
@@ -108,11 +107,8 @@ export const NoResults = observer((properties: NoResultsProps): JSX.Element => {
 		}
 	}
 
-	const RecommendationTemplateComponent = recommendationTemplateComponent as
-		| FunctionalComponent<RecommendationProps | RecommendationGridProps>
-		| undefined;
-
-	const RecommendationTemplateResultComponent = recommendationTemplateResultComponent as ResultComponent | undefined;
+	const RecommendationTemplateComponent = recommendationTemplateComponent;
+	const RecommendationTemplateResultComponent = recommendationTemplateResultComponent;
 
 	//deep merge with props.lang
 	const defaultLang: Partial<NoResultsLang> = {
@@ -199,7 +195,12 @@ type NoResultsContact = {
 	content: string;
 };
 
-export interface NoResultsProps extends ComponentProps {
+export type NoResultsProps = {
+	lang?: NoResultsLang;
+} & NoResultsTemplatesLegalProps &
+	ComponentProps<NoResultsProps>;
+
+export type NoResultsTemplatesLegalProps = {
 	contentSlot?: string | JSX.Element;
 	suggestionsTitleText?: string;
 	hideSuggestionsTitleText?: boolean;
@@ -209,7 +210,6 @@ export interface NoResultsProps extends ComponentProps {
 	contactsTitleText?: string;
 	hideContactsTitleText?: boolean;
 	contactsList?: NoResultsContact[];
-	lang?: NoResultsLang;
 	templates?: {
 		recommendation?: {
 			enabled: boolean;
@@ -218,7 +218,7 @@ export interface NoResultsProps extends ComponentProps {
 			config?: Partial<RecommendationControllerConfig>;
 		};
 	};
-}
+};
 
 export interface NoResultsLang {
 	suggestionsTitleText: Lang<{ controller: SearchController }>;
