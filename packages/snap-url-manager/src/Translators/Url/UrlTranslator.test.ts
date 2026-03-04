@@ -71,7 +71,6 @@ describe('UrlTranslator', () => {
 
 			expect(defaultConfig.parameters.core).toEqual({
 				query: { name: 'q', type: ParamLocationType.query },
-				oq: { name: 'oq', type: ParamLocationType.query },
 				rq: { name: 'rq', type: ParamLocationType.query },
 				tag: { name: 'tag', type: ParamLocationType.query },
 				page: { name: 'page', type: ParamLocationType.query },
@@ -169,7 +168,6 @@ describe('UrlTranslator', () => {
 
 			expect(config.parameters.core).toEqual({
 				query: { name: 'q', type: ParamLocationType.query },
-				oq: { name: 'oq', type: ParamLocationType.query },
 				rq: { name: 'rq', type: ParamLocationType.query },
 				tag: { name: 'tag', type: ParamLocationType.query },
 				page: { name: 'page', type: ParamLocationType.query },
@@ -212,12 +210,11 @@ describe('UrlTranslator', () => {
 
 		it('deserializes core state correctly', () => {
 			const url =
-				'?q=shoes&oq=shoez&rq=shiny&tag=taggy&page=7#/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc';
+				'?q=shoes&rq=shiny&tag=taggy&page=7#/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc';
 			const urlTranslator = new UrlTranslator();
 			const params: UrlState = urlTranslator.deserialize(url);
 
 			expect(params.query).toBe('shoes');
-			expect(params.oq).toBe('shoez');
 			expect(params.rq).toBe('shiny');
 			expect(params.tag).toBe('taggy');
 			expect(params.page).toBe(7);
@@ -244,7 +241,7 @@ describe('UrlTranslator', () => {
 
 		it('deserializes core state as hash params correctly', () => {
 			const url =
-				'/#/q:shoes/oq:shoez/rq:shiny/tag:taggy/page:7/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc';
+				'/#/q:shoes/rq:shiny/tag:taggy/page:7/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc';
 			const urlTranslator = new UrlTranslator({
 				settings: {
 					coreType: ParamLocationType.hash,
@@ -253,7 +250,6 @@ describe('UrlTranslator', () => {
 			const params: UrlState = urlTranslator.deserialize(url);
 
 			expect(params.query).toBe('shoes');
-			expect(params.oq).toBe('shoez');
 			expect(params.rq).toBe('shiny');
 			expect(params.tag).toBe('taggy');
 			expect(params.page).toBe(7);
@@ -280,7 +276,7 @@ describe('UrlTranslator', () => {
 
 		it('deserializes core state as query params correctly', () => {
 			const url =
-				'?q=shoes&oq=shoez&rq=shiny&tag=taggy&page=7&pageSize=40&filter.color=red&filter.color=orange&filter.brand=adidas&filter.price.low=99.99&filter.price.high=299.99&sort.name=desc';
+				'?q=shoes&rq=shiny&tag=taggy&page=7&pageSize=40&filter.color=red&filter.color=orange&filter.brand=adidas&filter.price.low=99.99&filter.price.high=299.99&sort.name=desc';
 			const urlTranslator = new UrlTranslator({
 				settings: {
 					coreType: ParamLocationType.query,
@@ -289,7 +285,6 @@ describe('UrlTranslator', () => {
 			const params: UrlState = urlTranslator.deserialize(url);
 
 			expect(params.query).toBe('shoes');
-			expect(params.oq).toBe('shoez');
 			expect(params.rq).toBe('shiny');
 			expect(params.tag).toBe('taggy');
 			expect(params.page).toBe(7);
@@ -316,7 +311,7 @@ describe('UrlTranslator', () => {
 
 		it('deserializes core state with type misconfiguration correctly', () => {
 			const url =
-				'?q=shoes&oq=shoez&rq=shiny&tag=taggy&page=7&pageSize=40&filter.color=red&filter.color=orange&filter.brand=adidas&filter.price.low=99.99&filter.price.high=299.99&sort.name=desc';
+				'?q=shoes&rq=shiny&tag=taggy&page=7&pageSize=40&filter.color=red&filter.color=orange&filter.brand=adidas&filter.price.low=99.99&filter.price.high=299.99&sort.name=desc';
 			const urlTranslator = new UrlTranslator({
 				settings: {
 					coreType: ParamLocationType.hash,
@@ -325,7 +320,6 @@ describe('UrlTranslator', () => {
 			const params: UrlState = urlTranslator.deserialize(url);
 
 			expect(params.query).toBe(undefined);
-			expect(params.oq).toBe(undefined);
 			expect(params.rq).toBe(undefined);
 			expect(params.tag).toBe(undefined);
 			expect(params.page).toBe(undefined);
@@ -336,12 +330,11 @@ describe('UrlTranslator', () => {
 
 		it('deserializes core state with name and type changes correctly', () => {
 			const url =
-				'?size=40&facet.color=red&facet.color=orange&facet.brand=adidas&facet.price.low=99.99&facet.price.high=299.99&order.name=desc#/query:shoes/originalQuery:shoez/refinedQuery:shiny/landingPage:taggy/p:7';
+				'?size=40&facet.color=red&facet.color=orange&facet.brand=adidas&facet.price.low=99.99&facet.price.high=299.99&order.name=desc#/query:shoes/refinedQuery:shiny/landingPage:taggy/p:7';
 			const urlTranslator = new UrlTranslator({
 				parameters: {
 					core: {
 						query: { name: 'query', type: ParamLocationType.hash },
-						oq: { name: 'originalQuery', type: ParamLocationType.hash },
 						rq: { name: 'refinedQuery', type: ParamLocationType.hash },
 						tag: { name: 'landingPage', type: ParamLocationType.hash },
 						page: { name: 'p', type: ParamLocationType.hash },
@@ -354,7 +347,6 @@ describe('UrlTranslator', () => {
 			const params: UrlState = urlTranslator.deserialize(url);
 
 			expect(params.query).toBe('shoes');
-			expect(params.oq).toBe('shoez');
 			expect(params.rq).toBe('shiny');
 			expect(params.tag).toBe('taggy');
 			expect(params.page).toBe(7);
@@ -648,7 +640,6 @@ describe('UrlTranslator', () => {
 				pageSize: 40,
 				query: 'shoes',
 				rq: 'shiny',
-				oq: 'shoez',
 				tag: 'taggy',
 				sort: [
 					{
@@ -663,7 +654,7 @@ describe('UrlTranslator', () => {
 			const query = translator.serialize(params);
 
 			expect(query).toBe(
-				'/?q=shoes&oq=shoez&rq=shiny&tag=taggy&page=7#/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc'
+				'/?q=shoes&rq=shiny&tag=taggy&page=7#/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc'
 			);
 		});
 
@@ -678,7 +669,6 @@ describe('UrlTranslator', () => {
 				pageSize: 40,
 				query: 'shoes',
 				rq: 'shiny',
-				oq: 'shoez',
 				tag: 'taggy',
 				sort: [
 					{
@@ -697,7 +687,7 @@ describe('UrlTranslator', () => {
 			const query = translator.serialize(params);
 
 			expect(query).toBe(
-				'/#/q:shoes/oq:shoez/rq:shiny/tag:taggy/page:7/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc'
+				'/#/q:shoes/rq:shiny/tag:taggy/page:7/pageSize:40/filter:color:red/filter:color:orange/filter:brand:adidas/filter:price:99.99:299.99/sort:name:desc'
 			);
 		});
 
@@ -712,7 +702,6 @@ describe('UrlTranslator', () => {
 				pageSize: 40,
 				query: 'shoes',
 				rq: 'shiny',
-				oq: 'shoez',
 				tag: 'taggy',
 				sort: [
 					{
@@ -731,7 +720,7 @@ describe('UrlTranslator', () => {
 			const query = translator.serialize(params);
 
 			expect(query).toBe(
-				'/?q=shoes&oq=shoez&rq=shiny&tag=taggy&page=7&pageSize=40&filter.color=red&filter.color=orange&filter.brand=adidas&filter.price.low=99.99&filter.price.high=299.99&sort.name=desc'
+				'/?q=shoes&rq=shiny&tag=taggy&page=7&pageSize=40&filter.color=red&filter.color=orange&filter.brand=adidas&filter.price.low=99.99&filter.price.high=299.99&sort.name=desc'
 			);
 		});
 
@@ -746,7 +735,6 @@ describe('UrlTranslator', () => {
 				pageSize: 40,
 				query: 'shoes',
 				rq: 'shiny',
-				oq: 'shoez',
 				tag: 'taggy',
 				sort: [
 					{
@@ -760,7 +748,6 @@ describe('UrlTranslator', () => {
 				parameters: {
 					core: {
 						query: { name: 'query', type: ParamLocationType.hash },
-						oq: { name: 'originalQuery', type: ParamLocationType.hash },
 						rq: { name: 'refinedQuery', type: ParamLocationType.hash },
 						tag: { name: 'landingPage', type: ParamLocationType.hash },
 						page: { name: 'p', type: ParamLocationType.hash },
@@ -774,7 +761,7 @@ describe('UrlTranslator', () => {
 			const query = translator.serialize(params);
 
 			expect(query).toBe(
-				'/?size=40&facet.color=red&facet.color=orange&facet.brand=adidas&facet.price.low=99.99&facet.price.high=299.99&order.name=desc#/query:shoes/originalQuery:shoez/refinedQuery:shiny/landingPage:taggy/p:7'
+				'/?size=40&facet.color=red&facet.color=orange&facet.brand=adidas&facet.price.low=99.99&facet.price.high=299.99&order.name=desc#/query:shoes/refinedQuery:shiny/landingPage:taggy/p:7'
 			);
 		});
 

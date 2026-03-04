@@ -134,11 +134,7 @@ type TemplatePlugins =
 
 type TemplatePluginGrouping = TemplatePlugins[];
 
-export const DEFAULT_FEATURES: SnapFeatures = {
-	integratedSpellCorrection: {
-		enabled: true,
-	},
-};
+export const DEFAULT_FEATURES: SnapFeatures = {};
 
 export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSettings = {
 	trending: {

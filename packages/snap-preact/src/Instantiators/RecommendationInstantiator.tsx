@@ -145,8 +145,9 @@ export class RecommendationInstantiator {
 			[
 				{
 					selector: `${
-						this.config.selector || 'script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"]'
-					}, script[type="searchspring/recommend"][profile="email"]`,
+						this.config.selector ||
+						'script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"], script[type="athos/recommend"], script[type="athos/personalized-recommendations"]'
+					}, script[type="searchspring/recommend"][profile="email"], script[type="athos/recommend"][profile="email"]`,
 					autoRetarget: true,
 					clickRetarget: true,
 					inject: {
@@ -161,7 +162,7 @@ export class RecommendationInstantiator {
 					},
 				},
 				{
-					selector: 'script[type="searchspring/recommendations"]',
+					selector: 'script[type="searchspring/recommendations"], script[type="athos/recommendations"]',
 					autoRetarget: true,
 					clickRetarget: true,
 					emptyTarget: false,

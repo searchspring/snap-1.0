@@ -19,7 +19,6 @@ type UnnamedMapOptions = {
 
 export type CoreMap = {
 	query: MapOptions;
-	oq: MapOptions;
 	rq: MapOptions;
 	tag: MapOptions;
 	page: MapOptions;
@@ -65,7 +64,6 @@ const defaultConfig: UrlTranslatorConfigFull = {
 	parameters: {
 		core: {
 			query: { name: 'q', type: ParamLocationType.query },
-			oq: { name: 'oq', type: ParamLocationType.query },
 			rq: { name: 'rq', type: ParamLocationType.query },
 			tag: { name: 'tag', type: ParamLocationType.query },
 			page: { name: 'page', type: ParamLocationType.query },
@@ -78,7 +76,7 @@ const defaultConfig: UrlTranslatorConfigFull = {
 	},
 };
 
-const CORE_FIELDS = ['query', 'oq', 'fallbackQuery', 'rq', 'tag', 'page', 'pageSize', 'sort', 'filter'];
+const CORE_FIELDS = ['query', 'fallbackQuery', 'rq', 'tag', 'page', 'pageSize', 'sort', 'filter'];
 
 export class UrlTranslator implements Translator {
 	protected config: UrlTranslatorConfigFull;

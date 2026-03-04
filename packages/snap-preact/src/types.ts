@@ -113,11 +113,7 @@ declare global {
 	}
 }
 
-export type SnapFeatures = {
-	integratedSpellCorrection?: {
-		enabled?: boolean;
-	};
-};
+export type SnapFeatures = unknown;
 
 // The state of a UI control, which determines how it's rendered.
 export type ControlDisplayState = 'visible' | 'disabled' | 'hidden';

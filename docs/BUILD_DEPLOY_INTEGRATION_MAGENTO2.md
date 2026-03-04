@@ -358,11 +358,6 @@ const snap = new Snap({
 					plugins: [[magento2]],
 					globals: {
 						filters: visibilityFilters,
-						search: {
-							query: {
-								spellCorrection: true,
-							},
-						},
 						pagination: {
 							pageSize: 6,
 						},
@@ -469,11 +464,6 @@ const snap = new Snap({
 					plugins: [[magento2]],
 					globals: {
 						filters: visibilityFilters,
-						search: {
-							query: {
-								spellCorrection: true,
-							},
-						},
 						pagination: {
 							pageSize: 6,
 						},

@@ -349,22 +349,6 @@ describe('Search Controller', () => {
 		expect(controller.params.pagination!.pageSize).toBe(pageSize);
 	});
 
-	it('can set oq param', async () => {
-		const controller = new SearchController(searchConfig, {
-			client: new MockClient(globals, {}),
-			store: new SearchStore(searchConfig, services),
-			urlManager,
-			eventManager: new EventManager(),
-			profiler: new Profiler(),
-			logger: new Logger(),
-			tracker: new Tracker(globals),
-		});
-
-		const oq = 'wheel';
-		controller.urlManager = controller.urlManager.set('oq', oq);
-		expect(controller.params.search!.originalQuery).toBe(oq);
-	});
-
 	it('can set rq param', async () => {
 		const controller = new SearchController(searchConfig, {
 			client: new MockClient(globals, {}),

@@ -10,9 +10,6 @@ const services = {
 let config = {
 	id: 'autocomplete',
 	selector: 'input.athos-ac',
-	settings: {
-		integratedSpellCorrection: true,
-	},
 };
 
 const mockData = new MockData();
@@ -49,24 +46,5 @@ describe('AutocompleteQueryStore store', () => {
 		expect(queryStore.query?.string).toStrictEqual(searchData.search.search?.query);
 		expect(queryStore.correctedQuery).toBeDefined();
 		expect(queryStore.correctedQuery?.string).toStrictEqual(searchData.search.autocomplete?.correctedQuery);
-	});
-
-	it('contains originalQuery in search when corrected without integratedSpellCorrection', () => {
-		const searchData = mockData.autocompleteMeta('corrected');
-
-		config.settings.integratedSpellCorrection = false;
-
-		const queryStore = new AutocompleteQueryStore({
-			config,
-			services,
-			data: {
-				autocomplete: searchData.search,
-			},
-		});
-		expect(queryStore).toBeDefined();
-		expect(queryStore.query).toBeDefined();
-		expect(queryStore.query?.string).toStrictEqual(searchData.search.search?.query);
-		expect(queryStore.originalQuery).toBeDefined();
-		expect(queryStore.originalQuery?.string).toStrictEqual(searchData.search.autocomplete?.query);
 	});
 });

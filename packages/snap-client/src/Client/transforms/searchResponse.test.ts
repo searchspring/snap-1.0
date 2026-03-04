@@ -290,17 +290,6 @@ const mockRequest = {
 	filters: [],
 };
 
-const mockRequestOQ = {
-	siteId: 'ga9kq2',
-	search: {
-		originalQuery: 'redd',
-		query: {
-			string: 'red',
-		},
-	},
-	filters: [],
-};
-
 describe('search response transformer', () => {
 	it('calls all relevant transforms', () => {
 		const results = jest.spyOn(transformSearchResponse, 'results');
@@ -751,12 +740,6 @@ describe('search response search transformer facets', () => {
 
 		expect(response.query).toEqual(mockSpellCorrectedQuery.query.corrected);
 		expect(response.originalQuery).toEqual(mockSpellCorrectedQuery.query.original);
-	});
-
-	it('uses original query when oq', () => {
-		const response = transformSearchResponse.search(mockResponse, mockRequestOQ);
-
-		expect(response.originalQuery).toEqual(mockRequestOQ.search.originalQuery);
 	});
 });
 
