@@ -4,7 +4,7 @@ import type { Next } from '@athoscommerce/snap-event-manager';
 import type { AbstractPluginConfig } from '../../../common/src/types';
 import { getFormKey } from '../getFormKey';
 import { getUenc } from '../getUenc';
-import { SearchResultStore } from '@athoscommerce/snap-store-mobx';
+import type { SearchResultStore } from '@athoscommerce/snap-store-mobx';
 
 export type Magento2BaseConfig = {
 	formKey?: string;
@@ -18,7 +18,13 @@ export const pluginMagento2Base = (cntrlr: AbstractController, config?: PluginMa
 	if (config?.enabled === false) return;
 
 	// get shopper id from magento cache
-	const mageCacheStorage = JSON.parse(localStorage.getItem('mage-cache-storage') || '{}');
+	let mageCacheStorage;
+	try {
+		mageCacheStorage = JSON.parse(localStorage.getItem('mage-cache-storage') || '{}');
+	} catch (e) {
+		cntrlr.log.warn('Failed to parse mage-cache-storage from localStorage', e);
+	}
+
 	const shopperId = mageCacheStorage?.customer?.data_id ? mageCacheStorage.customer.data_id : false;
 
 	// track shopperId

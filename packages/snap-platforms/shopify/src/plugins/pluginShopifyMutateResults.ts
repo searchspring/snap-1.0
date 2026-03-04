@@ -21,7 +21,7 @@ export const pluginShopifyMutateResults = (cntrlr: AbstractController, config?: 
 	// do nothing if plugin is disabled
 	if (config?.enabled === false) return;
 
-	// mutatation collectionInUrl
+	// mutation collectionInUrl
 	const collectionHandle = cntrlr.context.collection?.handle;
 	if (config?.mutations?.collectionInUrl?.enabled === true && collectionHandle) {
 		if (!window.Shopify) {

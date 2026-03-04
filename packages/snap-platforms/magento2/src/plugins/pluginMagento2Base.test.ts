@@ -8,10 +8,6 @@ import { Logger } from '@athoscommerce/snap-logger';
 import { Tracker } from '@athoscommerce/snap-tracker';
 import { SearchController } from '@athoscommerce/snap-controller';
 
-const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);
-const services = {
-	urlManager: urlManager,
-};
 let searchConfig = {
 	id: 'search',
 };
@@ -28,9 +24,12 @@ let controller: SearchController;
 
 // function to recreate fresh services for each test (otherwise globals are shared)
 const createControllerServices = () => {
+	const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);
 	return {
 		client: new MockClient(globals, {}),
-		store: new SearchStore(searchConfig, services),
+		store: new SearchStore(searchConfig, {
+			urlManager,
+		}),
 		urlManager,
 		eventManager: new EventManager(),
 		profiler: new Profiler(),
