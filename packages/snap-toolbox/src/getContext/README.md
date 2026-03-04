@@ -10,6 +10,8 @@ The function takes two parameters, the first being an array of script tag attrib
 The script element must either have a src containing `snapui.athoscommerce.io` or an id or type attribute that equals `athos-context`.  
 For example: `src="https://snapui.athoscommerce.io/siteId/bundle.js"` or `id="athos-context"`.
 
+> **Legacy support:** Scripts with a src containing `snapui.searchspring.io`, an id starting with `searchspring`, or a type starting with `searchspring` are also recognized for backwards compatibility.
+
 The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML.
 
 Typical usage would be getting integration context variables from a script tag and passing them off to a controller instantiation.

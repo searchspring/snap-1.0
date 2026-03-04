@@ -482,7 +482,7 @@ var documents = [
 						label: 'beacon.js',
 						route: '/snap-tracking-beacon-js',
 						type: 'markdown',
-						url: 'https://raw.githubusercontent.com/athoscommerce/beacon.js/refs/heads/main/README.md',
+						url: 'https://raw.githubusercontent.com/athoscommerce/beacon.js/main/README.md',
 						searchable: true,
 					},
 				],

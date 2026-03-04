@@ -23,7 +23,7 @@ import('./docs/documents.js').then(function (_) {
 	const replaces = flattenDocumentLinks(documents)
 		.filter((link) => link.type === 'markdown')
 		.map((link) => {
-			return { a: `(https://athoscommerce.github.io/snap${link.url}`, b: `(.${link.route}` };
+			return { a: `(https://athoscommerce.github.io/snap${link.route}`, b: `(.${link.route}` };
 		})
 		.flat()
 		.concat([
