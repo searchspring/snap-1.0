@@ -5,6 +5,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @searchspring/snap-shared
 
+**Note:** Version bump only for package @searchspring/snap-shared
+
 # [1.0.0](https://github.com/AthosCommerce/snap/compare/v0.74.0...v1.0.0) (2026-03-04)
 
 ### Features

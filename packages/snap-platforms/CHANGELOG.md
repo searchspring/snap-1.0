@@ -5,6 +5,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @searchspring/snap-platforms
 
+**Note:** Version bump only for package @searchspring/snap-platforms
+
 # [1.0.0](https://github.com/searchspring/snap/compare/v0.74.0...v1.0.0) (2026-03-04)
 
 ### Bug Fixes
