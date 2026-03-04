@@ -118,7 +118,7 @@ describe('FacetPaletteOptions Component', () => {
 	it('can use the color mapping as img', () => {
 		const colorMapping = {
 			Camo: {
-				background: 'url(https://snapui.searchspring.io/favicon.svg)',
+				background: 'url(https://snapui.athoscommerce.io/favicon.svg)',
 			},
 		};
 

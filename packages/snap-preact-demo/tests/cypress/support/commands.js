@@ -35,11 +35,6 @@ Cypress.Commands.add('addLocalSnap', () => {
 	});
 });
 
-Cypress.Commands.add('addCloudSnap', (branch = 'production') => {
-	cy.intercept(/.*snapui.searchspring.io\/.*\/bundle.js$/).as('script');
-	cy.addScript(`https://snapui.searchspring.io/${packageJSON.searchspring.siteId}/${branch}/bundle.js`);
-});
-
 Cypress.Commands.add('snapController', (controllerId = 'search', options) => {
 	const defaultOptions = {
 		delay: 200,

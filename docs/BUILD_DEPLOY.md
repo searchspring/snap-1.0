@@ -80,7 +80,7 @@ Single siteId example:
 ```json
 {
     ...
-    "searchspring": {
+    "athos": {
         "siteId": {
             "abc123": {
                 "name": "site1.com"
@@ -95,7 +95,7 @@ Multi siteId example:
 ```json
 {
     ...
-    "searchspring": {
+    "athos": {
         "siteId": {
             "abc123": {
                 "name": "site1.com"

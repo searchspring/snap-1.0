@@ -24,8 +24,8 @@ Use link tags with `preconnect` and `dns-prefetch` attributes to establish early
   <link rel="dns-prefetch" href="https://snapui.athoscommerce.io">
   
   <!-- Preconnect to Athos API -->
-  <link rel="preconnect" href="https://[siteId].a.searchspring.io">
-  <link rel="dns-prefetch" href="https://[siteId].a.searchspring.io">
+  <link rel="preconnect" href="https://[siteId].a.athoscommerce.net">
+  <link rel="dns-prefetch" href="https://[siteId].a.athoscommerce.net">
 </head>
 ```
 

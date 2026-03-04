@@ -164,7 +164,7 @@ export function Slideshow(properties: SlideshowProps) {
 
 	const defaultProps: Partial<SlideshowProps> = {
 		treePath: globalTreePath,
-		fallbackImage: '//cdn.searchspring.net/ajax_search/img/default_image.png',
+		fallbackImage: '//cdn.athoscommerce.net/snap/images/fallback.png',
 		autoPlay: false,
 		autoPlayInterval: 3000,
 		showNavigation: true,

@@ -109,5 +109,5 @@ Example using multiple context variables together.
 
 ## Content Security Policy
 
-If your site requires a strict [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP), an entry of `https://*.searchspring.io` should be added to your CSP configuration to ensure Athos is functional. 
+If your site requires a strict [Content Security Policy (CSP)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP), an entry of `https://*.athoscommerce.io` should be added to your CSP configuration to ensure Athos is functional. 
 

@@ -35,7 +35,7 @@ const snap = new Snap({
 				},
                 targeters: [
                     {
-                        selector: '#searchspring-finder',
+                        selector: '#athos-finder',
                         component: async () => {
                             return (await import('./components/Finder/Finder')).Finder;
                         },
@@ -86,7 +86,7 @@ const snap = new Snap({
 				},
                 targeters: [
                     {
-                        selector: '#searchspring-finder',
+                        selector: '#athos-finder',
                         component: async () => {
                             return (await import('./components/Finder/Finder')).Finder;
                         },

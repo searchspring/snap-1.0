@@ -6,12 +6,14 @@ For integrations using Snap `v0.60.0` and newer, please reference the updated [`
 It is recommended to utilize the [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators) for integration of product recommendations. This method allows recommendations to be placed anywhere on the site with a single script block (requires the `bundle.js` script also).
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="recently-viewed">
+<script type="athos/personalized-recommendations" profile="recently-viewed">
 	// context variables go here
 </script>
 ```
 
 The [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators) will look for these elements on the page and attempt to inject components based on the `profile` specified in the script attribute. In the example above, the profile specified is the `recently-viewed` profile, and would typically be setup to display the last products viewed by the shopper. These profiles must be setup in the Athos Search & Product Discovery Console (ASD).
+
+> **Note:** The legacy `searchspring/personalized-recommendations` and `searchspring/recommend` script type attributes are still supported for backward compatibility and behave identically to their `athos/` counterparts.
 
 
 ## Recommendation Context Variables
@@ -45,28 +47,28 @@ In most cases batching is the best practice, however for profiles like a mini ca
 The example below shows how to manually specify the order of the profiles and how to dedupe them. In the example the 'bundle' profile in the batch receives the best suggestions because it has the lowest order, and the 'quick-cart' profile is not deduplicating products at all.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="customers-also-bought">
+<script type="athos/personalized-recommendations" profile="customers-also-bought">
 	products = ['product123'];
 	options = {
 		order: 2
 	};
 </script>
 
-<script type="searchspring/personalized-recommendations" profile="customers-also-viewed">
+<script type="athos/personalized-recommendations" profile="customers-also-viewed">
 	products = ['product123'];
 	options = {
 		order: 3
 	};
 </script>
 
-<script type="searchspring/personalized-recommendations" profile="bundle">
+<script type="athos/personalized-recommendations" profile="bundle">
 	products = ['product123'];
 	options = {
 		order: 1
 	};
 </script>
 
-<script type="searchspring/personalized-recommendations" profile="quick-cart">
+<script type="athos/personalized-recommendations" profile="quick-cart">
 	products = ['product123'];
 	options = {
 		dedupe: false
@@ -77,11 +79,11 @@ The example below shows how to manually specify the order of the profiles and ho
 Alternatively, a profile can be placed in it's own batch via the `batched: false` value. The example below shows how to place the 'quick-cart' profile into it's own batch.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="bundle">
+<script type="athos/personalized-recommendations" profile="bundle">
 	products = ['product123'];
 </script>
 
-<script type="searchspring/personalized-recommendations" profile="quick-cart">
+<script type="athos/personalized-recommendations" profile="quick-cart">
 	products = ['product123'];
 	options = {
 		batched: false
@@ -96,7 +98,7 @@ The examples below assume that profiles used have been setup in the Athos Search
 A typical "similar" profile that would display products similar to the product passed in via the `product` context variable.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="similar">
+<script type="athos/personalized-recommendations" profile="similar">
 	products = ['sku123'];
 </script>
 ```
@@ -104,7 +106,7 @@ A typical "similar" profile that would display products similar to the product p
 If tracking scripts are not in place, "also bought" profiles may require the cart contents to be provided.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="view-cart">
+<script type="athos/personalized-recommendations" profile="view-cart">
 	cart = ['sku456'];
 </script>
 ```
@@ -112,7 +114,7 @@ If tracking scripts are not in place, "also bought" profiles may require the car
 If the shopper identifier is not beeing captured by the `bundle.js` context, it must be provided for proper personalization.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="similar">
+<script type="athos/personalized-recommendations" profile="similar">
 	shopper = {
 		id: 'buyer@shopper.com'
 	};
@@ -122,16 +124,16 @@ If the shopper identifier is not beeing captured by the `bundle.js` context, it 
 Having multiple scripts batched using the order context variable
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="view-cart">
+<script type="athos/personalized-recommendations" profile="view-cart">
 	options = {
 		<!-- this will be added 2nd -->
 		order: 2,
 	};
 </script>
-<script type="searchspring/personalized-recommendations" profile="customers-also-viewed">
+<script type="athos/personalized-recommendations" profile="customers-also-viewed">
 		<!-- this will be added 3rd -->
 </script>
-<script type="searchspring/personalized-recommendations" profile="customers-also-bought">
+<script type="athos/personalized-recommendations" profile="customers-also-bought">
 	options = {
 		<!-- this will be added 1st -->
 		order: 1
@@ -143,7 +145,7 @@ Having multiple scripts batched using the order context variable
 The example shown below will filter the recommendations for products matching field `color` with a value `blue` and `red`, as well as a field `price` with a range from `0` to `20`.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="customers-also-bought">
+<script type="athos/personalized-recommendations" profile="customers-also-bought">
 	options = {
 		filters: [
 			{
@@ -169,7 +171,7 @@ The example shown below will filter the recommendations for products matching fi
 The next example shows a global filter being used, this will filter all of the profiles in the batch for products matching the field `onSale` with a value `true`; the 'similar' profile will additionally apply a filter using the field `price` with a range from `0` to `20`.
 
 ```html
-<script type="searchspring/personalized-recommendations" profile="customers-also-bought">
+<script type="athos/personalized-recommendations" profile="customers-also-bought">
 	filters = [
 		{
 			type: 'value',
@@ -179,7 +181,7 @@ The next example shows a global filter being used, this will filter all of the p
 	];
 </script>
 
-<script type="searchspring/personalized-recommendations" profile="similar">
+<script type="athos/personalized-recommendations" profile="similar">
 	options = {
 		filters: [
 			{

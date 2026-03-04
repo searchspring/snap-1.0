@@ -394,7 +394,7 @@ describe('Snap Preact', () => {
 			error: new Error('test error'),
 			message: 'something went wrong!',
 			lineno: 1,
-			filename: 'https://snapui.searchspring.io/test.js',
+			filename: 'https://snapui.athoscommerce.io/test.js',
 		});
 
 		// @ts-ignore - jest event listener mock
@@ -413,7 +413,7 @@ describe('Snap Preact', () => {
 			error: new Error('test error'),
 			message: 'something went wrong!',
 			lineno: 1,
-			filename: 'https://snapui.searchspring.io/test.js',
+			filename: 'https://snapui.athoscommerce.io/test.js',
 		});
 
 		snap.handlers.error(error);
@@ -525,7 +525,7 @@ describe('Snap Preact', () => {
 							},
 							targeters: [
 								{
-									selector: '#searchspring-dne',
+									selector: '#athos-dne',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -839,7 +839,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									prefetch: true,
-									selector: '#searchspring-dne',
+									selector: '#athos-dne',
 									hideTarget: true,
 									component: () => {
 										return Component;
@@ -1201,7 +1201,7 @@ describe('Snap Preact', () => {
 
 		it(`logs an error when targeter has invalid configuration`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="athos-context"></script><div id="searchspring-finder-hierarchy"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="athos-finder-hierarchy"></div>`;
 
 			const finderConfig = {
 				...baseConfig,
@@ -1220,7 +1220,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									name: 'finder_hierarchy',
-									selector: '#searchspring-finder-hierarchy',
+									selector: '#athos-finder-hierarchy',
 									component: async () => Component,
 								},
 							],
@@ -1255,7 +1255,7 @@ describe('Snap Preact', () => {
 
 		it(`creates targeter provided in config`, async () => {
 			const baseConfig = generateBaseConfig();
-			document.body.innerHTML = `<script id="athos-context"></script><div id="searchspring-finder-hierarchy"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="athos-finder-hierarchy"></div>`;
 
 			const finderConfig = {
 				...baseConfig,
@@ -1274,7 +1274,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									name: 'finderTargeter',
-									selector: '#searchspring-finder-hierarchy',
+									selector: '#athos-finder-hierarchy',
 									component: async () => Component,
 								},
 							],
@@ -1295,7 +1295,7 @@ describe('Snap Preact', () => {
 			const baseConfig = generateBaseConfig();
 			const onTarget = jest.fn();
 
-			document.body.innerHTML = `<script id="athos-context"></script><div id="searchspring-finder-hierarchy"></div>`;
+			document.body.innerHTML = `<script id="athos-context"></script><div id="athos-finder-hierarchy"></div>`;
 
 			const finderConfig = {
 				...baseConfig,
@@ -1314,7 +1314,7 @@ describe('Snap Preact', () => {
 							targeters: [
 								{
 									name: 'finderTargeter',
-									selector: '#searchspring-finder-hierarchy',
+									selector: '#athos-finder-hierarchy',
 									component: async () => Component,
 									onTarget,
 								},

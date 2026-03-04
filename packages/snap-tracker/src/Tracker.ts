@@ -68,31 +68,38 @@ export class Tracker extends Beacon {
 		// since this is in the constructor, setTimeout is required for jest.spyOn
 		setTimeout(() => {
 			this.targeters.push(
-				new DomTargeter([{ selector: 'script[type^="searchspring/track/"]', emptyTarget: false }], (target: any, elem: Element) => {
-					const { item, items, siteId, shopper, order, type, currency } = getContext(
-						['item', 'items', 'siteId', 'shopper', 'order', 'type', 'currency'],
-						elem as HTMLScriptElement
-					);
+				new DomTargeter(
+					[{ selector: 'script[type^="athos/track/"], script[type^="searchspring/track/"]', emptyTarget: false }],
+					(target: any, elem: Element) => {
+						const { item, items, siteId, shopper, order, type, currency } = getContext(
+							['item', 'items', 'siteId', 'shopper', 'order', 'type', 'currency'],
+							elem as HTMLScriptElement
+						);
 
-					this.setCurrency(currency);
-					switch (type) {
-						case 'searchspring/track/shopper/login':
-							this.track.shopper.login(shopper, siteId);
-							break;
-						case 'searchspring/track/product/view':
-							this.track.product.view(item, siteId);
-							break;
-						case 'searchspring/track/cart/view':
-							this.track.cart.view();
-							break;
-						case 'searchspring/track/order/transaction':
-							this.track.order.transaction({ order, items }, siteId);
-							break;
-						default:
-							console.error(`event '${type}' is not supported`);
-							break;
+						this.setCurrency(currency);
+						switch (type) {
+							case 'searchspring/track/shopper/login':
+							case 'athos/track/shopper/login':
+								this.track.shopper.login(shopper, siteId);
+								break;
+							case 'searchspring/track/product/view':
+							case 'athos/track/product/view':
+								this.track.product.view(item, siteId);
+								break;
+							case 'searchspring/track/cart/view':
+							case 'athos/track/cart/view':
+								this.track.cart.view();
+								break;
+							case 'searchspring/track/order/transaction':
+							case 'athos/track/order/transaction':
+								this.track.order.transaction({ order, items }, siteId);
+								break;
+							default:
+								console.error(`event '${type}' is not supported`);
+								break;
+						}
 					}
-				})
+				)
 			);
 		});
 

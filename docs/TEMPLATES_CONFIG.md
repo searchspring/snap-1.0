@@ -32,7 +32,7 @@ new SnapTemplates({
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-templates',
+				selector: '#athos-templates',
 				component: 'Search',
 			},
 		],

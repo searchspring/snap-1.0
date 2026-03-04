@@ -8,7 +8,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
-export const FALLBACK_IMAGE_URL = '//cdn.searchspring.net/ajax_search/img/default_image.png';
+export const FALLBACK_IMAGE_URL = '//cdn.athoscommerce.net/snap/images/fallback.png';
 
 const defaultStyles: StyleScript<ImageProps> = ({ height }) => {
 	return css({

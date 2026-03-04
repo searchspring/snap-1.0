@@ -50,7 +50,7 @@ Note that the component is not required to be named `Default`, however `instanti
 This example assumes a `recently-viewed` profile has been configured in the Athos Search & Product Discovery Console (ASD) with the `Default` template selected. The profile (specified via the `tag` property) will render inside the `.ss__recs__recently-viewed` element below the script block. While the target element can be placed anywhere on the page, it's recommended to group elements with their corresponding script blocks for easier integration management. The component configuration is handled within the [`RecommendationInstantiator`](https://athoscommerce.github.io/snap/reference-snap-preact-instantiators).
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	profiles = [
 		{
 			tag: 'recently-viewed',
@@ -135,7 +135,7 @@ This example assumes a `bundle` profile has been configured in the Athos Search 
 The `products` global context variable is required for bundle recommendations to specify the sku of the currently viewed product.
 
 ```html
-<script type="searchspring/recommendations">
+<script type="athos/recommendations">
 	global: {
 		products: ['product_sku_123'],
 	};

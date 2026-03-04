@@ -477,16 +477,15 @@ var documents = [
 				type: 'markdown',
 				url: './packages/snap-tracker/README.md',
 				searchable: true,
-				// TODO: Include when beacon.js repo is public
-				// links: [
-				// 	{
-				// 		label: 'beacon.js',
-				// 		route: '/snap-tracking-beacon-js',
-				// 		type: 'markdown',
-				// 		url: 'https://github.com/searchspring/beacon.js/blob/main/README.md',
-				// 		searchable: true,
-				// 	},
-				// ],
+				links: [
+					{
+						label: 'beacon.js',
+						route: '/snap-tracking-beacon-js',
+						type: 'markdown',
+						url: 'https://raw.githubusercontent.com/athoscommerce/beacon.js/refs/heads/main/README.md',
+						searchable: true,
+					},
+				],
 			},
 			{
 				label: 'Variants',

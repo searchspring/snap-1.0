@@ -8,7 +8,7 @@ import { getContext } from '@athoscommerce/snap-toolbox';
 The function takes two parameters, the first being an array of script tag attributes or innerHTML variable names to evaluate. The second optional parameter for a script tag element or CSS selector string. If the script tag element is not provided, the function will query the DOM for a Snap script (using src or #athos-context selector).
 
 The script element must either have a src containing `snapui.athoscommerce.io` or an id or type attribute that equals `athos-context`.  
-For example: `src="https://snapui.athoscommerce.io/siteId/bundle.js"`, `type="searchspring"`, `type="searchspring/context"`, `type="searchspring/controller"`, or `id="athos-context"`.
+For example: `src="https://snapui.athoscommerce.io/siteId/bundle.js"` or `id="athos-context"`.
 
 The innerHTML of the script MUST only contain variable assignments without `var`, `let`, or `const`. Each declaration should end with a semi-colon to ensure minification does not impact the functions ability to parse the innerHTML.
 
@@ -44,7 +44,7 @@ const context = getContext(['shopper', 'category']);
 ### Example Providing a Script Element
 
 ```html
-<script type="searchspring/recommend" profile="similar">
+<script type="athos/recommend" profile="similar">
 	product = 'C-AD-W1-1869P';
 	shopper = {
 		id: 'snapdev'
@@ -56,11 +56,11 @@ const context = getContext(['shopper', 'category']);
 ```
 
 ```js
-const scriptTag = document.querySelector('script[type="searchspring/recommend"');
+const scriptTag = document.querySelector('script[type="athos/recommend"');
 const context = getContext(['product', 'shopper', 'options'], scriptTag);
 /*
 	context = {
-		type: 'searchspring/recommend',
+		type: 'athos/recommend',
 		profile: 'similar',
 		product: 'C-AD-W1-1869P',
 		shopper: {

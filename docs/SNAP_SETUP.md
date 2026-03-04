@@ -61,7 +61,7 @@ A minimal mockup file (shown below) contains only the necessary script and targe
 		<title>Snap</title>
 	</head>
 	<body>
-		<div id="searchspring-header"></div>
+		<div id="athos-header"></div>
 		<div id="athos-content"></div>
 		<div id="athos-sidebar"></div>
 	</body>

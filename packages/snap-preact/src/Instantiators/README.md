@@ -23,7 +23,7 @@ The `RecommendationInstantiator` class handles the targeting and creation of rec
 | `config.variants` | `VariantConfig` | No | Configuration for variant handling. |
 | `config.middleware` | `object` | No | Event middleware configuration. |
 | `config.plugins` | `PluginGrouping[]` | No | Plugin configurations. |
-| `selector` | `string` | No | Custom selector for targeting script elements. Defaults to `'script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"]'`. |
+| `selector` | `string` | No | Custom selector for targeting script elements. Defaults to `'script[type="athos/recommendations"], script[type="athos/recommend"]'`. |
 | `url` | `UrlTranslatorConfig` | No | URL translation configuration for state management. |
 | `context` | `ContextVariables` | No | Context variables available to components. |
 

@@ -14,7 +14,7 @@ Standard Snap:
   - Requires more development effort and expertise
 
 Snap Templates:
-  - Utilizes pre-built, Searchspring-managed templates and themes
+  - Utilizes pre-built, Athos-managed templates and themes
   - Enables rapid integration and customization
   - Leverages Snap's existing [library of components](https://github.com/athoscommerce/snap/tree/main/packages/snap-preact-components)
   - Requires less development effort, ideal for quick implementations

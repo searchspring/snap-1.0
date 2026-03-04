@@ -139,7 +139,7 @@ const config = {
 
 `recommendation.config.batched` - optional boolean (default: `true`) to batch multiple recommendations into a single network request
 
-`recommendation.selector` - optional selector to target recommendation instances if using a non-standard installation. Selector provided will replace the default selector: `script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"]`
+`recommendation.selector` - optional selector to target recommendation instances if using a non-standard installation. Selector provided will replace the default selector: `script[type="athos/recommendations"], script[type="athos/recommend"]`
 
 `recommendation.services` - optional object of `ControllerServices` 
 

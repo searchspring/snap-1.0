@@ -99,7 +99,7 @@ export const Auto = (args: BranchOverrideProps) => <BranchOverride {...args} />;
 Auto.args = {
 	branch: 'next',
 	details: {
-		url: 'https://snapui.searchspring.io/y56s6x/next/bundle.js',
+		url: 'https://snapui.athoscommerce.io/y56s6x/next/bundle.js',
 		lastModified: '1 Feb 2022 1:02:03 GMT',
 	},
 };
@@ -108,7 +108,7 @@ export const Dark = (args: BranchOverrideProps) => <BranchOverride {...args} />;
 Dark.args = {
 	branch: 'next',
 	details: {
-		url: 'https://snapui.searchspring.io/y56s6x/next/bundle.js',
+		url: 'https://snapui.athoscommerce.io/y56s6x/next/bundle.js',
 		lastModified: '1 Feb 2022 1:02:03 GMT',
 	},
 	darkMode: true,
@@ -127,7 +127,7 @@ export const Light = (args: BranchOverrideProps) => <BranchOverride {...args} />
 Light.args = {
 	branch: 'next',
 	details: {
-		url: 'https://snapui.searchspring.io/y56s6x/next/bundle.js',
+		url: 'https://snapui.athoscommerce.io/y56s6x/next/bundle.js',
 		lastModified: '1 Feb 2022 1:02:03 GMT',
 	},
 	darkMode: false,
