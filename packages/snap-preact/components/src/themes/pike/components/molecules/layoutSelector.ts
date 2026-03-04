@@ -39,11 +39,15 @@ const layoutSelectorStyleScript = (props: LayoutSelectorProps) => {
 		{
 			'.ss__list__options': {
 				display: 'flex',
+				flexFlow: 'nowrap',
+				gap: `${custom.spacing.x1}px`,
 				'.ss__list__option': {
-					...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`),
-					margin: 0,
+					flex: '1 1 0%',
+					width: `auto`,
 					height: `${custom.sizes.height}px`,
 					lineHeight: `${custom.sizes.height}px`,
+					margin: 0,
+					...custom.styles.box(variables?.colors?.text, `0 ${custom.spacing.x2}px`),
 				},
 				'.ss__list__option--selected': {
 					'&, &:hover': {

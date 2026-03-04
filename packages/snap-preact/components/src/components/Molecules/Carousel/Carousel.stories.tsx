@@ -189,7 +189,16 @@ export const Colors = (props: CarouselProps) => {
 	return (
 		<Carousel {...props}>
 			{colors.map((number, index) => (
-				<div style={{ height: '100px', width: '100%', background: color.lighten(index * carouselStep).hex, margin: '0 auto' }}></div>
+				<div
+					style={{
+						height: props?.vertical ? '100%' : '100px',
+						width: '100%',
+						minHeight: '1px',
+						minWidth: '1px',
+						background: color.lighten(index * carouselStep).hex,
+						margin: '0 auto',
+					}}
+				></div>
 			))}
 		</Carousel>
 	);
