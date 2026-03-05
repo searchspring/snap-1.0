@@ -107,12 +107,6 @@ export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, te
 					margin: 0,
 					'.ss__facet__header': {
 						borderBottom: 0,
-						'.ss__facet__header__inner': {
-							fontSize: 'inherit',
-							fontWeight: 'inherit',
-							color: 'inherit',
-							lineHeight: 'inherit',
-						},
 					},
 					'.ss__facet__options': {
 						'.ss__facet-hierarchy-options .ss__facet-hierarchy-options__option, .ss__facet-list-options .ss__facet-list-options__option': {

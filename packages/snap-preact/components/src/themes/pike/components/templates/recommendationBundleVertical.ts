@@ -17,6 +17,7 @@ const recommendationBundleVerticalStyleScript = (props: RecommendationBundleVert
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
 	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+
 	// bundle vertical shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle-vertical__wrapper__cta': {

@@ -198,7 +198,14 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 	]);
 
 	// swatches grid styles
-	const swatchesGridStyles = css([sharedStyles]);
+	const swatchesGridStyles = css([
+		sharedStyles,
+		{
+			'.ss__grid .ss__grid__options .ss__grid__option:not(.ss__grid__show-more-wrapper)': {
+				maxWidth: `${swatchesSize}px`,
+			},
+		},
+	]);
 
 	return props?.type == 'grid' ? swatchesGridStyles : swatchesCarouselStyles;
 };
@@ -213,7 +220,7 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 		'swatches slideshow': {
 			slidesToShow: 4,
 			gap: swatchesSpacing,
-			centerInsufficientSlides: true,
+			centerInsufficientSlides: false,
 		},
 		'swatches grid': {
 			columns: 4,

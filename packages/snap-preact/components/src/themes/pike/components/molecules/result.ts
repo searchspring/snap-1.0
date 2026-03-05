@@ -107,6 +107,13 @@ const resultStyleScript = (props: ResultProps) => {
 					{
 						marginTop: 0,
 					},
+				'.ss__result__details__variant-selection': {
+					'.ss__variant-selection': {
+						'.ss__slideshow .ss__slideshow__container .ss__slideshow__track, .ss__grid .ss__grid__options': {
+							justifyContent: 'center',
+						},
+					},
+				},
 			},
 		},
 		'&.ss__result--list': {
@@ -159,7 +166,7 @@ const resultStyleScript = (props: ResultProps) => {
 						'.ss__variant-selection': {
 							width: `calc((100% - ${custom.spacing.x2}px) / 2)`,
 							margin: 0,
-							'.ss__slideshow .ss__slideshow__container .ss__slideshow__track': {
+							'.ss__slideshow .ss__slideshow__container .ss__slideshow__track, .ss__grid .ss__grid__options': {
 								justifyContent: 'flex-start',
 							},
 						},

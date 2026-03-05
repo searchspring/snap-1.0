@@ -54,6 +54,7 @@ const autocompleteModalStyleScript = (props: AutocompleteModalProps) => {
 						flex: '1 1 0%',
 						overflowY: 'auto',
 						overflowX: 'hidden',
+						borderTopWidth: 0,
 						...custom.styles.scrollbar(),
 					},
 				},

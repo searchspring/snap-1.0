@@ -41,6 +41,9 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 						'.ss__button, .ss__search-input__button--close-search-button': {
 							width: `${searchInputHeight}px`,
 						},
+						'.ss__search-input__input': {
+							backgroundColor: custom.colors.white,
+						},
 					},
 					'.ss__autocomplete-fixed__inner__layout-wrapper': {
 						maxHeight: 'none',

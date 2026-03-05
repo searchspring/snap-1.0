@@ -37,7 +37,6 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 		},
 		'.ss__recommendation-bundle__description': {
 			fontSize: '14px',
-			fontWeight: 'normal',
 			color: variables?.colors?.text,
 		},
 		'.ss__recommendation-bundle__wrapper': {
