@@ -6,7 +6,7 @@
 	"module": "dist/esm/src/index.js",
 	"author": "Athos Commerce",
 	"license": "MIT",
-	"repository": "https://github.com/athoscommerce/snap",
+	"repository": "https://github.com/AthosCommerce/snap.git",
 	"publishConfig": {
 		"access": "public"
 	},
