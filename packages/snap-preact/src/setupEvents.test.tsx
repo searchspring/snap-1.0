@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import '@testing-library/jest-dom';
-import { EventManager } from '@searchspring/snap-event-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
 import { setupEvents } from './setupEvents';
 
 describe('setupEvents', () => {
@@ -14,7 +14,7 @@ describe('setupEvents', () => {
 	beforeAll(() => {
 		eventManager = setupEvents();
 
-		window.searchspring = {
+		window.athos = {
 			controller: {
 				search: {
 					search: makeSearchSpy,

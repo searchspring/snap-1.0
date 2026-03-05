@@ -15,7 +15,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -52,7 +52,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -88,7 +88,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -134,7 +134,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -182,7 +182,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -232,7 +232,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -271,7 +271,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -309,7 +309,7 @@ describe('plugins work based on plaform setting', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -324,6 +324,7 @@ describe('plugins work based on plaform setting', () => {
 				'pluginBackgroundFilters', // common
 				'pluginScrollToTop', // common
 				'pluginLogger', // common
+				'pluginMagento2Base',
 				'pluginMagento2BackgroundFilters',
 				'pluginMagento2AddToCart',
 			];

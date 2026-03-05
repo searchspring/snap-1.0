@@ -7,9 +7,9 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from './readme.md';
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { Next } from '@athoscommerce/snap-event-manager';
 
 export default {
 	title: 'Templates/RecommendationEmail',
@@ -78,6 +78,7 @@ export default {
 			description: 'Additional props to pass to each result component',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'Partial<ResultProps> | Record<string, any>',
 				},
@@ -88,6 +89,7 @@ export default {
 			description: 'Width of each result card',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

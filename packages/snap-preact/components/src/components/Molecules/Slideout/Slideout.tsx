@@ -1,4 +1,4 @@
-import { h, Fragment, ComponentChildren } from 'preact';
+import { h, ComponentChildren } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
 
@@ -38,7 +38,7 @@ const defaultStyles: StyleScript<SlideoutProps> = ({ slideDirection, transitionS
 	});
 };
 
-export const Slideout = observer((properties: SlideoutProps): JSX.Element => {
+export const Slideout = observer((properties: SlideoutProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -157,12 +157,11 @@ export const Slideout = observer((properties: SlideoutProps): JSX.Element => {
 			</div>
 			<Overlay {...subProps.overlay} active={isActive} onClick={toggleActive} />
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface SlideoutProps extends ComponentProps {
+export type SlideoutProps = SlideoutTemplatesLegalProps & ComponentProps<SlideoutProps>;
+export type SlideoutTemplatesLegalProps = {
 	buttonContent?: string | JSX.Element;
 	children?: ComponentChildren;
 	active?: boolean;
@@ -174,7 +173,7 @@ export interface SlideoutProps extends ComponentProps {
 	slideDirection?: SlideDirectionType;
 	rerender?: boolean;
 	buttonSelector?: string | Element;
-}
+};
 
 export type SlideDirectionType = 'top' | 'right' | 'bottom' | 'left';
 interface SlideoutSubProps {

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 import { Layout, LayoutProps } from '../Layout';
 import { ButtonProps } from '../../Atoms/Button';
 
@@ -14,7 +14,7 @@ const defaultStyles: StyleScript<ToolbarProps> = ({}) => {
 	return css({});
 };
 
-export const Toolbar = observer((properties: ToolbarProps): JSX.Element => {
+export const Toolbar = observer((properties: ToolbarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -56,12 +56,16 @@ export const Toolbar = observer((properties: ToolbarProps): JSX.Element => {
 	);
 });
 
-export interface ToolbarProps extends ComponentProps {
+export type ToolbarProps = {
 	controller: SearchController;
 	name?: ToolbarNames;
+} & ToolbarTemplatesLegalProps &
+	ComponentProps<ToolbarProps>;
+
+export type ToolbarTemplatesLegalProps = {
 	layout?: (ModuleNames | ModuleNames[])[];
 	toggleSideBarButton?: Partial<ButtonProps>;
-}
+};
 
 export type ModuleNames =
 	| 'searchHeader'

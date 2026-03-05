@@ -7,7 +7,7 @@ describe('Query', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'SearchHorizontal',
 						},
 					],
@@ -39,10 +39,10 @@ describe('Query', () => {
 		cy.on('window:before:load', (win) => {
 			win.mergeSnapConfig = {
 				autocomplete: {
-					inputSelector: 'input.searchspring-ac',
+					inputSelector: 'input.athos-ac',
 					targets: [
 						{
-							selector: 'input.searchspring-ac',
+							selector: 'input.athos-ac',
 							component: 'Autocomplete',
 						},
 					],
@@ -53,7 +53,7 @@ describe('Query', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'SearchHorizontal',
 						},
 					],

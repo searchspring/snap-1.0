@@ -1,8 +1,8 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
@@ -20,7 +20,7 @@ const defaultStyles: StyleScript<BadgeTextProps> = ({ colorText }) => {
 	});
 };
 
-export const BadgeText = observer((properties: BadgeTextProps): JSX.Element => {
+export const BadgeText = observer((properties: BadgeTextProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -42,13 +42,12 @@ export const BadgeText = observer((properties: BadgeTextProps): JSX.Element => {
 				<span className="ss__badge-text__value">{value}</span>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment />
-	);
+	) : null;
 });
 
-export interface BadgeTextProps extends ComponentProps<BadgeTextProps> {
+export type BadgeTextProps = BadgeTextTemplatesLegalProps & ComponentProps<BadgeTextProps>;
+export type BadgeTextTemplatesLegalProps = {
 	value: string;
 	colorText?: string;
 	tag?: string;
-}
+};

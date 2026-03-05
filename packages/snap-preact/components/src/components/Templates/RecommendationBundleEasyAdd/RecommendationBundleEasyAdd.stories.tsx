@@ -7,11 +7,11 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from './readme.md';
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import { iconPaths } from '../../Atoms/Icon';
-import type { RecommendationControllerConfig } from '@searchspring/snap-controller';
+import type { RecommendationControllerConfig } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Templates/RecommendationBundleEasyAdd',
@@ -79,6 +79,7 @@ export default {
 		title: {
 			description: 'recommendation title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -89,6 +90,7 @@ export default {
 		onAddToCart: {
 			description: 'onClick event handler for add bundle to cart button in CTA',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -98,6 +100,7 @@ export default {
 		seedText: {
 			description: 'Text to render in seed product badge',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -105,19 +108,10 @@ export default {
 			},
 			control: { type: 'text' },
 		},
-		vertical: {
-			description: 'set the recommendation to render vertically',
-			table: {
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: true },
-			},
-			control: { type: 'boolean' },
-		},
 		ctaButtonText: {
 			description: 'text to render in add to cart button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -128,6 +122,7 @@ export default {
 		ctaIcon: {
 			desciption: 'The `ctaIcon` prop specifies the icon to render in the CTA. Takes an object with `Icon` component props or a string.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -141,6 +136,7 @@ export default {
 		ctaButtonSuccessText: {
 			description: 'text to temporarily render in the add to cart button after it is clicked',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -152,6 +148,7 @@ export default {
 			description: 'Number of ms to show success text in add to cart button before reverting back to normal text',
 			defaultValue: 2000,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -161,6 +158,7 @@ export default {
 		ctaInline: {
 			description: 'boolean to enable the stacked add to cart button display',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -171,6 +169,7 @@ export default {
 		ctaSlot: {
 			description: 'Slot for custom add to cart component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'component',
 				},
@@ -183,6 +182,7 @@ export default {
 				offset: '10%',
 			},
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -199,7 +199,7 @@ const config: RecommendationControllerConfig = {
 	tag: 'bundle',
 	globals: {
 		siteId: 'atkzs2',
-		products: ['C-AD-W1-1869P'],
+		products: ['VW1982-UQZ-AS'],
 	},
 };
 

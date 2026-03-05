@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 import { Client } from './Client';
 import type { ClientConfig } from '../types';
-import { MockData } from '@searchspring/snap-shared';
-import { AppMode, version } from '@searchspring/snap-toolbox';
+import { MockData } from '@athoscommerce/snap-shared';
+import { AppMode, version } from '@athoscommerce/snap-toolbox';
 
 const mockData = new MockData();
 
@@ -181,14 +181,13 @@ describe('Snap Client', () => {
 				method: 'GET',
 				path: '/v1/suggest',
 				query: {
-					disableSpellCorrect: true,
 					language: 'en',
 					query: 'hello',
 					siteId: '8uyt2m',
 					suggestionCount: 5,
 				},
 			};
-			const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5,"disableSpellCorrect":true}';
+			const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5}';
 
 			expect(suggestRequesterSpy).toHaveBeenCalledTimes(1);
 			expect(suggestRequesterSpy.mock.calls).toEqual([
@@ -439,14 +438,13 @@ describe('Snap Client', () => {
 					method: 'GET',
 					path: '/v1/suggest',
 					query: {
-						disableSpellCorrect: true,
 						language: 'en',
 						query: 'hello',
 						siteId: '8uyt2m',
 						suggestionCount: 5,
 					},
 				};
-				const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5,"disableSpellCorrect":true}';
+				const suggestCacheKey = '{"siteId":"8uyt2m","language":"en","query":"hello","suggestionCount":5}';
 
 				expect(suggestRequesterSpy).toHaveBeenCalledTimes(1);
 				expect(suggestRequesterSpy.mock.calls).toEqual([

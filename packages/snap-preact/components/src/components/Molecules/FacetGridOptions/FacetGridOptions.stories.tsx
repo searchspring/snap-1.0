@@ -7,7 +7,7 @@ import { FacetGridOptions, FacetGridOptionsProps } from './FacetGridOptions';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FacetGridOptions/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/FacetGridOptions',
@@ -63,6 +63,7 @@ export default {
 			defaultValue: 4,
 			description: 'Number of columns in grid. Not applicable if using horizontal prop',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -74,6 +75,7 @@ export default {
 			defaultValue: '45px',
 			description: 'Size of each grid item. Does not apply if using `columns` prop',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -85,6 +87,7 @@ export default {
 			defaultValue: '8px',
 			description: 'Gap size between rows and columns',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -96,6 +99,7 @@ export default {
 			defaultValue: false,
 			description: 'Render facet options horizontally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -106,6 +110,7 @@ export default {
 		previewOnFocus: {
 			description: 'Invoke facet value preview upon focus',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -116,6 +121,7 @@ export default {
 		valueProps: {
 			description: 'Object of facet value props',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -126,6 +132,7 @@ export default {
 		onClick: {
 			description: 'Facet option click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -140,8 +147,7 @@ export default {
 const snapInstance = Snapify.search({ id: 'FacetGridOptions', globals: { siteId: 'atkzs2' } });
 
 const ObservableFacetGridOptions = observer(({ args, controller }: { args: FacetGridOptionsProps; controller: SearchController }) => {
-	const sizeFacet = controller?.store?.facets.filter((facet) => facet.field == 'color').pop();
-
+	const sizeFacet = controller?.store?.facets.filter((facet) => facet.field == 'size').pop();
 	return <FacetGridOptions {...args} values={sizeFacet.values} />;
 });
 

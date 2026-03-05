@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useRef, useState, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
@@ -14,7 +14,7 @@ import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { ComponentProps, FacetDisplay, StyleScript } from '../../../types';
-import type { ValueFacet, RangeFacet, FacetHierarchyValue, FacetValue, FacetRangeValue } from '@searchspring/snap-store-mobx';
+import type { ValueFacet, RangeFacet, FacetHierarchyValue, FacetValue, FacetRangeValue } from '@athoscommerce/snap-store-mobx';
 
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -23,7 +23,7 @@ import { useA11y } from '../../../hooks/useA11y';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Button, ButtonProps } from '../../Atoms/Button';
-import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
+import { fieldNameToComponentName } from '@athoscommerce/snap-toolbox';
 import { LangAttributesObj } from '../../../hooks/useLang';
 
 const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme }) => {
@@ -122,7 +122,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 	});
 };
 
-export const Facet = observer((properties: FacetProps): JSX.Element => {
+export const Facet = observer((properties: FacetProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -167,6 +167,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		iconCollapse,
 		iconExpand,
 		limit,
+		statefulOverflow,
 		disableOverflow,
 		iconColor,
 		color,
@@ -202,14 +203,14 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			// default props
 			internalClassName: 'ss__facet__dropdown__icon',
 			size: '12px',
-			color: iconColor || color,
+			fill: iconColor || color,
 			// inherited props
 			...defined({
 				disableStyles,
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		button: {
 			// inherited props
@@ -218,13 +219,13 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 			}),
 			// component theme overrides
 			theme: props?.theme,
-			treePath,
+			treePath: `${treePath} dropdown`,
 		},
 		showMoreLessIcon: {
 			// default props
 			internalClassName: 'ss__facet__show-more-less__icon',
 			size: '10px',
-			color: iconColor || color,
+			fill: iconColor || color,
 			// inherited props
 			...defined({
 				disableStyles,
@@ -325,9 +326,89 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 	};
 
 	let limitedValues: Array<FacetHierarchyValue | FacetValue | FacetRangeValue | undefined>;
+
+	function escapeRegExp(string: string) {
+		return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+	}
+
+	const [overflowState, setOverflowState] = useState<overflowStateType | undefined>();
+
+	useEffect(() => {
+		if (statefulOverflow) {
+			const interalOverflow: {
+				enabled: boolean;
+				limited: boolean;
+				limit: number;
+				remaining: number | undefined;
+				setLimit: (limit: number) => void;
+				toggle: (val?: boolean) => void;
+				calculate: () => void;
+			} = {
+				enabled: false,
+				limited: true,
+				limit: 0,
+				remaining: undefined,
+				setLimit: function (limit: number) {
+					if (limit != this.limit) {
+						this.enabled = true;
+						this.limit = limit;
+						this.calculate();
+					}
+				},
+				toggle: function (val?: boolean) {
+					if (typeof val != 'undefined') {
+						this.limited = val;
+					} else {
+						this.limited = !this.limited;
+					}
+
+					this.calculate();
+				},
+				calculate: function () {
+					if (this.limit > 0) {
+						const remaining = (facet as ValueFacet)?.values?.length - this.limit;
+
+						if (remaining > 0 && !(facet as ValueFacet)?.search?.input) {
+							this.enabled = true;
+
+							if (this.limited) {
+								this.remaining = remaining;
+							} else {
+								this.remaining = 0;
+							}
+						} else {
+							this.enabled = false;
+						}
+					}
+
+					setOverflowState({ ...this });
+				},
+			};
+
+			setOverflowState(interalOverflow);
+		}
+	}, []);
+
 	if ((facet as ValueFacet)?.overflow && limit && Number.isInteger(limit) && !disableOverflow) {
-		(facet as ValueFacet).overflow?.setLimit(limit);
-		limitedValues = (facet as ValueFacet)?.refinedValues;
+		if (statefulOverflow) {
+			let values = (facet as ValueFacet)?.values || [];
+
+			if ((facet as ValueFacet)?.search?.input) {
+				const search = new RegExp(escapeRegExp((facet as ValueFacet)?.search?.input), 'i');
+				values = (facet as ValueFacet)?.values.filter((value) => String(value?.label || '').match(search));
+			}
+
+			if (overflowState?.enabled && overflowState?.limited) {
+				values = values.slice(0, overflowState?.limit);
+			}
+			if (overflowState?.limit !== limit) {
+				overflowState?.setLimit(limit);
+			}
+			limitedValues = values;
+		} else {
+			(facet as ValueFacet).overflow?.setLimit(limit);
+			limitedValues = (facet as ValueFacet)?.refinedValues;
+		}
 	} else if ((facet as ValueFacet)?.overflow && Number.isInteger(limit)) {
 		limitedValues = (facet as ValueFacet)?.values.slice(0, limit);
 	} else {
@@ -338,7 +419,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 
 	// Search within facet
 	const searchableFacet = {
-		allowableTypes: ['list', 'grid', 'palette'],
+		allowableTypes: properties.treePath?.includes('autocomplete') ? [] : ['list', 'grid', 'palette'],
 		searchFilter: (e: React.ChangeEvent<HTMLInputElement>) => {
 			if ((facet as ValueFacet)?.search) {
 				(facet as ValueFacet).search.input = e.target.value;
@@ -353,6 +434,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 
 	const facetContentProps = {
 		limitedValues,
+		overflowState,
 		searchableFacet,
 		subProps,
 		className,
@@ -389,7 +471,10 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 		facet,
 	});
 
-	const selectedCount = (facet as ValueFacet)?.values?.filter((value) => value?.filtered).length;
+	const selectedCount =
+		(facet as ValueFacet)?.values?.filter((value) => value?.filtered).length ||
+		(facet as RangeFacet)?.active?.high !== (facet as RangeFacet)?.range?.high ||
+		(facet as RangeFacet)?.active?.low !== (facet as RangeFacet)?.range?.low;
 
 	return facet && renderFacet ? (
 		<CacheProvider>
@@ -402,7 +487,9 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 					className,
 					internalClassName,
 					`${facet.display ? `ss__facet--${facet.display}` : ''}`,
-					((facet as ValueFacet)?.overflow?.remaining || 0) > 0 || facet?.display == 'slider' ? '' : 'ss__facet--showing-all'
+					(statefulOverflow ? overflowState?.remaining || 0 > 0 : ((facet as ValueFacet)?.overflow?.remaining || 0) > 0) || facet?.display == 'slider'
+						? ''
+						: 'ss__facet--showing-all'
 				)}
 			>
 				{justContent ? (
@@ -421,9 +508,9 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 								aria-level={3}
 								{...mergedLang.dropdownButton.attributes}
 							>
-								<div className="ss__facet__header__inner">
+								<span className="ss__facet__header__inner">
 									<span {...mergedLang.dropdownButton.value}>{facet?.label}</span>
-									{showSelectedCount && selectedCount ? (
+									{showSelectedCount && selectedCount && facet.type !== 'range' ? (
 										<span className="ss__facet__header__selected-count">{hideSelectedCountParenthesis ? selectedCount : `(${selectedCount})`}</span>
 									) : null}
 									{(mergedLang.clearAllText.value || clearAllIcon) && selectedCount ? (
@@ -442,7 +529,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 									) : (
 										<></>
 									)}
-								</div>
+								</span>
 								{!disableCollapse && (
 									<Icon
 										{...subProps.icon}
@@ -450,7 +537,6 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 											? { ...(typeof iconExpand == 'string' ? { icon: iconExpand } : (iconExpand as Partial<IconProps>)) }
 											: { ...(typeof iconCollapse == 'string' ? { icon: iconCollapse } : (iconCollapse as Partial<IconProps>)) })}
 										name={facet?.collapsed ? 'expand' : 'collapse'}
-										treePath={props.treePath}
 									/>
 								)}
 							</div>
@@ -461,9 +547,7 @@ export const Facet = observer((properties: FacetProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 const FacetContent = (
@@ -475,6 +559,7 @@ const FacetContent = (
 		};
 		subProps: FacetSubProps;
 		mergedLang: LangAttributesObj;
+		overflowState?: overflowStateType;
 	}
 ) => {
 	const {
@@ -484,6 +569,7 @@ const FacetContent = (
 		internalClassName,
 		limitedValues,
 		facet,
+		statefulOverflow,
 		limit,
 		overflowSlot,
 		optionsSlot,
@@ -535,8 +621,15 @@ const FacetContent = (
 
 	const submitButtonRef: MutableRef<any> = useRef();
 
+	let overflowState: overflowStateType | undefined;
+	if (!statefulOverflow) {
+		overflowState = (facet as ValueFacet).overflow;
+	} else {
+		overflowState = props.overflowState;
+	}
+
 	return (
-		<Fragment>
+		<>
 			{searchable && searchableFacet.allowableTypes.includes(facet.display) && (
 				<SearchInput
 					{...subProps.searchInput}
@@ -670,34 +763,28 @@ const FacetContent = (
 				</div>
 			)}
 
-			{!disableOverflow && (facet as ValueFacet)?.overflow?.enabled && (
-				<div
-					className="ss__facet__show-more-less"
-					aria-live="polite"
-					onClick={() => (facet as ValueFacet).overflow?.toggle()}
-					ref={(e) => useA11y(e)}
-				>
+			{!disableOverflow && overflowState?.enabled && (
+				<div className="ss__facet__show-more-less" aria-live="polite" onClick={() => overflowState?.toggle()} ref={(e) => useA11y(e)}>
 					{overflowSlot ? (
 						cloneWithProps(overflowSlot, { facet, treePath })
 					) : (
-						<Fragment>
+						<>
 							<Icon
 								{...subProps.showMoreLessIcon}
 								treePath={treePath}
-								{...(((facet as ValueFacet).overflow?.remaining || 0) > 0
+								name={(overflowState?.remaining || 0) > 0 ? 'overflow-more' : 'overflow-less'}
+								{...((overflowState?.remaining || 0) > 0
 									? { ...(typeof iconOverflowMore == 'string' ? { icon: iconOverflowMore } : (iconOverflowMore as Partial<IconProps>)) }
 									: { ...(typeof iconOverflowLess == 'string' ? { icon: iconOverflowLess } : (iconOverflowLess as Partial<IconProps>)) })}
 							/>
 							{!hideShowMoreLessText && (
-								<span
-									{...(((facet as ValueFacet)?.overflow?.remaining || 0) > 0 ? mergedLang!.showMoreText?.all : mergedLang!.showLessText?.all)}
-								></span>
+								<span {...((overflowState?.remaining || 0) > 0 ? mergedLang!.showMoreText?.all : mergedLang!.showLessText?.all)}></span>
 							)}
-						</Fragment>
+						</>
 					)}
 				</div>
 			)}
-		</Fragment>
+		</>
 	);
 };
 
@@ -715,17 +802,20 @@ interface FacetSubProps {
 	showMoreLessIcon: Partial<IconProps>;
 }
 
-export interface FacetProps extends OptionalFacetProps {
+export type FacetProps = {
+	lang?: Partial<FacetLang>;
 	facet: ValueFacet | RangeFacet;
-}
+} & FacetTemplatesLegalProps &
+	ComponentProps<FacetProps>;
 
-interface OptionalFacetProps extends ComponentProps {
+export type FacetTemplatesLegalProps = {
 	disableCollapse?: boolean;
 	color?: string;
 	iconCollapse?: IconType | Partial<IconProps>;
 	iconColor?: string;
 	iconExpand?: IconType | Partial<IconProps>;
 	limit?: number;
+	statefulOverflow?: boolean;
 	overflowSlot?: JSX.Element | JSX.Element[];
 	optionsSlot?: JSX.Element | JSX.Element[];
 	disableOverflow?: boolean;
@@ -751,8 +841,7 @@ interface OptionalFacetProps extends ComponentProps {
 	rangeInputsSeparatorText?: string;
 	justContent?: boolean;
 	horizontal?: boolean;
-	lang?: Partial<FacetLang>;
-}
+};
 
 export interface FacetLang {
 	showMoreText: Lang<{
@@ -774,4 +863,14 @@ export interface FacetLang {
 
 type FieldProps = {
 	[variable: string]: Omit<FacetProps, 'facet'>;
+};
+
+type overflowStateType = {
+	enabled: boolean;
+	limited: boolean;
+	limit: number;
+	remaining: number | undefined;
+	setLimit: (limit: number) => void;
+	toggle: (val?: boolean) => void;
+	calculate: () => void;
 };

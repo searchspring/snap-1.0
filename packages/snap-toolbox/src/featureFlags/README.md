@@ -2,7 +2,7 @@
 This utility provides a way to check for browser feature support.
 
 ```js
-import { getFlags, featureFlags } from '@searchspring/snap-toolbox';
+import { getFlags, featureFlags } from '@athoscommerce/snap-toolbox';
 ```
 
 ## `getFlags` method

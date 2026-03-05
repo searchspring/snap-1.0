@@ -1,4 +1,4 @@
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { SuggestAPI, RecommendAPI, ApiConfiguration, SearchAPI, MetaAPI } from './apis';
 
 import type {
@@ -133,20 +133,16 @@ export class Client {
 			suggestionCount: (params.suggestions || {}).count || 5,
 		};
 
-		if (!((params.search || {}).query || {}).spellCorrection) {
+		if (params.search?.query?.spellCorrection === false) {
 			suggestParams.disableSpellCorrect = true;
 		}
 
 		const suggestResults = await this.requesters.suggest.getSuggest(suggestParams);
 		const transformedSuggestResults = transformSuggestResponse(suggestResults);
 
-		// Determine the query to use for the search request.
-		// suggested text → correctedQuery → original query.
-		let q: string | undefined =
-			(transformedSuggestResults.suggested || {}).text || transformedSuggestResults.correctedQuery || transformedSuggestResults.query;
-		if (this.requesters.suggest.configuration?.globals?.integratedSpellCorrection) {
-			q = (transformedSuggestResults.suggested || {}).text || transformedSuggestResults.query || transformedSuggestResults.correctedQuery;
-		}
+		// determine the query to use for the search request
+		// suggested text → original query → correctedQuery
+		const q = (transformedSuggestResults.suggested || {}).text || transformedSuggestResults.query || transformedSuggestResults.correctedQuery;
 
 		params.search = params.search || {};
 		params.search.redirectResponse = 'full' as AutocompleteRequestModelSearchRedirectResponseEnum;

@@ -36,6 +36,7 @@ export default {
 				type: {
 					summary: 'string, JSX',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -45,6 +46,7 @@ export default {
 				type: {
 					summary: 'string, JSX',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},
@@ -54,6 +56,7 @@ export default {
 				type: {
 					summary: 'string, JSX',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 		},
@@ -63,6 +66,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -73,6 +77,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -83,6 +88,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -93,6 +99,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: 'undefined' },
 			},
 			control: { type: 'boolean' },
@@ -103,6 +110,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -113,6 +121,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -123,6 +132,7 @@ export default {
 				type: {
 					summary: 'function(e: Event)',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onClick',
@@ -133,6 +143,7 @@ export default {
 				type: {
 					summary: 'function(e: Event)',
 				},
+				category: 'Templates Legal',
 			},
 			action: 'onMouseEnter',
 		},
@@ -142,6 +153,7 @@ export default {
 				type: {
 					summary: 'function(e: Event)',
 				},
+				category: 'Templates Legal',
 			},
 			action: 'onMouseLeave',
 		},
@@ -151,6 +163,7 @@ export default {
 				type: {
 					summary: 'boolean',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: false },
 			},
 			control: { type: 'boolean' },
@@ -161,34 +174,44 @@ export default {
 				type: {
 					summary: 'function(e: Event, open: boolean)',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'none' },
 			action: 'onToggle',
 		},
 		focusTrapContent: {
 			description: 'boolean to enable ally focustrap',
-			disableClick: {
-				description: 'boolean to disable clicking of the button',
-				table: {
-					type: {
-						summary: 'boolean',
-					},
-					defaultValue: { summary: false },
+			table: {
+				type: {
+					summary: 'boolean',
 				},
-				control: { type: 'boolean' },
+				category: 'Templates Legal',
 			},
-			disableA11y: {
-				description: 'boolean to disable autoset ally properties',
-				table: {
-					type: {
-						summary: 'boolean',
-					},
-					defaultValue: { summary: false },
-				},
-				control: { type: 'boolean' },
-			},
-			...componentArgs,
+			control: { type: 'boolean' },
 		},
+		disableClick: {
+			description: 'boolean to disable clicking of the button',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				category: 'Templates Legal',
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		disableA11y: {
+			description: 'boolean to disable autoset ally properties',
+			table: {
+				type: {
+					summary: 'boolean',
+				},
+				category: 'Templates Legal',
+				defaultValue: { summary: false },
+			},
+			control: { type: 'boolean' },
+		},
+		...componentArgs,
 	},
 };
 

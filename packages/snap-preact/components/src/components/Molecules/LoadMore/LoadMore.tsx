@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useRef, useState } from 'preact/hooks';
 import { jsx, css, keyframes } from '@emotion/react';
 import classnames from 'classnames';
@@ -9,8 +9,8 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { ComponentProps, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Lang, useIntersection, useLang } from '../../../hooks';
-import type { SearchPaginationStore } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchPaginationStore } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
 import { useFuncDebounce } from '../../../hooks';
@@ -21,11 +21,8 @@ const defaultStyles: StyleScript<LoadMoreProps> = ({ pagination, progressIndicat
 		flexDirection: 'column',
 		alignItems: 'center',
 		gap: '20px',
-
 		'& .ss__load-more__button--disabled': {
 			opacity: 0.7,
-			borderColor: 'rgba(51,51,51,0.7)',
-			backgroundColor: 'initial',
 			pointerEvents: 'none',
 			'&:hover': {
 				cursor: 'default',
@@ -68,7 +65,7 @@ const defaultStyles: StyleScript<LoadMoreProps> = ({ pagination, progressIndicat
 	});
 };
 
-export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
+export const LoadMore = observer((properties: LoadMoreProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<LoadMoreProps> = {
@@ -134,7 +131,7 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 	};
 
 	if (!store) {
-		return <Fragment></Fragment>;
+		return null;
 	}
 
 	const styling = mergeStyles<LoadMoreProps>({ ...props, pagination: store }, defaultStyles);
@@ -192,7 +189,7 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 				)}
 			>
 				{!autoFetch && (
-					<Fragment>
+					<>
 						<Button
 							onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
 								store.next?.url.go({ history: 'replace' });
@@ -204,20 +201,18 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 							<span {...mergedLang.loadMoreButton.value}>{loadMoreText}</span>
 							{loadingIcon && isLoading && loadingLocation === 'button' ? (
 								<Icon {...subProps.icon} {...(typeof loadingIcon == 'string' ? { icon: loadingIcon } : (loadingIcon as Partial<IconProps>))} />
-							) : (
-								<Fragment></Fragment>
-							)}
+							) : null}
 						</Button>
 
 						{loadingIcon && isLoading && loadingLocation === 'outside' && (
 							<Icon {...subProps.icon} {...(typeof loadingIcon == 'string' ? { icon: loadingIcon } : (loadingIcon as Partial<IconProps>))} />
 						)}
-					</Fragment>
+					</>
 				)}
 
 				{(!hideProgressIndicator || !hideProgressText) && (
 					<div className={'ss__load-more__progress'}>
-						<Fragment>
+						<>
 							{!hideProgressIndicator && (
 								<div className={'ss__load-more__progress__indicator'}>
 									<div className={`ss__load-more__progress__indicator__bar`}></div>
@@ -226,14 +221,12 @@ export const LoadMore = observer((properties: LoadMoreProps): JSX.Element => {
 							{!hideProgressText && (
 								<div aria-atomic="true" aria-live="polite" className={'ss__load-more__progress__text'} {...mergedLang.progressText?.all}></div>
 							)}
-						</Fragment>
+						</>
 					</div>
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface LoadMoreSubProps {
@@ -241,9 +234,14 @@ interface LoadMoreSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface LoadMoreProps extends ComponentProps {
+export type LoadMoreProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
+	lang?: Partial<LoadMoreLang>;
+} & LoadMoreTemplatesLegalProps &
+	ComponentProps<LoadMoreProps>;
+
+export type LoadMoreTemplatesLegalProps = {
 	autoFetch?: boolean;
 	intersectionOffset?: string;
 	loading?: boolean;
@@ -257,8 +255,7 @@ export interface LoadMoreProps extends ComponentProps {
 	loadingIcon?: IconType | Partial<IconProps>;
 	loadingLocation?: 'button' | 'outside';
 	onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-	lang?: Partial<LoadMoreLang>;
-}
+};
 
 export interface LoadMoreLang {
 	loadMoreButton: Lang<{

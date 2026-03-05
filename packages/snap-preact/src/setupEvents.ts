@@ -1,6 +1,6 @@
-import { AbstractController } from '@searchspring/snap-controller';
-import { EventManager, Next } from '@searchspring/snap-event-manager';
-import { Product, SearchStore } from '@searchspring/snap-store-mobx';
+import { AbstractController } from '@athoscommerce/snap-controller';
+import { EventManager, Next } from '@athoscommerce/snap-event-manager';
+import { Product, SearchStore } from '@athoscommerce/snap-store-mobx';
 
 type ControllerSelectVariantOptionsData = {
 	options: Record<string, string[]>;
@@ -53,8 +53,8 @@ export const setupEvents = () => {
 };
 
 const matchControllers = (matchIds: (string | RegExp)[] | undefined): AbstractController[] => {
-	return Object.keys(window.searchspring.controller || {}).reduce((arr, id) => {
-		const controller = window.searchspring.controller[id] as AbstractController;
+	return Object.keys(window.athos.controller || {}).reduce((arr, id) => {
+		const controller = window.athos.controller[id] as AbstractController;
 
 		if (!matchIds) {
 			arr.push(controller);

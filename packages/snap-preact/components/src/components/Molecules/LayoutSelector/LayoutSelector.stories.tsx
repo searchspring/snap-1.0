@@ -43,6 +43,7 @@ export default {
 			description: 'onSelect event handler',
 			type: { required: true },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'onSelect event handler',
 				},
@@ -52,6 +53,7 @@ export default {
 		type: {
 			description: 'type of Select to render.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: '"dropdown" | "list" | "radio"',
 				},
@@ -65,6 +67,7 @@ export default {
 		label: {
 			description: 'Header label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -75,6 +78,7 @@ export default {
 			defaultValue: false,
 			description: 'hide selector label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -86,6 +90,7 @@ export default {
 			defaultValue: false,
 			description: 'hide option labels',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -106,6 +111,7 @@ export default {
 			defaultValue: false,
 			description: 'specifies if the component should render if the provided options prop contains a single option',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

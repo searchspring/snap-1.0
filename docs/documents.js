@@ -477,16 +477,6 @@ var documents = [
 				type: 'markdown',
 				url: './packages/snap-tracker/README.md',
 				searchable: true,
-				// TODO: Include when beacon.js repo is public
-				// links: [
-				// 	{
-				// 		label: 'beacon.js',
-				// 		route: '/snap-tracking-beacon-js',
-				// 		type: 'markdown',
-				// 		url: 'https://github.com/searchspring/beacon.js/blob/main/README.md',
-				// 		searchable: true,
-				// 	},
-				// ],
 			},
 			{
 				label: 'Variants',
@@ -577,21 +567,21 @@ var documents = [
 			{
 				label: 'Github Repository',
 				type: 'external',
-				url: 'https://github.com/searchspring/snap',
+				url: 'https://github.com/athoscommerce/snap',
 				icon: 'fas fa-external-link-alt fa-1x',
 				searchable: false,
 			},
 			{
 				label: 'Discussions',
 				type: 'external',
-				url: 'https://github.com/searchspring/snap/discussions',
+				url: 'https://github.com/athoscommerce/snap/discussions',
 				icon: 'fas fa-external-link-alt fa-1x',
 				searchable: false,
 			},
 			{
 				label: 'Report an Issue',
 				type: 'external',
-				url: 'https://github.com/searchspring/snap/issues',
+				url: 'https://github.com/athoscommerce/snap/issues',
 				icon: 'fas fa-external-link-alt fa-1x',
 				searchable: false,
 			},

@@ -4,8 +4,8 @@ import { render } from '@testing-library/preact';
 import { ThemeProvider } from '../../../providers';
 
 import { FacetGridOptions } from './FacetGridOptions';
-import type { FacetValue } from '@searchspring/snap-store-mobx';
-import { MockData } from '@searchspring/snap-shared';
+import type { FacetValue } from '@athoscommerce/snap-store-mobx';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();

@@ -151,7 +151,7 @@ On your product page templates, add these attributes to the clickable variant se
 - `ss-variant-option="${field}:${value}"` on each option element (e.g. "Color:Blue")
 - `ss-variant-option-selected` on currently selected options
 
-Alternatively, you can use the `controller/selectVariantOptions` global event to programmatically select variants. See [Global Events](https://searchspring.github.io/snap/#/start-preact-events) for details.
+Alternatively, you can use the `controller/selectVariantOptions` global event to programmatically select variants. See [Global Events](https://athoscommerce.github.io/snap/#/start-preact-events) for details.
 
 **Example:**
 The following shows color and size selectors with "Night" and "S" selected:

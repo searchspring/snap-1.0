@@ -2,7 +2,7 @@
 Contains a collection of methods used to transform strings or numbers into common variations.
 
 ```js
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 ```
 
 ## `formatNumber` method

@@ -9,3 +9,5 @@ export {
 	pluginMagento2AddToCart as pluginAddToCart,
 	PluginMagento2AddToCartConfig as PluginAddToCartConfig,
 } from './plugins/pluginMagento2AddToCart';
+
+export { pluginMagento2Base as pluginBase, PluginMagento2BaseConfig as PluginBaseConfig } from './plugins/pluginMagento2Base';

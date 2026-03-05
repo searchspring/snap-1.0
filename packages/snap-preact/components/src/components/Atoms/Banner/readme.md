@@ -6,11 +6,11 @@ This `Banner` component does not support inline banners. See `InlineBanner` comp
 
 ## Usage
 ```jsx
-import { Banner } from '@searchspring/snap-preact-components';
+import { Banner } from '@athoscommerce/snap-preact-components';
 ```
 
 ### content
-The required `content` prop specifies an object of banners returned from the Searchspring API.
+The required `content` prop specifies an object of banners returned from the athos API.
 
 ```jsx
 <Banner content={controller?.store?.merchandising?.content} type={'header'} />

@@ -2,7 +2,7 @@
 This utility function parses a given url.
 
 ```js
-import { url } from '@searchspring/snap-toolbox';
+import { url } from '@athoscommerce/snap-toolbox';
 ```
 
 The function takes a single required parameter containing a url string and returns an object with the following properties:

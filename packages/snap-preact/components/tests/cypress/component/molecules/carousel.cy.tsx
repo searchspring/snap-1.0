@@ -1,7 +1,7 @@
 import { Carousel } from '../../../../src/components/Molecules/Carousel';
 import { Scrollbar } from 'swiper/modules';
 import { mount } from '@cypress/react';
-import { ThemeProvider } from '../../../../src/providers';
+import { Theme, ThemeProvider } from '../../../../src/providers';
 
 const theme = {
 	components: {
@@ -346,7 +346,7 @@ describe('Carousel Component', async () => {
 		// Change the viewport to 1200px.
 		cy.viewport(1200, 750);
 
-		const componentTheme = {
+		const componentTheme: Theme = {
 			components: {
 				icon: {
 					icon: 'ban',

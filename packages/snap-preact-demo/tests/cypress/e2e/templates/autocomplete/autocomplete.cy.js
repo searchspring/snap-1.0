@@ -14,7 +14,7 @@ const config = {
 	disableGA: '', // disable google analytic events (example: 'UA-123456-1')
 	selectors: {
 		website: {
-			openInputButton: 'input.searchspring-ac', // selector for a button to click in order to make the input visible
+			openInputButton: 'input.athos-ac', // selector for a button to click in order to make the input visible
 			input: '.autocomplete-fixed__search-input input', // selector of <input> elements (config.controllers[].autocomplete[].config.selector)
 		},
 		autocomplete: {
@@ -44,7 +44,7 @@ describe('Autocomplete', () => {
 
 			cy.waitForBundle().then(() => {
 				cy.window().then((window) => {
-					expect(window.searchspring).to.exist;
+					expect(window.athos).to.exist;
 				});
 			});
 
@@ -68,10 +68,10 @@ describe('Autocomplete', () => {
 				// ensuring trending.showResults is set
 				win.mergeSnapConfig = {
 					autocomplete: {
-						inputSelector: 'input.searchspring-ac',
+						inputSelector: 'input.athos-ac',
 						targets: [
 							{
-								selector: 'input.searchspring-ac',
+								selector: 'input.athos-ac',
 								component: 'AutocompleteFixed',
 							},
 						],

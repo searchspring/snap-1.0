@@ -32,11 +32,11 @@ controller.store.results.map(result => {
 ```
 
 ### Impressions
-Impression tracking occurs when products come into the viewport. It is recommended to use the `withTracking` hook within custom product result cards to track impressions. Alternatively, the `ResultTracker` component can be used to track impressions as well - be aware that this component adds an additional wrapping element. This does not need to be implemented if using the default `Result` component from @searchspring/snap-preact-components or default Autocomplete component without custom result cards.
+Impression tracking occurs when products come into the viewport. It is recommended to use the `withTracking` hook within custom product result cards to track impressions. Alternatively, the `ResultTracker` component can be used to track impressions as well - be aware that this component adds an additional wrapping element. This does not need to be implemented if using the default `Result` component from @athoscommerce/snap-preact-components or default Autocomplete component without custom result cards.
 
 ### Typical Tracking Integration Example
 ```jsx
-import { withTracking } from '@searchspring/snap-preact-components';
+import { withTracking } from '@athoscommerce/snap-preact-components';
 
 const Results = withController((props) => {
 	const { controller } = props;
@@ -75,7 +75,7 @@ Note that a `key` is required on the custom result component to ensure that the 
 ### Alternative Tracking Integration Example using `ResultTracker`
 
 ```jsx
-import { ResultTracker } from '@searchspring/snap-preact-components';
+import { ResultTracker } from '@athoscommerce/snap-preact-components';
 
 const Results = withController((props) => {
 	const { controller } = props;
@@ -103,11 +103,11 @@ const Results = withController((props) => {
 ## Events invoked outside of the integration code
 
 > [!NOTE]
-> If using Shopify and you have installed Searchspring's Shopify Pixel Tracking extension, the following events will be tracked by the extension and integrating these events is not required.
+> If using Shopify and you have installed Athos's Shopify Pixel Tracking extension, the following events will be tracked by the extension and integrating these events is not required.
 
 Some reports rely on beacon data that is tracked outside of the main integration code. To ensure accurate reporting, these tracking events should be implemented on the relevant pages. Note that these tracking methods require the `bundle.js` script to be present on any page where they are used.
 
-If you are unable to render the contents in the DOM due to caching or other limitations, you can instead call the corresponding tracking method directly using the global `window.searchspring.tracker` object.
+If you are unable to render the contents in the DOM due to caching or other limitations, you can instead call the corresponding tracking method directly using the global `window.athos.tracker` object.
 
 
 ### Shopper Login
@@ -117,17 +117,17 @@ Identifies the logged-in user. Should be invoked if a user is logged into their 
 - (Recommended) using the `shopper.id` context variable on the main `/bundle.js` script.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	shopper = {
 		id: '[REPLACE WITH LOGGED IN SHOPPER ID]'
 	};
 </script>
 ```
 
-- (Alternative) using the global `searchspring.tracker.track.shopper.login` method.
+- (Alternative) using the global `athos.tracker.track.shopper.login` method.
 
 ```js
-searchspring.tracker.events.shopper.login({
+athos.tracker.events.shopper.login({
 	data: {
 		id: '[REPLACE WITH LOGGED IN SHOPPER ID]'
 	}
@@ -140,17 +140,17 @@ Defines the currency of the shopper. This is not required if the storefront is c
 - (Recommended) using the `currency` context variable on the main `/bundle.js` script.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	currency = {
 		code: 'EUR'
 	};
 </script>
 ```
 
-- (Alternative) using the global `searchspring.tracker.setCurrency` method.
+- (Alternative) using the global `athos.tracker.setCurrency` method.
 
 ```js
-searchspring.tracker.setCurrency({
+athos.tracker.setCurrency({
 	code: 'EUR'
 })
 ```
@@ -160,7 +160,7 @@ searchspring.tracker.setCurrency({
 Tracks product page views. Should only be installed on product detail pages. A `parentId` and `uid` are required while  `sku` is optional.
 
 ```js
-searchspring.tracker.events.product.pageView({
+athos.tracker.events.product.pageView({
 	data: {
 		result: {
 			parentId: 'product123',
@@ -190,7 +190,7 @@ Tracks order transaction. Should be invoked from an order confirmation page. Exp
 | `results[].price` | number | ➖ | Product price |
 
 ```js
-searchspring.tracker.events.order.transaction({
+athos.tracker.events.order.transaction({
 	data: {
 		orderId: '123456',
 		transactionTotal: 31.97,
@@ -238,7 +238,7 @@ This requires integrating into platform cart events or manually attaching click 
 | `(results \| cart)[].price` | number | ➖ | Product price |
 
 ```js
-searchspring.tracker.events.cart.add({
+athos.tracker.events.cart.add({
 	data: {
 		results: [
 			{
@@ -263,7 +263,7 @@ searchspring.tracker.events.cart.add({
 ```
 
 ```js
-searchspring.tracker.events.cart.remove({
+athos.tracker.events.cart.remove({
 	data: {
 		results: [
 			{
@@ -284,7 +284,7 @@ searchspring.tracker.events.cart.remove({
 This method will compare the provided cart contents with the current cart contents stored in local storage and only send events if there are differences.
 
 ```html
-<script src="https://snapui.searchspring.io/[your_site_id]/bundle.js" id="searchspring-context">
+<script src="https://snapui.athoscommerce.io/[your_site_id]/bundle.js" id="athos-context">
 	shopper = {
 		id: '[REPLACE WITH LOGGED IN SHOPPER ID]'
 		cart: [
@@ -323,10 +323,10 @@ Adds product identifier to `ssCartProducts` cookie. Supports multiple products u
 <button ss-track-cart-add='product123_red,product_456_blue'>Add to cart</button>
 ```
 
-Alternatively, this can also be integrated using the `searchspring.tracker.cookies.cart.add` method
+Alternatively, this can also be integrated using the `athos.tracker.cookies.cart.add` method
 
 ```js
-searchspring.tracker.cookies.cart.add(['product123'])
+athos.tracker.cookies.cart.add(['product123'])
 ```
 
 
@@ -341,10 +341,10 @@ Removes product identifier from `ssCartProducts` cookie. Supports multiple produ
 <button ss-track-cart-remove='product123_red,product_456_blue'>Remove</button>
 ```
 
-Alternatively, this can also be integrated using the `searchspring.tracker.cookies.cart.remove` method
+Alternatively, this can also be integrated using the `athos.tracker.cookies.cart.remove` method
 
 ```js
-searchspring.tracker.cookies.cart.remove(['product123'])
+athos.tracker.cookies.cart.remove(['product123'])
 ```
 
 
@@ -355,10 +355,10 @@ Clears all products currently stored in the `ssCartProducts` cookie.
 <button ss-track-cart-clear>Clear Cart</button>
 ```
 
-Alternatively, this can also be integrated using the `searchspring.tracker.cookies.cart.clear` method
+Alternatively, this can also be integrated using the `athos.tracker.cookies.cart.remove` method
 
 ```js
-searchspring.tracker.cookies.cart.clear()
+athos.tracker.cookies.cart.clear()
 ```
 
 ### View cart

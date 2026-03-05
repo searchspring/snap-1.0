@@ -9,7 +9,7 @@ export const configUI = (store: TemplateEditorStore): AbstractionGroup[] => {
 				{
 					type: 'text',
 					label: 'SiteId',
-					description: 'site id used to connect to the searchspring service',
+					description: 'site id used to connect to the athos service',
 					getDisplayState: () => 'disabled',
 					getValue: () => {
 						// value is derived in the editorstore at construction time

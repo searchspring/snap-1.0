@@ -10,7 +10,7 @@ const defaultStyles: StyleScript<CustomComponentWrapperProps> = () => {
 	return css({});
 };
 
-export const CustomComponentWrapper = observer((properties: CustomComponentWrapperProps): JSX.Element => {
+export const CustomComponentWrapper = observer((properties: CustomComponentWrapperProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 

@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { ApiConfiguration } from './Abstract';
 import { SearchAPI } from './Search';
-import { version } from '@searchspring/snap-toolbox';
+import { version } from '@athoscommerce/snap-toolbox';
 import { SearchRequestModelFilterTypeEnum, SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 
 describe('Search Api', () => {

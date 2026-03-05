@@ -9,7 +9,7 @@ Must have `name` and either `details` or `error` props to render.
 
 ## Usage
 ```jsx
-import { BranchOverride } from '@searchspring/snap-preact-components';
+import { BranchOverride } from '@athoscommerce/snap-preact-components';
 ```
 
 ### name
@@ -24,7 +24,7 @@ The `details` prop expects an object containing strings for the `url` and `lastM
 
 ```jsx
 const details = {
-	url: 'https://snapui.searchspring.io/y56s6x/next/bundle.js',
+	url: 'https://snapui.athoscommerce.io/y56s6x/next/bundle.js',
 	lastModified: '1 Feb 2022 1:02:03 GMT'
 };
 
@@ -59,7 +59,7 @@ The `darkMode` prop is used to set the component styling to prefer (or not to pr
 
 ```jsx
 const details = {
-	url: 'https://snapui.searchspring.io/y56s6x/next/bundle.js',
+	url: 'https://snapui.athoscommerce.io/y56s6x/next/bundle.js',
 	lastModified: '1 Feb 2022 1:02:03 GMT'
 };
 

@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -12,9 +12,14 @@ import { Lang, useA11y, useLang } from '../../../hooks';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import deepmerge from 'deepmerge';
 
-const defaultStyles: StyleScript<RadioListProps> = () => {
+const defaultStyles: StyleScript<RadioListProps> = ({ horizontal }) => {
 	return css({
 		'& .ss__radio-list__options-wrapper': {
+			display: 'flex',
+			flexDirection: horizontal ? 'row' : 'column',
+			alignItems: horizontal ? 'center' : undefined,
+			justifyItems: 'flex-start',
+
 			border: 'none',
 			listStyle: 'none',
 			padding: '0px',
@@ -50,13 +55,12 @@ const defaultStyles: StyleScript<RadioListProps> = () => {
 	});
 };
 
-export function RadioList(properties: RadioListProps): JSX.Element {
+export function RadioList(properties: RadioListProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<RadioListProps> = {
 		treePath: globalTreePath,
 	};
-
 	const props = mergeProps('radioList', globalTheme, defaultProps, properties);
 
 	const {
@@ -188,12 +192,15 @@ export function RadioList(properties: RadioListProps): JSX.Element {
 				</ul>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
-export interface RadioListProps extends ComponentProps {
+export type RadioListProps = {
+	lang?: Partial<RadioListLang>;
+} & RadioListTemplatesLegalProps &
+	ComponentProps<RadioListProps>;
+
+export type RadioListTemplatesLegalProps = {
 	options: ListOption[];
 	native?: boolean;
 	hideOptionRadios?: boolean;
@@ -202,10 +209,10 @@ export interface RadioListProps extends ComponentProps {
 	onSelect?: (e: React.MouseEvent<HTMLElement>, option: ListOption) => void;
 	titleText?: string;
 	hideTitleText?: boolean;
+	horizontal?: boolean;
 	disabled?: boolean;
 	selected?: ListOption;
-	lang?: Partial<RadioListLang>;
-}
+};
 
 export interface RadioListLang {
 	title?: Lang<{

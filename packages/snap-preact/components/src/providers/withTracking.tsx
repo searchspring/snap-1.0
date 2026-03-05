@@ -1,9 +1,10 @@
-import { h, ComponentType, FunctionComponent } from 'preact';
-import type { Banner, MerchandisingContentBanner, Product } from '@searchspring/snap-store-mobx';
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
-import type { ContentType, BannerContent } from '@searchspring/snap-store-mobx';
+import { h, ComponentType } from 'preact';
+import type { Banner, MerchandisingContentBanner, Product } from '@athoscommerce/snap-store-mobx';
+import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
+import type { ContentType, BannerContent } from '@athoscommerce/snap-store-mobx';
 import { createImpressionObserver } from '../utilities';
 import { useEffect, useCallback, useRef } from 'preact/hooks';
+import { JSXComponent } from '../types';
 
 export const TRACKING_ATTRIBUTE = 'sstracking';
 interface WithTrackingProps {
@@ -16,12 +17,13 @@ interface WithTrackingProps {
 }
 
 export function withTracking<Props extends WithTrackingProps>(WrappedComponent: ComponentType<Props>) {
-	const WithTracking: FunctionComponent<Props> = (props) => {
+	const WrappedComponentCast = WrappedComponent as JSXComponent;
+	const WithTracking = (props: Props) => {
 		const { controller, result, banner, type, content, ...restProps } = props;
 
 		if (props.trackingRef) {
 			// case where withTracking may get used more than once
-			return <WrappedComponent {...props} />;
+			return <WrappedComponentCast {...props} />;
 		}
 
 		if (!controller && (!type || !content)) {
@@ -108,7 +110,7 @@ export function withTracking<Props extends WithTrackingProps>(WrappedComponent: 
 			),
 		};
 
-		return <WrappedComponent {...(trackingProps as Props)} />;
+		return <WrappedComponentCast {...(trackingProps as unknown as Props)} />;
 	};
 	return WithTracking;
 }

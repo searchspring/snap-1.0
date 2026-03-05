@@ -1,16 +1,16 @@
 # Finder
 
-To set up a product Finder using Snap, we'll need to define a finder controller in our Snap configuration. See [FinderController reference](https://searchspring.github.io/snap/reference-controller-finder) for all available configuration options. 
+To set up a product Finder using Snap, we'll need to define a finder controller in our Snap configuration. See [FinderController reference](https://athoscommerce.github.io/snap/reference-controller-finder) for all available configuration options. 
 
 ## Configuration
-There are two types of Finder configurations, a Hierarchy and Non-Hierarchy. The difference is the type of field being used and how it is configured in the Searchspring Management Console.
+There are two types of Finder configurations, a Hierarchy and Non-Hierarchy. The difference is the type of field being used and how it is configured in the Athos Search & Product Discovery Console.
 
-Note: Ensure that the field that you will be using for Finder is marked for 'Filter' on the [Field Settings page](https://manage.searchspring.net/management/field-settings/display-fields).
+Note: Ensure that the field that you will be using for Finder is marked for 'Filter' on the [Field Settings page](https://console.athoscommerce.net/data-configurations/field-settings).
 
-Also within the Searchspring Management Console, ensure that under Site Customizations > Display Settings > Filtering, the field is set as a heiarchy display type and under advanced settings, the 'Hierarchy Delimiter' is set to the appropriate delimiter for your field.
+Also within the Athos Search & Product Discovery Console, ensure that under Site Customizations > Display Settings > Filtering, the field is set as a heiarchy display type and under advanced settings, the 'Hierarchy Delimiter' is set to the appropriate delimiter for your field.
 
 ### Hierarchy Configuration
-To use a Hierarchy configuration, ensure that the config's `fields` array contain a single entry, and that the field is of type `hierarchy` in the Searchspring Management Console. Here is an example of a Hierarchy `FinderControllerConfig` object:
+To use a Hierarchy configuration, ensure that the config's `fields` array contain a single entry, and that the field is of type `hierarchy` in the Athos Search & Product Discovery Console. Here is an example of a Hierarchy `FinderControllerConfig` object:
 
 ```js
 // src/index.js
@@ -35,7 +35,7 @@ const snap = new Snap({
 				},
                 targeters: [
                     {
-                        selector: '#searchspring-finder',
+                        selector: '#athos-finder',
                         component: async () => {
                             return (await import('./components/Finder/Finder')).Finder;
                         },
@@ -48,7 +48,7 @@ const snap = new Snap({
 ```
 
 ### Non-Hierarchy Configuration
-To use a Non-Hierarchy configuration, multiple `fields` are specified. All fields must have a `type` or `value` and NOT `hierarchy`. Facet types can be configured in the Searchspring Management Console. Here is an example of a Non-Hierarchy `FinderControllerConfig` object:
+To use a Non-Hierarchy configuration, multiple `fields` are specified. All fields must have a `type` or `value` and NOT `hierarchy`. Facet types can be configured in the Athos Search & Product Discovery Console. Here is an example of a Non-Hierarchy `FinderControllerConfig` object:
 
 ```js
 // src/index.js
@@ -86,7 +86,7 @@ const snap = new Snap({
 				},
                 targeters: [
                     {
-                        selector: '#searchspring-finder',
+                        selector: '#athos-finder',
                         component: async () => {
                             return (await import('./components/Finder/Finder')).Finder;
                         },
@@ -107,8 +107,8 @@ Note: When using fields that are not of hierarchy type, `levels` are not require
 // src/components/Finder/Finder.jsx
 
 import { h } from 'preact';
-import { observer } from 'mobx-react';
-import { ControllerProvider } from '@searchspring/snap-preact-components';
+import { observer } from 'mobx-react-lite';
+import { ControllerProvider } from '@athoscommerce/snap-preact-components';
 
 export const Finder = observer((props) => {
     const { controller } = props;

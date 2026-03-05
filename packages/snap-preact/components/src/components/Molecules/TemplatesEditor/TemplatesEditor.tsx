@@ -6,7 +6,7 @@ import { CacheProvider } from '../../../providers';
 import { TemplateEditorStore } from '../../../../../src/Templates/Stores/TemplateEditor/TemplateEditorStore';
 import { TemplatesStore, TemplateTypes } from '../../../../../src/Templates/Stores/TemplateStore';
 import { SnapTemplates } from '../../../../../src';
-import { AutocompleteController, SearchController } from '@searchspring/snap-controller';
+import { AutocompleteController, SearchController } from '@athoscommerce/snap-controller';
 import { AthosCommerceLogo } from './Assets';
 import { AbstractedControls } from './Components/AbstractedControls';
 import { DropdownControl } from './Controls/Dropdown';
@@ -315,7 +315,7 @@ const CSS = {
 		}),
 };
 
-export const TemplatesEditor = observer((properties: TemplatesEditorProps): JSX.Element => {
+export const TemplatesEditor = observer((properties: TemplatesEditorProps) => {
 	const { onRemoveClick, templatesStore, editorStore, snap } = properties;
 
 	const styling: RootNodeProperties = {

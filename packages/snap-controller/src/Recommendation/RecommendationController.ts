@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 
-import { ErrorType, Product } from '@searchspring/snap-store-mobx';
+import { ErrorType, Product } from '@athoscommerce/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ControllerTypes } from '../types';
 import {
@@ -13,8 +13,8 @@ import {
 	ResultsInner,
 	ClickthroughResultsInner,
 } from '@athoscommerce/beacon';
-import type { Banner, RecommendationStore } from '@searchspring/snap-store-mobx';
-import type { RecommendRequestModel } from '@searchspring/snap-client';
+import type { Banner, RecommendationStore } from '@athoscommerce/snap-store-mobx';
+import type { RecommendRequestModel } from '@athoscommerce/snap-client';
 import type { RecommendationControllerConfig, ControllerServices, ContextVariables } from '../types';
 import { CLICK_DUPLICATION_TIMEOUT, isClickWithinProductLink } from '../utils/isClickWithinProductLink';
 
@@ -105,7 +105,14 @@ export class RecommendationController extends AbstractController {
 					this.log.warn('No result provided to track.product.clickThrough');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				if (this.events[responseId]?.product[result.id]?.productClickThrough) return;
 				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const beaconResult: ClickthroughResultsInner = {
@@ -133,7 +140,14 @@ export class RecommendationController extends AbstractController {
 					this.log.warn('No result provided to track.product.click');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				if (result.type === 'banner') {
 					if (this.events[responseId]?.product[result.id]?.inlineBannerClickThrough) {
 						return;
@@ -161,8 +175,13 @@ export class RecommendationController extends AbstractController {
 					this.log.warn('No result provided to track.product.impression');
 					return;
 				}
+
 				const responseId = result.responseId;
-				if (this.events[responseId]?.product[result.id]?.impression) {
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events[responseId]?.product[result.id]?.impression) {
 					return;
 				}
 				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
@@ -192,7 +211,14 @@ export class RecommendationController extends AbstractController {
 					this.log.warn('No result provided to track.product.addToCart');
 					return;
 				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const product: BeaconProduct = {
 					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
 					uid: result.id,

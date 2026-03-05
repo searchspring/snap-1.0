@@ -9,7 +9,7 @@ import { FacetDisplay } from '../../../types';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Facet/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Organisms/Facet',
@@ -55,6 +55,7 @@ export default {
 			defaultValue: 12,
 			description: 'Number of facet options to display',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -66,6 +67,7 @@ export default {
 			defaultValue: false,
 			description: 'Enable the use of an overflow (show more/less)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -77,6 +79,7 @@ export default {
 			defaultValue: false,
 			description: 'Enables facet search within functionality',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -88,6 +91,7 @@ export default {
 			defaultValue: false,
 			description: 'Enables facet range inputs',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -99,6 +103,7 @@ export default {
 			defaultValue: 'Submit',
 			description: 'Range input submit button text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -109,6 +114,7 @@ export default {
 		rangeInputsPrefix: {
 			description: 'Range inputs prefix text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -119,6 +125,7 @@ export default {
 			defaultValue: false,
 			description: 'Enables facet range input values to default to the facet low and high limits',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -129,6 +136,7 @@ export default {
 		rangeInputsSeparatorText: {
 			description: 'Range inputs separator text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -139,6 +147,7 @@ export default {
 		color: {
 			description: 'Select color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -148,6 +157,7 @@ export default {
 		iconColor: {
 			description: 'Select icon color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -158,6 +168,7 @@ export default {
 		showSelectedCount: {
 			description: 'shows the number of selected options within this facet in the facet header',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -168,6 +179,7 @@ export default {
 		hideSelectedCountParenthesis: {
 			description: 'specifies if the parenthesis should render around the selected count',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -178,6 +190,7 @@ export default {
 		showClearAllText: {
 			description: 'specifies if the clear all text should render',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -188,6 +201,7 @@ export default {
 		clearAllText: {
 			description: 'text to show in the clear all link',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -198,6 +212,7 @@ export default {
 		clearAllIcon: {
 			description: 'Icon to show in the clear all link',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -211,6 +226,7 @@ export default {
 		disableCollapse: {
 			description: 'Disable collapse - used with internal state only',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -222,6 +238,7 @@ export default {
 			defaultValue: 'angle-down',
 			description: 'Icon for when facet is collapsed',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -236,6 +253,7 @@ export default {
 			defaultValue: 'angle-up',
 			description: 'Icon for when facet is expanded',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -250,6 +268,7 @@ export default {
 			defaultValue: 'Show More',
 			description: "Change 'Show More' button text",
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -261,6 +280,7 @@ export default {
 			defaultValue: 'Show Less',
 			description: "Change 'Show Less' button text",
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -272,6 +292,7 @@ export default {
 			defaultValue: false,
 			description: 'hide show more / show less text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -283,6 +304,7 @@ export default {
 			defaultValue: 'plus',
 			description: 'Icon for when facet can show more',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -297,6 +319,7 @@ export default {
 			defaultValue: 'minus',
 			description: 'Icon for when facet can show less',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -310,6 +333,7 @@ export default {
 		overflowSlot: {
 			description: 'Slot for custom overflow (show more/less) button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'component',
 				},
@@ -319,6 +343,7 @@ export default {
 		optionsSlot: {
 			description: 'Slot for custom facet option components',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'component',
 				},
@@ -329,6 +354,7 @@ export default {
 			defaultValue: false,
 			description: 'Render just the facet options. Excludes rendering of the Dropdown sub-component.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -340,6 +366,7 @@ export default {
 			defaultValue: false,
 			description: 'Render facet options horizontally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -350,6 +377,7 @@ export default {
 		previewOnFocus: {
 			description: 'Invoke facet value preview upon focus',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -360,6 +388,7 @@ export default {
 		valueProps: {
 			description: 'Object of facet value props',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -371,6 +400,20 @@ export default {
 			defaultValue: {},
 			description: 'Change props per facet',
 			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'object',
+				},
+			},
+			control: {
+				type: 'object',
+			},
+		},
+		display: {
+			defaultValue: {},
+			description: 'Change props per facet display type',
+			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -457,7 +500,7 @@ Palette.loaders = [
 // Grid Facet
 
 const ObservableGridFacet = observer(({ args, controller }: { args: FacetProps; controller: SearchController }) => {
-	const facet = controller?.store?.facets.filter((facet) => facet.field === 'collection_handle').pop();
+	const facet = controller?.store?.facets.filter((facet) => facet.field === 'size').pop();
 	if (facet) {
 		return <Facet {...args} facet={facet} />;
 	}

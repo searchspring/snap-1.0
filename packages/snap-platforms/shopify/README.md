@@ -4,10 +4,10 @@ This platform library gives you helper functions and plugins to use with the Sho
 ## Functions
 
 ## Usage 
-To use the platform library, simply import what you wish to use from `@searchspring/snap-platforms/shopify`.
+To use the platform library, simply import what you wish to use from `@athoscommerce/snap-platforms/shopify`.
 
 ```jsx
-import { addToCart } from '@searchspring/snap-platforms/shopify';
+import { addToCart } from '@athoscommerce/snap-platforms/shopify';
 
 export const AddToCart = (props) => {
     const { result } = props;
@@ -32,7 +32,7 @@ The `idFieldName` property takes a stringified path in the result reference, to 
 > The `Shopify` object needs to be available on the window.
 
 ```jsx
-import { addToCart } from '@searchspring/snap-platforms/shopify';
+import { addToCart } from '@athoscommerce/snap-platforms/shopify';
 
 export const AddToCart = (props) => {
 	const { result } = props;
@@ -84,7 +84,7 @@ This plugin relies on specific Shopify script context variables for creating bac
 
 Collection Page:
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	collection = {
 		name : "Test Collection",
 		handle : "test-collection",
@@ -94,7 +94,7 @@ Collection Page:
 
 Collection Page with Tags:
 ```html
-<script id="searchspring-context" src="bundle.js">
+<script id="athos-context" src="bundle.js">
 	collection = {
 		name : "Test Collection",
 		handle : "test-collection",

@@ -1,1 +1,1 @@
-export { pluginAddToCart } from '@searchspring/snap-platforms/bigcommerce';
+export { pluginAddToCart } from '@athoscommerce/snap-platforms/bigcommerce';

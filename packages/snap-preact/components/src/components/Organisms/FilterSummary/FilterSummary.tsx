@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,13 +8,14 @@ import { Filter, FilterProps } from '../../Molecules/Filter';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchController, AutocompleteController } from '@searchspring/snap-controller';
-import type { Filter as FilterType } from '@searchspring/snap-store-mobx';
+import type { SearchController, AutocompleteController } from '@athoscommerce/snap-controller';
+import type { Filter as FilterType } from '@athoscommerce/snap-store-mobx';
 import { IconProps, IconType } from '../../Atoms/Icon';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 
-const defaultStyles: StyleScript<FilterSummaryProps> = () => {
+const defaultStyles: StyleScript<FilterSummaryProps> = (props) => {
+	const variables = props.theme?.variables;
 	return css({
 		'.ss__filter-summary__title': {
 			fontSize: '1.2em',
@@ -26,20 +27,59 @@ const defaultStyles: StyleScript<FilterSummaryProps> = () => {
 			gap: '10px',
 			flexWrap: 'wrap',
 		},
+
+		'&.ss__filter-summary--list': {
+			'& .ss__filter-summary__clear-all .ss__filter__value': {
+				marginLeft: '5px',
+			},
+
+			'&, .ss__filter-summary__filters': {
+				display: 'block',
+			},
+
+			'.ss__filter-summary__filters': {
+				'.ss__filter': {
+					display: 'block',
+					margin: `0 5px 5px 5px`,
+					'.ss__filter__button': {
+						padding: `0 0 0 0`,
+						border: 0,
+						'&, &:hover, &:not(.ss__button--disabled):hover, &.ss__button--disabled': {
+							backgroundColor: 'transparent',
+						},
+						'.ss__button__content': {
+							display: 'flex',
+							alignItems: 'center',
+
+							'.ss__icon': {
+								padding: '4px',
+								backgroundColor: '#f8f8f8',
+								border: `1px solid black`,
+								width: `8px`,
+								height: `8px`,
+								fill: variables?.colors?.primary,
+								stroke: variables?.colors?.primary,
+								marginRight: '0px',
+							},
+						},
+					},
+				},
+			},
+		},
 	});
 };
 
-export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Element => {
+export const FilterSummary = observer((properties: FilterSummaryProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<FilterSummaryProps> = {
 		title: 'Current Filters',
+		type: 'inline',
 		clearAllLabel: 'Clear All',
 		clearAllIcon: 'close-thin',
 		filterIcon: 'close-thin',
 		filters: properties.controller?.store?.filters,
-		onClearAllClick: () => properties.controller?.urlManager.remove('filter').remove('page').go(),
 		separator: ':',
 		treePath: globalTreePath,
 	};
@@ -49,6 +89,7 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 	const {
 		filters,
 		title,
+		type,
 		filterIcon,
 		clearAllIcon,
 		separator,
@@ -102,7 +143,16 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 
 	return filters?.length ? (
 		<CacheProvider>
-			<div {...styling} className={classnames('ss__filter-summary', className, internalClassName)}>
+			<div
+				{...styling}
+				className={classnames(
+					'ss__filter-summary',
+					{ 'ss__filter-summary--list': type === 'list' },
+					{ 'ss__filter-summary--inline': type === 'inline' },
+					className,
+					internalClassName
+				)}
+			>
 				{!hideTitle && <div className="ss__filter-summary__title" {...mergedLang.title?.all}></div>}
 
 				<div className="ss__filter-summary__filters">
@@ -118,7 +168,10 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 							internalClassName={`${subProps?.filter?.internalClassName} ss__filter-summary__clear-all`}
 							hideFacetLabel
 							valueLabel={clearAllLabel}
-							onClick={(e) => onClearAllClick && onClearAllClick(e)}
+							onClick={(e) => {
+								onClearAllClick && onClearAllClick(e);
+								properties.controller?.urlManager.remove('filter').remove('page').go();
+							}}
 							lang={{
 								filter: { attributes: { 'aria-label': clearAllLabel } },
 							}}
@@ -127,13 +180,18 @@ export const FilterSummary = observer((properties: FilterSummaryProps): JSX.Elem
 				</div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface FilterSummaryProps extends ComponentProps {
+export type FilterSummaryProps = {
 	filters?: FilterType[];
+	controller?: SearchController | AutocompleteController;
+	lang?: Partial<FilterSummaryLang>;
+} & FilterSummaryTemplatesLegalProps &
+	ComponentProps<FilterSummaryProps>;
+
+export type FilterSummaryTemplatesLegalProps = {
+	type?: 'inline' | 'list';
 	title?: string;
 	hideTitle?: boolean;
 	filterIcon?: IconType | Partial<IconProps>;
@@ -144,9 +202,7 @@ export interface FilterSummaryProps extends ComponentProps {
 	hideClearAll?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, filterFilter: FilterType) => void;
 	onClearAllClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-	controller?: SearchController | AutocompleteController;
-	lang?: Partial<FilterSummaryLang>;
-}
+};
 
 export interface FilterSummaryLang {
 	title: Lang<{

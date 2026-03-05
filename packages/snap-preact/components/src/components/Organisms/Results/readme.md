@@ -11,7 +11,7 @@ Renders a page of results utilizing `<Result />` components.
 
 ## Usage
 ```jsx
-import { Results } from '@searchspring/snap-preact-components';
+import { Results } from '@athoscommerce/snap-preact-components';
 ```
 
 ### controller

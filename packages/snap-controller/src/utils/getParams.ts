@@ -4,7 +4,7 @@ import {
 	SearchRequestModelFilterRange,
 	SearchRequestModelFilterValue,
 } from '@athoscommerce/snapi-types';
-import type { ImmutableUrlState } from '@searchspring/snap-url-manager';
+import type { ImmutableUrlState } from '@athoscommerce/snap-url-manager';
 
 export function getSearchParams(state: ImmutableUrlState): Record<string, any> {
 	const params: SearchRequestModel = {};
@@ -23,11 +23,6 @@ export function getSearchParams(state: ImmutableUrlState): Record<string, any> {
 	if (state.rq) {
 		params.search = params.search || {};
 		params.search.subQuery = state.rq;
-	}
-
-	if (state.oq) {
-		params.search = params.search || {};
-		params.search.originalQuery = state.oq;
 	}
 
 	if (state.fallbackQuery) {

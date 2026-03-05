@@ -9,7 +9,7 @@ import {
 	StoreProvider,
 	withController,
 	ControllerProvider,
-} from '@searchspring/snap-preact/components';
+} from '@athoscommerce/snap-preact/components';
 
 type SidebarProps = {
 	controller?: SearchController;

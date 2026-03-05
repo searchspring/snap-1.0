@@ -6,7 +6,11 @@ import { Autocomplete, AutocompleteProps } from './Autocomplete';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Autocomplete/readme.md';
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
+import { iconPaths } from '../../Atoms/Icon';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
+import { useState } from 'preact/hooks';
 
 export default {
 	title: 'Organisms/Autocomplete',
@@ -273,6 +277,18 @@ export default {
 			},
 			control: { type: 'text' },
 		},
+		seeMoreButtonIcon: {
+			description: 'See more button Icon',
+			table: {
+				type: {
+					summary: 'string',
+				},
+			},
+			options: [...Object.keys(iconPaths)],
+			control: {
+				type: 'select',
+			},
+		},
 		viewportMaxHeight: {
 			defaultValue: false,
 			description: 'Autocomplete fully visible in viewport',
@@ -395,6 +411,61 @@ const snapInstance = Snapify.autocomplete({
 
 export const Default = (args: AutocompleteProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
 	// bind after input exists
+	const [termState, setTermState] = useState(false);
+
+	const mockTerms: AutocompleteTermStore = [
+		{
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
+			value: 'dress',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+	];
+
+	controller.store.history = mockTerms;
+
 	setTimeout(() => {
 		controller.bind();
 	});

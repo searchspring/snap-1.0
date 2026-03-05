@@ -59,7 +59,7 @@ describe('Recommendations', () => {
 					cy.on('window:before:load', (win) => {
 						win.mergeSnapConfig = {
 							theme: {
-								extends: 'bocachica',
+								extends: 'base',
 								overrides: {
 									default: {
 										recommendation: {
@@ -87,8 +87,8 @@ describe('Recommendations', () => {
 				});
 
 				it('snap bundle exists on product page', () => {
-					cy.waitForBundle().then((searchspring) => {
-						expect(searchspring).to.exist;
+					cy.waitForBundle().then((athos) => {
+						expect(athos).to.exist;
 					});
 				});
 			});
@@ -202,7 +202,7 @@ describe('Recommendations', () => {
 						cy.on('window:before:load', (win) => {
 							win.mergeSnapConfig = {
 								theme: {
-									extends: 'bocachica',
+									extends: 'base',
 									overrides: {
 										default: {
 											recommendation: {
@@ -231,8 +231,8 @@ describe('Recommendations', () => {
 					});
 
 					it('snap bundle exists on product page', () => {
-						cy.waitForBundle().then((searchspring) => {
-							expect(searchspring).to.exist;
+						cy.waitForBundle().then((athos) => {
+							expect(athos).to.exist;
 						});
 					});
 

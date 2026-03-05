@@ -6,7 +6,7 @@ This component is used for Beacon 2.0 tracking and replaces the need for using t
 
 ## Usage
 ```jsx
-import { ResultTracker } from '@searchspring/snap-preact-components';
+import { ResultTracker } from '@athoscommerce/snap-preact-components';
 ```
 
 ### controller

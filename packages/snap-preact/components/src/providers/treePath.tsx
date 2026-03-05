@@ -1,18 +1,20 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
+import { JSXComponent } from '../types';
 
 const TreePathContext = createContext<null | string>(null);
+const TreePathProviderCast = TreePathContext.Provider as JSXComponent;
 
 export const TreePathProvider = ({ children, path }: { children: ComponentChildren; path: string }) => {
-	return <TreePathContext.Provider value={path}>{children}</TreePathContext.Provider>;
+	return <TreePathProviderCast value={path}>{children}</TreePathProviderCast>;
 };
 
 export const useTreePath = () => useContext(TreePathContext) || undefined;
 
 export function withTreePath<C extends ComponentType>(Component: C): C {
 	return ((props: any) => {
-		// additional props must come after store prop
+		const Comp = Component as JSXComponent;
 		const treePath = useTreePath();
-		return <Component treePath={treePath} {...props} />;
+		return <Comp treePath={treePath} {...props} />;
 	}) as C;
 }

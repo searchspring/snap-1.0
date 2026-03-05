@@ -1,5 +1,5 @@
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
-import { MockData } from '@searchspring/snap-shared';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import { AutocompleteTrendingStore } from './AutocompleteTrendingStore';
 import { AutocompleteStateStore } from './AutocompleteStateStore';

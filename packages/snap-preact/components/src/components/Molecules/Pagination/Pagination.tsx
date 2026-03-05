@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -8,8 +8,8 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { Icon, IconProps } from '../../Atoms/Icon';
-import type { SearchPaginationStore, Page } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchPaginationStore, Page } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import deepmerge from 'deepmerge';
 import { Lang, useLang } from '../../../hooks';
 
@@ -29,7 +29,7 @@ const defaultStyles: StyleScript<PaginationProps> = () => {
 	});
 };
 
-export const Pagination = observer((properties: PaginationProps): JSX.Element => {
+export const Pagination = observer((properties: PaginationProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<PaginationProps> = {
@@ -195,18 +195,21 @@ export const Pagination = observer((properties: PaginationProps): JSX.Element =>
 				</nav>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface PaginationSubProps {
 	icon: IconProps;
 }
 
-export interface PaginationProps extends ComponentProps {
+export type PaginationProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
+	lang?: Partial<PaginationLang>;
+} & PaginationTemplatesLegalProps &
+	ComponentProps<PaginationProps>;
+
+export type PaginationTemplatesLegalProps = {
 	pages?: number;
 	pagesLeft?: number;
 	pagesRight?: number;
@@ -221,8 +224,7 @@ export interface PaginationProps extends ComponentProps {
 	lastButton?: string | JSX.Element;
 	persistFirst?: boolean;
 	persistLast?: boolean;
-	lang?: Partial<PaginationLang>;
-}
+};
 
 export interface PaginationLang {
 	previous: Lang<{

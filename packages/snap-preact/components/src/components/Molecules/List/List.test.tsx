@@ -314,7 +314,11 @@ describe('List Component', () => {
 
 		expect(optionElements).toBeInTheDocument();
 
-		expect(optionElements.innerHTML).toBe(`<label class=\"ss__list__option__label\">${options[0].label}</label>`);
+		const checkbox = optionElements.querySelector('.ss__checkbox');
+		const labelEl = optionElements.querySelector('.ss__list__option__label');
+		expect(checkbox).not.toBeInTheDocument();
+		expect(labelEl).toBeInTheDocument();
+		expect(labelEl).toHaveTextContent(options[0].label as string);
 
 		await userEvent.click(optionElements);
 
@@ -332,9 +336,12 @@ describe('List Component', () => {
 		expect(label).not.toBeInTheDocument();
 		expect(optionElements).toBeInTheDocument();
 
-		expect(optionElements.innerHTML).toBe(
-			`<span ss-path=\"list checkbox\" class=\"ss__checkbox ss-182zd4n\" role=\"checkbox\" aria-checked=\"false\" aria-label=\"Red\" ss-lang=\"checkbox\"><span class=\"ss__checkbox__empty\"></span></span>`
-		);
+		const checkboxSpan = optionElements.querySelector('.ss__checkbox');
+		expect(checkboxSpan).toBeInTheDocument();
+		expect(checkboxSpan).toHaveAttribute('role', 'checkbox');
+		expect(checkboxSpan).toHaveAttribute('aria-checked', 'false');
+		expect(checkboxSpan).toHaveAttribute('aria-label', options[0].label as string);
+		expect(checkboxSpan).toHaveAttribute('ss-lang', 'checkbox');
 
 		await userEvent.click(optionElements);
 

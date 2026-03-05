@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 import { ApiConfiguration } from './Abstract';
 import { MetaAPI } from './Meta';
-import { version } from '@searchspring/snap-toolbox';
 
 describe('Meta Api', () => {
 	beforeAll(() => {

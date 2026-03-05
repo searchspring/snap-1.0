@@ -3,21 +3,20 @@ import { useState } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { Results, ResultsProps } from '../../Organisms/Results';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ListOption, ResultComponent, StyleScript } from '../../../types';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { Sidebar, SidebarProps } from '../../Organisms/Sidebar';
 import { Toolbar, ToolbarProps } from '../../Organisms/Toolbar';
 import { NoResults, NoResultsProps } from '../../Organisms/NoResults';
 import { Lang, useLang, useMediaQuery } from '../../../hooks';
 import { FOCUSABLE_ELEMENTS } from '../../../hooks/useA11y';
-import { SearchFilterStore } from '@searchspring/snap-store-mobx';
+import { SearchFilterStore } from '@athoscommerce/snap-store-mobx';
 import deepmerge from 'deepmerge';
 import { useLayoutOptions } from '../../../hooks/useLayoutOptions';
 import { componentNameToClassName } from '../../../utilities/componentNameToClassName';
-import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
 
 const defaultStyles: StyleScript<SearchProps> = (props) => {
 	let classNamePrefix = 'ss__search';
@@ -54,13 +53,15 @@ const defaultStyles: StyleScript<SearchProps> = (props) => {
 	});
 };
 
-export const Search = observer((properties: SearchProps): JSX.Element => {
+export const Search = observer((properties: SearchProps) => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<SearchProps> = {
 		toggleSidebarButtonText: 'Filters',
 		hideToggleSidebarButton: true,
 		mobileDisplayAt: globalTheme?.variables?.breakpoints?.tablet ? `${globalTheme.variables?.breakpoints?.tablet}px` : '991px',
+		treePath: globalTreePath,
 	};
 
 	const props = mergeProps(properties.alias || 'search', globalTheme, defaultProps, properties);
@@ -80,6 +81,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 		mobileDisplayAt,
 		toggleSidebarStartClosed,
 		treePath,
+		alias,
 	} = props;
 
 	let classNamePrefix = 'ss__search';
@@ -96,7 +98,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const isMobile = useMediaQuery(`(max-width: ${mobileDisplayAt})`);
 
-	const [sidebarOpenState, setSidebarOpenState] = useState(Boolean(!toggleSidebarStartClosed));
+	const [sidebarOpenState, setSidebarOpenState] = useState(Boolean(alias !== 'searchHorizontal' && !toggleSidebarStartClosed));
 
 	//initialize lang
 	const defaultLang: Partial<SearchLang> = {
@@ -109,9 +111,13 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 	const lang = deepmerge(defaultLang, props.lang || {});
 	const mergedLang = useLang(lang as any, { filters: store.filters, sidebarOpenState: sidebarOpenState });
 
-	const ToggleSidebar = (): JSX.Element => {
+	const ToggleSidebar = () => {
 		return (
-			<div className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}>
+			<div
+				className={classnames(`${classNamePrefix}__sidebar-toggle`, sidebarOpenState ? `${classNamePrefix}__sidebar-toggle--open` : '')}
+				// @ts-ignore - this is fine.
+				active={sidebarOpenState}
+			>
 				<span {...mergedLang.toggleSidebarButtonText.all}></span>
 			</div>
 		);
@@ -154,7 +160,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			name: 'middle',
 			internalClassName: `${classNamePrefix}__content__toolbar--middle-toolbar`,
 			layout: isMobile
-				? [['mobileSidebar', '_', 'paginationInfo'], ['filterSummary'], ['banner.banner']]
+				? [['mobileSidebar', '_', 'paginationInfo'], ['banner.banner']]
 				: [['sortBy', 'perPage', '_', 'paginationInfo'], ['banner.banner']],
 			toggleSideBarButton: { ...toggleSidebarButtonProps },
 			// inherited props
@@ -168,7 +174,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			// default props
 			name: 'bottom',
 			internalClassName: `${classNamePrefix}__content__toolbar--bottom-toolbar`,
-			layout: [['banner.footer'], ['_', 'pagination']],
+			layout: [['banner.footer'], ['_', 'pagination', '_']],
 			toggleSideBarButton: { ...toggleSidebarButtonProps },
 			// inherited props
 			...defined({
@@ -210,8 +216,6 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 
 	const styling = mergeStyles<SearchProps>(props, defaultStyles);
 
-	useCleanUpEmptyDivs(['.ss__search__sidebar']);
-
 	return (
 		<CacheProvider>
 			<div
@@ -220,7 +224,7 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 			>
 				<div className={`${classNamePrefix}__header-section`}>{!hideTopToolbar && <Toolbar {...subProps.TopToolbar} controller={controller} />}</div>
 				<div className={`${classNamePrefix}__main-section`}>
-					{!hideSidebar && !isMobile && sidebarOpenState && (
+					{!hideSidebar && !isMobile && sidebarOpenState && store.loaded && store.pagination.totalResults > 0 && (
 						<div className={`${classNamePrefix}__sidebar`}>
 							<Sidebar {...subProps.Sidebar} controller={controller} />
 						</div>
@@ -242,11 +246,16 @@ export const Search = observer((properties: SearchProps): JSX.Element => {
 	);
 });
 
-//todo improve the controller spreading here..
-export interface SearchProps extends ComponentProps {
+export type SearchProps = {
 	controller: SearchController;
-	mobileDisplayAt?: string;
+	lang?: Partial<SearchLang>;
+	alias?: 'searchCollapsible' | 'searchHorizontal';
 	resultComponent?: ResultComponent;
+} & SearchTemplatesLegalProps &
+	ComponentProps<SearchProps>;
+
+export type SearchTemplatesLegalProps = {
+	mobileDisplayAt?: string;
 	hideSidebar?: boolean;
 	hideTopToolbar?: boolean;
 	hideMiddleToolbar?: boolean;
@@ -254,10 +263,8 @@ export interface SearchProps extends ComponentProps {
 	toggleSidebarButtonText?: string;
 	toggleSidebarStartClosed?: boolean;
 	hideToggleSidebarButton?: boolean;
-	lang?: Partial<SearchLang>;
 	layoutOptions?: ListOption[];
-	alias?: 'searchCollapsible' | 'searchHorizontal';
-}
+};
 
 export interface SearchLang {
 	toggleSidebarButtonText?: Lang<{ filters: SearchFilterStore; sidebarOpenState: boolean }>;

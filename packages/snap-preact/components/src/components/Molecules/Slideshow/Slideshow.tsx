@@ -96,11 +96,6 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 				alignItems: 'center',
 				justifyContent: 'center',
 				cursor: 'pointer',
-				transition: 'background 0.2s ease',
-
-				'&:hover': {
-					background: 'rgba(255, 255, 255, 1)',
-				},
 
 				'&:disabled': {
 					cursor: 'not-allowed',
@@ -163,13 +158,13 @@ const defaultStyles: StyleScript<SlideshowProps> = ({ theme, slidesToShow = 1, g
 	});
 };
 
-export function Slideshow(properties: SlideshowProps): JSX.Element {
+export function Slideshow(properties: SlideshowProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<SlideshowProps> = {
 		treePath: globalTreePath,
-		fallbackImage: '//cdn.searchspring.net/ajax_search/img/default_image.png',
+		fallbackImage: '//cdn.athoscommerce.net/snap/images/fallback.png',
 		autoPlay: false,
 		autoPlayInterval: 3000,
 		showNavigation: true,
@@ -817,7 +812,12 @@ export interface SlideshowSlide {
 	content?: JSX.Element;
 }
 
-export interface SlideshowProps extends ComponentProps {
+export type SlideshowProps = {
+	lang?: Partial<SlideshowLang>;
+} & SlideshowTemplatesLegalProps &
+	ComponentProps<SlideshowProps>;
+
+export type SlideshowTemplatesLegalProps = {
 	slides: (string | SlideshowSlide)[];
 	fallbackImage?: string;
 	autoPlay?: boolean;
@@ -836,8 +836,7 @@ export interface SlideshowProps extends ComponentProps {
 	ariaLabelledBy?: string;
 	touchDragging?: boolean;
 	dragThreshold?: number;
-	lang?: Partial<SlideshowLang>;
-}
+};
 
 interface SlideshowSubProps {
 	Image: Partial<ImageProps>;

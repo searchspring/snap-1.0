@@ -1,14 +1,14 @@
 import { h } from 'preact';
 import { render, waitFor } from '@testing-library/preact';
 import { v4 as uuidv4 } from 'uuid';
-import { RecommendationStore, RecommendationStoreConfig } from '@searchspring/snap-store-mobx';
-import { RecommendationController, RecommendationControllerConfig } from '@searchspring/snap-controller';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { MockClient } from '@searchspring/snap-shared';
-import { QueryStringTranslator, UrlManager, reactLinker } from '@searchspring/snap-url-manager';
+import { RecommendationStore, RecommendationStoreConfig } from '@athoscommerce/snap-store-mobx';
+import { RecommendationController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { QueryStringTranslator, UrlManager, reactLinker } from '@athoscommerce/snap-url-manager';
 import userEvent from '@testing-library/user-event';
 import { RecommendationEmail } from './RecommendationEmail';
 

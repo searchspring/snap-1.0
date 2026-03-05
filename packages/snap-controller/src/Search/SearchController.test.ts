@@ -2,14 +2,14 @@ import 'whatwg-fetch';
 import { v4 as uuidv4 } from 'uuid';
 import { waitFor } from '@testing-library/preact';
 
-import { Client } from '@searchspring/snap-client';
-import { Product, SearchStore, SearchStoreConfig } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager, Next } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { MockClient } from '@searchspring/snap-shared';
+import { Client } from '@athoscommerce/snap-client';
+import { Product, SearchStore, SearchStoreConfig } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager, Next } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { MockClient } from '@athoscommerce/snap-shared';
 
 import { SearchController, getStorableRequestParams, generateHrefSelector } from './SearchController';
 import type { SearchControllerConfig, BeforeSearchObj, RestorePositionObj, ElementPositionObj, AfterSearchObj } from '../types';
@@ -347,22 +347,6 @@ describe('Search Controller', () => {
 		const pageSize = 72;
 		controller.urlManager = controller.urlManager.set('pageSize', pageSize);
 		expect(controller.params.pagination!.pageSize).toBe(pageSize);
-	});
-
-	it('can set oq param', async () => {
-		const controller = new SearchController(searchConfig, {
-			client: new MockClient(globals, {}),
-			store: new SearchStore(searchConfig, services),
-			urlManager,
-			eventManager: new EventManager(),
-			profiler: new Profiler(),
-			logger: new Logger(),
-			tracker: new Tracker(globals),
-		});
-
-		const oq = 'wheel';
-		controller.urlManager = controller.urlManager.set('oq', oq);
-		expect(controller.params.search!.originalQuery).toBe(oq);
 	});
 
 	it('can set rq param', async () => {

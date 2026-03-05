@@ -1,10 +1,10 @@
-import { AutocompleteStoreConfigSettings, SearchStoreConfigSettings, StorageStore, StorageType } from '@searchspring/snap-store-mobx';
+import { AutocompleteStoreConfigSettings, SearchStoreConfigSettings, StorageStore, StorageType } from '@athoscommerce/snap-store-mobx';
 import { observable, makeObservable } from 'mobx';
 import Color from 'color';
 import deepmerge from 'deepmerge';
 
 import { TemplatesStore, TEMPLATE_STORE_KEY, TargetMap, RecsTemplateTypes } from '../TemplateStore';
-import { AutocompleteController, SearchController } from '@searchspring/snap-controller';
+import { AutocompleteController, SearchController } from '@athoscommerce/snap-controller';
 
 import type { AbstractionGroup } from '../../../types';
 import { ThemeVariables, ThemeVariablesPartial } from '../../../../components/src';
