@@ -98,12 +98,12 @@ const snap = new Snap({
 
 ## Search Store
 
-This section covers the properties available on the Search Store via a Search Controller with examples of how to implement common custom components. Alternatively, equivalent and additional components are available in the `@athoscommerce/snap-preact-components` package. See [Preact Component Library](https://athoscommerce.github.io/snap/preact-components) for all available components and their usage.
+This section covers the properties available on the Search Store via a Search Controller with examples of how to implement common custom components. Alternatively, equivalent and additional components are available in the `@athoscommerce/snap-preact/components` package. See [Preact Component Library](https://athoscommerce.github.io/snap/preact-components) for all available components and their usage.
 
 
 ### SearchController.store.merchandising
 
-The `merchandising` property contains merchandising redirects and banner content. It is recommended to utilize the `<Banner/>` component from `@athoscommerce/snap-preact-components` to display the various merchandising banners.
+The `merchandising` property contains merchandising redirects and banner content. It is recommended to utilize the `<Banner/>` component from `@athoscommerce/snap-preact/components` to display the various merchandising banners.
 
 The available banner types include: `header`, `banner`, `footer`, `left`, `inline`
 
@@ -114,7 +114,7 @@ For inline banners, the `<InlineBanner/>` component should be used instead. An e
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { ControllerProvider, Banner, Pagination } from '@athoscommerce/snap-preact-components';
+import { ControllerProvider, Banner, Pagination } from '@athoscommerce/snap-preact/components';
 import { Results } from '../Results/Results';
 import { NoResults } from '../NoResults/NoResults';
 import { SearchHeader } from '../SearchHeader/SearchHeader';
@@ -150,7 +150,7 @@ The `search` property contains information about the current query, typically di
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController } from '@athoscommerce/snap-preact-components';
+import { withController } from '@athoscommerce/snap-preact/components';
 
 export const SearchHeader = withController(observer((props) => {
     const { controller } = props;
@@ -208,7 +208,7 @@ The `pagination` property is not only used for information about the current que
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController } from '@athoscommerce/snap-preact-components';
+import { withController } from '@athoscommerce/snap-preact/components';
 
 export const Pagination = withController(observer((props) => {
 	const { controller } = props;
@@ -257,7 +257,7 @@ Sorting settings can be configured in the [Athos Search & Product Discovery Cons
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController } from '@athoscommerce/snap-preact-components';
+import { withController } from '@athoscommerce/snap-preact/components';
 
 export const SortBy = withController(observer((props) => {
 	const { controller } = props;
@@ -320,7 +320,7 @@ Note: if you will be creating a custom Result component, the `withTracking` hook
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController, withTracking, InlineBanner, Price } from '@athoscommerce/snap-preact-components';
+import { withController, withTracking, InlineBanner, Price } from '@athoscommerce/snap-preact/components';
 
 export const Results = withController(observer((props) => {
 	const { controller } = props;
@@ -376,7 +376,7 @@ Each result object contains the following notable properties:
 
 The example below displays a custom `FacetOptionsList` component for facets with a display type of `list`.
 
-The `@athoscommerce/snap-preact-components` component library includes the following components that can be imported or used as a reference: `FacetListOptions`, `FacetGridOptions`, `FacetPaletteOptions`, `FacetHierarchyOptions`, `FacetSlider`
+The `@athoscommerce/snap-preact/components` component library includes the following components that can be imported or used as a reference: `FacetListOptions`, `FacetGridOptions`, `FacetPaletteOptions`, `FacetHierarchyOptions`, `FacetSlider`
 
 `facet.type` the facet type - Available facet types: `range`, `value`, `range-buckets`. 
 
@@ -399,7 +399,7 @@ Facets with a `type` value of `value` or `range-buckets` will contain the follow
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetOptionsHierarchy, FacetSlider } from '@athoscommerce/snap-preact-components';
+import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetOptionsHierarchy, FacetSlider } from '@athoscommerce/snap-preact/components';
 
 export const Facets = withController(observer((props) => {
 	const { controller } = props;
@@ -442,7 +442,7 @@ const Facet = withController(observer((props) => {
 	) : null;
 }));
 
-// custom FacetOptionsList component instead of importing from @athoscommerce/snap-preact-components
+// custom FacetOptionsList component instead of importing from @athoscommerce/snap-preact/components
 const FacetOptionsList = withController(observer((props) => {
 	const { facet } = props;
 	const values = facet.refinedValues;
@@ -475,7 +475,7 @@ Typically used to display a filter summary with options to remove filters.
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController } from '@athoscommerce/snap-preact-components';
+import { withController } from '@athoscommerce/snap-preact/components';
 
 export const FilterSummary = withController(observer((props) => {
 	const { controller } = props;

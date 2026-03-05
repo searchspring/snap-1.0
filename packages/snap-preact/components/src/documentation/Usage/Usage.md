@@ -16,7 +16,7 @@ console.log(searchController.store)
 ```
 
 ```js
-import { Pagination } from '@athoscommerce/snap-preact-components';
+import { Pagination } from '@athoscommerce/snap-preact/components';
 ```
 
 ```jsx

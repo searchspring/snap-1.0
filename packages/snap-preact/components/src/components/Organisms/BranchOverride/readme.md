@@ -9,7 +9,7 @@ Must have `name` and either `details` or `error` props to render.
 
 ## Usage
 ```jsx
-import { BranchOverride } from '@athoscommerce/snap-preact-components';
+import { BranchOverride } from '@athoscommerce/snap-preact/components';
 ```
 
 ### name

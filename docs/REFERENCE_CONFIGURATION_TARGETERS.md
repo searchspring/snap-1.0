@@ -11,7 +11,7 @@ Each object in the array defines an entry point on the page where a component wi
 | `component` | `function` | A function that returns a reference to the component to render at the target selector. Making this an async function is recommended to allow for code splitting. |
 | `hideTarget` | `boolean` | Whether to hide the target node before the component is mounted and rendered. It is recommended to enable this to prevent flashy behaviour. |
 | `autoRetarget` | `boolean` | Whether to continuously query for the selector in the DOM until it finds it and triggers a retarget. This is useful for dynamically generated selectors that might not exist at dom ready. |
-| `skeleton` | `function` | A function that returns a reference to the component to render immediately at the target selector to show briefly while the data is returning and the real component is rendering. You can use any component you want for this, although `snap-preact-components` provides a `skeleton` component for you to use if preferred. |
+| `skeleton` | `function` | A function that returns a reference to the component to render immediately at the target selector to show briefly while the data is returning and the real component is rendering. You can use any component you want for this, although `snap-preact/components` provides a `skeleton` component for you to use if preferred. |
 | `props` | `object` | Convenient way of passing additional props to the component, by default we pass `controller` |
 | `onTarget` | `function` | Callback that fires after a target is found. This is useful for triggering other actions such as initializing the controller. |
 | `name` | `string` | Name to give the targeter for later reference using `controller.targeters` |
@@ -72,7 +72,7 @@ A [Skeleton component](https://athoscommerce.github.io/snap/preact-components?pa
 
 ```jsx
 import { Snap } from '@athoscommerce/snap-preact';
-import { Skeleton } from '@athoscommerce/snap-preact-components';
+import { Skeleton } from '@athoscommerce/snap-preact/components';
 
 const ContentSkeleton = () => {
   return (<Skeleton height="300px" width="250px" />);

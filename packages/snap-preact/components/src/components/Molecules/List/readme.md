@@ -7,7 +7,7 @@ Renders a list of options.
 
 ## Usage
 ```jsx
-import { List } from '@athoscommerce/snap-preact-components';
+import { List } from '@athoscommerce/snap-preact/components';
 ```
 
 ### options

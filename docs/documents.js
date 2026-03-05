@@ -149,7 +149,7 @@ var documents = [
 				label: 'Preact Components',
 				route: '/preact-components',
 				type: 'iframe',
-				url: './packages/snap-preact-components/docs/',
+				url: './packages/snap-preact/components/docs/',
 				searchable: false,
 			},
 			{

@@ -6,7 +6,7 @@ This `Banner` component does not support inline banners. See `InlineBanner` comp
 
 ## Usage
 ```jsx
-import { Banner } from '@athoscommerce/snap-preact-components';
+import { Banner } from '@athoscommerce/snap-preact/components';
 ```
 
 ### content

@@ -108,7 +108,7 @@ Note: When using fields that are not of hierarchy type, `levels` are not require
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { ControllerProvider } from '@athoscommerce/snap-preact-components';
+import { ControllerProvider } from '@athoscommerce/snap-preact/components';
 
 export const Finder = observer((props) => {
     const { controller } = props;
