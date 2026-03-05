@@ -399,7 +399,7 @@ Facets with a `type` value of `value` or `range-buckets` will contain the follow
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetOptionsHierarchy, FacetSlider } from '@athoscommerce/snap-preact/components';
+import { withController, SearchInput, FacetGridOptions, FacetPaletteOptions, FacetHierarchyOptions, FacetSlider } from '@athoscommerce/snap-preact/components';
 
 export const Facets = withController(observer((props) => {
 	const { controller } = props;

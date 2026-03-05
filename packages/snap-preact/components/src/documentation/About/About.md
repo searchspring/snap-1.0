@@ -5,7 +5,7 @@ This collection of ecommerce components allows you to quickly build and theme a 
 ### Installation
 
 ```sh
-npm install --save @athoscommerce/snap-preact/components
+npm install --save @athoscommerce/snap-preact
 ```
 
 ## Atomic Design Methodology
