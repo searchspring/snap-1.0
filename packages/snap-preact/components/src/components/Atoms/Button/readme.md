@@ -4,7 +4,7 @@ Renders a native or custom button.
 
 ## Usage
 ```jsx
-import { Button } from '@athoscommerce/snap-preact-components';
+import { Button } from '@athoscommerce/snap-preact/components';
 ```
 
 ### content

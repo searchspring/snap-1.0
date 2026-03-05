@@ -101,13 +101,13 @@ describe('Radio Component', () => {
 			expect(element2).not.toHaveAttribute(A11Y_ATTRIBUTE);
 		});
 
-		it('respects the disabled prop', () => {
+		it('respects the disabled prop', async () => {
 			const clickFn = jest.fn();
 			const rendered = render(<Radio disabled onClick={clickFn} />);
 			const RadioElement = rendered.container.querySelector('.ss__radio');
 
 			expect(RadioElement?.className.match(/disabled/)).toBeTruthy();
-			if (RadioElement) userEvent.click(RadioElement);
+			if (RadioElement) await userEvent.click(RadioElement);
 			expect(clickFn).not.toHaveBeenCalled();
 		});
 
@@ -129,7 +129,7 @@ describe('Radio Component', () => {
 			expect(styles.fill).toBe(color);
 			expect(path).toHaveAttribute('d', iconPaths[unCheckedIcon]);
 
-			userEvent.click(RadioElement!);
+			await userEvent.click(RadioElement!);
 
 			await waitFor(() => {
 				expect(path).toHaveAttribute('d', iconPaths[checkedIcon]);
@@ -327,7 +327,7 @@ describe('Radio Component', () => {
 			expect(clickFn).toHaveBeenCalled();
 		});
 
-		it('respects the disabled prop', () => {
+		it('respects the disabled prop', async () => {
 			const clickFn = jest.fn();
 			const rendered = render(<Radio native disabled />);
 			const RadioElement = rendered.container.querySelector('.ss__radio')!;
@@ -335,7 +335,7 @@ describe('Radio Component', () => {
 
 			expect(RadioElement.className.match(/disabled/)).toBeTruthy();
 			expect(radioInput).toHaveAttribute('disabled');
-			userEvent.click(radioInput!);
+			await userEvent.click(radioInput!);
 			expect(clickFn).not.toHaveBeenCalled();
 		});
 

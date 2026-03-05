@@ -83,7 +83,7 @@ describe('AutocompleteModal Component', () => {
 
 		const rendered = render(<AutocompleteModal {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -112,7 +112,7 @@ describe('AutocompleteModal Component', () => {
 
 		const rendered = render(<AutocompleteModal {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -152,7 +152,7 @@ describe('AutocompleteModal Component', () => {
 
 		const rendered = render(<AutocompleteModal {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -186,7 +186,7 @@ describe('AutocompleteModal Component', () => {
 
 		const rendered = render(<AutocompleteModal {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -219,7 +219,7 @@ describe('AutocompleteModal Component', () => {
 
 		const rendered = render(<AutocompleteModal {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -257,7 +257,7 @@ describe('AutocompleteModal Component', () => {
 
 		const rendered = render(<AutocompleteModal {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;

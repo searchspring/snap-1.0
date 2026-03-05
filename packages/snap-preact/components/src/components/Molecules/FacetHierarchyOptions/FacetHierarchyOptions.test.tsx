@@ -109,7 +109,7 @@ describe('FacetHierarchyOptions generic props work', () => {
 			<FacetHierarchyOptions facet={facetStore.filter((facet) => facet.field == 'ss_category_hierarchy').pop()} returnIcon={'cog'} />
 		);
 		const firstOption = rendered.container.querySelector('.ss__facet-hierarchy-options__option');
-		userEvent.click(firstOption!);
+		await userEvent.click(firstOption!);
 
 		await waitFor(() => {
 			const returnIcon = rendered.container.querySelector('.ss__facet-hierarchy-options__option--return .ss__icon--cog');

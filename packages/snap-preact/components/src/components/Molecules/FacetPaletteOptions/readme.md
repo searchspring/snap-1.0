@@ -7,7 +7,7 @@ Renders a grid of facet palette options.
 
 ## Usage
 ```jsx
-import { FacetPaletteOptions } from '@athoscommerce/snap-preact-components';
+import { FacetPaletteOptions } from '@athoscommerce/snap-preact/components';
 ```
 
 ### values
