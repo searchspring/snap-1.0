@@ -62,8 +62,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.SNAPFU_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Generate Metrics Files
-        run: npm run build:metrics
+      # - name: Generate Metrics Files
+      #   run: npm run build:metrics
 
-      - name: Upload Metrics Files to S3
-        run: aws s3 sync --region us-east-1 ./metrics/data s3://datawarehouse-stage/team-metrics-import/
+      # - name: Upload Metrics Files to S3
+      #   run: aws s3 sync --region us-east-1 ./metrics/data s3://datawarehouse-stage/team-metrics-import/
