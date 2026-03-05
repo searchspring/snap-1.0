@@ -7,7 +7,10 @@
 	"author": "Athos Commerce",
 	"license": "MIT",
 	
-	"repository": "https://github.com/AthosCommerce/snap.git",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AthosCommerce/snap.git"
+	},
 	"publishConfig": {
 		"access": "public"
 	},
