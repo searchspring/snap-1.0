@@ -1,4 +1,4 @@
-import { featureFlags, cookies } from '@searchspring/snap-toolbox';
+import { featureFlags, cookies } from '@athoscommerce/snap-toolbox';
 
 const utils = {
 	cookies,

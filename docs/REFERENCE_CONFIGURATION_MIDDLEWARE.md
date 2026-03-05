@@ -63,7 +63,7 @@ const config = {
 The `plugins` property is an array of arrays of functions and optional function parameters that are used to attach functionality to controllers. Parameters can optionally be passed to the functions as shown with the `paramPlugin` below:
 
 ```js
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const plugin = (controller) => {
 	controller.on('init', async(eventData, next) => {
@@ -110,7 +110,7 @@ We can attach events to our controllers after they have been created by a Snap i
 Let's use the `config` from above. Since our search controller has an `id` of `'search'`, we can reference it as follows:
 
 ```js
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const snap = new Snap(config);
 snap.getController('search').then((search) => {
@@ -123,7 +123,7 @@ We can now attach middleware events in the following methods:
 ### controller.on
 
 ```js
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 snap.getController('search').then((search) => {
 	search.on('afterSearch', async(eventData, next) => {
@@ -136,7 +136,7 @@ snap.getController('search').then((search) => {
 ### controller.plugin
 
 ```js
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 snap.getController('search').then((search) => {
 	search.plugin((controller) => {
@@ -152,7 +152,7 @@ snap.getController('search').then((search) => {
 Next we will attach a plugin that takes additional parameters. This could be useful for sending contextual data into your plugin.
 
 ```js
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const paramPlugin = (controller, ...params) => {
 	// params = [ 'param1', 'param2' ]
@@ -170,15 +170,15 @@ snap.getController('search').then((search) => {
 
 ## Global Events
 
-We can attach global events to the `window.searchspring` object via the event-manager created by the Snap instance. These events can be listened for or fired via the `on` and `fire` methods. 
+We can attach global events to the `window.athos` object via the event-manager created by the Snap instance. These events can be listened for or fired via the `on` and `fire` methods. 
 
 Example: 
 ```js
-	window.searchspring.on('myEvent', (data) => {
+	window.athos.on('myEvent', (data) => {
 		console.log('myEvent happened!', data); 
 	})
 
-	window.searchspring.fire('myEvent', data);
+	window.athos.fire('myEvent', data);
 ```
 
 ## Provided Global Events

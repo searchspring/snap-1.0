@@ -1,10 +1,10 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore } from '@searchspring/snap-store-mobx';
-import { version, DomTargeter, getContext } from '@searchspring/snap-toolbox';
-import { AppMode } from '@searchspring/snap-toolbox';
-import { Beacon } from '@searchspring/beacon';
-import type { OrderTransactionSchemaData, Product, ProductPageviewSchemaData } from '@searchspring/beacon';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
+import { version, DomTargeter, getContext } from '@athoscommerce/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
+import { Beacon } from '@athoscommerce/beacon';
+import type { OrderTransactionSchemaData, Product, ProductPageviewSchemaData } from '@athoscommerce/beacon';
 
 import {
 	TrackerGlobals,
@@ -21,11 +21,6 @@ const defaultConfig: TrackerConfig = {
 	id: 'track',
 	framework: 'snap',
 	mode: AppMode.production,
-	requesters: {
-		beacon: {
-			origin: 'https://beacon.searchspring.io/beacon/v2',
-		},
-	},
 };
 
 export class Tracker extends Beacon {
@@ -54,45 +49,57 @@ export class Tracker extends Beacon {
 
 		this.localStorage = new StorageStore({
 			type: 'local',
-			key: `ss-${this.config.id}`,
+			key: `athos-${this.config.id}`,
 		});
 
 		this.localStorage.set('siteId', this.globals.siteId);
 
-		if (!window.searchspring?.tracker) {
-			window.searchspring = window.searchspring || {};
-			window.searchspring.tracker = this;
-			window.searchspring.version = version;
+		const currency = (this.globals as TrackerGlobals)?.currency;
+		if (currency) {
+			this.setCurrency(currency);
+		}
+
+		if (!window.athos?.tracker) {
+			window.athos = window.athos || {};
+			window.athos.tracker = this;
+			window.athos.version = version;
 		}
 
 		// since this is in the constructor, setTimeout is required for jest.spyOn
 		setTimeout(() => {
 			this.targeters.push(
-				new DomTargeter([{ selector: 'script[type^="searchspring/track/"]', emptyTarget: false }], (target: any, elem: Element) => {
-					const { item, items, siteId, shopper, order, type, currency } = getContext(
-						['item', 'items', 'siteId', 'shopper', 'order', 'type', 'currency'],
-						elem as HTMLScriptElement
-					);
+				new DomTargeter(
+					[{ selector: 'script[type^="athos/track/"], script[type^="searchspring/track/"]', emptyTarget: false }],
+					(target: any, elem: Element) => {
+						const { item, items, siteId, shopper, order, type, currency } = getContext(
+							['item', 'items', 'siteId', 'shopper', 'order', 'type', 'currency'],
+							elem as HTMLScriptElement
+						);
 
-					this.setCurrency(currency);
-					switch (type) {
-						case 'searchspring/track/shopper/login':
-							this.track.shopper.login(shopper, siteId);
-							break;
-						case 'searchspring/track/product/view':
-							this.track.product.view(item, siteId);
-							break;
-						case 'searchspring/track/cart/view':
-							this.track.cart.view();
-							break;
-						case 'searchspring/track/order/transaction':
-							this.track.order.transaction({ order, items }, siteId);
-							break;
-						default:
-							console.error(`event '${type}' is not supported`);
-							break;
+						this.setCurrency(currency);
+						switch (type) {
+							case 'searchspring/track/shopper/login':
+							case 'athos/track/shopper/login':
+								this.track.shopper.login(shopper, siteId);
+								break;
+							case 'searchspring/track/product/view':
+							case 'athos/track/product/view':
+								this.track.product.view(item, siteId);
+								break;
+							case 'searchspring/track/cart/view':
+							case 'athos/track/cart/view':
+								this.track.cart.view();
+								break;
+							case 'searchspring/track/order/transaction':
+							case 'athos/track/order/transaction':
+								this.track.order.transaction({ order, items }, siteId);
+								break;
+							default:
+								console.error(`event '${type}' is not supported`);
+								break;
+						}
 					}
-				})
+				)
 			);
 		});
 
@@ -219,7 +226,12 @@ export class Tracker extends Beacon {
 			const { pageUrl } = this.getContext();
 
 			// prevent sending of errors when on localhost or CDN
-			if (message?.includes('Profile is currently paused') || pageUrl.includes('//localhost') || pageUrl.includes('//snapui.searchspring.io/')) {
+			if (
+				message?.includes('Profile is currently paused') ||
+				pageUrl.includes('//localhost') ||
+				pageUrl.includes('//snapui.searchspring.io/') ||
+				pageUrl.includes('//snapui.athoscommerce.io/')
+			) {
 				return;
 			}
 

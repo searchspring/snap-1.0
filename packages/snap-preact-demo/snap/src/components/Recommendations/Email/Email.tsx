@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { Result } from '@searchspring/snap-preact/components';
+import { Result } from '@athoscommerce/snap-preact/components';
 
 type EmailProps = {
 	controller?: RecommendationController;

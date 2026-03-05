@@ -7,7 +7,7 @@ import { FilterSummary, FilterSummaryProps } from './FilterSummary';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../FilterSummary/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import type { SearchRequestModelFilterValue } from '@athoscommerce/snapi-types';
 
 export default {
@@ -56,6 +56,7 @@ export default {
 			defaultValue: 'Current Filters',
 			description: 'Filters object',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -66,6 +67,7 @@ export default {
 		hideTitle: {
 			description: 'Hide title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -76,6 +78,7 @@ export default {
 		hideFacetLabel: {
 			description: 'Hide filter facet label',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -87,6 +90,7 @@ export default {
 			defaultValue: ':',
 			description: 'Filter delimiter',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -96,6 +100,7 @@ export default {
 		hideClearAll: {
 			description: 'Hide filter clear all button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -107,6 +112,7 @@ export default {
 			defaultValue: 'Clear All',
 			description: 'Text to show on clear all filters',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -118,6 +124,7 @@ export default {
 			defaultValue: 'close-thin',
 			description: 'Icon name',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -132,6 +139,7 @@ export default {
 			defaultValue: 'close-thin',
 			description: 'Icon name',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -145,6 +153,7 @@ export default {
 		onClick: {
 			description: 'Filter click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -152,9 +161,25 @@ export default {
 			control: { type: 'none' },
 			action: 'onClick',
 		},
+		type: {
+			defaultValue: 'inline',
+			description: 'display type',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string',
+				},
+				defaultValue: { summary: 'inline' },
+			},
+			options: ['inline', 'list'],
+			control: {
+				type: 'select',
+			},
+		},
 		onClearAllClick: {
 			description: 'Filter clear click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -173,7 +198,7 @@ const snapInstance = Snapify.search({
 		filters: [
 			{
 				type: 'value',
-				field: 'color_family',
+				field: 'color',
 				value: 'Blue',
 			} as SearchRequestModelFilterValue,
 			{

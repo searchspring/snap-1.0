@@ -1,20 +1,20 @@
 /** @jsx jsx */
 import { h, ComponentChildren } from 'preact';
 import { jsx, css } from '@emotion/react';
-import { observer } from 'mobx-react';
-import type { AutocompleteController, RecommendationController, SearchController } from '@searchspring/snap-controller';
+import { observer } from 'mobx-react-lite';
+import type { AutocompleteController, RecommendationController, SearchController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StylingCSS } from '../../../types';
-import type { Banner, Product } from '@searchspring/snap-store-mobx';
+import type { Banner, Product } from '@athoscommerce/snap-store-mobx';
 import classnames from 'classnames';
 import { Theme, useTheme } from '../../../providers';
 import { createImpressionObserver, mergeProps } from '../../../utilities';
-import { type Ref } from 'preact/hooks';
+import { type MutableRef } from 'preact/hooks';
 
 const CSS = {
 	ResultTracker: () => css({}),
 };
 
-export const ResultTracker = observer((properties: ResultTrackerProps): JSX.Element => {
+export const ResultTracker = observer((properties: ResultTrackerProps) => {
 	const globalTheme: Theme = useTheme();
 
 	const props = mergeProps('resultTracker', globalTheme, {}, properties);
@@ -51,7 +51,7 @@ export const ResultTracker = observer((properties: ResultTrackerProps): JSX.Elem
 					controller?.track.product.click(e, result);
 				}
 			}}
-			ref={ref as Ref<HTMLDivElement>}
+			ref={ref as MutableRef<HTMLDivElement>}
 			{...styling}
 		>
 			{children}

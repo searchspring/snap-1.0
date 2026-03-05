@@ -5,20 +5,20 @@ import { render, waitFor } from '@testing-library/preact';
 import { ThemeProvider } from '../../../providers';
 
 import { Terms } from './Terms';
-import { AutocompleteController, AutocompleteControllerConfig } from '@searchspring/snap-controller';
+import { AutocompleteController, AutocompleteControllerConfig } from '@athoscommerce/snap-controller';
 import { createAutocompleteController } from '../../../../../src/create';
-import { MockClient } from '@searchspring/snap-shared';
+import { MockClient } from '@athoscommerce/snap-shared';
 import userEvent from '@testing-library/user-event';
 
-import { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 
 describe('Terms Component', () => {
 	const globals = { siteId: '8uyt2m' };
 	let controllerConfigId = uuidv4().split('-').join('');
 	let acConfig: AutocompleteControllerConfig = {
 		id: controllerConfigId,
-		selector: 'input.searchspring-ac',
+		selector: 'input.athos-ac',
 		settings: {
 			trending: {
 				limit: 5,
@@ -114,15 +114,15 @@ describe('Terms Component', () => {
 	});
 
 	it('Can use emify', async () => {
-		document.body.innerHTML = '<div>' + '  <input type="text" class="searchspring-ac">' + '<div id="target"></div></div>';
+		document.body.innerHTML = '<div>' + '  <input type="text" class="athos-ac">' + '<div id="target"></div></div>';
 		mockClient.mockData.updateConfig({ autocomplete: 'default' });
 
-		const input = document.querySelector('.searchspring-ac');
+		const input = document.querySelector('.athos-ac');
 		expect(input).toBeInTheDocument();
 
 		await controller.bind();
 
-		userEvent.type(input!, 'dre');
+		await userEvent.type(input!, 'dre');
 
 		const rendered = render(<Terms controller={controller} terms={mockTerms} emIfy={true} />);
 		const termOptions = rendered.container.querySelectorAll('.ss__terms__option a')[0];
@@ -157,7 +157,7 @@ describe('Terms Component', () => {
 		const termOptions = rendered.container.querySelector('.ss__terms__option a');
 		expect(termOptions).toBeInTheDocument();
 
-		userEvent.hover(termOptions!);
+		await userEvent.hover(termOptions!);
 
 		await waitFor(() => expect(mockTerms[0].preview).toHaveBeenCalled());
 	});
@@ -174,7 +174,7 @@ describe('Terms Component', () => {
 		const rendered = render(<Terms controller={controller} terms={mockTerms} onTermClick={onClick} />);
 		const termOptions = rendered.container.querySelector('.ss__terms__option a');
 
-		userEvent.click(termOptions!);
+		await userEvent.click(termOptions!);
 
 		expect(onClick).toHaveBeenCalled();
 	});

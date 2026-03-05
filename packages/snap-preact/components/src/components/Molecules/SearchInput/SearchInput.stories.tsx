@@ -56,6 +56,7 @@ export default {
 		onChange: {
 			description: 'OnChange Callback',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -66,6 +67,7 @@ export default {
 		onKeyUp: {
 			description: 'OnKeyUp Callback',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -76,6 +78,7 @@ export default {
 		onKeyDown: {
 			description: 'OnKeyDown Callback',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -86,6 +89,7 @@ export default {
 		onClick: {
 			description: 'OnClick Callback',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -96,8 +100,9 @@ export default {
 		submitSearchButton: {
 			description: 'Button component props for submit search button',
 			table: {
+				category: 'Templates Legal',
 				type: {
-					summary: `{ icon: 'search' }`,
+					summary: `{ icon: 'search-thin' }`,
 				},
 			},
 			control: { type: 'object' },
@@ -105,6 +110,7 @@ export default {
 		clearSearchButton: {
 			description: 'Button component props for clear search button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: `{ icon: 'close-thin' }`,
 				},
@@ -114,6 +120,7 @@ export default {
 		closeSearchButton: {
 			description: 'Button component props for close search button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: `{}`,
 				},
@@ -133,6 +140,7 @@ export default {
 			defaultValue: 'Search',
 			description: 'Display placeholder text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -143,6 +151,7 @@ export default {
 		inputName: {
 			description: 'sets the name attribute for the input',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -152,6 +161,7 @@ export default {
 		disabled: {
 			description: 'boolean to set disabled attribute',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -165,7 +175,7 @@ export default {
 export const Default = (args: SearchInputProps) => <SearchInput {...args} />;
 
 Default.args = {
-	submitSearchButton: { icon: 'search' },
+	submitSearchButton: { icon: 'search-thin' },
 	clearSearchButton: { icon: 'close-thin' },
 	chatButton: { icon: 'chat' },
 };

@@ -1,15 +1,15 @@
 import 'whatwg-fetch';
 import { addToCart } from './addToCart';
-import { MockClient } from '@searchspring/snap-shared';
-import { SearchStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, QueryStringTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { SearchController } from '@searchspring/snap-controller';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { SearchStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, QueryStringTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { SearchController } from '@athoscommerce/snap-controller';
 
-import type { Product, SearchResultStore, SearchStoreConfig } from '@searchspring/snap-store-mobx';
+import type { Product, SearchResultStore, SearchStoreConfig } from '@athoscommerce/snap-store-mobx';
 
 const HEADERS = { 'Content-Type': 'application/json', Accept: 'application/json' };
 const MOCK_CART_ID = '123456789';

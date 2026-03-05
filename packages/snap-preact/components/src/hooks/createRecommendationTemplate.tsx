@@ -1,10 +1,10 @@
-import { RecommendationController, RecommendationControllerConfig } from '@searchspring/snap-controller';
+import { h } from 'preact';
+import { RecommendationController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
 import { SnapTemplates } from '../../../src';
 import { Theme, useSnap } from '../providers';
 import { useCreateController } from './useCreateController';
 import { useComponent } from './useComponent';
 import { ResultComponent, RecommendationComponentNames, RecommendationComponentProps } from '../types';
-import { FunctionalComponent } from 'preact';
 
 export type TemplatesType = {
 	recommendation?: {
@@ -16,13 +16,13 @@ export type TemplatesType = {
 };
 
 type ReturnType = {
-	RecommendationTemplateComponent: FunctionalComponent<RecommendationComponentProps> | undefined;
+	RecommendationTemplateComponent: ((props: RecommendationComponentProps) => h.JSX.Element | null) | undefined;
 	RecommendationTemplateResultComponent: ResultComponent | undefined;
 	recsController: RecommendationController | undefined;
 };
 
 export function createRecommendationTemplate(templates: TemplatesType, theme?: Theme): ReturnType {
-	let recommendationTemplateComponent: FunctionalComponent<{ controller: RecommendationController; name: string }> | undefined;
+	let recommendationTemplateComponent: ((props: RecommendationComponentProps) => h.JSX.Element | null) | undefined;
 	let recommendationTemplateResultComponent: ResultComponent | undefined;
 	let recsController: RecommendationController | undefined;
 
@@ -64,8 +64,8 @@ export function createRecommendationTemplate(templates: TemplatesType, theme?: T
 	}
 
 	const returnObj: ReturnType = {
-		RecommendationTemplateComponent: recommendationTemplateComponent as FunctionalComponent<RecommendationComponentProps> | undefined,
-		RecommendationTemplateResultComponent: recommendationTemplateResultComponent as ResultComponent | undefined,
+		RecommendationTemplateComponent: recommendationTemplateComponent,
+		RecommendationTemplateResultComponent: recommendationTemplateResultComponent,
 		recsController: recsController,
 	};
 

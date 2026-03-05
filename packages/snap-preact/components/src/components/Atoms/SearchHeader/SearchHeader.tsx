@@ -1,13 +1,13 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { mergeProps, mergeStyles } from '../../../utilities';
-import { SearchMerchandisingStore, SearchPaginationStore, SearchQueryStore } from '@searchspring/snap-store-mobx';
+import { SearchMerchandisingStore, SearchPaginationStore, SearchQueryStore } from '@athoscommerce/snap-store-mobx';
 import classnames from 'classnames';
 import { useLang } from '../../../hooks';
 import type { Lang } from '../../../hooks';
@@ -17,7 +17,7 @@ const defaultStyles: StyleScript<SearchHeaderProps> = () => {
 	return css({});
 };
 
-export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Element => {
+export const SearchHeader = observer((properties: SearchHeaderProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -102,7 +102,7 @@ export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Elemen
 				{landingPage ? (
 					<h3 className={classnames('ss__search-header__title', 'ss__search-header__title--landing-page')}>{landingPage.title}</h3>
 				) : (
-					<Fragment>
+					<>
 						{pagination?.totalResults ? (
 							<>
 								{!hideExpandedSearchText && search?.matchType && search.matchType == 'expanded' ? (
@@ -161,19 +161,23 @@ export const SearchHeader = observer((properties: SearchHeaderProps): JSX.Elemen
 						{(subtitleText || lang.subtitleText.value) && !hideSubtitleText && (
 							<h5 className={classnames('ss__search-header__subtitle')} aria-atomic="true" aria-live="polite" {...mergedLang.subtitleText?.all}></h5>
 						)}
-					</Fragment>
+					</>
 				)}
 			</header>
 		</CacheProvider>
 	);
 });
 
-export interface SearchHeaderProps extends ComponentProps {
+export type SearchHeaderProps = {
 	controller?: SearchController;
 	query?: SearchQueryStore;
 	pagination?: SearchPaginationStore;
 	merchandising?: SearchMerchandisingStore;
+	lang?: Partial<SearchHeaderLang>;
+} & SearchHeaderTemplatesLegalProps &
+	ComponentProps<SearchHeaderProps>;
 
+export type SearchHeaderTemplatesLegalProps = {
 	titleText?: string | ((data: SearchHeaderPropData) => string);
 	subtitleText?: string | ((data: SearchHeaderPropData) => string);
 	correctedQueryText?: string | ((data: SearchHeaderPropData) => string);
@@ -186,8 +190,7 @@ export interface SearchHeaderProps extends ComponentProps {
 	hideNoResultsText?: boolean;
 	hideDidYouMeanText?: boolean;
 	hideExpandedSearchText?: boolean;
-	lang?: Partial<SearchHeaderLang>;
-}
+};
 
 export interface SearchHeaderLang {
 	titleText: Lang<SearchHeaderPropData>;

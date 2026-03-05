@@ -1,7 +1,7 @@
-import { h, Fragment } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge, Icon } from '@searchspring/snap-preact/components';
-import { Product } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import { h } from 'preact';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating, Icon } from '@athoscommerce/snap-preact/components';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 const openChatProductQuery = (result, controller) => {
 	const options = { requestType: 'productQuery' };
@@ -67,14 +67,15 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 
 				<div className="ss__custom-result__details__pricing">
 					{core.price < core.msrp ? (
-						<Fragment>
+						<>
 							<Price value={core.msrp} lineThrough={true} />
 							<Price value={core.price} />
-						</Fragment>
+						</>
 					) : (
 						<Price value={core.price} />
 					)}
 				</div>
+				<Rating value={4.35} count={70} />
 
 				<CalloutBadge result={result}></CalloutBadge>
 			</div>
@@ -100,10 +101,10 @@ export const CustomResultSecondary = (props) => {
 
 				<div className="ss__custom-result-secondary__details__pricing">
 					{core.price < core.msrp ? (
-						<Fragment>
+						<>
 							<Price value={core.msrp} lineThrough={true} />
 							<Price value={core.price} />
-						</Fragment>
+						</>
 					) : (
 						<Price value={core.price} />
 					)}

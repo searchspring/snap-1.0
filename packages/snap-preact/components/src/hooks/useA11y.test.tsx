@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { A11Y_ATTRIBUTE, useA11y } from './useA11y';
 
 describe('useA11y hook', () => {
-	it('can use the hook and get the attributes and eventlisteners', () => {
+	it('can use the hook and get the attributes and eventlisteners', async () => {
 		let clickFunc = jest.fn();
 		const rendered = render(
 			<div onClick={clickFunc} id="findMe" ref={(e) => useA11y(e)}>
@@ -19,21 +19,21 @@ describe('useA11y hook', () => {
 		expect(Element).toHaveAttribute(A11Y_ATTRIBUTE);
 		expect(Element).toHaveAttribute('tabIndex', '0');
 
-		userEvent.tab();
+		await userEvent.tab();
 
 		expect(Element).toHaveFocus();
 
-		userEvent.keyboard('{Enter}');
+		await userEvent.keyboard('{Enter}');
 		expect(clickFunc).toHaveBeenCalled();
 		//spacebar
-		userEvent.keyboard(' ');
+		await userEvent.keyboard(' ');
 		expect(clickFunc).toHaveBeenCalledTimes(2);
 
-		userEvent.tab();
+		await userEvent.tab();
 		expect(Element).not.toHaveFocus();
 	});
 
-	it('can pass tab index', () => {
+	it('can pass tab index', async () => {
 		let clickFunc = jest.fn();
 		let tabindex = 1;
 		const rendered = render(
@@ -49,7 +49,7 @@ describe('useA11y hook', () => {
 		expect(Element).toHaveAttribute(A11Y_ATTRIBUTE);
 		expect(Element).toHaveAttribute('tabIndex', `${tabindex}`);
 
-		userEvent.tab();
+		await userEvent.tab();
 
 		expect(Element).toHaveFocus();
 	});

@@ -43,6 +43,7 @@ export default {
 		contentSlot: {
 			description: 'Slot for adding custom content',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -52,6 +53,7 @@ export default {
 		hideSuggestions: {
 			description: 'Hide suggestions',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -62,6 +64,7 @@ export default {
 		suggestionsTitleText: {
 			description: 'Suggestions title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -72,6 +75,7 @@ export default {
 		suggestionsList: {
 			description: 'list of suggestions to display',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string[]',
 				},
@@ -81,6 +85,7 @@ export default {
 		hideContact: {
 			description: 'Hide contact section',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -91,6 +96,7 @@ export default {
 		hideContactsTitleText: {
 			description: 'Hide contact section title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -101,6 +107,7 @@ export default {
 		hideSuggestionsTitleText: {
 			description: 'Hide suggestions section title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -111,6 +118,7 @@ export default {
 		contactsTitleText: {
 			description: 'contact section title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -121,6 +129,7 @@ export default {
 		contactsList: {
 			description: 'list of contact lines to display',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: '{ title, content }[]',
 				},
@@ -130,6 +139,7 @@ export default {
 		templates: {
 			description: 'templates to render',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'object' },
 			},
 			control: { type: 'object' },

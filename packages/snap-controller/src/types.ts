@@ -6,9 +6,9 @@ import type {
 	RecommendationController,
 	ChatController,
 } from './index';
-import type { EventManager, Middleware } from '@searchspring/snap-event-manager';
+import type { EventManager, Middleware } from '@athoscommerce/snap-event-manager';
 
-import type { Client } from '@searchspring/snap-client';
+import type { Client } from '@athoscommerce/snap-client';
 import type {
 	SearchStore,
 	AutocompleteStore,
@@ -21,11 +21,11 @@ import type {
 	RecommendationStoreConfig,
 	ChatStoreConfig,
 	ChatStore,
-} from '@searchspring/snap-store-mobx';
-import type { Tracker, ProductViewEvent } from '@searchspring/snap-tracker';
-import type { Profiler } from '@searchspring/snap-profiler';
-import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { Logger } from '@searchspring/snap-logger';
+} from '@athoscommerce/snap-store-mobx';
+import type { Tracker, ProductViewEvent } from '@athoscommerce/snap-tracker';
+import type { Profiler } from '@athoscommerce/snap-profiler';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
+import type { Logger } from '@athoscommerce/snap-logger';
 import type {
 	AutocompleteRequestModel,
 	// AutocompleteResponseModel,

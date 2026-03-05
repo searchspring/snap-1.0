@@ -1,11 +1,11 @@
 Welcome to the Snap React Component Library! 
-This collection of ecommerce components allows you to quickly build and theme a layout for use with Searchspring's Snap SDK.
+This collection of ecommerce components allows you to quickly build and theme a layout for use with Athos' Snap SDK.
 
 
 ### Installation
 
 ```sh
-npm install --save @searchspring/snap-preact-components
+npm install --save @athoscommerce/snap-preact-components
 ```
 
 ## Atomic Design Methodology

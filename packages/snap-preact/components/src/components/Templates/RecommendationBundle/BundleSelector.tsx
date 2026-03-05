@@ -10,7 +10,7 @@ import type { ComponentProps } from '../../../types';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 
-export const BundleSelector = observer((properties: BundleSelectorProps): JSX.Element => {
+export const BundleSelector = observer((properties: BundleSelectorProps) => {
 	const globalTheme: Theme = useTheme();
 	const defaultProps: Partial<BundleSelectorProps> = {
 		hideCheckboxes: false,

@@ -1,10 +1,10 @@
 # CalloutBadge
 
-Renders callout badges configured in the Searchspring Management Console and returned from the API. This component is intended to be used within a `Result` component to display callout badges.
+Renders callout badges configured in the Athos Search & Product Discovery Console and returned from the API. This component is intended to be used within a `Result` component to display callout badges.
 
 ## Usage
 ```jsx
-import { CalloutBadge } from '@searchspring/snap-preact-components';
+import { CalloutBadge } from '@athoscommerce/snap-preact-components';
 ```
 
 ### result
@@ -15,7 +15,7 @@ The required `result` prop specifies a reference to a product object from the `r
 ```
 
 ### componentMap
-The `componentMap` prop allows for custom badge components. This functionality requires the component and accompanying files to be synced to the Searchspring Management Console using Snapfu.
+The `componentMap` prop allows for custom badge components. This functionality requires the component and accompanying files to be synced to the Athos Search & Product Discovery Console using Snapfu.
 
 ```jsx
 import { CustomOnSale } from './components/Badges/CustomOnSale';
@@ -55,7 +55,7 @@ By default if there are no badges, the wrapper element will not render. If you n
 ```
 
 ### limit
-The callout badge slot will by default only render a single badge, but the limit can be increased to allow rendering multiple badges in the same location. This allows for "stacking" of the badges in the callout slot. The order of the stack is determined by the SMC badge configuration.
+The callout badge slot will by default only render a single badge, but the limit can be increased to allow rendering multiple badges in the same location. This allows for "stacking" of the badges in the callout slot. The order of the stack is determined by the ASD badge configuration.
 
 ```jsx
 <CalloutBadge

@@ -14,6 +14,9 @@ export const autocompleteSlideoutThemeComponentProps: ThemeComponent<'autocomple
 			disableOverflow: true,
 			disableCollapse: true,
 			searchable: false,
+			showClearAllText: false,
+			showSelectedCount: false,
+			rangeInputs: false,
 		},
 		'autocompleteSlideout facetGridOptions': {
 			// onClick: facetClickEvent,
@@ -44,11 +47,7 @@ export const autocompleteSlideoutThemeComponentProps: ThemeComponent<'autocomple
 	},
 	mobile: {
 		autocompleteSlideout: {
-			layout: [['c1']],
-			column1: {
-				layout: [['button.see-more'], ['termsList'], ['content']],
-				width: '100%',
-			},
+			layout: 'mini',
 		},
 		'autocompleteSlideout recommendationGrid': {
 			columns: 2,

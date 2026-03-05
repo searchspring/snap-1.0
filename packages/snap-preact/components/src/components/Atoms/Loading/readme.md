@@ -4,7 +4,7 @@ Renders a Loading Bar.
 
 ## Usage
 ```jsx
-import { LoadingBar } from '@searchspring/snap-preact-components';
+import { LoadingBar } from '@athoscommerce/snap-preact-components';
 ```
 
 ### active

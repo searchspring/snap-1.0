@@ -31,7 +31,7 @@ export const Finder = observer(({ controller }: FinderProps) => {
 								controller.find();
 							}}
 							disabled={loading}
-							className="button button--primary searchspring-finder_submit"
+							className="button button--primary ss__finder_submit"
 						>
 							Shop Now
 						</button>
@@ -41,7 +41,7 @@ export const Finder = observer(({ controller }: FinderProps) => {
 								controller.reset();
 							}}
 							disabled={loading}
-							className="button button--primary searchspring-finder_reset"
+							className="button button--primary ss__finder_reset"
 						>
 							Reset
 						</button>
@@ -61,7 +61,7 @@ type DropdownProps = {
 export const Dropdown = observer(({ selection, loading }: DropdownProps) => {
 	return (
 		<select
-			className="form-input form-select form-input-short searchspring-finder_field"
+			className="form-input form-select form-input-short ss__finder_field"
 			onChange={(e: any) => {
 				selection.select(e.target.value);
 			}}

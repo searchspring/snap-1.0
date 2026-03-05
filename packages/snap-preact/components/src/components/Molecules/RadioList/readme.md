@@ -21,25 +21,25 @@ The `native` prop will use native html `<input type='radio'>` elements.
 <RadioList options={store.options} native={true} />
 ```
 
-### hideRadios
-The `hideRadios` prop will disable the option radio elements from rendering.
+### hideOptionRadios
+The `hideOptionRadios` prop will disable the option radio elements from rendering.
 
 ```jsx
-<RadioList options={store.options} hideRadios={true} />
+<RadioList options={store.options} hideOptionRadios={true} />
 ```
 
-### hideLabels
-The `hideLabels` prop will disable the option label elements from rendering.
+### hideOptionLabels
+The `hideOptionLabels` prop will disable the option label elements from rendering.
 
 ```jsx
-<RadioList options={store.options} hideLabels={true} />
+<RadioList options={store.options} hideOptionLabels={true} />
 ```
 
-### hideIcons
-The `hideIcons` prop will disable the option icon elements from rendering.
+### hideOptionIcons
+The `hideOptionIcons` prop will disable the option icon elements from rendering.
 
 ```jsx
-<RadioList options={store.options} hideIcons={true} />
+<RadioList options={store.options} hideOptionIcons={true} />
 ```
 
 ### titleText
@@ -63,11 +63,18 @@ The `disabled` prop will put the inputs in a disabled state.
 <RadioList options={store.options} disabled={true} />
 ```
 
+### horizontal
+The `horizontal` prop will determine if the radio list options should render horizontally.
+
+```jsx
+<RadioList options={store.options} horizontal={true} />
+```
+
 ### selected
 The `selected` prop specifies the currently selected Option object. 
 
 ```jsx
-<RadioList options={store.pagination.pageSizeOptions} selected={store.pagination.pageSize} />
+<RadioList options={store.pagination.pageSizeOptions} selected={store.pagination.pageSizeOptions[0]} />
 ```
 
 ### Events

@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge';
-import { AppMode, version } from '@searchspring/snap-toolbox';
+import { AppMode, version } from '@athoscommerce/snap-toolbox';
 
 import { fibonacci } from '../utils/fibonacci';
 import { NetworkCache } from '../NetworkCache/NetworkCache';
@@ -22,13 +22,13 @@ export interface RequestOpts {
 	subDomain?: string; // optional subdomain for requests
 }
 
-export class API {
+export class API<PathConfigurationType> {
 	private retryDelay = 1000;
 	private retryCount = 0;
 
 	public cache: NetworkCache;
 
-	constructor(public configuration: ApiConfiguration) {
+	constructor(public configuration: ApiConfiguration<PathConfigurationType>) {
 		this.cache = new NetworkCache(this.configuration.cache);
 	}
 
@@ -104,7 +104,7 @@ export class API {
 		// 	throw new Error(`Request failed. Missing "siteId" parameter.`);
 		// }
 
-		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.io`;
+		const siteIdHost = `https://${siteId}.a${context.subDomain ? `.${context.subDomain}` : ''}.athoscommerce.net`;
 		const origin = (context.origin || this.configuration.origin || siteIdHost).replace(/\/$/, '');
 
 		let url = `${origin}/${context.path.replace(/^\//, '')}`;
@@ -142,21 +142,21 @@ export class API {
 
 export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
 
-export interface ApiConfigurationParameters {
+export interface ApiConfigurationParameters<PathConfigurationType = Record<string, string>> {
 	mode?: keyof typeof AppMode | AppMode;
 	initiator?: string;
 	origin?: string; // override url origin
-	secondaryOrigin?: string; // override url origin
 	fetchApi?: FetchAPI; // override for fetch implementation
 	queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
 	headers?: HTTPHeaders; //header params we want to use on every request
 	maxRetry?: number;
 	cache?: CacheConfig;
 	globals?: GenericGlobals;
+	paths?: PathConfigurationType;
 }
 
-export class ApiConfiguration {
-	constructor(private config: ApiConfigurationParameters = {}) {
+export class ApiConfiguration<PathConfigurationType> {
+	constructor(private config: ApiConfigurationParameters<PathConfigurationType> = {}) {
 		if (!config.maxRetry) {
 			this.config.maxRetry = 8;
 		}
@@ -179,10 +179,6 @@ export class ApiConfiguration {
 
 	get origin(): string {
 		return this.config.origin || '';
-	}
-
-	get secondaryOrigin(): string {
-		return this.config.secondaryOrigin || '';
 	}
 
 	get initiator(): string {
@@ -215,6 +211,10 @@ export class ApiConfiguration {
 
 	get mode(): AppMode {
 		return this.config.mode! as AppMode;
+	}
+
+	get paths(): PathConfigurationType {
+		return this.config.paths || ({} as PathConfigurationType);
 	}
 }
 

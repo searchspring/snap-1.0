@@ -1,12 +1,12 @@
 {
-	"name": "@searchspring/snap-store-mobx",
-	"version": "1.11.0",
+	"name": "@athoscommerce/snap-store-mobx",
+	"version": "1.0.0",
 	"description": "Snap MobX Store",
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
-	"author": "Searchspring",
+	"author": "Athos Commerce",
 	"license": "MIT",
-	"repository": "https://github.com/searchspring/snap",
+	"repository": "https://github.com/athoscommerce/snap",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -20,14 +20,12 @@
 		"test:watch": "jest --watch"
 	},
 	"dependencies": {
-		"@searchspring/snap-toolbox": "1.11.0",
-		"mobx": "6.9.0"
+		"@athoscommerce/snap-toolbox": "1.0.0",
+		"mobx": "6.15.0"
 	},
 	"devDependencies": {
-		"@searchspring/snap-client": "1.11.0",
-		"@searchspring/snap-url-manager": "1.11.0",
-		"@searchspring/snap-toolbox": "1.11.0",
-		"mobx": "6.9.0"
+		"@athoscommerce/snap-client": "1.0.0",
+		"@athoscommerce/snap-url-manager": "1.0.0"
 	},
 	"sideEffects": false,
 	"files": [

@@ -6,7 +6,7 @@ import { render, waitFor } from '@testing-library/preact';
 import { Image, FALLBACK_IMAGE_URL } from './Image';
 import userEvent from '@testing-library/user-event';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
@@ -92,14 +92,14 @@ describe('image Component', () => {
 	});
 
 	describe('click func', () => {
-		it('custom onclick src on hover', () => {
+		it('custom onclick src on hover', async () => {
 			const clickfunc = jest.fn();
 
 			const rendered = render(<Image alt={badResult?.name!} src={result?.thumbnailImageUrl!} onClick={clickfunc} />);
 			const imageElement = rendered.container.querySelector('.ss__image img')!;
 
 			expect(imageElement).toHaveAttribute('src', result?.thumbnailImageUrl);
-			userEvent.click(imageElement);
+			await userEvent.click(imageElement);
 			expect(clickfunc).toHaveBeenCalled();
 		});
 	});

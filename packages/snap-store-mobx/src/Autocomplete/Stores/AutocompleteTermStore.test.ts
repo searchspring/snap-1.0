@@ -1,5 +1,5 @@
-import { UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
-import { MockData } from '@searchspring/snap-shared';
+import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
 
 import { AutocompleteTermStore } from './AutocompleteTermStore';
 import { AutocompleteStateStore } from './AutocompleteStateStore';
@@ -12,10 +12,7 @@ const services = {
 
 let config = {
 	id: 'autocomplete',
-	selector: 'input.searchspring-ac',
-	settings: {
-		integratedSpellCorrection: true,
-	},
+	selector: 'input.athos-ac',
 };
 
 const mockData = new MockData();

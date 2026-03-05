@@ -7,7 +7,7 @@ Renders a list of hierarchy options.
 
 ## Usage
 ```jsx
-import { FacetHierarchyOptions } from '@searchspring/snap-preact-components';
+import { FacetHierarchyOptions } from '@athoscommerce/snap-preact-components';
 ```
 
 ### values

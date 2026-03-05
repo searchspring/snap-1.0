@@ -1,9 +1,9 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { MutableRef, useEffect, useRef, useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
 import { css } from '@emotion/react';
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
@@ -11,7 +11,7 @@ import { AutocompleteLayout, AutocompleteLayoutProps } from '../../Organisms/Aut
 import { Modal, ModalProps } from '../../Molecules/Modal';
 import classNames from 'classnames';
 import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
-import { debounce } from '@searchspring/snap-toolbox';
+import { debounce } from '@athoscommerce/snap-toolbox';
 import { useA11y } from '../../../hooks';
 import { useAcRenderedInput } from '../../../hooks/useAcRenderedInput';
 
@@ -53,7 +53,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 	});
 };
 
-export const AutocompleteFixed = observer((properties: AutocompleteFixedProps): JSX.Element => {
+export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) => {
 	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<AutocompleteFixedProps> = {
@@ -129,7 +129,8 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps): 
 		},
 		searchInput: {
 			// default props
-			internalClassName: 'autocomplete-fixed__search-input',
+			// autocomplete__search-input is required for useAcRenderedInput hook.
+			internalClassName: 'autocomplete-fixed__search-input autocomplete__search-input',
 			placeholderText: inputPlaceholderText || undefined,
 			submitSearchButton: {
 				onClick: () => {
@@ -234,30 +235,26 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps): 
 		<CacheProvider>
 			<div {...styling} className={classNames('ss__autocomplete-fixed', className, internalClassName)}>
 				<Modal {...subProps.modal}>
-					<Fragment>
-						<div className="ss__autocomplete-fixed__inner" ref={(e) => useA11y(e, 0, true, reset)}>
-							{renderInput ? (
-								<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
-							) : (
-								<></>
-							)}
-							<div className="ss__autocomplete-fixed__inner__layout-wrapper">
-								<AutocompleteLayout
-									{...acProps}
-									{...subProps.autocompleteLayout}
-									input={_input!}
-									controller={controller}
-									treePath={`${treePath} modal`}
-								/>
-							</div>
+					<div className="ss__autocomplete-fixed__inner" ref={(e) => useA11y(e, 0, true, reset)}>
+						{renderInput ? (
+							<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
+						) : (
+							<></>
+						)}
+						<div className="ss__autocomplete-fixed__inner__layout-wrapper">
+							<AutocompleteLayout
+								{...acProps}
+								{...subProps.autocompleteLayout}
+								input={_input!}
+								controller={controller}
+								treePath={`${treePath} modal`}
+							/>
 						</div>
-					</Fragment>
+					</div>
 				</Modal>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface inputBounds {
@@ -273,10 +270,14 @@ interface AutocompleteFixedSubProps {
 	searchInput: Partial<SearchInputProps>;
 }
 
-export interface AutocompleteFixedProps extends AutocompleteLayoutProps, ComponentProps {
+export type AutocompleteFixedProps = {
+	controller: AutocompleteController;
+} & AutocompleteFixedTemplatesLegalProps &
+	ComponentProps<AutocompleteFixedProps>;
+
+export type AutocompleteFixedTemplatesLegalProps = {
 	buttonSelector?: string | Element;
 	overlayColor?: string;
 	renderInput?: boolean;
-	controller: AutocompleteController;
 	offset?: Partial<Omit<inputBounds, 'height'>>;
-}
+} & AutocompleteLayoutProps;

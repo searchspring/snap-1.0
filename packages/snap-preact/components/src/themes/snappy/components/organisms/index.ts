@@ -9,9 +9,11 @@ import { noResults } from './noResults';
 import { sidebar } from './sidebar';
 import { termsList } from './termsList';
 import { toolbar } from './toolbar';
+import { autocomplete } from './autocomplete';
 
 export const organisms: ThemeResponsiveComplete = {
 	default: {
+		...autocomplete.default,
 		...facet.default,
 		...facetsHorizontal.default,
 		...filterSummary.default,
@@ -22,6 +24,7 @@ export const organisms: ThemeResponsiveComplete = {
 		...termsList.default,
 	},
 	mobile: {
+		...autocomplete.mobile,
 		...facet.mobile,
 		...facetsHorizontal.mobile,
 		...filterSummary.mobile,
@@ -32,6 +35,7 @@ export const organisms: ThemeResponsiveComplete = {
 		...termsList.mobile,
 	},
 	tablet: {
+		...autocomplete.tablet,
 		...facet.tablet,
 		...facetsHorizontal.tablet,
 		...filterSummary.tablet,
@@ -42,6 +46,7 @@ export const organisms: ThemeResponsiveComplete = {
 		...termsList.tablet,
 	},
 	desktop: {
+		...autocomplete.desktop,
 		...facet.desktop,
 		...facetsHorizontal.desktop,
 		...filterSummary.desktop,

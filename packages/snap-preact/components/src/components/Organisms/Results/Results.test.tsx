@@ -5,15 +5,15 @@ import { ResultsLayout as Layout } from '../../../types';
 import { Theme, ThemeProvider } from '../../../providers';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
-import { SearchResultStore, SearchStore, SearchStoreConfig } from '@searchspring/snap-store-mobx';
-import { QueryStringTranslator, reactLinker, UrlManager, UrlTranslator } from '@searchspring/snap-url-manager';
+import { SearchResultStore, SearchStore, SearchStoreConfig } from '@athoscommerce/snap-store-mobx';
+import { QueryStringTranslator, reactLinker, UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 
-import { MockClient, MockData } from '@searchspring/snap-shared';
-import { SearchController, SearchControllerConfig } from '@searchspring/snap-controller';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { Profiler } from '@searchspring/snap-profiler';
+import { MockClient, MockData } from '@athoscommerce/snap-shared';
+import { SearchController, SearchControllerConfig } from '@athoscommerce/snap-controller';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { Profiler } from '@athoscommerce/snap-profiler';
 
 const mockData = new MockData();
 const searchResponse = mockData.searchMeta();
@@ -203,7 +203,7 @@ describe('Results Component', () => {
 		expect(resultsElement?.classList).toHaveLength(2);
 	});
 
-	it('can pass child component props via the theme', () => {
+	it('can pass child component props via the theme', async () => {
 		const clickFunc = jest.fn();
 		const theme2 = {
 			components: {
@@ -228,7 +228,7 @@ describe('Results Component', () => {
 		expect(clickFunc).not.toHaveBeenCalled();
 
 		const resultElement = rendered.container.querySelector('.ss__results .ss__result a')!;
-		userEvent.click(resultElement);
+		await userEvent.click(resultElement);
 
 		expect(clickFunc).toHaveBeenCalled();
 	});

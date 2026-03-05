@@ -7,7 +7,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from '../Facets/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Organisms/Facets',
@@ -53,6 +53,7 @@ export default {
 			description: 'Maximum number of facets to display',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -72,6 +73,7 @@ export default {
 		onFacetOptionClick: {
 			description: 'Callback function for when a facet option is clicked',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'function' },
 			},
 			control: { type: 'none' },

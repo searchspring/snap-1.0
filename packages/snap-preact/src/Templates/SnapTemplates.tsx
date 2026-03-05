@@ -4,13 +4,13 @@ import deepmerge from 'deepmerge';
 import { Snap } from '../Snap';
 import { TemplateSelect } from '../../components/src/components/Atoms/TemplateSelect';
 
-import { DomTargeter, url, cookies, getContext, version } from '@searchspring/snap-toolbox';
+import { DomTargeter, url, cookies, getContext, version } from '@athoscommerce/snap-toolbox';
 import { TemplateTarget, TemplatesStore } from './Stores/TemplateStore';
 
-import type { Target } from '@searchspring/snap-toolbox';
-import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings, ChatStoreConfigSettings } from '@searchspring/snap-store-mobx';
-import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
-import type { AutocompleteController, PluginGrouping, SearchController } from '@searchspring/snap-controller';
+import type { Target } from '@athoscommerce/snap-toolbox';
+import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings, ChatStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
+import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
+import type { AutocompleteController, PluginGrouping, SearchController } from '@athoscommerce/snap-controller';
 import type {
 	RecommendationInstantiatorConfigSettings,
 	RecommendationComponentObject,
@@ -29,7 +29,7 @@ import {
 	PluginAddToCartConfig,
 	pluginLogger,
 	PluginLoggerConfig,
-} from '@searchspring/snap-platforms/common';
+} from '@athoscommerce/snap-platforms/common';
 import {
 	pluginBackgroundFilters as PluginShopifyBackgroundFilters,
 	PluginBackgroundFiltersConfig as PluginShopifyBackgroundFiltersConfig,
@@ -37,22 +37,24 @@ import {
 	PluginMutateResultsConfig as PluginShopifyMutateResultsConfig,
 	pluginAddToCart as pluginShopifyAddToCart,
 	PluginAddToCartConfig as PluginShopifyAddToCartConfig,
-} from '@searchspring/snap-platforms/shopify';
+} from '@athoscommerce/snap-platforms/shopify';
 import {
 	pluginAddToCart as pluginBigcommerceAddToCart,
 	PluginAddToCartConfig as PluginBigCommerceAddToCartConfig,
 	pluginBackgroundFilters as pluginBigcommerceBackgroundFilters,
 	PluginBackgroundFiltersConfig as PluginBigcommerceBackgroundFiltersConfig,
-} from '@searchspring/snap-platforms/bigcommerce';
+} from '@athoscommerce/snap-platforms/bigcommerce';
 import {
 	pluginAddToCart as pluginMagento2AddToCart,
 	AddToCartConfig as PluginMagento2AddToCartConfig,
 	pluginBackgroundFilters as pluginMagento2BackgroundFilters,
 	PluginBackgroundFiltersConfig as PluginMagento2BackgroundFiltersConfig,
-} from '@searchspring/snap-platforms/magento2';
+	pluginBase as pluginMagento2Base,
+	PluginBaseConfig as PluginMagento2BaseConfig,
+} from '@athoscommerce/snap-platforms/magento2';
 
-export const TEMPLATE_EDIT_COOKIE = 'ssEditor';
-const TEMPLATE_EDITOR_PARAM = 'searchspring-editor';
+export const TEMPLATE_EDIT_COOKIE = 'athosEditor';
+const TEMPLATE_EDITOR_PARAM = 'athos-editor';
 
 // TODO: tabbing, finder
 export type SearchTargetConfig = {
@@ -140,16 +142,13 @@ type TemplatePlugins =
 	| [typeof pluginBigcommerceBackgroundFilters, PluginBigcommerceBackgroundFiltersConfig]
 	| [typeof pluginBigcommerceAddToCart, PluginBigCommerceAddToCartConfig]
 	// magento2
+	| [typeof pluginMagento2Base, PluginMagento2BaseConfig]
 	| [typeof pluginMagento2BackgroundFilters, PluginMagento2BackgroundFiltersConfig]
 	| [typeof pluginMagento2AddToCart, PluginMagento2AddToCartConfig];
 
 type TemplatePluginGrouping = TemplatePlugins[];
 
-export const DEFAULT_FEATURES: SnapFeatures = {
-	integratedSpellCorrection: {
-		enabled: true,
-	},
-};
+export const DEFAULT_FEATURES: SnapFeatures = {};
 
 export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSettings = {
 	trending: {
@@ -202,7 +201,7 @@ export class SnapTemplates extends Snap {
 								action: 'append',
 								element: () => {
 									const themeEditContainer = document.createElement('div');
-									themeEditContainer.id = 'searchspring-template-editor';
+									themeEditContainer.id = 'athos-template-editor';
 									return themeEditContainer;
 								},
 							},
@@ -629,6 +628,10 @@ function createPlugins(
 			]);
 			break;
 		case 'magento2':
+			plugins.push([
+				templatesStore.library.import.plugins.magento2.base,
+				deepmerge(templateConfig.plugins?.magento2?.base || {}, controllerConfig?.plugins?.magento2?.base || {}),
+			]);
 			plugins.push([
 				templatesStore.library.import.plugins.magento2.backgroundFilters,
 				deepmerge(templateConfig.plugins?.magento2?.backgroundFilters || {}, controllerConfig?.plugins?.magento2?.backgroundFilters || {}),

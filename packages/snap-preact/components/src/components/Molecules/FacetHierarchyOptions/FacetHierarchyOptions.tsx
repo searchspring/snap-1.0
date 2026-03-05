@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,7 +8,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import { createHoverProps } from '../../../toolbox';
-import type { FacetHierarchyValue, ValueFacet } from '@searchspring/snap-store-mobx';
+import type { FacetHierarchyValue, ValueFacet } from '@athoscommerce/snap-store-mobx';
 import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 import { Icon, IconProps, IconType } from '../../Atoms/Icon';
@@ -99,7 +99,7 @@ const defaultStyles: StyleScript<FacetHierarchyOptionsProps> = ({ theme, horizon
 	}
 };
 
-export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptionsProps): JSX.Element => {
+export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptionsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FacetHierarchyOptionsProps> = {
@@ -201,21 +201,24 @@ export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptions
 				})}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
-export interface FacetHierarchyOptionsProps extends ComponentProps {
+
+export type FacetHierarchyOptionsProps = {
 	values?: FacetHierarchyValue[];
-	hideCount?: boolean;
+	lang?: Partial<FacetHierarchyOptionsLang>;
 	facet?: ValueFacet;
+} & FacetHierarchyOptionsTemplatesLegalProps &
+	ComponentProps<FacetHierarchyOptionsProps>;
+
+export type FacetHierarchyOptionsTemplatesLegalProps = {
+	hideCount?: boolean;
 	horizontal?: boolean;
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
 	valueProps?: any;
 	returnIcon?: IconType | Partial<IconProps>;
-	lang?: Partial<FacetHierarchyOptionsLang>;
-}
+};
 
 export interface FacetHierarchyOptionsLang {
 	hierarchyOption: Lang<{

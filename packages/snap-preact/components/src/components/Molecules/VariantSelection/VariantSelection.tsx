@@ -1,17 +1,17 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ListOption, StyleScript } from '../../../types';
-import type { VariantSelection as VariantSelectionType } from '@searchspring/snap-store-mobx';
+import type { VariantSelection as VariantSelectionType } from '@athoscommerce/snap-store-mobx';
 import { List, ListProps } from '../List';
 import { Swatches, SwatchesProps } from '../Swatches';
 import { Dropdown, DropdownProps } from '../../Atoms/Dropdown';
 import { Icon, IconProps } from '../../Atoms/Icon';
 import { useA11y } from '../../../hooks';
-import { fieldNameToComponentName } from '@searchspring/snap-toolbox';
+import { fieldNameToComponentName } from '@athoscommerce/snap-toolbox';
 
 const defaultStyles: StyleScript<VariantSelectionProps> = () => {
 	return css({
@@ -64,7 +64,7 @@ const dropdownContentStyles: StyleScript<VariantSelectionProps> = () => {
 	});
 };
 
-export const VariantSelection = observer((properties: VariantSelectionProps): JSX.Element => {
+export const VariantSelection = observer((properties: VariantSelectionProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -195,54 +195,50 @@ export const VariantSelection = observer((properties: VariantSelectionProps): JS
 					switch (type) {
 						case 'dropdown':
 							return (
-								<Fragment>
+								<>
 									{(() => {
 										//todo prettify the button
 										const Button = (props: any) => {
 											const { open } = props;
 											return (
-												<Fragment>
+												<>
 													<div className="ss__dropdown__button-wrapper">
 														<span className="ss__dropdown__button-wrapper__label">{selection.label}</span>
 
 														{selection.selected ? (
 															<span className="ss__dropdown__button-wrapper__selection">({selection.selected.value})</span>
-														) : (
-															<Fragment />
-														)}
+														) : null}
 													</div>
 													<Icon icon={open ? 'angle-up' : 'angle-down'} {...subProps.icon} treePath={props.treePath} />
-												</Fragment>
+												</>
 											);
 										};
 
 										return <Dropdown button={<Button treePath={treePath} />} {...subProps.dropdown} content={<DropdownContent />} />;
 									})()}
-								</Fragment>
+								</>
 							);
 						case 'list':
 							return (
-								<Fragment>
+								<>
 									{(() => {
 										return <List {...subProps.list} options={selection.values} />;
 									})()}
-								</Fragment>
+								</>
 							);
 						case 'swatches':
 							return (
-								<Fragment>
+								<>
 									{(() => {
 										return <Swatches {...subProps.swatches} options={selection.values} />;
 									})()}
-								</Fragment>
+								</>
 							);
 					}
 				})()}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface VariantSelectionSubProps {
@@ -252,8 +248,12 @@ interface VariantSelectionSubProps {
 	swatches: Partial<SwatchesProps>;
 }
 
-export interface VariantSelectionProps extends ComponentProps {
+export type VariantSelectionProps = {
 	selection: VariantSelectionType;
+} & VariantSelectionTemplatesLegalProps &
+	ComponentProps<VariantSelectionProps>;
+
+export type VariantSelectionTemplatesLegalProps = {
 	type?: 'dropdown' | 'swatches' | 'list';
 	onSelect?: (e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption) => void;
-}
+};

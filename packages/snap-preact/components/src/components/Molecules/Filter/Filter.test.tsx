@@ -6,9 +6,9 @@ import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
 import { Filter } from './Filter';
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { MockData } from '@searchspring/snap-shared';
-import { SearchFilterStore } from '@searchspring/snap-store-mobx';
+import { UrlManager, UrlTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { MockData } from '@athoscommerce/snap-shared';
+import { SearchFilterStore } from '@athoscommerce/snap-store-mobx';
 
 describe('Filter Component', () => {
 	const args = {
@@ -79,7 +79,7 @@ describe('Filter Component', () => {
 	});
 
 	it('has a url value when passed one', () => {
-		const url = 'www.searchspring.com';
+		const url = 'www.athoscommerce.com';
 		const urlManager = new UrlManager(new UrlTranslator({ urlRoot: url }), reactLinker);
 
 		const rendered = render(<Filter {...args} url={urlManager} />);

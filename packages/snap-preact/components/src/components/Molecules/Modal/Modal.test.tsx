@@ -204,14 +204,14 @@ describe('Modal Component', () => {
 		expect(contentElement).not.toBeInTheDocument();
 	});
 
-	it('fires onClick prop when clicked', () => {
+	it('fires onClick prop when clicked', async () => {
 		const clickFn = jest.fn();
 
 		const rendered = render(<Modal button={'open me'} onClick={clickFn} />);
 
 		const button = rendered.container.querySelector('.ss__modal__button')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).toHaveBeenCalled();
 	});
 
@@ -222,7 +222,7 @@ describe('Modal Component', () => {
 
 		const button = rendered.container.querySelector('.ss__modal__button')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).not.toHaveBeenCalled();
 
 		const overlay = rendered.container.querySelector('.ss__overlay')!;
@@ -231,18 +231,18 @@ describe('Modal Component', () => {
 			expect(styles.background).toBe('rgba(0, 0, 0, 0.4)');
 		});
 
-		userEvent.click(overlay!);
+		await userEvent.click(overlay!);
 		expect(clickFn).toHaveBeenCalled();
 	});
 
-	it('does not fire onClick prop when disabled', () => {
+	it('does not fire onClick prop when disabled', async () => {
 		const clickFn = jest.fn();
 
 		const rendered = render(<Modal button={'open me'} disabled onClick={clickFn} />);
 
 		const button = rendered.container.querySelector('.ss__modal__button')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).not.toHaveBeenCalled();
 	});
 

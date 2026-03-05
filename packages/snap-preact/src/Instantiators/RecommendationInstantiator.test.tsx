@@ -1,11 +1,11 @@
 import 'whatwg-fetch';
 import { RecommendationInstantiator, RecommendationInstantiatorConfig } from './RecommendationInstantiator';
-import type { PluginGrouping } from '@searchspring/snap-controller';
-import { cookies } from '@searchspring/snap-toolbox';
+import type { PluginGrouping } from '@athoscommerce/snap-controller';
+import { cookies } from '@athoscommerce/snap-toolbox';
 
-import { Logger } from '@searchspring/snap-logger';
-import { MockClient } from '@searchspring/snap-shared';
-import { Next } from '@searchspring/snap-event-manager';
+import { Logger } from '@athoscommerce/snap-logger';
+import { MockClient } from '@athoscommerce/snap-shared';
+import { Next } from '@athoscommerce/snap-event-manager';
 import { waitFor } from '@testing-library/preact';
 
 const DEFAULT_PROFILE = 'trending';
@@ -59,7 +59,7 @@ Object.defineProperty(window, 'localStorage', {
 
 describe('RecommendationInstantiator', () => {
 	beforeEach(() => {
-		delete window.searchspring;
+		delete window.athos;
 		cookies.unset(CART_COOKIE);
 		localStorageMock.clear();
 	});
@@ -124,7 +124,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('skips creation and logs a warning when it finds a target without a profile', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend"></script>`;
 
 		const client = new MockClient(baseConfig.client!.globals, {});
 		const clientSpy = jest.spyOn(client, 'recommend');
@@ -135,7 +135,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('logs an error when the profile response does not contain templateParameters', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const logger = new Logger({ prefix: 'RecommendationInstantiator ' });
 		const loggerSpy = jest.spyOn(logger, 'error');
@@ -149,12 +149,12 @@ describe('RecommendationInstantiator', () => {
 		expect(clientSpy).toHaveBeenCalledTimes(1);
 		expect(loggerSpy).toHaveBeenCalledTimes(1);
 		expect(loggerSpy).toHaveBeenCalledWith(
-			`profile '${DEFAULT_PROFILE}' found on the following element is missing templateParameters!\n<script type=\"searchspring/recommend\" profile=\"trending\"></script>`
+			`profile '${DEFAULT_PROFILE}' found on the following element is missing templateParameters!\n<script type=\"athos/recommend\" profile=\"trending\"></script>`
 		);
 	});
 
 	it('logs an error when the profile response does not contain a component', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const logger = new Logger({ prefix: 'RecommendationInstantiator ' });
 		const loggerSpy = jest.spyOn(logger, 'error');
@@ -168,12 +168,12 @@ describe('RecommendationInstantiator', () => {
 		expect(clientSpy).toHaveBeenCalledTimes(1);
 		expect(loggerSpy).toHaveBeenCalledTimes(1);
 		expect(loggerSpy).toHaveBeenCalledWith(
-			`profile '${DEFAULT_PROFILE}' found on the following element is missing a component!\n<script type=\"searchspring/recommend\" profile=\"trending\"></script>`
+			`profile '${DEFAULT_PROFILE}' found on the following element is missing a component!\n<script type=\"athos/recommend\" profile=\"trending\"></script>`
 		);
 	});
 
 	it('logs an error when the profile response does not find a mapped component', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const logger = new Logger({ prefix: 'RecommendationInstantiator ' });
 		const loggerSpy = jest.spyOn(logger, 'error');
@@ -193,12 +193,12 @@ describe('RecommendationInstantiator', () => {
 		expect(clientSpy).toHaveBeenCalledTimes(1);
 		expect(loggerSpy).toHaveBeenCalledTimes(1);
 		expect(loggerSpy).toHaveBeenCalledWith(
-			`profile '${DEFAULT_PROFILE}' found on the following element is expecting component mapping for 'Default' - verify instantiator config.\n<script type=\"searchspring/recommend\" profile=\"trending\"></script>`
+			`profile '${DEFAULT_PROFILE}' found on the following element is expecting component mapping for 'Default' - verify instantiator config.\n<script type=\"athos/recommend\" profile=\"trending\"></script>`
 		);
 	});
 
 	it('creates a controller when it finds a target', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const client = new MockClient(baseConfig.client!.globals, {});
 		const clientSpy = jest.spyOn(client, 'recommend');
@@ -213,7 +213,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('reuses a controller when it finds the same configuration during re-target', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const client = new MockClient(baseConfig.client!.globals, {});
 		const clientSpy = jest.spyOn(client, 'recommend');
@@ -227,7 +227,7 @@ describe('RecommendationInstantiator', () => {
 		expect(clientSpy).toHaveBeenCalledTimes(1);
 
 		// reset document body to allow for retargeting
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 		recommendationInstantiator.targeter.retarget();
 		await wait();
 		expect(Object.keys(recommendationInstantiator.controller).length).toBe(1);
@@ -238,10 +238,10 @@ describe('RecommendationInstantiator', () => {
 
 	it('creates a controller for each target it finds', async () => {
 		document.body.innerHTML = `
-		<script type="searchspring/recommend" profile="trending"></script>
-		<script type="searchspring/recommend" profile="trending"></script>
-		<script type="searchspring/recommend" profile="trending"></script>
-		<script type="searchspring/recommend" profile="similar"></script>`;
+		<script type="athos/recommend" profile="trending"></script>
+		<script type="athos/recommend" profile="trending"></script>
+		<script type="athos/recommend" profile="trending"></script>
+		<script type="athos/recommend" profile="similar"></script>`;
 
 		const profileCount: {
 			[key: string]: number;
@@ -262,7 +262,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('supports legacy script type', async () => {
-		document.body.innerHTML = `<script type="searchspring/personalized-recommendations" profile="legacy"></script>`;
+		document.body.innerHTML = `<script type="athos/personalized-recommendations" profile="legacy"></script>`;
 
 		const client = new MockClient(baseConfig.client!.globals, {});
 		const clientSpy = jest.spyOn(client, 'recommend');
@@ -275,7 +275,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('supports legacy script type with array values in seed', async () => {
-		document.body.innerHTML = `<script type="searchspring/personalized-recommendations" profile="legacy">
+		document.body.innerHTML = `<script type="athos/personalized-recommendations" profile="legacy">
 			seed = ['prod1234'];
 		</script>`;
 
@@ -298,7 +298,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('supports legacy script type with array values in product', async () => {
-		document.body.innerHTML = `<script type="searchspring/personalized-recommendations" profile="legacy">
+		document.body.innerHTML = `<script type="athos/personalized-recommendations" profile="legacy">
 			product = ['prod1234'];
 		</script>`;
 
@@ -321,7 +321,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('supports legacy script type with array values in products', async () => {
-		document.body.innerHTML = `<script type="searchspring/personalized-recommendations" profile="legacy">
+		document.body.innerHTML = `<script type="athos/personalized-recommendations" profile="legacy">
 			products = ['prod1234', 'prod4567'];
 		</script>`;
 
@@ -345,7 +345,7 @@ describe('RecommendationInstantiator', () => {
 
 	it('supports legacy script type with config context', async () => {
 		const profile = 'legacy';
-		document.body.innerHTML = `<script type="searchspring/personalized-recommendations" profile="${profile}"></script>`;
+		document.body.innerHTML = `<script type="athos/personalized-recommendations" profile="${profile}"></script>`;
 
 		const client = new MockClient(baseConfig.client!.globals, {});
 		const clientSpy = jest.spyOn(client, 'recommend');
@@ -371,21 +371,21 @@ describe('RecommendationInstantiator', () => {
 	it('supports legacy scripts with batching', async () => {
 		document.body.innerHTML = `
 		
-		<script type="searchspring/personalized-recommendations" profile="legacy">
+		<script type="athos/personalized-recommendations" profile="legacy">
 			options = {
 				batched: true
 			};
 			products = ['prod1234', 'prod4567'];
 		</script>
 		
-		<script type="searchspring/personalized-recommendations" profile="legacy">
+		<script type="athos/personalized-recommendations" profile="legacy">
 			options = {
 				batched: false
 			};
 			products = ['prod0'];
 		</script>
 		
-		<script type="searchspring/personalized-recommendations" profile="legacy">
+		<script type="athos/personalized-recommendations" profile="legacy">
 			options = {
 				batched: true
 			};
@@ -438,7 +438,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('makes the context found on the target and in the config available', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}">
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}">
 			shopper = { id: 'snapdev' };
 			product = 'sku1';
 			custom = { some: 'thing' };
@@ -543,7 +543,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('uses the globals from the config in the request', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}">
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}">
 			options = {
 				filters: [
 					{
@@ -664,7 +664,7 @@ describe('RecommendationInstantiator', () => {
 		document.body.innerHTML = `
 			<div id="tout1"></div>
 			<div id="tout2"></div>
-			<script type="searchspring/recommendations">
+			<script type="athos/recommendations">
 				custom = { other: 'thingy', some: 'thing' };
 				globals = {
 					products: ["C-AD-W1-1869P"],
@@ -809,7 +809,7 @@ describe('RecommendationInstantiator', () => {
 		//good testing to build off of
 		document.body.innerHTML = `
 			<div class="ss__recs__404"></div>
-			<script type="searchspring/recommendations">
+			<script type="athos/recommendations">
 				profiles = [
 					{
 						tag: '404',
@@ -844,7 +844,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('will utilize attachments (plugins / middleware) added via methods upon creation of controller', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const plugin = jest.fn();
 		const plugin2 = jest.fn();
@@ -891,7 +891,7 @@ describe('RecommendationInstantiator', () => {
 	});
 
 	it('will utilize config based attachments (plugins / middleware) on created controller', async () => {
-		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const plugin = jest.fn();
 		const plugin2 = jest.fn();
@@ -931,8 +931,53 @@ describe('RecommendationInstantiator', () => {
 		});
 	});
 
-	it(`searchOnPageShow triggers search on persisted pageshow event `, async function () {
+	it('supports searchspring/recommend script type selector', async () => {
 		document.body.innerHTML = `<script type="searchspring/recommend" profile="${DEFAULT_PROFILE}"></script>`;
+
+		const client = new MockClient(baseConfig.client!.globals, {});
+		const clientSpy = jest.spyOn(client, 'recommend');
+
+		const recommendationInstantiator = new RecommendationInstantiator(baseConfig, { client });
+		await wait();
+		expect(Object.keys(recommendationInstantiator.controller).length).toBe(1);
+		Object.keys(recommendationInstantiator.controller).forEach((controllerId, index) => {
+			expect(controllerId).toBe(`recommend_${DEFAULT_PROFILE}_${index}`);
+		});
+		expect(clientSpy).toHaveBeenCalledTimes(1);
+	});
+
+	it('supports searchspring/recommendations script type selector with grouped profiles', async () => {
+		document.body.innerHTML = `
+			<div id="tout1"></div>
+			<script type="searchspring/recommendations">
+				globals = {
+					products: ['prod1234'],
+					shopper: {
+						id: 'snapdev',
+					},
+				};
+
+				profiles = [
+					{
+						tag: '${DEFAULT_PROFILE}',
+						selector: '#tout1',
+					},
+				];
+			</script>
+		`;
+
+		const client = new MockClient(baseConfig.client!.globals, {});
+		const clientSpy = jest.spyOn(client, 'recommend');
+
+		const recommendationInstantiator = new RecommendationInstantiator(baseConfig, { client });
+		await wait();
+		expect(Object.keys(recommendationInstantiator.controller).length).toBe(1);
+		expect(recommendationInstantiator.controller[`recommend_${DEFAULT_PROFILE}_0`]).toBeDefined();
+		expect(clientSpy).toHaveBeenCalledTimes(1);
+	});
+
+	it(`searchOnPageShow triggers search on persisted pageshow event `, async function () {
+		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 
 		const attachmentConfig = {
 			...baseConfig,

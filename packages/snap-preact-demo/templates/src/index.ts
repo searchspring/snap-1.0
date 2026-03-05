@@ -1,4 +1,4 @@
-import { SnapTemplates } from '@searchspring/snap-preact';
+import { SnapTemplates } from '@athoscommerce/snap-preact';
 import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
@@ -122,19 +122,6 @@ if (customChatOrigin) {
 // 	search: {
 // 		origin: `https://${siteId}.a.searchspring.io`,
 // 	},
-// 	autocomplete: {
-// 		requesters: {
-// 			suggest: {
-// 				origin: `https://${siteId}.a.searchspring.io`,
-// 			},
-// 			legacy: {
-// 				origin: `https://${siteId}.a.searchspring.io`,
-// 			},
-// 		},
-// 	},
-// 	finder: {
-// 		origin: `https://${siteId}.a.searchspring.io`,
-// 	},
 // 	recommend: {
 // 		origin: `https://${siteId}.a.searchspring.io`,
 // 	},
@@ -151,6 +138,7 @@ let config: SnapTemplatesConfig = {
 		platform: 'other',
 		client: clientConfig,
 	},
+
 	plugins: {
 		common: {
 			addToCart: {
@@ -164,13 +152,14 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'base',
+		extends: 'pike',
+		//resultComponent: 'CustomResult',
 		variables: {
-			breakpoints: {
-				mobile: 768,
-				tablet: 1024,
-				desktop: 1280,
-			},
+			// breakpoints: {
+			// 	mobile: 767,
+			// 	tablet: 1024,
+			// 	desktop: 1280,
+			// },
 			// colors: {
 			// 	primary: '#6d7175',
 			// 	secondary: '#202223',
@@ -186,6 +175,7 @@ let config: SnapTemplatesConfig = {
 		email: {
 			Email: {
 				component: 'RecommendationEmail',
+				//resultComponent: 'EmailResult',
 			},
 		},
 		default: {
@@ -203,7 +193,7 @@ let config: SnapTemplatesConfig = {
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-layout',
+				selector: '#athos-layout',
 				component: 'Search',
 				resultComponent: 'CustomResult',
 			},
@@ -223,11 +213,21 @@ let config: SnapTemplatesConfig = {
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.searchspring-ac',
+				selector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
 				resultComponent: 'CustomResult',
 			},
 		],
+		settings: {
+			history: {
+				limit: 6,
+				showResults: true,
+			},
+			trending: {
+				limit: 6,
+				showResults: true,
+			},
+		},
 	},
 };
 

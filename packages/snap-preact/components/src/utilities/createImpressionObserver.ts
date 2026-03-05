@@ -1,14 +1,15 @@
-import { type Ref, useRef } from 'preact/hooks';
+import { type MutableRef, useRef } from 'preact/hooks';
 import { useIntersectionAdvanced, UseIntersectionOptions } from '../hooks';
 
 const IMPRESSION_VISIBILITY_THRESHOLD = 0.7;
 const IMPRESSION_MIN_VISIBLE_TIME = 1000;
 export function createImpressionObserver(options?: UseIntersectionOptions): {
-	ref: Ref<HTMLElement | null>;
+	ref: MutableRef<HTMLElement | null>;
 	inViewport: boolean;
+	updateRef: (el: HTMLElement | null) => void;
 } {
-	const ref = useRef<HTMLElement>(null);
-	const inViewport = useIntersectionAdvanced(ref, {
+	const ref = useRef<HTMLElement | null>(null);
+	const { inViewport, updateRef } = useIntersectionAdvanced(ref, {
 		...options,
 		fireOnce: true,
 		threshold: IMPRESSION_VISIBILITY_THRESHOLD,
@@ -17,5 +18,6 @@ export function createImpressionObserver(options?: UseIntersectionOptions): {
 	return {
 		ref,
 		inViewport,
+		updateRef,
 	};
 }

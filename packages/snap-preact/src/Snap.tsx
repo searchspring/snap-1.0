@@ -3,16 +3,16 @@ import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
 import { configure as configureMobx } from 'mobx';
 
-import { Client } from '@searchspring/snap-client';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
-import { AppMode, version, getContext, DomTargeter, url, cookies, featureFlags } from '@searchspring/snap-toolbox';
-import { ControllerTypes } from '@searchspring/snap-controller';
-import { EventManager } from '@searchspring/snap-event-manager';
+import { Client } from '@athoscommerce/snap-client';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
+import { AppMode, version, getContext, DomTargeter, url, cookies, featureFlags } from '@athoscommerce/snap-toolbox';
+import { ControllerTypes } from '@athoscommerce/snap-controller';
+import { EventManager } from '@athoscommerce/snap-event-manager';
 
 import { getInitialUrlState } from './getInitialUrlState/getInitialUrlState';
 
-import type { ClientConfig, ClientGlobals } from '@searchspring/snap-client';
+import type { ClientConfig, ClientGlobals } from '@athoscommerce/snap-client';
 import type {
 	Controllers,
 	AbstractController,
@@ -25,10 +25,10 @@ import type {
 	ControllerConfigs,
 	ContextVariables,
 	ChatController,
-} from '@searchspring/snap-controller';
-import type { TrackerConfig, TrackerGlobals, TrackErrorEvent } from '@searchspring/snap-tracker';
-import type { Target, OnTarget } from '@searchspring/snap-toolbox';
-import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
+} from '@athoscommerce/snap-controller';
+import type { TrackerConfig, TrackerGlobals, TrackErrorEvent } from '@athoscommerce/snap-tracker';
+import type { Target, OnTarget } from '@athoscommerce/snap-toolbox';
+import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 
 import { default as createSearchController } from './create/createSearchController';
 import { RecommendationInstantiator, RecommendationInstantiatorConfig } from './Instantiators/RecommendationInstantiator';
@@ -40,10 +40,10 @@ import type { TemplatesStore } from './Templates/Stores/TemplateStore';
 // configure MobX
 configureMobx({ useProxies: 'never', isolateGlobalState: true, enforceActions: 'never' });
 
-export const BRANCH_COOKIE = 'ssBranch';
-export const BRANCH_PARAM = 'searchspring-preview';
-export const DEV_COOKIE = 'ssDev';
-export const STYLESHEET_CLASSNAME = 'ss-snap-bundle-styles';
+export const BRANCH_COOKIE = 'athosBranch';
+export const BRANCH_PARAM = 'athos-preview';
+export const DEV_COOKIE = 'athos-Dev';
+export const STYLESHEET_CLASSNAME = 'athos-snap-bundle-styles';
 
 export type ExtendedTarget = Target & {
 	name?: string;
@@ -108,7 +108,7 @@ This usually happens when you pass a JSX Element, and not a function that return
 
 	targeters: [
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			hideTarget: true,
 			component: <Content/>,
 		},
@@ -118,7 +118,7 @@ This usually happens when you pass a JSX Element, and not a function that return
 
 	targeters: [
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			hideTarget: true,
 			component: Content,
 		},
@@ -128,7 +128,7 @@ This usually happens when you pass a JSX Element, and not a function that return
 
 	targeters: [
 		{
-			selector: '#searchspring-content',
+			selector: '#athos-content',
 			hideTarget: true,
 			component: () => Content
 		},
@@ -226,8 +226,8 @@ export class Snap {
 		const creationFunc: (config: SnapControllerConfig, services: SnapControllerServices) => Controllers = (await importPromise).default;
 
 		if (!this.controllers[config.id]) {
-			window.searchspring.controller = window.searchspring.controller || {};
-			window.searchspring.controller[config.id] = this.controllers[config.id] = creationFunc(
+			window.athos.controller = window.athos.controller || {};
+			window.athos.controller[config.id] = this.controllers[config.id] = creationFunc(
 				{
 					mode: this.mode,
 					url: deepmerge(this.config.url || {}, urlConfig || {}),
@@ -309,7 +309,11 @@ export class Snap {
 		error: (event: ErrorEvent): void => {
 			try {
 				const { filename } = event;
-				if (filename.includes('snapui.searchspring.io') && filename.endsWith('.js') && this.tracker.track.error) {
+				if (
+					(filename.includes('snapui.searchspring.io') || filename.includes('snapui.athoscommerce.io')) &&
+					filename.endsWith('.js') &&
+					this.tracker.track.error
+				) {
 					const {
 						colno,
 						lineno,
@@ -457,13 +461,13 @@ export class Snap {
 				});
 			}
 
-			const initiatorPrefix = window?.searchspring?.managed ? `managed/` : '';
+			const initiatorPrefix = window?.athos?.managed ? `managed/` : '';
 			const trackerConfig = deepmerge(this.config.tracker?.config || {}, { framework: `${initiatorPrefix}snap/preact`, mode: this.mode });
 			this.tracker = services?.tracker || new Tracker(trackerGlobals, trackerConfig);
 
 			// log version
 			this.logger.imageText({
-				url: 'https://snapui.searchspring.io/favicon.svg',
+				url: 'https://snapui.athoscommerce.io/favicon.svg',
 				text: `[${version}]`,
 				style: `color: ${this.logger.colors.indigo}; font-weight: bold;`,
 			});
@@ -480,13 +484,20 @@ export class Snap {
 				}
 
 				// get the path and siteId from the current bundle script in case its not the same as the client config
-				let path = `https://snapui.searchspring.io/${this.config.client?.globals?.siteId}/`;
-				const script: HTMLScriptElement | null = document.querySelector('script[src*="//snapui.searchspring.io"]');
+				let path = `https://snapui.athoscommerce.io/${this.config.client?.globals?.siteId}/`;
+				const script: HTMLScriptElement | null = document.querySelector(
+					'script[src*="//snapui.searchspring.io"], script[src*="//snapui.athoscommerce.io"]'
+				);
 
 				if (script) {
-					const scriptRoot = script.getAttribute('src')!.match(/\/\/snapui.searchspring.io\/[a-zA-Z0-9]{6}\//);
+					let scriptRoot = script.getAttribute('src')!.match(/\/\/snapui.searchspring.io\/[a-zA-Z0-9]{6}\//);
 					if (scriptRoot) {
 						path = scriptRoot.toString();
+					} else {
+						scriptRoot = script.getAttribute('src')!.match(/\/\/snapui.athoscommerce.io\/[a-zA-Z0-9]{6}\//);
+						if (scriptRoot) {
+							path = scriptRoot.toString();
+						}
 					}
 				}
 
@@ -504,7 +515,7 @@ export class Snap {
 								action: 'append', // before, after, append, prepend
 								element: () => {
 									const branchContainer = document.createElement('div');
-									branchContainer.id = 'searchspring-branch-override';
+									branchContainer.id = 'athos-branch-override';
 									return branchContainer;
 								},
 							},
@@ -544,11 +555,11 @@ export class Snap {
 							elem
 						);
 
-						// reset the global searchspring object
+						// reset the global athos object
 						try {
-							delete window.searchspring;
+							delete window.athos;
 						} catch (e) {
-							window.searchspring = undefined;
+							window.athos = undefined;
 						}
 
 						document.head.appendChild(branchScript);
@@ -570,20 +581,20 @@ export class Snap {
 		}
 
 		// bind to window global
-		window.searchspring = window.searchspring || {};
-		window.searchspring.build = window.searchspring.build || 'modern';
-		window.searchspring.context = this.context;
-		if (this.client) window.searchspring.client = this.client;
-		if (services?.templatesStore) window.searchspring.templates = this.templates;
+		window.athos = window.athos || {};
+		window.athos.build = window.athos.build || 'modern';
+		window.athos.context = this.context;
+		if (this.client) window.athos.client = this.client;
+		if (services?.templatesStore) window.athos.templates = this.templates;
 
 		this.eventManager = setupEvents();
 
 		if (this.eventManager) {
-			window.searchspring.on = (event: string, ...func: any) => {
+			window.athos.on = (event: string, ...func: any) => {
 				this.eventManager.on(event, ...func);
 			};
 
-			window.searchspring.fire = (event: string, ...func: any) => {
+			window.athos.fire = (event: string, ...func: any) => {
 				this.eventManager.fire(event, ...func);
 			};
 		}
@@ -624,8 +635,8 @@ export class Snap {
 								}
 							);
 
-							window.searchspring.controller = window.searchspring.controller || {};
-							window.searchspring.controller[cntrlr.config.id] = this.controllers[cntrlr.config.id] = cntrlr;
+							window.athos.controller = window.athos.controller || {};
+							window.athos.controller[cntrlr.config.id] = this.controllers[cntrlr.config.id] = cntrlr;
 							this._controllerPromises[cntrlr.config.id] = new Promise((resolve) => resolve(cntrlr));
 
 							let searchPromise: Promise<void> | null = null;

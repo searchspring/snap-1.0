@@ -1,12 +1,12 @@
 import type { SerializedStyles } from '@emotion/react';
+import { h } from 'preact';
 import type { ThemeMinimal, Theme } from './providers/theme';
-import type { AbstractController } from '@searchspring/snap-controller';
-import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { AbstractController } from '@athoscommerce/snap-controller';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import { IconProps, IconType } from './components/Atoms/Icon';
 import { MutableRef } from 'preact/hooks';
 import type { Snap, SnapTemplates } from '../../src';
-import type { FunctionalComponent, RenderableProps } from 'preact';
 import type { CSSObject } from '@emotion/serialize';
 import { RecommendationProps } from './components/Templates/Recommendation';
 import { RecommendationGridProps } from './components/Templates/RecommendationGrid';
@@ -42,14 +42,14 @@ export type ListOption = {
 	available?: boolean;
 };
 
-export type ResultComponent<Props extends Record<string, any> = object> = React.FunctionComponent<
-	{
+export type ResultComponent<Props extends Record<string, any> = object> = (
+	props: {
 		controller: AbstractController;
 		result: Product;
 		theme?: Theme;
 		treePath?: string;
 	} & Props
->;
+) => h.JSX.Element | null;
 
 export type RecommendationBundleComponentNames =
 	| 'RecommendationBundle'
@@ -110,6 +110,8 @@ export type SwatchOption = ListOption & {
 	background?: string;
 };
 
+export type JSXComponent = (props: any) => h.JSX.Element | null;
+
 export type ComponentMap = {
-	[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>> | FunctionalComponent<RenderableProps<any>>;
+	[componentName: string]: (args?: any) => Promise<JSXComponent> | JSXComponent;
 };

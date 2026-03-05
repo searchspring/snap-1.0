@@ -23,7 +23,7 @@ describe('Theme styling works', () => {
 
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'base',
 					style: obj.customStyles,
 					variables: {
 						breakpoints: { mobile: 767, tablet: 991, desktop: 1299 },
@@ -38,7 +38,7 @@ describe('Theme styling works', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],
@@ -85,7 +85,7 @@ describe('Theme styling works', () => {
 
 			win.mergeSnapConfig = {
 				theme: {
-					extends: 'bocachica',
+					extends: 'base',
 					style: obj.customStyles,
 					variables: {
 						breakpoints: { mobile: 540, tablet: 767, desktop: 1200 },
@@ -100,7 +100,7 @@ describe('Theme styling works', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'Search',
 						},
 					],

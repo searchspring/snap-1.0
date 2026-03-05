@@ -4,7 +4,7 @@ import { Facets, IndividualFacetType } from './Facets';
 import { ThemeProvider } from '../../../providers';
 import userEvent from '@testing-library/user-event';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModel } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
@@ -115,7 +115,7 @@ describe('Facets Component is themeable', () => {
 		expect(facetsElement).not.toHaveClass(globalTheme.components.facets.className);
 	});
 
-	it('can pass child component props via the theme', () => {
+	it('can pass child component props via the theme', async () => {
 		const clickFunc = jest.fn();
 		const theme2 = {
 			components: {
@@ -130,7 +130,7 @@ describe('Facets Component is themeable', () => {
 		expect(clickFunc).not.toHaveBeenCalled();
 
 		const resultElement = rendered.container.querySelector('.ss__facet-list-options__option')!;
-		userEvent.click(resultElement);
+		await userEvent.click(resultElement);
 
 		expect(clickFunc).toHaveBeenCalled();
 	});

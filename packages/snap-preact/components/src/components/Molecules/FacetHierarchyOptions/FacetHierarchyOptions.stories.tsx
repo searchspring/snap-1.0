@@ -8,7 +8,7 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import { FacetDisplay } from '../../../types';
 import Readme from '../FacetHierarchyOptions/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { iconPaths } from '../../Atoms/Icon';
 
 export default {
@@ -57,6 +57,7 @@ export default {
 		returnIcon: {
 			description: 'return Icon name',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -70,6 +71,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide facet option count',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -81,6 +83,7 @@ export default {
 			defaultValue: false,
 			description: 'Render facet options horizontally',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -91,6 +94,7 @@ export default {
 		previewOnFocus: {
 			description: 'Invoke facet value preview upon focus',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -101,6 +105,7 @@ export default {
 		valueProps: {
 			description: 'Object of facet value props',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -111,6 +116,7 @@ export default {
 		onClick: {
 			description: 'Facet option click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

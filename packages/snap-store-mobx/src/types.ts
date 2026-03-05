@@ -1,5 +1,5 @@
-import type { UrlManager } from '@searchspring/snap-url-manager';
-import type { ChatRequestModel, RecommendRequestModel } from '@searchspring/snap-client';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
+import type { ChatRequestModel, RecommendRequestModel } from '@athoscommerce/snap-client';
 import type {
 	SearchResponseModelFacetValueAllOfValues,
 	AutocompleteRequestModel,
@@ -11,6 +11,9 @@ import type {
 // Abstract
 export type StoreConfig = {
 	id: string;
+	beacon?: {
+		enabled: boolean;
+	};
 	[any: string]: unknown;
 };
 
@@ -129,7 +132,6 @@ export type FinderFieldConfig = {
 };
 
 export type AutocompleteStoreConfigSettings = {
-	integratedSpellCorrection?: boolean;
 	initializeFromUrl?: boolean;
 	syncInputs?: boolean;
 	serializeForm?: boolean;

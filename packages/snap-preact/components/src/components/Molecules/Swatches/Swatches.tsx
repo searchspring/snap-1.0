@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import classnames from 'classnames';
 import { css } from '@emotion/react';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -8,7 +8,7 @@ import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Grid, GridProps } from '../Grid';
 import { ImageProps, Image } from '../../Atoms/Image';
 import deepmerge from 'deepmerge';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import Color from 'color';
 import { Slideshow, SlideshowSlide, SlideshowProps } from '../Slideshow';
 import { useState } from 'preact/hooks';
@@ -69,7 +69,7 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 	});
 };
 
-export function Swatches(properties: SwatchesProps): JSX.Element {
+export function Swatches(properties: SwatchesProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -225,9 +225,7 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 							>
 								{!option.background && option.backgroundImageUrl ? (
 									<Image {...subProps.image} src={option.backgroundImageUrl} alt={option.label || option.value?.toString()} />
-								) : (
-									<Fragment />
-								)}
+								) : null}
 								{!hideLabels && <span className="ss__swatches__slideshow__swatch__value">{label || option.value}</span>}
 							</div>
 						</div>
@@ -254,22 +252,24 @@ export function Swatches(properties: SwatchesProps): JSX.Element {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 }
 
 export type SwatchesProps = {
+	breakpoints?: BreakpointsProps;
+} & SwatchesTemplatesLegalProps &
+	ComponentProps<SwatchesProps>;
+
+export type SwatchesTemplatesLegalProps = {
 	options: SwatchOption[];
 	onSelect?: (e: React.MouseEvent<HTMLElement>, option: SwatchOption) => void;
 	selected?: SwatchOption;
 	hideLabels?: boolean;
-	breakpoints?: BreakpointsProps;
 	disabled?: boolean;
 	slideshow?: Partial<SlideshowProps>;
 	grid?: Partial<GridProps>;
 	type?: 'slideshow' | 'grid';
-} & ComponentProps;
+};
 
 interface SwatchesSubProps {
 	slideshow: Partial<SlideshowProps>;

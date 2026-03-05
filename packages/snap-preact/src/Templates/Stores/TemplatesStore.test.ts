@@ -9,7 +9,7 @@ describe('TemplateStore', () => {
 				platform: 'other',
 			},
 			theme: {
-				extends: 'bocachica',
+				extends: 'base',
 			},
 		};
 		const store = new TemplatesStore({ config });
@@ -24,7 +24,7 @@ describe('TemplateStore', () => {
 	it('can define config', () => {
 		const config: SnapTemplatesConfig = {
 			theme: {
-				extends: 'bocachica',
+				extends: 'base',
 			},
 			config: {
 				siteId: '8uyt2m',
@@ -42,7 +42,7 @@ describe('TemplateStore', () => {
 	it("fallsback if language and currency doesn't exist", () => {
 		const config: SnapTemplatesConfig = {
 			theme: {
-				extends: 'bocachica',
+				extends: 'base',
 			},
 			config: {
 				siteId: '8uyt2m',
@@ -61,7 +61,7 @@ describe('TemplateStore', () => {
 	it('can change language and currency', async () => {
 		const config: SnapTemplatesConfig = {
 			theme: {
-				extends: 'bocachica',
+				extends: 'base',
 			},
 			config: {
 				siteId: '8uyt2m',
@@ -82,7 +82,7 @@ describe('TemplateStore', () => {
 	it('can change innerWidth', () => {
 		const config: SnapTemplatesConfig = {
 			theme: {
-				extends: 'bocachica',
+				extends: 'base',
 			},
 			config: {
 				siteId: '8uyt2m',
@@ -106,7 +106,7 @@ describe('TemplateStore', () => {
 				platform: 'other',
 			},
 			theme: {
-				extends: 'bocachica',
+				extends: 'pike',
 			},
 		};
 		const store = new TemplatesStore({ config });
@@ -129,7 +129,7 @@ describe('TemplateStore', () => {
 		spy.mockClear();
 
 		// addTheme manual call
-		const base = await store.library.import.theme.bocachica();
+		const base = await store.library.import.theme.base();
 		const customTheme = 'customTheme';
 
 		store.addTheme({
@@ -149,7 +149,7 @@ describe('TemplateStore', () => {
 		const newTheme = store.getThemeStore(customTheme);
 		expect(newTheme?.name).toBe(customTheme);
 		// @ts-ignore - private property
-		expect(newTheme.base.name).toBe('bocachica');
+		expect(newTheme.base.name).toBe('base');
 	});
 
 	it('can addTarget', async () => {
@@ -159,7 +159,7 @@ describe('TemplateStore', () => {
 				platform: 'other',
 			},
 			theme: {
-				extends: 'bocachica',
+				extends: 'base',
 			},
 		};
 		const store = new TemplatesStore({ config });

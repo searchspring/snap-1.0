@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,7 +8,7 @@ import { Theme, useTheme, CacheProvider, useSnap, useTreePath } from '../../../p
 import { ComponentProps, ComponentMap, StyleScript } from '../../../types';
 import { defaultBadgeComponentMap, mergeProps, mergeStyles } from '../../../utilities';
 import { useComponent } from '../../../hooks';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import type { SnapTemplates } from '../../../../../src/Templates';
 
 const defaultStyles: StyleScript<CalloutBadgeProps> = () => {
@@ -20,7 +20,7 @@ const defaultStyles: StyleScript<CalloutBadgeProps> = () => {
 	});
 };
 
-export const CalloutBadge = observer((properties: CalloutBadgeProps): JSX.Element => {
+export const CalloutBadge = observer((properties: CalloutBadgeProps) => {
 	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
@@ -53,7 +53,7 @@ export const CalloutBadge = observer((properties: CalloutBadgeProps): JSX.Elemen
 					{badges.map((badge) => {
 						const BadgeComponent = useComponent(badgeComponentMap, badge.component);
 						if (!BadgeComponent) {
-							return <Fragment />;
+							return null;
 						}
 						return <BadgeComponent {...badge} {...badge.parameters} treePath={treePath} />;
 					})}
@@ -61,13 +61,16 @@ export const CalloutBadge = observer((properties: CalloutBadgeProps): JSX.Elemen
 			</CacheProvider>
 		);
 	}
-	return <Fragment />;
+	return null;
 });
 
-export interface CalloutBadgeProps extends ComponentProps {
+export type CalloutBadgeProps = {
 	result: Product;
+} & CalloutBadgeTemplatesLegalProps &
+	ComponentProps<CalloutBadgeProps>;
+export type CalloutBadgeTemplatesLegalProps = {
 	tag?: string;
 	renderEmpty?: boolean;
 	componentMap?: ComponentMap;
 	limit?: number;
-}
+};

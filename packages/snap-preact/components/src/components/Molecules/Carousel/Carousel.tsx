@@ -1,4 +1,4 @@
-import { h, Fragment, ComponentChild } from 'preact';
+import { h, ComponentChild } from 'preact';
 import { useRef, useEffect } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
@@ -197,7 +197,7 @@ export const defaultVerticalCarouselBreakpoints = {
 	},
 };
 
-export const Carousel = observer((properties: CarouselProps): JSX.Element => {
+export const Carousel = observer((properties: CarouselProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<CarouselProps> = {
@@ -467,13 +467,15 @@ export const Carousel = observer((properties: CarouselProps): JSX.Element => {
 				</div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type CarouselProps = {
 	breakpoints?: BreakpointsProps;
+} & CarouselTemplatesLegalProps &
+	ComponentProps<CarouselProps>;
+
+export type CarouselTemplatesLegalProps = {
 	prevButton?: JSX.Element | string;
 	nextButton?: JSX.Element | string;
 	hideButtons?: boolean;
@@ -494,8 +496,7 @@ export type CarouselProps = {
 	onResize?: () => void;
 	onTransitionEnd?: () => void;
 	slidesPerView?: number | 'auto';
-} & Omit<SwiperOptions, 'breakpoints' | 'slidesPerView'> &
-	ComponentProps;
+} & Omit<SwiperOptions, 'breakpoints' | 'slidesPerView'>;
 
 interface CarouselSubProps {
 	icon: IconProps;

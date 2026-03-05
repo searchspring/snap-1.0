@@ -8,8 +8,8 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Result/readme.md';
 import { ResultsLayout } from '../../../types';
-import type { SearchController } from '@searchspring/snap-controller';
-import { Product } from '@searchspring/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
 
 export default {
 	title: 'Molecules/Result',
@@ -33,13 +33,7 @@ export default {
 			),
 		},
 	},
-	decorators: [
-		(Story: any) => (
-			<div style={{ maxWidth: '250px' }}>
-				<Story />
-			</div>
-		),
-	],
+	decorators: [(Story: any) => <Story />],
 	argTypes: {
 		controller: {
 			description: 'Controller reference',
@@ -63,6 +57,7 @@ export default {
 		hideBadge: {
 			description: 'Hide badge',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -73,6 +68,7 @@ export default {
 		hideVariantSelections: {
 			description: 'Hide variant Selections',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -83,6 +79,7 @@ export default {
 		hideTitle: {
 			description: 'Hide title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -93,6 +90,7 @@ export default {
 		hidePricing: {
 			description: 'Hide pricing',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -103,6 +101,7 @@ export default {
 		hideImage: {
 			description: 'Hide image',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -113,6 +112,7 @@ export default {
 		hideRating: {
 			description: 'Hide ratings',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -123,6 +123,7 @@ export default {
 		hideAddToCartButton: {
 			description: 'Hide add to cart button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -133,6 +134,7 @@ export default {
 		addToCartButtonText: {
 			description: 'add to cart button text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -142,6 +144,7 @@ export default {
 		addToCartButtonSuccessText: {
 			description: 'add to cart button text to show after adding to cart',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -151,6 +154,7 @@ export default {
 		addToCartButtonSuccessTimeout: {
 			description: 'time in ms to show the success button text before reverting back to standard text',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -160,6 +164,7 @@ export default {
 		onAddToCartClick: {
 			description: 'function to run on add to cart button click',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -171,6 +176,7 @@ export default {
 		detailSlot: {
 			description: 'Slot for more product details (under price)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -181,6 +187,7 @@ export default {
 			defaultValue: '',
 			description: 'Fallback image url',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -192,6 +199,7 @@ export default {
 			defaultValue: {},
 			description: 'truncate title options object',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},
@@ -204,6 +212,7 @@ export default {
 			description: 'Results layout',
 			defaultValue: ResultsLayout.grid,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -216,6 +225,7 @@ export default {
 		onClick: {
 			description: 'Custom onClick event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -229,9 +239,19 @@ export default {
 
 const snapInstance = Snapify.search({ id: 'Result', globals: { siteId: 'atkzs2' } });
 
-export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
-);
+export const Default = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	const resultToUse = controller?.store?.results[7] as Product;
+	//force a rating to show up for the demo since ratings are hidden by default and not all products have ratings
+	resultToUse.display.mappings.core = {
+		...resultToUse.display.mappings.core,
+		rating: 4.5,
+	};
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+			<Result {...args} result={resultToUse} />
+		</div>
+	);
+};
 
 Default.loaders = [
 	async () => {
@@ -242,9 +262,19 @@ Default.loaders = [
 	},
 ];
 
-export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
-);
+export const hideSections = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	const resultToUse = controller?.store?.results[7] as Product;
+	//force a rating to show up for the demo since ratings are hidden by default and not all products have ratings
+	resultToUse.display.mappings.core = {
+		...resultToUse.display.mappings.core,
+		rating: 4.5,
+	};
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+			<Result {...args} result={resultToUse} />
+		</div>
+	);
+};
 
 hideSections.loaders = [
 	async () => {
@@ -260,9 +290,19 @@ hideSections.args = {
 	hidePricing: true,
 };
 
-export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => (
-	<Result {...args} result={controller?.store?.results[0] as Product} />
-);
+export const truncateTitle = (args: ResultProps, { loaded: { controller } }: { loaded: { controller: SearchController } }) => {
+	const resultToUse = controller?.store?.results[7] as Product;
+	//force a rating to show up for the demo since ratings are hidden by default and not all products have ratings
+	resultToUse.display.mappings.core = {
+		...resultToUse.display.mappings.core,
+		rating: 4.5,
+	};
+	return (
+		<div style={{ maxWidth: args?.layout == 'list' ? '700px' : '250px' }}>
+			<Result {...args} result={resultToUse} />
+		</div>
+	);
+};
 
 truncateTitle.loaders = [
 	async () => {

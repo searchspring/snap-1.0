@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { render } from '@testing-library/preact';
 import userEvent from '@testing-library/user-event';
 
-import { ErrorType } from '@searchspring/snap-store-mobx';
+import { ErrorType } from '@athoscommerce/snap-store-mobx';
 
 import { ThemeProvider } from '../../../providers/theme';
 import { ErrorHandler } from './ErrorHandler';
@@ -19,7 +19,7 @@ describe('Error Handler Component', () => {
 		expect(errorElement).toBeInTheDocument();
 	});
 
-	it('can use custom retry onClick event', () => {
+	it('can use custom retry onClick event', async () => {
 		const onClick = jest.fn();
 		const rendered = render(<ErrorHandler error={{ code: 429, ...error }} onRetryClick={onClick} />);
 		const errorElement = rendered.container.querySelector('.ss__error-handler');
@@ -27,7 +27,7 @@ describe('Error Handler Component', () => {
 		expect(errorElement).toBeInTheDocument();
 		expect(retryButton).toBeInTheDocument();
 
-		userEvent.click(retryButton);
+		await userEvent.click(retryButton);
 		expect(onClick).toHaveBeenCalled();
 	});
 

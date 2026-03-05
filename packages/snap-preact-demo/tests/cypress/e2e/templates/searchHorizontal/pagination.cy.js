@@ -5,7 +5,7 @@ describe('Pagination', () => {
 				search: {
 					targets: [
 						{
-							selector: '#searchspring-layout',
+							selector: '#athos-layout',
 							component: 'SearchHorizontal',
 						},
 					],

@@ -1,9 +1,9 @@
-import { FunctionalComponent, RenderableProps } from 'preact';
+import { h } from 'preact';
 
-import type { Theme, ThemeComplete, ThemeMinimal } from '../../../components/src';
+import type { JSXComponent, Theme, ThemeComplete, ThemeMinimal } from '../../../components/src';
 import { transformTranslationsToTheme, type TemplateCustomComponentTypes, type TemplateTypes } from './TemplateStore';
 import type { TemplateStoreComponentConfig } from './TemplateStore';
-import type { PluginFunction } from '@searchspring/snap-controller';
+import type { PluginFunction } from '@athoscommerce/snap-controller';
 import { pluginBackgroundFilters as shopifyPluginBackgroundFilters } from './library/plugins/shopify/pluginBackgroundFilters';
 import { pluginMutateResults as shopifyPluginMutateResults } from './library/plugins/shopify/pluginMutateResults';
 import { pluginAddToCart as shopifyPluginAddToCart } from './library/plugins/shopify/pluginAddToCart';
@@ -12,25 +12,29 @@ import { pluginAddToCart as magento2PluginAddToCart } from './library/plugins/ma
 import { pluginAddToCart as commonPluginAddToCart } from './library/plugins/common/pluginAddToCart';
 import { pluginBackgroundFilters as bigCommercePluginBackgroundFilters } from './library/plugins/bigCommerce/pluginBackgroundFilters';
 import { pluginBackgroundFilters as magento2PluginBackgroundFilters } from './library/plugins/magento2/pluginBackgroundFilters';
+import { pluginBase as magento2PluginBase } from './library/plugins/magento2/pluginBase';
 import { pluginBackgroundFilters } from './library/plugins/common/pluginBackgroundFilters';
 import { pluginScrollToTop } from './library/plugins/common/pluginScrollToTop';
 import { pluginLogger } from './library/plugins/common/pluginLogger';
 import { CustomComponent } from './library/components/CustomComponent';
 
 type LibraryComponentImport = {
-	[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+	[componentName: string]: (args?: any) => Promise<JSXComponent>;
 };
 
 type LibraryComponentMap = {
-	[componentName: string]: FunctionalComponent<RenderableProps<any>>;
+	[componentName: string]: JSXComponent;
 };
 
 export type LibraryImports = {
 	theme: {
 		base: (args?: any) => Promise<ThemeComplete>;
-		bocachica: (args?: any) => Promise<ThemeComplete>;
-		snappy: (args?: any) => Promise<ThemeComplete>;
-		snapnco: (args?: any) => Promise<ThemeComplete>;
+		// bocachica: (args?: any) => Promise<ThemeComplete>;
+		// everest: (args?: any) => Promise<ThemeComplete>;
+		// matterhorn: (args?: any) => Promise<ThemeComplete>;
+		pike: (args?: any) => Promise<ThemeComplete>;
+		// snapnco: (args?: any) => Promise<ThemeComplete>;
+		// snappy: (args?: any) => Promise<ThemeComplete>;
 	};
 	plugins: {
 		shopify: {
@@ -43,6 +47,7 @@ export type LibraryImports = {
 			addToCart: typeof bigCommercePluginAddToCart;
 		};
 		magento2: {
+			base: typeof magento2PluginBase;
 			backgroundFilters: PluginFunction;
 			addToCart: typeof magento2PluginAddToCart;
 		};
@@ -55,39 +60,39 @@ export type LibraryImports = {
 	};
 	component: {
 		search: {
-			Search: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchCollapsible: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			SearchHorizontal: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Search: (args?: any) => Promise<JSXComponent>;
+			SearchCollapsible: (args?: any) => Promise<JSXComponent>;
+			SearchHorizontal: (args?: any) => Promise<JSXComponent>;
 		};
 		autocomplete: {
-			AutocompleteFixed: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			AutocompleteModal: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			AutocompleteSlideout: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			AutocompleteFixed: (args?: any) => Promise<JSXComponent>;
+			AutocompleteModal: (args?: any) => Promise<JSXComponent>;
+			AutocompleteSlideout: (args?: any) => Promise<JSXComponent>;
 		};
 		recommendation: {
 			bundle: {
-				RecommendationBundle: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationBundleEasyAdd: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationBundleList: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationBundleVertical: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+				RecommendationBundle: (args?: any) => Promise<JSXComponent>;
+				RecommendationBundleEasyAdd: (args?: any) => Promise<JSXComponent>;
+				RecommendationBundleList: (args?: any) => Promise<JSXComponent>;
+				RecommendationBundleVertical: (args?: any) => Promise<JSXComponent>;
 			};
 			default: {
-				Recommendation: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-				RecommendationGrid: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+				Recommendation: (args?: any) => Promise<JSXComponent>;
+				RecommendationGrid: (args?: any) => Promise<JSXComponent>;
 			};
 			email: {
-				RecommendationEmail: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+				RecommendationEmail: (args?: any) => Promise<JSXComponent>;
 			};
 		};
 		chat: {
 			Chat: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
 		};
 		badge: {
-			[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			[componentName: string]: (args?: any) => Promise<JSXComponent>;
 		};
 		result: {
-			Result: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
-			[componentName: string]: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Result: (args?: any) => Promise<JSXComponent>;
+			[componentName: string]: (args?: any) => Promise<JSXComponent>;
 		};
 	};
 	language: {
@@ -152,15 +157,24 @@ export class LibraryStore {
 			base: async () => {
 				return this.themes.base || (this.themes.base = (await import('./library/themes/base')).base);
 			},
-			bocachica: async () => {
-				return this.themes.bocachica || (this.themes.bocachica = (await import('./library/themes/bocachica')).bocachica);
+			// bocachica: async () => {
+			// 	return this.themes.bocachica || (this.themes.bocachica = (await import('./library/themes/bocachica')).bocachica);
+			// },
+			// everest: async () => {
+			// 	return this.themes.everest || (this.themes.everest = (await import('../../../components/src/themes/everest/everest')).everest);
+			// },
+			// matterhorn: async () => {
+			// 	return this.themes.matterhorn || (this.themes.matterhorn = (await import('../../../components/src/themes/matterhorn/matterhorn')).matterhorn);
+			// },
+			pike: async () => {
+				return this.themes.pike || (this.themes.pike = (await import('../../../components/src/themes/pike/pike')).pike);
 			},
-			snappy: async () => {
-				return this.themes.snappy || (this.themes.snappy = (await import('./library/themes/snappy')).snappy);
-			},
-			snapnco: async () => {
-				return this.themes.snapnco || (this.themes.snapnco = (await import('./library/themes/snapnco')).snapnco);
-			},
+			// snapnco: async () => {
+			// 	return this.themes.snapnco || (this.themes.snapnco = (await import('./library/themes/snapnco')).snapnco);
+			// },
+			// snappy: async () => {
+			// 	return this.themes.snappy || (this.themes.snappy = (await import('./library/themes/snappy')).snappy);
+			// },
 		},
 		plugins: {
 			shopify: {
@@ -173,6 +187,7 @@ export class LibraryStore {
 				addToCart: bigCommercePluginAddToCart,
 			},
 			magento2: {
+				base: magento2PluginBase,
 				backgroundFilters: magento2PluginBackgroundFilters,
 				addToCart: magento2PluginAddToCart,
 			},
@@ -334,7 +349,7 @@ export class LibraryStore {
 		}
 	}
 
-	getComponent(type: TemplateTypes, name: string): FunctionalComponent<RenderableProps<any>> | undefined {
+	getComponent(type: TemplateTypes, name: string): JSXComponent | undefined {
 		const paths = type.split('/');
 		paths.push(name);
 		let importPath: any = this.components;
@@ -347,11 +362,7 @@ export class LibraryStore {
 		return importPath;
 	}
 
-	async addComponentImport(
-		type: TemplateCustomComponentTypes,
-		name: string,
-		componentFn: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>> | FunctionalComponent<RenderableProps<any>>
-	) {
+	async addComponentImport(type: TemplateCustomComponentTypes, name: string, componentFn: (args?: any) => Promise<JSXComponent> | JSXComponent) {
 		// only allow certain types: 'results' and 'badges' - otherwise section components could be added (eg: 'search')
 		if (ALLOWED_CUSTOM_COMPONENT_TYPES.includes(type) && this.components[type]) {
 			this.import.component[type][name] = async () => {

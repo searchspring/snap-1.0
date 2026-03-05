@@ -1,5 +1,5 @@
-import { Fragment, h } from 'preact';
-import { Ref, useState } from 'preact/hooks';
+import { h } from 'preact';
+import { MutableRef, useState } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -8,12 +8,12 @@ import { Image, ImageProps } from '../../Atoms/Image';
 import { Price, PriceProps } from '../../Atoms/Price';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import { ComponentProps, ResultsLayout, StyleScript } from '../../../types';
 import { CalloutBadge, CalloutBadgeProps } from '../../Molecules/CalloutBadge';
 import { OverlayBadge, OverlayBadgeProps } from '../../Molecules/OverlayBadge';
-import type { SearchController, AutocompleteController, RecommendationController, ChatController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { SearchController, AutocompleteController, RecommendationController, ChatController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import deepmerge from 'deepmerge';
@@ -53,11 +53,6 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 			},
 		},
 
-		'& .ss__result__details__rating-wrapper': {
-			display: 'flex',
-			justifyContent: 'center',
-		},
-
 		'& .ss__result__details': {
 			padding: '10px',
 			textAlign: 'center',
@@ -79,7 +74,7 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 	});
 };
 
-export const Result = observer((properties: ResultProps): JSX.Element => {
+export const Result = observer((properties: ResultProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<ResultProps> = {
@@ -292,13 +287,9 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 							/>
 						</div>
 					)}
-					{!hideRating && (
-						<div className="ss__result__details__rating-wrapper">
-							<Rating {...subProps.rating} />
-						</div>
-					)}
+					{!hideRating && <Rating {...subProps.rating} />}
 
-					{!hidePricing && (
+					{!hidePricing && core.price && core.price > 0 ? (
 						<div className="ss__result__details__pricing">
 							{isOnSale ? (
 								<>
@@ -310,11 +301,11 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 								<Price {...subProps.price} value={core.price!} />
 							)}
 						</div>
-					)}
+					) : null}
 
 					{cloneWithProps(detailSlot, { result, treePath })}
 
-					{!hideVariantSelections && (
+					{!hideVariantSelections && result.variants?.selections.length && (
 						<div className="ss__result__details__variant-selection">
 							{result.variants?.selections.map((selection) => {
 								return <VariantSelection {...subProps.variantSelection} selection={selection} />;
@@ -330,9 +321,7 @@ export const Result = observer((properties: ResultProps): JSX.Element => {
 				</div>
 			</article>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface ResultSubProps {
@@ -349,8 +338,15 @@ export interface TruncateTitleProps {
 	append?: string;
 }
 
-export interface ResultProps extends ComponentProps {
+export type ResultProps = {
 	result: Product;
+	controller?: SearchController | AutocompleteController | RecommendationController;
+	lang?: Partial<ResultLang>;
+	trackingRef?: MutableRef<HTMLElement | null>;
+} & ResultTemplatesLegalProps &
+	ComponentProps<ResultProps>;
+
+export type ResultTemplatesLegalProps = {
 	hideBadge?: boolean;
 	hideTitle?: boolean;
 	hideImage?: boolean;
@@ -367,10 +363,7 @@ export interface ResultProps extends ComponentProps {
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
 	truncateTitle?: TruncateTitleProps;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, Event>) => void;
-	controller?: SearchController | AutocompleteController | RecommendationController | ChatController;
-	lang?: Partial<ResultLang>;
-	trackingRef?: Ref<HTMLElement | null>;
-}
+};
 
 export interface ResultLang {
 	addToCartButtonText: Lang<ResultPropData>;
@@ -379,7 +372,7 @@ export interface ResultLang {
 
 interface ResultPropData {
 	result: Product;
-	controller?: SearchController | AutocompleteController | RecommendationController;
+	controller?: SearchController | AutocompleteController | RecommendationController | ChatController;
 }
 
 export type ResultNames = 'seed';

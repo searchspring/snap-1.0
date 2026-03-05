@@ -6,7 +6,7 @@ import { SearchPaginationStore } from '../Search/Stores';
 import { StorageStore } from '../Storage/StorageStore';
 import { FinderSelectionStore } from './Stores';
 import type { FinderStoreConfig, StoreServices, SelectedSelection } from '../types';
-import { UrlManager } from '@searchspring/snap-url-manager';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 import { MetaStore } from '../Meta/MetaStore';
 
 export class FinderStore extends AbstractStore<FinderStoreConfig> {
@@ -30,7 +30,7 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 		if (this.config.persist?.enabled) {
 			this.persistedStorage = new StorageStore({
 				type: 'local',
-				key: `ss-${this.config.id}-persisted`,
+				key: `athos-${this.config.id}-persisted`,
 			});
 		}
 
@@ -116,7 +116,6 @@ export class FinderStore extends AbstractStore<FinderStoreConfig> {
 			},
 			state: {
 				persisted: this.persisted,
-				loading: this.loading,
 			},
 			data: {
 				search: search,

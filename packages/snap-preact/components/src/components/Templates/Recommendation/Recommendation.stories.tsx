@@ -7,9 +7,9 @@ import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 
 import Readme from './readme.md';
-import type { RecommendationController } from '@searchspring/snap-controller';
-import type { Product } from '@searchspring/snap-store-mobx';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
+import type { Product } from '@athoscommerce/snap-store-mobx';
+import type { Next } from '@athoscommerce/snap-event-manager';
 
 export default {
 	title: 'Templates/Recommendation',
@@ -59,6 +59,7 @@ export default {
 		title: {
 			description: 'Recommendation title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -70,6 +71,7 @@ export default {
 			defaultValue: false,
 			description: 'hide title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -80,6 +82,7 @@ export default {
 		description: {
 			description: 'recommendation description',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -91,6 +94,7 @@ export default {
 			defaultValue: true,
 			description: 'Recommendation pagination loops',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -102,6 +106,7 @@ export default {
 			description: 'Results store reference, overrides controller.store.results',
 			type: { required: false },
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'Results store object',
 				},
@@ -130,6 +135,7 @@ export default {
 			defaultValue: false,
 			description: 'Display pagination dots',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -141,17 +147,7 @@ export default {
 			defaultValue: false,
 			description: 'Display scrollbar',
 			table: {
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: false },
-			},
-			control: { type: 'boolean' },
-		},
-		vertical: {
-			defaultValue: false,
-			description: 'Recommendation carousel direction',
-			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -163,6 +159,7 @@ export default {
 			defaultValue: false,
 			description: 'Hide prev/next buttons',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -173,6 +170,7 @@ export default {
 		prevButton: {
 			description: 'Previous button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -182,6 +180,7 @@ export default {
 		nextButton: {
 			description: 'Next button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -195,6 +194,7 @@ export default {
 				offset: '10%',
 			},
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'object',
 				},

@@ -1,13 +1,13 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore, ErrorType, Product, Banner, MerchandisingContentBanner } from '@searchspring/snap-store-mobx';
+import { StorageStore, ErrorType, Product, Banner, MerchandisingContentBanner } from '@athoscommerce/snap-store-mobx';
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';
 
-import { AutocompleteStore } from '@searchspring/snap-store-mobx';
+import { AutocompleteStore } from '@athoscommerce/snap-store-mobx';
 import type { AutocompleteControllerConfig, AutocompleteAfterSearchObj, AfterStoreObj, ControllerServices, ContextVariables } from '../types';
-import type { Next } from '@searchspring/snap-event-manager';
+import type { Next } from '@athoscommerce/snap-event-manager';
 import type { AutocompleteRequestModel, AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
 import {
 	type Product as BeaconProduct,
@@ -21,7 +21,7 @@ import {
 	ClickthroughResultsInner,
 	ClickthroughBannersInner,
 	BannersInner,
-} from '@searchspring/beacon';
+} from '@athoscommerce/beacon';
 import { CLICK_DUPLICATION_TIMEOUT, isClickWithinProductLink } from '../utils/isClickWithinProductLink';
 import { isClickWithinBannerLink } from '../utils/isClickWithinBannerLink';
 
@@ -29,7 +29,7 @@ const INPUT_ATTRIBUTE = 'ss-autocomplete-input';
 export const INPUT_DELAY = 200;
 const KEY_ENTER = 13;
 const KEY_ESCAPE = 27;
-const PARAM_ORIGINAL_QUERY = 'oq';
+
 const PARAM_FALLBACK_QUERY = 'fallbackQuery';
 
 const defaultConfig: AutocompleteControllerConfig = {
@@ -37,8 +37,10 @@ const defaultConfig: AutocompleteControllerConfig = {
 	selector: '',
 	action: '',
 	globals: {},
+	beacon: {
+		enabled: true,
+	},
 	settings: {
-		integratedSpellCorrection: false,
 		initializeFromUrl: true,
 		syncInputs: true,
 		serializeForm: false,
@@ -77,7 +79,6 @@ export class AutocompleteController extends AbstractController {
 	declare store: AutocompleteStore;
 	declare config: AutocompleteControllerConfig;
 	public storage: StorageStore;
-	private lastSearchQuery: string | undefined;
 
 	private events: {
 		[responseId: string]: {
@@ -143,17 +144,7 @@ export class AutocompleteController extends AbstractController {
 		// persist trending terms in local storage
 		this.storage = new StorageStore({
 			type: 'session',
-			key: `ss-controller-${this.config.id}`,
-		});
-
-		this.eventManager.on('afterStore', async (search: AfterStoreObj, next: Next): Promise<void | boolean> => {
-			await next();
-			const controller = search.controller as AutocompleteController;
-			const responseId = search.response.search.tracking.responseId;
-			if (controller.store.loaded && !controller.store.error) {
-				const data: RenderSchemaData = { responseId };
-				this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
-			}
+			key: `athos-controller-${this.config.id}`,
 		});
 
 		// add 'afterSearch' middleware
@@ -198,8 +189,17 @@ export class AutocompleteController extends AbstractController {
 	track: AutocompleteTrackMethods = {
 		banner: {
 			impression: (_banner): void => {
+				if (!_banner) {
+					this.log.warn('No banner provided to track.banner.impression');
+					return;
+				}
+
 				const { responseId, uid } = _banner;
-				if (this.events[responseId]?.banner?.[uid]?.impression) {
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events?.[responseId]?.banner?.[uid]?.impression) {
 					return;
 				}
 
@@ -210,12 +210,23 @@ export class AutocompleteController extends AbstractController {
 					results: [],
 				};
 				this.eventManager.fire('track.banner.impression', { controller: this, product: { uid }, trackEvent: data });
-				this.tracker.events.autocomplete.impression({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events.autocomplete.impression({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
 				this.events[responseId].banner[uid].impression = true;
 			},
 			click: (e: MouseEvent, banner: MerchandisingContentBanner): void => {
+				if (!banner) {
+					this.log.warn('No banner provided to track.banner.click');
+					return;
+				}
+
 				const { responseId, uid } = banner;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				if (isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.banner[uid]?.clickThrough) {
 						return;
@@ -229,13 +240,23 @@ export class AutocompleteController extends AbstractController {
 				}
 			},
 			clickThrough: (e: MouseEvent, { uid, responseId }): void => {
+				if (!uid) {
+					this.log.warn('No banner uid provided to track.banner.clickThrough');
+					return;
+				}
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const banner: ClickthroughBannersInner = { uid };
 				const data: ClickthroughSchemaData = {
 					responseId,
 					banners: [banner],
 				};
 				this.eventManager.fire('track.banner.clickThrough', { controller: this, event: e, product: { uid }, trackEvent: data });
-				this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].banner[uid] = this.events[responseId].banner[uid] || {};
 				this.events[responseId].banner[uid].clickThrough = true;
 				setTimeout(() => {
@@ -245,12 +266,28 @@ export class AutocompleteController extends AbstractController {
 		},
 		product: {
 			clickThrough: (e: MouseEvent, result: Product | Banner): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.clickThrough');
+					return;
+				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
+				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const item: ClickthroughResultsInner = {
-					type: result.type as ResultProductType,
-					uid: result.id,
-					parentId: result.id,
-					sku: result.mappings.core?.sku,
+					type,
+					uid: result.id ? '' + result.id : '',
+					...(type === 'product'
+						? {
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
+						  }
+						: {}),
 				};
 
 				const data: ClickthroughSchemaData = {
@@ -258,10 +295,20 @@ export class AutocompleteController extends AbstractController {
 					results: [item],
 				};
 				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
-				this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events.autocomplete.clickThrough({ data, siteId: this.config.globals?.siteId });
 			},
 			click: (e: MouseEvent, result: Product | Banner): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.click');
+					return;
+				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
 
 				if (result.type === 'banner' && isClickWithinBannerLink(e)) {
 					if (this.events?.[responseId]?.product[result.id]?.inlineBannerClickThrough) {
@@ -286,15 +333,30 @@ export class AutocompleteController extends AbstractController {
 				}
 			},
 			impression: (result: Product | Banner): void => {
-				const responseId = result.responseId;
-				if (this.events?.[responseId]?.product[result.id]?.impression) {
+				if (!result) {
+					this.log.warn('No result provided to track.product.impression');
 					return;
 				}
+
+				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				} else if (this.events?.[responseId]?.product[result.id]?.impression) {
+					return;
+				}
+
+				const type = (['product', 'banner'].includes(result.type) ? result.type : 'product') as ResultProductType;
 				const item: ResultsInner = {
-					type: result.type as ResultProductType,
-					uid: result.id,
-					parentId: result.id,
-					sku: result.mappings.core?.sku,
+					type,
+					uid: result.id ? '' + result.id : '',
+					...(type === 'product'
+						? {
+								parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+								sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
+						  }
+						: {}),
 				};
 				const data: ImpressionSchemaData = {
 					responseId,
@@ -302,15 +364,23 @@ export class AutocompleteController extends AbstractController {
 					banners: [],
 				};
 				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
-				this.tracker.events.autocomplete.impression({ data, siteId: this.config.globals?.siteId });
-				console.log(this.events);
-				console.log(responseId, result);
-				console.log(this.events[responseId]);
+				this.config.beacon?.enabled && this.tracker.events.autocomplete.impression({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
 				this.events[responseId].product[result.id].impression = true;
 			},
 			addToCart: (result: Product): void => {
+				if (!result) {
+					this.log.warn('No result provided to track.product.addToCart');
+					return;
+				}
+
 				const responseId = result.responseId;
+
+				if (!this.events[responseId]) {
+					this.log.warn('No responseId found in controller, ensure correct controller is used');
+					return;
+				}
+
 				const product: BeaconProduct = {
 					parentId: result.id,
 					uid: result.id,
@@ -323,16 +393,20 @@ export class AutocompleteController extends AbstractController {
 					results: [product],
 				};
 				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
-				this.tracker.events.autocomplete.addToCart({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events.autocomplete.addToCart({ data, siteId: this.config.globals?.siteId });
 			},
 		},
 		redirect: ({ redirectURL, responseId }): void => {
+			if (!redirectURL) {
+				this.log.warn('No redirectURL provided to track.redirect');
+				return;
+			}
 			const data: RedirectSchemaData = {
 				responseId,
 				redirect: redirectURL,
 			};
 			this.eventManager.fire('track.redirect', { controller: this, redirectURL, trackEvent: data });
-			this.tracker.events.autocomplete.redirect({ data, siteId: this.config.globals?.siteId });
+			this.config.beacon?.enabled && this.tracker.events.autocomplete.redirect({ data, siteId: this.config.globals?.siteId });
 		},
 	};
 
@@ -433,23 +507,14 @@ export class AutocompleteController extends AbstractController {
 
 					e.preventDefault();
 
-					// when spellCorrection is enabled
-					if (this.config.globals?.search?.query?.spellCorrection) {
-						// wait until loading is complete before submission
-						while (this.store.loading) {
-							await timeout(INPUT_DELAY);
-						}
+					// wait until loading is complete before submission
+					while (this.store.loading) {
+						await timeout(INPUT_DELAY);
+					}
 
-						if (this.config.settings!.integratedSpellCorrection) {
-							//set fallbackQuery to the correctedQuery
-							if (this.store.search.correctedQuery) {
-								actionUrl = actionUrl?.set(PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
-							}
-						} else if (this.store.search.originalQuery) {
-							// use corrected query and originalQuery
-							input.value = this.store.search.query?.string!;
-							actionUrl = actionUrl?.set(PARAM_ORIGINAL_QUERY, this.store.search.originalQuery.string);
-						}
+					// set fallbackQuery to the correctedQuery
+					if (this.store.search.correctedQuery) {
+						actionUrl = actionUrl?.set(PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
 					}
 
 					actionUrl = actionUrl?.set('query', input.value);
@@ -495,25 +560,14 @@ export class AutocompleteController extends AbstractController {
 
 				e.preventDefault();
 
-				// when spellCorrection is enabled
-				if (this.config.globals?.search?.query?.spellCorrection) {
-					// wait until loading is complete before submission
-					while (this.store.loading) {
-						await timeout(INPUT_DELAY);
-					}
+				// wait until loading is complete before submission
+				while (this.store.loading) {
+					await timeout(INPUT_DELAY);
+				}
 
-					if (this.config.settings!.integratedSpellCorrection) {
-						//set fallbackQuery to the correctedQuery
-						if (this.store.search.correctedQuery) {
-							addHiddenFormInput(form, PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
-						}
-					} else if (this.store.search.originalQuery) {
-						// use corrected query and originalQuery
-						if (input) {
-							input.value = this.store.search.query?.string!;
-						}
-						addHiddenFormInput(form, PARAM_ORIGINAL_QUERY, this.store.search.originalQuery.string);
-					}
+				// set fallbackQuery to the correctedQuery
+				if (this.store.search.correctedQuery) {
+					addHiddenFormInput(form, PARAM_FALLBACK_QUERY, this.store.search.correctedQuery.string);
 				}
 
 				// wait for input delay
@@ -816,7 +870,8 @@ export class AutocompleteController extends AbstractController {
 			const responseId = search.tracking.responseId;
 			this.events[responseId] = this.events[responseId] || { product: {}, banner: {} };
 
-			if (search.search?.query === this.lastSearchQuery) {
+			const previousResponseId = this.store.results[0]?.responseId;
+			if (previousResponseId && previousResponseId === responseId) {
 				const impressedResultIds = Object.keys(this.events[responseId].product || {}).filter(
 					(resultId) => this.events[responseId].product?.[resultId]?.impression
 				);
@@ -829,7 +884,6 @@ export class AutocompleteController extends AbstractController {
 				};
 			} else {
 				this.events[responseId] = { product: {}, banner: {} };
-				this.lastSearchQuery = search.search?.query;
 			}
 
 			const afterSearchProfile = this.profiler.create({ type: 'event', name: 'afterSearch', context: params }).start();
@@ -859,6 +913,9 @@ export class AutocompleteController extends AbstractController {
 
 			// update the store
 			this.store.update({ meta, search });
+
+			const data: RenderSchemaData = { responseId };
+			this.config.beacon?.enabled && this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
 
 			const afterStoreProfile = this.profiler.create({ type: 'event', name: 'afterStore', context: params }).start();
 
@@ -932,7 +989,11 @@ export class AutocompleteController extends AbstractController {
 	};
 
 	addToCart = async (_products: Product[] | Product): Promise<void> => {
-		const products = typeof (_products as Product[]).slice == 'function' ? (_products as Product[]).slice() : [_products];
+		const products = typeof (_products as Product[])?.slice == 'function' ? (_products as Product[]).slice() : [_products];
+		if (!_products || products.length === 0) {
+			this.log.warn('No products provided to autocomplete controller.addToCart');
+			return;
+		}
 		(products as Product[]).forEach((product) => {
 			this.track.product.addToCart(product);
 		});

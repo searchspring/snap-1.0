@@ -15,10 +15,10 @@ Snap templates is entirely configuration based. The configuration defines which 
 | `autocomplete` | Autocomplete feature target declarations |
 | `recommendation` | Recommendation feature target declarations |
 
-Here is a minimal example starting configuration to enable search and autocomplete using the `bocachica` theme.
+Here is a minimal example starting configuration to enable search and autocomplete using the `pike` theme.
 
 ```jsx
-import { SnapTemplates } from '@searchspring/snap-preact';
+import { SnapTemplates } from '@athoscommerce/snap-preact';
 
 new SnapTemplates({
 	config: {
@@ -27,12 +27,12 @@ new SnapTemplates({
 		currency: 'usd',
 	},
 	theme: {
-		extends: 'bocachica',
+		extends: 'pike',
 	},
 	search: {
 		targets: [
 			{
-				selector: '#searchspring-templates',
+				selector: '#athos-templates',
 				component: 'Search',
 			},
 		],
@@ -56,21 +56,21 @@ new SnapTemplates({
 |----------------------|-------------|------|:---------:|:---------:|
 | `config` | Global configuration options | Object | ➖ | ✔️ |
 | `config.platform` | Shopping platform for the integration | String | 'other' | ✔️ |
-| `config.siteId` | Searchspring Site ID | String | ➖ | ➖ |
+| `config.siteId` | Athos Site ID | String | ➖ | ➖ |
 | `config.language` | Language code for localization | String | 'en' | ➖ |
 | `config.currency` | Currency code for pricing | String | 'usd' | ➖ |
 
-The `config` object defines the integration platform, Searchspring siteId and current localization to be used.
+The `config` object defines the integration platform, Athos siteId and current localization to be used.
 
 If a `siteId` is not provided, the siteId found on the `bundle.js` url path will be used. For example `8uyt2m` will be used if the page contains the following script:
 
 ```
-<script src="https://snapui.searchspring.io/8uyt2m/bundle.js" id="searchspring-context"></script>
+<script src="https://snapui.athoscommerce.io/8uyt2m/bundle.js" id="athos-context"></script>
 ```
 
 It is possible to switch language and currency at run-time using methods on the TemplateStore that are exposed to the window: 
-- `window.searchspring.templates.setCurrency('eud')`
-- `window.searchspring.templates.setLanguage('fr')`
+- `window.athos.templates.setCurrency('eud')`
+- `window.athos.templates.setLanguage('fr')`
 
 
 ### Plugins
@@ -86,7 +86,7 @@ Plugins provide functionality to tie into various events within the Snap control
 
 
 > [!NOTE]
-> See common plugins documentation under the [Packages > Platform](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/common) section.
+> See common plugins documentation under the [Packages > Platform](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/common) section.
 
 
 ### Shopify Plugins
@@ -100,7 +100,7 @@ When `config.platform` is `shopify`, the following plugins are available:
 
 
 > [!NOTE]
-> See shopify specific plugins documentation under the [Packages > Platform > Shopify](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/shopify) section.
+> See shopify specific plugins documentation under the [Packages > Platform > Shopify](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/shopify) section.
 
 
 ### Magento2 Plugins
@@ -113,7 +113,7 @@ When `config.platform` is `magento2`, the following plugins are available:
 
 
 > [!NOTE]
-> See Magento specific plugins documentation under the [Packages > Platform > Magento2](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/magento2) section.
+> See Magento specific plugins documentation under the [Packages > Platform > Magento2](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/magento2) section.
 
 
 ### BigCommerce Plugins
@@ -126,7 +126,7 @@ When `config.platform` is `bigCommerce`, the following plugins are available:
 
 
 > [!NOTE]
-> See BigCommerce specific plugins documentation under the [Packages > Platform > BigCommerce](https://github.com/searchspring/snap/tree/main/packages/snap-platforms/bigcommerce) section.
+> See BigCommerce specific plugins documentation under the [Packages > Platform > BigCommerce](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/bigcommerce) section.
 
 
 ### Language Translations
@@ -210,21 +210,13 @@ new SnapTemplates({
 |----------------------|-------------|------|---------|
 | `url` | UrlTranslator configuration | UrlTranslatorConfig Object | ➖ |
 
-See [UrlTranslator configuration](https://github.com/searchspring/snap/tree/main/packages/snap-url-manager/src/Translators/Url) for more documentation
-
-
-### Feature toggles
-
-| Configuration Option | Description | Type | Default |
-|----------------------|-------------|------|---------|
-| `features` | Feature toggles | Object | ➖ |
-| `features.integratedSpellCorrection.enabled` | Enable integrated spell correction | Boolean | true |
+See [UrlTranslator configuration](https://github.com/athoscommerce/snap/tree/main/packages/snap-url-manager/src/Translators/Url) for more documentation
 
 
 ### Templates Theming
 Theming in Snap Templates is the primary method of customizing a template. 
 
-See [Theming](https://github.com/searchspring/snap/blob/main/docs/TEMPLATES_THEMING.md) for more extensive documentation.
+See [Theming](https://github.com/athoscommerce/snap/blob/main/docs/TEMPLATES_THEMING.md) for more extensive documentation.
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|
@@ -233,7 +225,7 @@ See [Theming](https://github.com/searchspring/snap/blob/main/docs/TEMPLATES_THEM
 
 ### Feature Targets
 
-Feature targets are used to enable and configure various Searchspring features in a Snap Templates integration. Each feature target specifies where and how a component should be rendered on the page, along with any custom configurations or themes.
+Feature targets are used to enable and configure various Athos features in a Snap Templates integration. Each feature target specifies where and how a component should be rendered on the page, along with any custom configurations or themes.
 
 Each of these feature targets has its own configuration options, allowing you to tailor the behavior and appearance of the components to your specific needs.
 
@@ -322,7 +314,7 @@ Product recommendations that require and include a seed product sku.
 
 #### Email Recommendations
 
-Product recommendations for external email campaigns. Email recommendations are not directly rendered via Snap on a storefront or within emails. Instead, email campaigns provide product recommendations by displaying images. Searchspring's email image generation service utilizes the `resultComponent` from the Snap integration to create email recommendations.
+Product recommendations for external email campaigns. Email recommendations are not directly rendered via Snap on a storefront or within emails. Instead, email campaigns provide product recommendations by displaying images. Athos' email image generation service utilizes the `resultComponent` from the Snap integration to create email recommendations.
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|

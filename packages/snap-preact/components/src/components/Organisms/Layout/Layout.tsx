@@ -10,7 +10,7 @@ import { FilterSummary, FilterSummaryProps } from '../FilterSummary';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Pagination, PaginationProps } from '../../Molecules/Pagination';
 import { LoadMore, LoadMoreProps } from '../../Molecules/LoadMore';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { SortBy, SortByProps } from '../../Molecules/SortBy';
 import { PerPage, PerPageProps } from '../../Molecules/PerPage';
 import { LayoutSelector, LayoutSelectorProps } from '../../Molecules/LayoutSelector';
@@ -18,11 +18,10 @@ import { MobileSidebar, MobileSidebarProps } from '../MobileSidebar';
 import { PaginationInfo, PaginationInfoProps } from '../../Atoms/PaginationInfo/PaginationInfo';
 import { SearchHeader, SearchHeaderProps } from '../../Atoms/SearchHeader/SearchHeader';
 import { Button, ButtonProps } from '../../Atoms/Button';
-import { Banner, BannerProps } from '../../Atoms/Merchandising';
-import { ContentType } from '@searchspring/snap-store-mobx';
+import { Banner, BannerProps } from '../../Atoms/Banner';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
 import { Facets, FacetsProps } from '../Facets';
 import { FacetsHorizontal, FacetsHorizontalProps } from '../FacetsHorizontal';
-import { useCleanUpEmptyDivs } from '../../../hooks/useCleanUpEmptyDivs';
 import { Breadcrumbs, BreadcrumbsProps } from '../../Atoms/Breadcrumbs';
 
 const defaultStyles: StyleScript<LayoutProps> = ({}) => {
@@ -51,7 +50,7 @@ const defaultStyles: StyleScript<LayoutProps> = ({}) => {
 	});
 };
 
-export const Layout = observer((properties: LayoutProps): JSX.Element => {
+export const Layout = observer((properties: LayoutProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -320,33 +319,27 @@ export const Layout = observer((properties: LayoutProps): JSX.Element => {
 		}
 	}
 
-	const hasChildrenToRender = layout?.length;
-
 	let rowIndex = 0;
 	let separatorIndex = 0;
 
-	useCleanUpEmptyDivs(['.ss__layout__row'], '.ss__layout__separator');
-	return hasChildrenToRender ? (
+	const rows = layout?.map((module) => {
+		if (Array.isArray(module)) {
+			const children = module.map((subModule) => renderModule(subModule));
+			const hasContent = module.some((subModule, i) => subModule !== '_' && children[i]);
+			if (!hasContent) return null;
+			return <div className={`ss__layout__row ss__layout__row--${rowIndex++}`}>{children}</div>;
+		} else {
+			return renderModule(module);
+		}
+	});
+
+	return rows?.some(Boolean) ? (
 		<CacheProvider>
 			<div {...styling} className={classnames('ss__layout', className, internalClassName)}>
-				{layout?.map((module) => {
-					if (Array.isArray(module)) {
-						return (
-							<div className={`ss__layout__row ss__layout__row--${rowIndex++}`}>
-								{module.map((subModule) => {
-									return renderModule(subModule);
-								})}
-							</div>
-						);
-					} else {
-						return renderModule(module);
-					}
-				})}
+				{rows}
 			</div>
 		</CacheProvider>
-	) : (
-		<></>
-	);
+	) : null;
 });
 
 export interface LayoutProps extends ComponentProps {

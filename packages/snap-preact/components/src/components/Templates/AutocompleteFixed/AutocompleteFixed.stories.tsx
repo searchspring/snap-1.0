@@ -6,8 +6,10 @@ import { AutocompleteFixed, AutocompleteFixedProps } from './AutocompleteFixed';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from './readme.md';
-import type { AutocompleteController } from '@searchspring/snap-controller';
+import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { useEffect, useState } from 'preact/hooks';
+import { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager } from '@athoscommerce/snap-url-manager';
 
 export default {
 	title: 'Templates/AutocompleteFixed',
@@ -63,6 +65,7 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.0)',
 			description: 'Autocomplete overlay color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -73,6 +76,7 @@ export default {
 		buttonSelector: {
 			description: 'Autocomplete button selector. (defaults to input)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, jsx',
 				},
@@ -83,6 +87,7 @@ export default {
 			defaultValue: true,
 			description: 'render a second input inside autocomplete window that gets auto focused on open.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -113,17 +118,19 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"['c1' | 'c2' | 'c3' | 'c4' | 'Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']",
 				},
 				defaultValue: { summary: "[['button.see-more'],['termsList'], ['content']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column1: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c1" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -135,11 +142,12 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column2: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c2" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -151,11 +159,12 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column3: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c3" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
@@ -167,21 +176,23 @@ export default {
 				}`,
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		column4: {
 			description: 'object containing width - the specified width of the column and layout - array of modules to render in the "c4" layout',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary:
 						"{width: '150px', layout: ['Terms' | 'HistoryTerms' | 'TrendingTerms'| 'SuggestedTerms'| 'Facets' | 'FacetsHorizontal' | 'SeeMore' | 'Content' | '_' | 'Banner.left' | 'Banner.banner' | 'Banner.footer' | 'Banner.header']}",
 				},
 			},
-			control: 'array',
+			control: 'none',
 		},
 		offset: {
 			description: 'specifies the offset of the autocomplete',
 			table: {
+				category: 'Templates Legal',
 				type: { summary: 'object' },
 			},
 			control: { type: 'object' },
@@ -190,6 +201,7 @@ export default {
 			defaultValue: '500px',
 			description: 'Change width of the component',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -201,6 +213,7 @@ export default {
 			defaultValue: false,
 			description: 'automatically add merchandising banners',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -212,6 +225,7 @@ export default {
 			defaultValue: '',
 			description: 'Change facets header title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -223,6 +237,7 @@ export default {
 			defaultValue: '',
 			description: 'Change content header title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -234,6 +249,7 @@ export default {
 			defaultValue: false,
 			description: 'Autocomplete fully visible in viewport',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -260,6 +276,60 @@ const snapInstance = Snapify.autocomplete({
 });
 
 export const Default = (args: AutocompleteFixedProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
+	const [termState, setTermState] = useState(false);
+
+	const mockTerms: AutocompleteTermStore = [
+		{
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
+			value: 'dress',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+		{
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
+			url: {
+				href: '#',
+			} as UrlManager,
+		},
+	];
+	controller.store.history = mockTerms;
+
 	const [inputFound, setInputFound] = useState(false);
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
-export const FALLBACK_IMAGE_URL = '//cdn.searchspring.net/ajax_search/img/default_image.png';
+export const FALLBACK_IMAGE_URL = '//cdn.athoscommerce.net/snap/images/fallback.png';
 
 const defaultStyles: StyleScript<ImageProps> = ({ height }) => {
 	return css({
@@ -31,7 +31,7 @@ const defaultStyles: StyleScript<ImageProps> = ({ height }) => {
 	});
 };
 
-export function Image(properties: ImageProps): JSX.Element {
+export function Image(properties: ImageProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -89,7 +89,9 @@ export function Image(properties: ImageProps): JSX.Element {
 	);
 }
 
-export interface ImageProps extends ComponentProps {
+export type ImageProps = ImageTemplatesLegalProps & ComponentProps<ImageProps>;
+
+export type ImageTemplatesLegalProps = {
 	alt: string;
 	src: string;
 	title?: string;
@@ -102,4 +104,4 @@ export interface ImageProps extends ComponentProps {
 	onLoad?: (e: React.MouseEvent<HTMLImageElement>) => void;
 	onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
 	lazy?: boolean;
-}
+};

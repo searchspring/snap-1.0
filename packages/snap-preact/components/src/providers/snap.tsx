@@ -1,18 +1,20 @@
 import { h, createContext, ComponentChildren, ComponentType } from 'preact';
 import { useContext } from 'preact/hooks';
 import type { Snap, SnapTemplates } from '../../../src';
+import { JSXComponent } from '../types';
 
 const SnapContext = createContext<undefined | Snap | SnapTemplates>(undefined);
+const SnapProviderCast = SnapContext.Provider as JSXComponent;
 
 export const SnapProvider = ({ children, snap }: { children: ComponentChildren; snap: Snap }) => {
-	return <SnapContext.Provider value={snap}>{children}</SnapContext.Provider>;
+	return <SnapProviderCast value={snap}>{children}</SnapProviderCast>;
 };
 
 export const useSnap = () => useContext(SnapContext);
 
 export function withSnap<C extends ComponentType>(Component: C): C {
-	return ((props: any) => (
-		// additional props must come after controller prop
-		<Component snap={useSnap()} {...props} />
-	)) as C;
+	return ((props: any) => {
+		const Comp = Component as JSXComponent;
+		return <Comp snap={useSnap()} {...props} />;
+	}) as C;
 }

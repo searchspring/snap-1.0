@@ -1,4 +1,4 @@
-import { ThemeComponents, ThemeComponentsRestricted, ThemeComponentsRestrictedOverrides, ThemeComponentTemplateOverrides } from './themeComponents';
+import { ThemeComponents, ThemeComponentsRestricted, ThemeComponentTemplateOverrides } from './themeComponents';
 import { ListOption } from '../types';
 
 export { css, useTheme, withTheme, ThemeProvider } from '@emotion/react';
@@ -62,7 +62,7 @@ export type ThemeComponent<Template extends string, Props> = {
 	desktop?: ThemeComponentTemplateOverrides<Template, Props>;
 };
 
-export type ThemeComplete = Required<Omit<Theme, 'overrides' | 'activeBreakpoint'>> & { components: ThemeComponents };
+export type ThemeComplete = Required<Omit<Theme, 'overrides' | 'activeBreakpoint' | 'components'>> & { components: ThemeComponentsRestricted };
 
 export type ThemeResponsive = {
 	mobile?: ThemeComponentsRestricted;
@@ -72,22 +72,12 @@ export type ThemeResponsive = {
 
 export type ThemeResponsiveComplete = ThemeResponsive & { default?: ThemeComponentsRestricted };
 
-export type ThemeResponsiveOverrides = {
-	mobile?: ThemeComponentsRestrictedOverrides;
-	tablet?: ThemeComponentsRestrictedOverrides;
-	desktop?: ThemeComponentsRestrictedOverrides;
-};
-
 export type ResponsiveKeys = 'default' | 'desktop' | 'tablet' | 'mobile';
 
-export type ThemePartial = Omit<Theme, 'variables' | 'name'> & { variables?: ThemeVariablesPartial };
-export type ThemeOverrides = { components?: ThemeComponentsRestrictedOverrides; responsive?: ThemeResponsiveOverrides };
-
-export type ConfigThemeOverrides = {
-	default?: ThemeComponentsRestrictedOverrides;
-	mobile?: ThemeComponentsRestrictedOverrides;
-	tablet?: ThemeComponentsRestrictedOverrides;
-	desktop?: ThemeComponentsRestrictedOverrides;
+export type ThemePartial = Omit<Theme, 'variables' | 'name' | 'components'> & {
+	variables?: ThemeVariablesPartial;
+	components?: ThemeComponentsRestricted;
 };
+export type ThemeOverrides = { components?: ThemeComponentsRestricted; responsive?: ThemeResponsive };
 
-export type ThemeMinimal = { components?: ThemeComponents };
+export type ThemeMinimal = { components?: ThemeComponentsRestricted };

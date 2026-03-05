@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react-lite';
@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import { SearchController } from '@searchspring/snap-controller';
+import { SearchController } from '@athoscommerce/snap-controller';
 import { Layout, LayoutProps } from '../Layout';
 import deepmerge from 'deepmerge';
 import { Lang, useLang } from '../../../hooks/useLang';
@@ -25,7 +25,7 @@ const defaultStyles: StyleScript<SidebarProps> = ({ stickyOffset }) => {
 	});
 };
 
-export const Sidebar = observer((properties: SidebarProps): JSX.Element => {
+export const Sidebar = observer((properties: SidebarProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -84,22 +84,24 @@ export const Sidebar = observer((properties: SidebarProps): JSX.Element => {
 				</div>
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export type SideBarModuleNames = 'filterSummary' | 'sortBy' | 'perPage' | 'facets' | 'banner.left' | 'paginationInfo' | 'layoutSelector' | '_';
 
-export interface SidebarProps extends ComponentProps {
+export type SidebarProps = {
 	controller: SearchController;
+	lang?: Partial<SidebarLang>;
+} & SidebarTemplatesLegalProps &
+	ComponentProps<SidebarProps>;
+
+export type SidebarTemplatesLegalProps = {
 	layout?: SideBarModuleNames[] | SideBarModuleNames[][];
 	titleText?: string;
 	hideTitleText?: boolean;
 	sticky?: boolean;
 	stickyOffset?: number;
-	lang?: Partial<SidebarLang>;
-}
+};
 
 export interface SidebarLang {
 	titleText: Lang<{

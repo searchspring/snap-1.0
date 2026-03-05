@@ -73,7 +73,7 @@ finderController.init();
 ```
 
 ## Search
-This will invoke a search request to Searchspring's search API and populate the store with the response. This should be called initially and after finder selections have been made.
+This will invoke a search request to Athos's search API and populate the store with the response. This should be called initially and after finder selections have been made.
 
 ```js
 finderController.search();

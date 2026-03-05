@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import { FacetPaletteOptions } from './FacetPaletteOptions';
 import { ThemeProvider } from '../../../providers';
-import type { FacetValue } from '@searchspring/snap-store-mobx';
+import type { FacetValue } from '@athoscommerce/snap-store-mobx';
 
-import { MockData } from '@searchspring/snap-shared';
+import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';
 
 const mockData = new MockData();
@@ -118,7 +118,7 @@ describe('FacetPaletteOptions Component', () => {
 	it('can use the color mapping as img', () => {
 		const colorMapping = {
 			Camo: {
-				background: 'url(https://snapui.searchspring.io/favicon.svg)',
+				background: 'url(https://snapui.athoscommerce.io/favicon.svg)',
 			},
 		};
 
@@ -146,13 +146,13 @@ describe('FacetPaletteOptions Component', () => {
 		expect(paletteElement).toHaveClass(className);
 	});
 
-	it('can set custom onClick func', () => {
+	it('can set custom onClick func', async () => {
 		const onClickFunc = jest.fn();
 		const rendered = render(<FacetPaletteOptions values={paletteFacetMock.values as FacetValue[]} onClick={onClickFunc} />);
 
 		const paletteElement = rendered.container.querySelector('.ss__facet-palette-options__option')!;
 		expect(paletteElement).toBeInTheDocument();
-		userEvent.click(paletteElement);
+		await userEvent.click(paletteElement);
 		expect(onClickFunc).toHaveBeenCalled();
 	});
 

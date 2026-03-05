@@ -1,23 +1,23 @@
 import { render } from 'preact';
 import deepmerge from 'deepmerge';
 
-import { AppMode, DomTargeter, getContext } from '@searchspring/snap-toolbox';
-import { Client } from '@searchspring/snap-client';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
+import { AppMode, DomTargeter, getContext } from '@athoscommerce/snap-toolbox';
+import { Client } from '@athoscommerce/snap-client';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
 
-import type { ClientConfig, ClientGlobals, RecommendRequestModel, RecommendationRequestFilterModel } from '@searchspring/snap-client';
-import type { UrlTranslatorConfig } from '@searchspring/snap-url-manager';
+import type { ClientConfig, ClientGlobals, RecommendRequestModel, RecommendationRequestFilterModel } from '@athoscommerce/snap-client';
+import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 import type {
 	AbstractController,
 	RecommendationController,
 	Attachments,
 	ContextVariables,
 	RecommendationControllerConfig,
-} from '@searchspring/snap-controller';
-import type { VariantConfig } from '@searchspring/snap-store-mobx';
-import type { Middleware } from '@searchspring/snap-event-manager';
-import type { Target } from '@searchspring/snap-toolbox';
+} from '@athoscommerce/snap-controller';
+import type { VariantConfig } from '@athoscommerce/snap-store-mobx';
+import type { Middleware } from '@athoscommerce/snap-event-manager';
+import type { Target } from '@athoscommerce/snap-toolbox';
 import type { Snap } from '../Snap';
 
 type RecommendationComponentFunc = () => Promise<any> | any;
@@ -132,7 +132,7 @@ export class RecommendationInstantiator {
 			}
 		}
 
-		window.searchspring = window.searchspring || {};
+		window.athos = window.athos || {};
 
 		this.context = deepmerge(context || {}, config.context || {});
 		this.client = services?.client || new Client(this.config.client!.globals, this.config.client!.config);
@@ -145,8 +145,9 @@ export class RecommendationInstantiator {
 			[
 				{
 					selector: `${
-						this.config.selector || 'script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"]'
-					}, script[type="searchspring/recommend"][profile="email"]`,
+						this.config.selector ||
+						'script[type="searchspring/recommend"], script[type="searchspring/personalized-recommendations"], script[type="athos/recommend"], script[type="athos/personalized-recommendations"]'
+					}, script[type="searchspring/recommend"][profile="email"], script[type="athos/recommend"][profile="email"]`,
 					autoRetarget: true,
 					clickRetarget: true,
 					inject: {
@@ -161,7 +162,7 @@ export class RecommendationInstantiator {
 					},
 				},
 				{
-					selector: 'script[type="searchspring/recommendations"]',
+					selector: 'script[type="searchspring/recommendations"], script[type="athos/recommendations"]',
 					autoRetarget: true,
 					clickRetarget: true,
 					emptyTarget: false,
@@ -358,7 +359,6 @@ async function readyTheController(
 				})
 			);
 		})[0];
-
 	if (!controller) {
 		// no existing controller found of same configuration - creating a new controller
 		const createRecommendationController = (await import('../create/createRecommendationController')).default;
@@ -377,16 +377,16 @@ async function readyTheController(
 		instance.middleware.forEach((middleware) => controller.on(middleware.event, ...middleware.func));
 	}
 
-	// run a search on the controller if it has not yet and it is not currently
-	if (!controller.store.loaded && !controller.store.loading) {
+	// run a search on the controller if it is not currently
+	if (!controller.store.loading) {
 		await controller.search();
 	}
 
 	controller.addTargeter(instance.targeter);
 
 	instance.controller[controller.config.id] = controller;
-	window.searchspring.controller = window.searchspring.controller || {};
-	window.searchspring.controller[controller.config.id] = controller;
+	window.athos.controller = window.athos.controller || {};
+	window.athos.controller[controller.config.id] = controller;
 
 	const profileVars = controller.store.profile.display?.templateParameters;
 	const component = controller.store.profile.display?.template?.component;

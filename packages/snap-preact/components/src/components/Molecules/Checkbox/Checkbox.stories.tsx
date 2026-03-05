@@ -33,6 +33,7 @@ export default {
 		checked: {
 			description: 'Checkbox is checked (externally managed state)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -43,6 +44,7 @@ export default {
 		disabled: {
 			description: 'Checkbox is disabled',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -54,6 +56,7 @@ export default {
 			defaultValue: '12px',
 			description: 'Checkbox size',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -65,6 +68,7 @@ export default {
 			defaultValue: 'check-thin',
 			description: 'Icon name',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -78,6 +82,7 @@ export default {
 		color: {
 			description: 'Checkbox color',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -88,6 +93,7 @@ export default {
 		iconColor: {
 			description: 'Checkbox icon color. Overwrites color.',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -98,6 +104,7 @@ export default {
 		startChecked: {
 			description: 'Checkbox is checked initially (internally managed state)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -108,6 +115,7 @@ export default {
 		native: {
 			description: 'Render as unstyled native checkbox',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -118,6 +126,7 @@ export default {
 		onClick: {
 			description: 'Checkbox click event handler',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -128,6 +137,7 @@ export default {
 		disableA11y: {
 			description: 'boolean to disable autoset ally properties',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

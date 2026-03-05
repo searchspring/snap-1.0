@@ -8,6 +8,6 @@ const emotionCache = createCache({
 	prepend: true,
 });
 
-export const CacheProvider = (props: { cache?: EmotionCache; children: any }): JSX.Element => {
+export const CacheProvider = (props: { cache?: EmotionCache; children: any }) => {
 	return <EmotionCacheProvider value={props.cache || emotionCache}>{props.children}</EmotionCacheProvider>;
 };

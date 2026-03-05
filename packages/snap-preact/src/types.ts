@@ -1,4 +1,4 @@
-import type { Client, ClientConfig, ClientGlobals } from '@searchspring/snap-client';
+import type { Client, ClientConfig, ClientGlobals } from '@athoscommerce/snap-client';
 import type {
 	ControllerConfig,
 	SearchControllerConfig,
@@ -7,16 +7,16 @@ import type {
 	RecommendationControllerConfig,
 	ContextVariables,
 	ChatControllerConfig,
-} from '@searchspring/snap-controller';
-import type { SearchStore, AutocompleteStore, FinderStore, RecommendationStore, ChatStore } from '@searchspring/snap-store-mobx';
-import type { UrlManager, UrlTranslatorConfig, UrlState } from '@searchspring/snap-url-manager';
-import type { EventManager } from '@searchspring/snap-event-manager';
-import type { Profiler } from '@searchspring/snap-profiler';
-import type { Logger } from '@searchspring/snap-logger';
-import type { Tracker } from '@searchspring/snap-tracker';
+} from '@athoscommerce/snap-controller';
+import type { SearchStore, AutocompleteStore, FinderStore, RecommendationStore, ChatStore } from '@athoscommerce/snap-store-mobx';
+import type { UrlManager, UrlTranslatorConfig, UrlState } from '@athoscommerce/snap-url-manager';
+import type { EventManager } from '@athoscommerce/snap-event-manager';
+import type { Profiler } from '@athoscommerce/snap-profiler';
+import type { Logger } from '@athoscommerce/snap-logger';
+import type { Tracker } from '@athoscommerce/snap-tracker';
 import type { CSSInterpolation } from '@emotion/serialize';
 import type { ThemeVariables } from '../components/src';
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 
 export type IntegrationPlatforms = 'shopify' | 'bigCommerce' | 'magento2' | 'other';
 
@@ -123,15 +123,11 @@ export type DeepPartial<T> = Partial<{ [P in keyof T]: DeepPartial<T[P]> }>;
 
 declare global {
 	interface Window {
-		searchspring?: any;
+		athos?: any;
 	}
 }
 
-export type SnapFeatures = {
-	integratedSpellCorrection?: {
-		enabled?: boolean;
-	};
-};
+export type SnapFeatures = unknown;
 
 // The state of a UI control, which determines how it's rendered.
 export type ControlDisplayState = 'visible' | 'disabled' | 'hidden';

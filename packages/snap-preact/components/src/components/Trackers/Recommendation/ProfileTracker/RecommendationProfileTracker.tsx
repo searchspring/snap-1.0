@@ -1,7 +1,7 @@
-import { Fragment, h, ComponentChildren, toChildArray } from 'preact';
+import { h, ComponentChildren, toChildArray } from 'preact';
 import { jsx, css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
-import type { RecommendationController } from '@searchspring/snap-controller';
+import type { RecommendationController } from '@athoscommerce/snap-controller';
 import { ComponentProps, StyleScript } from '../../../../types';
 import classnames from 'classnames';
 import { mergeStyles } from '../../../../utilities';
@@ -13,7 +13,7 @@ const defaultStyles: StyleScript<RecommendationProfileTrackerProps> = () => {
 /**
  * @deprecated RecommendationProfileTracker is deprecated and is no longer functional
  */
-export const RecommendationProfileTracker = observer((properties: RecommendationProfileTrackerProps): JSX.Element => {
+export const RecommendationProfileTracker = observer((properties: RecommendationProfileTrackerProps) => {
 	const { children, className, internalClassName } = properties;
 
 	const childs = toChildArray(children);
@@ -24,9 +24,7 @@ export const RecommendationProfileTracker = observer((properties: Recommendation
 		<div className={classnames('ss__recommendation-profile-tracker', className, internalClassName)} {...styling}>
 			{children}
 		</div>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 export interface RecommendationProfileTrackerProps extends ComponentProps {

@@ -1,11 +1,11 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
 import { SortBy } from './SortBy';
 import { PerPage } from './PerPage';
 import { SidebarContents } from '../Sidebar/Sidebar';
 
-import { Button, Pagination, Slideout, withController, useMediaQuery } from '@searchspring/snap-preact/components';
+import { Button, Pagination, Slideout, withController, useMediaQuery } from '@athoscommerce/snap-preact/components';
 
 type ToolBarProps = {
 	store?: SearchStore;
@@ -23,10 +23,10 @@ export const Toolbar = withController(
 		return (
 			<div className="ss-toolbar ss-toolbar-top">
 				<Slideout displayAt={mobileMediaQuery} buttonContent={<SlideoutButton />}>
-					<Fragment>
+					<>
 						<h3>Filters</h3>
 						<SidebarContents />
-					</Fragment>
+					</>
 				</Slideout>
 
 				<div className="ss-toolbar-row">

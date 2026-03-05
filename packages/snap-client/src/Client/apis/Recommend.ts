@@ -1,9 +1,9 @@
-import { API, ApiConfiguration } from './Abstract';
-import { HTTPHeaders, RecommendPostRequestProfileModel } from '../../types';
-import { AppMode } from '@searchspring/snap-toolbox';
-import { BEACON_PARAM, transformRecommendationFiltersPost } from '../transforms';
+import { API } from './Abstract';
+import { HTTPHeaders, RecommendPostRequestProfileModel, RecommendRequesterPaths } from '../../types';
+import { AppMode } from '@athoscommerce/snap-toolbox';
+import { transformRecommendationFiltersPost } from '../transforms';
 import { ProfileRequestModel, ProfileResponseModel, RecommendResponseModel, RecommendRequestModel, RecommendPostRequestModel } from '../../types';
-import { DEVELOPMENT_MODE_PARAM } from './Hybrid';
+import { DEVELOPMENT_MODE_PARAM } from './Search';
 
 class Deferred {
 	promise: Promise<any>;
@@ -24,27 +24,21 @@ type BatchEntry = {
 };
 
 const BATCH_TIMEOUT = 150;
-export class RecommendAPI extends API {
+export class RecommendAPI extends API<RecommendRequesterPaths> {
 	private batches: {
 		[key: string]: {
 			timeout: number | NodeJS.Timeout;
 			request: RecommendPostRequestModel;
 			entries: BatchEntry[];
 		};
-	};
-
-	constructor(config: ApiConfiguration) {
-		super(config);
-		this.batches = {};
-	}
+	} = {};
 
 	async getProfile(queryParameters: ProfileRequestModel): Promise<ProfileResponseModel> {
 		const headerParameters: HTTPHeaders = {};
 
 		const response = await this.request<ProfileResponseModel>(
 			{
-				path: '/api/personalized-recommendations/profile.json',
-				origin: this.configuration.secondaryOrigin || undefined, // use alternate origin for profile requests
+				path: this.configuration.paths.profile || '/v1/profile',
 				method: 'GET',
 				headers: headerParameters,
 				query: queryParameters,
@@ -148,7 +142,6 @@ export class RecommendAPI extends API {
 						lastViewed,
 						shopper,
 					}),
-					[BEACON_PARAM]: true,
 				};
 				if (this.configuration.mode == AppMode.development) {
 					batch.request[DEVELOPMENT_MODE_PARAM] = true;
@@ -179,17 +172,9 @@ export class RecommendAPI extends API {
 		const headerParameters: HTTPHeaders = {};
 		headerParameters['Content-Type'] = 'text/plain';
 
-		let path = `/v1/recommend`;
-
-		if (this.configuration.origin && this.configuration.origin.indexOf('athoscommerce.io') == -1) {
-			// non-athos origin, use old path
-			const siteId = requestParameters.siteId;
-			path = `/boost/${siteId}/recommend`;
-		}
-
 		const response = await this.request<RecommendResponseModel[]>(
 			{
-				path,
+				path: this.configuration.paths.recommend || '/v1/recommend',
 				method: 'POST',
 				headers: headerParameters,
 				body: requestParameters,

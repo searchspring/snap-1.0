@@ -8,7 +8,7 @@ The `RecommendationController` is used when making queries to the API `recommend
 |---|---|:---:|:---:|
 | id | unique identifier for this controller | ➖ | ✔️ |
 | tag | unique name of the recommendations profile | ➖ | ✔️ |
-| realtime | update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/searchspring/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) | ➖ |   |
+| realtime | update recommendations if cart contents change (requires [cart attribute tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#cart-attribute-tracking)) | ➖ |   |
 | batched | batch multiple recommendations into a single network request | true |   |
 | limit | maximum number of results to display, can also be set globally via globals | 20 |  |
 | globals | keys defined here will be passed to the API request (can overwrite global config)| ➖ |   |
@@ -28,7 +28,7 @@ recommendationController.init();
 ```
 
 ## Search
-This will invoke a search request to Searchspring's search API and populate the store with the response.
+This will invoke a search request to Athos's search API and populate the store with the response.
 
 ```js
 recommendationController.search();
@@ -83,4 +83,4 @@ recommendationController.addToCart([recommendationController.store.results[0]]);
 - Always invoked after `controller.addToCart()` method has been invoked
 
 ## Variants
-For variant integration details, see [Variant Integration Docs](https://github.com/searchspring/snap/blob/main/docs/INTEGRATION_VARIANTS.md)
+For variant integration details, see [Variant Integration Docs](https://github.com/athoscommerce/snap/blob/main/docs/INTEGRATION_VARIANTS.md)

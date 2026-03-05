@@ -5,10 +5,11 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { TermsList, TermsListProps } from './TermsList';
 import Readme from './readme.md';
-import { AutocompleteController } from '@searchspring/snap-controller';
+import { AutocompleteController } from '@athoscommerce/snap-controller';
 import { Snapify } from '../../../utilities/snapify';
-import type { AutocompleteTermStore } from '@searchspring/snap-store-mobx';
-import type { UrlManager } from '@searchspring/snap-url-manager';
+import type { AutocompleteTermStore } from '@athoscommerce/snap-store-mobx';
+import type { UrlManager } from '@athoscommerce/snap-url-manager';
+import { useState } from 'preact/hooks';
 
 export default {
 	title: 'Organisms/TermsList',
@@ -50,6 +51,7 @@ export default {
 						padding: '10px',
 						boxSizing: 'border-box',
 						border: '1px solid #3a23ad',
+						marginBottom: '20px',
 					}}
 				/>
 				<Story />
@@ -70,46 +72,62 @@ export default {
 		layout: {
 			description: 'array of modules to render in specified order',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: "['History' | 'Trending' | 'Suggestions' | '_']",
 				},
 				defaultValue: { summary: "[['Suggestions'], ['Trending'], ['History']]" },
 			},
-			control: 'array',
+			control: 'none',
 		},
 		historyTitle: {
 			description: 'history terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'History' },
+				defaultValue: { summary: 'Recent Searches' },
 			},
 			control: { type: 'text' },
+		},
+		verticalOptions: {
+			description: 'boolean to specify if the terms should be displayed vertically',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: undefined },
+			},
+			control: { type: 'boolean' },
 		},
 		suggestionTitle: {
 			description: 'suggested terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'Suggestions' },
+				defaultValue: { summary: 'Search Suggestions' },
 			},
 			control: { type: 'text' },
 		},
 		trendingTitle: {
 			description: 'trending terms title',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'Trending' },
+				defaultValue: { summary: 'Popular Searches' },
 			},
 			control: { type: 'text' },
 		},
 		retainHistory: {
 			description: 'boolean to specify if the history terms should always be rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -120,6 +138,7 @@ export default {
 		retainTrending: {
 			description: 'boolean to specify if the trending terms should always be rendered',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -145,53 +164,55 @@ const snapInstance = Snapify.autocomplete({
 });
 
 export const Default = (args: TermsListProps, { loaded: { controller } }: { loaded: { controller: AutocompleteController } }) => {
+	const [termState, setTermState] = useState(false);
+
 	const mockTerms: AutocompleteTermStore = [
 		{
-			active: false,
-			preview: () => console.log(''),
+			active: termState === 'dress',
+			preview: () => setTermState('dress'),
 			value: 'dress',
 			url: {
-				href: 'www.dress.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'drss',
+			active: termState === 'shirt',
+			preview: () => setTermState('shirt'),
+			value: 'shirt',
 			url: {
-				href: 'www.drss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'dreees',
+			active: termState === 'shoes',
+			preview: () => setTermState('shoes'),
+			value: 'shoes',
 			url: {
-				href: 'www.dreees.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'dres',
+			active: termState === 'hat',
+			preview: () => setTermState('hat'),
+			value: 'hat',
 			url: {
-				href: 'www.dres.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'dss',
+			active: termState === 'pants',
+			preview: () => setTermState('pants'),
+			value: 'pants',
 			url: {
-				href: 'www.dss.com',
+				href: '#',
 			} as UrlManager,
 		},
 		{
-			active: false,
-			preview: () => console.log(''),
-			value: 'ress',
+			active: termState === 'socks',
+			preview: () => setTermState('socks'),
+			value: 'socks',
 			url: {
-				href: 'www.ress.com',
+				href: '#',
 			} as UrlManager,
 		},
 	];

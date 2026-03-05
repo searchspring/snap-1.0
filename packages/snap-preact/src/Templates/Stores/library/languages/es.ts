@@ -1,5 +1,5 @@
 import { LangComponents } from '../../../../../components/src';
-import type { ValueFacet } from '@searchspring/snap-store-mobx';
+import type { ValueFacet } from '@athoscommerce/snap-store-mobx';
 
 export const es: LangComponents = {
 	recommendation: {},

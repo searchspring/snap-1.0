@@ -7,7 +7,7 @@ import { Pagination, PaginationProps } from './Pagination';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../Pagination/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Molecules/Pagination',
@@ -57,6 +57,7 @@ export default {
 				'Number of pages shown - recommend using an odd number as it includes the current page with an even spread to the left and right (excluding first and last)',
 			defaultValue: 5,
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -67,6 +68,7 @@ export default {
 		pagesLeft: {
 			description: 'Number of pages shown to the left (excluding first) - must be used with pagesRight',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -76,6 +78,7 @@ export default {
 		pagesRight: {
 			description: 'Number of pages shown to the right (excluding last) - must be used with pagesLeft',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'number',
 				},
@@ -85,6 +88,7 @@ export default {
 		nextButton: {
 			description: 'Pagination next button content',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -94,6 +98,7 @@ export default {
 		prevButton: {
 			description: 'Pagination prev button content',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -103,6 +108,7 @@ export default {
 		firstButton: {
 			description: 'Pagination first button content',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -112,6 +118,7 @@ export default {
 		lastButton: {
 			description: 'Pagination last button content',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'string, JSX',
 				},
@@ -121,6 +128,7 @@ export default {
 		hideFirst: {
 			description: 'Hide first button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -131,6 +139,7 @@ export default {
 		hideLast: {
 			description: 'Hide last button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -141,6 +150,7 @@ export default {
 		persistFirst: {
 			description: 'persists the first page button (when not on first page)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -151,6 +161,7 @@ export default {
 		persistLast: {
 			description: 'persists the last page button (when not on last page)',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -161,6 +172,7 @@ export default {
 		hideEllipsis: {
 			description: 'Hide ellipsis',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -171,6 +183,7 @@ export default {
 		hideNext: {
 			description: 'Hide next button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -181,6 +194,7 @@ export default {
 		hidePrev: {
 			description: 'Hide previous button',
 			table: {
+				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

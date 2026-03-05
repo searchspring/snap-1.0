@@ -1,6 +1,6 @@
 # Autocomplete
 
-To set up Autocomplete using Snap, we'll need to define an autocomplete controller in our Snap configuration. See [AutocompleteController reference](https://searchspring.github.io/snap/reference-controller-autocomplete) for all available configuration options
+To set up Autocomplete using Snap, we'll need to define an autocomplete controller in our Snap configuration. See [AutocompleteController reference](https://athoscommerce.github.io/snap/reference-controller-autocomplete) for all available configuration options
 
 One notable thing to mention as you may see a duplicate `selector` property in both the `config` and `targeter`.
 
@@ -14,7 +14,7 @@ However in our example, since they are both the same value, the Autocomplete com
 ```js
 // src/index.js
 
-import { Snap } from '@searchspring/snap-preact';
+import { Snap } from '@athoscommerce/snap-preact';
 
 const snap = new Snap({
     client: {
@@ -42,7 +42,7 @@ const snap = new Snap({
                         selector: 'header input[type="search"]',
                         hideTarget: true,
                         component: async () => {
-                            return (await import('@searchspring/snap-preact-components')).Autocomplete;
+                            return (await import('@athoscommerce/snap-preact-components')).Autocomplete;
                         },
                     },
                 ],
@@ -56,7 +56,7 @@ const snap = new Snap({
 
 ## Autocomplete Store
 
-It is recommended to utilizing the [Autocomplete](https://searchspring.github.io/snap/preact-components?params=?path=/story/organisms-autocomplete--default) component from `@searchspring/snap-preact-components` to display Autocomplete.
+It is recommended to utilizing the [Autocomplete](https://athoscommerce.github.io/snap/preact-components?params=?path=/story/organisms-autocomplete--default) component from `@athoscommerce/snap-preact-components` to display Autocomplete.
 
 The following properties are specific to an Autocomplete Store via an Autocomplete Controller.
 

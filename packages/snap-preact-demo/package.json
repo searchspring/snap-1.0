@@ -1,9 +1,9 @@
 {
-	"name": "@searchspring/snap-preact-demo",
+	"name": "@athoscommerce/snap-preact-demo",
 	"private": true,
-	"version": "1.11.0",
+	"version": "1.0.0",
 	"description": "demo store for development and testing",
-	"author": "Searchspring",
+	"author": "Athos Commerce",
 	"license": "MIT",
 	"scripts": {
 		"analyze": "webpack --config ./snap/webpack.modern.js --analyze",
@@ -34,10 +34,7 @@
 		"scaffold": "snapfu-core"
 	},
 	"dependencies": {
-		"@searchspring/snap-preact": "1.11.0",
-		"deepmerge": "4.3.1",
-		"mobx-react": "7.6.0",
-		"preact": "10.9.0"
+		"@athoscommerce/snap-preact": "1.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.23.7",

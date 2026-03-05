@@ -1,14 +1,14 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 
-import type { SearchController, AutocompleteController, RecommendationController } from '@searchspring/snap-controller';
-import type { SearchResultStore, Product, Banner } from '@searchspring/snap-store-mobx';
-import { ContentType } from '@searchspring/snap-store-mobx';
-import { InlineBanner, InlineBannerProps } from '../../Atoms/Merchandising/InlineBanner';
+import type { SearchController, AutocompleteController, RecommendationController } from '@athoscommerce/snap-controller';
+import type { SearchResultStore, Product, Banner } from '@athoscommerce/snap-store-mobx';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
+import { InlineBanner, InlineBannerProps } from '../../Atoms/InlineBanner';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, ResultsLayout, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -54,7 +54,7 @@ const defaultStyles: StyleScript<ResultsProps> = ({ gapSize, columns }) => {
 
 const TrackedResultComponent = withTracking<ResultProps>(Result);
 
-export const Results = observer((properties: ResultsProps): JSX.Element => {
+export const Results = observer((properties: ResultsProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultBreakpointsProps = {
@@ -135,7 +135,7 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 		if (snap?.templates?.library.import.component.result) {
 			resultComponent = useComponent(snap?.templates?.library.import.component.result, resultComponent);
 			if (!resultComponent) {
-				return <Fragment></Fragment>;
+				return null;
 			}
 		}
 	}
@@ -178,21 +178,23 @@ export const Results = observer((properties: ResultsProps): JSX.Element => {
 				)}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
-export interface ResultsProps extends ComponentProps {
+export type ResultsProps = {
+	breakpoints?: BreakpointsProps;
+	controller?: SearchController | AutocompleteController | RecommendationController;
+	resultComponent?: ResultComponent | string;
 	results?: SearchResultStore;
+} & ResultsTemplatesLegalProps &
+	ComponentProps<ResultsProps>;
+
+export type ResultsTemplatesLegalProps = {
 	columns?: number;
 	rows?: number;
 	gapSize?: string;
 	layout?: keyof typeof ResultsLayout | ResultsLayout;
-	breakpoints?: BreakpointsProps;
-	controller?: SearchController | AutocompleteController | RecommendationController;
-	resultComponent?: ResultComponent | string;
-}
+};
 
 interface ResultsSubProps {
 	result: Partial<ResultProps>;

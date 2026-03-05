@@ -8,10 +8,12 @@
 		"esModuleInterop": true,
 		"lib": [
 			"es2020",
+			"esnext.collection",
 			"dom"
 		],
 		"resolveJsonModule": true,
-		"strict": true
+		"strict": true,
+		"skipLibCheck": true
 	},
 	"exclude": [
 		"**/node_modules/*",

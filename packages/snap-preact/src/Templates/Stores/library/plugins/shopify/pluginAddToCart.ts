@@ -1,1 +1,1 @@
-export { pluginAddToCart } from '@searchspring/snap-platforms/shopify';
+export { pluginAddToCart } from '@athoscommerce/snap-platforms/shopify';

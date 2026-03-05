@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
 import { observer } from 'mobx-react-lite';
 import { jsx, css } from '@emotion/react';
@@ -8,8 +8,8 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ListOption, StyleScript } from '../../../types';
 import { Select, SelectProps } from '../Select';
-import { SearchPaginationStore } from '@searchspring/snap-store-mobx';
-import type { SearchController } from '@searchspring/snap-controller';
+import { SearchPaginationStore } from '@athoscommerce/snap-store-mobx';
+import type { SearchController } from '@athoscommerce/snap-controller';
 import { RadioList, RadioListProps } from '../RadioList';
 import { List, ListProps } from '../List';
 import deepmerge from 'deepmerge';
@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<PerPageProps> = () => {
 	});
 };
 
-export const PerPage = observer((properties: PerPageProps): JSX.Element => {
+export const PerPage = observer((properties: PerPageProps) => {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -142,9 +142,7 @@ export const PerPage = observer((properties: PerPageProps): JSX.Element => {
 				/>
 			)}
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 interface SelectSubProps {
@@ -153,13 +151,17 @@ interface SelectSubProps {
 	List: Partial<ListProps>;
 }
 
-export interface PerPageProps extends ComponentProps {
+export type PerPageProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
+	lang?: Partial<PerPageLang>;
+} & PerPageTemplatesLegalProps &
+	ComponentProps<PerPageProps>;
+
+export type PerPageTemplatesLegalProps = {
 	label?: string;
 	type?: 'dropdown' | 'list' | 'radio';
-	lang?: Partial<PerPageLang>;
-}
+};
 
 export interface PerPageLang {
 	label: Lang<{

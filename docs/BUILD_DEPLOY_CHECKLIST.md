@@ -6,9 +6,9 @@
 
 - (If applicable) [Foreground Filters](./snap-background-filters) are added as client globals to handle custom filtering (ie. only show results in stock)
 
-- Merchandising [Banner](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-banner--footer) components have been added for all banner locations: `header`, `banner`, `footer`, `left`. See [Search > Search Store Merchandising](./snap-search#searchcontrollerstoremerchandising)
+- Merchandising [Banner](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-banner--footer) components have been added for all banner locations: `header`, `banner`, `footer`, `left`. See [Search > Search Store Merchandising](./snap-search#searchcontrollerstoremerchandising)
 
-- [InlineBanner](https://searchspring.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-inlinebanner--default) component is conditionally rendered in your Results component. See [Search > Search Store Results](./snap-search#searchcontrollerstoreresults)
+- [InlineBanner](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-inlinebanner--default) component is conditionally rendered in your Results component. See [Search > Search Store Results](./snap-search#searchcontrollerstoreresults)
 
 - [Result impression tracking](./snap-tracking#impressions) has been added. Confirm via browser dev tools network tab that beacon impression events are being sent for results in Search, Category, Autocomplete, and Recommendations
 

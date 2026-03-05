@@ -1,8 +1,8 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { withController, Banner } from '@searchspring/snap-preact/components';
-import { ContentType } from '@searchspring/snap-store-mobx';
+import { withController, Banner } from '@athoscommerce/snap-preact/components';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
 
 type HeaderProps = {
 	controller?: SearchController;
@@ -19,7 +19,7 @@ export const Header = withController(
 				{landingPage ? (
 					<h3 className="ss__search-header--landingPageTitle">{landingPage.title}</h3>
 				) : (
-					<Fragment>
+					<>
 						{pagination.totalResults ? (
 							<h3
 								className="ss-title ss-results-title"
@@ -56,7 +56,7 @@ export const Header = withController(
 								</h3>
 							)
 						)}
-					</Fragment>
+					</>
 				)}
 			</header>
 		);

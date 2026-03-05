@@ -5,10 +5,10 @@ import { FALLBACK_IMAGE_URL } from '../../Atoms/Image';
 import { ThemeProvider } from '../../../providers';
 import userEvent from '@testing-library/user-event';
 import { ResultsLayout } from '../../../types';
-import { SearchResultStore } from '@searchspring/snap-store-mobx';
-import { MockData } from '@searchspring/snap-shared';
+import { SearchResultStore } from '@athoscommerce/snap-store-mobx';
+import { MockData } from '@athoscommerce/snap-shared';
 
-import type { Product } from '@searchspring/snap-store-mobx';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import { SearchResponseModelResultVariants } from '@athoscommerce/snapi-types';
 
 const wait = (time?: number) => {
@@ -201,9 +201,7 @@ describe('Result Component', () => {
 		expect(addToCartElement).toBeInTheDocument();
 		expect(addToCartElement?.innerHTML).toContain('Add To Cart');
 
-		userEvent.click(addToCartElement!);
-
-		await wait(10);
+		await userEvent.click(addToCartElement!);
 
 		expect(controller.addToCart).toHaveBeenCalledWith([mockResults[1]]);
 		expect(addToCartElement?.innerHTML).toContain('Added!');
@@ -240,9 +238,7 @@ describe('Result Component', () => {
 		expect(addToCartElement).toBeInTheDocument();
 		expect(addToCartElement?.innerHTML).toContain(normalText);
 
-		userEvent.click(addToCartElement!);
-
-		await wait(10);
+		await userEvent.click(addToCartElement!);
 
 		expect(controller.addToCart).toHaveBeenCalledWith([mockResults[1]]);
 		expect(addToCartElement?.innerHTML).toContain(successText);
@@ -252,7 +248,7 @@ describe('Result Component', () => {
 		expect(addToCartElement?.innerHTML).toContain(normalText);
 	});
 
-	it('can pass additional function to call on addToCart button click', () => {
+	it('can pass additional function to call on addToCart button click', async () => {
 		const customFunc = jest.fn();
 
 		const controller = {
@@ -270,7 +266,7 @@ describe('Result Component', () => {
 		expect(resultElement).toBeInTheDocument();
 		expect(addToCartElement).toBeInTheDocument();
 
-		userEvent.click(addToCartElement!);
+		await userEvent.click(addToCartElement!);
 
 		expect(controller.addToCart).toHaveBeenCalledWith([mockResults[1]]);
 		expect(customFunc).toHaveBeenCalledWith(expect.any(Object), mockResults[1]);

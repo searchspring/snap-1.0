@@ -5,6 +5,7 @@ export const componentArgs = {
 			type: {
 				summary: 'string',
 			},
+			category: 'default Props',
 			defaultValue: { summary: 'ss__${component-name}' },
 		},
 		control: { type: 'text' },
@@ -16,6 +17,7 @@ export const componentArgs = {
 			type: {
 				summary: 'boolean',
 			},
+			category: 'default Props',
 			defaultValue: { summary: false },
 		},
 		control: { type: 'boolean' },
@@ -26,6 +28,7 @@ export const componentArgs = {
 			type: {
 				summary: 'string, object',
 			},
+			category: 'default Props',
 		},
 		control: { type: 'text' },
 	},
@@ -35,6 +38,7 @@ export const componentArgs = {
 			type: {
 				summary: 'object',
 			},
+			category: 'default Props',
 		},
 		control: { type: 'none' },
 	},

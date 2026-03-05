@@ -48,9 +48,16 @@ const JAVASCRIPT_KEYWORDS = new Set([
 	'public',
 ]);
 
-export function getContext(evaluate: string[] = [], script?: HTMLScriptElement | string): ContextVariables {
-	if (!script || typeof script === 'string') {
-		const scripts = Array.from(document.querySelectorAll((script as string) || 'script[id^=searchspring], script[src*="snapui.searchspring.io"]'));
+export function getContext(evaluate: string[] = [], scriptOrSelector?: HTMLScriptElement | string): ContextVariables {
+	let script: HTMLScriptElement | undefined;
+
+	if (!scriptOrSelector || typeof scriptOrSelector === 'string') {
+		const scripts = Array.from(
+			document.querySelectorAll(
+				(scriptOrSelector as string) ||
+					'script[id^=searchspring], script[id=athos-context], script[src*="snapui.searchspring.io"], script[src*="snapui.athoscommerce.io"]'
+			)
+		);
 
 		script = scripts
 			.sort((a, b) => {
@@ -58,9 +65,12 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 				return a.innerHTML.length - b.innerHTML.length;
 			})
 			.pop() as HTMLScriptElement;
+	} else if (scriptOrSelector && scriptOrSelector.tagName === 'SCRIPT') {
+		// script is a 'script element'
+		script = scriptOrSelector as HTMLScriptElement;
 	}
 
-	if (!script || typeof script !== 'object' || script.tagName !== 'SCRIPT') {
+	if (!script) {
 		throw new Error('getContext: did not find a script tag');
 	}
 
@@ -68,11 +78,14 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 
 	// check script type
 	if (
+		!scriptOrSelector &&
 		!scriptElem.getAttribute('type')?.match(/^searchspring/i) &&
 		!scriptElem.id?.match(/^searchspring/i) &&
-		!scriptElem.src?.match(/\/\/snapui.searchspring.io/i)
+		!scriptElem.id?.match(/athos-context/) &&
+		!scriptElem.src?.match(/\/\/snapui.searchspring.io/i) &&
+		!scriptElem.src?.match(/\/\/snapui.athoscommerce.io/i)
 	) {
-		throw new Error('getContext: did not find a script from Snap CDN or with attribute (type, id) starting with "searchspring"');
+		throw new Error('getContext: did not find a script from Snap CDN or with attribute (type, id) starting with "athos-context"');
 	}
 
 	if ((evaluate && !Array.isArray(evaluate)) || (evaluate && !evaluate.reduce((accu, name) => accu && typeof name === 'string', true))) {
@@ -84,15 +97,15 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 	const attributeVariables: ContextVariables = {};
 
 	// grab element attributes and put into variables
-	Object.values(scriptElem.attributes).map((attr) => {
+	Object.values(script?.attributes).map((attr) => {
 		const name = attr.nodeName;
 		if (evaluate.includes(name)) {
-			attributeVariables[name] = scriptElem.getAttribute(name);
+			attributeVariables[name] = script?.getAttribute(name);
 		}
 	});
 
 	const scriptVariables: ContextVariables = {};
-	const scriptInnerHTML = scriptElem.innerHTML;
+	const scriptInnerHTML = script?.innerHTML;
 
 	// attempt to grab inner HTML variables
 	const scriptInnerVars = scriptInnerHTML
@@ -142,13 +155,12 @@ export function getContext(evaluate: string[] = [], script?: HTMLScriptElement |
 	if (evaluate.includes(siteIdString)) {
 		// if we didnt find a siteId in the context, lets grab the id from the src url.
 		if (!variables[siteIdString]) {
-			const siteId = script.getAttribute('src')?.match(/.*snapui.searchspring.io\/([a-zA-Z0-9]{6})\//);
+			const siteId = script.getAttribute('src')?.match(/.*snapui.(?:searchspring|athoscommerce).io\/([a-zA-Z0-9]{6})\//);
 			if (siteId && siteId.length > 1) {
 				variables.siteId = siteId[1];
 			}
 		}
 	}
-
 	return variables;
 }
 

@@ -9,7 +9,7 @@ Renders a single product card.
 
 ## Usage
 ```jsx
-import { Result } from '@searchspring/snap-preact-components';
+import { Result } from '@athoscommerce/snap-preact-components';
 ```
 
 ### result

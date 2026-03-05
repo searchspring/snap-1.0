@@ -1,8 +1,8 @@
 import { Logger } from './Logger';
-import { AppMode } from '@searchspring/snap-toolbox';
+import { AppMode } from '@athoscommerce/snap-toolbox';
 import { colors } from './colors';
 import { emoji } from './emoji';
-import { Profiler } from '@searchspring/snap-profiler';
+import { Profiler } from '@athoscommerce/snap-profiler';
 
 describe('Logger', () => {
 	beforeEach(() => {});

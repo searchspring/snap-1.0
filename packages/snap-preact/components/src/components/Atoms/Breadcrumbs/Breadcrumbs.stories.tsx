@@ -30,12 +30,22 @@ export default {
 		},
 	},
 	argTypes: {
+		controller: {
+			description: 'Controller reference',
+			table: {
+				type: {
+					summary: 'Controller',
+				},
+			},
+			control: { type: 'none' },
+		},
 		data: {
 			description: 'Breadcrumb data object',
 			table: {
 				type: {
 					summary: 'object | function',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'object' },
 		},
@@ -45,6 +55,7 @@ export default {
 				type: {
 					summary: 'string, JSX, or false',
 				},
+				category: 'Templates Legal',
 				defaultValue: { summary: '>' },
 			},
 			control: { type: 'text' },
@@ -55,6 +66,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
+				category: 'Templates Legal',
 			},
 			options: [...Object.keys(iconPaths)],
 			control: {
@@ -84,7 +96,6 @@ categoryPage.args = {
 			label: 'Fridge',
 		},
 	],
-	separator: '/',
 };
 
 export const SearchPage = (args: BreadcrumbsProps) => <Breadcrumbs {...args} />;

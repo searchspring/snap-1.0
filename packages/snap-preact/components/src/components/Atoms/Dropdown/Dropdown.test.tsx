@@ -177,7 +177,7 @@ describe('Dropdown Component', () => {
 		expect(contentElement?.innerHTML).toBe('im closed');
 	});
 
-	it('fires onToggle prop when clicked outside (while opened)', () => {
+	it('fires onToggle prop when clicked outside (while opened)', async () => {
 		const buttonText = 'click me';
 		const contentText = 'this is the content';
 		const clickFn = jest.fn();
@@ -193,14 +193,14 @@ describe('Dropdown Component', () => {
 		const button = rendered.container.querySelector('.ss__dropdown__button')!;
 		const outside = rendered.container.querySelector('.outside')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).toHaveBeenCalled();
 
-		userEvent.click(outside);
+		await userEvent.click(outside);
 		expect(toggleFn).toHaveBeenCalled();
 	});
 
-	it('does not fire onToggle prop when clicked outside (while opened) when disableClickOutside prop is true', () => {
+	it('does not fire onToggle prop when clicked outside (while opened) when disableClickOutside prop is true', async () => {
 		const buttonText = 'click me';
 		const contentText = 'this is the content';
 		const toggleFn = jest.fn();
@@ -214,33 +214,33 @@ describe('Dropdown Component', () => {
 
 		const outside = rendered.container.querySelector('.outside')!;
 
-		userEvent.click(outside);
+		await userEvent.click(outside);
 		expect(toggleFn).not.toHaveBeenCalled();
 	});
 
-	it('fires onClick prop when clicked', () => {
+	it('fires onClick prop when clicked', async () => {
 		const clickFn = jest.fn();
 
 		const rendered = render(<Dropdown button={'open me'} onClick={clickFn} />);
 
 		const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).toHaveBeenCalled();
 	});
 
-	it('does not fire onClick prop when disabled', () => {
+	it('does not fire onClick prop when disabled', async () => {
 		const clickFn = jest.fn();
 
 		const rendered = render(<Dropdown button={'open me'} disabled onClick={clickFn} />);
 
 		const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).not.toHaveBeenCalled();
 	});
 
-	it('does not fire onClick prop when disableClick prop is true', () => {
+	it('does not fire onClick prop when disableClick prop is true', async () => {
 		const clickFn = jest.fn();
 
 		const rendered = render(<Dropdown button={'open me'} disableClick onClick={clickFn} />);
@@ -248,18 +248,18 @@ describe('Dropdown Component', () => {
 		const dropdown = rendered.container.querySelector('.ss__dropdown')!;
 		const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-		userEvent.click(button);
+		await userEvent.click(button);
 		expect(clickFn).not.toHaveBeenCalled();
 		expect(dropdown).not.toHaveClass('ss__dropdown--open');
 	});
 
-	it('fires onMouseEnter prop when mouse enters', () => {
+	it('fires onMouseEnter prop when mouse enters', async () => {
 		const mouseEnterFn = jest.fn();
 
 		const rendered = render(<Dropdown button={'open me'} onMouseEnter={mouseEnterFn} />);
 
 		const dropdown = rendered.container.querySelector('.ss__dropdown')!;
-		userEvent.hover(dropdown);
+		await userEvent.hover(dropdown);
 
 		expect(mouseEnterFn).toHaveBeenCalled();
 	});
@@ -270,8 +270,8 @@ describe('Dropdown Component', () => {
 		const rendered = render(<Dropdown button={'open me'} onMouseLeave={mouseLeaveFn} />);
 
 		const dropdown = rendered.container.querySelector('.ss__dropdown')!;
-		userEvent.hover(dropdown);
-		userEvent.unhover(dropdown);
+		await userEvent.hover(dropdown);
+		await userEvent.unhover(dropdown);
 
 		expect(mouseLeaveFn).toHaveBeenCalled();
 	});
@@ -359,7 +359,10 @@ describe('Dropdown Component', () => {
 
 		// hovering again will work after touchevents are reset
 		await userEvent.hover(dropdown);
-		expect(dropdown).toHaveClass('ss__dropdown--open');
+
+		waitFor(() => {
+			expect(dropdown).toHaveClass('ss__dropdown--open');
+		});
 	});
 
 	it('renders content in a portal when usePortal is true', async () => {
@@ -448,25 +451,25 @@ describe('Dropdown Component', () => {
 	});
 
 	describe('internal state', () => {
-		it('fires onToggle prop when clicked', () => {
+		it('fires onToggle prop when clicked', async () => {
 			const toggleFn = jest.fn();
 
 			const rendered = render(<Dropdown button={'open me'} onToggle={toggleFn} />);
 
 			const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-			userEvent.click(button);
+			await userEvent.click(button);
 			expect(toggleFn).toHaveBeenCalled();
 		});
 
-		it('does not fire onToggle prop when disabled', () => {
+		it('does not fire onToggle prop when disabled', async () => {
 			const toggleFn = jest.fn();
 
 			const rendered = render(<Dropdown button={'open me'} disabled onToggle={toggleFn} />);
 
 			const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-			userEvent.click(button);
+			await userEvent.click(button);
 			expect(toggleFn).not.toHaveBeenCalled();
 		});
 

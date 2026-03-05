@@ -7,7 +7,7 @@ import { PaginationInfo, PaginationInfoProps } from './PaginationInfo';
 import { componentArgs, highlightedCode } from '../../../utilities';
 import { Snapify } from '../../../utilities/snapify';
 import Readme from '../PaginationInfo/readme.md';
-import type { SearchController } from '@searchspring/snap-controller';
+import type { SearchController } from '@athoscommerce/snap-controller';
 
 export default {
 	title: 'Atoms/PaginationInfo',
@@ -58,6 +58,7 @@ export default {
 				type: {
 					summary: 'string, ()=>string',
 				},
+				category: 'Templates Legal',
 			},
 			control: { type: 'text' },
 		},

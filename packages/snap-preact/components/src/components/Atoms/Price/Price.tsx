@@ -1,12 +1,12 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 
-import { filters } from '@searchspring/snap-toolbox';
+import { filters } from '@athoscommerce/snap-toolbox';
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { FormattedNumberProps } from '../FormattedNumber/FormattedNumber';
-import { StyleScript } from '../../../types';
+import { ComponentProps, StyleScript } from '../../../types';
 import { mergeProps, mergeStyles } from '../../../utilities';
 
 const defaultStyles: StyleScript<PriceProps> = ({ theme }) => {
@@ -19,7 +19,7 @@ const defaultStyles: StyleScript<PriceProps> = ({ theme }) => {
 	});
 };
 
-export function Price(properties: PriceProps): JSX.Element {
+export function Price(properties: PriceProps) {
 	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
@@ -65,7 +65,7 @@ export function Price(properties: PriceProps): JSX.Element {
 
 	if (formattedPrice) {
 		return raw ? (
-			<Fragment>{formattedPrice}</Fragment>
+			<>{formattedPrice}</>
 		) : (
 			<CacheProvider>
 				<span {...styling} className={classnames('ss__price', { 'ss__price--strike': lineThrough }, className, internalClassName)}>
@@ -76,11 +76,12 @@ export function Price(properties: PriceProps): JSX.Element {
 			</CacheProvider>
 		);
 	} else {
-		return <Fragment></Fragment>;
+		return null;
 	}
 }
 
-export interface PriceProps extends Omit<FormattedNumberProps, 'value'> {
+export type PriceProps = PriceTemplatesLegalProps & ComponentProps<PriceProps>;
+export interface PriceTemplatesLegalProps extends Omit<FormattedNumberProps, 'value' | 'themeStyleScript'> {
 	value?: number;
 	lineThrough?: boolean;
 }

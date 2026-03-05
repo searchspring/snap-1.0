@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
@@ -6,25 +6,26 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 import deepmerge from 'deepmerge';
 
-import type { AutocompleteController, RecommendationControllerConfig } from '@searchspring/snap-controller';
-import { ContentType } from '@searchspring/snap-store-mobx';
-import type { Term } from '@searchspring/snap-store-mobx';
+import type { AutocompleteController, RecommendationControllerConfig } from '@athoscommerce/snap-controller';
+import { ContentType } from '@athoscommerce/snap-store-mobx';
+import type { Term } from '@athoscommerce/snap-store-mobx';
 
 import { Icon, IconProps } from '../../Atoms/Icon/Icon';
 import { Results, ResultsProps } from '../Results';
-import { Banner, BannerProps } from '../../Atoms/Merchandising/Banner';
+import { Banner, BannerProps } from '../../Atoms/Banner';
 import { Facets, FacetsProps } from '../Facets';
 import { defined, cloneWithProps, mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
-import { Theme, useTheme, CacheProvider } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { ComponentProps, FacetDisplay, BreakpointsProps, ResultComponent, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { Lang, useA11y, useLang } from '../../../hooks';
+import { IconType } from '../../Atoms/Icon';
 
 // import { useSnap } from '../../../providers';
 // import { useComponent } from '../../../hooks';
 // import { useCreateController } from '../../../hooks/useCreateController';
-// import type { RecommendationController } from '@searchspring/snap-controller';
+// import type { RecommendationController } from '@athoscommerce/snap-controller';
 // import type { FunctionalComponent } from 'preact';
 // import type { SnapTemplates } from '../../../../../src';
 
@@ -198,8 +199,9 @@ const defaultStyles: StyleScript<AutocompleteProps> = ({
 	});
 };
 
-export const Autocomplete = observer((properties: AutocompleteProps): JSX.Element => {
+export const Autocomplete = observer((properties: AutocompleteProps) => {
 	const globalTheme: Theme = useTheme();
+	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<AutocompleteProps> = {
 		termsTitle: '',
@@ -208,6 +210,8 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		facetsTitle: '',
 		contentTitle: '',
 		width: '100%',
+		seeMoreButtonIcon: 'angle-right',
+		treePath: globalTreePath,
 	};
 
 	let props = mergeProps('autocomplete', globalTheme, defaultProps, properties);
@@ -350,6 +354,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		resultComponent,
 		onTermClick,
 		seeMoreButtonText,
+		seeMoreButtonIcon,
 		// templates,
 		disableStyles,
 		className,
@@ -397,7 +402,6 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 		icon: {
 			// default props
 			internalClassName: 'ss__autocomplete__icon',
-			icon: 'angle-right',
 			size: '10px',
 			// inherited props
 			...defined({
@@ -772,7 +776,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 										{noResultsSlot ? (
 											cloneWithProps(noResultsSlot, { search, pagination, controller, treePath })
 										) : (
-											<div {...mergedLang.noResultsText?.all}></div>
+											<div className="ss__autocomplete__content__no-results__text" {...mergedLang.noResultsText?.all}></div>
 										)}
 									</div>
 								)}
@@ -796,7 +800,10 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 												{...mergedLang.seeMoreButton.attributes}
 											>
 												<span {...mergedLang.seeMoreButton.value}></span>
-												<Icon {...subProps.icon} />
+												<Icon
+													{...subProps.icon}
+													{...(typeof seeMoreButtonIcon == 'string' ? { icon: seeMoreButtonIcon } : (seeMoreButtonIcon as Partial<IconProps>))}
+												/>
 											</a>
 										</div>
 									) : null
@@ -807,9 +814,7 @@ export const Autocomplete = observer((properties: AutocompleteProps): JSX.Elemen
 				) : null}
 			</div>
 		</CacheProvider>
-	) : (
-		<Fragment></Fragment>
-	);
+	) : null;
 });
 
 const emIfy = (term: string, search: string) => {
@@ -846,9 +851,15 @@ interface AutocompleteSubProps {
 	icon: Partial<IconProps>;
 }
 
-export interface AutocompleteProps extends ComponentProps {
-	input: Element | string;
+export type AutocompleteProps = {
+	lang?: Partial<AutocompleteLang>;
 	controller: AutocompleteController;
+	breakpoints?: BreakpointsProps;
+} & AutocompleteTemplatesLegalProps &
+	ComponentProps<AutocompleteProps>;
+
+export type AutocompleteTemplatesLegalProps = {
+	input: Element | string;
 	hideTerms?: boolean;
 	hideFacets?: boolean;
 	hideContent?: boolean;
@@ -867,13 +878,13 @@ export interface AutocompleteProps extends ComponentProps {
 	contentTitle?: string;
 	viewportMaxHeight?: boolean;
 	seeMoreButtonText?: string | ((controller: AutocompleteController) => string);
+	seeMoreButtonIcon?: IconType | Partial<IconProps> | boolean;
 	termsSlot?: JSX.Element | JSX.Element[];
 	facetsSlot?: JSX.Element | JSX.Element[];
 	contentSlot?: JSX.Element | JSX.Element[];
 	resultsSlot?: JSX.Element | JSX.Element[];
 	noResultsSlot?: JSX.Element | JSX.Element[];
 	linkSlot?: JSX.Element | JSX.Element[];
-	breakpoints?: BreakpointsProps;
 	width?: string;
 	resultComponent?: ResultComponent;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
@@ -886,8 +897,7 @@ export interface AutocompleteProps extends ComponentProps {
 			config?: Partial<RecommendationControllerConfig>;
 		};
 	};
-	lang?: Partial<AutocompleteLang>;
-}
+};
 
 export interface AutocompleteLang {
 	termsTitle: Lang<{
