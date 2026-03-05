@@ -205,8 +205,8 @@ export const Carousel = observer((properties: CarouselProps) => {
 			? JSON.parse(JSON.stringify(defaultVerticalCarouselBreakpoints))
 			: JSON.parse(JSON.stringify(defaultCarouselBreakpoints)),
 		pagination: false,
-		slidesPerGroup: !properties.breakpoints ? 5 : undefined,
-		slidesPerView: !properties.breakpoints ? 5 : undefined,
+		slidesPerGroup: !properties.breakpoints || !Object.keys(properties.breakpoints).length ? 5 : undefined,
+		slidesPerView: !properties.breakpoints || !Object.keys(properties.breakpoints).length ? 5 : undefined,
 		spaceBetween: 10,
 		loop: true,
 		autoAdjustSlides: false,
