@@ -96,7 +96,7 @@ describe('FacetToggle Component', () => {
 
 		const element = rendered.container.querySelector('.ss__toggle__switch')!;
 		expect(element).toBeInTheDocument();
-		userEvent.click(element);
+		await userEvent.click(element);
 
 		await waitFor(() => {
 			expect(onClickFunc).toHaveBeenCalled();
@@ -119,7 +119,7 @@ describe('FacetToggle Component', () => {
 
 		expect(element).toBeInTheDocument();
 
-		userEvent.click(toggle!);
+		await userEvent.click(toggle!);
 
 		await waitFor(() => {
 			expect(onclickFunc).toHaveBeenCalled();

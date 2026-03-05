@@ -32,11 +32,11 @@ controller.store.results.map(result => {
 ```
 
 ### Impressions
-Impression tracking occurs when products come into the viewport. It is recommended to use the `withTracking` hook within custom product result cards to track impressions. Alternatively, the `ResultTracker` component can be used to track impressions as well - be aware that this component adds an additional wrapping element. This does not need to be implemented if using the default `Result` component from @athoscommerce/snap-preact-components or default Autocomplete component without custom result cards.
+Impression tracking occurs when products come into the viewport. It is recommended to use the `withTracking` hook within custom product result cards to track impressions. Alternatively, the `ResultTracker` component can be used to track impressions as well - be aware that this component adds an additional wrapping element. This does not need to be implemented if using the default `Result` component from @athoscommerce/snap-preact/components or default Autocomplete component without custom result cards.
 
 ### Typical Tracking Integration Example
 ```jsx
-import { withTracking } from '@athoscommerce/snap-preact-components';
+import { withTracking } from '@athoscommerce/snap-preact/components';
 
 const Results = withController((props) => {
 	const { controller } = props;
@@ -75,7 +75,7 @@ Note that a `key` is required on the custom result component to ensure that the 
 ### Alternative Tracking Integration Example using `ResultTracker`
 
 ```jsx
-import { ResultTracker } from '@athoscommerce/snap-preact-components';
+import { ResultTracker } from '@athoscommerce/snap-preact/components';
 
 const Results = withController((props) => {
 	const { controller } = props;

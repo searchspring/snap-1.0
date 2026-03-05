@@ -19,4 +19,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @athoscommerce/snap-toolbox
 
-# [1.0.0](https://github.com/athoscommerce/snap/compare/v0.74.0...v1.0.0) (2026-03-04)
+# 1.0.0 (2026-03-04)

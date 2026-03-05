@@ -4,7 +4,7 @@ Utilizes `currency` from [@athoscommerce/snap-preact/toolbox](https://athoscomme
 
 ## Usage
 ```jsx
-import { Price } from '@athoscommerce/snap-preact-components';
+import { Price } from '@athoscommerce/snap-preact/components';
 ```
 
 The `Price` component utilizes all props from the `FormattedNumber` component with the following additional prop:
