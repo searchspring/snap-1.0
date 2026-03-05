@@ -32,9 +32,9 @@ const defaultProps: SlideshowProps = {
 
 // Mock setInterval and clearInterval for autoplay tests
 let user: ReturnType<typeof userEvent.setup>;
-beforeEach(() => {
+beforeEach(async () => {
 	jest.useFakeTimers();
-	user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+	user = await userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 });
 
 afterEach(() => {

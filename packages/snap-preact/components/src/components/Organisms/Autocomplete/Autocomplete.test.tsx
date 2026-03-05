@@ -180,7 +180,7 @@ describe('Autocomplete Component', () => {
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.hover.term' });
 
 		//now lets hover over the next term
-		userEvent.hover(termLinks![1]);
+		await userEvent.hover(termLinks![1]);
 
 		await waitFor(() => {
 			//now lets check for the new results
@@ -208,7 +208,7 @@ describe('Autocomplete Component', () => {
 		(controller.client as MockClient).mockData.updateConfig({ autocomplete: 'ac.hover.facet' });
 
 		//now lets hover over one
-		userEvent.hover(facetOptions![0]);
+		await userEvent.hover(facetOptions![0]);
 
 		await waitFor(() => {
 			//check for the new results
