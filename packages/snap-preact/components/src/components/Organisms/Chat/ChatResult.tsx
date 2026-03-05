@@ -1,5 +1,5 @@
-import { ChatController } from '@searchspring/snap-controller';
-import { Product } from '@searchspring/snap-store-mobx';
+import { ChatController } from '@athoscommerce/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
 import { observer } from 'mobx-react-lite';
 import { Image, ImageProps } from '../../Atoms/Image';
 import { Button, ButtonProps } from '../../Atoms/Button';

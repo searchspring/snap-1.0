@@ -32,10 +32,10 @@
 import deepmerge from 'deepmerge';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ChatControllerConfig, ContextVariables, ControllerServices, ControllerTypes } from '../types';
-import { ErrorType, ChatStore, ChatMessage } from '@searchspring/snap-store-mobx';
-import { ChatRequestModel, MoiRequestModel } from '@searchspring/snap-client';
-import type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet, Product, Banner } from '@searchspring/snap-store-mobx';
-import { AddtocartSchemaData, type Product as BeaconProduct } from '@searchspring/beacon';
+import { ErrorType, ChatStore, ChatMessage } from '@athoscommerce/snap-store-mobx';
+import { ChatRequestModel, MoiRequestModel } from '@athoscommerce/snap-client';
+import type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet, Product, Banner } from '@athoscommerce/snap-store-mobx';
+import { AddtocartSchemaData, type Product as BeaconProduct } from '@athoscommerce/beacon';
 
 const KEY_ENTER = 13;
 

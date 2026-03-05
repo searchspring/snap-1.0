@@ -340,7 +340,7 @@ export interface TruncateTitleProps {
 
 export type ResultProps = {
 	result: Product;
-	controller?: SearchController | AutocompleteController | RecommendationController;
+	controller?: SearchController | AutocompleteController | RecommendationController | ChatController;
 	lang?: Partial<ResultLang>;
 	trackingRef?: MutableRef<HTMLElement | null>;
 } & ResultTemplatesLegalProps &

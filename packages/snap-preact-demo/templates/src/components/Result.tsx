@@ -29,7 +29,7 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 					<OverlayBadge controller={controller as SearchController} result={result}>
 						<Image src={core.thumbnailImageUrl} alt={core.name} />
 						{isChatEnabled && (
-							<Fragment>
+							<>
 								<span
 									onClick={(e) => {
 										e.preventDefault();
@@ -50,7 +50,7 @@ export const CustomResult = (props: { result: Product; controller: SearchControl
 								>
 									<Icon icon={'similar'} title={'Find similar products'} />
 								</span>
-							</Fragment>
+							</>
 						)}
 					</OverlayBadge>
 				</a>

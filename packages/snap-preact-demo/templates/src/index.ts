@@ -2,10 +2,10 @@ import { SnapTemplates } from '@athoscommerce/snap-preact';
 import { globalStyles } from './styles';
 import deepmerge from 'deepmerge';
 import { combineMerge } from '../../snap/src/middleware/functions';
-import type { SnapTemplatesConfig } from '@searchspring/snap-preact';
-import { url } from '@searchspring/snap-toolbox';
-import { StorageStore } from '@searchspring/snap-store-mobx';
-import { getContext } from '@searchspring/snap-toolbox';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
+import { url } from '@athoscommerce/snap-toolbox';
+import { StorageStore } from '@athoscommerce/snap-store-mobx';
+import { getContext } from '@athoscommerce/snap-toolbox';
 
 // storage for custom configuration
 const configStore = new StorageStore({ type: 'local', key: 'ss-demo-config' });

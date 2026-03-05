@@ -1,6 +1,6 @@
 import { Result, ResultProps } from '../../Molecules/Result';
-import { Product } from '@searchspring/snap-store-mobx';
-import { ChatController } from '@searchspring/snap-controller';
+import { Product } from '@athoscommerce/snap-store-mobx';
+import { ChatController } from '@athoscommerce/snap-controller';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { observer } from 'mobx-react-lite';
 import { css, useTheme } from '@emotion/react';

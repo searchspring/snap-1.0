@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { jsx } from '@emotion/react';
-import { ChatController } from '@searchspring/snap-controller';
-import { ChatAttachmentFacet, ChatAttachmentImage, ChatAttachmentProduct } from '@searchspring/snap-store-mobx';
+import { ChatController } from '@athoscommerce/snap-controller';
+import { ChatAttachmentFacet, ChatAttachmentImage, ChatAttachmentProduct } from '@athoscommerce/snap-store-mobx';
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
 import classnames from 'classnames';

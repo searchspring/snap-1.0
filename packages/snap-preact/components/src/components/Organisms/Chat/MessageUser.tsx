@@ -1,4 +1,4 @@
-import { ChatController } from '@searchspring/snap-controller';
+import { ChatController } from '@athoscommerce/snap-controller';
 import { observer } from 'mobx-react-lite';
 import { Image } from '../../Atoms/Image';
 import { marked } from 'marked';

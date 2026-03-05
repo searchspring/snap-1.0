@@ -1,11 +1,11 @@
-import { ChatController } from '@searchspring/snap-controller';
-import { Client } from '@searchspring/snap-client';
-import { ChatStore } from '@searchspring/snap-store-mobx';
-import { UrlManager, UrlTranslator, reactLinker } from '@searchspring/snap-url-manager';
-import { EventManager } from '@searchspring/snap-event-manager';
-import { Profiler } from '@searchspring/snap-profiler';
-import { Logger } from '@searchspring/snap-logger';
-import { Tracker } from '@searchspring/snap-tracker';
+import { ChatController } from '@athoscommerce/snap-controller';
+import { Client } from '@athoscommerce/snap-client';
+import { ChatStore } from '@athoscommerce/snap-store-mobx';
+import { UrlManager, UrlTranslator, reactLinker } from '@athoscommerce/snap-url-manager';
+import { EventManager } from '@athoscommerce/snap-event-manager';
+import { Profiler } from '@athoscommerce/snap-profiler';
+import { Logger } from '@athoscommerce/snap-logger';
+import { Tracker } from '@athoscommerce/snap-tracker';
 
 import type { SnapControllerServices, SnapChatControllerConfig } from '../types';
 

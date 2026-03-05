@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { Icon } from '../../Atoms/Icon';
 import { ResultsDisplay } from './ResultsDisplay';
 import { marked } from 'marked';
-import { ChatController } from '@searchspring/snap-controller';
+import { ChatController } from '@athoscommerce/snap-controller';
 // import { Button } from '../../..';
 
 export const MessageText = observer((props: MessageTextProps) => {

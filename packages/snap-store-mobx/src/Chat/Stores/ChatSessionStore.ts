@@ -14,7 +14,7 @@ import type {
 	MoiResponseModelProductSearchResult,
 	ChatResponseProductComparisonData,
 	ChatResponseProductRecommendationData,
-} from '@searchspring/snap-client';
+} from '@athoscommerce/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentProduct, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
 import { MetaResponseModel } from '@athoscommerce/snapi-types';

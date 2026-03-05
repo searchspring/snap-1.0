@@ -85,7 +85,7 @@ export type LibraryImports = {
 			};
 		};
 		chat: {
-			Chat: (args?: any) => Promise<FunctionalComponent<RenderableProps<any>>>;
+			Chat: (args?: any) => Promise<JSXComponent>;
 		};
 		badge: {
 			[componentName: string]: (args?: any) => Promise<JSXComponent>;

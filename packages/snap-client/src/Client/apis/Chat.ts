@@ -190,7 +190,7 @@ export type MoiResponseModelProductRecommendation = {
 	products: MoiResponseModelProduct[];
 };
 
-export class ChatAPI extends API {
+export class ChatAPI extends API<any> {
 	async postMessage(requestParameters: ChatRequestModel): Promise<any> {
 		const headerParameters: HTTPHeaders = {
 			'Content-Type': 'application/json',

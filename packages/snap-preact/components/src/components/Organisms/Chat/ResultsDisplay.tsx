@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { Carousel, CarouselProps } from '../../Molecules/Carousel';
 import { ChatResult } from './ChatResult';
-import { ChatController } from '@searchspring/snap-controller';
+import { ChatController } from '@athoscommerce/snap-controller';
 
 export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 	const { chatItem, controller, scrollToBottom } = props;

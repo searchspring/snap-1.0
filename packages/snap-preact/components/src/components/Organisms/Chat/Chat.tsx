@@ -1,4 +1,4 @@
-import { Fragment, h } from 'preact';
+import { h } from 'preact';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
-import type { ChatController } from '@searchspring/snap-controller';
+import type { ChatController } from '@athoscommerce/snap-controller';
 import { Button } from '../../Atoms/Button';
 import { useRef, useEffect } from 'preact/hooks';
 import { Slideout } from '../../Molecules/Slideout';
@@ -15,8 +15,8 @@ import { Quickview } from './Quickview';
 import { MessageUser } from './MessageUser';
 import { MessageText } from './MessageText';
 import { Attachment } from './Attachment';
-import { ActionsData, FacetsData } from '@searchspring/snap-store-mobx';
-import { filters } from '@searchspring/snap-toolbox';
+import { ActionsData, FacetsData } from '@athoscommerce/snap-store-mobx';
+import { filters } from '@athoscommerce/snap-toolbox';
 import { Dropdown, Icon, Overlay, useMediaQuery } from '../../..';
 
 const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
@@ -1022,7 +1022,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 
 	return (
 		<CacheProvider>
-			<Fragment>
+			<>
 				<div
 					className={classnames(
 						'ss__chat',
@@ -1039,7 +1039,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 						<Icon icon="sparkles" title="Open Chat" />
 					</div>
 					{store.open && (
-						<Fragment>
+						<>
 							<div className={'ss__chat__header'}>
 								<div className="ss__chat__header__title">
 									<Icon color="#fff" icon="sparkles" />
@@ -1090,7 +1090,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 												productAnswer: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 												productComparison: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 												productRecommendation: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-											}[chatItem.messageType] || <Fragment></Fragment>}
+											}[chatItem.messageType] || null}
 										</div>
 									))}
 									<div className="ss__chat__messages__end" ref={messagesEndRef} />
@@ -1110,7 +1110,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 										{store.currentChat?.actions && store.currentChat.actions.length > 0 && (
 											<div className={'ss__chat__actions'}>
 												{store.currentChat?.actions.map((action, index) => (
-													<Fragment key={index}>
+													<div className="ss__chat__actions__wrap" key={index}>
 														{{
 															facets: (
 																<div className="ss__chat__actions--facets">
@@ -1166,8 +1166,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																	))}
 																</div>
 															),
-														}[action.type] || <Fragment></Fragment>}
-													</Fragment>
+														}[action.type] || null}
+													</div>
 												))}
 											</div>
 										)}
@@ -1234,7 +1234,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									<div>This chat is expired. Please start a new chat.</div>
 								)}
 							</div>
-						</Fragment>
+						</>
 					)}
 				</div>
 				<Overlay style={{ zIndex: 1001 }} color="transparent" active={store.open} onClick={() => controller.handlers.button.click()} />
@@ -1245,7 +1245,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 				>
 					<Quickview result={store.quickViewResult} controller={controller} />
 				</Slideout>
-			</Fragment>
+			</>
 		</CacheProvider>
 	);
 });
