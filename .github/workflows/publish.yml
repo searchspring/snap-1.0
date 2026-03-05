@@ -52,6 +52,8 @@ jobs:
 
       - name: Publish packages
         run: npm run publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
