@@ -8,7 +8,7 @@ Snapfu is a CLI interface for creating a Snap project from a template. You do no
 
 ## Install
 
-Note: We recommend using Node v20 or higher and npm v10 or higher.
+Note: We recommend using Node v24 or higher and npm v10 or higher.
 
 ```sh
 npm install -g snapfu

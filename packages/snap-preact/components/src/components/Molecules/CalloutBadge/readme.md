@@ -4,7 +4,7 @@ Renders callout badges configured in the Athos Search & Product Discovery Consol
 
 ## Usage
 ```jsx
-import { CalloutBadge } from '@athoscommerce/snap-preact-components';
+import { CalloutBadge } from '@athoscommerce/snap-preact/components';
 ```
 
 ### result

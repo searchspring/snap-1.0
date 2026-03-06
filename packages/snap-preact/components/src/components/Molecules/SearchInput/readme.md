@@ -7,7 +7,7 @@ Renders an input element
 
 ## Usage
 ```jsx
-import { SearchInput } from '@athoscommerce/snap-preact-components';
+import { SearchInput } from '@athoscommerce/snap-preact/components';
 ```
 ```jsx
 <SearchInput onChange={handleChange} placeholderText={"placeholder text"}/>

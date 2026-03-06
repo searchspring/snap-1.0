@@ -79,7 +79,7 @@ describe('ResultTracker Component', () => {
 
 	describe('RecommendationController Usage', () => {
 		it('tracks as expected', async () => {
-			const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+			const user = await userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),
@@ -206,7 +206,7 @@ describe('ResultTracker Component', () => {
 		});
 
 		it('can use track prop to disable tracking for clicks', async () => {
-			const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+			const user = await userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
 			const controller = new RecommendationController(recommendConfig, {
 				client: new MockClient(globals, {}),

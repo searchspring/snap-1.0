@@ -1,12 +1,15 @@
 {
 	"name": "@athoscommerce/snap-toolbox",
-	"version": "1.0.0",
+	"version": "1.1.4",
 	"description": "Snap Toolbox",
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
 	"author": "AthosCommerce",
 	"license": "MIT",
-	"repository": "https://github.com/athoscommerce/snap",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/AthosCommerce/snap.git"
+	},
 	"publishConfig": {
 		"access": "public"
 	},

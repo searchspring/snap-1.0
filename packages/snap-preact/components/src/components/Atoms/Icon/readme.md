@@ -4,7 +4,7 @@ Renders an Icon either from our list of available icons or from a custom path.
 
 ## Usage
 ```jsx
-import { Icon } from '@athoscommerce/snap-preact-components';
+import { Icon } from '@athoscommerce/snap-preact/components';
 ```
 
 ### icon

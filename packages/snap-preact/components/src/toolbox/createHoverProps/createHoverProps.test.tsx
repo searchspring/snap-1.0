@@ -21,7 +21,7 @@ describe('createHoverProps', () => {
 		const rendered = render(<div className="hover-element" {...hoverProps}></div>);
 
 		const element = rendered.container.querySelector('.hover-element');
-		userEvent.hover(element!);
+		await userEvent.hover(element!);
 
 		await wait(delay + 200);
 
@@ -38,12 +38,12 @@ describe('createHoverProps', () => {
 		const rendered = render(<div className="hover-element" {...hoverProps}></div>);
 
 		const element = rendered.container.querySelector('.hover-element');
-		userEvent.hover(element!);
+		await userEvent.hover(element!);
 
 		// don't wait the full delay, then unhover
 		await wait(delay - 200);
 
-		userEvent.unhover(element!);
+		await userEvent.unhover(element!);
 
 		expect(callback).not.toHaveBeenCalled();
 	});

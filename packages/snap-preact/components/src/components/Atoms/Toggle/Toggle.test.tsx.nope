@@ -61,7 +61,7 @@ describe('Toggle Component', () => {
 		let styles = getComputedStyle(slider!);
 		expect(styles.backgroundColor).toBe(inactiveColor);
 
-		userEvent.click(toggle!);
+		await userEvent.click(toggle!);
 
 		await waitFor(() => {
 			let styles = getComputedStyle(slider!);
@@ -91,7 +91,7 @@ describe('Toggle Component', () => {
 
 		const element = rendered.container.querySelector('.ss__toggle__switch')!;
 		expect(element).toBeInTheDocument();
-		userEvent.click(element);
+		await userEvent.click(element);
 
 		await waitFor(() => {
 			expect(onClickFunc).toHaveBeenCalled();
@@ -106,14 +106,14 @@ describe('Toggle Component', () => {
 		expect(slider).toBeInTheDocument();
 		expect(slider).toHaveClass('ss__toggle__switch--filtered');
 
-		userEvent.click(slider!);
+		await userEvent.click(slider!);
 
 		await waitFor(() => {
 			const slider = rendered.container.querySelector('.ss__toggle__switch');
 			expect(slider).not.toHaveClass('ss__toggle__switch--filtered');
 		});
 
-		userEvent.click(slider!);
+		await userEvent.click(slider!);
 
 		await waitFor(() => {
 			const slider = rendered.container.querySelector('.ss__toggle__switch');
