@@ -85,26 +85,19 @@ const clientConfig = {
 	search: {
 		origin: customSearchOrigin,
 	},
-	autocomplete: {
-		requesters: {
-			suggest: {
-				origin: customSearchOrigin,
-			},
-			legacy: {
-				origin: customSearchOrigin,
-			},
-		},
-	},
-	finder: {
-		origin: customSearchOrigin,
-	},
 	recommend: {
 		origin: customSearchOrigin,
 	},
 	suggest: {
 		origin: customSearchOrigin,
+		paths: {
+			suggest: '/api/suggest/query',
+			trending: '/api/suggest/trending',
+		},
 	},
-	chat: {},
+	chat: {
+		origin: 'https://asklo-backend.service-qa.ksearchnet.com',
+	},
 };
 
 if (customChatOrigin) {
@@ -152,42 +145,23 @@ let config: SnapTemplatesConfig = {
 		},
 	},
 	theme: {
-		extends: 'pike',
-		//resultComponent: 'CustomResult',
+		extends: 'base',
+		resultComponent: 'CustomResult',
 		variables: {
 			// breakpoints: {
 			// 	mobile: 767,
 			// 	tablet: 1024,
 			// 	desktop: 1280,
 			// },
-			// colors: {
-			// 	primary: '#6d7175',
-			// 	secondary: '#202223',
-			// 	accent: '#333333',
-			// },
+			colors: {
+				primary: '#1d498f',
+				secondary: '#202223',
+				accent: '#333333',
+			},
 		},
 		style: globalStyles,
 		overrides: {
 			default: {},
-		},
-	},
-	recommendation: {
-		email: {
-			Email: {
-				component: 'RecommendationEmail',
-				//resultComponent: 'EmailResult',
-			},
-		},
-		default: {
-			Default: {
-				component: 'Recommendation',
-			},
-		},
-		bundle: {
-			Bundle: {
-				component: 'RecommendationBundle',
-				resultComponent: 'CustomResult',
-			},
 		},
 	},
 	search: {
@@ -195,7 +169,6 @@ let config: SnapTemplatesConfig = {
 			{
 				selector: '#athos-layout',
 				component: 'Search',
-				resultComponent: 'CustomResult',
 			},
 		],
 	},
@@ -215,7 +188,6 @@ let config: SnapTemplatesConfig = {
 			{
 				selector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
-				resultComponent: 'CustomResult',
 			},
 		],
 		settings: {

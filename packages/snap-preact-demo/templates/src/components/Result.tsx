@@ -5,14 +5,14 @@ import type { SearchController } from '@athoscommerce/snap-controller';
 
 const openChatProductQuery = (result, controller) => {
 	const options = { requestType: 'productQuery' };
-	window.searchspring.fire('chat/open/discussProduct', { result, options });
+	window.athos.fire('chat/open/discussProduct', { result, options });
 	if (controller.type === 'autocomplete') {
 		controller.setFocused();
 	}
 };
 const openChatProductSimilar = (result, controller) => {
 	const options = { requestType: 'productSimilar' };
-	window.searchspring.fire('chat/open/discussProduct', { result, options });
+	window.athos.fire('chat/open/discussProduct', { result, options });
 	if (controller.type === 'autocomplete') {
 		controller.setFocused();
 	}
@@ -20,7 +20,7 @@ const openChatProductSimilar = (result, controller) => {
 export const CustomResult = (props: { result: Product; controller: SearchController }) => {
 	const { result, controller } = props;
 	const core = result.mappings.core;
-	const isChatEnabled = !!window?.searchspring?.controller?.chat;
+	const isChatEnabled = !!window?.athos?.controller?.chat;
 
 	return (
 		<article className="ss__custom-result">

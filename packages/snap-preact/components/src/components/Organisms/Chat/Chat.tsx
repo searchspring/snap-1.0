@@ -264,8 +264,8 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			borderTopLeftRadius: mobile ? 0 : '12px',
 			border: '1px solid #1d4990',
 			borderTop: 'none',
-			borderBottom: '1px solid #4c3ce2',
-			background: 'linear-gradient(45deg, #4c3ce2 0%, #3a23ad 100%)',
+			borderBottom: '1px solid #1d498f',
+			background: 'linear-gradient(45deg, #1d4990, #f2647c)',
 			animation: 'ss-chat-header-fade-in 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s backwards',
 			'.ss__chat__header__buttons': {
 				display: 'flex',
