@@ -187,6 +187,8 @@ class Result implements SearchResponseModelResult {
 
 export function transformSearchResponse(response: SearchResponseType, request: SearchRequestModel | AutocompleteRequestModel): SearchResponseModel {
 	return {
+		// @ts-ignore - _cached does not exist on type
+		_cached: response._cached ?? false,
 		pagination: transformSearchResponse.pagination(response),
 		results: transformSearchResponse.results(response),
 		filters: transformSearchResponse.filters(response),
