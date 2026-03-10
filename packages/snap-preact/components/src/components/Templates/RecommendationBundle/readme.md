@@ -242,8 +242,6 @@ The `limit` prop limits the number of products rendered.
 ### modules
 The `modules` prop accepts additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> - these may need additional props and or stylesheets to function. We include `Navigation` and `Pagination` modules by default.
 
-
-
 ```jsx
 import { Scrollbar } from 'swiper';
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} modules={[Scrollbar]} scrollbar={{ draggable: true }} />
