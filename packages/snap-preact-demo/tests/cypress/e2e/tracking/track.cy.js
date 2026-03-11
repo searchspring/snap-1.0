@@ -233,7 +233,7 @@ describe('Tracking Beacon 2.0', () => {
 				req.reply({ success: true });
 			});
 
-			// append 's' to make 'glass' - should return cached response (same responseId)
+			// append 'x' to make 'apex' - should return cached response (same responseId)
 			cy.get('input[name="q"]').type('x');
 			cy.wait(2000).then(() => {
 				// verify the store still has the same responseId (cached response)
