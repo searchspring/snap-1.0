@@ -86,7 +86,7 @@ import type { SearchCollapsibleProps, SearchCollapsibleTemplatesLegalProps } fro
 import type { AutocompleteModalProps, AutocompleteModalTemplatesLegalProps } from '../components/Templates/AutocompleteModal';
 import type { AutocompleteFixedProps, AutocompleteFixedTemplatesLegalProps } from '../components/Templates/AutocompleteFixed';
 import type { SlideshowProps, SlideshowTemplatesLegalProps } from '../components/Molecules/Slideshow';
-import { StyleScript } from '../types';
+import type { StyleScript } from '../types';
 
 export type ThemeComponentProps<ComponentProps> = {
 	default: Partial<ComponentProps>;
