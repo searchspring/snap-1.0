@@ -87,7 +87,6 @@ import type { AutocompleteModalProps, AutocompleteModalTemplatesLegalProps } fro
 import type { AutocompleteFixedProps, AutocompleteFixedTemplatesLegalProps } from '../components/Templates/AutocompleteFixed';
 import type { SlideshowProps, SlideshowTemplatesLegalProps } from '../components/Molecules/Slideshow';
 import { StyleScript } from '../types';
-import { Theme } from './theme';
 
 export type ThemeComponentProps<ComponentProps> = {
 	default: Partial<ComponentProps>;
@@ -120,7 +119,7 @@ type ThemeComponentNamedSelectorsStartingWithTemplate<
 	| `${TemplateComponentType} ${SubComponentType}.${ComponentNames}`;
 
 export type ThemeComponentRestrictedProps<Props, LegalProps> = Partial<LegalProps & ThemeComponentAllowedProps<Props>>;
-type ThemeComponentAllowedProps<Props> = { themeStyleScript?: StyleScript<Props>; theme?: Theme };
+type ThemeComponentAllowedProps<Props> = { themeStyleScript?: StyleScript<Props> };
 
 /*
 
