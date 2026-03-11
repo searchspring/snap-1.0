@@ -170,7 +170,7 @@ export const custom: CustomThemeType = {
 				'&': {
 					gap: `${custom.spacing.x1}px`,
 				},
-				'.ss__result__details__title a, .ss__result__details__pricing .ss__price--strike, .ss__result__details__pricing .ss__price--strike span': {
+				'.ss__result__details__title a, .ss__result__details__pricing .ss__price, .ss__result__details__pricing .ss__price span': {
 					fontSize: `${fontSize}px`,
 				},
 				'.ss__result__details__pricing .ss__result__price': {
@@ -182,7 +182,7 @@ export const custom: CustomThemeType = {
 					overflow: 'hidden',
 					WebkitLineClamp: '2',
 				},
-				'.ss__result__add-to-cart-wrapper': {
+				'.ss__result__details__variant-selection, .ss__result__add-to-cart-wrapper': {
 					marginTop: '2.5px',
 				},
 			};

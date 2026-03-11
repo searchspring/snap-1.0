@@ -74,6 +74,7 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteSlideout recommendationGrid': {
 			rows: 2,
@@ -99,6 +100,7 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px ${custom.spacing.x2}px`,
 		},
 		'autocompleteSlideout recommendationGrid': {
 			rows: 2,
@@ -120,6 +122,7 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteSlideout recommendationGrid': {
 			rows: 2,
@@ -141,6 +144,7 @@ export const autocompleteSlideout: ThemeComponent<'autocompleteSlideout', Autoco
 		'autocompleteSlideout results': {
 			rows: 2,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteSlideout recommendationGrid': {
 			rows: 2,

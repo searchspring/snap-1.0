@@ -128,7 +128,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		'autocompleteModal recommendationGrid': {
 			rows: 2,
 			columns: 4,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteModal button.see-more icon': {
 			size: `${custom.sizes.icon12}px`,
@@ -150,6 +149,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		'autocompleteModal results': {
 			rows: 1,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px ${custom.spacing.x2}px`,
 		},
 		'autocompleteModal recommendationGrid': {
 			rows: 1,
@@ -187,6 +187,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		'autocompleteModal results': {
 			rows: 1,
 			columns: 4,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteModal recommendationGrid': {
 			rows: 1,
@@ -208,6 +209,7 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		'autocompleteModal results': {
 			rows: 2,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteModal recommendationGrid': {
 			rows: 2,

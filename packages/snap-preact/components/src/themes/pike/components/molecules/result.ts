@@ -10,7 +10,6 @@ const lightGray = custom.utils.lightenColor();
 const resultStyleScript = (props: ResultProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
 
 	// result styles
 	const resultStyles = css({
@@ -125,7 +124,7 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 			},
 		},
-		[`${custom.utils.getBp(mobileBp - 100)}`]: {
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
 			'&.ss__result--list': {
 				'&, .ss__result__details': {
 					flexFlow: 'row wrap',
