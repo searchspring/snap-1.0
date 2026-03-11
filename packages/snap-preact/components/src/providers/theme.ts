@@ -55,7 +55,7 @@ export type Theme = {
 	activeBreakpoint?: ResponsiveKeys;
 };
 
-export type ThemeComponent<Template extends string, Props, LegalProps> = {
+export type ThemeComponent<Template extends string, Props extends LegalProps, LegalProps> = {
 	default?: ThemeComponentTemplateOverrides<Template, Props, LegalProps>;
 	mobile?: ThemeComponentTemplateOverrides<Template, Props, LegalProps>;
 	tablet?: ThemeComponentTemplateOverrides<Template, Props, LegalProps>;

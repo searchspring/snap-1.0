@@ -118,7 +118,7 @@ type ThemeComponentNamedSelectorsStartingWithTemplate<
 	| `${TemplateComponentType} ${string} ${SubComponentType}.${ComponentNames}`
 	| `${TemplateComponentType} ${SubComponentType}.${ComponentNames}`;
 
-export type ThemeComponentRestrictedProps<Props, LegalProps> = Partial<LegalProps & ThemeComponentAllowedProps<Props>>;
+export type ThemeComponentRestrictedProps<Props extends LegalProps, LegalProps> = Partial<LegalProps & ThemeComponentAllowedProps<Props>>;
 type ThemeComponentAllowedProps<Props> = { themeStyleScript?: StyleScript<Props> };
 
 /*
@@ -304,7 +304,7 @@ export type ThemeComponentsRestricted =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchHorizontal'>]?: Partial<SearchHorizontalTemplatesLegalProps> };
 
 // prettier-ignore
-export type ThemeComponentTemplateOverrides<Template extends string, Props, LegalProps> =
+export type ThemeComponentTemplateOverrides<Template extends string, Props extends LegalProps, LegalProps> =
 	/* WITH TEMPLATE */
 	{ [K in ThemeComponentTemplateUnNamedSelectors<Template>]?: ThemeComponentRestrictedProps<Props, LegalProps> } &
 
