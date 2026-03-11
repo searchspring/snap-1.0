@@ -5,7 +5,7 @@ Renders a text badge in the shape of a pill. It is expected to be used with `Cal
 ## Usage
 
 ```jsx
-import { BadgePill } from '@athoscommerce/snap-preact-components';
+import { BadgePill } from '@athoscommerce/snap-preact/components';
 ```
 
 ### value

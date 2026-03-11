@@ -114,14 +114,14 @@ describe('Checkbox Component', () => {
 			expect(checkbox2).not.toHaveAttribute(A11Y_ATTRIBUTE);
 		});
 
-		it('respects the disabled prop', () => {
+		it('respects the disabled prop', async () => {
 			const clickFn = jest.fn();
 			const rendered = render(<Checkbox disabled onClick={clickFn} />);
 			const checkboxElement = rendered.container.querySelector('.ss__checkbox');
 
 			expect(checkboxElement?.getAttribute('aria-disabled')).toBe('true');
 			expect(checkboxElement?.className.match(/disabled/)).toBeTruthy();
-			if (checkboxElement) userEvent.click(checkboxElement);
+			if (checkboxElement) await userEvent.click(checkboxElement);
 			expect(clickFn).not.toHaveBeenCalled();
 		});
 

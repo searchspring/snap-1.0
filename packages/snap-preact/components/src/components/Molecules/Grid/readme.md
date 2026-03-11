@@ -7,7 +7,7 @@ Renders an Grid of options
 
 ## Usage
 ```jsx
-import { Grid } from '@athoscommerce/snap-preact-components';
+import { Grid } from '@athoscommerce/snap-preact/components';
 ```
 
 ### options

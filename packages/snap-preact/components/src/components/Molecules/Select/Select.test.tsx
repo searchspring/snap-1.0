@@ -704,7 +704,7 @@ describe('Select Component', () => {
 			expect(optionsElements[1].selected).toBe(true);
 		});
 
-		it('it can be disabled', () => {
+		it('it can be disabled', async () => {
 			const selectFn = jest.fn();
 
 			const rendered = render(<Select disabled native options={options} onSelect={selectFn} />);
@@ -717,7 +717,7 @@ describe('Select Component', () => {
 			expect(firstOptionElement?.selected).toBe(true);
 			expect(selectElement).toHaveAttribute('disabled');
 
-			userEvent.selectOptions(selectElement, options[1].value as string);
+			await userEvent.selectOptions(selectElement, options[1].value as string);
 
 			expect(selectFn).not.toHaveBeenCalledWith(expect.anything(), options[1]);
 			expect(firstOptionElement?.selected).toBe(true);

@@ -125,15 +125,16 @@ describe('shopify/pluginMutateResults', () => {
 	});
 
 	describe('mutation/collectionInUrl', () => {
-		it('uses context.collection.handle to update result URLs (and is enabled by default)', async () => {
+		it('uses context.collection.handle to update result URLs (and is opt-in)', async () => {
 			// plugin requires collection context
 			const collectionContext = {
 				handle: 'collection-handle',
 				name: 'Collection Name',
 			};
 			controller.context.collection = collectionContext;
+			controller.context.page = { type: 'category' };
 
-			pluginShopifyMutateResults(controller);
+			pluginShopifyMutateResults(controller, { mutations: { collectionInUrl: { enabled: true } } });
 
 			await controller.search();
 

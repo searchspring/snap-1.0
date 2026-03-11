@@ -12,6 +12,7 @@ import { pluginAddToCart as magento2PluginAddToCart } from './library/plugins/ma
 import { pluginAddToCart as commonPluginAddToCart } from './library/plugins/common/pluginAddToCart';
 import { pluginBackgroundFilters as bigCommercePluginBackgroundFilters } from './library/plugins/bigCommerce/pluginBackgroundFilters';
 import { pluginBackgroundFilters as magento2PluginBackgroundFilters } from './library/plugins/magento2/pluginBackgroundFilters';
+import { pluginBase as magento2PluginBase } from './library/plugins/magento2/pluginBase';
 import { pluginBackgroundFilters } from './library/plugins/common/pluginBackgroundFilters';
 import { pluginScrollToTop } from './library/plugins/common/pluginScrollToTop';
 import { pluginLogger } from './library/plugins/common/pluginLogger';
@@ -46,6 +47,7 @@ export type LibraryImports = {
 			addToCart: typeof bigCommercePluginAddToCart;
 		};
 		magento2: {
+			base: typeof magento2PluginBase;
 			backgroundFilters: PluginFunction;
 			addToCart: typeof magento2PluginAddToCart;
 		};
@@ -180,6 +182,7 @@ export class LibraryStore {
 				addToCart: bigCommercePluginAddToCart,
 			},
 			magento2: {
+				base: magento2PluginBase,
 				backgroundFilters: magento2PluginBackgroundFilters,
 				addToCart: magento2PluginAddToCart,
 			},

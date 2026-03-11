@@ -507,14 +507,14 @@ describe('Dropdown Component', () => {
 	});
 
 	describe('external state', () => {
-		it('does not fire onToggle prop when clicked', () => {
+		it('does not fire onToggle prop when clicked', async () => {
 			const toggleFn = jest.fn();
 
 			const rendered = render(<Dropdown button={'open me'} onToggle={toggleFn} open={true} />);
 
 			const button = rendered.container.querySelector('.ss__dropdown__button')!;
 
-			userEvent.click(button);
+			await userEvent.click(button);
 			expect(toggleFn).not.toHaveBeenCalled();
 		});
 

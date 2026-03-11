@@ -85,7 +85,7 @@ describe('image Component', () => {
 			const imageElement = rendered.container.querySelector('.ss__image img')!;
 
 			expect(imageElement).toHaveAttribute('src', result?.thumbnailImageUrl);
-			userEvent.hover(imageElement);
+			await userEvent.hover(imageElement);
 			await waitFor(() => expect(onHoverFunc).toHaveBeenCalled());
 			expect(imageElement).toHaveAttribute('src', rolloverImage);
 		});

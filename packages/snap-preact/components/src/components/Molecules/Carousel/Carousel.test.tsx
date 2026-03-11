@@ -160,14 +160,14 @@ it('tests', () => {
 // 		const slide = rendered.container.querySelectorAll('.swiper-slide');
 
 // 		expect(onPrevFunc).not.toHaveBeenCalled();
-// 		userEvent.click(prev);
+// 		await userEvent.click(prev);
 // 		expect(onPrevFunc).toHaveBeenCalled();
 
 // 		expect(onNextFunc).not.toHaveBeenCalled();
-// 		userEvent.click(next);
+// 		await userEvent.click(next);
 // 		expect(onNextFunc).toHaveBeenCalled();
 
-// 		userEvent.click(slide[0]);
+// 		await userEvent.click(slide[0]);
 // 		expect(onClickFunc).toHaveBeenCalled();
 // 	});
 

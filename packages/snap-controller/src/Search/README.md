@@ -169,7 +169,7 @@ By default when using the infinite configuration, additional pages are appended 
 import { h, Fragment, Component } from 'preact';
 import { useRef } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
-import { ControllerProvider, useIntersection, Results } from '@athoscommerce/snap-preact-components';
+import { ControllerProvider, useIntersection, Results } from '@athoscommerce/snap-preact/components';
 
 @observer
 export class Content extends Component {

@@ -7,7 +7,7 @@ Renders pagination page links for the given search response.
 
 ## Usage
 ```jsx
-import { Pagination } from '@athoscommerce/snap-preact-components';
+import { Pagination } from '@athoscommerce/snap-preact/components';
 ```
 
 ### pagination

@@ -63,7 +63,7 @@ describe('LayoutSelector Component', () => {
 
 		expect(element).toBeInTheDocument();
 
-		userEvent.click(element!);
+		await userEvent.click(element!);
 
 		await waitFor(() => {
 			expect(func).toHaveBeenCalledWith(expect.anything(), options[1]);
@@ -78,7 +78,7 @@ describe('LayoutSelector Component', () => {
 
 		expect(element).toBeInTheDocument();
 
-		userEvent.click(element!);
+		await userEvent.click(element!);
 
 		await waitFor(() => {
 			expect(func).toHaveBeenCalledWith(expect.anything(), options[1]);
@@ -93,7 +93,7 @@ describe('LayoutSelector Component', () => {
 
 		expect(element).toBeInTheDocument();
 
-		userEvent.click(element!);
+		await userEvent.click(element!);
 
 		await waitFor(() => {
 			expect(func).toHaveBeenCalledWith(expect.anything(), options[1]);

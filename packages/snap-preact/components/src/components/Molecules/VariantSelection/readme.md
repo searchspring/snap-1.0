@@ -11,7 +11,7 @@ The variantSelection can be rendered as 3 different types, Dropdown, List, or Sw
 
 ## Usage
 ```jsx
-import { VariantSelection } from '@athoscommerce/snap-preact-components';
+import { VariantSelection } from '@athoscommerce/snap-preact/components';
 ```
 
 ### selection

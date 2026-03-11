@@ -45,14 +45,14 @@ const snap = new Snap({
 
 The `Content` component is considered a root level component since it is being rendered onto the page using a targeter.
 
-To provide a reference to the controller via props to any subcomponents, we can utilize the `ControllerProvider` component from the `@athoscommerce/snap-preact-components` package.
+To provide a reference to the controller via props to any subcomponents, we can utilize the `ControllerProvider` component from the `@athoscommerce/snap-preact/components` package.
 
 ```jsx
 // src/components/Content/Content.jsx
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { ControllerProvider } from '@athoscommerce/snap-preact-components';
+import { ControllerProvider } from '@athoscommerce/snap-preact/components';
 import { Results } from '../Results/Results';
 
 export const Content = observer((props) => {
@@ -75,7 +75,7 @@ Finally, the `observer` higher order component is used to make the component rea
 
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
-import { withController, InlineBanner, Result } from '@athoscommerce/snap-preact-components';
+import { withController, InlineBanner, Result } from '@athoscommerce/snap-preact/components';
 
 export const Results = withController(observer((props) => {
     const { controller } = props;
