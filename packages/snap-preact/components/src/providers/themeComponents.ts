@@ -86,6 +86,8 @@ import type { SearchCollapsibleProps, SearchCollapsibleTemplatesLegalProps } fro
 import type { AutocompleteModalProps, AutocompleteModalTemplatesLegalProps } from '../components/Templates/AutocompleteModal';
 import type { AutocompleteFixedProps, AutocompleteFixedTemplatesLegalProps } from '../components/Templates/AutocompleteFixed';
 import type { SlideshowProps, SlideshowTemplatesLegalProps } from '../components/Molecules/Slideshow';
+import { StyleScript } from '../types';
+import { Theme } from './theme';
 
 export type ThemeComponentProps<ComponentProps> = {
 	default: Partial<ComponentProps>;
@@ -117,8 +119,8 @@ type ThemeComponentNamedSelectorsStartingWithTemplate<
 	| `${TemplateComponentType} ${string} ${SubComponentType}.${ComponentNames}`
 	| `${TemplateComponentType} ${SubComponentType}.${ComponentNames}`;
 
-export type ThemeComponentRestrictedProps<Props> = Partial<Omit<Props, ThemeComponentOmittedProps>>;
-type ThemeComponentOmittedProps = 'theme' | 'inherits' | 'disableStyles' | 'styleScript' | 'internalClassName' | 'className';
+export type ThemeComponentRestrictedProps<Props, LegalProps> = Partial<LegalProps & ThemeComponentAllowedProps<Props>>;
+type ThemeComponentAllowedProps<Props> = { themeStyleScript?: StyleScript<Props>; theme?: Theme };
 
 /*
 
@@ -303,9 +305,9 @@ export type ThemeComponentsRestricted =
 	{ [K in ThemeComponentOverridesUnNamedSelectors<'searchHorizontal'>]?: Partial<SearchHorizontalTemplatesLegalProps> };
 
 // prettier-ignore
-export type ThemeComponentTemplateOverrides<Template extends string, Props> =
+export type ThemeComponentTemplateOverrides<Template extends string, Props, LegalProps> =
 	/* WITH TEMPLATE */
-	{ [K in ThemeComponentTemplateUnNamedSelectors<Template>]?: ThemeComponentRestrictedProps<Props> } &
+	{ [K in ThemeComponentTemplateUnNamedSelectors<Template>]?: ThemeComponentRestrictedProps<Props, LegalProps> } &
 
 	/* ATOMS */
 	{ [K in ThemeComponentUnNamedSelectorsStartingWithTemplate<Template, 'badgeImage'>]?: Partial<BadgeImageTemplatesLegalProps> } &
