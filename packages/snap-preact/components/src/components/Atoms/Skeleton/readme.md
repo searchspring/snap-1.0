@@ -4,7 +4,7 @@ Renders a div with a animation for use when building loading skeletons.
 
 ## Usage
 ```jsx
-import { Skeleton } from '@athoscommerce/snap-preact-components';
+import { Skeleton } from '@athoscommerce/snap-preact/components';
 ```
 
 ### Height

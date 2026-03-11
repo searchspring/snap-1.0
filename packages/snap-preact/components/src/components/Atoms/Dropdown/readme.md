@@ -4,7 +4,7 @@ Renders a button and content. Clicking the button toggles content visibility. Ty
 
 ## Usage
 ```jsx
-import { Dropdown } from '@athoscommerce/snap-preact-components';
+import { Dropdown } from '@athoscommerce/snap-preact/components';
 ```
 
 ### content

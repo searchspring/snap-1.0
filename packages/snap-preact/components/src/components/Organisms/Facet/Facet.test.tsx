@@ -273,7 +273,7 @@ describe('Facet Component', () => {
 			expect(showMoreElement).toBeInTheDocument();
 			expect(showMoreElement).toHaveTextContent(args.showMoreText);
 
-			userEvent.click(showMoreElement);
+			await userEvent.click(showMoreElement);
 
 			await waitFor(() => {
 				expect(facet.classList).toContain('ss__facet--showing-all');
@@ -382,7 +382,7 @@ describe('Facet Component', () => {
 
 			const searchInputElement = rendered.container.querySelector('.ss__search-input input')!;
 			expect(searchInputElement).toBeInTheDocument();
-			userEvent.type(searchInputElement, 'su');
+			await userEvent.type(searchInputElement, 'su');
 
 			await waitFor(() => expect(searchInputElement).toHaveValue('su'));
 			expect(searchInputElement).toHaveValue('su');

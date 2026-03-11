@@ -83,7 +83,7 @@ describe('AutocompleteFixed Component', () => {
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -111,7 +111,7 @@ describe('AutocompleteFixed Component', () => {
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -151,7 +151,7 @@ describe('AutocompleteFixed Component', () => {
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -182,7 +182,7 @@ describe('AutocompleteFixed Component', () => {
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -215,7 +215,7 @@ describe('AutocompleteFixed Component', () => {
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;
@@ -253,7 +253,7 @@ describe('AutocompleteFixed Component', () => {
 
 		const rendered = render(<AutocompleteFixed {...args} />, { container });
 
-		userEvent.click(input!);
+		await userEvent.click(input!);
 
 		await waitFor(() => {
 			const renderedInput = document.querySelector(renderedInputSelector) as HTMLInputElement;

@@ -169,7 +169,7 @@ it('tests', () => {
 // 		trackfn.mockClear();
 
 // 		//click the next button
-// 		userEvent.click(next);
+// 		await userEvent.click(next);
 
 // 		expect(trackfn).toHaveBeenCalledWith({
 // 			type: BeaconType.PROFILE_CLICK,

@@ -4,7 +4,7 @@ Renders an Image with fallback and rollover functionality.
 
 ## Usage
 ```jsx
-import { Image } from '@athoscommerce/snap-preact-components';
+import { Image } from '@athoscommerce/snap-preact/components';
 ```
 
 ### src

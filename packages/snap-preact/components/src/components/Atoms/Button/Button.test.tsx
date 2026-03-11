@@ -447,7 +447,7 @@ describe('Button Component', () => {
 			expect(clickFn).toHaveBeenCalled();
 		});
 
-		it('adds class "ss__button--disabled" and prevents onClick when disabled by prop', () => {
+		it('adds class "ss__button--disabled" and prevents onClick when disabled by prop', async () => {
 			const clickFn = jest.fn();
 			const content = 'disabled button';
 
@@ -456,7 +456,7 @@ describe('Button Component', () => {
 			const button = rendered.container.querySelector(`.ss__button.ss__button--disabled`);
 			expect(button).toBeInTheDocument();
 
-			if (button) userEvent.click(button);
+			if (button) await userEvent.click(button);
 			expect(clickFn).not.toHaveBeenCalled();
 		});
 	});

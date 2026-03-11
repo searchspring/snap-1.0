@@ -8,7 +8,7 @@ Renders a facet filter.
 
 ## Usage
 ```jsx
-import { Filter } from '@athoscommerce/snap-preact-components';
+import { Filter } from '@athoscommerce/snap-preact/components';
 ```
 
 ### facetLabel

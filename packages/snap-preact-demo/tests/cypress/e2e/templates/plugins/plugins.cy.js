@@ -324,6 +324,7 @@ describe('plugins work based on plaform setting', () => {
 				'pluginBackgroundFilters', // common
 				'pluginScrollToTop', // common
 				'pluginLogger', // common
+				'pluginMagento2Base',
 				'pluginMagento2BackgroundFilters',
 				'pluginMagento2AddToCart',
 			];

@@ -4,7 +4,7 @@ Utilizes `formatNumber` from [@athoscommerce/snap-preact/toolbox](https://athosc
 
 ## Usage
 ```jsx
-import { FormattedNumber } from '@athoscommerce/snap-preact-components';
+import { FormattedNumber } from '@athoscommerce/snap-preact/components';
 ```
 
 ### value

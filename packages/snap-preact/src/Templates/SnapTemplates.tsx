@@ -49,6 +49,8 @@ import {
 	AddToCartConfig as PluginMagento2AddToCartConfig,
 	pluginBackgroundFilters as pluginMagento2BackgroundFilters,
 	PluginBackgroundFiltersConfig as PluginMagento2BackgroundFiltersConfig,
+	pluginBase as pluginMagento2Base,
+	PluginBaseConfig as PluginMagento2BaseConfig,
 } from '@athoscommerce/snap-platforms/magento2';
 
 export const TEMPLATE_EDIT_COOKIE = 'athosEditor';
@@ -129,6 +131,7 @@ type TemplatePlugins =
 	| [typeof pluginBigcommerceBackgroundFilters, PluginBigcommerceBackgroundFiltersConfig]
 	| [typeof pluginBigcommerceAddToCart, PluginBigCommerceAddToCartConfig]
 	// magento2
+	| [typeof pluginMagento2Base, PluginMagento2BaseConfig]
 	| [typeof pluginMagento2BackgroundFilters, PluginMagento2BackgroundFiltersConfig]
 	| [typeof pluginMagento2AddToCart, PluginMagento2AddToCartConfig];
 
@@ -558,6 +561,10 @@ function createPlugins(
 			]);
 			break;
 		case 'magento2':
+			plugins.push([
+				templatesStore.library.import.plugins.magento2.base,
+				deepmerge(templateConfig.plugins?.magento2?.base || {}, controllerConfig?.plugins?.magento2?.base || {}),
+			]);
 			plugins.push([
 				templatesStore.library.import.plugins.magento2.backgroundFilters,
 				deepmerge(templateConfig.plugins?.magento2?.backgroundFilters || {}, controllerConfig?.plugins?.magento2?.backgroundFilters || {}),

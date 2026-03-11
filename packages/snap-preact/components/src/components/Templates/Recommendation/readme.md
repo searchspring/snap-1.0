@@ -14,7 +14,7 @@ Any modification to the results array and data are recommended to be made using 
 
 ## Usage
 ```jsx
-import { Recommendation } from '@athoscommerce/snap-preact-components';
+import { Recommendation } from '@athoscommerce/snap-preact/components';
 ```
 
 Additional [Swiper Component Props](https://swiperjs.com/react#swiper-props) can be specified, but may need to be camelCased where appropriate.

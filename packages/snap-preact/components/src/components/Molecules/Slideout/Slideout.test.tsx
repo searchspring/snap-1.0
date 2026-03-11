@@ -219,7 +219,7 @@ describe('Slideout Component', () => {
 		expect(findMeDiv).not.toBeInTheDocument();
 
 		// click the button
-		userEvent.click(buttonElement!);
+		await userEvent.click(buttonElement!);
 
 		await waitFor(() => {
 			const containerElement = rendered.container.querySelector('.ss__slideout');
@@ -277,7 +277,7 @@ describe('Slideout Component', () => {
 		expect(findMeDiv).not.toBeInTheDocument();
 
 		// click the button
-		userEvent.click(buttonElement!);
+		await userEvent.click(buttonElement!);
 		await waitFor(() => {
 			const containerElement = rendered.container.querySelector('.ss__slideout');
 			const findMeDiv = rendered.container.querySelector('#findme');

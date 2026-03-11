@@ -7,7 +7,7 @@ Renders all facets utilizing the `<Facet />` component.
 
 ## Usage
 ```jsx
-import { Facets } from '@athoscommerce/snap-preact-components';
+import { Facets } from '@athoscommerce/snap-preact/components';
 ```
 
 ### controller

@@ -8,7 +8,7 @@ Renders error messages.
 
 ## Usage
 ```jsx
-import { ErrorHandler } from '@athoscommerce/snap-preact-components';
+import { ErrorHandler } from '@athoscommerce/snap-preact/components';
 ```
 
 ### controller

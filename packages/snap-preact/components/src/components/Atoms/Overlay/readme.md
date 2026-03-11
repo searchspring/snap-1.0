@@ -4,7 +4,7 @@ Renders an Overlay. Typically used to blur the background with a foreground elem
 
 ## Usage
 ```jsx
-import { Overlay } from '@athoscommerce/snap-preact-components';
+import { Overlay } from '@athoscommerce/snap-preact/components';
 ```
 
 ### active

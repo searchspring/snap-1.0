@@ -8,7 +8,7 @@ Renders a recommended bundle of products with seed, carousel of recommendations 
 
 ## Usage
 ```jsx
-import { RecommendationBundle } from '@athoscommerce/snap-preact-components';
+import { RecommendationBundle } from '@athoscommerce/snap-preact/components';
 ```
 
 Additional [Swiper Component Props](https://swiperjs.com/react#swiper-props) can be specified, but may need to be camelCased where appropriate.

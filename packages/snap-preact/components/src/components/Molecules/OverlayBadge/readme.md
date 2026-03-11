@@ -4,7 +4,7 @@ Renders overlay badges configured in the Athos Search & Product Discovery Consol
 
 ## Usage
 ```jsx
-import { OverlayBadge } from '@athoscommerce/snap-preact-components';
+import { OverlayBadge } from '@athoscommerce/snap-preact/components';
 ```
 
 ### children
