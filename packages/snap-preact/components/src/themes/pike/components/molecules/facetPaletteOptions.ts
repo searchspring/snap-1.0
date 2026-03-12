@@ -132,7 +132,7 @@ const facetPaletteStyleScript = (props: FacetPaletteOptionsProps) => {
 	// facet palette shared list styles
 	const sharedListStyles = css({
 		'.ss__facet-palette-options__option': {
-			lineHeight: 1.5,
+			...custom.styles.baseText(variables?.colors?.text),
 			minHeight: hasCheckbox ? '' : `${listSize + 2}px`,
 			position: 'relative',
 			gap: `${custom.spacing.x1}px`,

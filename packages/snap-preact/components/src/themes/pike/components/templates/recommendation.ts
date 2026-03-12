@@ -48,8 +48,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 			...custom.styles.textOverflow(),
 		},
 		'.ss__recommendation__description': {
-			fontSize: '14px',
-			color: variables?.colors?.text,
+			...custom.styles.baseText(variables?.colors?.text),
 		},
 		'.ss__carousel': {
 			position: 'static',
@@ -103,7 +102,7 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 				padding: `0 ${custom.spacing.x4 + arrowSizes.tablet}px`,
 				'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
 					top: 0,
-					bottom: `calc(10.15rem + ${spacing - custom.spacing.x4}px)`,
+					bottom: `calc(10.40rem + ${spacing - custom.spacing.x4}px)`,
 					width: `${arrowSizes.tablet}px`,
 					height: `${arrowSizes.tablet}px`,
 				},

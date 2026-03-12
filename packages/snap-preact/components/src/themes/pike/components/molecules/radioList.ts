@@ -32,8 +32,7 @@ const radioListStyleScript = (props: RadioListProps) => {
 		'.ss__radio-list__options-wrapper': {
 			'.ss__radio-list__option': {
 				position: 'relative',
-				lineHeight: 1.5,
-				color: variables?.colors?.text,
+				...custom.styles.baseText(variables?.colors?.text),
 				gap: `${custom.spacing.x2}px`,
 				padding: props?.hideOptionRadios ? `` : `0 0 0 ${radioSpacing}px`,
 				'.ss__radio-list__option__label, .ss__radio-list__option__icon': {

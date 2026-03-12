@@ -67,6 +67,10 @@ const resultStyleScript = (props: ResultProps) => {
 				gap: `${custom.spacing.x2}px`,
 				padding: 0,
 				margin: 0,
+				...custom.styles.baseText(variables?.colors?.text),
+				a: {
+					color: 'inherit',
+				},
 				'& > *, .ss__result__details__title, .ss__result__details__title, .ss__result__details__pricing': {
 					margin: 0,
 				},
@@ -76,9 +80,6 @@ const resultStyleScript = (props: ResultProps) => {
 				},
 				'.ss__result__details__title': {
 					order: -2,
-					a: {
-						color: variables?.colors?.text,
-					},
 				},
 				'.ss__result__details__pricing': {
 					order: -1,

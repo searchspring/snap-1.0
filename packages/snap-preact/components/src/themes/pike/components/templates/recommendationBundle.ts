@@ -36,8 +36,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			...custom.styles.headerText(variables?.colors?.secondary, '18px'),
 		},
 		'.ss__recommendation-bundle__description': {
-			fontSize: '14px',
-			color: variables?.colors?.text,
+			...custom.styles.baseText(variables?.colors?.text),
 		},
 		'.ss__recommendation-bundle__wrapper': {
 			flexFlow: 'row wrap',
@@ -60,7 +59,7 @@ const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 			'.ss__recommendation-bundle__wrapper__carousel': {
 				'.ss__recommendation__carousel >': {
 					'.ss__carousel__prev-wrapper, .ss__carousel__next-wrapper': {
-						bottom: `calc(10.15rem - ${custom.spacing.x4}px)`,
+						bottom: `calc(10.40rem - ${custom.spacing.x4}px)`,
 					},
 				},
 			},

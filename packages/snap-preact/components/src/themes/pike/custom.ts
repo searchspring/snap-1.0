@@ -85,6 +85,14 @@ export const custom: CustomThemeType = {
 				lineHeight: 1.2,
 			};
 		},
+		baseText: (color?: string) => {
+			// header text styles
+			return {
+				fontSize: '14px',
+				lineHeight: 1.5,
+				color: color ? color : '',
+			};
+		},
 		borderRadius: (value?: number, unit?: string) => {
 			const hasValue = value || value === 0 ? true : false;
 			value = hasValue ? value : custom.sizes.radius;
@@ -318,6 +326,7 @@ type CustomThemeType = {
 	styles: {
 		activeText: (color?: string) => ObjectNestedType;
 		badgeText: (fontSize: number) => ObjectNumberOrStringType;
+		baseText: (color?: string) => ObjectNumberOrStringType;
 		borderRadius: (value?: number, unit?: string) => ObjectStringType | null;
 		box: (color?: string, padding?: number | string, radius?: boolean) => ObjectNumberOrStringType;
 		boxSizing: (component: string, treePath?: string, name?: string) => ObjectNestedType | null;

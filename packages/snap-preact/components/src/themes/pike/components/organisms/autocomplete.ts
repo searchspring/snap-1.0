@@ -201,6 +201,13 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 				},
 			},
 		},
+		[`${custom.utils.getBp(custom.breakpoints.small)}`]: {
+			'&.ss__autocomplete': {
+				'.ss__autocomplete__content__results .ss__results.ss__results-list': {
+					gap: `${custom.spacing.x2}px`,
+				},
+			},
+		},
 		[`${custom.utils.getBp(custom.breakpoints.small, 'max')}`]: {
 			'&.ss__autocomplete': {
 				'.ss__autocomplete__content__results .ss__results': {

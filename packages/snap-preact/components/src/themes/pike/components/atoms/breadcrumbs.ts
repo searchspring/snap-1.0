@@ -24,8 +24,12 @@ const breadcrumbsStyleScript = (props: BreadcrumbsProps) => {
 			li: {
 				display: 'block',
 				padding: 0,
+				fontSize: '14px',
 				'&:last-child': {
 					...custom.styles.activeText(variables?.colors?.primary),
+				},
+				a: {
+					fontSize: 'inherit',
 				},
 			},
 		},
