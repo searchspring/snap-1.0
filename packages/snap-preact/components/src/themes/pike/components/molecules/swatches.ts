@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 import type { SwatchesProps } from '../../../../components/Molecules/Swatches';
 import { ThemeComponent } from '../../../../providers';
 import { custom } from '../../custom';
-//import Color from 'color';
 
 // static variables
 const swatchesSpacing = custom.spacing.x1;
@@ -48,7 +47,7 @@ const swatchesStyleScript = (props: SwatchesProps) => {
 						'.ss__slideshow__slide': {
 							'.ss__swatches__slideshow__swatch': {
 								position: 'relative',
-								height: `${swatchesSize}px`,
+								height: `100%`,
 								aspectRatio: 1,
 								border: 0,
 								'.ss__swatches__slideshow__swatch__inner': {
@@ -218,7 +217,7 @@ export const swatches: ThemeComponent<'swatches', SwatchesProps> = {
 			hideLabels: false,
 		},
 		'swatches slideshow': {
-			slidesToShow: 4,
+			slideWidth: swatchesSize,
 			gap: swatchesSpacing,
 			centerInsufficientSlides: false,
 		},
