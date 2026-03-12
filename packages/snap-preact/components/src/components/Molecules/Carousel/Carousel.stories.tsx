@@ -187,7 +187,7 @@ const color = new Colour('#00aeef');
 
 export const Colors = (props: CarouselProps) => {
 	return (
-		<div style={{ maxWidth: '800px', height: props?.vertical ? '300px' : '' }}>
+		<div style={{ maxWidth: '800px', height: props?.vertical ? '300px' : undefined }}>
 			<Carousel {...props}>
 				{colors.map((number, index) => (
 					<div

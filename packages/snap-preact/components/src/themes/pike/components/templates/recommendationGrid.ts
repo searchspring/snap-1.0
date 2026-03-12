@@ -8,7 +8,7 @@ import { custom } from '../../custom';
 const recommendationGridStyleScript = (props: RecommendationGridProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
+	const tabletBp = variables?.breakpoints?.tablet as number;
 	const hasOverflow = props?.rows == 1 ? true : false;
 
 	// shared styles

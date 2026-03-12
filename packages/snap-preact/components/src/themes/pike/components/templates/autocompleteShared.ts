@@ -12,9 +12,9 @@ const activeSelectors =
 export const autocompleteSharedStyleScript = (props: AutocompleteLayoutProps, template: string) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const desktopBp = variables?.breakpoints?.desktop || custom.breakpoints.desktop;
-	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const desktopBp = variables?.breakpoints?.desktop as number;
+	const tabletBp = variables?.breakpoints?.tablet as number;
+	const mobileBp = variables?.breakpoints?.mobile as number;
 
 	// determine template being used
 	const isFixed = template == 'autocompleteFixed';

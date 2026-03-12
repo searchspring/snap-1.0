@@ -21,8 +21,8 @@ const carouselOptions = {
 const recommendationStyleScript = (props: RecommendationProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const tabletBp = variables?.breakpoints?.tablet as number;
+	const mobileBp = variables?.breakpoints?.mobile as number;
 
 	// spacing and position variables for features
 	let spacing = 0;

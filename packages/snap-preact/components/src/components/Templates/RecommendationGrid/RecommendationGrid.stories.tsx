@@ -148,7 +148,7 @@ const snapInstance = Snapify.recommendation({ id: 'RecommendationList', tag: 'tr
 
 export const List = (args: RecommendationGridProps, { loaded: { controller } }: { loaded: { controller: RecommendationController } }) => {
 	return (
-		<div style={{ maxWidth: '800px' }}>
+		<div style={{ maxWidth: '1200px' }}>
 			<RecommendationGrid {...args} controller={controller} results={controller?.store?.results} />
 		</div>
 	);
@@ -170,7 +170,7 @@ List.loaders = [
 
 export const Grid = (args: RecommendationGridProps, { loaded: { controller } }: { loaded: { controller: RecommendationController } }) => {
 	return (
-		<div style={{ maxWidth: args?.rows == 1 ? '1200px' : '800px' }}>
+		<div style={{ maxWidth: '1200px' }}>
 			<RecommendationGrid {...args} controller={controller} results={controller?.store?.results} />
 		</div>
 	);

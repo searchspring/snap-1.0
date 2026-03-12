@@ -16,8 +16,8 @@ const checkboxHeight = 16;
 const recommendationBundleStyleScript = (props: RecommendationBundleProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const tabletBp = variables?.breakpoints?.tablet as number;
+	const mobileBp = variables?.breakpoints?.mobile as number;
 	// bundle shared styles
 	const sharedStyles = css({
 		'.ss__recommendation-bundle__wrapper__cta': {

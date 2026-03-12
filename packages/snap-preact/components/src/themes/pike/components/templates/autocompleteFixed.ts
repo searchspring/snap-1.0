@@ -12,7 +12,7 @@ const searchInputHeight = 40;
 const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
+	const mobileBp = variables?.breakpoints?.mobile as number;
 
 	// autocomplete shared styles
 	const sharedStyles = css({

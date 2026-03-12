@@ -10,8 +10,8 @@ const dropdownButtonHeight = custom.sizes.height;
 const facetsHorizontalStyleScript = (props: FacetsHorizontalProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
-	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
+	const mobileBp = variables?.breakpoints?.mobile as number;
+	const tabletBp = variables?.breakpoints?.tablet as number;
 
 	// facets horizontal styles
 	const facetsHorizontalStyles = css({

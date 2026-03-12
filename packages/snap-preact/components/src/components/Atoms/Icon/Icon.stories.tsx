@@ -169,9 +169,38 @@ Custom.args = {
 
 export const CustomPath = (props: IconProps): JSX.Element => <Icon {...props} />;
 CustomPath.args = {
-	path: 'M12.9,13.8C12.9,13.8,12.9,13.8,12.9,13.8c-0.1,0.1-0.3,0.2-0.5,0.2C4.5,17.9,1.9,28.8,6.6,38.5l28.6-13.8 c0,0,0,0,0,0c0.2-0.1,0.3-0.1,0.5-0.2C43.5,20.6,46.2,9.7,41.5,0L12.9,13.8zM8.6,42.1C8.6,42.1,8.6,42.1,8.6,42.1c-0.1,0.1-0.3,0.1-0.5,0.2C0.3,46.1-2.4,57,2.3,66.7l28.6-13.8 c0,0,0,0,0,0c0.2-0.1,0.3-0.1,0.5-0.2c7.9-3.8,10.5-14.8,5.8-24.4L8.6,42.1z',
+	path: [
+		{
+			type: 'path',
+			attributes: {
+				d: 'M592.1,203.3c0,41.8-30.7,75.9-68.5,75.9h-151.9c-53.3,0-86.1-64.4-58.7-115.2l63.7-118.3c12.5-22.9,34.6-36.9,58.7-36.9h87.9c37.8,0,68.5,34.1,68.5,75.9l.3,118.6Z',
+				fill: '#1d4990',
+			},
+		},
+		{
+			type: 'path',
+			attributes: {
+				d: 'M592.1,516.1c0,41.8-30.7,75.9-68.5,75.9h-151.9c-53.3,0-86.1-64.4-58.7-115.2l63.7-118.3c12.5-22.9,34.6-36.9,58.7-36.9h87.9c37.8,0,68.5,34.1,68.5,75.9l.3,118.6Z',
+				fill: '#00aeef',
+			},
+		},
+		{
+			type: 'path',
+			attributes: {
+				d: 'M8.9,84.7C8.9,42.9,39.6,8.8,77.4,8.8h151.9c53.3,0,86.1,64.4,58.7,115.2l-63.7,118.3c-12.5,22.9-34.6,36.9-58.7,36.9h-87.9c-37.8,0-68.5-34.1-68.5-75.9l-.3-118.6Z',
+				fill: '#00aeef',
+			},
+		},
+		{
+			type: 'path',
+			attributes: {
+				d: 'M8.9,397.6c0-41.8,30.7-75.9,68.5-75.9h151.9c53.3,0,86.1,64.4,58.7,115.2l-63.7,118.3c-12.5,22.9-34.6,36.9-58.7,36.9h-87.9c-37.8,0-68.5-34.1-68.5-75.9l-.3-118.6Z',
+				fill: '#1d4990',
+			},
+		},
+	],
 	size: '70px',
-	viewBox: '0 0 70 70',
+	viewBox: '0 0 600 600',
 };
 
 export const Gallery = () => {
@@ -182,6 +211,7 @@ export const Gallery = () => {
 			style={{
 				display: 'flex',
 				flexWrap: 'wrap',
+				justifyContent: 'center',
 				gap: '40px',
 				margin: '1rem 2rem',
 				fontFamily:
@@ -193,8 +223,8 @@ export const Gallery = () => {
 				.filter((val) => !legacyPaths.includes(val))
 				.map((icon) => {
 					return (
-						<div style={{ flex: '0 1 auto', width: '40px', height: '40px', justifyContent: 'center' }}>
-							<Icon icon={icon as IconType} size="100%" style={{ flex: '0 0 100%' }} />
+						<div style={{ flex: '0 1 auto', width: '40px' }}>
+							<Icon icon={icon as IconType} size="100%" style={{ flex: '0 0 100%', height: '40px' }} />
 							<div style={{ textAlign: 'center' }}>{icon}</div>
 						</div>
 					);

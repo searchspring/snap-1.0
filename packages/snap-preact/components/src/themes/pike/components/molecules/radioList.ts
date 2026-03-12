@@ -10,8 +10,8 @@ const radioSpacing = custom.sizes.icon16 + custom.spacing.x2;
 const radioListStyleScript = (props: RadioListProps) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const variables = props?.theme?.variables;
-	const mobileBp = variables?.breakpoints?.mobile || custom.breakpoints.mobile;
-	const tabletBp = variables?.breakpoints?.tablet || custom.breakpoints.tablet;
+	const mobileBp = variables?.breakpoints?.mobile as number;
+	const tabletBp = variables?.breakpoints?.tablet as number;
 
 	// shared styles
 	const sharedStyles = css({
