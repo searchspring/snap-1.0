@@ -855,6 +855,8 @@ export type AutocompleteProps = {
 	lang?: Partial<AutocompleteLang>;
 	controller: AutocompleteController;
 	breakpoints?: BreakpointsProps;
+	resultComponent?: ResultComponent;
+	seeMoreButtonIcon?: IconType | Partial<IconProps> | boolean;
 } & AutocompleteTemplatesLegalProps &
 	ComponentProps<AutocompleteProps>;
 
@@ -878,7 +880,6 @@ export type AutocompleteTemplatesLegalProps = {
 	contentTitle?: string;
 	viewportMaxHeight?: boolean;
 	seeMoreButtonText?: string | ((controller: AutocompleteController) => string);
-	seeMoreButtonIcon?: IconType | Partial<IconProps> | boolean;
 	termsSlot?: JSX.Element | JSX.Element[];
 	facetsSlot?: JSX.Element | JSX.Element[];
 	contentSlot?: JSX.Element | JSX.Element[];
@@ -886,7 +887,6 @@ export type AutocompleteTemplatesLegalProps = {
 	noResultsSlot?: JSX.Element | JSX.Element[];
 	linkSlot?: JSX.Element | JSX.Element[];
 	width?: string;
-	resultComponent?: ResultComponent;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 	onTermClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 	templates?: {

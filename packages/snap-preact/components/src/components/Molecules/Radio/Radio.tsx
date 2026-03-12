@@ -186,17 +186,17 @@ interface RadioSubProps {
 
 export type RadioProps = {
 	lang?: Partial<RadioLang>;
+	checkedIcon?: IconType | Partial<IconProps>;
+	unCheckedIcon?: IconType | Partial<IconProps>;
+	color?: string;
+	size?: string;
 } & RadioTemplatesLegalProps &
 	ComponentProps<RadioProps>;
 
 export type RadioTemplatesLegalProps = {
 	checked?: boolean;
-	color?: string;
 	disabled?: boolean;
-	checkedIcon?: IconType | Partial<IconProps>;
-	unCheckedIcon?: IconType | Partial<IconProps>;
 	onClick?: (e: React.MouseEvent<HTMLInputElement | HTMLSpanElement, MouseEvent>) => void;
-	size?: string;
 	startChecked?: boolean;
 	native?: boolean;
 	disableA11y?: boolean;

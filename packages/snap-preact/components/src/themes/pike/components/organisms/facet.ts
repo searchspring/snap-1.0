@@ -149,18 +149,23 @@ export const facet: ThemeComponent<'facet', FacetProps, FacetTemplatesLegalProps
 	default: {
 		facet: {
 			themeStyleScript: facetStyleScript,
-			iconCollapse: custom.icons.arrowDown,
-			iconExpand: custom.icons.arrowDown,
-			iconOverflowMore: custom.icons.plus,
-			iconOverflowLess: custom.icons.minus,
-			color: custom.colors.secondary,
-			iconColor: custom.colors.primary,
+		},
+		'facet icon': {
+			color: custom.colors.primary,
 		},
 		'facet icon.collapse': {
+			icon: custom.icons.arrowDown,
 			size: `${custom.sizes.icon12}px`,
 		},
 		'facet icon.expand': {
+			icon: custom.icons.arrowDown,
 			size: `${custom.sizes.icon12}px`,
+		},
+		'facet icon.overflow-less': {
+			icon: custom.icons.minus,
+		},
+		'facet icon.overflow-more': {
+			icon: custom.icons.plus,
 		},
 		'facet button.reset-facet icon': {
 			size: `${custom.sizes.icon08}px`,

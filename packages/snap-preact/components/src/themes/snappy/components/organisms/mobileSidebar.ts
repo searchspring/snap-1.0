@@ -70,7 +70,9 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps, 
 				['facets', 'banner.left'],
 			],
 			hideOpenButtonText: true,
-			openButtonIcon: 'filters',
+		},
+		'mobileSidebar button.slideout icon': {
+			icon: 'filters',
 		},
 	},
 };

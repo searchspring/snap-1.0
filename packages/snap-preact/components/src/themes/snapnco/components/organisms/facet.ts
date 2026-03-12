@@ -73,12 +73,20 @@ export const facet: ThemeComponent<'facet', FacetProps, FacetTemplatesLegalProps
 	default: {
 		facet: {
 			themeStyleScript: facetStyleScript,
-			iconCollapse: 'angle-down',
-			iconExpand: 'angle-right',
-			iconOverflowMore: undefined,
-			iconOverflowLess: undefined,
 			showMoreText: 'View More',
 			showLessText: 'View Less',
+		},
+		'facet icon.collapse': {
+			icon: 'angle-down',
+		},
+		'facet icon.expand': {
+			icon: 'angle-right',
+		},
+		'facet icon.overflow-less': {
+			icon: false,
+		},
+		'facet icon.overflow-more': {
+			icon: false,
 		},
 	},
 };

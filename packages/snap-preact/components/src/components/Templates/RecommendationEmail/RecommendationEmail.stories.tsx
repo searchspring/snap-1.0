@@ -78,7 +78,6 @@ export default {
 			description: 'Additional props to pass to each result component',
 			type: { required: false },
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'Partial<ResultProps> | Record<string, any>',
 				},

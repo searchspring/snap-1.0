@@ -57,12 +57,12 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps, CheckboxTemplat
 	default: {
 		checkbox: {
 			themeStyleScript: checkboxStyleScript,
-			icon: custom.icons.check,
 			size: `${custom.sizes.icon16}px`,
-			color: custom.colors.primary,
 		},
 		'checkbox icon': {
+			icon: custom.icons.check,
 			width: `calc(50% + 1px)`,
+			fill: custom.colors.primary,
 			height: `calc(50% + 1px)`,
 		},
 	},

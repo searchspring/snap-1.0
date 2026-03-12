@@ -53,7 +53,6 @@ export default {
 		label: {
 			description: 'Header label text to render.',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

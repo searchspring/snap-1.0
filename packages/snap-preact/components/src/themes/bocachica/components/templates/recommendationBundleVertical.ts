@@ -48,8 +48,11 @@ export const recommendationBundleVertical: ThemeComponent<
 		recommendationBundleVertical: {
 			...(recommendationBundleVerticalThemeComponentProps.default?.['recommendationBundleVertical'] || {}),
 			limit: 3,
-			separatorIcon: 'plus-thin',
 			themeStyleScript: recommendationBundleVerticalStyleScript,
+		},
+
+		'recommendationBundleVertical icon.bundle-cart-separator': {
+			icon: 'plus-thin',
 		},
 	},
 	mobile: recommendationBundleVerticalThemeComponentProps.mobile,

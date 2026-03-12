@@ -155,11 +155,11 @@ export type PerPageProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
 	lang?: Partial<PerPageLang>;
+	label?: string;
 } & PerPageTemplatesLegalProps &
 	ComponentProps<PerPageProps>;
 
 export type PerPageTemplatesLegalProps = {
-	label?: string;
 	type?: 'dropdown' | 'list' | 'radio';
 };
 

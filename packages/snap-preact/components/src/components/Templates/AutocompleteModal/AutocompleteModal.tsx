@@ -223,12 +223,12 @@ interface AutocompleteModalSubProps {
 
 export type AutocompleteModalProps = {
 	controller: AutocompleteController;
+	overlayColor?: string;
 } & AutocompleteModalTemplatesLegalProps &
 	ComponentProps<AutocompleteModalProps>;
 
 export type AutocompleteModalTemplatesLegalProps = {
 	buttonSelector?: string | Element;
-	overlayColor?: string;
 	renderInput?: boolean;
 	height?: string;
 } & AutocompleteLayoutProps;

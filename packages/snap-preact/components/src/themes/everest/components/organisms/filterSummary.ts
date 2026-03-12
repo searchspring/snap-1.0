@@ -82,9 +82,10 @@ export const filterSummary: ThemeComponent<'filterSummary', FilterSummaryProps, 
 	default: {
 		filterSummary: {
 			themeStyleScript: filterSummaryStyleScript,
-			clearAllIcon: custom.icons.close,
-			filterIcon: custom.icons.close,
 			hideTitle: false,
+		},
+		'filterSummary filter icon': {
+			icon: custom.icons.close,
 		},
 	},
 };

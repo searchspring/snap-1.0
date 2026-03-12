@@ -58,7 +58,9 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps, 
 	default: {
 		mobileSidebar: {
 			themeStyleScript: mobileSidebarStyleScript,
-			openButtonIcon: 'filters',
+		},
+		'mobileSidebar button.slideout icon': {
+			icon: 'filters',
 		},
 	},
 	mobile: {

@@ -360,6 +360,9 @@ export type FacetsHorizontalProps = {
 	facets?: IndividualFacetType[];
 	lang?: Partial<FacetsHorizontalLang>;
 	controller?: SearchController | AutocompleteController;
+	clearAllIcon?: IconType | Partial<IconProps>;
+	iconCollapse?: IconType | Partial<IconProps>;
+	iconExpand?: IconType | Partial<IconProps>;
 } & FacetsHorizontalTemplatesLegalProps &
 	ComponentProps<FacetsHorizontalProps>;
 
@@ -368,13 +371,9 @@ export type FacetsHorizontalTemplatesLegalProps = {
 	hideSelectedCountParenthesis?: boolean;
 	clearAllText?: string;
 	showClearAllText?: boolean;
-	clearAllIcon?: IconType | Partial<IconProps>;
-
 	limit?: number;
 	alwaysShowFiltersButton?: boolean;
 	hideFiltersButton?: boolean;
-	iconCollapse?: IconType | Partial<IconProps>;
-	iconExpand?: IconType | Partial<IconProps>;
 	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 };
 

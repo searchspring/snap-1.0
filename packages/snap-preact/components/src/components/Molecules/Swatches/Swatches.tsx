@@ -257,6 +257,8 @@ export function Swatches(properties: SwatchesProps) {
 
 export type SwatchesProps = {
 	breakpoints?: BreakpointsProps;
+	grid?: Partial<GridProps>;
+	slideshow?: Partial<SlideshowProps>;
 } & SwatchesTemplatesLegalProps &
 	ComponentProps<SwatchesProps>;
 
@@ -266,8 +268,6 @@ export type SwatchesTemplatesLegalProps = {
 	selected?: SwatchOption;
 	hideLabels?: boolean;
 	disabled?: boolean;
-	slideshow?: Partial<SlideshowProps>;
-	grid?: Partial<GridProps>;
 	type?: 'slideshow' | 'grid';
 };
 

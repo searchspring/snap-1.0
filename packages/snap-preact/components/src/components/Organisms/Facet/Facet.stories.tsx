@@ -147,7 +147,6 @@ export default {
 		color: {
 			description: 'Select color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -157,7 +156,6 @@ export default {
 		iconColor: {
 			description: 'Select icon color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -212,7 +210,6 @@ export default {
 		clearAllIcon: {
 			description: 'Icon to show in the clear all link',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -238,7 +235,6 @@ export default {
 			defaultValue: 'angle-down',
 			description: 'Icon for when facet is collapsed',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -253,7 +249,6 @@ export default {
 			defaultValue: 'angle-up',
 			description: 'Icon for when facet is expanded',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -304,7 +299,6 @@ export default {
 			defaultValue: 'plus',
 			description: 'Icon for when facet can show more',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -319,7 +313,6 @@ export default {
 			defaultValue: 'minus',
 			description: 'Icon for when facet can show less',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -366,7 +359,6 @@ export default {
 			defaultValue: false,
 			description: 'Render facet options horizontally',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -377,7 +369,6 @@ export default {
 		previewOnFocus: {
 			description: 'Invoke facet value preview upon focus',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

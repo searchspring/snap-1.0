@@ -3,7 +3,12 @@ import { css, useTheme } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import {
+	RecommendationBundle,
+	RecommendationBundleLang,
+	RecommendationBundleProps,
+	RecommendationBundleTemplatesLegalProps,
+} from '../RecommendationBundle';
 import { Price, PriceProps } from '../../Atoms/Price';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps } from '../../Atoms/Icon';
@@ -133,19 +138,8 @@ export type RecommendationBundleListProps = {
 	ComponentProps<RecommendationBundleListProps>;
 
 export type RecommendationBundleListTemplatesLegalProps = Omit<
-	RecommendationBundleProps,
-	| 'controller'
-	| 'resultComponent'
-	| 'alias'
-	| 'lang'
-	| 'results'
-	| 'seedText'
-	| 'ctaInline'
-	| 'ctaIcon'
-	| 'vertical'
-	| 'slidesPerView'
-	| 'carousel'
-	| 'breakpoints'
+	RecommendationBundleTemplatesLegalProps,
+	'seedText' | 'ctaInline' | 'ctaIcon' | 'vertical' | 'carousel'
 >;
 
 interface RecommendationBundleListSubProps {

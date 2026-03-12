@@ -186,6 +186,7 @@ export type ResultsProps = {
 	controller?: SearchController | AutocompleteController | RecommendationController;
 	resultComponent?: ResultComponent | string;
 	results?: SearchResultStore;
+	layout?: keyof typeof ResultsLayout | ResultsLayout;
 } & ResultsTemplatesLegalProps &
 	ComponentProps<ResultsProps>;
 
@@ -193,7 +194,6 @@ export type ResultsTemplatesLegalProps = {
 	columns?: number;
 	rows?: number;
 	gapSize?: string;
-	layout?: keyof typeof ResultsLayout | ResultsLayout;
 };
 
 interface ResultsSubProps {

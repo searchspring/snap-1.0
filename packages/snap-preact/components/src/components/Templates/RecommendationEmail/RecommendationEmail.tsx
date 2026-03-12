@@ -102,11 +102,11 @@ export type RecommendationEmailProps = {
 	controller?: RecommendationController;
 	results?: Product[];
 	resultComponent?: ResultComponent<{ email: boolean }>;
+	resultProps?: Partial<ResultProps> | Record<string, any>;
 } & RecommendationEmailTemplatesLegalProps &
 	ComponentProps<RecommendationEmailProps>;
 
 export type RecommendationEmailTemplatesLegalProps = {
-	resultProps?: Partial<ResultProps> | Record<string, any>;
 	resultWidth?: string;
 };
 

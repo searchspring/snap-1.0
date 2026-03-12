@@ -65,7 +65,6 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.0)',
 			description: 'Autocomplete overlay color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

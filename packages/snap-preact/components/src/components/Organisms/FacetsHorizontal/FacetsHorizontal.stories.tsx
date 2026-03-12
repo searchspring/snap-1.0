@@ -133,7 +133,6 @@ export default {
 		clearAllIcon: {
 			description: 'Icon to show in the clear all link',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -148,7 +147,6 @@ export default {
 			defaultValue: 'angle-down',
 			description: 'Icon for when facet is collapsed',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -163,7 +161,6 @@ export default {
 			defaultValue: 'angle-up',
 			description: 'Icon for when facet is expanded',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

@@ -228,29 +228,28 @@ export type RecommendationProps = {
 	resultComponent?: ResultComponent;
 	lang?: Partial<RecommendationLang>;
 	breakpoints?: BreakpointsProps;
+	vertical?: boolean;
+	prevButton?: JSX.Element | string;
+	nextButton?: JSX.Element | string;
+	hideButtons?: boolean;
+	loop?: boolean;
+	pagination?: boolean;
+	results?: Product[];
+	children?: ComponentChildren;
+	slidesPerView?: number | 'auto';
 } & RecommendationTemplatesLegalProps &
+	Omit<SwiperOptions, 'breakpoints' | 'slidesPerView'> &
 	ComponentProps<RecommendationProps>;
 
 export type RecommendationTemplatesLegalProps = {
 	title?: JSX.Element | string;
 	description?: string;
 	hideTitle?: boolean;
-	prevButton?: JSX.Element | string;
-	nextButton?: JSX.Element | string;
-	hideButtons?: boolean;
-	loop?: boolean;
-	results?: Product[];
-	pagination?: boolean;
-	children?: ComponentChildren;
-	vertical?: boolean;
-	scrollbar?: boolean;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
-	slidesPerView?: number | 'auto';
-} & Omit<SwiperOptions, 'breakpoints' | 'slidesPerView'> &
-	ComponentProps;
+};
 
 export interface RecommendationLang {
 	titleText?: Lang<{

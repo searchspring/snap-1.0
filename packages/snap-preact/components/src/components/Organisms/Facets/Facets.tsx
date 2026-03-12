@@ -102,10 +102,10 @@ export type IndividualFacetType = ValueFacet | RangeFacet;
 export type FacetsProps = {
 	facets?: IndividualFacetType[];
 	controller?: SearchController | AutocompleteController;
+	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 } & FacetsTemplatesLegalProps &
 	ComponentProps<FacetsProps>;
 
 export type FacetsTemplatesLegalProps = {
 	limit?: number;
-	onFacetOptionClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
 };

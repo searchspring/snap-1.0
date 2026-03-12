@@ -83,6 +83,9 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		recommendation: {
 			...(recommendationThemeComponentProps.default?.['recommendation'] || {}),
 			themeStyleScript: recommendationStyleScript,
+		},
+
+		'recommendation carousel': {
 			spaceBetween: custom.spacing.x4,
 		},
 	},
@@ -90,6 +93,8 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		...recommendationThemeComponentProps.mobile,
 		recommendation: {
 			...(recommendationThemeComponentProps.mobile?.['recommendation'] || {}),
+		},
+		'recommendation carousel': {
 			spaceBetween: custom.spacing.x2,
 		},
 		'recommendation icon.prev': {
@@ -103,6 +108,8 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		...recommendationThemeComponentProps.tablet,
 		recommendation: {
 			...(recommendationThemeComponentProps.tablet?.['recommendation'] || {}),
+		},
+		'recommendation carousel': {
 			spaceBetween: custom.spacing.x4,
 		},
 		'recommendation icon.prev': {
@@ -116,6 +123,8 @@ export const recommendation: ThemeComponent<'recommendation', RecommendationProp
 		...recommendationThemeComponentProps.desktop,
 		recommendation: {
 			...(recommendationThemeComponentProps.desktop?.['recommendation'] || {}),
+		},
+		'recommendation carousel': {
 			spaceBetween: custom.spacing.x4,
 		},
 	},

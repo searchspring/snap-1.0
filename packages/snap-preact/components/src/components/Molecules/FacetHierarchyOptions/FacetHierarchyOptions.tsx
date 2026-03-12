@@ -208,6 +208,7 @@ export type FacetHierarchyOptionsProps = {
 	values?: FacetHierarchyValue[];
 	lang?: Partial<FacetHierarchyOptionsLang>;
 	facet?: ValueFacet;
+	returnIcon?: IconType | Partial<IconProps>;
 } & FacetHierarchyOptionsTemplatesLegalProps &
 	ComponentProps<FacetHierarchyOptionsProps>;
 
@@ -217,7 +218,6 @@ export type FacetHierarchyOptionsTemplatesLegalProps = {
 	onClick?: (e: React.MouseEvent) => void;
 	previewOnFocus?: boolean;
 	valueProps?: any;
-	returnIcon?: IconType | Partial<IconProps>;
 };
 
 export interface FacetHierarchyOptionsLang {

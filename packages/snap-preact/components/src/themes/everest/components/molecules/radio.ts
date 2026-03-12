@@ -71,7 +71,6 @@ export const radio: ThemeComponent<'radio', RadioProps, RadioTemplatesLegalProps
 	default: {
 		radio: {
 			themeStyleScript: radioStyleScript,
-			size: `${custom.sizes.icon14}px`,
 		},
 		'radio icon': {
 			icon: 'square',

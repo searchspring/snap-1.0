@@ -134,9 +134,11 @@ export const recommendationBundleVertical: ThemeComponent<
 			themeStyleScript: recommendationBundleVerticalStyleScript,
 			ctaButtonText: 'Add Selected',
 			ctaButtonSuccessText: 'Added!',
-			separatorIcon: false,
 			separatorIconSeedOnly: false,
 			limit: 8,
+		},
+		'recommendationBundleVertical icon.bundle-cart-separator': {
+			icon: false,
 		},
 		'recommendationBundleVertical checkbox icon': {
 			color: custom.colors.primary,

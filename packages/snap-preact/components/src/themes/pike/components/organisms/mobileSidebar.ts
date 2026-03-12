@@ -134,10 +134,12 @@ export const mobileSidebar: ThemeComponent<'mobileSidebar', MobileSidebarProps, 
 	default: {
 		mobileSidebar: {
 			themeStyleScript: mobileSidebarStyleScript,
-			openButtonIcon: custom.icons.filter,
-			closeButtonIcon: custom.icons.close,
+		},
+		'mobileSidebar button.slideout icon': {
+			icon: custom.icons.filter,
 		},
 		'mobileSidebar button.close icon': {
+			icon: custom.icons.close,
 			size: `${custom.sizes.icon16}px`,
 		},
 		'mobileSidebar facets icon.collapse': {

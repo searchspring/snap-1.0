@@ -160,7 +160,11 @@ export const Slideout = observer((properties: SlideoutProps) => {
 	) : null;
 });
 
-export type SlideoutProps = SlideoutTemplatesLegalProps & ComponentProps<SlideoutProps>;
+export type SlideoutProps = {
+	overlayColor?: string;
+	transitionSpeed?: string;
+} & SlideoutTemplatesLegalProps &
+	ComponentProps<SlideoutProps>;
 export type SlideoutTemplatesLegalProps = {
 	buttonContent?: string | JSX.Element;
 	children?: ComponentChildren;
@@ -168,8 +172,6 @@ export type SlideoutTemplatesLegalProps = {
 	noButtonWrapper?: boolean;
 	width?: string;
 	displayAt?: string;
-	transitionSpeed?: string;
-	overlayColor?: string;
 	slideDirection?: SlideDirectionType;
 	rerender?: boolean;
 	buttonSelector?: string | Element;

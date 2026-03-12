@@ -53,7 +53,6 @@ export default {
 			description: 'specifies a CSS media query for when the component will render. By default, the component will always render',
 			defaultValue: '10000px',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -77,7 +76,6 @@ export default {
 			type: { required: false },
 			defaultValue: 'Click to open filters',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -88,7 +86,6 @@ export default {
 		openButtonIcon: {
 			description: 'Icon to render in the open sidebar button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -173,7 +170,6 @@ export default {
 		closeButtonIcon: {
 			description: 'Icon to render in the close sidebar button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -188,7 +184,6 @@ export default {
 			description: 'Text to render in the close sidebar button',
 			type: { required: false },
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -219,7 +214,6 @@ export default {
 			description: 'Text to render in the apply facets button',
 			type: { required: false },
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -230,7 +224,6 @@ export default {
 		applyButtonIcon: {
 			description: 'Icon to render in the apply facets button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -254,7 +247,6 @@ export default {
 			description: 'Text to render in the clear all facets button',
 			type: { required: false },
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -265,7 +257,6 @@ export default {
 		clearButtonIcon: {
 			description: 'Icon to render in the clear filters button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

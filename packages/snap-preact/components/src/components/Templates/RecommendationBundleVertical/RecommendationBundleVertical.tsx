@@ -4,7 +4,12 @@ import { observer } from 'mobx-react-lite';
 
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
-import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import {
+	RecommendationBundle,
+	RecommendationBundleLang,
+	RecommendationBundleProps,
+	RecommendationBundleTemplatesLegalProps,
+} from '../RecommendationBundle';
 import { Product } from '@athoscommerce/snap-store-mobx';
 import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
 import { Theme } from '../../../providers';
@@ -73,10 +78,7 @@ export type RecommendationBundleVerticalProps = {
 } & RecommendationBundleVerticalTemplatesLegalProps &
 	ComponentProps<RecommendationBundleVerticalProps>;
 
-export type RecommendationBundleVerticalTemplatesLegalProps = Omit<
-	RecommendationBundleProps,
-	'controller' | 'resultComponent' | 'alias' | 'lang' | 'results' | 'vertical' | 'ctaInline' | 'carousel' | 'slidesPerView'
->;
+export type RecommendationBundleVerticalTemplatesLegalProps = Omit<RecommendationBundleTemplatesLegalProps, 'vertical' | 'ctaInline' | 'carousel'>;
 
 interface RecommendationBundleVerticalSubProps {
 	recommendationBundle: Partial<RecommendationBundleProps>;

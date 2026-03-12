@@ -47,7 +47,6 @@ export default {
 		fallbackImage: {
 			description: 'Specifies a default image URL to display when an image fails to load',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

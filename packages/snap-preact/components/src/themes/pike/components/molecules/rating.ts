@@ -40,10 +40,9 @@ export const rating: ThemeComponent<'rating', RatingProps, RatingTemplatesLegalP
 	default: {
 		rating: {
 			themeStyleScript: ratingStyleScript,
-			emptyIcon: 'star',
-			fullIcon: 'star',
 		},
 		'rating icon': {
+			icon: 'star',
 			size: `${custom.sizes.icon14}px`,
 		},
 		'rating icon.star--empty': {

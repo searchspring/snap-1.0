@@ -68,7 +68,6 @@ export default {
 			defaultValue: 'check-thin',
 			description: 'Icon name',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -82,7 +81,6 @@ export default {
 		color: {
 			description: 'Checkbox color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -93,7 +91,6 @@ export default {
 		iconColor: {
 			description: 'Checkbox icon color. Overwrites color.',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

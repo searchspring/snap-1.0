@@ -814,12 +814,12 @@ export interface SlideshowSlide {
 
 export type SlideshowProps = {
 	lang?: Partial<SlideshowLang>;
+	fallbackImage?: string;
 } & SlideshowTemplatesLegalProps &
 	ComponentProps<SlideshowProps>;
 
 export type SlideshowTemplatesLegalProps = {
 	slides: (string | SlideshowSlide)[];
-	fallbackImage?: string;
 	autoPlay?: boolean;
 	autoPlayInterval?: number;
 	showNavigation?: boolean;

@@ -22,9 +22,11 @@ export const filterSummary: ThemeComponent<'filterSummary', FilterSummaryProps, 
 	default: {
 		filterSummary: {
 			themeStyleScript: filterSummaryStyleScript,
-			hideFacetLabel: true,
 			hideClearAll: true,
 			hideTitle: true,
+		},
+		'filterSummary filter': {
+			hideFacetLabel: true,
 		},
 	},
 };

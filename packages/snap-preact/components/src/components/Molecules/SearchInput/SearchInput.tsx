@@ -242,14 +242,14 @@ export type SearchInputProps = {
 	lang?: Partial<SearchInputLang>;
 	inputRef?: MutableRef<HTMLInputElement | null>;
 	value?: string;
+	submitSearchButton?: Buttons;
+	clearSearchButton?: Buttons;
+	closeSearchButton?: Buttons;
 } & SearchInputTemplatesLegalProps &
 	ComponentProps<SearchInputProps>;
 
 export type SearchInputTemplatesLegalProps = {
 	placeholderText?: string;
-	submitSearchButton?: Buttons;
-	clearSearchButton?: Buttons;
-	closeSearchButton?: Buttons;
 	inputName?: string;
 	disabled?: boolean;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;

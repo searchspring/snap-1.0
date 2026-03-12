@@ -205,7 +205,6 @@ export default {
 			defaultValue: 'plus',
 			description: 'Icon to render between results',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -230,7 +229,6 @@ export default {
 		ctaIcon: {
 			desciption: 'The `ctaIcon` prop specifies the icon to render in the CTA. Takes an object with `Icon` component props or a string.',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

@@ -56,7 +56,6 @@ export default {
 			defaultValue: '20px',
 			description: 'Radio size',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -67,7 +66,6 @@ export default {
 		checkedIcon: {
 			description: 'Icon name when radio is checked',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -81,7 +79,6 @@ export default {
 		unCheckedIcon: {
 			description: 'Icon name when radio is unchecked',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -95,7 +92,6 @@ export default {
 		color: {
 			description: 'Radio color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

@@ -89,9 +89,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		'autocompleteModal terms': {
 			vertical: true,
 		},
-		'autocompleteModal termsList': {
-			verticalOptions: true,
-		},
 		'autocompleteModal facets': {
 			limit: 3,
 		},
@@ -143,9 +140,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		'autocompleteModal terms': {
 			vertical: false,
 		},
-		'autocompleteModal termsList': {
-			verticalOptions: false,
-		},
 		'autocompleteModal results': {
 			rows: 1,
 			columns: 3,
@@ -163,9 +157,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		},
 		'autocompleteModal terms': {
 			vertical: false,
-		},
-		'autocompleteModal termsList': {
-			verticalOptions: false,
 		},
 		'autocompleteModal facet': {
 			display: {
@@ -200,9 +191,6 @@ export const autocompleteModal: ThemeComponent<'autocompleteModal', Autocomplete
 		},
 		'autocompleteModal terms': {
 			vertical: false,
-		},
-		'autocompleteModal termsList': {
-			verticalOptions: false,
 		},
 		'autocompleteModal results': {
 			rows: 2,

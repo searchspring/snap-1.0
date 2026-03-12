@@ -97,7 +97,6 @@ export default {
 			defaultValue: 'close-thin',
 			description: 'Icon name',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

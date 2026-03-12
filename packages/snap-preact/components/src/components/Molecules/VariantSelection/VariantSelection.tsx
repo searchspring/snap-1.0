@@ -250,10 +250,10 @@ interface VariantSelectionSubProps {
 
 export type VariantSelectionProps = {
 	selection: VariantSelectionType;
+	onSelect?: (e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption) => void;
 } & VariantSelectionTemplatesLegalProps &
 	ComponentProps<VariantSelectionProps>;
 
 export type VariantSelectionTemplatesLegalProps = {
 	type?: 'dropdown' | 'swatches' | 'list';
-	onSelect?: (e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption) => void;
 };

@@ -57,7 +57,6 @@ export default {
 		layout: {
 			description: 'Results layout',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

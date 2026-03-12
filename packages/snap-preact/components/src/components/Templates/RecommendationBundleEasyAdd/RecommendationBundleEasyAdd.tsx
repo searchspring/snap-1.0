@@ -4,7 +4,12 @@ import { observer } from 'mobx-react-lite';
 
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, ResultComponent, StyleScript } from '../../../types';
-import { RecommendationBundle, RecommendationBundleLang, RecommendationBundleProps } from '../RecommendationBundle';
+import {
+	RecommendationBundle,
+	RecommendationBundleLang,
+	RecommendationBundleProps,
+	RecommendationBundleTemplatesLegalProps,
+} from '../RecommendationBundle';
 import { Product } from '@athoscommerce/snap-store-mobx';
 import { AbstractController, RecommendationController } from '@athoscommerce/snap-controller';
 import { Theme } from '../../../providers';
@@ -77,20 +82,8 @@ export type RecommendationBundleEasyAddProps = {
 	ComponentProps<RecommendationBundleEasyAddProps>;
 
 export type RecommendationBundleEasyAddTemplatesLegalProps = Omit<
-	RecommendationBundleProps,
-	| 'controller'
-	| 'resultComponent'
-	| 'alias'
-	| 'lang'
-	| 'results'
-	| 'hideSeed'
-	| 'limit'
-	| 'hideCheckboxes'
-	| 'carousel'
-	| 'separatorIcon'
-	| 'separatorIconSeedOnly'
-	| 'preselectedCount'
-	| 'breakpoints'
+	RecommendationBundleTemplatesLegalProps,
+	'hideSeed' | 'limit' | 'hideCheckboxes' | 'carousel' | 'separatorIconSeedOnly' | 'preselectedCount'
 >;
 
 interface RecommendationBundleEasyAddSubProps {

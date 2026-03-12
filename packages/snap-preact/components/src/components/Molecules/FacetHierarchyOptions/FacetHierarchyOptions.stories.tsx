@@ -57,7 +57,6 @@ export default {
 		returnIcon: {
 			description: 'return Icon name',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

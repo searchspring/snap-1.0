@@ -47,9 +47,9 @@ export const filter: ThemeComponent<'filter', FilterProps, FilterTemplatesLegalP
 	default: {
 		filter: {
 			themeStyleScript: filterStyleScript,
-			icon: custom.icons.close,
 		},
 		'filter icon': {
+			icon: custom.icons.close,
 			size: `${custom.sizes.icon10}px`,
 		},
 	},

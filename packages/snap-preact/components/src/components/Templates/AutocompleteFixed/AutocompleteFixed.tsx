@@ -269,12 +269,12 @@ interface AutocompleteFixedSubProps {
 
 export type AutocompleteFixedProps = {
 	controller: AutocompleteController;
+	overlayColor?: string;
 } & AutocompleteFixedTemplatesLegalProps &
 	ComponentProps<AutocompleteFixedProps>;
 
 export type AutocompleteFixedTemplatesLegalProps = {
 	buttonSelector?: string | Element;
-	overlayColor?: string;
 	renderInput?: boolean;
 	offset?: Partial<Omit<inputBounds, 'height'>>;
 } & AutocompleteLayoutProps;

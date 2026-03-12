@@ -67,7 +67,6 @@ export default {
 		onSelect: {
 			description: 'onSelect callback',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: React.MouseEvent<HTMLElement, MouseEvent>, option: ListOption)',
 				},

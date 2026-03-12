@@ -166,6 +166,7 @@ export type LayoutSelectorProps = {
 	lang?: Partial<LayoutSelectorLang>;
 	options?: ListOption[];
 	selected?: ListOption;
+	hideOptionLabels?: boolean;
 } & LayoutSelectorTemplatesLegalProps &
 	ComponentProps<LayoutSelectorProps>;
 
@@ -173,7 +174,6 @@ export type LayoutSelectorTemplatesLegalProps = {
 	onSelect?: (e: React.MouseEvent<HTMLElement> | React.ChangeEvent<HTMLElement>, option?: ListOption) => void;
 	label?: string;
 	hideLabel?: boolean;
-	hideOptionLabels?: boolean;
 	type?: 'dropdown' | 'list' | 'radio';
 	showSingleOption?: boolean;
 };

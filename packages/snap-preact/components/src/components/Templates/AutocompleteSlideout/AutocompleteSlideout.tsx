@@ -193,12 +193,12 @@ interface AutocompleteSlideoutSubProps {
 
 export type AutocompleteSlideoutProps = {
 	controller: AutocompleteController;
+	overlayColor?: string;
+	slideDirection?: SlideDirectionType;
 } & AutocompleteSlideoutTemplatesLegalProps &
 	ComponentProps<AutocompleteSlideoutProps>;
 
 export type AutocompleteSlideoutTemplatesLegalProps = {
-	overlayColor?: string;
-	slideDirection?: SlideDirectionType;
 	buttonSelector?: string | Element;
 	renderInput?: boolean;
 } & AutocompleteLayoutProps;

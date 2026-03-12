@@ -100,7 +100,6 @@ export default {
 		submitSearchButton: {
 			description: 'Button component props for submit search button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: `{ icon: 'search-thin' }`,
 				},
@@ -110,7 +109,6 @@ export default {
 		clearSearchButton: {
 			description: 'Button component props for clear search button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: `{ icon: 'close-thin' }`,
 				},
@@ -120,7 +118,6 @@ export default {
 		closeSearchButton: {
 			description: 'Button component props for close search button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: `{}`,
 				},

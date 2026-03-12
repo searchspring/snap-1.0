@@ -133,10 +133,12 @@ export const select: ThemeComponent<'select', SelectProps, SelectTemplatesLegalP
 	default: {
 		select: {
 			themeStyleScript: selectStyleScript,
-			iconOpen: custom.icons.arrowDown,
-			iconClose: custom.icons.arrowDown,
+		},
+		'select icon.close': {
+			icon: custom.icons.arrowDown,
 		},
 		'select icon.open': {
+			icon: custom.icons.arrowDown,
 			size: `${custom.sizes.icon12}px`,
 		},
 		'select dropdown button': {

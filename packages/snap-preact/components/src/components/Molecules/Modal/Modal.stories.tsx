@@ -53,7 +53,6 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.8)',
 			description: 'Modal overlay color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -64,7 +63,6 @@ export default {
 		onOverlayClick: {
 			description: 'Function to call when the overlay is clicked',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'function(e: Event)',
 				},

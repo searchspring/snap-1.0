@@ -343,6 +343,9 @@ export type ResultProps = {
 	controller?: SearchController | AutocompleteController | RecommendationController;
 	lang?: Partial<ResultLang>;
 	trackingRef?: MutableRef<HTMLElement | null>;
+	onAddToCartClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, result: Product) => void;
+	addToCartButtonText?: string;
+	addToCartButtonSuccessText?: string;
 } & ResultTemplatesLegalProps &
 	ComponentProps<ResultProps>;
 
@@ -354,9 +357,6 @@ export type ResultTemplatesLegalProps = {
 	hideRating?: boolean;
 	hideVariantSelections?: boolean;
 	hideAddToCartButton?: boolean;
-	addToCartButtonText?: string;
-	onAddToCartClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>, result: Product) => void;
-	addToCartButtonSuccessText?: string;
 	addToCartButtonSuccessTimeout?: number;
 	detailSlot?: JSX.Element | JSX.Element[];
 	fallback?: string;

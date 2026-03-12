@@ -94,7 +94,6 @@ export default {
 		verticalOptions: {
 			description: 'boolean to specify if the terms should be displayed vertically',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

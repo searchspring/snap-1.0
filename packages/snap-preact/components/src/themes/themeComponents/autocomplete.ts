@@ -5,7 +5,6 @@ export const autocompleteThemeComponentProps: ThemeComponent<'autocomplete', Aut
 	default: {
 		'autocomplete facet': {
 			// valueProps,
-			previewOnFocus: true,
 			limit: 6,
 			disableOverflow: true,
 			disableCollapse: true,
@@ -17,20 +16,24 @@ export const autocompleteThemeComponentProps: ThemeComponent<'autocomplete', Aut
 		'autocomplete facetGridOptions': {
 			// onClick: facetClickEvent,
 			columns: 3,
+			previewOnFocus: true,
 		},
 		'autocomplete facetHierarchyOptions': {
 			// onClick: facetClickEvent,
 			hideCount: true,
+			previewOnFocus: true,
 		},
 		'autocomplete facetListOptions': {
 			// onClick: facetClickEvent,
 			hideCheckbox: true,
 			hideCount: true,
+			previewOnFocus: true,
 		},
 		'autocomplete facetPaletteOptions': {
 			// onClick: facetClickEvent,
 			hideLabel: true,
 			columns: 3,
+			previewOnFocus: true,
 		},
 		'autocomplete result': {
 			hideBadge: true,
@@ -51,10 +54,8 @@ export const autocompleteThemeComponentProps: ThemeComponent<'autocomplete', Aut
 			columns: 2,
 			rows: 1,
 		},
-		'autocomplete searchInput': {
-			closeSearchButton: {
-				icon: 'angle-left',
-			},
+		'autocomplete searchInput button.close-search icon': {
+			icon: 'angle-left',
 		},
 	},
 	tablet: {

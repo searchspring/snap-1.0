@@ -78,7 +78,6 @@ export default {
 		hideFacetLabel: {
 			description: 'Hide filter facet label',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -90,7 +89,6 @@ export default {
 			defaultValue: ':',
 			description: 'Filter delimiter',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -112,7 +110,6 @@ export default {
 			defaultValue: 'Clear All',
 			description: 'Text to show on clear all filters',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -124,7 +121,6 @@ export default {
 			defaultValue: 'close-thin',
 			description: 'Icon name',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -139,7 +135,6 @@ export default {
 			defaultValue: 'close-thin',
 			description: 'Icon name',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -153,7 +148,6 @@ export default {
 		onClick: {
 			description: 'Filter click event handler',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},
@@ -179,7 +173,6 @@ export default {
 		onClearAllClick: {
 			description: 'Filter clear click event handler',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

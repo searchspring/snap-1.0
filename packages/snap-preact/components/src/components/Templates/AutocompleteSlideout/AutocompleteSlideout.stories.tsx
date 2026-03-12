@@ -65,7 +65,6 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.0)',
 			description: 'Slideout overlay color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -77,7 +76,6 @@ export default {
 			defaultValue: 'left',
 			description: 'Slideout slide direction',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

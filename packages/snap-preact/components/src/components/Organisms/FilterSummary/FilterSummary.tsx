@@ -187,6 +187,13 @@ export type FilterSummaryProps = {
 	filters?: FilterType[];
 	controller?: SearchController | AutocompleteController;
 	lang?: Partial<FilterSummaryLang>;
+	filterIcon?: IconType | Partial<IconProps>;
+	clearAllIcon?: IconType | Partial<IconProps>;
+	separator?: string;
+	hideFacetLabel?: boolean;
+	clearAllLabel?: string;
+	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, filterFilter: FilterType) => void;
+	onClearAllClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 } & FilterSummaryTemplatesLegalProps &
 	ComponentProps<FilterSummaryProps>;
 
@@ -194,14 +201,7 @@ export type FilterSummaryTemplatesLegalProps = {
 	type?: 'inline' | 'list';
 	title?: string;
 	hideTitle?: boolean;
-	filterIcon?: IconType | Partial<IconProps>;
-	clearAllIcon?: IconType | Partial<IconProps>;
-	separator?: string;
-	hideFacetLabel?: boolean;
-	clearAllLabel?: string;
 	hideClearAll?: boolean;
-	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, filterFilter: FilterType) => void;
-	onClearAllClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
 export interface FilterSummaryLang {

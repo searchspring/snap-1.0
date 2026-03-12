@@ -94,7 +94,6 @@ export default {
 			defaultValue: true,
 			description: 'Recommendation pagination loops',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -106,7 +105,6 @@ export default {
 			description: 'Results store reference, overrides controller.store.results',
 			type: { required: false },
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'Results store object',
 				},
@@ -135,7 +133,6 @@ export default {
 			defaultValue: false,
 			description: 'Display pagination dots',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -159,7 +156,6 @@ export default {
 			defaultValue: false,
 			description: 'Hide prev/next buttons',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -170,7 +166,6 @@ export default {
 		prevButton: {
 			description: 'Previous button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},
@@ -180,7 +175,6 @@ export default {
 		nextButton: {
 			description: 'Next button',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string | JSX Element',
 				},

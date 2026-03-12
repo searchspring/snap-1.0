@@ -53,6 +53,7 @@ export const searchCollapsibleThemeComponentProps: ThemeComponent<'searchCollaps
 				hideLabel: true,
 				hideOptionLabels: true,
 			},
+
 			'searchCollapsible toolbar.middle': {
 				layout: [],
 			},

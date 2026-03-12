@@ -73,7 +73,6 @@ export default {
 		onFacetOptionClick: {
 			description: 'Callback function for when a facet option is clicked',
 			table: {
-				category: 'Templates Legal',
 				type: { summary: 'function' },
 			},
 			control: { type: 'none' },

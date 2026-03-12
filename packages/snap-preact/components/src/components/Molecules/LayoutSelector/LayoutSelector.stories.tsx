@@ -90,7 +90,6 @@ export default {
 			defaultValue: false,
 			description: 'hide option labels',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

@@ -134,7 +134,6 @@ export default {
 		addToCartButtonText: {
 			description: 'add to cart button text',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -144,7 +143,6 @@ export default {
 		addToCartButtonSuccessText: {
 			description: 'add to cart button text to show after adding to cart',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -164,7 +162,6 @@ export default {
 		onAddToCartClick: {
 			description: 'function to run on add to cart button click',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'function',
 				},

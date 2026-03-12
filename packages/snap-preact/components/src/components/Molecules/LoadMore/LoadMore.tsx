@@ -238,6 +238,7 @@ export type LoadMoreProps = {
 	pagination?: SearchPaginationStore;
 	controller?: SearchController;
 	lang?: Partial<LoadMoreLang>;
+	loadingIcon?: IconType | Partial<IconProps>;
 } & LoadMoreTemplatesLegalProps &
 	ComponentProps<LoadMoreProps>;
 
@@ -252,7 +253,6 @@ export type LoadMoreTemplatesLegalProps = {
 	progressIndicatorSize?: string;
 	hideProgressIndicator?: boolean;
 	hideProgressText?: boolean;
-	loadingIcon?: IconType | Partial<IconProps>;
 	loadingLocation?: 'button' | 'outside';
 	onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 };

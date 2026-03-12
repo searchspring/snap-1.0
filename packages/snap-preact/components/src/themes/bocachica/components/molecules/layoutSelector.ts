@@ -35,6 +35,14 @@ export const layoutSelector: ThemeComponent<'layoutSelector', LayoutSelectorProp
 			themeStyleScript: layoutSelectorStyleScript,
 			type: 'list',
 			hideLabel: true,
+		},
+		'layoutSelector select': {
+			hideOptionLabels: true,
+		},
+		'layoutSelector radioList': {
+			hideOptionLabels: true,
+		},
+		'layoutSelector list': {
 			hideOptionLabels: true,
 		},
 	},

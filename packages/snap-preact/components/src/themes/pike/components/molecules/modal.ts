@@ -22,7 +22,10 @@ export const modal: ThemeComponent<'modal', ModalProps, ModalTemplatesLegalProps
 	default: {
 		modal: {
 			themeStyleScript: modalStyleScript,
-			overlayColor: custom.colors.overlay,
+		},
+
+		'modal overlay': {
+			color: custom.colors.overlay,
 		},
 	},
 };

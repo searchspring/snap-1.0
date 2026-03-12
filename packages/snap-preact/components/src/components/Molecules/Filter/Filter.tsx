@@ -128,6 +128,7 @@ export type FilterProps = {
 	lang?: Partial<FilterLang>;
 	filter?: FilterType;
 	url?: UrlManager;
+	icon?: IconType | Partial<IconProps>;
 } & FilterTemplatesLegalProps &
 	ComponentProps<FilterProps>;
 
@@ -136,7 +137,6 @@ export type FilterTemplatesLegalProps = {
 	valueLabel?: string;
 	hideFacetLabel?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-	icon?: IconType | Partial<IconProps>;
 	separator?: string;
 };
 

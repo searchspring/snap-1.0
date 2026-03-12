@@ -160,16 +160,50 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 	default: {
 		facetsHorizontal: {
 			themeStyleScript: facetsHorizontalStyleScript,
-			iconExpand: custom.icons.arrowDown,
-			iconCollapse: custom.icons.arrowDown,
 			alwaysShowFiltersButton: true,
+		},
+		'facetsHorizontal icon.expand': {
+			icon: custom.icons.arrowDown,
+		},
+		'facetsHorizontal icon.collapse': {
+			icon: custom.icons.arrowDown,
 		},
 		'facetsHorizontal button.reset-facet icon': {
 			size: `${custom.sizes.icon08}px`,
 		},
+		'facetsHorizontal facetHierarchyOptions': {
+			horizontal: true,
+		},
+		'facetsHorizontal facetListOptions': {
+			horizontal: true,
+			hideCheckbox: false,
+		},
+		'facetsHorizontal facetGridOptions': {
+			horizontal: true,
+			gridSize: '48px',
+		},
+		'facetsHorizontal facetPaletteOptions': {
+			horizontal: true,
+			gridSize: '48px',
+		},
+
+		'facetsHorizontal mobileSidebar facetHierarchyOptions': {
+			horizontal: false,
+		},
+		'facetsHorizontal mobileSidebar facetListOptions': {
+			horizontal: false,
+		},
+		'facetsHorizontal mobileSidebar facetGridOptions': {
+			horizontal: false,
+			gridSize: '52px',
+		},
+		'facetsHorizontal mobileSidebar facetPaletteOptions': {
+			horizontal: false,
+			gridSize: '52px',
+		},
+
 		'facetsHorizontal dropdown facet': {
 			statefulOverflow: true,
-			horizontal: true,
 			display: {
 				list: {
 					limit: 32,
@@ -187,7 +221,6 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 		},
 		'facetsHorizontal mobileSidebar facet': {
 			statefulOverflow: true,
-			horizontal: false,
 			display: {
 				list: {
 					limit: 10,
@@ -202,21 +235,6 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 					limit: 12,
 				},
 			},
-		},
-		'facetsHorizontal facetListOptions': {
-			hideCheckbox: false,
-		},
-		'facetsHorizontal facetGridOptions': {
-			gridSize: '48px',
-		},
-		'facetsHorizontal mobileSidebar facetGridOptions': {
-			gridSize: '52px',
-		},
-		'facetsHorizontal facetPaletteOptions': {
-			gridSize: '48px',
-		},
-		'facetsHorizontal mobileSidebar facetPaletteOptions': {
-			gridSize: '52px',
 		},
 	},
 };

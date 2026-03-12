@@ -74,8 +74,14 @@ export const select: ThemeComponent<'select', SelectProps, SelectTemplatesLegalP
 	default: {
 		select: {
 			themeStyleScript: selectStyleScript,
-			iconClose: 'angle-down',
-			iconOpen: 'angle-down',
+		},
+
+		'select icon.close': {
+			icon: 'angle-down',
+		},
+
+		'select icon.open': {
+			icon: 'angle-down',
 		},
 	},
 };

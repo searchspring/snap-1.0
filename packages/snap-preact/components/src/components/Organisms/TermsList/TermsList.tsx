@@ -176,6 +176,7 @@ export type TermsListModuleNames = 'Trending' | 'Suggestions' | 'History' | '_';
 
 export type TermsListProps = {
 	controller: AutocompleteController;
+	verticalOptions?: boolean;
 } & TermsListTemplatesLegalProps &
 	ComponentProps<TermsListProps>;
 
@@ -186,5 +187,4 @@ export type TermsListTemplatesLegalProps = {
 	trendingTitle?: string;
 	retainHistory?: boolean;
 	retainTrending?: boolean;
-	verticalOptions?: boolean;
 };

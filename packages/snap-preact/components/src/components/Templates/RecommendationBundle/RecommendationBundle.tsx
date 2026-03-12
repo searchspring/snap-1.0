@@ -314,7 +314,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 
 	const hasSeed = Boolean(resultsToRender.filter((result) => result.bundleSeed == true).length);
 
-	let slidesPerView = props.carousel?.slidesPerView || props.slidesPerView;
+	let slidesPerView = props.carousel?.slidesPerView;
 	if (!slidesPerView) {
 		slidesPerView = 2;
 	} else if (resultsToRender.length < Number(slidesPerView)) {
@@ -690,6 +690,8 @@ export type RecommendationBundleProps = {
 	alias?: string;
 	lang?: Partial<RecommendationBundleLang>;
 	results?: Product[];
+	separatorIcon?: IconType | Partial<IconProps> | false;
+	ctaIcon?: IconType | Partial<IconProps> | false;
 } & RecommendationBundleTemplatesLegalProps &
 	ComponentProps<RecommendationBundleProps>;
 
@@ -703,21 +705,19 @@ export type RecommendationBundleTemplatesLegalProps = {
 	seedText?: string;
 	hideSeedText?: boolean;
 	separatorIconSeedOnly?: boolean;
-	separatorIcon?: IconType | Partial<IconProps> | false;
 	ctaInline?: boolean;
 	description?: JSX.Element | string;
-	ctaIcon?: IconType | Partial<IconProps> | false;
 	ctaButtonText?: string;
 	ctaButtonSuccessText?: string;
 	ctaButtonSuccessTimeout?: number;
 	ctaSlot?: JSX.Element | React.FunctionComponent<BundledCTAProps>;
 	vertical?: boolean;
-	carousel?: BundleCarouselProps;
-	slidesPerView?: number;
 	lazyRender?: {
 		enabled: boolean;
 		offset?: string;
 	};
+	//is this legal?
+	carousel?: BundleCarouselProps;
 };
 
 export interface RecommendationBundleLang {

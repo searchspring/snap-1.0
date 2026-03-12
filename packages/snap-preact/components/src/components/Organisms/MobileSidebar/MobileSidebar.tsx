@@ -292,6 +292,15 @@ export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 export type MobileSidebarProps = {
 	controller: SearchController;
 	lang?: Partial<MobileSidebarLang>;
+	displayAt?: string;
+	applyButtonIcon?: IconType | Partial<IconProps>;
+	clearButtonIcon?: IconType | Partial<IconProps>;
+	closeButtonIcon?: IconType | Partial<IconProps>;
+	openButtonIcon?: IconType | Partial<IconProps>;
+	openButtonText?: string;
+	clearButtonText?: string;
+	applyButtonText?: string;
+	closeButtonText?: string;
 } & MobileSidebarTemplatesLegalProps &
 	ComponentProps<MobileSidebarProps>;
 
@@ -302,21 +311,12 @@ export type MobileSidebarTemplatesLegalProps = {
 	hideClearButtonText?: boolean;
 	hideApplyButtonText?: boolean;
 	hideCloseButtonText?: boolean;
-	openButtonText?: string;
-	clearButtonText?: string;
-	applyButtonText?: string;
-	closeButtonText?: string;
-	applyButtonIcon?: IconType | Partial<IconProps>;
-	clearButtonIcon?: IconType | Partial<IconProps>;
-	closeButtonIcon?: IconType | Partial<IconProps>;
-	openButtonIcon?: IconType | Partial<IconProps>;
 	hideTitleText?: boolean;
 	hideHeader?: boolean;
 	hideFooter?: boolean;
 	hideApplyButton?: boolean;
 	hideClearButton?: boolean;
 	hideCloseButton?: boolean;
-	displayAt?: string;
 };
 
 export interface MobileSidebarLang {

@@ -90,7 +90,6 @@ export default {
 		fullIcon: {
 			description: 'Icon to render in for a full star',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -104,7 +103,6 @@ export default {
 		emptyIcon: {
 			description: 'Icon to render for an empty star',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

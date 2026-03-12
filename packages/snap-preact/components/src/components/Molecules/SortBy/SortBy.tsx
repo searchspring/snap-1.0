@@ -157,11 +157,11 @@ export type SortByProps = {
 	sorting?: SearchSortingStore;
 	controller?: SearchController;
 	lang?: Partial<SortByLang>;
+	label?: string;
 } & SortByTemplatesLegalProps &
 	ComponentProps<SortByProps>;
 
 export type SortByTemplatesLegalProps = {
-	label?: string;
 	hideLabel?: boolean;
 	type?: 'dropdown' | 'list' | 'radio';
 };

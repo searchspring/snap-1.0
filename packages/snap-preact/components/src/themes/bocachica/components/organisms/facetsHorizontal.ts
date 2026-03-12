@@ -50,8 +50,10 @@ export const facetsHorizontal: ThemeComponent<'facetsHorizontal', FacetsHorizont
 	default: {
 		facetsHorizontal: {
 			themeStyleScript: facetsHorizontalStyleScript,
-			iconCollapse: 'angle-down',
 			limit: 9,
+		},
+		'facetsHorizontal icon.collapse': {
+			icon: 'angle-down',
 		},
 	},
 	mobile: {

@@ -211,7 +211,11 @@ export const Modal = observer((properties: ModalProps) => {
 	);
 });
 
-export type ModalProps = ModalTemplatesLegalProps & ComponentProps<ModalProps>;
+export type ModalProps = {
+	onOverlayClick?: (event: React.MouseEvent<HTMLDivElement, Event>) => void;
+	overlayColor?: string;
+} & ModalTemplatesLegalProps &
+	ComponentProps<ModalProps>;
 
 export type ModalTemplatesLegalProps = {
 	button?: string | JSX.Element;
@@ -225,8 +229,6 @@ export type ModalTemplatesLegalProps = {
 	startOpen?: boolean;
 	disableClickOutside?: boolean;
 	disableA11y?: boolean;
-	overlayColor?: string;
-	onOverlayClick?: (event: React.MouseEvent<HTMLDivElement, Event>) => void;
 };
 
 interface ModalSubProps {

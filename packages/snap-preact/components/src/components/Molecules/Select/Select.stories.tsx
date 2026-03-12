@@ -58,7 +58,6 @@ export default {
 		disabled: {
 			description: 'Disable select',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},
@@ -167,7 +166,6 @@ export default {
 		color: {
 			description: 'Select color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -177,7 +175,6 @@ export default {
 		borderColor: {
 			description: 'Select border color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -188,7 +185,6 @@ export default {
 		backgroundColor: {
 			description: 'Select background color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -199,7 +195,6 @@ export default {
 		iconColor: {
 			description: 'Select icon color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -211,7 +206,6 @@ export default {
 			defaultValue: 'angle-down',
 			description: 'Icon for when select is closed',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -226,7 +220,6 @@ export default {
 			defaultValue: 'angle-up',
 			description: 'Icon for when select is open',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -277,7 +270,6 @@ export default {
 			defaultValue: false,
 			description: 'Ignore clicks outside of element',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'boolean',
 				},

@@ -55,9 +55,9 @@ export const facetHierarchyOptions: ThemeComponent<'facetHierarchyOptions', Face
 	default: {
 		facetHierarchyOptions: {
 			themeStyleScript: facetHierarchyOptionsStyleScript,
-			returnIcon: custom.icons.arrowLeft,
 		},
 		'facetHierarchyOptions icon': {
+			icon: custom.icons.arrowLeft,
 			size: `${custom.sizes.icon12}px`,
 		},
 	},

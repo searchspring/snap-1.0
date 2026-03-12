@@ -366,21 +366,21 @@ interface SelectSubProps {
 
 export type SelectProps = {
 	lang?: Partial<SelectLang>;
+	backgroundColor?: string;
+	borderColor?: string;
+	color?: string;
+	iconColor?: string;
+	iconClose?: IconType | Partial<IconProps>;
+	iconOpen?: IconType | Partial<IconProps>;
+	disabled?: boolean;
+	disableClickOutside?: boolean;
 } & SelectTemplatesLegalProps &
 	ComponentProps<SelectProps>;
 
 export type SelectTemplatesLegalProps = {
 	options: ListOption[];
-	backgroundColor?: string;
-	borderColor?: string;
-	color?: string;
 	clearSelection?: string;
-	disableClickOutside?: boolean;
-	disabled?: boolean;
 	hideLabelOnSelection?: boolean;
-	iconColor?: string;
-	iconClose?: IconType | Partial<IconProps>;
-	iconOpen?: IconType | Partial<IconProps>;
 	label?: string | JSX.Element;
 	hideLabel?: boolean;
 	native?: boolean;

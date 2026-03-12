@@ -805,32 +805,33 @@ interface FacetSubProps {
 export type FacetProps = {
 	lang?: Partial<FacetLang>;
 	facet: ValueFacet | RangeFacet;
+	iconColor?: string;
+	iconCollapse?: IconType | Partial<IconProps>;
+	iconExpand?: IconType | Partial<IconProps>;
+	color?: string;
+	clearAllIcon?: IconType | Partial<IconProps>;
+	iconOverflowMore?: IconType | Partial<IconProps>;
+	iconOverflowLess?: IconType | Partial<IconProps>;
+	horizontal?: boolean;
+	previewOnFocus?: boolean;
 } & FacetTemplatesLegalProps &
 	ComponentProps<FacetProps>;
 
 export type FacetTemplatesLegalProps = {
 	disableCollapse?: boolean;
-	color?: string;
-	iconCollapse?: IconType | Partial<IconProps>;
-	iconColor?: string;
-	iconExpand?: IconType | Partial<IconProps>;
 	limit?: number;
 	statefulOverflow?: boolean;
 	overflowSlot?: JSX.Element | JSX.Element[];
 	optionsSlot?: JSX.Element | JSX.Element[];
 	disableOverflow?: boolean;
-	previewOnFocus?: boolean;
 	valueProps?: any;
 	showSelectedCount?: boolean;
 	hideSelectedCountParenthesis?: boolean;
 	showClearAllText?: boolean;
 	clearAllText?: string;
-	clearAllIcon?: IconType | Partial<IconProps>;
 	hideShowMoreLessText?: boolean;
 	showMoreText?: string;
 	showLessText?: string;
-	iconOverflowMore?: IconType | Partial<IconProps>;
-	iconOverflowLess?: IconType | Partial<IconProps>;
 	fields?: FieldProps;
 	display?: FieldProps;
 	searchable?: boolean;
@@ -840,7 +841,6 @@ export type FacetTemplatesLegalProps = {
 	rangeInputsInheritDefaultValues?: boolean;
 	rangeInputsSeparatorText?: string;
 	justContent?: boolean;
-	horizontal?: boolean;
 };
 
 export interface FacetLang {

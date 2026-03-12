@@ -183,15 +183,15 @@ interface CheckboxSubProps {
 
 export type CheckboxProps = {
 	lang?: Partial<CheckboxLang>;
+	icon?: IconType | Partial<IconProps>;
+	iconColor?: string;
+	color?: string;
 } & CheckboxTemplatesLegalProps &
 	ComponentProps<CheckboxProps>;
 
 export type CheckboxTemplatesLegalProps = {
 	checked?: boolean;
-	color?: string;
 	disabled?: boolean;
-	icon?: IconType | Partial<IconProps>;
-	iconColor?: string;
 	onClick?: (e: React.MouseEvent<HTMLInputElement | HTMLSpanElement, MouseEvent>) => void;
 	size?: string | number;
 	startChecked?: boolean;

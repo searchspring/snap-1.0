@@ -36,8 +36,11 @@ export const recommendationBundleEasyAdd: ThemeComponent<
 		...recommendationBundleEasyAddThemeComponentProps.default,
 		recommendationBundleEasyAdd: {
 			...(recommendationBundleEasyAddThemeComponentProps.default?.['recommendationBundleEasyAdd'] || {}),
-			ctaIcon: false,
 			themeStyleScript: recommendationBundleEasyAddStyleScript,
+		},
+
+		'recommendationBundleEasyAdd icon.bundle-cart': {
+			icon: false,
 		},
 	},
 	mobile: recommendationBundleEasyAddThemeComponentProps.mobile,

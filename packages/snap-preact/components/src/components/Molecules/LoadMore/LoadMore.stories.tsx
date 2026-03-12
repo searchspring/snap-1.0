@@ -167,7 +167,6 @@ export default {
 			description: 'Loading icon',
 			defaultValue: 'spinner',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

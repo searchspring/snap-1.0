@@ -91,7 +91,6 @@ export default {
 			defaultValue: '0.25s',
 			description: 'Overlay opening/closing transition speed',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},
@@ -103,7 +102,6 @@ export default {
 			defaultValue: 'rgba(0,0,0,0.8)',
 			description: 'Slideout overlay color',
 			table: {
-				category: 'Templates Legal',
 				type: {
 					summary: 'string',
 				},

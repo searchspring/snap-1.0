@@ -74,8 +74,11 @@ export const checkbox: ThemeComponent<'checkbox', CheckboxProps, CheckboxTemplat
 	default: {
 		checkbox: {
 			themeStyleScript: checkboxStyleScript,
-			icon: custom.icons.check,
 			size: `${custom.sizes.icon16}px`,
+		},
+
+		'checkbox icon': {
+			icon: custom.icons.check,
 		},
 	},
 };
