@@ -41,6 +41,9 @@ const autocompleteFixedStyleScript = (props: AutocompleteFixedProps) => {
 						'.ss__button, .ss__search-input__button--close-search-button': {
 							width: `${searchInputHeight}px`,
 						},
+						'.ss__search-input__input': {
+							backgroundColor: custom.colors.white,
+						},
 					},
 					'.ss__autocomplete-fixed__inner__layout-wrapper': {
 						maxHeight: 'none',
@@ -133,7 +136,6 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		'autocompleteFixed recommendationGrid': {
 			rows: 2,
 			columns: 4,
-			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteFixed button.see-more icon': {
 			size: `${custom.sizes.icon12}px`,
@@ -156,6 +158,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		'autocompleteFixed results': {
 			rows: 1,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px ${custom.spacing.x2}px`,
 		},
 		'autocompleteFixed recommendationGrid': {
 			rows: 1,
@@ -194,6 +197,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		'autocompleteFixed results': {
 			rows: 1,
 			columns: 4,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteFixed recommendationGrid': {
 			rows: 1,
@@ -216,6 +220,7 @@ export const autocompleteFixed: ThemeComponent<'autocompleteFixed', Autocomplete
 		'autocompleteFixed results': {
 			rows: 2,
 			columns: 3,
+			gapSize: `${custom.spacing.x4}px`,
 		},
 		'autocompleteFixed recommendationGrid': {
 			rows: 2,

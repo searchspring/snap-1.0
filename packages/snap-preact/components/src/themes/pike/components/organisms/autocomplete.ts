@@ -117,12 +117,6 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 						margin: 0,
 						'.ss__facet__header': {
 							borderBottom: 0,
-							'.ss__facet__header__inner': {
-								fontSize: 'inherit',
-								fontWeight: 'inherit',
-								lineHeight: 'inherit',
-								color: 'inherit',
-							},
 						},
 						'.ss__facet__options': {
 							'.ss__facet-hierarchy-options .ss__facet-hierarchy-options__option, .ss__facet-list-options .ss__facet-list-options__option': {
@@ -315,6 +309,7 @@ const autocompleteStyleScript = (props: AutocompleteProps) => {
 		sharedStyles,
 		{
 			'.ss__autocomplete__terms': {
+				gap: `${custom.spacing.x4}px`,
 				'& > div': {
 					'.ss__autocomplete__title h5': {
 						margin: `0 0 ${custom.spacing.x2}px 0`,

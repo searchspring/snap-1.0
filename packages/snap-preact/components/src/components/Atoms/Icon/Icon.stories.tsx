@@ -200,6 +200,8 @@ export const Gallery = () => {
 			style={{
 				display: 'flex',
 				flexWrap: 'wrap',
+				gap: '40px',
+				margin: '1rem 2rem',
 				fontFamily:
 					'"Nunito Sans",-apple-system,".SFNSText-Regular","San Francisco",BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif',
 				fontSize: '10px',
@@ -209,8 +211,8 @@ export const Gallery = () => {
 				.filter((val) => !legacyPaths.includes(val))
 				.map((icon) => {
 					return (
-						<div style={{ marginBottom: '40px' }}>
-							<Icon icon={icon as IconType} size="40px" style={{ margin: '20px' }} />
+						<div style={{ flex: '0 1 auto', width: '40px', height: '40px', justifyContent: 'center' }}>
+							<Icon icon={icon as IconType} size="100%" style={{ flex: '0 0 100%' }} />
 							<div style={{ textAlign: 'center' }}>{icon}</div>
 						</div>
 					);

@@ -49,7 +49,6 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 		},
 		'.ss__recommendation__description': {
 			fontSize: '14px',
-			fontWeight: 'normal',
 			color: variables?.colors?.text,
 		},
 		'.ss__carousel': {
@@ -95,6 +94,9 @@ const recommendationStyleScript = (props: RecommendationProps) => {
 		[`${custom.utils.getBp(tabletBp)}`]: {
 			'.ss__recommendation__title, .ss__recommendation__description': {
 				textAlign: 'center',
+			},
+			'.ss__recommendation__title': {
+				padding: 0,
 			},
 			'.ss__carousel': {
 				position: 'relative',

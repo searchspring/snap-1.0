@@ -58,9 +58,16 @@ const searchHorizontalStyleScript = (props: SearchHorizontalProps) => {
 		[`${custom.utils.getBp(mobileBp)}`]: {
 			'.ss__search-horizontal__main-section': {
 				'.ss__toolbar': {
-					'.ss__layout__row:has(.ss__select)': {
-						'.ss__select': {
-							flex: '0 1 auto',
+					'.ss__layout__row': {
+						'&:has(.ss__mobile-sidebar)': {
+							'.ss__mobile-sidebar': {
+								minWidth: '1px',
+							},
+						},
+						'&:has(.ss__select)': {
+							'.ss__select': {
+								flex: '0 1 auto',
+							},
 						},
 					},
 				},
