@@ -1,6 +1,9 @@
 import type { ComponentProps } from '../types';
 import type { Theme, ThemeComponents } from '../providers';
 
+// Symbol to track VALUES that originated from theme configuration
+const THEME_VALUES_SYMBOL = Symbol.for('__themeValues__');
+
 export function mergeProps<GenericComponentProps extends ComponentProps>(
 	componentType: string,
 	globalTheme: Theme,
@@ -72,7 +75,13 @@ export function mergeProps<GenericComponentProps extends ComponentProps>(
 		// add globalTheme props for components with selector matches if they exist
 		const filteredGlobalApplicableSelectors = filterSelectors(globalTheme?.components || {}, treePath);
 		const globalApplicableSelectors = filteredGlobalApplicableSelectors.sort(sortSelectors);
-		globalApplicableSelectors.forEach((selector) => {
+
+		// Split selectors into base theme (with *) and user overrides (without *)
+		const baseThemeSelectors = globalApplicableSelectors.filter((s) => s.includes('*'));
+		const userOverrideSelectors = globalApplicableSelectors.filter((s) => !s.includes('*'));
+
+		// 1. Apply base theme props first
+		baseThemeSelectors.forEach((selector) => {
 			const componentProps = globalTheme.components?.[selector as keyof typeof globalTheme.components];
 			if (componentProps) {
 				mergedProps = mergeThemeProps(componentProps, mergedProps) as Partial<GenericComponentProps>;
@@ -84,6 +93,39 @@ export function mergeProps<GenericComponentProps extends ComponentProps>(
 		const themeApplicableSelectors = filterSelectors(theme?.components || {}, treePath).sort(sortSelectors);
 		themeApplicableSelectors.forEach((selector) => {
 			const componentProps = theme?.components?.[selector as keyof typeof globalTheme.components];
+			if (componentProps) {
+				mergedProps = mergeThemeProps(componentProps, mergedProps) as Partial<GenericComponentProps>;
+			}
+		});
+
+		// 2. Respread props whose VALUES originated from a parent's theme.
+		// This ensures theme-derived props from parent beat child's base theme,
+		// while user overrides (applied next) will still have the final say.
+		const parentThemeValues = (props.theme as any)?.[THEME_VALUES_SYMBOL];
+		if (parentThemeValues instanceof Set && parentThemeValues.size > 0) {
+			const propsToRespread: Partial<GenericComponentProps> = {};
+			for (const key of Object.keys(props) as Array<keyof GenericComponentProps>) {
+				// Skip meta props
+				if (key === 'treePath' || key === 'theme' || key === 'name') continue;
+
+				const propValue = (props as any)[key];
+				// Only respread if the value came from a parent's theme
+				if (propValue !== undefined && parentThemeValues.has(propValue)) {
+					(propsToRespread as any)[key] = propValue;
+				}
+			}
+
+			if (Object.keys(propsToRespread).length > 0) {
+				mergedProps = {
+					...mergedProps,
+					...propsToRespread,
+				};
+			}
+		}
+
+		// 3. Apply user overrides last (they always win)
+		userOverrideSelectors.forEach((selector) => {
+			const componentProps = globalTheme.components?.[selector as keyof typeof globalTheme.components];
 			if (componentProps) {
 				mergedProps = mergeThemeProps(componentProps, mergedProps) as Partial<GenericComponentProps>;
 			}
@@ -107,8 +149,20 @@ export function mergeProps<GenericComponentProps extends ComponentProps>(
 			mergedProps.theme.variables = globalTheme.variables;
 		}
 
-		// if custom component, re-spread props again
-		if (treePath && (treePath.indexOf('customComponent') > -1 || treePath.startsWith('storybook'))) {
+		// Store current theme values on props.theme so they travel to children
+		const currentThemeValues: Set<any> = (mergedProps as any)[THEME_VALUES_SYMBOL] || new Set();
+		if (currentThemeValues.size > 0 && mergedProps.theme) {
+			// Merge with any existing parent theme values
+			const combinedThemeValues = new Set(currentThemeValues);
+			if (parentThemeValues instanceof Set) {
+				for (const val of parentThemeValues) {
+					combinedThemeValues.add(val);
+				}
+			}
+			(mergedProps.theme as any)[THEME_VALUES_SYMBOL] = combinedThemeValues;
+		}
+
+		if (treePath && (treePath.indexOf('customComponent') > -1 || (treePath.startsWith('storybook') && treePath.split(' ').length == 2))) {
 			mergedProps = {
 				...mergedProps,
 				...props,
@@ -123,10 +177,21 @@ export function mergeProps<GenericComponentProps extends ComponentProps>(
 function mergeThemeProps(componentThemeProps: Partial<ComponentProps>, mergedProps: Partial<ComponentProps>): Partial<ComponentProps> {
 	// add theme props if they exist
 	if (componentThemeProps) {
+		// Track VALUES that came from theme (for detecting theme-derived props in children)
+		const existingThemeValues: Set<any> = (mergedProps as any)[THEME_VALUES_SYMBOL] || new Set();
+		for (const value of Object.values(componentThemeProps)) {
+			// Only track primitive values and non-null objects (skip functions, undefined, etc.)
+			if (value !== undefined && value !== null && typeof value !== 'function') {
+				existingThemeValues.add(value);
+			}
+		}
+
 		mergedProps = {
 			...mergedProps,
 			...componentThemeProps,
 		};
+
+		(mergedProps as any)[THEME_VALUES_SYMBOL] = existingThemeValues;
 	}
 
 	return mergedProps;
