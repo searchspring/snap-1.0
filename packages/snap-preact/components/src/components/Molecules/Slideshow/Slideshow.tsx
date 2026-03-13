@@ -204,6 +204,7 @@ export function Slideshow(properties: SlideshowProps) {
 		ariaLabelledBy,
 		disableStyles,
 		slideWidth,
+		gap,
 		treePath,
 		overlayNavigation,
 		dragThreshold,
@@ -338,7 +339,9 @@ export function Slideshow(properties: SlideshowProps) {
 	const totalSlides = normalizedSlides.length;
 	// When slideWidth is provided, compute how many slides fit in the container;
 	// otherwise fall back to the slidesToShow prop.
-	const computedSlidesToShow = slideWidth && containerWidth > 0 ? Math.max(1, Math.floor(containerWidth / slideWidth)) : slidesToShow ?? 4;
+	// Include gap in the calculation since each slide takes (slideWidth + gap) pixels
+	const computedSlidesToShow =
+		slideWidth && containerWidth > 0 ? Math.max(1, Math.floor(containerWidth / (slideWidth + (gap ?? 0)))) : slidesToShow ?? 4;
 	const visibleSlides = Math.min(computedSlidesToShow, totalSlides);
 	const maxIndex = Math.max(0, totalSlides - visibleSlides);
 
@@ -582,7 +585,6 @@ export function Slideshow(properties: SlideshowProps) {
 
 	if (slideWidth) {
 		// Fixed-width mode: translate by pixel amounts (slideWidth + gap per slide)
-		const gap = props.gap ?? 10;
 		const slideStepPx = slideWidth + gap;
 		translateX = -(currentIndex * slideStepPx);
 		translateUnit = 'px';
