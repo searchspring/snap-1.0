@@ -1,7 +1,6 @@
 name: Publish Canary
 
-on:
-  workflow_dispatch
+on: workflow_dispatch
 
 permissions:
   id-token: write  # Required for OIDC
@@ -9,15 +8,14 @@ permissions:
 
 jobs:
   Publish:
+    if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: "0"
+          token: ${{ secrets.MACHINE_PAT }}
 
       - name: Set Github credentials
         run: |
@@ -45,13 +43,12 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: | 
-          npm run build
-      
+        run: npm run build
+
       - name: Tests
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
-        run: npm run test
+        run: npm run test --ignore-scripts
 
       - name: Publish packages
         run: npm run publish:canary
