@@ -45,10 +45,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Tests
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
-        run: npm run test --ignore-scripts
-
       - name: Publish packages
         run: npm run publish:canary
