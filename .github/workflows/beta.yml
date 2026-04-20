@@ -1,4 +1,4 @@
-name: Publish Canary
+name: Publish Beta
 
 on: workflow_dispatch
 
@@ -44,6 +44,11 @@ jobs:
 
       - name: Build
         run: npm run build
+      
+      - name: Tests
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        run: npm run test
 
-      - name: Publish packages
-        run: npm run publish:canary
+      - name: Publish Beta packages
+        run: npm run publish:beta
