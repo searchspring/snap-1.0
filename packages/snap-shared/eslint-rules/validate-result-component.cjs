@@ -32,7 +32,9 @@ module.exports = {
 					typeAnnotation.typeName?.right?.name;
 
 				if (
-					typeName === 'SnapTemplatesConfig') {
+					typeName === 'SnapTemplatesConfig' ||
+					typeName === 'SnapTemplatesConfigUnlocked' || 
+					typeName === 'SnapTemplatesConfigLocked') {
 					const init = node.init;
 					if (!init || init.type !== 'ObjectExpression') return;
 

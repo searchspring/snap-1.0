@@ -86,10 +86,10 @@ export type RecommendationBundleTargetConfig = {
 	component: keyof LibraryImports['component']['recommendation']['bundle'];
 };
 
-export type SnapTemplatesConfig = SnapTemplatesConfigUnlocked | SnapTemplatesConfigLocked;
+export type SnapTemplatesConfig = SnapTemplatesConfigLocked;
 
 export type SnapTemplatesConfigLocked = TemplateStoreConfigConfig & {
-	unlocked: false;
+	unlocked?: false;
 	url?: UrlTranslatorConfig;
 	features?: SnapFeatures;
 	search?: {
@@ -164,7 +164,7 @@ export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSe
 
 export class SnapTemplates extends Snap {
 	templates: TemplatesStore;
-	constructor(config: SnapTemplatesConfig) {
+	constructor(config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked) {
 		const urlParams = url(window.location.href);
 		const editMode = Boolean((urlParams?.params?.query && TEMPLATE_EDITOR_PARAM in urlParams.params.query) || cookies.get(TEMPLATE_EDIT_COOKIE));
 
@@ -253,7 +253,10 @@ export function mapBreakpoints<ControllerConfigSettings>(
 	}, {});
 }
 
-export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] => {
+export const createSearchTargeters = (
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
+	templatesStore: TemplatesStore
+): ExtendedTarget[] => {
 	const targets = templateConfig.search?.targets || [];
 	return targets.map((target) => {
 		const targetId = templatesStore.addTarget('search', target);
@@ -273,7 +276,10 @@ export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templ
 	});
 };
 
-export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] {
+export function createAutocompleteTargeters(
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
+	templatesStore: TemplatesStore
+): ExtendedTarget[] {
 	const targets = templateConfig.autocomplete?.targets || [];
 	return targets.map((target) => {
 		const targetId = templatesStore.addTarget('autocomplete', target);
@@ -296,7 +302,7 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 }
 
 export function createRecommendationComponentMapping(
-	templateConfig: SnapTemplatesConfig,
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
 	templatesStore: TemplatesStore
 ): { [name: string]: RecommendationComponentObject } {
 	// TODO: throw a warning if keys match inside each recommendation type
@@ -347,7 +353,7 @@ export function createRecommendationComponentMapping(
 		}, {} as { [name: string]: RecommendationComponentObject });
 }
 
-export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): SnapConfig {
+export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked, templatesStore: TemplatesStore): SnapConfig {
 	const initiatorPrefix = window?.athos?.managed ? `managed/` : '';
 	const snapConfig: SnapConfig = {
 		features: templateConfig.features || DEFAULT_FEATURES,
@@ -489,7 +495,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesS
 }
 
 export function createPlugins(
-	templateConfig: SnapTemplatesConfig,
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
 	templatesStore: TemplatesStore,
 	controllerType?: 'autocomplete' | 'search' | 'recommendation'
 ): PluginGrouping[] {
