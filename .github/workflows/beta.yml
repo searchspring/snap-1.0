@@ -1,6 +1,9 @@
 name: Publish Beta
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - 'beta'
 
 permissions:
   id-token: write  # Required for OIDC
