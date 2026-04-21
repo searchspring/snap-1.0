@@ -45,9 +45,6 @@ let templatesConfig: SnapTemplatesConfig = {
 		style: globalStyles,
 		overrides: {
 			default: {
-				autocompleteFixed: {
-					renderInput: true,
-				},
 				facet: {
 					// iconColor: 'red'
 				},
