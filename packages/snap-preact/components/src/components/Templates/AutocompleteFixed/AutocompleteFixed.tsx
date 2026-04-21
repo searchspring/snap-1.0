@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 		right: '0',
 		top: '0',
 		zIndex: 1001,
-
+		pointerEvents: 'none',
 		'.ss__autocomplete-fixed__inner': {
 			position: 'absolute',
 			left: `calc(0px + ${offset?.left || 0}px)`,
@@ -32,6 +32,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 			width: `calc(100% + ${offset?.width || 0}px)`,
 			zIndex: 1001,
 			maxWidth: '100vw',
+			pointerEvents: 'auto',
 
 			'.ss__search-input': {
 				background: '#fff',
