@@ -13,21 +13,21 @@ Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.c
 ### controller
 The required `controller` prop specifies a reference to the RecommendationController
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
 ```
 
 ### onAddToCart 
 the `onAddToCart` prop sets a the callback function for when a add to cart button is clicked. This function will be passed an array of selected item ids and their quantities. 
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
 ```
 
 ### results
 The `results` prop specifies a reference to the results store array to use instead of the default `controller.store.results`. Note the first result will be displayed as the `seed` product. 
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} results={controller.store.results} />
 ```
 
@@ -35,21 +35,21 @@ The `results` prop specifies a reference to the results store array to use inste
 ### hideSeed
 The `hideSeed` prop specifies if the seed result should be rendered or not.  
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeed={true} />
 ```
 
 ### title
 The `title` prop specifies the bundle title
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} title={'Recommended Bundle'} />
 ```
 
 ### resultComponent
 The `resultComponent` prop allows for a custom result component to be rendered. This component will be passed the following props -
 
-```jsx
+```tsx
 	{ 
 		result: Product, 
 		seed: boolean, 
@@ -58,77 +58,77 @@ The `resultComponent` prop allows for a custom result component to be rendered. 
 	}
 ```
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} resultComponent={<ResultSlot />} />
 ```
 
 ### ctaButtonText
 The `ctaButtonText` prop specifies the inner text to render in the add to cart button.
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonText={'Add Bundle'} />
 ```
 
 ### ctaButtonSuccessText
 The `ctaButtonSuccessText` prop specifies text to temporarily render in the add to cart button after it is clicked.
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessText={'Thanks for Shopping!'} />
 ```
 
 ### ctaButtonSuccessTimeout
 The `ctaButtonSuccessTimeout` prop specifies number of ms to show success text in add to cart button before reverting back to normal text
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessTimeout={1500} />
 ```
 
 ### ctaIcon
 The `ctaIcon` prop specifies the icon to render in the CTA. Takes an object with `Icon` component props or a string.     
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaIcon={'bag'} />
 ```
 
 ### ctaSlot
 The `ctaSlot` prop allows for a custom add to cart cta component to be rendered. This component will be passed the following props -
 
-```jsx	
+```tsx	
 	{ 
 		cartStore: CartStore;
 		onclick: (e:any) => void
 	}
 ```
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaSlot={<CTASlot />} />
 ```
 
 ### preselectedCount
 The `preselectedCount` prop specifies how many products in the bundle will be preselected. This number will include the seed. Example `preselectedCount={3}` would be `seed` + 2 preselected items. If not provided, this will default to however many products are initially visible. 
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} preselectedCount={4} />
 ```
 
 ### seedText
 The `seedText` prop specifies text to be rendered as a badge in the seed product.   
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} seedText={"Main Product"} />
 ```
 
 ### separatorIcon
 The `separatorIcon` prop specifies the icon to render between products. Takes an object with `Icon` component props or a string.     
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIcon={'cog'} />
 ```
 
 ### separatorIconSeedOnly
 The `separatorIconSeedOnly` prop specifies if the seperator Icon should only be rendered after the seed or after every product.     
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIconSeedOnly={true} />
 ```
 
@@ -136,14 +136,14 @@ The `separatorIconSeedOnly` prop specifies if the seperator Icon should only be 
 ### hideCheckboxes
 The `hideCheckboxes` prop specifies if the bundle checkboxes should be rendered. 
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideCheckboxes={true} />
 ```
 
 ### modules
 The `modules` prop accepts additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> - these may need additional props and or stylesheets to function. We include `Navigation` and `Pagination` modules by default.
 
-```jsx
+```tsx
 import { Scrollbar } from 'swiper';
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} modules={[Scrollbar]} scrollbar={{ draggable: true }} />
 ```
@@ -151,7 +151,7 @@ import { Scrollbar } from 'swiper';
 ### lazyRender 
 The `lazyRender` prop specifies an object of lazy rendering settings. The settings include an `enable` toggle (defaults to `true`) as well as an `offset` (default `"10%"`) to specify at what distance the component should start rendering relative to the bottom of the viewport.
 
-```jsx
+```tsx
 const customLazyRenderProps = {
 	enabled: true,
 	offset: "20px" // any css margin values accepted - px, %, etc...
@@ -184,7 +184,7 @@ const customRecommendationBreakpoints = {
 };
 ```
 
-```jsx
+```tsx
 <RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} breakpoints={customRecommendationBreakpoints} />
 ```
 

@@ -6,66 +6,66 @@ Renders an input element
 - Button
 
 ## Usage
-```jsx
+```tsx
 import { SearchInput } from '@athoscommerce/snap-preact/components';
 ```
-```jsx
+```tsx
 <SearchInput onChange={handleChange} placeholderText={"placeholder text"}/>
 ```
 
 ### value
 The `value` prop sets the input value if externally managed.
 
-```jsx
+```tsx
 <SearchInput value={'dress'} placeholderText={"placeholder text"} />
 ```
 
 ### placeholderText
 The `placeholderText` prop sets the input placeholder text. 
 
-```jsx
+```tsx
 <SearchInput placeholderText={"placeholder text"} />
 ```
 
 ### inputName
 The `inputName` prop sets the input name attribute value. 
 
-```jsx
+```tsx
 <SearchInput inputName={"query"} />
 ```
 
 ### onChange
 The `onChange` prop is invoked when the input's value has been changed. 
 
-```jsx
+```tsx
 <SearchInput onChange={handleChange} />
 ```
 
 ### onKeyUp
 The `onKeyUp` prop is invoked on keyUp on the input. 
 
-```jsx
+```tsx
 <SearchInput onKeyUp={handleChange} />
 ```
 
 ### onKeyDown
 The `onKeyDown` prop is invoked keyDown on the input
 
-```jsx
+```tsx
 <SearchInput onKeyDown={handleChange} />
 ```
 
 ### onClick
 The `onClick` prop is invoked on click of anything in the component. Wrapper, input or icon. 
 
-```jsx
+```tsx
 <SearchInput onClick={handleChange} />
 ```
 
 ### submitSearchButton
 The `submitSearchButton` prop specifies props to pass to the submit search button component. Takes any `Button` component props. 
 
-```jsx
+```tsx
 
 const buttonProps = {
     icon: 'search',
@@ -78,7 +78,7 @@ const buttonProps = {
 ### clearSearchButton
 The `clearSearchButton` prop specifies props to pass to the clear search button component. Takes any `Button` component props. Note this button only renders if there is a value to clear. 
 
-```jsx
+```tsx
 
 const buttonProps = {
     icon: 'close-thin',
@@ -91,7 +91,7 @@ const buttonProps = {
 ### closeSearchButton
 The `closeSearchButton` prop specifies props to pass to the close search button component. Takes any `Button` component props. 
 
-```jsx
+```tsx
 
 const buttonProps = {
     icon: 'angle-left',
@@ -104,7 +104,7 @@ const buttonProps = {
 ### inputRef
 The `inputRef` prop specifies a ref to set on the input element. To be accessed in a parent component.
 
-```jsx
+```tsx
 const renderedInputRef = useRef(null);
 useEffect(() => {
     console.log(renderedInputRef)

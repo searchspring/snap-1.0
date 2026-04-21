@@ -7,62 +7,62 @@ Renders a toggle switch
 ### toggled
 The `toggled` prop specifies whether the toggle is selected or not.
 
-```jsx
+```tsx
 <Toggle toggled={true} />
 ```
 
 ### label
 The `label` prop specifies the label to render. 
 
-```jsx
+```tsx
 <Toggle label={'on sale'} />
 ```
 
 ### round
 The `round` prop specifies whether the toggle should render as pill or rectangle. 
 
-```jsx
+```tsx
 <Toggle round={true} />
 ```
 
 ### onClick
 The `onClick` prop allows for a custom callback function for when the toggle is clicked.
 
-```jsx
+```tsx
 <Toggle onClick={(e)=>{console.log(e)}} />
 ```
 
 ### activeColor
 The `activeColor` prop specifies the background color of the toggle when active.
 
-```jsx
+```tsx
 <Toggle activeColor={'#eeee'} />
 ```
 
 ### inactiveColor
 The `inactiveColor` prop specifies the background color of the toggle when inactive.
 
-```jsx
+```tsx
 <Toggle inactiveColor={"black"} />
 ```
 
 ### buttonColor
 The `buttonColor` prop specifies the color of the toggle button.
 
-```jsx
+```tsx
 <Toggle buttonColor={"white"} />
 ```
 
 ### size
 The `size` prop specifies the size of the toggle switch.
 
-```jsx
+```tsx
 <Toggle size={"20px"} />
 ```
 
 ### disabled
 The `disabled` prop will disable the toggle switch. 
 
-```jsx
+```tsx
 <Toggle disabled={true} />
 ```

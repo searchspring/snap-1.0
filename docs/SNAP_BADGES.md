@@ -12,7 +12,7 @@ To displays badges the Result card must include the [OverlayBadge](https://athos
 
 The `OverlayBadge` component wraps elements (children) that should have badges overlayed - typically the product image
 
-```jsx
+```tsx
 <OverlayBadge controller={controller} result={controller.store.results[0]}>
 	<img src='/images/example.png'/>
 </OverlayBadge>
@@ -22,7 +22,7 @@ The `OverlayBadge` component wraps elements (children) that should have badges o
 
 The `CalloutBadge` component displays badges inline and can be placed in any position in the Result card
 
-```jsx
+```tsx
 <CalloutBadge result={controller.store.results[0]} />
 ```
 

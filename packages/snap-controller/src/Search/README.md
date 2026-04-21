@@ -165,7 +165,7 @@ const searchConfig = {
 ### Infinite Scrolling
 By default when using the infinite configuration, additional pages are appended when `store.pagination.next()` is invoked. To automatically request the next page when the user has scrolled to the bottom, an `useIntersection` hook along with a `useRef` attached to an element below the results can be used to invoke `pagination.next.url.go({ history: 'replace' })` when the element comes into the viewport. 
 
-```jsx
+```tsx
 import { h, Fragment, Component } from 'preact';
 import { useRef } from 'preact/hooks';
 import { observer } from 'mobx-react-lite';
