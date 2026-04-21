@@ -2,7 +2,6 @@ import { h } from 'preact';
 import { MutableRef, useEffect, useRef, useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
-import { reaction } from 'mobx';
 import { css } from '@emotion/react';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
@@ -104,15 +103,16 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 	// When the controller unfocuses (e.g. document click), close the autocomplete
 	// so the modal overlay doesn't persist over the input.
 	useEffect(() => {
-		const disposer = reaction(
-			() => controller.store.state.focusedInput,
-			(focusedInput) => {
-				if (!focusedInput) {
-					setActive(false);
-				}
+		const onFocusChange = (_context: any, next: () => void) => {
+			if (!controller.store.state.focusedInput) {
+				setActive(false);
 			}
-		);
-		return disposer;
+			next();
+		};
+		controller.eventManager.on('focusChange', onFocusChange);
+		return () => {
+			controller.eventManager.events['focusChange']?.remove(onFocusChange);
+		};
 	}, []);
 
 	const reset = () => {
