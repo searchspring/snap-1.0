@@ -26,10 +26,6 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 		zIndex: 1001,
 		pointerEvents: 'none',
 
-		'.ss__overlay': {
-			pointerEvents: 'auto',
-		},
-
 		'.ss__autocomplete-fixed__inner': {
 			position: 'absolute',
 			left: `calc(0px + ${offset?.left || 0}px)`,
