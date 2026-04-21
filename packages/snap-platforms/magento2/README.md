@@ -14,7 +14,7 @@ The `formKey` property allows you to pass a custom form key to use in the add to
 
 The `uenc` property allows you to pass a custom `uenc` code to use in the add to cart call. 
 
-```jsx
+```tsx
 import { addToCart } from '@athoscommerce/snap-platforms/magento2';
 
 export const AddToCart = (props) => {
@@ -49,7 +49,7 @@ Plugin to attach a custom function to the addToCart controller event.
 | uenc | uenc to use when adding to the cart, this will use the current url by default | string | ➖ | ➖ |
 
 
-```jsx
+```tsx
 const addToCartConfig = {
 	redirect: '/cart',
 	idFieldName: 'display.mappings.core.sku'

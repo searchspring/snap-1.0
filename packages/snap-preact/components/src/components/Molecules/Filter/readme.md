@@ -7,41 +7,41 @@ Renders a facet filter.
 - Button
 
 ## Usage
-```jsx
+```tsx
 import { Filter } from '@athoscommerce/snap-preact/components';
 ```
 
 ### facetLabel
 The `facetLabel` prop specifies the filter label. Typically set to the facet label.
 
-```jsx
+```tsx
 <Filter facetLabel={'Brand'} />
 ```
 
 ### valueLabel
 The `valueLabel` prop specifies the filter value. Typically set to the facet value label.
 
-```jsx
+```tsx
 <Filter valueLabel={'Nike'} />
 ```
 
 ### url
 The `url` prop specifies a link to clear the filter selection.
 
-```jsx
+```tsx
 <Filter facetLabel={filter.facet.label} valueLabel={filter.value.label} url={filter.url} />
 ```
 
 ### hideFacetLabel
 The `hideFacetLabel` prop will disable the filter facet label.
 
-```jsx
+```tsx
 <Filter facetLabel={filter.facet.label} valueLabel={filter.value.label} hideFacetLabel={true} />
 ```
 ### separator
 The `separator` prop will specify the separator character between `facetLabel` and `valueLabel`.
 
-```jsx
+```tsx
 <Filter facetLabel={filter.facet.label} valueLabel={filter.value.label} separator={': '} />
 ```
 
@@ -53,6 +53,6 @@ The `icon` prop specifies a path within the `Icon` component paths (see Icon Gal
 #### onClick
 The `onClick` prop allows for a custom callback function for when a filter is clicked.
 
-```jsx
+```tsx
 <Filter onClick={(e)=>{console.log(e)}}/>
 ```

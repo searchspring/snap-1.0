@@ -70,7 +70,7 @@ A `skeleton` component can be defined to render inside the target until search i
 
 A [Skeleton component](https://athoscommerce.github.io/snap/preact-components?params=%3Fpath%3D%2Fstory%2Fatoms-skeleton--default) is available in the components package.
 
-```jsx
+```tsx
 import { Snap } from '@athoscommerce/snap-preact';
 import { Skeleton } from '@athoscommerce/snap-preact/components';
 

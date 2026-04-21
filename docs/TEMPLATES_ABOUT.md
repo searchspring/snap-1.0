@@ -2,7 +2,7 @@
 
 Snap Templates is an alternative method of creating a Athos integration. The documentation in this 'Templates' section is only applicable if you are utilizing the `SnapTemplates` export. While there is overlap across other pages in the documentation, this section aims to outline the differences.
 
-```jsx
+```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 ```
 
@@ -21,6 +21,63 @@ Snap Templates:
   - Offers a more guided, configuration-based approach
   - Allows for some customization through theming and overrides
 
+
+### Basic Usage
+
+```tsx
+import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
+import { Content, Sidebar } from './components';
+import { globalStyles } from './styles';
+
+const templatesConfig: SnapTemplatesConfig = {
+	config: {
+		siteId: 'atkzs2',
+		language: 'en',
+		currency: 'usd',
+		platform: 'shopify',
+	},
+	components: {
+		result: {
+			CustomResult: async () => (await import('./components/Result')).CustomResult,
+		},
+	},
+	theme: {
+		extends: 'base',
+		variables: {
+			breakpoints: {
+				mobile: 767,
+				tablet: 1024,
+				desktop: 1280,
+			},
+			colors: {
+				primary: '#6d7175',
+				secondary: '#202223',
+				accent: '#333333',
+			},
+		},
+		style: globalStyles,
+	},
+	search: {
+		targets: [
+			{
+				selector: '#athos-layout',
+				component: 'Search',
+			},
+		],
+	},
+	autocomplete: {
+		targets: [
+			{
+				selector: 'input.athos-ac',
+				component: 'AutocompleteFixed',
+			},
+		]
+	},
+};
+
+new SnapTemplates(templatesConfig);
+```
 
 ## Transitioning from Templates to Standard Snap (SnapHybrid)
 
@@ -47,16 +104,16 @@ Consider transitioning to SnapHybrid when you need to:
 
 ### Basic Usage
 
-```jsx
+```tsx
 import { SnapHybrid } from '@athoscommerce/snap-preact';
-import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
 import { Content, Sidebar } from './components';
+import { globalStyles } from './styles';
 
 // Your existing templates configuration
-const templatesConfig: SnapTemplatesConfigUnlocked = {
-	unlocked: true,
+const templatesConfig: SnapTemplatesConfig = {
 	config: {
-		siteId: '8uyt2m',
+		siteId: 'atkzs2',
 		language: 'en',
 		currency: 'usd',
 		platform: 'shopify',
@@ -102,7 +159,7 @@ const templatesConfig: SnapTemplatesConfigUnlocked = {
 const snapConfig = {
 	client: {
 		globals: {
-			siteId: '8uyt2m',
+			siteId: 'atkzs2',
 		},
 	},
 	controllers: {

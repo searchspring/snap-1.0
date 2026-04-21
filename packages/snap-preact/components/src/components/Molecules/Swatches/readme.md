@@ -8,7 +8,7 @@ Renders a swatch component.
 - Image
 
 ## Usage
-```jsx
+```tsx
 import { Swatches } from '@athoscommerce/snap-preact/components';
 ```
 
@@ -16,7 +16,7 @@ import { Swatches } from '@athoscommerce/snap-preact/components';
 The required `options` prop specifies an array of options to render. Each option requires a value, but can optionally provide label, background, backgroundImageUrl, and disabled properties. 
 if no background or backgroundImageUrl provided, the value will be used as the css background color. 
 
-```jsx
+```tsx
 const options: SwatchOption = [
         {
             value: 'Rainbow',
@@ -57,7 +57,7 @@ const options: SwatchOption = [
 ### type
 The optional `type` prop specifies if what the swatch options should be rendered as. Type options are `carousel` or `grid`, with `carousel` as default. When a type is set, you can optionally pass additional child props to be spread in to each sub component. 
 
-```jsx
+```tsx
 const carouselProps: Partial<CarouselProps> = {
     loop: true,
     nextButton: 'Next',
@@ -67,7 +67,7 @@ const carouselProps: Partial<CarouselProps> = {
 <Swatches options={options} type={"carousel"} carousel={carouselProps}/>
 ```
 or
-```jsx
+```tsx
 const gridProps: Partial<GridProps> = {
     rows: 1, 
     columns: 6,
@@ -79,14 +79,14 @@ const gridProps: Partial<GridProps> = {
 ### hideLabels
 The optional `hideLabels` prop specifies if option labels should be hidden. 
 
-```jsx
+```tsx
 <Swatches options={options} hideLabels={true} />
 ```
 
 ### onSelect
 The optional `onSelect` prop specifies callback function to be called on option click. 
 
-```jsx
+```tsx
 const onSelectFunc = (event, clickedOption) => {
     console.log(event, clickedOption)
 }
@@ -97,14 +97,14 @@ const onSelectFunc = (event, clickedOption) => {
 ### titleText
 The optional `titleText` prop specifies the text to be rendered in the Swatches title. 
 
-```jsx
+```tsx
 <Swatches options={options} titleText={"Swatches Title"} />
 ```
 
 ### selected
 The optional `selected` prop specifies the selected option if the selected state is handled outside of the component. 
 
-```jsx
+```tsx
 
 const selectedOption: SwatchOption = { value: 'Red', label: 'Red', disabled: false },
 
@@ -187,7 +187,7 @@ Depending on the `type` prop passed, the default configuration contains the foll
     }
 ```
 
-```jsx
+```tsx
 <Swatches options={options} breakpoints={customBreakpoints} />
 ```
 

@@ -19,7 +19,7 @@ console.log(searchController.store)
 import { Pagination } from '@athoscommerce/snap-preact/components';
 ```
 
-```jsx
+```tsx
 <Pagination pagination={searchController.store.pagination} />
 ```
 

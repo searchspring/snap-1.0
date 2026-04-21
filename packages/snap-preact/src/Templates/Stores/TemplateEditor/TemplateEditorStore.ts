@@ -9,7 +9,7 @@ import { AutocompleteController, SearchController } from '@athoscommerce/snap-co
 import type { AbstractionGroup } from '../../../types';
 import { ThemeVariables, ThemeVariablesPartial } from '../../../../components/src';
 import { TargetStore } from '../TargetStore';
-import { AutocompleteTargetConfig, SearchTargetConfig, SnapTemplatesConfig } from '../../SnapTemplates';
+import { AutocompleteTargetConfig, SearchTargetConfig, SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from '../../SnapTemplates';
 import { configUI, themeUI, searchControllerUI, autocompleteControllerUI, updateAutocompleteControllerState } from './uiAbstractions';
 import { CurrencyCodes, LanguageCodes } from '../LibraryStore';
 
@@ -347,7 +347,7 @@ export class TemplateEditorStore {
 		return targets;
 	}
 
-	generateTemplatesConfig(): SnapTemplatesConfig {
+	generateTemplatesConfig(): SnapTemplatesConfig | SnapTemplatesConfigUnlocked {
 		const originalConfig = JSON.parse(JSON.stringify(this.templatesStore.config)) as SnapTemplatesConfig;
 		delete originalConfig.search;
 		delete originalConfig.autocomplete;
@@ -394,7 +394,7 @@ export class TemplateEditorStore {
 			};
 		}
 
-		const config: SnapTemplatesConfig = deepmerge(originalConfig, overrideConfig);
+		const config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked = deepmerge(originalConfig, overrideConfig);
 
 		return config;
 	}

@@ -18,7 +18,7 @@ Snap templates is entirely configuration based. The configuration defines which 
 
 Here is a minimal example starting configuration to enable search and autocomplete using the `pike` theme.
 
-```jsx
+```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 
 new SnapTemplates({
@@ -82,7 +82,7 @@ By default, Snap Templates operates in "locked" mode, which provides a curated s
 
 In locked mode, no special type import or `unlocked` flag is required. This mode is recommended for most integrations as it provides type safety, prevents configuration errors, and ensures compatibility with future updates.
 
-```jsx
+```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
 
@@ -113,7 +113,7 @@ This makes additional configuration capabilities available:
 
 2. **Custom Plugins** - Ability to define and register custom plugin functions that integrate with the controller lifecycle.
 
-```jsx
+```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
 
@@ -146,7 +146,7 @@ When `unlocked: true`, you can define custom plugins under `plugins.custom`. Cus
 
 Each custom plugin requires a `function` property that receives the controller instance and can register event handlers. You can optionally pass additional arguments via the `args` array:
 
-```jsx
+```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
 
@@ -190,7 +190,7 @@ new SnapTemplates(config);
 
 You can pass additional arguments to your plugin function using the `args` array. These arguments are spread after the controller when the plugin is invoked:
 
-```jsx
+```tsx
 // Define a reusable plugin factory that accepts configuration
 const createFilterPlugin = (controller, filterField, filterValues) => {
 	controller.on('beforeSearch', async ({ controller }, next) => {
@@ -233,7 +233,7 @@ new SnapTemplates(config);
 
 Custom plugins can also be defined at the feature level (search, autocomplete, recommendation) to only apply to specific controllers:
 
-```jsx
+```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
 
@@ -348,7 +348,7 @@ The example below demonstrates both approaches for French language translations:
 
 
 
-```jsx
+```tsx
 new SnapTemplates({
 	...
 	translations: {
@@ -385,7 +385,7 @@ Snap Templates was built to intentionally not support custom Preact components c
 | `components.badge[name]` | Custom badge component definition | Function (component) | ➖ |
 | `components.result[name]` | Custom result component definition | Function (component) | ➖ |
 
-```jsx
+```tsx
 import { SychronousCustomResult } from './components/Result';
 
 new SnapTemplates({

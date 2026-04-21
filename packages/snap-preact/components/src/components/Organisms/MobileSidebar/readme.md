@@ -13,14 +13,14 @@ Renders a Sidebar component wrapped in a Slideout Component to be used on mobile
 ### controller
 The required `controller` prop specifies a reference to the search controller.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} />
 ```
 
 ### displayAt
 The `displayAt` prop specifies a CSS media query for when the max width the component will render. By default, the component will render at 650px or less. 
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} displayAt={'600px'}/>
 ```
 
@@ -34,139 +34,139 @@ available modules to use in the layout are
 
 `filterSummary`, `sortBy`, `perPage`, `facets`, `banner.left`, `paginationInfo`, `layoutSelector`, `_`;
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} layout={['filterSummary', 'sortBy', 'perPage', 'facets', 'banner.left']}/>
 ```
 
 ### openButtonText
 The `openButtonText` prop will change the inner text of the slideout button
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} openButtonText={'Click To Filter'} />
 ```
 
 ### openButtonIcon
 The `openButtonIcon` prop specifies the name of an icon to add to the slideout open sidebar button.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} openButtonIcon={'cog'} />
 ```
 
 ### hideHeader
 The `hideHeader` prop will disable the sidebar header from rendering. 
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} hideHeader />
 ```
 
 ### titleText
 The `titleText` prop will change the inner text of the sidebar title.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} titleText={'Filter By: '} />
 ```
 
 ### hideCloseButton
 The `hideCloseButton` prop will disable the close Button component from rendering.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} hideCloseButton />
 ```
 
 ### closeButtonIcon 
 The `closeButtonIcon` prop specifies the name of an icon to add to the close sidebar button.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} closeButtonIcon={'close'} />
 ```
 
 ### closeButtonText
 The `closeButtonText` prop will change the inner text of the sidebar close button.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} closeButtonText={'Close Sidebar'} />
 ```
 
 ### hideFooter
 The `hideFooter` prop will disable the sidebar footer from rendering. 
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} hideFooter />
 ```
 
 ### hideApplyButton
 The `hideApplyButton` prop will disable the apply Button component from rendering.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} hideApplyButton />
 ```
 
 ### applyButtonText
 The `applyButtonText` prop will change the inner text of the apply Button component.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} applyButtonText={'Apply Changees'} />
 ```
 
 ### applyButtonIcon 
 The `applyButtonIcon` prop specifies the name of an icon to add to the sidebar apply filters button.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} applyButtonIcon={'cog'} />
 ```
 
 ### hideClearButton
 The `hideClearButton` prop will disable the clear all Button component from rendering.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} hideClearButton />
 ```
 
 ### clearButtonText
 The `clearButtonText` prop will change the inner text of the clear all Button component.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} clearButtonText={'Start Over'} />
 ```
 
 ### clearButtonIcon 
 The `clearButtonIcon` prop specifies the name of an icon to add to the sidebar clear all filters button.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} clearButtonIcon={'close'} />
 ```
 
 ### hideTitleText 
 The `hideTitleText` prop hides the title text.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} clearButtonIcon={'close'} hideTitleText={true} />
 ```
 
 ### hideOpenButtonText 
 The `hideOpenButtonText` prop hides the open button text.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} openButtonText={'open'} hideOpenButtonText={true} />
 ```
 
 ### hideClearButtonText 
 The `hideClearButtonText` prop hides the clear button text.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} clearButtonText={'start over'} hideClearButtonText={true} />
 ```
 
 ### hideApplyButtonText 
 The `hideApplyButtonText` prop hides the apply button text.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} applyButtonText={'Apply Changees'} hideApplyButtonText={true} />
 ```
 
 ### hideCloseButtonText 
 The `hideCloseButtonText` prop hides the close button text.
 
-```jsx
+```tsx
 <MobileSidebar controller={controller} closeButtonText={'close'} hideCloseButtonText={true} />
 ```

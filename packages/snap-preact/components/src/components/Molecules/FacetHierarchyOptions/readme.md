@@ -6,49 +6,49 @@ Renders a list of hierarchy options.
 - Icon
 
 ## Usage
-```jsx
+```tsx
 import { FacetHierarchyOptions } from '@athoscommerce/snap-preact/components';
 ```
 
 ### values
 The `values` prop specifies all facet values where the facet type is 'hierarchy'. Overrides values passed via the facet prop. 
 
-```jsx
+```tsx
 <FacetHierarchyOptions values={hierarchyFacet.values} />
 ```
 
 ### facet
 The `facet` prop specifies the reference to the facet object in the store.
 
-```jsx
+```tsx
 <FacetHierarchyOptions facet={hierarchyFacet} />
 ```
 
 ### hideCount
 The `hideCount` prop will disable the facet count values.
 
-```jsx
+```tsx
 <FacetHierarchyOptions values={hierarchyFacet.values} hideCount={true} />
 ```
 
 ### returnIcon
 The `returnIcon` prop will set the icon to render for the return levels / options.
 
-```jsx
+```tsx
 <FacetHierarchyOptions values={hierarchyFacet.values} returnIcon={'angle-left'} />
 ```
 
 ### horizontal
 The `horizontal` prop render facet options horizontally.
 
-```jsx
+```tsx
 <FacetHierarchyOptions values={hierarchyFacet.values} horizontal={true} />
 ```
 
 ### previewOnFocus
 If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over.
 
-```jsx
+```tsx
 <Autocomplete>
     ...
 	<FacetHierarchyOptions values={hierarchyFacet.values} previewOnFocus={true} />
@@ -74,7 +74,7 @@ const valueProps = {
 }
 ```
 
-```jsx
+```tsx
 <FacetHierarchyOptions values={hierarchyFacet.values} valueProps={valueProps} />
 ```
 
@@ -83,6 +83,6 @@ const valueProps = {
 #### onClick
 The `onClick` prop allows for a custom callback function for when a facet value is clicked.
 
-```jsx
+```tsx
 <FacetHierarchyOptions values={hierarchyFacet.values} onClick={(e)=>{console.log(e)}} />
 ```

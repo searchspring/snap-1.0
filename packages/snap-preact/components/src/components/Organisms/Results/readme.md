@@ -10,28 +10,28 @@ Renders a page of results utilizing `<Result />` components.
 - ResultTracker
 
 ## Usage
-```jsx
+```tsx
 import { Results } from '@athoscommerce/snap-preact/components';
 ```
 
 ### controller
 The `controller` prop specifies a reference to the search controller.
 
-```jsx
+```tsx
 <Results controller={controller.store.results} />
 ```
 
 ### results
 The `results` prop specifies a reference to the results store array. If no results prop is passed in, the component will default to using the results in controller.store. 
 
-```jsx
+```tsx
 <Results results={controller.store.results} />
 ```
 
 ### resultComponent
 The `resultComponent` prop specifies a custom result component to render.
 
-```jsx
+```tsx
 
 const CustomResult = ({
 	controller 
@@ -47,28 +47,28 @@ const CustomResult = ({
 ### layout
 The `layout` prop specifies if this result will be rendered in a `grid` or `list` layout.
 
-```jsx
+```tsx
 <Results results={controller.store.results} layout={'grid'} />
 ```
 
 ### columns
 The `columns` prop specifies the number of columns to display in a grid layout.
 
-```jsx
+```tsx
 <Results results={controller.store.results} columns={4} />
 ```
 
 ### rows
 The `rows` prop specifies the number of rows to display in a grid layout.
 
-```jsx
+```tsx
 <Results results={controller.store.results} rows={2} />
 ```
 
 ### gapSize
 The `gapSize` prop specifies the gap size between each result within a grid layout.
 
-```jsx
+```tsx
 <Results results={controller.store.results} gapSize={'10px'} />
 ```
 
@@ -99,6 +99,6 @@ const breakpoints = {
 };
 ```
 
-```jsx
+```tsx
 <Results results={controller.store.results} breakpoints={breakpoints} />
 ```

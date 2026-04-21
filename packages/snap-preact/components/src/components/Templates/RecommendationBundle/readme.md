@@ -7,7 +7,7 @@ Renders a recommended bundle of products with seed, carousel of recommendations 
 - Result (default)
 
 ## Usage
-```jsx
+```tsx
 import { RecommendationBundle } from '@athoscommerce/snap-preact/components';
 ```
 
@@ -17,28 +17,28 @@ Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.c
 ### controller
 The required `controller` prop specifies a reference to the RecommendationController
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
 ```
 
 ### onAddToCart 
 the `onAddToCart` prop sets a the callback function for when a add to cart button is clicked. This function will be passed an array of selected item ids and their quantities. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
 ```
 
 ### results
 The `results` prop specifies a reference to the results store array to use instead of the default `controller.store.results`. Note the first result will be displayed as the `seed` product. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} results={controller.store.results} />
 ```
 
 ### carousel 
 The `carousel` prop specifies an object of carousel settings. These settings will be merged with the default settings (listed below). All valid Carousel component props (and any non-documented SwiperJS props) can be used here. The below example uses the `prevButton`, `nextButton` and `loop` props from the Carousel:
 
-```jsx
+```tsx
 type BundleCarouselProps = {
 	enabled: boolean;
 	seedInCarousel?: boolean;
@@ -56,70 +56,70 @@ const customCarouselProps = {
 ### enabled
 The `enabled` prop is a sub prop under the `carousel` prop. It specifies weather the bundle should render as a carousel or not.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ enabled:false } />
 ```
 
 ### hideSeed
 The `hideSeed` prop specifies if the seed result should be rendered or not.  
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeed={true} />
 ```
 
 ### seedInCarousel
 The `seedInCarousel` prop is a sub prop under the `carousel` prop. It specifies if the seed product should be included in the carousel or not.  
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ seedInCarousel:true } />
 ```
 
 ### pagination
 The `pagination` prop is a sub prop under the `carousel` prop. It specifies if the carousel should display pagination dots. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ pagination:true } />
 ```
 
 ### hideButtons
 The `hideButtons` is a sub prop under the `carousel` prop. It specifies if the carousel should hide prev/next buttons.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ hideButtons:true }><Recommendation/>
 ```
 
 ### prevButton
 The `prevButton` prop is a sub prop under the `carousel` prop. It specifies the previous button element of the carousel. This can be a string or JSX element. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ prevButton: '<' } />
 ```
 
 ### nextButton
 The `nextButton` prop  is a sub prop under the `carousel` prop. It specifies the next button element of the carousel. This can be a string or JSX element. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ nextButton: '>' } />
 ```
 
 ### title
 The `title` prop specifies the bundle title
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} title={'Recommended Bundle'} />
 ```
 
 ### description
 The `description` prop specifies the bundle description
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} description={'Recommended Bundle products are so awesome!'} />
 ```
 
 ### resultComponent
 The `resultComponent` prop allows for a custom result component to be rendered. This component will be passed the following props -
 
-```jsx
+```tsx
 	{ 
 		result: Product, 
 		seed: boolean, 
@@ -128,84 +128,84 @@ The `resultComponent` prop allows for a custom result component to be rendered. 
 	}
 ```
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} resultComponent={<ResultSlot />} />
 ```
 
 ### ctaButtonText
 The `ctaButtonText` prop specifies the inner text to render in the add to cart button.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonText={'Add Bundle'} />
 ```
 
 ### ctaButtonSuccessText
 The `ctaButtonSuccessText` prop specifies text to temporarily render in the add to cart button after it is clicked.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessText={'Thanks for Shopping!'} />
 ```
 
 ### ctaButtonSuccessTimeout
 The `ctaButtonSuccessTimeout` prop specifies number of ms to show success text in add to cart button before reverting back to normal text
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessTimeout={1500} />
 ```
 
 ### ctaIcon
 The `ctaIcon` prop specifies the icon to render in the CTA. Takes an object with `Icon` component props or a string.     
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaIcon={'bag'} />
 ```
 
 ### ctaInline
 The `ctaInline` prop specifies if the add to cart display should be block or inline witht the carousel.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaInline={true} />
 ```
 
 ### ctaSlot
 The `ctaSlot` prop allows for a custom add to cart cta component to be rendered. This component will be passed the following props -
 
-```jsx	
+```tsx	
 	{ 
 		cartStore: CartStore;
 		onclick: (e:any) => void
 	}
 ```
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaSlot={<CTASlot />} />
 ```
 
 ### preselectedCount
 The `preselectedCount` prop specifies how many products in the bundle will be preselected. This number will include the seed. Example `preselectedCount={3}` would be `seed` + 2 preselected items. If not provided, this will default to however many products are initially visible. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} preselectedCount={4} />
 ```
 
 ### seedText
 The `seedText` prop specifies text to be rendered as a badge in the seed product.   
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} seedText={"Main Product"} />
 ```
 
 ### separatorIcon
 The `separatorIcon` prop specifies the icon to render between products. Takes an object with `Icon` component props or a string.     
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIcon={'cog'} />
 ```
 
 ### separatorIconSeedOnly
 The `separatorIconSeedOnly` prop specifies if the seperator Icon should only be rendered after the seed or after every product.     
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIconSeedOnly={true} />
 ```
 
@@ -213,21 +213,21 @@ The `separatorIconSeedOnly` prop specifies if the seperator Icon should only be 
 ### hideCheckboxes
 The `hideCheckboxes` prop specifies if the bundle checkboxes should be rendered. 
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideCheckboxes={true} />
 ```
 
 ### vertical
 The `vertical` prop sets the carousel scroll direction to vertical.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} vertical={true} />
 ```
 
 ### hideSeedText
 The `hideSeedText` prop sets determines if the seed text should render.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeedText={true} />
 ```
 
@@ -235,14 +235,14 @@ The `hideSeedText` prop sets determines if the seed text should render.
 ### limit
 The `limit` prop limits the number of products rendered.
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} vertical={true} limit={5} />
 ```
 
 ### modules
 The `modules` prop accepts additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> - these may need additional props and or stylesheets to function. We include `Navigation` and `Pagination` modules by default.
 
-```jsx
+```tsx
 import { Scrollbar } from 'swiper';
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} modules={[Scrollbar]} scrollbar={{ draggable: true }} />
 ```
@@ -250,7 +250,7 @@ import { Scrollbar } from 'swiper';
 ### lazyRender 
 The `lazyRender` prop specifies an object of lazy rendering settings. The settings include an `enable` toggle (defaults to `true`) as well as an `offset` (default `"10%"`) to specify at what distance the component should start rendering relative to the bottom of the viewport.
 
-```jsx
+```tsx
 const customLazyRenderProps = {
 	enabled: true,
 	offset: "20px" // any css margin values accepted - px, %, etc...
@@ -298,7 +298,7 @@ const defaultRecommendationBreakpoints = {
 };
 ```
 
-```jsx
+```tsx
 <RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} breakpoints={defaultRecommendationBreakpoints} />
 ```
 

@@ -7,14 +7,14 @@ This component is used for Beacon 2.0 tracking and replaces the need for using t
 Alternatively, the `withTracking` HoC can also be used to track the same events. It also removes the additional `div` element that ResultTracker adds.
 
 ## Usage
-```jsx
+```tsx
 import { ResultTracker } from '@athoscommerce/snap-preact/components';
 ```
 
 ### controller
 The required `controller` prop specifies a reference to a Controller object.
 
-```jsx
+```tsx
 <ResultTracker controller={controller} result={result}>
 	<Result result={result}></Result>
 </ResultTracker>
@@ -23,7 +23,7 @@ The required `controller` prop specifies a reference to a Controller object.
 ### children
 The required `children` prop specifies the contents of the result component (the tracker is a wrapper around this). 
 
-```jsx
+```tsx
 <ResultTracker controller={controller} result={result}>
 	<Result result={result}></Result>
 </ResultTracker>
@@ -32,7 +32,7 @@ The required `children` prop specifies the contents of the result component (the
 ### result
 The required `result` prop specifies a reference to a product object from the `results` store array. This reference is used when gathering the required data to track.
 
-```jsx
+```tsx
 <ResultTracker controller={controller} result={result}>
 	<Result result={result}></Result>
 </ResultTracker>
@@ -41,7 +41,7 @@ The required `result` prop specifies a reference to a product object from the `r
 ### track
 The `track` prop is an object that allows for the disabling of parts of the tracking functionality. The keys are `render`, `impression` and `click` - setting them to false prevents the tracking event for the result. The following example would disable all events except for the click tracking.
 
-```jsx
+```tsx
 <ResultTracker controller={controller} result={result} track={{ render: false, impression: false }}>
 	<Result result={result}></Result>
 </ResultTracker>
