@@ -99,7 +99,7 @@ describe('AutocompleteFixed Component', () => {
 		});
 	});
 
-	it.only('can set titles', async () => {
+	it('can set titles', async () => {
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
 
