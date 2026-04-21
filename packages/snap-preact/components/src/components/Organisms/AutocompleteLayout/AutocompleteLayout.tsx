@@ -469,10 +469,6 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 
 	const styling = mergeStyles<AutocompleteLayoutProps>(props, defaultStyles);
 
-	const reset = () => {
-		onReset && onReset();
-	};
-
 	//initialize lang
 	const defaultLang: Partial<AutocompleteLayoutLang> = {
 		contentTitle: {
@@ -750,12 +746,12 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 					internalClassName
 				)}
 				onClick={(e) => e.stopPropagation()}
-				ref={(e) => useA11y(e, 0, false, reset)}
+				ref={(e) => useA11y(e, 0, false, onReset)}
 			>
 				<span
 					role={'link'}
 					ref={(e) => useA11y(e)}
-					onClick={() => reset()}
+					onClick={() => props.onReset && props.onReset()}
 					className="ss__autocomplete__close-button"
 					style={{ position: 'absolute', top: '-10000000px', left: '-1000000px' }}
 					{...mergedLang.closeButton?.all}
