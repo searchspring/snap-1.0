@@ -131,20 +131,23 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 							</div>
 							<div className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__products')}>
 								<Carousel {...subProps.Carousel}>
-									{section.products.map((product) => (
-										<div
-											key={product.id}
-											className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__products__product')}
-										>
-											<Image
-												onClick={() => {
-													controller?.viewProduct(product as any);
-												}}
-												alt={product?.mappings?.core?.name || ''}
-												src={product?.mappings?.core?.imageUrl || ''}
-											/>
-										</div>
-									))}
+									{section.products.map((product: any) => {
+										const display = product?.display || product;
+										return (
+											<div
+												key={product.id}
+												className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__products__product')}
+											>
+												<Image
+													onClick={() => {
+														controller?.viewProduct(product);
+													}}
+													alt={display?.mappings?.core?.name || ''}
+													src={display?.mappings?.core?.imageUrl || ''}
+												/>
+											</div>
+										);
+									})}
 								</Carousel>
 							</div>
 						</div>

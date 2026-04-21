@@ -18,11 +18,15 @@ export default (config: SnapChatControllerConfig, services?: SnapControllerServi
 		config.client.config.mode = config.mode;
 	}
 
+	const client = services?.client || new Client(config.client!.globals, config.client!.config);
+	// @ts-ignore - globals is private on Client
+	const siteId: string | undefined = config.client?.globals?.siteId || client.globals?.siteId;
+
 	const cntrlr = new ChatController(
 		config.controller,
 		{
-			client: services?.client || new Client(config.client!.globals, config.client!.config),
-			store: services?.store || new ChatStore(config.controller),
+			client,
+			store: services?.store || new ChatStore({ ...config.controller, siteId }),
 			urlManager,
 			eventManager: services?.eventManager || new EventManager(),
 			profiler: services?.profiler || new Profiler(),

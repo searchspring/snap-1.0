@@ -554,7 +554,8 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 						fontSize: '15px',
 						lineHeight: 1.5,
 						color: '#333',
-						marginBottom: '20px',
+						padding: '2em',
+						textAlign: 'center',
 					},
 					'.ss__chat__suggestions': {
 						marginTop: 'auto',
@@ -1428,8 +1429,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																			// onClick={() => {
 																			// 	controller?.viewProduct(product as any);
 																			// }}
-																			alt={comparisonItem?.result.mappings?.core?.name || ''}
-																			src={comparisonItem?.result.mappings?.core?.imageUrl || ''}
+																			alt={(comparisonItem?.result?.display || comparisonItem?.result)?.mappings?.core?.name || ''}
+																			src={(comparisonItem?.result?.display || comparisonItem?.result)?.mappings?.core?.imageUrl || ''}
 																		/>
 																		<div
 																			className="ss__chat__content__header__comparisons__content__comparison__remove"
@@ -1628,30 +1629,35 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											const imageAttachments = visibleAttachments.filter((item) => item.type === 'image');
 
 											const comparisonItems: ChatAttachmentContextItem[] = activeComparisonSearchResults
-												? activeComparisonSearchResults.map((result: any) => ({
-														id: result?.id,
-														name: result?.mappings?.core?.name || '',
-														imageUrl: result?.mappings?.core?.thumbnailImageUrl || result?.mappings?.core?.imageUrl || '',
-														onClick: isMobile
-															? () => {
-																	controller.viewProduct(result);
-																	setMobileProductInfoOpen(true);
-															  }
-															: undefined,
-												  }))
+												? activeComparisonSearchResults.map((result: any) => {
+														const d = result?.display || result;
+														return {
+															id: result?.id,
+															name: d?.mappings?.core?.name || '',
+															imageUrl: d?.mappings?.core?.thumbnailImageUrl || d?.mappings?.core?.imageUrl || '',
+															onClick: isMobile
+																? () => {
+																		controller.viewProduct(result);
+																		setMobileProductInfoOpen(true);
+																  }
+																: undefined,
+														};
+												  })
 												: showCommittedComparisons
-												? (store.currentChat?.comparisons.committed || []).map((comparisonItem: any) => ({
-														id: comparisonItem.result?.id,
-														name: comparisonItem?.result?.mappings?.core?.name || '',
-														imageUrl:
-															comparisonItem?.result?.mappings?.core?.thumbnailImageUrl || comparisonItem?.result?.mappings?.core?.imageUrl || '',
-														onClick: isMobile
-															? () => {
-																	controller.viewProduct(comparisonItem.result);
-																	setMobileProductInfoOpen(true);
-															  }
-															: undefined,
-												  }))
+												? (store.currentChat?.comparisons.committed || []).map((comparisonItem: any) => {
+														const d = comparisonItem?.result?.display || comparisonItem?.result;
+														return {
+															id: comparisonItem.result?.id,
+															name: d?.mappings?.core?.name || '',
+															imageUrl: d?.mappings?.core?.thumbnailImageUrl || d?.mappings?.core?.imageUrl || '',
+															onClick: isMobile
+																? () => {
+																		controller.viewProduct(comparisonItem.result);
+																		setMobileProductInfoOpen(true);
+																  }
+																: undefined,
+														};
+												  })
 												: [];
 
 											const productItems: ChatAttachmentContextItem[] = productAttachments.map((item: any) => ({
@@ -1662,7 +1668,9 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 													? () => {
 															setMobileProductInfoOpen(true);
 													  }
-													: undefined,
+													: () => {
+															store.currentChat?.setActiveMessage(store.currentChat?.activeMessage?.id || '');
+													  },
 												onRemove: () => {
 													store.currentChat?.attachments.remove(item.id);
 													setMobileProductInfoOpen(false);

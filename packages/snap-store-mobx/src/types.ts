@@ -87,6 +87,7 @@ export type VariantOptionConfigMappings = {
 export type ChatStoreConfig = StoreConfig & {
 	globals?: Partial<ChatRequestModel>;
 	settings?: ChatStoreConfigSettings;
+	siteId?: string;
 };
 
 export type ChatStoreConfigSettings = {

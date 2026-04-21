@@ -4,8 +4,6 @@ import type { ClientConfig } from '@athoscommerce/snap-client';
 
 const DEFAULT_SITE_ID = 'atkzs2';
 
-const configStore = new StorageStore({ type: 'local', key: 'athos-demo-config' });
-
 export function getDemoConfig() {
 	let siteId = DEFAULT_SITE_ID;
 	let customOrigin = '';
@@ -18,19 +16,26 @@ export function getDemoConfig() {
 	const urlOriginParam = urlObj?.params.query.origin;
 	const urlChatOriginParam = urlObj?.params.query.chatOrigin;
 
-	// custom siteId
+	// determine siteId first so we can namespace the config storage
 	if (urlSiteIdParam && urlSiteIdParam.match(/[a-zA-Z0-9]{6}/)) {
 		siteId = urlSiteIdParam;
+	} else {
+		// fall back to the legacy shared store for backwards compat
+		const legacyStore = new StorageStore({ type: 'local', key: 'athos-demo-config' });
+		const storedSiteId = legacyStore.get('siteId');
+		if (storedSiteId) siteId = storedSiteId;
+	}
+
+	// namespace config storage per siteId so different tabs on the same domain don't conflict
+	const configStore = new StorageStore({ type: 'local', key: `athos-demo-config-${siteId}` });
+
+	if (urlSiteIdParam && urlSiteIdParam.match(/[a-zA-Z0-9]{6}/)) {
 		configStore.set('siteId', siteId);
 
 		// clear previously stored storage
 		window.localStorage.removeItem('athos-history');
 		window.sessionStorage.removeItem('athos-controller-search');
 		window.sessionStorage.removeItem('athos-controller-autocomplete');
-	} else {
-		// use siteId from storage
-		const storedSiteId = configStore.get('siteId');
-		if (storedSiteId) siteId = storedSiteId;
 	}
 
 	if (urlOriginParam) {

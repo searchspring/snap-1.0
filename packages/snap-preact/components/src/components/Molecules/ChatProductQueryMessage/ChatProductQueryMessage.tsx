@@ -7,7 +7,7 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import type { ChatController } from '@athoscommerce/snap-controller';
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { Image } from '../../Atoms/Image';
 import { Button } from '../../Atoms/Button';
 import { Icon, Price } from '../../..';
@@ -166,6 +166,8 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 
 					'&.ss__chat-product-query-message__variants__swatch--selected': {
 						borderColor: '#253B80',
+						borderWidth: '3px',
+						padding: '0.15em',
 					},
 
 					'&.ss__chat-product-query-message__variants__swatch--unavailable': {
@@ -323,8 +325,8 @@ const formatValue = (value: unknown): string => {
 	return stripHtml(String(value));
 };
 
-const collectFeatures = (product: any): string[] => {
-	const attributes = product?.attributes || {};
+const collectFeatures = (display: any): string[] => {
+	const attributes = display?.attributes || {};
 	for (const key of FEATURE_KEYS) {
 		const raw = attributes[key];
 		if (Array.isArray(raw) && raw.length > 0) {
@@ -341,9 +343,9 @@ const collectFeatures = (product: any): string[] => {
 	return [];
 };
 
-const collectInfoRows = (product: any, displayFields?: string[]): { key: string; label: string; value: string; rawKey: string }[] => {
-	const core = product?.mappings?.core || {};
-	const attributes = product?.attributes || {};
+const collectInfoRows = (display: any, displayFields?: string[]): { key: string; label: string; value: string; rawKey: string }[] => {
+	const core = display?.mappings?.core || {};
+	const attributes = display?.attributes || {};
 	const filterByDisplayFields = displayFields && displayFields.length > 0;
 	const displayFieldsLower = filterByDisplayFields ? displayFields.map((f) => f.toLowerCase()) : [];
 
@@ -424,24 +426,33 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 		return null;
 	}
 
-	const core = sourceProduct?.mappings?.core;
+	const display = sourceProduct?.display || sourceProduct;
+	const core = display?.mappings?.core;
 	if (!core) return null;
 
 	const chatMessages = controller?.store.currentChat?.chat || [];
 	const sourceMessage = chatItem.sourceMessageId ? chatMessages.find((m) => m.id === chatItem.sourceMessageId) : null;
 	const cameFromInspiration = sourceMessage?.messageType === 'inspirationResult';
 
-	const allInfoRows = collectInfoRows(sourceProduct, displayFields);
-	const descriptionRow = allInfoRows.find((row) => row.rawKey.toLowerCase() === 'description');
-	const infoRows = allInfoRows.filter((row) => row.rawKey.toLowerCase() !== 'description');
-	const features = collectFeatures(sourceProduct);
 	const variants = sourceProduct?.variants;
 	const variantData = variants?.data;
 	const optionConfig = variants?.optionConfig;
 
 	const [selectedVariantIndex, setSelectedVariantIndex] = useState<number | null>(null);
-	const displayedCore =
-		selectedVariantIndex != null && variantData?.[selectedVariantIndex]?.mappings?.core ? variantData[selectedVariantIndex].mappings.core : core;
+
+	const productId = core?.uid || core?.sku || chatItem.id;
+	useEffect(() => {
+		setSelectedVariantIndex(null);
+	}, [productId]);
+
+	const selectedVariant = selectedVariantIndex != null ? variantData?.[selectedVariantIndex] : null;
+	const displayedData = selectedVariant || display;
+	const displayedCore = displayedData?.mappings?.core || core;
+
+	const allInfoRows = collectInfoRows(displayedData, displayFields);
+	const descriptionRow = allInfoRows.find((row) => row.rawKey.toLowerCase() === 'description');
+	const infoRows = allInfoRows.filter((row) => row.rawKey.toLowerCase() !== 'description');
+	const features = collectFeatures(displayedData);
 
 	return (
 		<CacheProvider>

@@ -27,9 +27,11 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	constructor(config: ChatStoreConfig) {
 		super(config);
 
+		const legacyKey = `ss-${this.config.id}`;
+		const storageKey = this.config.siteId ? `ss-${this.config.siteId}-${this.config.id}` : legacyKey;
 		this.storage = new StorageStore({
 			type: 'local',
-			key: `ss-${this.config.id}`,
+			key: storageKey,
 		});
 
 		const storedChatStatusResponse = this.storage.get('chatStatusResponse');
@@ -76,6 +78,9 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 						meta: metaData,
 					},
 				});
+
+				// hydrate raw stored results back into Product / SearchResultStore instances
+				this.chats.forEach((chat) => chat.hydrateResults(metaData));
 			} catch {
 				this.storage.set('meta', null);
 			}
@@ -178,12 +183,13 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public sendProductQuery(result: any, options: { requestType: 'productQuery' | 'productSimilar' | 'productComparison' }): void {
+		const display = result?.display || result;
 		this.currentChat?.attachments.add<ChatAttachmentProduct>({
 			type: 'product',
 			requestType: options.requestType,
 			productId: result.id,
-			name: result.mappings.core?.name,
-			thumbnailUrl: result.mappings.core?.thumbnailImageUrl || result.mappings.core?.imageUrl,
+			name: display.mappings?.core?.name,
+			thumbnailUrl: display.mappings?.core?.thumbnailImageUrl || display.mappings?.core?.imageUrl,
 		});
 
 		// for the productQuery flow we want the secondary chat to immediately

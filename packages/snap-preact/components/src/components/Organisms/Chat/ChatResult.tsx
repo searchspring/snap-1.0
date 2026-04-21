@@ -154,8 +154,8 @@ export const ChatResult = observer((properties: ChatResultProps): JSX.Element =>
 				<OverlayBadge controller={controller as any} result={result} renderEmpty={true}>
 					<Image
 						className={'ss__chat__result__detail-slot__image'}
-						alt={result.mappings.core?.name || ''}
-						src={result.mappings.core?.imageUrl || ''}
+						alt={result.display.mappings.core?.name || ''}
+						src={result.display.mappings.core?.imageUrl || ''}
 						{...subProps.image}
 					/>
 				</OverlayBadge>
@@ -196,11 +196,11 @@ export const ChatResult = observer((properties: ChatResultProps): JSX.Element =>
 				</div>
 			</div>
 			<div className="ss__chat__result__content">
-				{result.mappings.core?.name && <div className="ss__chat__result__content__title--primary">{result.mappings.core?.name}</div>}
-				{(result as any).brand && <div className="ss__chat__result__content__title--secondary">{(result as any).brand}</div>}
-				{result.mappings.core?.price && (
+				{result.display.mappings.core?.name && <div className="ss__chat__result__content__title--primary">{result.display.mappings.core?.name}</div>}
+				{/* {(result as any).brand && <div className="ss__chat__result__content__title--secondary">{(result as any).brand}</div>} */}
+				{result.display.mappings.core?.price && (
 					<div className="ss__chat__result__content__price">
-						<Price value={result.mappings.core?.price} />
+						<Price value={result.display.mappings.core?.price} />
 					</div>
 				)}
 				<CalloutBadge controller={controller} result={result} />

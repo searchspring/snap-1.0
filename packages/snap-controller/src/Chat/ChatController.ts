@@ -220,7 +220,10 @@ export class ChatController extends AbstractController {
 	get params(): ChatRequestModel {
 		const { userId, shopperId, sessionId, pageLoadId } = this.tracker.getContext();
 
-		const productsToCompare = (this.store.currentChat?.comparisons.compared || []).map((item) => item.result.mappings.core.uid);
+		const productsToCompare = (this.store.currentChat?.comparisons.compared || []).map((item) => {
+			const d = item.result?.display || item.result;
+			return d.mappings.core.uid;
+		});
 
 		const attachedImageIds = (this.store.currentChat?.attachments.attached || [])
 			.filter((attachment) => attachment.type === 'image' && attachment.state !== 'error')
@@ -311,7 +314,7 @@ export class ChatController extends AbstractController {
 				chatRequest = {
 					requestType: 'productComparison',
 					message: this.store.inputValue,
-					productIds: committedComparisons.map((item: any) => item.result.mappings.core.uid),
+					productIds: committedComparisons.map((item: any) => (item.result?.display || item.result).mappings.core.uid),
 				};
 			}
 		}

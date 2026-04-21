@@ -16,8 +16,97 @@ import type {
 } from '@athoscommerce/snap-client';
 import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentProduct, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
-import { MetaResponseModel } from '@athoscommerce/snapi-types';
+import { MetaResponseModel, SearchResponseModelResult } from '@athoscommerce/snapi-types';
 import { ChatCompareStore } from './ChatCompareStore';
+import { SearchResultStore, Product } from '../../Search/Stores/SearchResultStore';
+
+function createChatResultStore(results: SearchResponseModelResult[], meta: MetaResponseModel): SearchResultStore {
+	return new SearchResultStore({
+		config: {} as any,
+		state: { loaded: true },
+		data: {
+			search: { results },
+			meta,
+		},
+	});
+}
+
+function createChatProduct(result: SearchResponseModelResult, meta: MetaResponseModel): Product {
+	return new Product({
+		config: {} as any,
+		data: { result, meta },
+		position: 0,
+		responseId: '',
+	});
+}
+
+/** Extract raw serializable data from a Product instance for storage. */
+function serializeProduct(product: any): any {
+	if (!(product instanceof Product)) return product;
+	const raw: any = {
+		id: product.id,
+		mappings: product.mappings,
+		attributes: product.attributes,
+	};
+	if (product.variants) {
+		raw.variants = {
+			data: product.variants.data.map((v: any) => ({
+				mappings: v.mappings,
+				attributes: v.attributes,
+				options: v.options,
+				badges: v.badges,
+			})),
+			optionConfig: product.variants.optionConfig,
+		};
+	}
+	return raw;
+}
+
+/** Convert a chat message array to a plain serializable form for localStorage. */
+function serializeChatForStorage(chat: ChatMessage[]): any[] {
+	return chat.map((message) => {
+		switch (message.messageType) {
+			case 'productSearchResult': {
+				const msg = message as any;
+				return { ...msg, results: Array.from(msg.results || []).map(serializeProduct) };
+			}
+			case 'inspirationResult': {
+				const msg = message as any;
+				return {
+					...msg,
+					inspirationSections: msg.inspirationSections?.map((section: any) => ({
+						...section,
+						products: Array.from(section.products || []).map(serializeProduct),
+					})),
+				};
+			}
+			case 'productAnswer': {
+				const msg = message as any;
+				return { ...msg, sourceProduct: serializeProduct(msg.sourceProduct) };
+			}
+			case 'productComparison': {
+				const msg = message as any;
+				return { ...msg, searchResults: Array.from(msg.searchResults || []).map(serializeProduct) };
+			}
+			case 'productRecommendation': {
+				const msg = message as any;
+				return {
+					...msg,
+					recommendationResult: msg.recommendationResult?.map((rec: any) => ({
+						...rec,
+						results: Array.from(rec.results || []).map(serializeProduct),
+					})),
+				};
+			}
+			case 'productQuery': {
+				const msg = message as any;
+				return { ...msg, sourceProduct: serializeProduct(msg.sourceProduct) };
+			}
+			default:
+				return message;
+		}
+	});
+}
 
 export type ChatFeedbacks = { messageId: string; rating: 'UP' | 'DOWN' };
 
@@ -28,6 +117,7 @@ export type ChatUserMessage = {
 	messageType: 'user';
 	text: string;
 	attachments?: string[];
+	requestType?: string;
 };
 
 export type ChatProductQueryMessageData = {
@@ -264,10 +354,9 @@ export class ChatSessionStore {
 	}
 
 	public save(): void {
-		// TODO: save chat state to storage store (local)
 		this.storage.set(`chats.${this.id}`, {
 			sessionId: this.sessionId,
-			chat: this.chat,
+			chat: serializeChatForStorage(this.chat),
 			// attachments: this.attachments.items,
 			actions: this.actions,
 			feedbacks: this.feedbacks,
@@ -275,6 +364,42 @@ export class ChatSessionStore {
 			feedbackDismissed: this.feedbackDismissed,
 			createdAt: this.createdAt,
 			committedComparisons: this.comparisons.committedItems,
+		});
+	}
+
+	/** Re-wrap raw stored results as Product / SearchResultStore instances. */
+	public hydrateResults(meta: MetaResponseModel): void {
+		this.chat.forEach((message) => {
+			if (message.messageType === 'productSearchResult') {
+				const msg = message as any;
+				if (msg.results?.length && !(msg.results[0] instanceof Product)) {
+					msg.results = createChatResultStore(msg.results, meta);
+				}
+			} else if (message.messageType === 'inspirationResult') {
+				const msg = message as any;
+				msg.inspirationSections?.forEach((section: any) => {
+					if (section.products?.length && !(section.products[0] instanceof Product)) {
+						section.products = createChatResultStore(section.products, meta);
+					}
+				});
+			} else if (message.messageType === 'productAnswer') {
+				const msg = message as any;
+				if (msg.sourceProduct && !(msg.sourceProduct instanceof Product)) {
+					msg.sourceProduct = createChatProduct(msg.sourceProduct, meta);
+				}
+			} else if (message.messageType === 'productComparison') {
+				const msg = message as any;
+				if (msg.searchResults?.length && !(msg.searchResults[0] instanceof Product)) {
+					msg.searchResults = createChatResultStore(msg.searchResults, meta);
+				}
+			} else if (message.messageType === 'productRecommendation') {
+				const msg = message as any;
+				msg.recommendationResult?.forEach((rec: any) => {
+					if (rec.results?.length && !(rec.results[0] instanceof Product)) {
+						rec.results = createChatResultStore(rec.results, meta);
+					}
+				});
+			}
 		});
 	}
 
@@ -309,6 +434,7 @@ export class ChatSessionStore {
 					messageType: 'user',
 					attachments: attachments.length > 0 ? attachments : undefined,
 					text: `Filter by ${filterTextArray.join('and ')}`,
+					requestType: request.data.requestType,
 				});
 			}
 		} else if ('message' in request.data && request.data.message) {
@@ -328,12 +454,13 @@ export class ChatSessionStore {
 				}
 			} else if (request.data.requestType === 'productComparison') {
 				this.comparisons.compared.forEach((item) => {
+					const d = item.result?.display || item.result;
 					const attachment = this.attachments.add<ChatAttachmentProduct>({
 						type: 'product',
 						requestType: 'productComparison',
 						productId: item.result.id,
-						name: item.result.mappings?.core?.name,
-						thumbnailUrl: item.result.mappings?.core?.thumbnailImageUrl || item.result.mappings?.core?.imageUrl,
+						name: d.mappings?.core?.name,
+						thumbnailUrl: d.mappings?.core?.thumbnailImageUrl || d.mappings?.core?.imageUrl,
 					});
 					if (attachment) {
 						attachments.push(attachment.id);
@@ -347,6 +474,7 @@ export class ChatSessionStore {
 				messageType: 'user',
 				attachments: attachments.length > 0 ? attachments : undefined,
 				text: request.data.message,
+				requestType: request.data.requestType,
 			});
 		} else if (request.data?.requestType === 'productSimilar') {
 			const attachedSimilarProduct = this.attachments.attached.find((item) => item.type == 'product' && item.requestType == 'productSimilar');
@@ -360,17 +488,19 @@ export class ChatSessionStore {
 					text: `Show similar products to "${
 						(attachedSimilarProduct as ChatAttachmentProduct).name || (attachedSimilarProduct as ChatAttachmentProduct).productId
 					}"`,
+					requestType: request.data.requestType,
 				});
 			}
 		} else if (request.data?.requestType === 'productComparison') {
 			const productNames: string[] = [];
 			this.comparisons.compared.forEach((item) => {
+				const d = item.result?.display || item.result;
 				const attachment = this.attachments.add<ChatAttachmentProduct>({
 					type: 'product',
 					requestType: 'productComparison',
 					productId: item.result.id,
-					name: item.result.mappings?.core?.name,
-					thumbnailUrl: item.result.mappings?.core?.thumbnailImageUrl || item.result.mappings?.core?.imageUrl,
+					name: d.mappings?.core?.name,
+					thumbnailUrl: d.mappings?.core?.thumbnailImageUrl || d.mappings?.core?.imageUrl,
 				});
 				if (attachment) {
 					attachments.push(attachment.id);
@@ -385,6 +515,7 @@ export class ChatSessionStore {
 					messageType: 'user',
 					attachments: attachments,
 					text: `Compare ${productNames.map((name) => `"${name}"`).join(' and ')}`,
+					requestType: request.data.requestType,
 				});
 			}
 		}
@@ -400,24 +531,48 @@ export class ChatSessionStore {
 
 	public update(data: { chat: ChatResponseModel; meta: MetaResponseModel }): void {
 		this.sessionId = data.chat.context.sessionId;
-		data.chat.data.forEach((data) => {
+		const meta = data.meta;
+
+		data.chat.data.forEach((messageData) => {
 			// check if the data has questions?
-			if (data.messageType === 'actions') {
+			if (messageData.messageType === 'actions') {
 				this.actions.push({
 					type: 'actions',
-					data: data.actions,
+					data: messageData.actions,
 				});
 				return;
 			}
 
-			if (data.messageType === 'productSearchResult' && data.facets?.length > 0) {
+			if (messageData.messageType === 'productSearchResult' && messageData.facets?.length > 0) {
 				this.actions.push({
 					type: 'facets',
-					data: data.facets,
+					data: messageData.facets,
 				});
 			}
 
-			this.chat.push(data);
+			// convert raw results to Product instances (via SearchResultStore) so
+			// display components can use result.display for mask-aware rendering
+			if (messageData.messageType === 'productSearchResult' && messageData.results?.length) {
+				messageData.results = createChatResultStore(messageData.results as SearchResponseModelResult[], meta) as any;
+			} else if (messageData.messageType === 'inspirationResult' && messageData.inspirationSections?.length) {
+				messageData.inspirationSections = messageData.inspirationSections.map((section) => ({
+					...section,
+					products: section.products?.length
+						? (createChatResultStore(section.products as SearchResponseModelResult[], meta) as any)
+						: section.products,
+				}));
+			} else if (messageData.messageType === 'productAnswer' && messageData.sourceProduct) {
+				(messageData as any).sourceProduct = createChatProduct(messageData.sourceProduct as SearchResponseModelResult, meta);
+			} else if (messageData.messageType === 'productComparison' && messageData.searchResults?.length) {
+				messageData.searchResults = createChatResultStore(messageData.searchResults as SearchResponseModelResult[], meta) as any;
+			} else if (messageData.messageType === 'productRecommendation' && messageData.recommendationResult?.length) {
+				messageData.recommendationResult = messageData.recommendationResult.map((rec) => ({
+					...rec,
+					results: rec.results?.length ? (createChatResultStore(rec.results as SearchResponseModelResult[], meta) as any) : rec.results,
+				}));
+			}
+
+			this.chat.push(messageData);
 		});
 
 		this.save();

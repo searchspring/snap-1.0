@@ -15,6 +15,18 @@ const defaultStyles: StyleScript<MessageUserProps> = () => {
 		alignItems: 'center',
 		marginLeft: '40px',
 		gap: '10px',
+		'.ss__chat__message-user__content': {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'flex-end',
+		},
+		'.ss__chat__message-user__request-type': {
+			fontStyle: 'italic',
+			color: '#999',
+			fontSize: '0.8em',
+			marginBottom: '4px',
+			textAlign: 'right',
+		},
 		'.ss__chat__message-user__text': {
 			padding: '0.5em 1em',
 			borderRadius: '12px',
@@ -53,10 +65,39 @@ const defaultStyles: StyleScript<MessageUserProps> = () => {
 	});
 };
 
+function getRequestTypeLabel(chatItem: any, store: any): string | undefined {
+	const requestType = chatItem.requestType;
+	if (!requestType || requestType === 'general') return undefined;
+
+	const attachments = chatItem.attachments || [];
+
+	switch (requestType) {
+		case 'productQuery': {
+			const productAttachment = attachments.map((id: string) => store.currentChat?.attachments.get(id)).find((a: any) => a?.type === 'product');
+			const productName = productAttachment?.name;
+			return productName ? `Asking about ${productName}` : 'Asking about product';
+		}
+		case 'productComparison':
+			return 'Comparing products';
+		case 'productSearch':
+			return 'Filtering products';
+		case 'imageSearch':
+			return 'Searching by image';
+		case 'productSimilar': {
+			const similarAttachment = attachments.map((id: string) => store.currentChat?.attachments.get(id)).find((a: any) => a?.type === 'product');
+			const name = similarAttachment?.name;
+			return name ? `Finding similar to ${name}` : 'Finding similar products';
+		}
+		default:
+			return undefined;
+	}
+}
+
 export const MessageUser = observer((props: MessageUserProps) => {
 	const { controller, chatItem } = props;
 	const { store } = controller;
 	const styling = mergeStyles<MessageUserProps>(props, defaultStyles);
+	const requestTypeLabel = getRequestTypeLabel(chatItem, store);
 
 	return (
 		<div className="ss__chat__message-user" {...styling}>
@@ -90,9 +131,12 @@ export const MessageUser = observer((props: MessageUserProps) => {
 					  })
 					: null}
 			</ul>
-			{chatItem.text ? (
-				<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-			) : null}
+			<div className="ss__chat__message-user__content">
+				{requestTypeLabel ? <div className="ss__chat__message-user__request-type">{requestTypeLabel}</div> : null}
+				{chatItem.text ? (
+					<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+				) : null}
+			</div>
 		</div>
 	);
 });
