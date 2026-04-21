@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 		right: '0',
 		top: '0',
 		zIndex: 1001,
-
+		pointerEvents: 'none',
 		'.ss__autocomplete-fixed__inner': {
 			position: 'absolute',
 			left: `calc(0px + ${offset?.left || 0}px)`,
@@ -32,6 +32,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 			width: `calc(100% + ${offset?.width || 0}px)`,
 			zIndex: 1001,
 			maxWidth: '100vw',
+			pointerEvents: 'auto',
 
 			'.ss__search-input': {
 				background: '#fff',
@@ -92,6 +93,22 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 	const { layout, disableStyles, controller, renderInput, overlayColor, className, internalClassName, offset, treePath } = props;
 
 	const renderedInputRef: MutableRef<HTMLInputElement | null> = useRef(null);
+
+	// Sync active state with controller's focusedInput.
+	// When the controller unfocuses (e.g. document click), close the autocomplete
+	// so the modal overlay doesn't persist over the input.
+	useEffect(() => {
+		const onFocusChange = (_context: any, next: () => void) => {
+			if (!controller.store.state.focusedInput) {
+				setActive(false);
+			}
+			next();
+		};
+		controller.eventManager.on('focusChange', onFocusChange);
+		return () => {
+			controller.eventManager.events['focusChange']?.remove(onFocusChange);
+		};
+	}, []);
 
 	const reset = () => {
 		controller.setFocused();
