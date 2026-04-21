@@ -16,7 +16,6 @@ describe('createPlugins with custom plugins', () => {
 	};
 
 	const baseConfig: SnapTemplatesConfigLocked = {
-		unlocked: false,
 		...baseConfigValues,
 	};
 
@@ -282,7 +281,6 @@ describe('createPlugins with custom plugins', () => {
 		// Note: TypeScript will error on this, but runtime should handle it
 		// This tests that the runtime code doesn't crash with unexpected config
 		const config = {
-			unlocked: false,
 			config: {
 				platform: 'other',
 				siteId: 'test123',
@@ -426,7 +424,6 @@ describe('createSnapConfig with custom plugins', () => {
 
 describe('createPlugins with built-in plugins', () => {
 	const baseConfig: SnapTemplatesConfigLocked = {
-		unlocked: false,
 		config: {
 			platform: 'other',
 			siteId: 'test123',
@@ -539,7 +536,6 @@ describe('createPlugins with built-in plugins', () => {
 
 describe('createSnapConfig additional coverage', () => {
 	const baseConfig: SnapTemplatesConfigLocked = {
-		unlocked: false,
 		config: {
 			platform: 'other',
 			siteId: 'test123',

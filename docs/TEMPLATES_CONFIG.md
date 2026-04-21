@@ -76,20 +76,17 @@ It is possible to switch language and currency at run-time using methods on the 
 
 ### Unlocked Configuration
 
-The `unlocked` property controls the level of customization available in your Snap Templates configuration. By default, Snap Templates operates in "locked" mode (`unlocked: false`), which provides a curated set of configuration options suitable for most integrations. When you need advanced customization capabilities, you can enable "unlocked" mode.
-
-| Configuration Option | Description | Type | Default |
-|----------------------|-------------|------|---------|
-| `unlocked` | Enable advanced configuration options | Boolean | `false` |
+By default, Snap Templates operates in "locked" mode, which provides a curated set of configuration options suitable for most integrations. When you need advanced customization capabilities, you can enable "unlocked" mode by importing and using the `SnapTemplatesConfigUnlocked` type.
 
 #### Locked Mode (Default)
 
-
-In locked mode, the configuration is restricted to a curated set of standard options. This mode is recommended for most integrations as it provides type safety, prevents configuration errors, and ensures compatibility with future updates across all components.
+In locked mode, no special type import or `unlocked` flag is required. This mode is recommended for most integrations as it provides type safety, prevents configuration errors, and ensures compatibility with future updates.
 
 ```jsx
-new SnapTemplates({
-	unlocked: false,
+import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
+
+const config: SnapTemplatesConfig = {
 	config: {
 		siteId: '8uyt2m',
 		platform: 'shopify',
@@ -98,19 +95,29 @@ new SnapTemplates({
 		extends: 'pike',
 	},
 	// ... standard configuration options
-});
+};
+
+new SnapTemplates(config);
 ```
 
 #### Unlocked Mode
 
-When `unlocked: true`, additional configuration capabilities become available:
+To enable unlocked mode you must:
 
-1. **Custom Component Prop in Theme Overrides for all components** - Ability to use the customComponent prop when customizing theme overrides, to completly replace what renders for a specific component.
+1. Import and use the `SnapTemplatesConfigUnlocked` type for your config variable
+2. Set `unlocked: true` in the config object
+
+This makes additional configuration capabilities available:
+
+1. **Custom Component Prop in Theme Overrides for all components** - Ability to use the `customComponent` prop when customizing theme overrides, to completely replace what renders for a specific component.
 
 2. **Custom Plugins** - Ability to define and register custom plugin functions that integrate with the controller lifecycle.
 
 ```jsx
-new SnapTemplates({
+import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
+
+const config: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
 	config: {
 		siteId: '8uyt2m',
@@ -120,7 +127,9 @@ new SnapTemplates({
 		extends: 'pike',
 	},
 	// ... configuration with advanced options
-});
+};
+
+new SnapTemplates(config);
 ```
 
 
@@ -138,7 +147,10 @@ When `unlocked: true`, you can define custom plugins under `plugins.custom`. Cus
 Each custom plugin requires a `function` property that receives the controller instance and can register event handlers. You can optionally pass additional arguments via the `args` array:
 
 ```jsx
-new SnapTemplates({
+import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
+
+const config: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
 	config: {
 		siteId: '8uyt2m',
@@ -169,7 +181,9 @@ new SnapTemplates({
 		extends: 'pike',
 	},
 	// ...
-});
+};
+
+new SnapTemplates(config);
 ```
 
 #### Passing Arguments to Custom Plugins
@@ -188,7 +202,10 @@ const createFilterPlugin = (controller, filterField, filterValues) => {
 	});
 };
 
-new SnapTemplates({
+import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
+
+const config: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
 	config: {
 		siteId: '8uyt2m',
@@ -209,13 +226,18 @@ new SnapTemplates({
 	theme: {
 		extends: 'pike',
 	},
-});
+};
+
+new SnapTemplates(config);
 ```
 
 Custom plugins can also be defined at the feature level (search, autocomplete, recommendation) to only apply to specific controllers:
 
 ```jsx
-new SnapTemplates({
+import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
+
+const config: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
 	config: {
 		siteId: '8uyt2m',
@@ -243,7 +265,9 @@ new SnapTemplates({
 		},
 	},
 	// ...
-});
+};
+
+new SnapTemplates(config);
 ```
 
 

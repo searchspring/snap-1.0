@@ -114,7 +114,7 @@ Themes and components provide prop their own default component prop configuratio
 The `components` section of `overrides` allows you to customize specific component prop overrides in your theme.
 
 > [!NOTE]
-> By default (when `unlocked: false`), only a curated subset of component props is available for overrides. When `unlocked: true` is set in your configuration, the full set of component props becomes available for customization. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
+> By default, only a curated subset of component props is available for overrides. To access the full set of component props in overrides, use the `SnapTemplatesConfigUnlocked` type and set `unlocked: true` in your configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
 
 
 ```jsx
@@ -188,7 +188,7 @@ All Atom, Molecule, and Organism components support a `customComponent` prop tha
 The `customComponent` prop accepts a string that references a component registered in your configuration's `components` section. When specified, the entire component is replaced with your custom component, which receives all of the original component's props.
 
 > [!NOTE]
-> When using a locked configuration (`unlocked: false` or omitted), only the `result` component supports the `customComponent` prop. To use `customComponent` with other components, you must set `unlocked: true` in your configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
+> When using a locked configuration (the default), only the `result` component supports the `customComponent` prop. To use `customComponent` with other components, you must use the `SnapTemplatesConfigUnlocked` type and set `unlocked: true` in your configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
 
 **Usage Example:**
 

@@ -49,10 +49,11 @@ Consider transitioning to SnapHybrid when you need to:
 
 ```jsx
 import { SnapHybrid } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
 import { Content, Sidebar } from './components';
 
 // Your existing templates configuration
-const templatesConfig = {
+const templatesConfig: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
 	config: {
 		siteId: '8uyt2m',
