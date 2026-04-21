@@ -470,7 +470,6 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 	const styling = mergeStyles<AutocompleteLayoutProps>(props, defaultStyles);
 
 	const reset = () => {
-		controller.setFocused();
 		onReset && onReset();
 	};
 
