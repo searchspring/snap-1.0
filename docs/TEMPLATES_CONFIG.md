@@ -76,7 +76,7 @@ It is possible to switch language and currency at run-time using methods on the 
 
 ### Unlocked Configuration
 
-By default, Snap Templates operates in "locked" mode, which provides a curated set of configuration options suitable for most integrations. When you need advanced customization capabilities, you can enable "unlocked" mode by importing and using the `SnapTemplatesConfigUnlocked` type.
+By default, Snap Templates operates in "locked" mode, which provides a curated set of configuration options suitable for most integrations. When you need advanced customization capabilities, you can enable "unlocked" mode by importing and using the `SnapTemplatesConfigUnlocked` type, and setting the `unlocked` setting to `true`.
 
 #### Locked Mode (Default)
 
