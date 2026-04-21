@@ -55,6 +55,7 @@ export const Modal = observer((properties: ModalProps) => {
 		disableA11y: false,
 		lockScroll: true,
 		overlayColor: 'rgba(0,0,0,0.8)',
+		renderOverlay: true,
 		treePath: globalTreePath,
 	};
 
@@ -76,6 +77,7 @@ export const Modal = observer((properties: ModalProps) => {
 		internalClassName,
 		disableStyles,
 		overlayColor,
+		renderOverlay,
 		onOverlayClick,
 		treePath,
 		customComponent,
@@ -215,7 +217,7 @@ export const Modal = observer((properties: ModalProps) => {
 					</div>
 				)}
 
-				<Overlay {...subProps.overlay} active={Boolean(showContent)} />
+				{renderOverlay && <Overlay {...subProps.overlay} active={Boolean(showContent)} />}
 			</div>
 		</CacheProvider>
 	);
@@ -233,6 +235,7 @@ export type ModalTemplatesLegalProps = {
 	open?: boolean;
 	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	startOpen?: boolean;
+	renderOverlay?: boolean;
 	disableClickOutside?: boolean;
 	disableA11y?: boolean;
 	overlayColor?: string;

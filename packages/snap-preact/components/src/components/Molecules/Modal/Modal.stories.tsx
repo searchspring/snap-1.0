@@ -169,6 +169,17 @@ export default {
 			},
 			control: { type: 'boolean' },
 		},
+		renderOverlay: {
+			description: 'Render the overlay behind the modal content',
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'boolean',
+				},
+				defaultValue: { summary: true },
+			},
+			control: { type: 'boolean' },
+		},
 		...componentArgs,
 	},
 };

@@ -37,6 +37,13 @@ export function useAcRenderedInput({
 	};
 
 	useEffect(() => {
+		// track pointer-initiated focus to avoid rendering the overlay between mousedown and mouseup,
+		// which splits the click target to the nearest common ancestor instead of the input element
+		let pointerFocus = false;
+		const clearPointerFocus = () => {
+			pointerFocus = false;
+		};
+
 		if (renderInput && buttonSelector) {
 			let button;
 			if (typeof buttonSelector == 'string') {
@@ -45,20 +52,42 @@ export function useAcRenderedInput({
 				button = buttonSelector;
 			}
 			if (button) {
+				button.addEventListener('mousedown', () => {
+					pointerFocus = true;
+				});
+
+				document.addEventListener('mouseup', clearPointerFocus, true);
+
 				button.addEventListener('click', (e) => {
+					pointerFocus = false;
 					e.stopPropagation();
 					onClick();
 				});
-				button.addEventListener('focus', () => onClick());
+
+				button.addEventListener('focus', () => {
+					if (!pointerFocus) {
+						onClick();
+					}
+				});
+
 				button.addEventListener('select', () => onClick());
 			}
 		} else {
 			if (setActive) {
+				(input as Element)!.addEventListener('mousedown', () => {
+					pointerFocus = true;
+				});
+				document.addEventListener('mouseup', clearPointerFocus, true);
 				(input as Element)!.addEventListener('click', (e) => {
+					pointerFocus = false;
 					e.stopPropagation();
 					setActive(true);
 				});
-				(input as Element)!.addEventListener('focus', () => setActive(true));
+				(input as Element)!.addEventListener('focus', () => {
+					if (!pointerFocus) {
+						setActive(true);
+					}
+				});
 				(input as Element)!.addEventListener('select', () => setActive(true));
 			}
 		}

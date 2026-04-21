@@ -92,6 +92,7 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 	const { layout, disableStyles, controller, renderInput, overlayColor, className, internalClassName, offset, treePath } = props;
 
 	const renderedInputRef: MutableRef<HTMLInputElement | null> = useRef(null);
+	const containerRef: MutableRef<HTMLDivElement | null> = useRef(null);
 
 	const reset = () => {
 		controller.setFocused();
@@ -116,6 +117,7 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 			internalClassName: 'autocomplete-fixed__modal',
 			buttonSelector: buttonSelector,
 			lockScroll: false,
+			renderOverlay: false,
 			onOverlayClick: reset,
 			open: active,
 			// inherited props
@@ -204,6 +206,24 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 		window.addEventListener('resize', debouncedHandleResize);
 	}, []);
 
+	useEffect(() => {
+		if (!active) return;
+		const handleDocumentClick = (e: MouseEvent) => {
+			if (
+				containerRef.current &&
+				!containerRef.current.contains(e.target as Node) &&
+				e.target !== buttonSelector &&
+				(input as Element) !== e.target
+			) {
+				setActive(false);
+			}
+		};
+		document.addEventListener('click', handleDocumentClick);
+		return () => {
+			document.removeEventListener('click', handleDocumentClick);
+		};
+	}, [active]);
+
 	const styling = mergeStyles<AutocompleteFixedProps & { inputBounds: inputBounds }>({ ...props, inputBounds }, defaultStyles);
 
 	let _input;
@@ -230,7 +250,7 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 
 	return layout?.length && active ? (
 		<CacheProvider>
-			<div {...styling} className={classNames('ss__autocomplete-fixed', className, internalClassName)}>
+			<div {...styling} className={classNames('ss__autocomplete-fixed', className, internalClassName)} ref={containerRef}>
 				<Modal {...subProps.modal}>
 					<div className="ss__autocomplete-fixed__inner" ref={(e) => useA11y(e, 0, true, reset)}>
 						{renderInput ? (

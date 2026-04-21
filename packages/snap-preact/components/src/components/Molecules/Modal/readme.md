@@ -59,6 +59,13 @@ The `overlayColor` prop specifies the color of the overlay.
 <Modal overlayColor={'rgba(0,0,0,0.8)'} />
 ```
 
+### renderOverlay
+The `renderOverlay` prop specifies whether the overlay should be rendered. Defaults to `true`.
+
+```jsx
+<Modal renderOverlay={false}>Hello World!</Modal>
+```
+
 ### onOverlayClick
 The `onOverlayClick` prop specifies the a function to call on clicking of the overlay.
 

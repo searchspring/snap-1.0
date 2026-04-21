@@ -346,4 +346,53 @@ describe('Modal Component', () => {
 			expect(modal).not.toHaveClass('ss__modal--open');
 		});
 	});
+
+	describe('renderOverlay prop', () => {
+		it('renders the overlay by default', () => {
+			const rendered = render(<Modal button={'open me'} />);
+
+			const overlay = rendered.container.querySelector('.ss__overlay');
+			expect(overlay).toBeInTheDocument();
+		});
+
+		it('renders the overlay when renderOverlay is true', () => {
+			const rendered = render(<Modal button={'open me'} renderOverlay={true} />);
+
+			const overlay = rendered.container.querySelector('.ss__overlay');
+			expect(overlay).toBeInTheDocument();
+		});
+
+		it('does not render the overlay when renderOverlay is false', () => {
+			const rendered = render(<Modal button={'open me'} renderOverlay={false} />);
+
+			const overlay = rendered.container.querySelector('.ss__overlay');
+			expect(overlay).not.toBeInTheDocument();
+		});
+
+		it('overlay becomes active when modal opens', async () => {
+			const rendered = render(<Modal button={'open me'} renderOverlay={true} />);
+
+			const button = rendered.container.querySelector('.ss__modal__button')!;
+			const overlay = rendered.container.querySelector('.ss__overlay')!;
+
+			expect(overlay).not.toHaveClass('ss__overlay--active');
+
+			await userEvent.click(button);
+
+			expect(overlay).toHaveClass('ss__overlay--active');
+		});
+
+		it('overlay becomes inactive when modal closes', async () => {
+			const rendered = render(<Modal button={'open me'} renderOverlay={true} />);
+
+			const button = rendered.container.querySelector('.ss__modal__button')!;
+
+			await userEvent.click(button);
+			const overlay = rendered.container.querySelector('.ss__overlay')!;
+			expect(overlay).toHaveClass('ss__overlay--active');
+
+			await userEvent.click(button);
+			expect(overlay).not.toHaveClass('ss__overlay--active');
+		});
+	});
 });
