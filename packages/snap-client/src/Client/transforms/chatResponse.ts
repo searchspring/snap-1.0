@@ -23,8 +23,6 @@ import { CORE_FIELDS, decodeProperty, RawResult, Result } from './searchResponse
 
 type BaseResponseProperties = {
 	id: string;
-	collectFeedback: boolean;
-	note?: string;
 };
 
 export type ChatResponseModel = {
@@ -44,26 +42,9 @@ export type ChatResponseModel = {
 	};
 };
 
-export type ChatResponseTextData = {
-	messageType: 'text';
-	id: string;
-	note: string;
-	collectFeedback: boolean;
-	text: string;
-};
-
-export type ChatResponseContentData = {
-	messageType: 'content';
-	id: string;
-	note: string;
-	collectFeedback: boolean;
-	text: string;
-};
-
 export function transformChatResponse(response: MoiResponseModel): ChatResponseModel {
 	const unknownError: ChatResponseErrorData = {
 		messageType: 'errorResponse',
-		collectFeedback: false,
 		id: '',
 		errorMessage: 'An unknown error has occurred',
 	};
@@ -110,15 +91,23 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 	};
 }
 
-// transformChatResponse.text = (data: MoiResponseModelText): ChatResponseTextData => {
-transformChatResponse.text = (data: MoiResponseModelText): any => {
-	// nothing to transform here yet
+export type ChatResponseTextData = {
+	messageType: 'text';
+	id: string;
+	text: string;
+};
+
+transformChatResponse.text = (data: MoiResponseModelText): ChatResponseTextData => {
 	return data;
 };
 
-// transformChatResponse.content = (data: MoiResponseModelContent): ChatResponseContentData => {
-transformChatResponse.content = (data: MoiResponseModelContent): any => {
-	// nothing to transform here yet
+export type ChatResponseContentData = {
+	messageType: 'content';
+	id: string;
+	text: string;
+};
+
+transformChatResponse.content = (data: MoiResponseModelContent): ChatResponseContentData => {
 	return data;
 };
 
@@ -161,10 +150,6 @@ transformChatResponse.productData = (data: MoiResponseModelProductSearchResult):
 		// base
 		messageType: data.messageType,
 		id: data.id,
-		collectFeedback: data.collectFeedback,
-
-		// optional
-		note: data.note,
 
 		// specific
 		text: data.text,
@@ -188,10 +173,6 @@ transformChatResponse.inspirationResult = (data: MoiResponseModelInspirationResu
 		// base
 		messageType: data.messageType,
 		id: data.id,
-		collectFeedback: data.collectFeedback,
-
-		// optional
-		note: data.note,
 
 		// specific
 		overallSummary: data.overallSummary,
@@ -213,9 +194,6 @@ transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): Cha
 	return {
 		messageType: data.messageType,
 		id: data.id,
-		collectFeedback: data.collectFeedback,
-
-		note: data.note,
 
 		text: data.text,
 		sourceProduct: mapProductToSearchResultProduct(data.sourceProduct),
@@ -239,9 +217,6 @@ transformChatResponse.productComparison = (data: MoiResponseModelProductComparis
 	return {
 		messageType: data.messageType,
 		id: data.id,
-		collectFeedback: data.collectFeedback,
-
-		note: data.note,
 
 		searchResults: (Array.isArray(data.searchResults) ? data.searchResults : [data.searchResults]).map(mapProductToSearchResultProduct),
 		comparisonData: data.comparisonData,
@@ -266,9 +241,6 @@ transformChatResponse.productRecommendation = (data: MoiResponseModelProductReco
 	return {
 		messageType: data.messageType,
 		id: data.id,
-		collectFeedback: data.collectFeedback,
-
-		note: data.note,
 
 		recommendationResult: data.recommendationResult,
 		sourceProduct: mapProductToSearchResultProduct(data.sourceProduct),
@@ -283,7 +255,6 @@ export type ChatResponseErrorData = BaseResponseProperties & {
 transformChatResponse.error = (data: MoiResponseModelError): ChatResponseErrorData => {
 	return {
 		messageType: data.messageType,
-		collectFeedback: data.collectFeedback ?? false,
 		id: data.id,
 
 		errorMessage: data.errorMessage,

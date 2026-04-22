@@ -35,13 +35,21 @@ const carouselStyleScript = () => {
 };
 
 export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
-	const { chatItem, controller, scrollToBottom } = props;
-	const isNarrow = typeof window !== 'undefined' && (window.innerWidth < 550 || (window.innerWidth >= 768 && window.innerWidth <= 1400));
-	const slidesPerView = isNarrow ? 1.9 : 2.9;
+	const { chatItem, controller, scrollToBottom, onViewProduct } = props;
+	const currentChat = controller.store.currentChat;
+	const activeMessage = currentChat?.activeMessage;
+	const isSideChatOpen =
+		!!activeMessage &&
+		['inspirationResult', 'productComparison', 'productQuery'].includes(activeMessage.messageType) &&
+		currentChat?.dismissedSideChatMessageId !== activeMessage.id;
+
+	const isNarrow = typeof window !== 'undefined' && window.innerWidth < 550;
+	const isConstrained = !isNarrow && isSideChatOpen && typeof window !== 'undefined' && window.innerWidth >= 768;
+	const slidesPerView = isNarrow || isConstrained ? 1.9 : 2.9;
 	const carouselProps: Partial<CarouselProps> = {
 		breakpoints: undefined,
 		slidesPerView,
-		slidesPerGroup: isNarrow ? 2 : 3,
+		slidesPerGroup: isNarrow || isConstrained ? 2 : 3,
 		loop: false,
 		pagination: false,
 		centerInsufficientSlides: false,
@@ -53,6 +61,7 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 		// buttons should be able to be clicked without triggering the product click
 		if (e.composedPath().some((el) => el instanceof HTMLElement && el.matches('button, .ss__button, a'))) return;
 		controller.viewProduct(result);
+		onViewProduct?.();
 	};
 
 	if (chatItem.messageType === 'productRecommendation' && chatItem.recommendationResult?.length) {
@@ -106,4 +115,5 @@ export interface ResultsDisplayProps {
 	chatItem: any;
 	controller: ChatController;
 	scrollToBottom: () => void;
+	onViewProduct?: () => void;
 }

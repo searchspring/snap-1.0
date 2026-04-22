@@ -153,7 +153,6 @@ export type MoiResponseModel = {
 
 type BaseResponseProperties = {
 	id: string;
-	collectFeedback: boolean;
 };
 
 export type MoiResponseModelSearchResult = {

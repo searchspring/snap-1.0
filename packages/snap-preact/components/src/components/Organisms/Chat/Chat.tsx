@@ -29,8 +29,9 @@ import {
 	ChatResponseActionsData,
 } from '@athoscommerce/snap-client/dist/cjs/Client/transforms/chatResponse';
 
-const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
+const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; hasSideChat?: boolean }> = ({ mobile, offset, hasSideChat }) => {
 	const colorPrimary = '#253B80';
+	const offsetValue = offset !== undefined ? (typeof offset === 'number' ? `${offset}px` : offset) : undefined;
 	return css({
 		position: 'fixed',
 		left: '20px',
@@ -44,9 +45,11 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 		},
 
 		'.ss__chat__primary': {
-			width: mobile ? '100%' : '40%',
-			maxWidth: 600,
-			height: mobile ? '100%' : '70vh',
+			...(mobile
+				? { width: '100%', height: '100%' }
+				: hasSideChat
+				? { flex: '1 1 0', minWidth: 0, maxWidth: 600, height: '70vh' }
+				: { width: 600, maxWidth: 'calc(100vw - 60px)', height: '70vh' }),
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'flex-end',
@@ -60,10 +63,9 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			},
 		},
 		'.ss__chat__secondary': {
-			width: mobile ? '100%' : '40%',
-			maxWidth: mobile ? '100%' : 600,
-			height: mobile ? 'calc(100% - 70px)' : '70vh',
-			maxHeight: mobile ? 'calc(100% - 70px)' : '70vh',
+			...(mobile
+				? { width: '100%', maxWidth: '100%', height: 'calc(100% - 70px)', maxHeight: 'calc(100% - 70px)' }
+				: { flex: '1 1 0', minWidth: 0, maxWidth: 600, height: '70vh', maxHeight: '70vh' }),
 			display: 'flex',
 			flexDirection: 'column',
 			overflow: 'hidden',
@@ -78,6 +80,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 						borderTopLeftRadius: '12px',
 						borderTopRightRadius: '12px',
 						overflow: 'hidden',
+						overscrollBehavior: 'contain',
 						boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.15)',
 						background: '#fff',
 						willChange: 'transform',
@@ -196,15 +199,16 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			gap: mobile ? 0 : '12px',
 			...(mobile
 				? {
-						top: 0,
+						top: offsetValue || 0,
 						left: 0,
 						right: 0,
 						bottom: 0,
 						width: '100%',
-						height: '100%',
+						height: offsetValue ? `calc(100% - ${offsetValue})` : '100%',
 				  }
 				: {
-						width: 'calc(100vw - 60px)',
+						width: hasSideChat ? 'calc(100vw - 60px)' : 'auto',
+						maxWidth: 'calc(100vw - 60px)',
 						maxHeight: 'calc(100vh - 40px)',
 				  }),
 			'.ss__chat__bubble': {
@@ -352,6 +356,11 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 				display: 'flex',
 				gap: '10px',
 				alignItems: 'center',
+				'> span': {
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				},
 				svg: {
 					cursor: 'pointer',
 					fill: '#fff',
@@ -516,6 +525,7 @@ const defaultStyles: StyleScript<{ mobile: boolean }> = ({ mobile }) => {
 			'.ss__chat__messages': {
 				flex: '1 1 auto',
 				overflowY: 'auto',
+				overscrollBehavior: 'contain',
 				margin: 0,
 				maxHeight: '100%',
 				background: '#f9fafc',
@@ -960,13 +970,14 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const defaultProps: Partial<ChatProps> = {
 		treePath: globalTreePath,
 		logo: 'https://cdn.athoscommerce.net/snap/images/Athos%20Commerce_Icon_white.svg',
-		title: 'Athos AI Assistant',
+		title: 'Athos Conversational Assistant',
 		subtitle: 'Ready to assist you',
+		offset: '150px',
 	};
 
 	let props = mergeProps('facets', globalTheme, defaultProps, properties);
 
-	const { className, internalClassName, controller, logo, title, subtitle } = props;
+	const { className, internalClassName, controller, logo, title, subtitle, offset } = props;
 	const { store } = controller;
 
 	const themeDefaults: Theme = {
@@ -1017,7 +1028,31 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 
 	// const subProps: ChatSubProps = {};
 
-	const styling = mergeStyles<{ mobile: boolean }>({ mobile: isMobile }, defaultStyles);
+	const activeMessage = store.currentChat?.activeMessage;
+	const sideChatTypes = isMobile
+		? ['inspirationResult', 'productComparison', ...(mobileProductInfoOpen ? ['productQuery'] : [])]
+		: ['inspirationResult', 'productComparison', 'productQuery'];
+	const shouldShowSideChat =
+		activeMessage && sideChatTypes.includes(activeMessage?.messageType) && store.currentChat?.dismissedSideChatMessageId !== activeMessage.id;
+
+	const styling = mergeStyles<{ mobile: boolean; offset?: string | number; hasSideChat?: boolean }>(
+		{ mobile: isMobile, offset, hasSideChat: !!shouldShowSideChat },
+		defaultStyles
+	);
+
+	// Lock body scroll while chat is open so touch/wheel scrolls don't leak to the page behind
+	useEffect(() => {
+		if (!store.open) return;
+		const body = document.body;
+		const previousOverflow = body.style.overflow;
+		const previousOverscroll = body.style.overscrollBehavior;
+		body.style.overflow = 'hidden';
+		body.style.overscrollBehavior = 'contain';
+		return () => {
+			body.style.overflow = previousOverflow;
+			body.style.overscrollBehavior = previousOverscroll;
+		};
+	}, [store.open]);
 
 	const HistoryButton = (props: { disabled?: boolean; open?: boolean }) => (
 		<Button
@@ -1079,13 +1114,6 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 		return <></>;
 	}
 
-	const activeMessage = store.currentChat?.activeMessage;
-	const sideChatTypes = isMobile
-		? ['inspirationResult', 'productComparison', ...(mobileProductInfoOpen ? ['productQuery'] : [])]
-		: ['inspirationResult', 'productComparison', 'productQuery'];
-	const shouldShowSideChat =
-		activeMessage && sideChatTypes.includes(activeMessage?.messageType) && store.currentChat?.dismissedSideChatMessageId !== activeMessage.id;
-
 	// Reset swipe state when secondary panel opens/closes or active message changes
 	useEffect(() => {
 		updateSwipeOffset(0);
@@ -1134,12 +1162,10 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 			updateSwipeOffset(height);
 			setTimeout(() => {
 				const attachments = store.currentChat?.attachments.attached || [];
-				const productAttachments = attachments.filter((item: any) => item.type === 'product' && item.requestType !== 'productSimilar');
+				const productAttachments = attachments.filter(
+					(item: any) => item.type === 'product' && item.requestType !== 'productSimilar' && item.requestType !== 'productComparison'
+				);
 				productAttachments.forEach((item) => store.currentChat?.attachments.remove(item.id));
-				const currentActive = store.currentChat?.activeMessage;
-				if (currentActive?.messageType === 'productComparison') {
-					store.currentChat?.comparisons.resetCommitted();
-				}
 				setMobileProductInfoOpen(false);
 				store.currentChat?.dismissSideChat();
 				updateSwipeOffset(0);
@@ -1183,6 +1209,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 						{
 							'ss__chat--open': store.open,
 							'ss__chat--minimized': !store.open,
+							'ss__chat--mobile': isMobile,
 						},
 						className,
 						internalClassName
@@ -1261,15 +1288,14 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 										onClick={() => {
 											// clear any product attachments tied to the side chat (discuss product flow)
 											// so the attachments bar disappears alongside the secondary panel
+											// but preserve productComparison attachments so the user can continue comparing
 											const productAttachmentsToRemove = (store.currentChat?.attachments.attached || []).filter(
-												(item) => item.type === 'product' && (item as any).requestType !== 'productSimilar'
+												(item) =>
+													item.type === 'product' &&
+													(item as any).requestType !== 'productSimilar' &&
+													(item as any).requestType !== 'productComparison'
 											);
 											productAttachmentsToRemove.forEach((item) => store.currentChat?.attachments.remove(item.id));
-											// clear committed comparison products when closing a productComparison side chat
-											// so the "Asking about compared products" bar disappears alongside the secondary panel
-											if (activeMessage?.messageType === 'productComparison') {
-												store.currentChat?.comparisons.resetCommitted();
-											}
 											setMobileProductInfoOpen(false);
 											store.currentChat?.dismissSideChat();
 										}}
@@ -1476,14 +1502,69 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 										.map((chatItem, index) => (
 											<div key={index} className={`ss__chat__message ss__chat__message--${chatItem.messageType}`}>
 												{{
-													user: <MessageUser chatItem={chatItem} controller={controller} />,
-													text: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													content: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													productSearchResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													inspirationResult: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													productAnswer: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													productComparison: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													productRecommendation: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+													user: (
+														<MessageUser
+															chatItem={chatItem}
+															controller={controller}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													text: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													content: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													productSearchResult: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													inspirationResult: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													productAnswer: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													productComparison: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
+													productRecommendation: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+														/>
+													),
 													actions: <SuggestedQuestions actions={(chatItem as unknown as ChatResponseActionsData).actions} controller={controller} />,
 													errorResponse: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
 													topicDrift: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
@@ -1497,6 +1578,23 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								{!store.currentChat?.isExpired ? (
 									<div className="ss__chat__content__footer">
 										{store.error && <div className="ss__chat__error">{store.error.message}</div>}
+										{store.currentChat?.sessionLimitReached && (
+											<div className={'ss__chat__topic-drift'}>
+												<Icon icon="info" size="18px" className={'ss__chat__topic-drift__icon--info'} />
+												<div className={'ss__chat__topic-drift__text'}>
+													<span>Session limit reached</span>
+													<span>This chat has reached its maximum number of interactions. Start a new session to continue.</span>
+												</div>
+												<Button
+													className={'ss__chat__topic-drift__button'}
+													onClick={() => {
+														controller.store.createChat();
+													}}
+												>
+													New Session
+												</Button>
+											</div>
+										)}
 										{store.currentChat?.actions && store.currentChat.actions.length > 0 && (
 											<div className={'ss__chat__actions'}>
 												{store.currentChat?.actions.map((action, index) => (
@@ -1613,7 +1711,9 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 												!activeComparisonSearchResults &&
 												store.currentChat?.comparisons.committed &&
 												store.currentChat.comparisons.committed.length > 0 &&
-												activeMessage?.messageType === 'user';
+												(activeMessage?.messageType === 'user' ||
+													activeMessage?.messageType === 'productComparison' ||
+													activeMessage?.messageType === 'productQuery');
 
 											const visibleAttachments =
 												store.currentChat?.attachments.attached.filter(
@@ -1774,7 +1874,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 												<input
 													type="text"
 													name="ss-chat-input"
-													disabled={store.loading || store.blocked}
+													disabled={store.loading || store.blocked || store.currentChat?.sessionLimitReached}
 													placeholder={(() => {
 														const comparedCount = store.currentChat?.comparisons.compared.length || 0;
 														const committedCount = store.currentChat?.comparisons.committed.length || 0;
@@ -1814,7 +1914,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 													<>
 														<Button
 															className={'ss__chat__upload-button'}
-															disabled={store.loading || store.blocked}
+															disabled={store.loading || store.blocked || store.currentChat?.sessionLimitReached}
 															onClick={() => fileInputRef.current?.click()}
 															icon={{ icon: 'image', title: 'Upload Image' }}
 														/>
@@ -1834,17 +1934,27 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 												)}
 											</div>
 											<div className={'ss__chat__input__actions'}>
-												<Button
-													className="ss__chat__send-button"
-													icon={{ icon: 'send', title: 'Send Message' }}
-													disabled={store.blocked}
-													onClick={() => {
-														controller.search();
-														if (isMobile && mobileProductInfoOpen) {
-															setMobileProductInfoOpen(false);
-														}
-													}}
-												/>
+												{(() => {
+													const hasImageAttachment = (store.currentChat?.attachments.attached || []).some(
+														(item) => item.type === 'image' && !item.error
+													);
+													const messageEmpty = !controller.store.inputValue.trim();
+													const sendDisabled = store.blocked || store.currentChat?.sessionLimitReached || (hasImageAttachment && messageEmpty);
+													return (
+														<Button
+															className="ss__chat__send-button"
+															icon={{ icon: 'send', title: 'Send Message' }}
+															disabled={sendDisabled}
+															onClick={() => {
+																if (sendDisabled) return;
+																controller.search();
+																if (isMobile && mobileProductInfoOpen) {
+																	setMobileProductInfoOpen(false);
+																}
+															}}
+														/>
+													);
+												})()}
 											</div>
 										</div>
 										<div className={'ss__chat__disclaimer'}>
@@ -1874,4 +1984,5 @@ export interface ChatProps extends ComponentProps {
 	logo?: string;
 	title?: string;
 	subtitle?: string;
+	offset?: string | number;
 }

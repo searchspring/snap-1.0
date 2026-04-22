@@ -130,6 +130,21 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 							background: '#c49a3a',
 						},
 					},
+
+					'.ss__chat-product-query-message__header__product__actions__show-similar .ss__button': {
+						borderRadius: '0.5em',
+						padding: '0.4em 0.75em',
+						fontWeight: 'bold',
+						border: '1px solid rgba(255, 255, 255, 0.6)',
+						whiteSpace: 'nowrap',
+						cursor: 'pointer',
+						fontSize: '0.8em',
+						background: 'transparent',
+						color: '#fff',
+						'&:not(.ss__button--disabled):hover': {
+							background: 'rgba(255, 255, 255, 0.15)',
+						},
+					},
 				},
 			},
 		},
@@ -507,6 +522,14 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 							<div className={classnames('ss__chat-product-query-message__header__product__actions__add-to-cart')}>
 								<Button content={'Add to Cart'} onClick={() => controller?.addToCart(sourceProduct as any)} />
 							</div>
+							{controller?.store.features.similarProducts.enabled && (
+								<div className={classnames('ss__chat-product-query-message__header__product__actions__show-similar')}>
+									<Button
+										content={'Show Similar'}
+										onClick={() => controller?.discussProduct(sourceProduct as any, { requestType: 'productSimilar' })}
+									/>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

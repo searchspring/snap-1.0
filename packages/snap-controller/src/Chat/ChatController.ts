@@ -416,7 +416,7 @@ export class ChatController extends AbstractController {
 						thumbnailUrl: response.thumbnailUrl,
 					});
 				} catch (err: any) {
-					const errorMessage = this.getUploadErrorMessage(err);
+					const errorMessage = err?.responseBody?.errorMessage || 'An unknown error has occured.';
 					attachment.update({
 						error: {
 							message: errorMessage,
@@ -426,30 +426,6 @@ export class ChatController extends AbstractController {
 			}
 		}
 	};
-
-	private getUploadErrorMessage(err: any): string {
-		const errorCode = err?.responseBody?.errorCode;
-		switch (errorCode) {
-			case 'VS_001':
-				return 'Image file is too small';
-			case 'VS_002':
-				return 'Image file is too large';
-			case 'VS_003':
-				return 'Image format is not supported';
-			case 'VS_004':
-				return 'Image dimensions are too small';
-			case 'VS_005':
-				return 'Image file is corrupted';
-			case 'VS_007':
-				return 'Image search is not available';
-			case 'VS_006':
-			case 'VS_101':
-			case 'VS_102':
-				return 'An error occurred processing the image. Please try again.';
-			default:
-				return 'Upload failed. Please try again.';
-		}
-	}
 
 	viewProduct = (result: Product): void => {
 		if (!this.store.currentChat) {
@@ -636,31 +612,38 @@ export class ChatController extends AbstractController {
 		} catch (err: any) {
 			if (err) {
 				if (err.err && err.fetchDetails) {
-					switch (err.fetchDetails.status) {
-						case 429: {
-							this.store.error = {
-								code: 429,
-								type: ErrorType.WARNING,
-								message: 'Too many frequent requests. Please try again later',
-							};
-							break;
+					// session limit exceeded — flag the current chat so the UI can show a banner
+					if (err.responseBody?.errorCode === 'CS_003') {
+						if (this.store.currentChat) {
+							this.store.currentChat.sessionLimitReached = true;
 						}
+					} else {
+						switch (err.fetchDetails.status) {
+							case 429: {
+								this.store.error = {
+									code: 429,
+									type: ErrorType.WARNING,
+									message: 'Too many frequent requests. Please try again later',
+								};
+								break;
+							}
 
-						case 500: {
-							this.store.error = {
-								code: 500,
-								type: ErrorType.ERROR,
-								message: 'An unexpected error occured. Please try again.',
-							};
-							break;
-						}
+							case 500: {
+								this.store.error = {
+									code: 500,
+									type: ErrorType.ERROR,
+									message: 'An unexpected error occured. Please try again.',
+								};
+								break;
+							}
 
-						default: {
-							this.store.error = {
-								type: ErrorType.ERROR,
-								message: err.err.message,
-							};
-							break;
+							default: {
+								this.store.error = {
+									type: ErrorType.ERROR,
+									message: err.err.message || 'An unknown error has occured.',
+								};
+								break;
+							}
 						}
 					}
 

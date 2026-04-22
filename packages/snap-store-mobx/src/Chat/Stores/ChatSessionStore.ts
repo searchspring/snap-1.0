@@ -14,7 +14,13 @@ import type {
 	ChatResponseErrorData,
 	ChatResponseTopicDriftData,
 } from '@athoscommerce/snap-client';
-import { ChatAttachmentAddAttachment, ChatAttachmentFacet, ChatAttachmentProduct, ChatAttachmentStore } from '../Stores/ChatAttachmentStore';
+import {
+	ChatAttachmentAddAttachment,
+	ChatAttachmentFacet,
+	ChatAttachmentImage,
+	ChatAttachmentProduct,
+	ChatAttachmentStore,
+} from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
 import { MetaResponseModel, SearchResponseModelResult } from '@athoscommerce/snapi-types';
 import { ChatCompareStore } from './ChatCompareStore';
@@ -60,6 +66,47 @@ function serializeProduct(product: any): any {
 		};
 	}
 	return raw;
+}
+
+/** Serialize attachments for localStorage. Strips base64 from images (kept only at runtime). */
+function serializeAttachmentsForStorage(items: (ChatAttachmentImage | ChatAttachmentProduct | ChatAttachmentFacet)[]): ChatAttachmentAddAttachment[] {
+	return items.map((item) => {
+		if (item.type === 'image') {
+			return {
+				type: 'image',
+				id: item.id,
+				fileName: item.fileName,
+				imageId: item.imageId,
+				imageUrl: item.imageUrl,
+				thumbnailUrl: item.thumbnailUrl,
+				state: item.state,
+				error: item.error,
+			};
+		}
+		if (item.type === 'product') {
+			return {
+				type: 'product',
+				id: item.id,
+				productId: item.productId,
+				thumbnailUrl: item.thumbnailUrl,
+				name: item.name,
+				requestType: item.requestType,
+				state: item.state,
+				error: item.error,
+			};
+		}
+		return {
+			type: 'facet',
+			id: item.id,
+			key: item.key,
+			facetLabel: item.facetLabel,
+			value: item.value,
+			label: item.label,
+			count: item.count,
+			state: item.state,
+			error: item.error,
+		};
+	});
 }
 
 /** Convert a chat message array to a plain serializable form for localStorage. */
@@ -188,6 +235,7 @@ export class ChatSessionStore {
 	public requestType: string = '';
 	public dismissedSideChatMessageId: string | null = null;
 	public activeMessageId: string | null = null;
+	public sessionLimitReached: boolean = false;
 
 	constructor(params: ChatSessionStoreConfig) {
 		const { id, sessionId, chat, attachments, actions, feedbacks, sessionFeedback, feedbackDismissed, createdAt, committedComparisons } =
@@ -210,8 +258,22 @@ export class ChatSessionStore {
 			this.chat = chat.filter((message) => message.messageType !== 'productQuery');
 		}
 		if (attachments && attachments.length > 0) {
-			attachments.forEach((attachment) => {
-				this.attachments.add(attachment);
+			this.attachments.hydrate(attachments);
+
+			// Any attachment already referenced by a sent user message is no longer
+			// pending — transition it from 'active' to 'saved' so it stops appearing
+			// in the attachment context bar while remaining available via get(id) for
+			// rendering inside historical user messages.
+			const usedAttachmentIds = new Set<string>();
+			this.chat.forEach((msg) => {
+				if (msg.messageType === 'user' && (msg as ChatUserMessage).attachments) {
+					(msg as ChatUserMessage).attachments!.forEach((id) => usedAttachmentIds.add(id));
+				}
+			});
+			this.attachments.items.forEach((item) => {
+				if ((item.state === 'active' || item.state === 'attached') && usedAttachmentIds.has(item.id)) {
+					item.save();
+				}
 			});
 		}
 
@@ -239,6 +301,7 @@ export class ChatSessionStore {
 			feedbackJustGiven: observable,
 			dismissedSideChatMessageId: observable,
 			activeMessageId: observable,
+			sessionLimitReached: observable,
 		});
 	}
 
@@ -357,7 +420,7 @@ export class ChatSessionStore {
 		this.storage.set(`chats.${this.id}`, {
 			sessionId: this.sessionId,
 			chat: serializeChatForStorage(this.chat),
-			// attachments: this.attachments.items,
+			attachments: serializeAttachmentsForStorage(this.attachments.items),
 			actions: this.actions,
 			feedbacks: this.feedbacks,
 			sessionFeedback: this.sessionFeedback,

@@ -47,8 +47,9 @@ export class ChatAttachmentStore {
 				return newAttachment as T;
 			}
 			case 'product': {
-				// if requestType is 'productSimilar', remove all other attachments
-				if (attachment.requestType === 'productSimilar') {
+				// 'productSimilar' and 'productQuery' are single-product flows — replace any
+				// existing attachments so the conversation only targets the latest product
+				if (attachment.requestType === 'productSimilar' || attachment.requestType === 'productQuery') {
 					this.items.forEach((item) => {
 						this.remove(item.id);
 					});
@@ -131,6 +132,24 @@ export class ChatAttachmentStore {
 
 	reset(): void {
 		this.items = [];
+	}
+
+	// Restore serialized attachments from storage without running the add() dedup logic,
+	// which would otherwise drop earlier images when multiple attachments are loaded.
+	hydrate(attachments: ChatAttachmentAddAttachment[]): void {
+		attachments.forEach((attachment) => {
+			switch (attachment.type) {
+				case 'image':
+					this.items.push(new ChatAttachmentImage(attachment));
+					break;
+				case 'product':
+					this.items.push(new ChatAttachmentProduct(attachment));
+					break;
+				case 'facet':
+					this.items.push(new ChatAttachmentFacet(attachment));
+					break;
+			}
+		});
 	}
 }
 

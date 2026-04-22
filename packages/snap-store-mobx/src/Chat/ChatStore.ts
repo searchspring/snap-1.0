@@ -237,6 +237,11 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public update(data: { chat: ChatResponseModel; meta: MetaResponseModel }): void {
+		// TODO: handle error
+		// if(err?.responseBody?.errorMessage || err?.responseBody?.errorCode) {
+		// 	const errorMessage = err?.responseBody?.errorMessage || 'An unknown error has occured.';
+		// }
+
 		this.currentChat?.update(data);
 		if (!this.meta) {
 			this.storage.set('meta', JSON.stringify(data.meta));

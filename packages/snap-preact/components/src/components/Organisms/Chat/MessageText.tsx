@@ -53,11 +53,6 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 				},
 			},
 		},
-		'.ss__chat__message-text__note': {
-			fontStyle: 'italic',
-			fontSize: '0.9em',
-			color: '#555',
-		},
 		'.ss__chat__message-text__results': {
 			marginTop: '12px',
 			'.swiper-container': {
@@ -103,7 +98,7 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 };
 
 export const MessageText = observer((props: MessageTextProps) => {
-	const { controller, chatItem, scrollToBottom } = props;
+	const { controller, chatItem, scrollToBottom, onViewProduct } = props;
 
 	const styling = mergeStyles<MessageTextProps>(props, defaultStyles);
 
@@ -143,8 +138,7 @@ export const MessageText = observer((props: MessageTextProps) => {
 					) : null}
 				</div>
 			)}
-			{chatItem?.note ? <div className={'ss__chat__message-text__note'}>{chatItem?.note}</div> : null}
-			{chatItem && <ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} />}
+			{chatItem && <ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} onViewProduct={onViewProduct} />}
 			{/* <FacetsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} /> */}
 		</div>
 	);
@@ -189,4 +183,5 @@ export interface MessageTextProps {
 	chatItem: any;
 	controller: ChatController;
 	scrollToBottom: () => void;
+	onViewProduct?: () => void;
 }
