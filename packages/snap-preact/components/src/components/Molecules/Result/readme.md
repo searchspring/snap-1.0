@@ -8,63 +8,63 @@ Renders a single product card.
 - Image
 
 ## Usage
-```jsx
+```tsx
 import { Result } from '@athoscommerce/snap-preact/components';
 ```
 
 ### result
 The required `result` prop specifies a reference to a product object from the `results` store array.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} />
 ```
 
 ### hideBadge
 The `hideBadge` prop will prevent the `<OverlayBadge />` and `<CalloutBadge />` components from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hideBadge={true} />
 ```
 
 ### hideTitle
 The `hideTitle` prop will prevent to product title from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hideTitle={true} />
 ```
 
 ### hideRating
 The `hideRating` prop will prevent to product rating from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hideRating={true} />
 ```
 
 ### hideAddToCartButton
 The `hideAddToCartButton` prop will prevent to product add to cart button from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hideAddToCartButton={true} />
 ```
 
 ### addToCartButtonText
 The `addToCartButtonText` prop will will change the text rendered in the add to cart button.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} />
 ```
 
 ### hidePricing
 The `hidePricing` prop will prevent the pricing from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hidePricing={true} />
 ```
 
 ### onAddToCartClick
 The `onAddToCartClick` prop is a function to be called on add to cart button click. In addition to the built in platform addToCart function on the controller. 
 
-```jsx
+```tsx
 
 const clickFunc = (e, result) => {
 	console.log('added!', e, result);
@@ -76,28 +76,28 @@ const clickFunc = (e, result) => {
 ### hideVariantSelections
 The `hideVariantSelections` prop will prevent the VariantSelections components from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hideVariantSelections={true} />
 ```
 
 ### addToCartButtonSuccessText
 The `addToCartButtonSuccessText` prop will change the text rendered in the add to cart button temporarily after clicking.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} addToCartButtonSuccessText={'added!'} />
 ```
 
 ### addToCartButtonSuccessTimeout
 The `addToCartButtonSuccessTimeout` prop specifies the number of ms to show the success text in the add to cart button before reverting back to normal text.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} addToCartButtonText={'Add To Cart'} addToCartButtonSuccessText={'added!'} addToCartButtonSuccessTimeout={4000} />
 ```
 
 ### hideImage
 The `hideImage` prop will prevent the image from rendering.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} hideImage={true} />
 ```
 
@@ -119,34 +119,34 @@ const productDetails = (props) => {
 }
 ```
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} detailSlot={<productDetails product={controller.store.results[0]/>} />
 ```
 
 ### fallback
 The `fallback` prop will be passed to the `<Image />` sub-component. If the primary image does not display, this fallback image will be displayed instead. 
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} fallback={'https://www.example.com/imgs/placeholder.jpg'} />
 ```
 
 ### width
 The `width` prop sets the width of this Result.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} width={'25%'} />
 ```
 
 ### layout
 The `layout` prop specifies if this Result will be contained in a `grid` or `list` layout.
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} layout={'grid'} />
 ```
 
 ### truncateTitle
 The `truncateTitle` prop utililizes the truncate filter from the snap-toolbox to allow you truncate the product title at a certain character length, and optionally append an additional string such as "..."
 
-```jsx
+```tsx
 <Result result={controller.store.results[0]} truncateTitle={ limit: 5, append: '...' } />
 ```

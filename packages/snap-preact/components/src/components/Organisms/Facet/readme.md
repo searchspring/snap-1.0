@@ -16,42 +16,42 @@ Renders a single complete facet. This includes determining the correct options t
 
 
 ## Usage
-```jsx
+```tsx
 import { Facet } from '@athoscommerce/snap-preact/components';
 ```
 
 ### facet
 The required `facet` prop specifies a reference to any single facet object within the facets store array. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} />
 ```
 
 ### disableCollapse
 The `disableCollapse` prop prevents the facet from toggling its collapse state. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} disableCollapse={true} />
 ```
 
 ### color
 The `color` prop sets the facet name and icon color.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} color={'#222222'} />
 ```
 
 ### limit
 The `limit` prop sets the number of options to display before the remaining options overflow and a show more/less button is displayed. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} limit={10} />
 ```
 
 ### previewOnFocus
 If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} previewOnFocus={true} />
 ```
 
@@ -72,98 +72,98 @@ const valueProps = {
 }
 ```
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} valueProps={valueProps} />
 ```
 
 ### iconExpand
 The `iconExpand` prop is the name of the icon to render when the facet is in its collapsed state.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} iconExpand={'angle-down'} />
 ```
 
 ### iconCollapse
 The `iconCollapse` prop is the name of the icon to render when the facet is in its open state.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} iconCollapse={'angle-up'} />
 ```
 
 ### showMoreText
 The `showMoreText` prop contains the text to display in the facet overflow button when collapsed. Default is `'Show More'`
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} showMoreText={'Show More'} />
 ```
 
 ### showLessText
 The `showLessText` prop contains the text to display in the facet overflow button when expanded. Default is `'Show Less'`
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} showLessText={'Show Less'} />
 ```
 
 ## hideShowMoreLessText
 The `hideShowMoreLessText` prop hides the show more / show less text.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} hideShowMoreLessText={true} />
 ```
 
 ### showSelectedCount
 The `showSelectedCount` prop shows the number of selected options within the facet in the facet header. NOTE: this prop will not work if `justContent` prop enabled. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} showSelectedCount={true} />
 ```
 
 ### hideSelectedCountParenthesis
 The `hideSelectedCountParenthesis` prop specifies if the parenthesis should render around the selected count in the facet header. NOTE: this prop will not work if `justContent` prop enabled. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} hideSelectedCountParenthesis={true} />
 ```
 
 ### rangeInputs
 The `rangeInputs` prop specifies if the range inputs should render. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} rangeInputs={true} />
 ```
 
 ### rangeInputsSubmitButtonText
 The `rangeInputsSubmitButtonText` prop specifies the text to be rendered in the range input submit button. 
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsSubmitButtonText={'Filter by Price'}/>
 ```
 
 ### rangeInputsPrefix
 The `rangeInputsPrefix` prop specifies the prefix to render next to the range inputs.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsPrefix={'$'}/>
 ```
 
 ### rangeInputsSeparatorText
 The `rangeInputsSeparatorText` prop specifies the separator text to render between the range inputs.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsSeparatorText={' to '}/>
 ```
 
 ### rangeInputsInheritDefaultValues
 The `rangeInputsInheritDefaultValues` prop enables the facet range input values to default to the facet low and high limits.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} rangeInputs={true} rangeInputsInheritDefaultValues={true}/>
 ```
 
 ### showClearAllText
 The `showClearAllText` prop specifies if the clear all text should render.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} showSelectedCount={true} showClearAllText={true} />
 ```
 
@@ -171,7 +171,7 @@ The `showClearAllText` prop specifies if the clear all text should render.
 ### clearAllText
 The `clearAllText` prop specifies the text displayed in the facet header when options are selected. Clicking it clears all currently selected options. Defaults to 'Clear All'
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} clearAllText={'Clear All'} />
 ```
 
@@ -179,7 +179,7 @@ The `clearAllText` prop specifies the text displayed in the facet header when op
 ### clearAllIcon
 The `clearAllIcon` prop specifies the icon displayed in the facet header when options are selected. Clicking it clears all currently selected options.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} clearAllIcon={'ban'} />
 ```
 
@@ -187,14 +187,14 @@ The `clearAllIcon` prop specifies the icon displayed in the facet header when op
 ### iconOverflowMore
 The `iconOverflowMore` prop contains the icon name of the facet overflow button when collapsed. Default is `'plus'`
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} iconOverflowMore={'plus'} />
 ```
 
 ### iconOverflowLess
 The `iconOverflowLess` prop contains the icon name of the facet overflow button when expanded. Default is `'minus'`
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} iconOverflowLess={'minus'} />
 ```
 
@@ -210,7 +210,7 @@ const Overflow = (props) => {
 }
 ```
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} overflowSlot={<Overflow/>} />
 ```
 
@@ -230,7 +230,7 @@ const fieldsProp = {
 },
 ```
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} fields={fieldsProp} />
 ```
 
@@ -257,7 +257,7 @@ const displayProp = {
 },
 ```
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} display={displayProp} />
 ```
 
@@ -275,7 +275,7 @@ const CustomFacetOptions = (props) => {
 }
 ```
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} optionsSlot={<CustomFacetOptions/>} />
 ```
 
@@ -283,20 +283,20 @@ const CustomFacetOptions = (props) => {
 ### iconColor
 The `iconColor` prop sets the facet icon color.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]} iconColor={'#222222'} />
 ```
 
 ### justContent
 The `justContent` prop renders just the facet options. Excludes rendering of the Dropdown sub-component.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]}  justContent={true} />
 ```
 
 ### horizontal
 The `horizontal` prop renders the facet horizontally.
 
-```jsx
+```tsx
 <Facet facet={controller.store.facets[0]}  horizontal={true} />
 ```

@@ -22,7 +22,7 @@ Renders a search results toolbar.
 ### controller
 The required `controller` prop specifies a reference to the search controller.
 
-```jsx
+```tsx
 <Toolbar controller={controller.store.results} />
 ```
 
@@ -36,14 +36,14 @@ available modules to use in the layout are
 `searchHeader`, `filterSummary`,  `breadcrumbs`, `mobileSidebar`, `layoutSelector`, `perPage`, `sortBy`, `pagination`, `paginationInfo`, `_`, `button.sidebar-toggle`, `banner.header`, `banner.banner`, `banner.footer`, `facetsHorizontal`;
 
 
-```jsx
+```tsx
 <Toolbar controller={controller.store.results} layout={['mobileSidebar', 'filterSummary', 'paginationInfo', 'sortBy', 'perPage', 'pagination']}/>
 ```
 
 ### toggleSideBarButton
 The required `toggleSideBarButton` prop specifies an element to be used as the toggleSideBarButton. This element will render in the layout as `button.sidebar-toggle`. If it is not provided in the layout, the button will not render.
 
-```jsx
+```tsx
 
 const button = () => {
     return <div>Toggle Sidebar</div>

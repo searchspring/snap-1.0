@@ -5,14 +5,14 @@ Renders a merchandising banner. Banner Types include `header`, `footer`, `left`,
 This `Banner` component does not support inline banners. See `InlineBanner` component below.
 
 ## Usage
-```jsx
+```tsx
 import { Banner } from '@athoscommerce/snap-preact/components';
 ```
 
 ### content
 The required `content` prop specifies an object of banners returned from the athos API.
 
-```jsx
+```tsx
 <Banner content={controller?.store?.merchandising?.content} type={'header'} />
 ```
 
@@ -21,18 +21,18 @@ The required `type` prop specifies the banner type to render from the `content` 
 
 Banner Types include `header`, `footer`, `left`, and `banner`. 
 
-```jsx
+```tsx
 <Banner content={controller?.store?.merchandising?.content} type={'header'} />
 ```
 
-```jsx
+```tsx
 <Banner content={controller?.store?.merchandising?.content} type={'footer'} />
 ```
 
-```jsx
+```tsx
 <Banner content={controller?.store?.merchandising?.content} type={'left'} />
 ```
 
-```jsx
+```tsx
 <Banner content={controller?.store?.merchandising?.content} type={'banner'} />
 ```

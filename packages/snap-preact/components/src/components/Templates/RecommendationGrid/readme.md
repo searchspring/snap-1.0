@@ -10,49 +10,49 @@ Renders a List of results utilizing `<Result />` components.
 ### controller
 The `controller` prop specifies a reference to the recommendation controller.
 
-```jsx
+```tsx
 <RecommendationGrid controller={controller.store.results} />
 ```
 
 ### results
 The `results` prop specifies a reference to the results store array. If no results prop is passed in, the component will default to using the results in controller.store. 
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} />
 ```
 
 ### title
 The `title` prop specifies the title text to render.
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} title={'Recommended For You'} />
 ```
 
 ### columns
 The `columns` prop specifies the number of columns to display. 
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} columns={4} />
 ```
 
 ### rows
 The `rows` prop specifies the number of rows to display.
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} rows={2} />
 ```
 
 ### trim
 The `trim` prop specifies whether we should trim off excess results in order to have equal rows and columns.
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} rows={3} trim={true} />
 ```
 
 ### gapSize
 The `gapSize` prop specifies the gap size between each result.
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} gapSize={'10px'} />
 ```
 
@@ -60,7 +60,7 @@ The `gapSize` prop specifies the gap size between each result.
 ### lazyRender 
 The `lazyRender` prop specifies an object of lazy rendering settings. The settings include an `enable` toggle (defaults to `true`) as well as an `offset` (default `"10%"`) to specify at what distance the component should start rendering relative to the bottom of the viewport.
 
-```jsx
+```tsx
 const customLazyRenderProps = {
 	enabled: true,
 	offset: "20px" // any css margin values accepted - px, %, etc...
@@ -96,14 +96,14 @@ const breakpoints = {
 };
 ```
 
-```jsx
+```tsx
 <RecommendationGrid results={controller.store.results} breakpoints={breakpoints} />
 ```
 
 ### resultComponent
 The `resultComponent` prop specifies a custom result component to render.
 
-```jsx
+```tsx
 
 const CustomResult = ({
 	controller 

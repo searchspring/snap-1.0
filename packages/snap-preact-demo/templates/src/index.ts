@@ -7,7 +7,6 @@ import { getDemoConfig } from '../../shared/demoConfig';
 const { siteId, clientConfig } = getDemoConfig();
 
 let templatesConfig: SnapTemplatesConfig = {
-	unlocked: true,
 	config: {
 		siteId: siteId,
 		language: 'en',
@@ -105,7 +104,7 @@ let templatesConfig: SnapTemplatesConfig = {
 };
 
 if (window.mergeSnapConfig) {
-	templatesConfig = deepmerge(templatesConfig as object, window.mergeSnapConfig, { arrayMerge: combineMerge }) as SnapTemplatesConfig;
+	templatesConfig = deepmerge(templatesConfig, window.mergeSnapConfig, { arrayMerge: combineMerge });
 }
 
 new SnapTemplates(templatesConfig);
