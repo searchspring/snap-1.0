@@ -6,7 +6,7 @@ The common platform library gives you helper functions and plugins to use for al
 ### Snap Config
 To use the platform library in Snap, simply import what you wish to use from `@athoscommerce/snap-platforms/common` and connect it to the controller `config.plugins`.
 
-```jsx
+```tsx
 import { pluginScrollToTop } from '@athoscommerce/snap-platforms/common';
 
 const scrollToTopConfig = {
@@ -29,7 +29,7 @@ const scrollToTopConfig = {
 ### Snap Templates
 To use a common plugin in [SnapTemplates](https://github.com/athoscommerce/snap/blob/main/docs/TEMPLATES_ABOUT.md), it can be defined and configured in the `config.plugins.common` section (no import necessary).
 
-```jsx
+```tsx
 const scrollToTopConfig = {
 	enabled: true,
 	selector: '#athos-layout',
@@ -46,7 +46,7 @@ const scrollToTopConfig = {
 ### Snap Controller 
 To use the platform library with a controller, simply import what you wish to use from `@athoscommerce/snap-platforms/common`.
 
-```jsx
+```tsx
 import { pluginScrollToTop } from '@athoscommerce/snap-platforms/common';
 const scrollToTopConfig = {
 	enabled: true,
@@ -68,7 +68,7 @@ Plugin to attach a custom function to the addToCart controller event.
 | enabled | Configuration to allow for disabling the plugin | boolean | true | ➖ |
 | function | Function to invoke with product and/or controller when and addToCart event occurs | (products, controller) => void \| Promise\<void\> | ➖ | ✔️ |
 
-```jsx
+```tsx
 const addToCartConfig = {
 	function: (products, controller) => {
 		controller.log.debug('adding products to the cart', products);
@@ -93,7 +93,7 @@ Plugin to set up background filters. You can configure background filters for ta
 | filters[].controllerIds | Defines which controllers the filter should apply to | (string \| regexp)[]  | ➖ | ➖ |
 | filters[].controllerTypes | Defines which controller types the filter should apply to | (string)[] | ➖ | ➖ |
 
-```jsx
+```tsx
 const backgroundFiltersConfig = {
 	filters: [
 		{
@@ -151,7 +151,7 @@ Adds some controller logging. Currently logs the store after every search.
 |----------------------|-------------|------|---------|----------|
 | enabled | Configuration to allow for disabling the plugin | boolean | true | ➖ |
 
-```jsx
+```tsx
 const loggerConfig = {
 	enabled: false,
 }
@@ -169,7 +169,7 @@ Configures the behavior of scrolling to the top of the page after a search has o
 | selector | Query selector to scroll to | string | 'body' | ➖ |
 | options | [`window.scroll` options configuration](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll#options) | Object | { top: 0, left: 0, behavior: 'smooth' } | ➖ |
 
-```jsx
+```tsx
 const scrollToTopConfig = {
 	enabled: true,
 	selector: '#athos-layout',

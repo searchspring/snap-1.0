@@ -6,7 +6,7 @@ This platform library gives you helper functions and plugins to use with the Sho
 ## Usage 
 To use the platform library, simply import what you wish to use from `@athoscommerce/snap-platforms/shopify`.
 
-```jsx
+```tsx
 import { addToCart } from '@athoscommerce/snap-platforms/shopify';
 
 export const AddToCart = (props) => {
@@ -31,7 +31,7 @@ The `idFieldName` property takes a stringified path in the result reference, to 
 > [!IMPORTANT]
 > The `Shopify` object needs to be available on the window.
 
-```jsx
+```tsx
 import { addToCart } from '@athoscommerce/snap-platforms/shopify';
 
 export const AddToCart = (props) => {
@@ -58,7 +58,7 @@ Plugin to attach a custom function to the addToCart controller event.
 | idFieldName | field name to use for the product identifier to use when adding product | string | 'display.mappings.core.uid' | ➖ |
 
 
-```jsx
+```tsx
 const addToCartConfig = {
 	redirect: false,
 	idFieldName: 'display.mappings.core.sku'
@@ -116,7 +116,7 @@ Enables updating the URL for products within search results; product URLs will b
 | mutations.collectionInUrl | collection in URL Mutation configuration object | object | ➖ | ➖ |
 | mutations.collectionInUrl.enabled | configuration to allow for disabling of the mutation | object | true | ➖ |
 
-```jsx
+```tsx
 const mutateResultsConfig = {
 	collectionInUrl: {
 		enabled: true,

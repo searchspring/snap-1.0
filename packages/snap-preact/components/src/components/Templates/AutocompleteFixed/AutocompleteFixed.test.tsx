@@ -67,7 +67,39 @@ describe('AutocompleteFixed Component', () => {
 		expect(autocompletetemplate).not.toBeInTheDocument();
 	});
 
-	it.only('can set titles', async () => {
+	it('closes when controller loses focus via focusChange event', async () => {
+		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
+		await controller.bind();
+
+		const args: AutocompleteFixedProps = {
+			controller,
+			input: controller.config.selector,
+		};
+
+		const input = document.querySelector('.athos-ac') as HTMLInputElement;
+		const rendered = render(<AutocompleteFixed {...args} />, { container });
+
+		// Open the autocomplete by clicking the native input
+		await userEvent.click(input!);
+
+		// Confirm the autocomplete modal is now visible
+		await waitFor(() => {
+			expect(rendered.container.querySelector('.ss__autocomplete-fixed')).toBeInTheDocument();
+		});
+
+		// Simulate the controller having a focused input (as it would after bind + focus)
+		controller.store.state.focusedInput = input;
+
+		// Simulate focus loss (e.g., outside click calls controller.setFocused() with no arg)
+		await controller.setFocused();
+
+		// The autocomplete should close after the focusChange event clears active state
+		await waitFor(() => {
+			expect(rendered.container.querySelector('.ss__autocomplete-fixed')).not.toBeInTheDocument();
+		});
+	});
+
+	it('can set titles', async () => {
 		const controller = createAutocompleteController({ client: clientConfig, controller: acConfig }, { client: mockClient });
 		await controller.bind();
 

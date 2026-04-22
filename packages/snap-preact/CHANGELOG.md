@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/AthosCommerce/snap/compare/v1.2.1...v1.2.2) (2026-04-22)
+
+### Bug Fixes
+
+- double clicking ac input toggles things ([095ab5d](https://github.com/AthosCommerce/snap/commit/095ab5d56194f965ed1ae01b49874e34de8bfc80))
+- remove style ([1169a49](https://github.com/AthosCommerce/snap/commit/1169a493c6dc86d5c6824360725f45ef2f204f97))
+- wip ([0c36bd5](https://github.com/AthosCommerce/snap/commit/0c36bd56353b18ea34399fcf0cde44a0f0eacbed))
+
 ## [1.2.1](https://github.com/AthosCommerce/snap/compare/v1.2.0...v1.2.1) (2026-04-17)
 
 **Note:** Version bump only for package @athoscommerce/snap-preact

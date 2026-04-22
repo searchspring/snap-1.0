@@ -6,28 +6,28 @@ Renders all facets utilizing the `<Facet />` component.
 - Facet
 
 ## Usage
-```jsx
+```tsx
 import { Facets } from '@athoscommerce/snap-preact/components';
 ```
 
 ### controller
 The `controller` prop specifies a reference to the search controller.
 
-```jsx
+```tsx
 <Facets controller={controller} />
 ```
 
 ### facets
 The optional`facets` prop specifies a reference to the facets store array. If no facets prop is passed in, the component will default to using the facets in controller.store. 
 
-```jsx
+```tsx
 <Facets controller={controller} facets={facets} />
 ```
 
 ### limit
 The `limit` prop will limit the maximum number of facets to display.
 
-```jsx
+```tsx
 <Facets controller={controller} facets={facets} limit={3}/>
 ```
 
@@ -35,6 +35,6 @@ The `limit` prop will limit the maximum number of facets to display.
 ### onFacetOptionClick
 The `onFacetOptionClick` prop takes a callback function for when a facet option is clicked.
 
-```jsx
+```tsx
 <Facets controller={controller} facets={facets} limit={3}/>
 ```

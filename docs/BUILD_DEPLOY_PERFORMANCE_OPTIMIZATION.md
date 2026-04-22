@@ -41,7 +41,7 @@ The [Image](https://athoscommerce.github.io/snap/preact-components?params=%3Fpat
 
 Otherwise, if you are not using the `Image` component, ensure product images are optimized by setting the `loading` attribute to `lazy`: 
 
-```jsx
+```tsx
 <img 
   src={result.imageUrl} 
   alt={result.name}
@@ -53,7 +53,7 @@ Otherwise, if you are not using the `Image` component, ensure product images are
 
 Use `prefetch` sparingly and only for components that are likely to be viewed. When `prefetch` is enabled, the controller's search method is called immediately when the targeter is registered, before the target element is found in the DOM:
 
-```jsx
+```tsx
 const config = {
   controllers: {
     search: [{
@@ -80,7 +80,7 @@ Avoid prefetching when:
 
 Snap's event middleware system allows you to hook into controller lifecycle events. When adding middleware, ensure you're not adding synchronous work that blocks the main thread:
 
-```jsx
+```tsx
 // Good: Use async middleware for non-blocking operations
 controller.on('beforeSearch', async ({ controller, request }, next) => {
   // Perform async work that doesn't block interaction
@@ -123,7 +123,7 @@ We recommended using server-side rendered skeletons inside the target elements f
 </div>
 ```
 
-```jsx
+```tsx
 import { Snap } from '@athos/snap-preact';
 
 const config = {
@@ -156,7 +156,7 @@ Ensure product images have defined dimensions to prevent layout shifts:
 
 Or use the `style` prop on Image components:
 
-```jsx
+```tsx
 <Image 
   src={result.imageUrl}
   alt={result.name}

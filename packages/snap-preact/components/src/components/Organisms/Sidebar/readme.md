@@ -15,7 +15,7 @@ Renders a sidebar element containing a title, FilterSummary, SortBy, PerPage, an
 ### controller
 The required `controller` prop specifies a reference to the search controller.
 
-```jsx
+```tsx
 <Sidebar controller={controller} />
 ```
 
@@ -28,28 +28,28 @@ available modules to use in the layout are
 
 `filterSummary`, `sortBy`, `perPage`, `facets`, `banner.left`, `paginationInfo`, `layoutSelector`, `_`;
 
-```jsx
+```tsx
 <Sidebar controller={controller} layout={['filterSummary', 'sortBy', 'perPage', 'facets', 'banner.left']}/>
 ```
 
 ### hideTitleText
 The `hideTitleText` prop will disable the sidebar title from rendering.
 
-```jsx
+```tsx
 <Sidebar controller={controller} hideTitleText />
 ```
 
 ### titleText
 The `titleText` prop will change the inner text of the sidebar title.
 
-```jsx
+```tsx
 <Sidebar controller={controller} titleText={'Filter By: '} />
 ```
 
 ### sticky
 The `sticky` prop enables the sidebar to remain fixed at the top of the viewport as the user scrolls the page.
 
-```jsx
+```tsx
 <Sidebar controller={controller} sticky={'true'} />
 ```
 
@@ -57,6 +57,6 @@ The `sticky` prop enables the sidebar to remain fixed at the top of the viewport
 ### stickyOffset
 The `stickyOffset` prop sets the number of pixels from the top of the viewport that the sticky sidebar should be offset. This is useful if you have a fixed header or other elements at the top of the page and want the sidebar to remain visible below them when scrolling.
 
-```jsx
+```tsx
 <Sidebar controller={controller} stickyOffset={50} />
 ```

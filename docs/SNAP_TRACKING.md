@@ -7,7 +7,7 @@ To ensure accurate tracking of events used for reporting, the following tracking
 ### Product Click
 Tracks product click events. Not required when using `withTracking` or `ResultTracker`. It is recommended to invoke on each product `onmousedown` or `onClick` event via the `controller.track.product.click()` method available on all controller types.
 
-```jsx
+```tsx
 controller.store.results.map(result => {
 	return (
 		<a href={core.url} onMouseDown={(e)=> controller.track.product.click(e, result) }>
@@ -20,7 +20,7 @@ controller.store.results.map(result => {
 ### Product Add To Cart
 Tracks product add to cart events. It is recommended to invoke on each product `onClick` event via the `controller.addToCart()` method available on all controller types.
 
-```jsx
+```tsx
 controller.store.results.map(result => {
 	return (
 		<a href={core.url} onMouseDown={(e)=> controller.track.product.click(e, result) }>
@@ -35,7 +35,7 @@ controller.store.results.map(result => {
 Impression tracking occurs when products come into the viewport. It is recommended to use the `withTracking` hook within custom product result cards to track impressions. Alternatively, the `ResultTracker` component can be used to track impressions as well - be aware that this component adds an additional wrapping element. This does not need to be implemented if using the default `Result` component from @athoscommerce/snap-preact/components or default Autocomplete component without custom result cards.
 
 ### Typical Tracking Integration Example
-```jsx
+```tsx
 import { withTracking } from '@athoscommerce/snap-preact/components';
 
 const Results = withController((props) => {
@@ -74,7 +74,7 @@ Note that a `key` is required on the custom result component to ensure that the 
 
 ### Alternative Tracking Integration Example using `ResultTracker`
 
-```jsx
+```tsx
 import { ResultTracker } from '@athoscommerce/snap-preact/components';
 
 const Results = withController((props) => {

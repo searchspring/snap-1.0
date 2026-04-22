@@ -69,7 +69,7 @@ Using a ThemeProvider applies a global theme to all its children components
 import { ThemeProvider, Button } from '@athoscommerce/snap-preact/components'
 ```
 
-```jsx
+```tsx
 <ThemeProvider theme={globalTheme}>
 	<Button content={'click me!'} />
 </ThemeProvider>
@@ -100,7 +100,7 @@ const propTheme = {
 };
 ```
 
-```jsx
+```tsx
 
 <ThemeProvider theme={globalTheme}>
     <Button content={'click me!'} theme={propTheme} />
@@ -146,7 +146,7 @@ const globalTheme = {
 };
 ```
 
-```jsx
+```tsx
 <ThemeProvider theme={globalTheme}>
     <Button content={'click me!'} />
 </ThemeProvider>
@@ -161,7 +161,7 @@ const buttonStyles = {
 };
 ```
 
-```jsx
+```tsx
 <Button content={'click me!'} style={buttonStyles} />
 ```
 
@@ -179,7 +179,7 @@ const globalTheme = {
 };
 ```
 
-```jsx
+```tsx
 <ThemeProvider theme={globalTheme}>
     <Button content={'click me!'} />
 </ThemeProvider>
@@ -187,7 +187,7 @@ const globalTheme = {
 
 Or at the component level:
 
-```jsx
+```tsx
 <Button content={'click me!'} disableStyles={true} />
 ```
 
@@ -208,7 +208,7 @@ const globalTheme = {
 };
 ```
 
-```jsx
+```tsx
 <ThemeProvider theme={globalTheme}>
     <Button content={'click me!'} />
 </ThemeProvider>
@@ -216,6 +216,6 @@ const globalTheme = {
 
 Or at the component level:
 
-```jsx
+```tsx
 <Button content={'click me!'} className={'my-btn-class'} />
 ```

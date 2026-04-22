@@ -65,7 +65,7 @@ Both object types will have the following properties:
 ### `select` method
 The `select` method should be invoked when a selection has been made, such as in the onChange event of a `<select>` element
 
-```jsx
+```tsx
 {selections.map((selection) => {
 	<select onChange={(e) => {
 		selection.select(e.target.value)

@@ -3,28 +3,28 @@
 Renders a text badge in the shape of a rectangle. It is expected to be used with `CalloutBadge` and `OverlayBadge` components.
 
 ## Usage
-```jsx
+```tsx
 import { BadgeRectangle } from '@athoscommerce/snap-preact/components';
 ```
 
 ### value
 The required `value` prop specifies the badge text contents.
 
-```jsx
+```tsx
 <BadgeRectangle value={'30% Off'} />
 ```
 
 ### color
 The `color` prop specifies the badge background color.
 
-```jsx
+```tsx
 <BadgeRectangle color={'rgba(255, 255, 255, 0.5)'} value={'30% Off'} />
 ```
 
 ### colorText
 The `colorText` prop specifies the badge text color.
 
-```jsx
+```tsx
 <BadgeRectangle colorText={'#000000'} value={'30% Off'} />
 ```
 
@@ -32,6 +32,6 @@ The `colorText` prop specifies the badge text color.
 ### tag
 The `tag` prop specifies the badge location tag and adds an identifying classname.
 
-```jsx
+```tsx
 <BadgeRectangle tag={'30-off-promo'} colorText={'#000000'} value={'30% Off'} />
 ```

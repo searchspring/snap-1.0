@@ -12,21 +12,21 @@ This component is not intended for front-end display. It is an internal dependen
 ### controller
 The `controller` prop specifies a reference to the RecommendationController.
 
-```jsx
+```tsx
 <RecommendationEmail controller={controller} />
 ```
 
 ### results
 Alternatively if a `controller` prop is not provided, the `results` prop specifies a reference to the results store array to use instead.
 
-```jsx
+```tsx
 <RecommendationEmail results={controller.store.results} />
 ```
 
 ### resultProps
 The `resultProps` prop allows you to pass additional props to each result component. These props will be spread onto each rendered result, whether using the default `Result` component or a custom component specified by `resultComponent`.
 
-```jsx
+```tsx
 <RecommendationEmail controller={controller} resultProps={{ shortTitles: true }} />
 ```
 
@@ -35,7 +35,7 @@ The `resultComponent` prop allows you to specify a custom component to render ea
 
 Note: `resultProps` and `{ email: true }` will be spread as props onto each result component that is rendered.
 
-```jsx
+```tsx
 import { CustomResult } from '../components/CustomResult';
 
 <RecommendationEmail controller={controller} resultComponent={CustomResult} />
@@ -46,6 +46,6 @@ The `resultWidth` prop allows you to specify the width of each result card. This
 
 Default value: '240px'
 
-```jsx
+```tsx
 <RecommendationEmail controller={controller} resultWidth={'240px'} />
 ```
