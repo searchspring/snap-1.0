@@ -35,7 +35,7 @@ describe('Search Api', () => {
 		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		const params = {
 			headers: {},
@@ -57,7 +57,7 @@ describe('Search Api', () => {
 		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		const params = {
 			headers: {},
@@ -86,7 +86,7 @@ describe('Search Api', () => {
 		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		const params = {
 			headers: {},
@@ -108,7 +108,7 @@ describe('Search Api', () => {
 		const api = new SearchAPI(new ApiConfiguration({}));
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		const params = {
 			headers: {},
@@ -139,7 +139,7 @@ describe('Search Api', () => {
 		);
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		const params = {
 			headers: {},
@@ -205,7 +205,7 @@ describe('Search Api', () => {
 
 		let requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		const params = {
 			body: undefined,
@@ -228,7 +228,7 @@ describe('Search Api', () => {
 
 		requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		//can get endpoint with custom path
 		//@ts-ignore
@@ -269,15 +269,16 @@ describe('Search Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockResponse) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockResponse), headers: new Headers() } as Response));
 
 		const result = await api.getProducts({
 			parentId: 'abc123',
 			siteId: '8uyt2m',
 		});
 
-		const expectedUrl = 'https://8uyt2m.a.athoscommerce.net/v1/products/abc123?siteId=8uyt2m';
+		const expectedUrl = 'https://8uyt2m.a.athoscommerce.net/v1/products/abc123';
 		const expectedParams = {
+			body: undefined,
 			headers: {},
 			method: 'GET',
 		};
@@ -299,15 +300,15 @@ describe('Search Api', () => {
 
 		const requestMock = jest
 			.spyOn(global.window, 'fetch')
-			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}), headers: new Headers() } as Response));
 
 		await api.getProducts({
 			parentId: 'xyz789',
 			siteId: '8uyt2m',
 		});
 
-		const expectedUrl = 'https://8uyt2m.a.athoscommerce.net/custom/products/xyz789?siteId=8uyt2m';
-		expect(requestMock).toHaveBeenCalledWith(expectedUrl, { headers: {}, method: 'GET' });
+		const expectedUrl = 'https://8uyt2m.a.athoscommerce.net/custom/products/xyz789';
+		expect(requestMock).toHaveBeenCalledWith(expectedUrl, { body: undefined, headers: {}, method: 'GET' });
 
 		requestMock.mockReset();
 	});

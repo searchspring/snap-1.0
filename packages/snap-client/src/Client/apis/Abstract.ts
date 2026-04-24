@@ -56,8 +56,7 @@ export class API<PathConfigurationType> {
 			responseJSON = await response?.json();
 
 			// get headers off of response (for chat API)
-			const headers = response.headers;
-			const sessionId = headers.get('x-session-id');
+			const sessionId = response.headers?.get('x-session-id');
 
 			if (sessionId) {
 				// @ts-ignore - add sessionId to response context
