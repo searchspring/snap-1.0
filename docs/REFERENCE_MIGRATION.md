@@ -230,4 +230,4 @@ See the [Variants reference](https://athoscommerce.github.io/snap/reference-vari
 
 ### 10. Recommendation Profile Tracker
 
-The Recommendation Profile Tracker has been removed in Athos Snap. If your integration uses the profile tracker or has styles associated with it, you will need to remove that code and any related CSS/SCSS.
+The Recommendation Profile Tracker has been deprecated in Athos Snap. If your integration uses the profile tracker or has styles associated with it, you should remove that code and any related CSS/SCSS and move to new [standardized tracking](https://athoscommerce.github.io/snap/snap-tracking).

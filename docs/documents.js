@@ -9,6 +9,13 @@ var documents = [
 				url: './docs/ABOUT.md',
 				searchable: false,
 			},
+			{
+				label: 'Migration Guide',
+				route: '/reference-migration',
+				type: 'markdown',
+				url: './docs/REFERENCE_MIGRATION.md',
+				searchable: true,
+			},
 		],
 	},
 	{
@@ -497,13 +504,6 @@ var documents = [
 				route: '/reference-custom-badge-templates',
 				type: 'markdown',
 				url: './docs/REFERENCE_CUSTOM_BADGE_TEMPLATES.md',
-				searchable: true,
-			},
-			{
-				label: 'Migration Guide',
-				route: '/reference-migration',
-				type: 'markdown',
-				url: './docs/REFERENCE_MIGRATION.md',
 				searchable: true,
 			},
 			{
