@@ -286,7 +286,10 @@ export const createSearchTargeters = (
 	});
 };
 
-export const createChatTargeters = (templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] => {
+export const createChatTargeters = (
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
+	templatesStore: TemplatesStore
+): ExtendedTarget[] => {
 	const targets = templateConfig.chat?.targets || [];
 	return targets.map((target) => {
 		const targetId = templatesStore.addTarget('chat', target);
