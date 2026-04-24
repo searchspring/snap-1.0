@@ -3,14 +3,14 @@
 Renders a div with a animation for use when building loading skeletons. 
 
 ## Usage
-```jsx
+```tsx
 import { Skeleton } from '@athoscommerce/snap-preact/components';
 ```
 
 ### Height
 The `height` prop specifies the css height of the skeleton div.
 
-```jsx
+```tsx
 <Skeleton height='200px' width='150px'/>
 ```
 
@@ -18,7 +18,7 @@ The `height` prop specifies the css height of the skeleton div.
 
 The `width` prop specifies the css width of the skeleton div.
 
-```jsx
+```tsx
 <Skeleton height='200px' width='150px'/>
 ```
 
@@ -26,7 +26,7 @@ The `width` prop specifies the css width of the skeleton div.
 
 The `round` prop is used for when you are wanting to render a circle instead of a block.
 
-```jsx
+```tsx
 <Skeleton height='200px' width='150px' round="true"/>
 ```
 
@@ -34,7 +34,7 @@ The `round` prop is used for when you are wanting to render a circle instead of 
 
 The `backgroundColor` prop is used for changing the background color of the skeleton.
 
-```jsx
+```tsx
 <Skeleton height='200px' width='150px' backgroundColor='#333333'/>
 ```
 
@@ -42,6 +42,6 @@ The `backgroundColor` prop is used for changing the background color of the skel
 
 The `animatedColor` prop is used for changing the color of the moving vertical loading bar.
 
-```jsx
+```tsx
 <Skeleton height='200px' width='150px' backgroundColor='#333333' animatedColor="#000000" />
 ```

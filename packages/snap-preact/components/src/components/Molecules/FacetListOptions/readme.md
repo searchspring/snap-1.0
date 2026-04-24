@@ -7,63 +7,63 @@ Renders a list of facet options.
 - Radio
 
 ## Usage
-```jsx
+```tsx
 import { FacetListOptions } from '@athoscommerce/snap-preact/components';
 ```
 
 ### values
 The `values` prop specifies all facet values where the facet type is 'list'. Overrides values passed via the facet prop. 
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} />
 ```
 
 ### facet
 The `facet` prop specifies the reference to the facet object in the store.
 
-```jsx
+```tsx
 <FacetListOptions facet={listFacet} />
 ```
 
 ### hideCheckbox
 The `hideCheckbox` prop will disable the facet checkbox. Typically used if the facet can only have a single value selected at a time.
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} hideCheckbox={true} />
 ```
 
 ### respectSingleSelect
 The `respectSingleSelect` prop will render radios instead of checkboxes if `facet.multiple == single`
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} respectSingleSelect={true} />
 ```
 
 ### hideCount
 The `hideCount` prop will disable the facet count values.
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} hideCount={true} />
 ```
 
 ### horizontal
 The `horizontal` prop render facet options horizontally.
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} horizontal={true} />
 ```
 
 ### hideCountParenthesis
 The `hideCountParenthesis` prop will disable the facet count parenthesis from rendering.
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} hideCountParenthesis={true} />
 ```
 
 ### previewOnFocus
 If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over.
 
-```jsx
+```tsx
 <Autocomplete>
 	...
 	<FacetListOptions values={listFacet.values} previewOnFocus={true} />
@@ -89,7 +89,7 @@ const valueProps = {
 }
 ```
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} valueProps={valueProps} />
 ```
 
@@ -102,6 +102,6 @@ The `checkbox` prop specifies an object with `Checkbox` component props. See `Ch
 #### onClick
 The `onClick` prop allows for a custom callback function for when a facet value is clicked.
 
-```jsx
+```tsx
 <FacetListOptions values={listFacet.values} onClick={(e)=>{console.log(e)}} />
 ```

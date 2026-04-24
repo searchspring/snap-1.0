@@ -1,28 +1,28 @@
 # Inline Banner
 
 ## Usage
-```jsx
+```tsx
 import { InlineBanner } from '@athoscommerce/snap-preact/components';
 ```
 
 ### banner
 The `banner` prop specifies a reference to an inline banner object from the `content` object.
 
-```jsx
+```tsx
 <InlineBanner banner={controller?.store?.merchandising?.content.inline[0]} />
 ```
 
 ### width
 The `width` prop specifies the width of the inline banner.
 
-```jsx
+```tsx
 <InlineBanner banner={controller?.store?.merchandising?.content.inline[0]} width={'300px'} />
 ```
 
 ### layout
 The `layout` prop specifies if this banner will be rendered in a `grid` or `list` layout.
 
-```jsx
+```tsx
 <InlineBanner banner={controller?.store?.merchandising?.content.inline[0]} layout={'grid'} />
 ```
 
@@ -36,6 +36,6 @@ const CustomBannerClick = (e, banner) => {
 };
 ```
 
-```jsx
+```tsx
 <InlineBanner banner={controller?.store?.merchandising?.content.inline[0]} onClick={CustomBannerClick} />
 ```

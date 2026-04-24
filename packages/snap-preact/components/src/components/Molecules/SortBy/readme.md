@@ -12,28 +12,28 @@ Renders a Select dropdown or a RadioSelect, to be used with the SearchSortingSto
 ### sorting
 The `sorting` prop specifies an reference to the SearchSortingStore.
 
-```jsx
+```tsx
 <SortBy sorting={controller.store.sorting} />
 ```
 
 ### controller
 The `controller` prop specifies an reference to the Search Controller.
 
-```jsx
+```tsx
 <SortBy controller={controller} />
 ```
 
 ### label
 The `label` prop specifies an label to render as the title.
 
-```jsx
+```tsx
 <SortBy controller={controller} label={'Sort By'}/>
 ```
 
 ### hideLabel
 The `hideLabel` prop hides the header title label
 
-```jsx
+```tsx
 <SortBy controller={controller} label={'Sort By'} hideLabel={true} />
 ```
 
@@ -41,6 +41,6 @@ The `hideLabel` prop hides the header title label
 The `type` prop specifies which type of SortBy component to render. You can choose from 1 of 3 options - "Dropdown" | "List" | "Radio".
 By default "Dropdown" is used. and will render a dropdown using the Select component. "Radio" will render a RadioSelect component, and "List" will render a RadioSelect component with radios disabled.
 
-```jsx
+```tsx
 <SortBy controller={controller} type={'Radio'} label={'Sort By'}/>
 ```

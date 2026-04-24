@@ -13,7 +13,6 @@ import { getDemoConfig } from '../../shared/demoConfig';
 const { siteId, clientConfig } = getDemoConfig();
 
 let templatesConfig: SnapTemplatesConfig = {
-	unlocked: true,
 	config: {
 		siteId: siteId,
 		language: 'en',
@@ -308,11 +307,11 @@ let snapConfig: SnapConfig = {
 };
 
 if (window.mergeSnapConfig) {
-	templatesConfig = deepmerge(templatesConfig as object, window.mergeSnapConfig, { arrayMerge: combineMerge });
+	templatesConfig = deepmerge(templatesConfig, window.mergeSnapConfig, { arrayMerge: combineMerge });
 	snapConfig = deepmerge(snapConfig, window.mergeSnapConfig, { arrayMerge: combineMerge });
 }
 
 new SnapHybrid({
-	templatesConfig: templatesConfig as SnapTemplatesConfig,
-	snapConfig: snapConfig as SnapConfig,
+	templatesConfig: templatesConfig,
+	snapConfig: snapConfig,
 });

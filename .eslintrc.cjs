@@ -12,7 +12,7 @@ module.exports = {
 	ignorePatterns: ["**/docs", "**/dist", "*.test.ts", "*.test.tsx", "./packages/snapps"],
 	overrides: [
 		{
-			files: ['**/config.tsx', '**/config.ts'],
+			files: ['**/index.ts', '**/index.tsx'],
 			plugins: ['snap-config'],
 			rules: {
 				'snap-config/validate-result-component': 'error',

@@ -6,27 +6,27 @@ Renders a carousel of slides using children, built with <a target="_blank" rel="
 - Icon
 
 ## Usage
-```jsx
+```tsx
 import { Carousel } from '@athoscommerce/snap-preact/components';
 ```
 
 Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/react#swiper-props">Swiper Component Props</a> can be specified, but may need to be camelCased where appropriate.
 Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> can be provided via the `modules` prop; these may need additional props and or stylesheets.
 
-```jsx
+```tsx
 <Carousel>{children}</Carousel>
 ```
 ### loop
 The `loop` prop enables 'infinite' looping through the result set when swiping or using the arrow buttons.
 
-```jsx
+```tsx
 <Carousel loop={true}>{children}</Carousel>
 ```
 
 ### pagination
 The `pagination` prop can take a bool to enable pagination dots, or an object containing a SwiperOptions.pagination config object. Types can be found in <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#pagination">swiper docs</a>.
 
-```jsx
+```tsx
 <Carousel pagination={true}>{children}</Carousel>
 ```
 
@@ -39,70 +39,70 @@ const paginationConfig = {
 	clickable: false
 };
 ```
-```jsx
+```tsx
 <Carousel pagination={paginationConfig}>{children}</Carousel>
 ```
 
 ### vertical 
 The `vertical` prop changes the carousel slide direction from horizontal, to vertical. 
 
-```jsx
+```tsx
 <Carousel vertical={true}>{children}</Carousel>
 ```
 
 ### hideButtons
 The `hideButtons` prop specifies if the carousel should hide prev/next buttons.
 
-```jsx
+```tsx
 <Carousel hideButtons={true}>{children}</Carousel>
 ```
 
 ### prevButton
 The `prevButton` prop specifies the previous button element of the carousel. This can be a string or JSX element. 
 
-```jsx
+```tsx
 <Carousel prevButton={'<'}>{children}</Carousel>
 ```
 
 ### nextButton
 The `nextButton` prop specifies the next button element of the carousel. This can be a string or JSX element. 
 
-```jsx
+```tsx
 <Carousel nextButton={'>'}>{children}</Carousel>
 ```
 
 ### onPrevButtonClick
 The `onPrevButtonClick` prop can be used to handle click events on the prevButton.
 
-```jsx
+```tsx
 <Carousel onPrevButtonClick={() => { /* do something */ }}>{children}</Carousel>
 ```
 
 ### onNextButtonClick
 The `onNextButtonClick` prop can be used to handle click events on the prevButton.
 
-```jsx
+```tsx
 <Carousel onNextButtonClick={() => { /* do something */ }}>{children}</Carousel>
 ```
 
 ### onClick
 The `onClick` prop can be used to handle click events on the swiper component.
 
-```jsx
+```tsx
 <Carousel onClick={(swiper, e) => { /* do something */ }}>{children}</Carousel>
 ```
 
 ### onInit
 The `onInit` prop can be used to tie into the initialization event for swiper.
 
-```jsx
+```tsx
 <Carousel onInit={(swiper, e) => { /* do something */ }}>{children}</Carousel>
 ```
 
 ### modules
 The `modules` prop accepts additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> - these may need additional props and or stylesheets to function. We include `Navigation`, `Pagination` and `A11y` modules by default.
 
-```jsx
+```tsx
 import { Scrollbar } from 'swiper';
 <Carousel modules={[Scrollbar]} scrollbar={{ draggable: true }}>{children}</Carousel>
 ```
@@ -161,6 +161,6 @@ const defaultVerticalCarouselBreakpoints = {
 };
 ```
 
-```jsx
+```tsx
 <Carousel breakpoints={defaultCarouselBreakpoints}>{children}</Carousel>
 ```
