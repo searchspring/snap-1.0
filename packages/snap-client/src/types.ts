@@ -1,5 +1,13 @@
 import { AppMode } from '@athoscommerce/snap-toolbox';
-import type { MetaRequestModel, SearchResponseModelResult, SearchRequestModel, MetaResponseModel } from '@athoscommerce/snapi-types';
+import type {
+	MetaRequestModel,
+	SearchResponseModelResult,
+	SearchRequestModel,
+	MetaResponseModel,
+	SearchResponseModelResultCoreMappings,
+	SearchResponseModelResultVariants,
+	SearchResponseModelResultVariantsData,
+} from '@athoscommerce/snapi-types';
 
 export type HTTPHeaders = { [key: string]: string };
 
@@ -8,7 +16,22 @@ export type SearchRequesterPaths = {
 	search?: string;
 	category?: string;
 	finder?: string;
+	products?: string;
 };
+
+export type ProductsRequestModel = {
+	parentId: string;
+	siteId?: string;
+};
+
+export type ProductsResponseModel = {
+	mappings: {
+		core: SearchResponseModelResultCoreMappings;
+	};
+	variants: SearchResponseModelResultVariants;
+};
+
+export type ProductVariant = SearchResponseModelResultVariantsData & { attributes?: Record<string, unknown> };
 
 export type MetaRequesterPaths = {
 	meta?: string;

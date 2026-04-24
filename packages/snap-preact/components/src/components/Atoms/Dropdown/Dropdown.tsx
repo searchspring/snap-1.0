@@ -1,6 +1,6 @@
 import { ComponentChildren, h } from 'preact';
 import { createPortal } from 'preact/compat';
-import { useState, StateUpdater, MutableRef, useRef, useEffect, Dispatch } from 'preact/hooks';
+import { useState, StateUpdater, MutableRef, useRef, useEffect, useLayoutEffect, Dispatch } from 'preact/hooks';
 
 import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
@@ -35,6 +35,10 @@ const defaultStyles: StyleScript<DropdownProps> = ({ disableOverlay, dropUp }) =
 			top: dropUp ? undefined : 'auto',
 			bottom: dropUp ? '100%' : undefined,
 			left: 0,
+		},
+		'&.ss__dropdown__portal--flip-x .ss__dropdown__content': {
+			left: 'auto',
+			right: 0,
 		},
 	});
 };
@@ -98,6 +102,7 @@ export const Dropdown = observer((properties: DropdownProps) => {
 	const buttonRef = useRef<HTMLDivElement | null>(null);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
+	const [flipX, setFlipX] = useState(false);
 
 	let innerRef: MutableRef<HTMLElement | undefined> | undefined;
 	if (!disableClickOutside) {
@@ -120,8 +125,8 @@ export const Dropdown = observer((properties: DropdownProps) => {
 				if (buttonRef.current) {
 					const rect = buttonRef.current.getBoundingClientRect();
 					setCoords({
-						top: dropUp ? rect.top + window.scrollY : rect.bottom + window.scrollY,
-						left: rect.left + window.scrollX,
+						top: dropUp ? rect.top : rect.bottom,
+						left: rect.left,
 						width: rect.width,
 					});
 				}
@@ -135,6 +140,22 @@ export const Dropdown = observer((properties: DropdownProps) => {
 			};
 		}
 	}, [usePortal, dropdownOpen]);
+
+	// Reset flip state when dropdown closes
+	useEffect(() => {
+		if (!dropdownOpen) {
+			setFlipX(false);
+		}
+	}, [dropdownOpen]);
+
+	// After the portal renders, check if content overflows the right viewport edge
+	// and flip the horizontal anchor if so. useLayoutEffect fires before paint to avoid flash.
+	useLayoutEffect(() => {
+		if (usePortal && dropdownOpen && contentRef.current && coords.width > 0) {
+			const rect = contentRef.current.getBoundingClientRect();
+			setFlipX(rect.right > window.innerWidth);
+		}
+	}, [usePortal, dropdownOpen, coords.left, coords.width]);
 
 	const toggleOpenDropdown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, state?: boolean) => {
 		if (stateful) {
@@ -242,10 +263,13 @@ export const Dropdown = observer((properties: DropdownProps) => {
 					  (content || children) &&
 					  createPortal(
 							<div
-								className={classnames('ss__dropdown__portal', className, internalClassName, { 'ss__dropdown__portal--open': dropdownOpen })}
+								className={classnames('ss__dropdown__portal', className, internalClassName, {
+									'ss__dropdown__portal--open': dropdownOpen,
+									'ss__dropdown__portal--flip-x': flipX,
+								})}
 								css={styling.css}
 								style={{
-									position: 'absolute',
+									position: 'fixed',
 									top: coords.top,
 									left: coords.left,
 									width: coords.width,

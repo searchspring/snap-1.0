@@ -328,15 +328,12 @@ export class ChatAPI extends API<any> {
 
 	async postStatus(queryParameters: ChatStatusRequestModel): Promise<ChatStatusResponse> {
 		try {
-			const response = await this.request<ChatStatusResponse>(
-				{
-					path: '/chat/status',
-					method: 'GET',
-					headers: { ...JSON_HEADERS, 'x-site-id': queryParameters.siteId },
-					query: queryParameters,
-				},
-				JSON.stringify(queryParameters)
-			);
+			const response = await this.request<ChatStatusResponse>({
+				path: '/chat/status',
+				method: 'GET',
+				headers: { ...JSON_HEADERS },
+				query: queryParameters,
+			});
 
 			return response;
 		} catch (err: any) {

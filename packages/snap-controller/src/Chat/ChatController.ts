@@ -230,7 +230,7 @@ export class ChatController extends AbstractController {
 			.map((attachment) => (attachment as ChatAttachmentImage).imageId);
 
 		const attachedProductIds = (this.store.currentChat?.attachments.attached || [])
-			.filter((attachment) => attachment.type === 'product')
+			.filter((attachment) => attachment.type === 'product' && (attachment as ChatAttachmentProduct).requestType !== 'productComparison')
 			.map((attachment) => (attachment as ChatAttachmentProduct).productId);
 
 		const searchFilters = (this.store.currentChat?.attachments.attached || [])
@@ -289,10 +289,13 @@ export class ChatController extends AbstractController {
 			};
 		} else {
 			// if no new comparison is being assembled but a committed comparison
-			// is still on-screen (last message is a productComparison), keep the
-			// conversation scoped to those products. when the user has navigated
-			// back to a historical productComparison message, use that message's
-			// own products instead of the latest committed snapshot
+			// is still on-screen, keep the conversation scoped to those products.
+			// when the user has navigated back to a historical productComparison
+			// message, use that message's own products instead of the latest
+			// committed snapshot. committed comparisons are also used as fallback
+			// when the active message is a user follow-up (e.g. after a page
+			// refresh where the last message is 'user' and the comparison context
+			// was restored from storage)
 			const activeMessage = this.store.currentChat?.activeMessage;
 			const activeMessageType = activeMessage?.messageType;
 			// Don't reuse a dismissed productComparison — the user intentionally closed it
@@ -310,12 +313,27 @@ export class ChatController extends AbstractController {
 					message: this.store.inputValue,
 					productIds: activeComparisonProductIds,
 				};
-			} else if (committedComparisons.length > 1 && activeMessageType === 'productComparison' && !isDismissedComparison) {
+			} else if (committedComparisons.length > 1 && !isDismissedComparison) {
 				chatRequest = {
 					requestType: 'productComparison',
 					message: this.store.inputValue,
 					productIds: committedComparisons.map((item: any) => (item.result?.display || item.result).mappings.core.uid),
 				};
+			} else {
+				// If the side chat was dismissed (via the toggle button) but the
+				// comparison context bar is still visible (committed items remain),
+				// use the comparison attachment product IDs so the request stays
+				// scoped to the comparison. When the user explicitly closes the
+				// context bar (resetCommitted + dismissSideChat), committedComparisons
+				// is empty and we correctly fall through to 'general'.
+				const comparisonAttachments = this.store.currentChat?.attachments.compared || [];
+				if (comparisonAttachments.length > 1 && committedComparisons.length > 0) {
+					chatRequest = {
+						requestType: 'productComparison',
+						message: this.store.inputValue,
+						productIds: comparisonAttachments.map((item: any) => item.productId),
+					};
+				}
 			}
 		}
 
@@ -427,11 +445,22 @@ export class ChatController extends AbstractController {
 		}
 	};
 
-	viewProduct = (result: Product): void => {
+	viewProduct = async (result: Product): Promise<void> => {
 		if (!this.store.currentChat) {
 			this.store.createChat();
 		}
+		this.store.setProductQuickview(result);
 		this.store.currentChat?.pushProductQueryMessage(result);
+
+		// fetch full product data from the products API using parentId
+		const parentId = (result.mappings?.core?.parentId as string) || result.id;
+		try {
+			const response = await this.client.products({ parentId });
+			this.store.updateProductQuickview(response);
+		} catch (err) {
+			this.log.error('Failed to fetch product details', err);
+			this.store.setProductQuickviewError('Failed to load product details. Please try again.');
+		}
 	};
 
 	compareProduct = (result: Product): void => {

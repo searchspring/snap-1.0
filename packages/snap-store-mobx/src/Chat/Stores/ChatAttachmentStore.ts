@@ -100,10 +100,24 @@ export class ChatAttachmentStore {
 				return newAttachment as T;
 			}
 			case 'facet': {
-				// if there are currently any other attachments remove them
+				// if there are currently any non-facet attachments remove them
 				this.items.forEach((item) => {
-					this.remove(item.id);
+					if (item.type !== 'facet') {
+						this.remove(item.id);
+					}
 				});
+
+				// check if this exact facet value is already attached
+				const existingFacet = this.items.find(
+					(item) =>
+						item.type === 'facet' &&
+						(item as ChatAttachmentFacet).key === attachment.key &&
+						(item as ChatAttachmentFacet).value === attachment.value &&
+						(item.state === 'active' || item.state === 'attached')
+				);
+				if (existingFacet) {
+					return existingFacet as T;
+				}
 
 				const newAttachment = new ChatAttachmentFacet(attachment);
 				this.items.push(newAttachment);

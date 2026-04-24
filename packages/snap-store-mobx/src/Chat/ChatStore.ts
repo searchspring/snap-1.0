@@ -3,11 +3,12 @@ import { ChatStoreConfig } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
 import { MetaResponseModel } from '@athoscommerce/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
-import type { ChatResponseModel, ChatRequestModel } from '@athoscommerce/snap-client';
+import type { ChatResponseModel, ChatRequestModel, ProductsResponseModel } from '@athoscommerce/snap-client';
 import { StorageStore } from '../Storage/StorageStore';
 import { ChatSessionStore } from './Stores/ChatSessionStore';
 import { ChatAttachmentFacet, ChatAttachmentProduct } from './Stores/ChatAttachmentStore';
 import { ChatStatusResponse } from '@athoscommerce/snap-client';
+import { Product, Variants } from '../Search/Stores/SearchResultStore';
 
 const CHAT_STATUS_EXPIRATION_TIME = 1000 * 60 * 60 * 12; // 12 hours
 
@@ -23,6 +24,8 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public suggestedQuestions: string[] = [];
 	public welcomeMessage: string = '';
 	public features: ChatStatusResponse['features'] = { imageSearch: { enabled: false }, similarProducts: { enabled: false } };
+	public productQuickview: Product | null = null;
+	public productQuickviewError: string | null = null;
 
 	constructor(config: ChatStoreConfig) {
 		super(config);
@@ -102,6 +105,8 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			features: observable,
 			suggestedQuestions: observable,
 			welcomeMessage: observable,
+			productQuickview: observable,
+			productQuickviewError: observable,
 		});
 	}
 
@@ -136,8 +141,53 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 
 	public reset(): void {
 		this.chats = [];
+		this.clearProductQuickview();
 		this.storage.clear();
 		this.createChat();
+	}
+
+	public setProductQuickview(product: Product): void {
+		this.productQuickview = product;
+		this.productQuickviewError = null;
+	}
+
+	public updateProductQuickview(response: ProductsResponseModel): void {
+		if (!this.productQuickview) {
+			return;
+		}
+
+		// merge parent-level mappings from the API response into the Product
+		this.productQuickview.mappings = {
+			...this.productQuickview.mappings,
+			core: { ...this.productQuickview.mappings.core, ...response.mappings.core },
+		};
+
+		const meta = this.meta?.data || {};
+
+		if (this.productQuickview.variants) {
+			// update existing Variants with new data from the Products API
+			this.productQuickview.variants.optionConfig = response.variants.optionConfig;
+			this.productQuickview.variants.update(response.variants.data as any);
+		} else {
+			// create Variants for the first time using the Products API data
+			this.productQuickview.variants = new Variants({
+				data: {
+					mask: this.productQuickview.mask,
+					variants: response.variants.data as any,
+					optionConfig: response.variants.optionConfig as any,
+					meta,
+				},
+			});
+		}
+	}
+
+	public setProductQuickviewError(message: string): void {
+		this.productQuickviewError = message;
+	}
+
+	public clearProductQuickview(): void {
+		this.productQuickview = null;
+		this.productQuickviewError = null;
 	}
 
 	public clearHistory(): void {
@@ -215,6 +265,45 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			label: facet.label,
 			count: facet.count,
 		});
+	}
+
+	public removeFacet(key: string, value: string): void {
+		const facetAttachment = this.currentChat?.attachments.items.find(
+			(item) =>
+				item.type === 'facet' &&
+				(item as ChatAttachmentFacet).key === key &&
+				(item as ChatAttachmentFacet).value === value &&
+				(item.state === 'active' || item.state === 'attached')
+		);
+		if (facetAttachment) {
+			const index = this.currentChat?.attachments.items.indexOf(facetAttachment);
+			if (index !== undefined && index !== -1) {
+				this.currentChat?.attachments.items.splice(index, 1);
+			}
+		}
+	}
+
+	public clearPendingFacets(): void {
+		const facetAttachments =
+			this.currentChat?.attachments.items.filter((item) => item.type === 'facet' && (item.state === 'active' || item.state === 'attached')) || [];
+		facetAttachments.forEach((item) => {
+			const index = this.currentChat?.attachments.items.indexOf(item);
+			if (index !== undefined && index !== -1) {
+				this.currentChat?.attachments.items.splice(index, 1);
+			}
+		});
+	}
+
+	public isFacetSelected(key: string, value: string): boolean {
+		return (
+			this.currentChat?.attachments.items.some(
+				(item) =>
+					item.type === 'facet' &&
+					(item as ChatAttachmentFacet).key === key &&
+					(item as ChatAttachmentFacet).value === value &&
+					(item.state === 'active' || item.state === 'attached')
+			) || false
+		);
 	}
 
 	public request(request: ChatRequestModel): void {

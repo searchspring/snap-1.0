@@ -9,6 +9,9 @@ export {
 	RecommendResponseModel,
 	RecommendRequestModel,
 	RecommendationRequestFilterModel,
+	ProductsRequestModel,
+	ProductsResponseModel,
+	ProductVariant,
 } from './types';
 
 export {

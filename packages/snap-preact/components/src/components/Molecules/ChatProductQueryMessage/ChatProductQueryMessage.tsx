@@ -7,10 +7,10 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import type { ChatController } from '@athoscommerce/snap-controller';
-import { useEffect, useState } from 'preact/hooks';
 import { Image } from '../../Atoms/Image';
 import { Button } from '../../Atoms/Button';
 import { Icon, Price } from '../../..';
+import type { Product, VariantSelection } from '@athoscommerce/snap-store-mobx';
 
 const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 	const colorPrimary = '#253B80';
@@ -441,43 +441,58 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 		return null;
 	}
 
-	const display = sourceProduct?.display || sourceProduct;
-	const core = display?.mappings?.core;
-	if (!core) return null;
+	const product: Product | null | undefined = controller?.store.productQuickview;
+	const productQuickviewError: string | null | undefined = controller?.store.productQuickviewError;
 
 	const chatMessages = controller?.store.currentChat?.chat || [];
 	const sourceMessage = chatItem.sourceMessageId ? chatMessages.find((m) => m.id === chatItem.sourceMessageId) : null;
 	const cameFromInspiration = sourceMessage?.messageType === 'inspirationResult';
 
-	const variants = sourceProduct?.variants;
-	const variantData = variants?.data;
-	const optionConfig = variants?.optionConfig;
+	if (!product) {
+		return (
+			<CacheProvider>
+				<div className={classnames('ss__chat-product-query-message', className, internalClassName)} {...styling}>
+					<div className={classnames('ss__chat-product-query-message__header')}>
+						<div className={classnames('ss__chat-product-query-message__header__product')}>
+							<div className={classnames('ss__chat-product-query-message__header__product__details')}>
+								<div className={classnames('ss__chat-product-query-message__header__product__details__name')}>
+									{productQuickviewError || 'Loading product details...'}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</CacheProvider>
+		);
+	}
 
-	const [selectedVariantIndex, setSelectedVariantIndex] = useState<number | null>(null);
+	const displayed = product.display;
+	const displayedCore = displayed.mappings?.core || {};
 
-	const productId = core?.uid || core?.sku || chatItem.id;
-	useEffect(() => {
-		setSelectedVariantIndex(null);
-	}, [productId]);
+	const variants = product.variants;
+	const selections = variants?.selections || [];
 
-	const selectedVariant = selectedVariantIndex != null ? variantData?.[selectedVariantIndex] : null;
-	const displayedData = selectedVariant || display;
-	const displayedCore = displayedData?.mappings?.core || core;
+	const displayedData = {
+		mappings: displayed.mappings,
+		attributes: displayed.attributes || {},
+	};
 
 	const allInfoRows = collectInfoRows(displayedData, displayFields);
 	const descriptionRow = allInfoRows.find((row) => row.rawKey.toLowerCase() === 'description');
 	const infoRows = allInfoRows.filter((row) => row.rawKey.toLowerCase() !== 'description');
 	const features = collectFeatures(displayedData);
 
+	const handleBack = () => {
+		controller?.store.currentChat?.popProductQueryMessage(chatItem.sourceMessageId);
+		controller?.store.clearProductQuickview();
+	};
+
 	return (
 		<CacheProvider>
 			<div className={classnames('ss__chat-product-query-message', className, internalClassName)} {...styling}>
 				<div className={classnames('ss__chat-product-query-message__header')}>
 					{cameFromInspiration && (
-						<div
-							className={classnames('ss__chat-product-query-message__header__back')}
-							onClick={() => controller?.store.currentChat?.popProductQueryMessage(chatItem.sourceMessageId)}
-						>
+						<div className={classnames('ss__chat-product-query-message__header__back')} onClick={handleBack}>
 							<Icon icon="angle-left" size="14px" />
 							<span>Back to inspiration</span>
 						</div>
@@ -534,39 +549,36 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 					</div>
 				</div>
 
-				{optionConfig && variantData?.length > 0 && (
+				{selections.length > 0 && (
 					<div className={classnames('ss__chat-product-query-message__variants')}>
-						{Object.entries(optionConfig).map(([optionName, config]: [string, any]) => (
-							<div key={optionName}>
+						{selections.map((selection: VariantSelection) => (
+							<div key={selection.field}>
 								<div className={classnames('ss__chat-product-query-message__variants__label')}>
-									{formatLabel(optionName)} ({config.count})
+									{formatLabel(selection.field)} ({selection.values.length})
 								</div>
 								<div className={classnames('ss__chat-product-query-message__variants__swatches')}>
-									{variantData.map((variant: any, idx: number) => {
-										const optionValue = variant.options?.[optionName]?.value;
-										if (!optionValue) return null;
-										const variantCore = variant.mappings?.core;
-										const isUnavailable = variant.attributes?.available === false;
-										const isSelected = selectedVariantIndex === idx;
+									{selection.values.map((selectionValue) => {
+										const isUnavailable = !selectionValue.available;
+										const isSelected = selection.selected?.value === selectionValue.value;
 
 										return (
 											<div
-												key={variantCore?.id || idx}
+												key={selectionValue.value}
 												className={classnames('ss__chat-product-query-message__variants__swatch', {
 													'ss__chat-product-query-message__variants__swatch--selected': isSelected,
 													'ss__chat-product-query-message__variants__swatch--unavailable': isUnavailable,
 												})}
-												title={optionValue}
-												onClick={() => setSelectedVariantIndex(isSelected ? null : idx)}
+												title={selectionValue.value}
+												onClick={() => selection.select(selectionValue.value)}
 											>
-												{config.type === 'swatches' && variantCore?.thumbnailImageUrl ? (
+												{selectionValue.thumbnailImageUrl ? (
 													<Image
 														className={classnames('ss__chat-product-query-message__variants__swatch__image')}
-														src={variantCore.thumbnailImageUrl}
-														alt={optionValue}
+														src={selectionValue.thumbnailImageUrl}
+														alt={selectionValue.value}
 													/>
 												) : null}
-												<span className={classnames('ss__chat-product-query-message__variants__swatch__value')}>{optionValue}</span>
+												<span className={classnames('ss__chat-product-query-message__variants__swatch__value')}>{selectionValue.value}</span>
 											</div>
 										);
 									})}

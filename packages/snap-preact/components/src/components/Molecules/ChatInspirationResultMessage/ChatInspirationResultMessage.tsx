@@ -18,6 +18,7 @@ const defaultStyles: StyleScript<ChatInspirationResultMessageProps> = () => {
 			display: 'flex',
 			flexDirection: 'column',
 			gap: '1em',
+			padding: '1em',
 
 			'.ss__chat-inspiration-result-message__inspiration-sections__section': {
 				background: '#F9FAFB',
@@ -35,15 +36,30 @@ const defaultStyles: StyleScript<ChatInspirationResultMessageProps> = () => {
 				'.ss__chat-inspiration-result-message__inspiration-sections__section__queries': {
 					display: 'flex',
 					gap: '1em',
+					flexWrap: 'wrap',
 					'.ss__chat-inspiration-result-message__inspiration-sections__section__queries__query': {
 						background: '#fff',
 						border: '1px solid #E5E7EB',
 						padding: '0.25em 0.5em',
 						borderRadius: '0.5em',
 						cursor: 'pointer',
+						textDecoration: 'underline',
 					},
 				},
-				'.ss__chat-inspiration-result-message__inspiration-sections__section__products': {},
+				'.ss__chat-inspiration-result-message__inspiration-sections__section__products': {
+					'.ss__chat-inspiration-result-message__inspiration-sections__section__products__product': {
+						'.ss__image': {
+							img: {
+								width: '80px',
+								height: '80px',
+								objectFit: 'cover',
+								cursor: 'pointer',
+								border: '1px solid #E5E7EB',
+								borderRadius: '8px',
+							},
+						},
+					},
+				},
 			},
 		},
 	});
@@ -59,7 +75,7 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 
 	const props = mergeProps('chatInspirationResultMessage', globalTheme, defaultProps, properties);
 
-	const { chatItem, controller, disableStyles, className, internalClassName, treePath } = props;
+	const { chatItem, controller, onViewProduct, disableStyles, className, internalClassName, treePath } = props;
 
 	const subProps: ChatInspirationResultMessageSubProps = {
 		Carousel: {
@@ -141,6 +157,7 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 												<Image
 													onClick={() => {
 														controller?.viewProduct(product);
+														onViewProduct?.();
 													}}
 													alt={display?.mappings?.core?.name || ''}
 													src={display?.mappings?.core?.imageUrl || ''}
@@ -165,6 +182,7 @@ interface ChatInspirationResultMessageSubProps {
 export type ChatInspirationResultMessageProps = {
 	chatItem: ChatResponseInspirationResultData;
 	controller?: ChatController;
+	onViewProduct?: () => void;
 	lang?: Partial<ChatInspirationResultMessageLang>;
 } & ChatInspirationResultMessageTemplatesLegalProps &
 	ComponentProps<ChatInspirationResultMessageProps>;

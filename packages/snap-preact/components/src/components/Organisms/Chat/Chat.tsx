@@ -29,7 +29,12 @@ import {
 	ChatResponseActionsData,
 } from '@athoscommerce/snap-client/dist/cjs/Client/transforms/chatResponse';
 
-const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; hasSideChat?: boolean }> = ({ mobile, offset, hasSideChat }) => {
+const defaultStyles: StyleScript<{
+	mobile: boolean;
+	offset?: string | number;
+	hasSideChat?: boolean;
+	footerHeight: number;
+}> = ({ mobile, offset, hasSideChat, footerHeight }) => {
 	const colorPrimary = '#253B80';
 	const offsetValue = offset !== undefined ? (typeof offset === 'number' ? `${offset}px` : offset) : undefined;
 	return css({
@@ -64,7 +69,12 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 		},
 		'.ss__chat__secondary': {
 			...(mobile
-				? { width: '100%', maxWidth: '100%', height: 'calc(100% - 70px)', maxHeight: 'calc(100% - 70px)' }
+				? {
+						width: '100%',
+						maxWidth: '100%',
+						height: `calc(100% - 70px${footerHeight > 0 ? ` - ${footerHeight}px` : ''})`,
+						maxHeight: `calc(100% - 70px${footerHeight > 0 ? ` - ${footerHeight}px` : ''})`,
+				  }
 				: { flex: '1 1 0', minWidth: 0, maxWidth: 600, height: '70vh', maxHeight: '70vh' }),
 			display: 'flex',
 			flexDirection: 'column',
@@ -73,7 +83,7 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 			...(mobile
 				? {
 						position: 'absolute',
-						bottom: 0,
+						bottom: footerHeight > 0 ? footerHeight : 0,
 						left: 0,
 						right: 0,
 						zIndex: 10,
@@ -576,6 +586,7 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '6px',
+				overflow: 'hidden',
 				'.ss__chat__actions__wrap': {
 					display: 'flex',
 					flexDirection: 'column',
@@ -608,6 +619,11 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 				},
 				'.ss__chat__actions--facets': {
 					overflowX: 'auto',
+					overflowY: 'hidden',
+					scrollbarWidth: 'none' as const,
+					'&::-webkit-scrollbar': {
+						display: 'none',
+					},
 				},
 				'.ss__chat__actions--suggested': {
 					overflowX: 'scroll',
@@ -679,6 +695,32 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 								flexGrow: 0,
 							},
 						},
+					},
+				},
+			},
+			'.ss__chat__actions__facets-header': {
+				display: 'flex',
+				justifyContent: 'space-between',
+				alignItems: 'center',
+			},
+			'.ss__chat__actions__facets-apply': {
+				display: 'flex',
+				justifyContent: 'flex-end',
+				padding: '0 2px',
+				'.ss__button': {
+					background: '#253B80',
+					color: '#fff',
+					border: 'none',
+					borderRadius: '999px',
+					padding: '6px 16px',
+					fontSize: '14px',
+					cursor: 'pointer',
+					'&:not(.ss__button--disabled):hover': {
+						background: '#1a2a5c',
+					},
+					'&.ss__button--disabled': {
+						opacity: 0.5,
+						cursor: 'not-allowed',
 					},
 				},
 			},
@@ -833,6 +875,7 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 				display: 'flex',
 				flexDirection: 'column',
 				gap: '8px',
+				flexShrink: 0,
 				...(mobile
 					? {
 							position: 'relative' as const,
@@ -902,6 +945,7 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 				display: 'flex',
 				justifyContent: 'space-between',
 				gap: '8px',
+				flexShrink: 0,
 				'.ss__chat__input__input': {
 					flex: '1 1 0%',
 					minWidth: 0,
@@ -956,6 +1000,7 @@ const defaultStyles: StyleScript<{ mobile: boolean; offset?: string | number; ha
 				fontSize: '10px',
 				color: '#6A7282',
 				textAlign: 'center',
+				flexShrink: 0,
 			},
 		},
 	});
@@ -972,12 +1017,12 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 		logo: 'https://cdn.athoscommerce.net/snap/images/Athos%20Commerce_Icon_white.svg',
 		title: 'Athos Conversational Assistant',
 		subtitle: 'Ready to assist you',
-		offset: '150px',
+		multiselectFacets: true,
 	};
 
 	let props = mergeProps('facets', globalTheme, defaultProps, properties);
 
-	const { className, internalClassName, controller, logo, title, subtitle, offset } = props;
+	const { className, internalClassName, controller, logo, title, subtitle, offset, multiselectFacets } = props;
 	const { store } = controller;
 
 	const themeDefaults: Theme = {
@@ -995,6 +1040,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const messagesContainerRef = useRef<HTMLDivElement>(null);
+	const footerRef = useRef<HTMLDivElement>(null);
 
 	// Swipe-to-dismiss state for mobile secondary panel
 	const secondaryRef = useRef<HTMLDivElement>(null);
@@ -1005,6 +1051,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const [swipeOffset, setSwipeOffsetRaw] = useState(0);
 	const [swipeAnimating, setSwipeAnimating] = useState(false);
 	const [mobileProductInfoOpen, setMobileProductInfoOpen] = useState(false);
+	const [footerHeight, setFooterHeight] = useState(0);
 
 	const updateSwipeOffset = (value: number) => {
 		swipeOffsetRef.current = value;
@@ -1029,16 +1076,31 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	// const subProps: ChatSubProps = {};
 
 	const activeMessage = store.currentChat?.activeMessage;
+
+	// On mobile, only auto-open the secondary panel for the first productComparison
+	// message in the chat session. Subsequent comparison results show a "Show Details"
+	// button instead (handled in MessageText via sideChatLabel toggle).
+	const isFirstMobileComparison = (() => {
+		if (!isMobile || activeMessage?.messageType !== 'productComparison') return true;
+		// If the user explicitly activated a comparison (via "Show Details" or the
+		// view-side-chat button), always allow it regardless of position in the chat
+		if (store.currentChat?.activeMessageId) return true;
+		const comparisonMessages = (store.currentChat?.chat || []).filter((m) => m.messageType === 'productComparison');
+		return comparisonMessages.length <= 1;
+	})();
+
 	const sideChatTypes = isMobile
-		? ['inspirationResult', 'productComparison', ...(mobileProductInfoOpen ? ['productQuery'] : [])]
+		? ['inspirationResult', ...(isFirstMobileComparison ? ['productComparison'] : []), ...(mobileProductInfoOpen ? ['productQuery'] : [])]
 		: ['inspirationResult', 'productComparison', 'productQuery'];
 	const shouldShowSideChat =
 		activeMessage && sideChatTypes.includes(activeMessage?.messageType) && store.currentChat?.dismissedSideChatMessageId !== activeMessage.id;
 
-	const styling = mergeStyles<{ mobile: boolean; offset?: string | number; hasSideChat?: boolean }>(
-		{ mobile: isMobile, offset, hasSideChat: !!shouldShowSideChat },
-		defaultStyles
-	);
+	const styling = mergeStyles<{
+		mobile: boolean;
+		offset?: string | number;
+		hasSideChat?: boolean;
+		footerHeight: number;
+	}>({ mobile: isMobile, offset, hasSideChat: !!shouldShowSideChat, footerHeight }, defaultStyles);
 
 	// Lock body scroll while chat is open so touch/wheel scrolls don't leak to the page behind
 	useEffect(() => {
@@ -1053,6 +1115,19 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 			body.style.overscrollBehavior = previousOverscroll;
 		};
 	}, [store.open]);
+
+	// Track the primary footer height so the mobile secondary panel can sit above it
+	useEffect(() => {
+		const el = footerRef.current;
+		if (!el) return;
+		const observer = new ResizeObserver((entries) => {
+			for (const entry of entries) {
+				setFooterHeight(entry.borderBoxSize?.[0]?.blockSize ?? entry.target.getBoundingClientRect().height);
+			}
+		});
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [store.open, store.currentChat?.isExpired]);
 
 	const HistoryButton = (props: { disabled?: boolean; open?: boolean }) => (
 		<Button
@@ -1241,6 +1316,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 							style={
 								isMobile
 									? {
+											// Touch swipe animations need to be inline to prevent visual jumps
 											transform: swipeOffset > 0 ? `translateY(${swipeOffset}px)` : undefined,
 											transition: swipeAnimating ? 'transform 0.3s ease-out' : 'none',
 									  }
@@ -1308,7 +1384,11 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 									{(
 										{
 											inspirationResult: (
-												<ChatInspirationResultMessage chatItem={activeMessage as ChatResponseInspirationResultData} controller={controller} />
+												<ChatInspirationResultMessage
+													chatItem={activeMessage as ChatResponseInspirationResultData}
+													controller={controller}
+													onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+												/>
 											),
 											productComparison: (
 												<ChatProductComparisonMessage chatItem={activeMessage as ChatResponseProductComparisonData} controller={controller} />
@@ -1515,6 +1595,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 															controller={controller}
 															scrollToBottom={scrollToBottom}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
 													content: (
@@ -1523,6 +1604,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 															controller={controller}
 															scrollToBottom={scrollToBottom}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
 													productSearchResult: (
@@ -1531,6 +1613,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 															controller={controller}
 															scrollToBottom={scrollToBottom}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
 													inspirationResult: (
@@ -1539,6 +1622,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 															controller={controller}
 															scrollToBottom={scrollToBottom}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
 													productAnswer: (
@@ -1547,27 +1631,52 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 															controller={controller}
 															scrollToBottom={scrollToBottom}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
-													productComparison: (
-														<MessageText
-															chatItem={chatItem}
-															controller={controller}
-															scrollToBottom={scrollToBottom}
-															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
-														/>
-													),
+													productComparison: (() => {
+														// On mobile, only the first productComparison in the session
+														// auto-opens the secondary panel. Subsequent ones get a
+														// prominent "Show Details" button instead.
+														const comparisonMessages = (store.currentChat?.chat || []).filter((m) => m.messageType === 'productComparison');
+														const isFirst = comparisonMessages.length > 0 && comparisonMessages[0].id === chatItem.id;
+														return (
+															<MessageText
+																chatItem={chatItem}
+																controller={controller}
+																scrollToBottom={scrollToBottom}
+																onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+																showDetailsButton={isMobile && !isFirst}
+																sideChatOpen={!!shouldShowSideChat}
+															/>
+														);
+													})(),
 													productRecommendation: (
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
 															scrollToBottom={scrollToBottom}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
+															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
 													actions: <SuggestedQuestions actions={(chatItem as unknown as ChatResponseActionsData).actions} controller={controller} />,
-													errorResponse: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
-													topicDrift: <MessageText chatItem={chatItem} controller={controller} scrollToBottom={scrollToBottom} />,
+													errorResponse: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															sideChatOpen={!!shouldShowSideChat}
+														/>
+													),
+													topicDrift: (
+														<MessageText
+															chatItem={chatItem}
+															controller={controller}
+															scrollToBottom={scrollToBottom}
+															sideChatOpen={!!shouldShowSideChat}
+														/>
+													),
 													productQuery: null,
 												}[chatItem.messageType] || null}
 											</div>
@@ -1576,7 +1685,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								</div>
 								<ChatLoadingIndicator loading={store.loading} verbs={loadingVerbs} />
 								{!store.currentChat?.isExpired ? (
-									<div className="ss__chat__content__footer">
+									<div className="ss__chat__content__footer" ref={footerRef}>
 										{store.error && <div className="ss__chat__error">{store.error.message}</div>}
 										{store.currentChat?.sessionLimitReached && (
 											<div className={'ss__chat__topic-drift'}>
@@ -1602,7 +1711,20 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														{{
 															facets: (action as FacetsData).data.length ? (
 																<>
-																	<div className="ss__chat__actions--title">Filter by:</div>
+																	<div className="ss__chat__actions__facets-header">
+																		<div className="ss__chat__actions--title">Filter by:</div>
+																		{multiselectFacets && (store.currentChat?.attachments.attached.some((item) => item.type === 'facet') || false) && (
+																			<div className="ss__chat__actions__facets-apply">
+																				<Button
+																					onClick={() => {
+																						controller.search();
+																					}}
+																				>
+																					Apply Filters
+																				</Button>
+																			</div>
+																		)}
+																	</div>
 																	<div className="ss__chat__actions--facets">
 																		{(action as FacetsData).data.slice(0, 10).map((facet: any, idx: number) => {
 																			if (!facet.values?.length) return null;
@@ -1621,16 +1743,59 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																								background: 'white',
 																								boxShadow: '0px 3px 6px 0px rgba(0, 0, 0, 0.2)',
 																								borderRadius: '6px',
-																								'.ss__button': {
-																									width: '100%',
-																									border: 'none',
-																									borderRadius: 0,
-																									boxSizing: 'border-box',
-																									background: '#fff',
-																									'&:hover': {
-																										background: '#f4f4ff',
-																									},
-																								},
+																								...(multiselectFacets
+																									? {
+																											'.ss__chat__actions__facet__option--checkbox': {
+																												display: 'flex',
+																												alignItems: 'center',
+																												gap: '8px',
+																												padding: '6px 10px',
+																												cursor: 'pointer',
+																												width: '100%',
+																												boxSizing: 'border-box' as const,
+																												background: '#fff',
+																												border: 'none',
+																												borderBottom: '1px solid #f0f0f0',
+																												'&:hover': {
+																													background: '#f4f4ff',
+																												},
+																												'&:last-child': {
+																													borderBottom: 'none',
+																												},
+																												'.ss__chat__actions__facet__option__checkbox': {
+																													width: '16px',
+																													height: '16px',
+																													borderRadius: '3px',
+																													border: '2px solid #ccc',
+																													display: 'flex',
+																													alignItems: 'center',
+																													justifyContent: 'center',
+																													flexShrink: 0,
+																													'&.ss__chat__actions__facet__option__checkbox--checked': {
+																														background: '#253B80',
+																														borderColor: '#253B80',
+																													},
+																												},
+																												'.ss__chat__actions__facet__option__label': {
+																													fontSize: '14px',
+																													color: '#333',
+																													flex: '1 1 auto',
+																													textAlign: 'left' as const,
+																												},
+																											},
+																									  }
+																									: {
+																											'.ss__button': {
+																												width: '100%',
+																												border: 'none',
+																												borderRadius: 0,
+																												boxSizing: 'border-box',
+																												background: '#fff',
+																												'&:hover': {
+																													background: '#f4f4ff',
+																												},
+																											},
+																									  }),
 																							},
 																						}}
 																					>
@@ -1638,6 +1803,37 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																							{facet.type === 'range-buckets'
 																								? facet.values.map((option: any) => {
 																										const optionValue = `${option.low ?? '*'}:${option.high ?? '*'}`;
+																										if (multiselectFacets) {
+																											const isSelected = controller.store.isFacetSelected(facet.field, optionValue);
+																											return (
+																												<div
+																													key={optionValue}
+																													className="ss__chat__actions__facet__option--checkbox"
+																													onClick={() => {
+																														if (isSelected) {
+																															controller.store.removeFacet(facet.field, optionValue);
+																														} else {
+																															controller.store.addFacet({
+																																key: facet.field,
+																																facetLabel: facet.label,
+																																value: optionValue,
+																																label: option.label,
+																																count: option.count,
+																															});
+																														}
+																													}}
+																												>
+																													<div
+																														className={classnames('ss__chat__actions__facet__option__checkbox', {
+																															'ss__chat__actions__facet__option__checkbox--checked': isSelected,
+																														})}
+																													>
+																														{isSelected && <Icon icon="check-thin" size="10px" />}
+																													</div>
+																													<span className="ss__chat__actions__facet__option__label">{option.label}</span>
+																												</div>
+																											);
+																										}
 																										return (
 																											<Button
 																												key={optionValue}
@@ -1656,23 +1852,57 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																											</Button>
 																										);
 																								  })
-																								: facet.values.map((option: any) => (
-																										<Button
-																											key={option.value}
-																											onClick={() => {
-																												controller.store.addFacet({
-																													key: facet.field,
-																													facetLabel: facet.label,
-																													value: option.value,
-																													label: option.label,
-																													count: option.count,
-																												});
-																												controller.search();
-																											}}
-																										>
-																											{option.label}
-																										</Button>
-																								  ))}
+																								: facet.values.map((option: any) => {
+																										const optionValue = option.value || option.label;
+																										if (multiselectFacets) {
+																											const isSelected = controller.store.isFacetSelected(facet.field, optionValue);
+																											return (
+																												<div
+																													key={optionValue}
+																													className="ss__chat__actions__facet__option--checkbox"
+																													onClick={() => {
+																														if (isSelected) {
+																															controller.store.removeFacet(facet.field, optionValue);
+																														} else {
+																															controller.store.addFacet({
+																																key: facet.field,
+																																facetLabel: facet.label,
+																																value: optionValue,
+																																label: option.label,
+																																count: option.count,
+																															});
+																														}
+																													}}
+																												>
+																													<div
+																														className={classnames('ss__chat__actions__facet__option__checkbox', {
+																															'ss__chat__actions__facet__option__checkbox--checked': isSelected,
+																														})}
+																													>
+																														{isSelected && <Icon icon="check-thin" size="10px" />}
+																													</div>
+																													<span className="ss__chat__actions__facet__option__label">{option.label}</span>
+																												</div>
+																											);
+																										}
+																										return (
+																											<Button
+																												key={optionValue}
+																												onClick={() => {
+																													controller.store.addFacet({
+																														key: facet.field,
+																														facetLabel: facet.label,
+																														value: optionValue,
+																														label: option.label,
+																														count: option.count,
+																													});
+																													controller.search();
+																												}}
+																											>
+																												{option.label}
+																											</Button>
+																										);
+																								  })}
 																						</div>
 																					</Dropdown>
 																				</div>
@@ -1985,4 +2215,5 @@ export interface ChatProps extends ComponentProps {
 	title?: string;
 	subtitle?: string;
 	offset?: string | number;
+	multiselectFacets?: boolean;
 }

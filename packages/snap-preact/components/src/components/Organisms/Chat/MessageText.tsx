@@ -53,6 +53,33 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 				},
 			},
 		},
+		'.ss__chat__message-text__show-details': {
+			alignSelf: 'flex-start',
+			border: '1px solid #253B80',
+			background: '#fff',
+			color: '#253B80',
+			borderRadius: '999px',
+			padding: '6px 16px',
+			fontSize: '14px',
+			fontWeight: 500,
+			cursor: 'pointer',
+			display: 'flex',
+			alignItems: 'center',
+			gap: '6px',
+			marginTop: '4px',
+			'&:not(.ss__button--disabled):hover': {
+				background: '#253B80',
+				color: '#fff',
+				svg: {
+					fill: '#fff',
+					stroke: '#fff',
+				},
+			},
+			svg: {
+				fill: '#253B80',
+				stroke: '#253B80',
+			},
+		},
 		'.ss__chat__message-text__results': {
 			marginTop: '12px',
 			'.swiper-container': {
@@ -98,7 +125,7 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 };
 
 export const MessageText = observer((props: MessageTextProps) => {
-	const { controller, chatItem, scrollToBottom, onViewProduct } = props;
+	const { controller, chatItem, scrollToBottom, onViewProduct, showDetailsButton } = props;
 
 	const styling = mergeStyles<MessageTextProps>(props, defaultStyles);
 
@@ -111,8 +138,11 @@ export const MessageText = observer((props: MessageTextProps) => {
 	};
 	const sideChatLabel = sideChatLabels[chatItem?.messageType as string];
 	const hasSideChatView = !!sideChatLabel && !!chatItem?.id;
-	const isSideChatActive =
-		hasSideChatView && currentChat?.activeMessage?.id === chatItem.id && currentChat?.dismissedSideChatMessageId !== chatItem.id;
+	const isSideChatActive = hasSideChatView && !!props.sideChatOpen && currentChat?.activeMessage?.id === chatItem.id;
+
+	// Show the prominent "Show Details" button when requested (e.g. mobile subsequent comparisons)
+	const shouldShowDetailsButton = showDetailsButton && chatItem?.messageType === 'productComparison' && !isSideChatActive;
+
 	return (
 		<div className="ss__chat__message-text" {...styling}>
 			{text && (
@@ -137,6 +167,17 @@ export const MessageText = observer((props: MessageTextProps) => {
 						/>
 					) : null}
 				</div>
+			)}
+			{shouldShowDetailsButton && (
+				<Button
+					className="ss__chat__message-text__show-details"
+					icon={{ icon: 'angle-right', title: 'Show Details' }}
+					onClick={() => {
+						currentChat?.setActiveMessage(chatItem.id);
+					}}
+				>
+					Show Details
+				</Button>
 			)}
 			{chatItem && <ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} onViewProduct={onViewProduct} />}
 			{/* <FacetsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} /> */}
@@ -184,4 +225,6 @@ export interface MessageTextProps {
 	controller: ChatController;
 	scrollToBottom: () => void;
 	onViewProduct?: () => void;
+	showDetailsButton?: boolean;
+	sideChatOpen?: boolean;
 }

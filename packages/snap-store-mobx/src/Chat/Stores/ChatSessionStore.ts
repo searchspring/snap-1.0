@@ -428,6 +428,25 @@ export class ChatSessionStore {
 			createdAt: this.createdAt,
 			committedComparisons: this.comparisons.committedItems,
 		});
+
+		// prune stored chat sessions to keep only the last 10
+		const MAX_STORED_SESSIONS = 10;
+		const storedChats = this.storage.get('chats');
+		if (storedChats) {
+			const chatIds = Object.keys(storedChats);
+			if (chatIds.length > MAX_STORED_SESSIONS) {
+				chatIds
+					.sort((a, b) => {
+						const aTime = new Date(storedChats[a]?.createdAt || 0).getTime();
+						const bTime = new Date(storedChats[b]?.createdAt || 0).getTime();
+						return aTime - bTime;
+					})
+					.slice(0, chatIds.length - MAX_STORED_SESSIONS)
+					.forEach((id) => {
+						this.storage.set(`chats.${id}`, null);
+					});
+			}
+		}
 	}
 
 	/** Re-wrap raw stored results as Product / SearchResultStore instances. */
@@ -483,20 +502,20 @@ export class ChatSessionStore {
 				const filterTextArray: string[] = [];
 
 				searchFilters.forEach((filter) => {
-					const attachedFacet = this.attachments.attached.find(
+					const attachedFacets = this.attachments.attached.filter(
 						(item) => item.type == 'facet' && (item as any).key == filter.key
-					) as ChatAttachmentFacet;
-					if (attachedFacet) {
+					) as ChatAttachmentFacet[];
+					attachedFacets.forEach((attachedFacet) => {
 						attachments.push(attachedFacet.id);
 						attachedFacet.activate();
 						filterTextArray.push(`${attachedFacet.facetLabel} ${attachedFacet.label}`);
-					}
+					});
 				});
 				this.chat.push({
 					id: uuidv4(),
 					messageType: 'user',
 					attachments: attachments.length > 0 ? attachments : undefined,
-					text: `Filter by ${filterTextArray.join('and ')}`,
+					text: `Filter by ${filterTextArray.join(' and ')}`,
 					requestType: request.data.requestType,
 				});
 			}
