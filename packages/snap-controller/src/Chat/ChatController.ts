@@ -434,7 +434,7 @@ export class ChatController extends AbstractController {
 						thumbnailUrl: response.thumbnailUrl,
 					});
 				} catch (err: any) {
-					const errorMessage = err?.responseBody?.errorMessage || 'An unknown error has occured.';
+					const errorMessage = err?.responseBody?.errorMessage || 'An unknown error has occurred.';
 					attachment.update({
 						error: {
 							message: errorMessage,
@@ -669,7 +669,7 @@ export class ChatController extends AbstractController {
 							default: {
 								this.store.error = {
 									type: ErrorType.ERROR,
-									message: err.err.message || 'An unknown error has occured.',
+									message: err.err.message || 'An unknown error has occurred.',
 								};
 								break;
 							}

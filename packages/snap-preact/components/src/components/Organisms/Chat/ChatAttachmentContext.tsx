@@ -65,7 +65,9 @@ export const ChatAttachmentContext = observer((props: ChatAttachmentContextProps
 										</div>
 									)}
 								</div>
-								<div className={'ss__chat__attachment-context__item__name'} title={item.name} dangerouslySetInnerHTML={{ __html: item.name }} />
+								<div className={'ss__chat__attachment-context__item__name'} title={item.name}>
+									{item.name}
+								</div>
 							</>
 						)}
 						{item.onRemove && (items.length > 1 || !onClose) && (
