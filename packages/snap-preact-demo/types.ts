@@ -45,7 +45,7 @@ declare global {
 		result: Result;
 	};
 
-	//Add your custom result typing here
+	// Add your custom result typing here
 	type Result = StoreTypes.Product & {
 		// attributes: {
 		// }
