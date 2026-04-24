@@ -221,10 +221,10 @@ export class RecommendationController extends AbstractController {
 
 				const product: BeaconProduct = {
 					parentId: result.display.mappings.core?.parentId ? '' + result.display.mappings.core?.parentId : '',
-					uid: result.display.id,
+					uid: result.display.mappings.core?.uid || result.display.id,
 					sku: result.display.mappings.core?.sku,
 					qty: result.quantity || 1,
-					price: Number(result.display.mappings.core?.price),
+					price: Number(result.display.mappings.core?.price) || 0,
 				};
 				const data: RecommendationsAddtocartSchemaData = {
 					responseId,
