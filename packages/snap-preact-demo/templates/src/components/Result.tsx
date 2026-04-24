@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Price, Image, OverlayBadge, CalloutBadge, Rating, ResultProps } from '@athoscommerce/snap-preact/components';
+import { Price, Image, OverlayBadge, CalloutBadge, Rating } from '@athoscommerce/snap-preact/components';
 import type { SearchController } from '@athoscommerce/snap-controller';
 
 export const CustomResult = (props: ResultProps) => {
