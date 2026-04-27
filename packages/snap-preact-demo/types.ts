@@ -41,6 +41,11 @@ declare global {
 		mergeSnapConfig?: any;
 	}
 
+	type ResultProps = ComponentTypes.ResultProps & {
+		result: Result;
+	};
+
+	// Add your custom result typing here
 	type Result = StoreTypes.Product & {
 		// attributes: {
 		// }
