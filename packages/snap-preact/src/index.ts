@@ -1,9 +1,10 @@
 export { Snap } from './Snap';
+export { SnapHybrid } from './SnapHybrid';
 export { SnapTemplates } from './Templates';
 export { TemplatesStore } from './Templates/Stores/TemplateStore';
 export { polyfills } from './polyfills/polyfills';
 export * from './create';
 
 export type { SnapConfig } from './Snap';
-export type { SnapTemplatesConfig } from './Templates';
+export type { SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from './Templates';
 export type { GlobalThemeStyleScript } from './types';

@@ -1,12 +1,12 @@
 import { h } from 'preact';
-import { MutableRef, useRef, useState } from 'preact/hooks';
+import { MutableRef, useEffect, useRef, useState } from 'preact/hooks';
 
 import { observer } from 'mobx-react-lite';
 import { css } from '@emotion/react';
 import type { AutocompleteController } from '@athoscommerce/snap-controller';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
-import { ComponentProps, StyleScript } from '../../../types';
+import { ComponentProps, StyleScript, JSXComponent } from '../../../types';
 import { AutocompleteLayout, AutocompleteLayoutProps } from '../../Organisms/AutocompleteLayout';
 import { Modal, ModalProps } from '../../Molecules/Modal';
 import classNames from 'classnames';
@@ -26,6 +26,7 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 		right: '0',
 		top: '0',
 		zIndex: 1001,
+		pointerEvents: 'none',
 
 		'& .ss__autocomplete-modal__inner': {
 			position: 'absolute',
@@ -41,6 +42,7 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 			width: width,
 			height: height,
 			maxWidth: '100vw',
+			pointerEvents: 'auto',
 		},
 		'& .ss__overlay': {
 			zIndex: 1000,
@@ -106,6 +108,22 @@ export const AutocompleteModal = observer((properties: AutocompleteModalProps) =
 
 	const renderedInputRef: MutableRef<HTMLInputElement | null> = useRef(null);
 
+	// Sync active state with controller's focusedInput.
+	// When the controller unfocuses (e.g. document click), close the autocomplete
+	// so the modal overlay doesn't persist over the input.
+	useEffect(() => {
+		const onFocusChange = (_context: any, next: () => void) => {
+			if (!controller.store.state.focusedInput) {
+				setActive(false);
+			}
+			next();
+		};
+		controller.eventManager.on('focusChange', onFocusChange);
+		return () => {
+			controller.eventManager.events['focusChange']?.remove(onFocusChange);
+		};
+	}, []);
+
 	const reset = () => {
 		controller.setFocused();
 		setActive(false);
@@ -128,7 +146,7 @@ export const AutocompleteModal = observer((properties: AutocompleteModalProps) =
 			// default props
 			internalClassName: 'autocomplete-modal__modal',
 			buttonSelector: buttonSelector,
-			onOverlayClick: () => reset(),
+			onOverlayClick: reset,
 			overlayColor: overlayColor,
 			open: active,
 			// inherited props
@@ -223,8 +241,9 @@ interface AutocompleteModalSubProps {
 
 export type AutocompleteModalProps = {
 	controller: AutocompleteController;
+	resultComponent?: JSXComponent | JSX.Element;
 } & AutocompleteModalTemplatesLegalProps &
-	ComponentProps<AutocompleteModalProps>;
+	Omit<ComponentProps, 'customComponent'>;
 
 export type AutocompleteModalTemplatesLegalProps = {
 	buttonSelector?: string | Element;

@@ -168,7 +168,6 @@ describe('TemplateStore', () => {
 			selector: '.test',
 			theme: GLOBAL_THEME_NAME,
 			component: 'Search',
-			resultComponent: 'Result',
 		};
 		const targetId = store.addTarget(type, target);
 		expect(targetId).toBeDefined();

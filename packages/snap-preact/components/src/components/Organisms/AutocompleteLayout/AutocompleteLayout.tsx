@@ -15,14 +15,7 @@ import { Facets, FacetsProps } from '../Facets';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { createHoverProps } from '../../../toolbox';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
-import {
-	ComponentProps,
-	FacetDisplay,
-	RecommendationComponentNames,
-	RecommendationComponentProps,
-	ResultComponent,
-	StyleScript,
-} from '../../../types';
+import { ComponentProps, FacetDisplay, RecommendationComponentNames, RecommendationComponentProps, StyleScript, JSXComponent } from '../../../types';
 import { Lang, useA11y, useLang } from '../../../hooks';
 import { TermsList, TermsListProps } from '../TermsList';
 import { Terms, TermsProps } from '../../Molecules/Terms';
@@ -476,11 +469,6 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 
 	const styling = mergeStyles<AutocompleteLayoutProps>(props, defaultStyles);
 
-	const reset = () => {
-		controller.setFocused();
-		onReset && onReset();
-	};
-
 	//initialize lang
 	const defaultLang: Partial<AutocompleteLayoutLang> = {
 		contentTitle: {
@@ -515,12 +503,12 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 	let recsController: RecommendationController | undefined;
 	let RecommendationTemplateComponent: ((props: RecommendationComponentProps) => h.JSX.Element | null) | undefined;
 
-	let RecommendationTemplateResultComponent: ResultComponent | undefined;
+	let RecommendationTemplateResultComponent: JSXComponent | undefined;
 
 	const noresults = Boolean(controller.store.search?.query?.string && controller.store.results.length === 0);
 
 	if (templates?.recommendation?.enabled && noresults) {
-		const recs = createRecommendationTemplate(templates, properties.theme);
+		const recs = createRecommendationTemplate(templates);
 		RecommendationTemplateComponent = recs.RecommendationTemplateComponent;
 		RecommendationTemplateResultComponent = recs.RecommendationTemplateResultComponent;
 		recsController = recs.recsController;
@@ -758,12 +746,12 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 					internalClassName
 				)}
 				onClick={(e) => e.stopPropagation()}
-				ref={(e) => useA11y(e, 0, false, reset)}
+				ref={(e) => useA11y(e, 0, false, onReset)}
 			>
 				<span
 					role={'link'}
 					ref={(e) => useA11y(e)}
-					onClick={() => reset()}
+					onClick={() => props.onReset && props.onReset()}
 					className="ss__autocomplete__close-button"
 					style={{ position: 'absolute', top: '-10000000px', left: '-1000000px' }}
 					{...mergedLang.closeButton?.all}
@@ -816,7 +804,7 @@ type Column = {
 
 export type AutocompleteLayoutProps = {
 	input: Element | string;
-	resultComponent?: ResultComponent;
+	resultComponent?: JSXComponent | JSX.Element;
 	controller: AutocompleteController;
 	lang?: Partial<AutocompleteLayoutLang>;
 } & AutocompleteLayoutTemplatesLegalProps &

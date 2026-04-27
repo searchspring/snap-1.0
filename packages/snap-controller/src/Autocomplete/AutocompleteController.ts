@@ -382,11 +382,11 @@ export class AutocompleteController extends AbstractController {
 				}
 
 				const product: BeaconProduct = {
-					parentId: result.id,
-					uid: result.id,
-					sku: result.mappings.core?.sku,
+					parentId: result.display.mappings.core?.parentId ? '' + result.display.mappings.core?.parentId : '',
+					uid: result.display.mappings.core?.uid || result.display.id,
+					sku: result.display.mappings.core?.sku,
 					qty: result.quantity || 1,
-					price: Number(result.mappings.core?.price),
+					price: Number(result.display.mappings.core?.price) || 0,
 				};
 				const data: AddtocartSchemaData = {
 					responseId,
@@ -861,7 +861,9 @@ export class AutocompleteController extends AbstractController {
 			this.events[responseId] = this.events[responseId] || { product: {}, banner: {} };
 
 			const previousResponseId = this.store.results[0]?.responseId;
-			if (previousResponseId && previousResponseId === responseId) {
+			const repeatedSearch = previousResponseId && previousResponseId === responseId;
+
+			if (repeatedSearch) {
 				const impressedResultIds = Object.keys(this.events[responseId].product || {}).filter(
 					(resultId) => this.events[responseId].product?.[resultId]?.impression
 				);
@@ -904,8 +906,10 @@ export class AutocompleteController extends AbstractController {
 			// update the store
 			this.store.update({ meta, search });
 
-			const data: RenderSchemaData = { responseId };
-			this.config.beacon?.enabled && this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
+			if (!repeatedSearch) {
+				const data: RenderSchemaData = { responseId };
+				this.config.beacon?.enabled && this.tracker.events.autocomplete.render({ data, siteId: this.config.globals?.siteId });
+			}
 
 			const afterStoreProfile = this.profiler.create({ type: 'event', name: 'afterStore', context: params }).start();
 

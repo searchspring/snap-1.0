@@ -47,7 +47,7 @@ The `Content` component is considered a root level component since it is being r
 
 To provide a reference to the controller via props to any subcomponents, we can utilize the `ControllerProvider` component from the `@athoscommerce/snap-preact/components` package.
 
-```jsx
+```tsx
 // src/components/Content/Content.jsx
 
 import { h } from 'preact';
@@ -70,7 +70,7 @@ Then from any subcomponent such as `Results` in this example, the `withControlle
 
 Finally, the `observer` higher order component is used to make the component reactive to changes in the store.
 
-```jsx
+```tsx
 // src/components/Results/Results.jsx
 
 import { h } from 'preact';

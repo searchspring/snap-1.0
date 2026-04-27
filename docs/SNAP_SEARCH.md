@@ -109,7 +109,7 @@ The available banner types include: `header`, `banner`, `footer`, `left`, `inlin
 
 For inline banners, the `<InlineBanner/>` component should be used instead. An example of this usage can be found in the [store.results](https://athoscommerce.github.io/snap/snap-search#searchcontrollerstoreresults) section below.
 
-```jsx
+```tsx
 // src/components/Content/Content.jsx
 
 import { h } from 'preact';
@@ -145,7 +145,7 @@ export const Content = observer((props) => {
 
 The `search` property contains information about the current query, typically displayed above results and used in combination with the `store.pagination` data.
 
-```jsx
+```tsx
 // src/components/SearchHeader/SearchHeader.jsx
 
 import { h } from 'preact';
@@ -203,7 +203,7 @@ export const SearchHeader = withController(observer((props) => {
 
 The `pagination` property is not only used for information about the current query, but also contains everything needed for handling pagination of a query that yields multiple pages. Invoking the `getPages` method will retrieve the specified number of page objects. For more about the pagination store, checkout the [Search Controller reference](https://athoscommerce.github.io/snap/reference-controller-search).
 
-```jsx
+```tsx
 // src/components/Pagination/Pagination.jsx
 
 import { h } from 'preact';
@@ -252,7 +252,7 @@ The `sorting` property contains sorting options applicable to the current query.
 
 Sorting settings can be configured in the [Athos Search & Product Discovery Console](https://console.athoscommerce.net)
 
-```jsx
+```tsx
 // src/components/SortBy/SortBy.jsx
 
 import { h } from 'preact';
@@ -315,7 +315,7 @@ Each result object contains the following notable properties:
 
 Note: if you will be creating a custom Result component, the `withTracking` hook is required to capture product impression and click analytics. See [Tracking](https://github.com/athoscommerce/snap/tree/main/docs/SNAP_TRACKING.md#impressions) for more information.
 
-```jsx
+```tsx
 // src/components/Results/Results.jsx
 
 import { h } from 'preact';
@@ -394,7 +394,7 @@ Facets with a `type` value of `value` or `range-buckets` will contain the follow
 
 `facet.values` original facet values - it is not recommended to directly render facet values using this in your components - `facet.refinedValues` should be used instead - however, if you are using an `afterStore` event to reference facet values, `facet.values` should be used
 
-```jsx
+```tsx
 // src/components/Facets/Facets.jsx
 
 import { h } from 'preact';
@@ -470,7 +470,7 @@ The `filters` property contains an array of filters that are currently applied t
 
 Typically used to display a filter summary with options to remove filters.
 
-```jsx
+```tsx
 // src/components/FilterSummary/FilterSummary.jsx
 
 import { h } from 'preact';

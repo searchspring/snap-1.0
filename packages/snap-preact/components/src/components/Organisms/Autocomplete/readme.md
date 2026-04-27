@@ -11,7 +11,7 @@ The autocomplete layout renders terms, facets, banners, and results.
 - Icon
 
 ## Usage
-```jsx
+```tsx
 import { Autocomplete } from '@athoscommerce/snap-preact/components';
 ```
 
@@ -22,90 +22,90 @@ The required `input` prop expects either:
 
 - an `<input>` element to bind to
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} />
 ```
 
 ### controller
 The required `controller` prop specifies a reference to the autocomplete controller.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} />
 ```
 
 ### width
 The `width` prop specifies a width for the overall component. The default value is '100%'.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} width="800px" />
 ```
 
 ### horizontalTerms
 The `horizontalTerms` prop will alter autocomplete's CSS to display terms horizontally.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} horizontalTerms={true} />
 ```
 
 ### vertical
 The `vertical` prop will alter autocomplete's CSS to display in a vertical layout.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} vertical={true} />
 ```
 
 ### termsTitle
 The `termsTitle` prop will display the given text above the autocomplete terms area. The default value is blank and does not affect the trending terms title `trendingTitle`.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} termsTitle={'Terms'} />
 ```
 
 ### trendingTitle
 The `trendingTitle` prop will display the given text above the autocomplete terms area when trending terms are displayed. The default value is 'Popular Searches' and does not affect non-trending terms title `termsTitle`. Also requires `controller.config.settings.trending.limit` to be configured)
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} trendingTitle={'Trending'} />
 ```
 
 ### historyTitle
 The `historyTitle` prop will display the given text above the autocomplete historical terms area when historical terms are displayed. The default value is 'Previously Searched' and does not affect trending/non-trending terms title `termsTitle` & `trendingTitle`. Also requires `controller.config.settings.history.limit` to be configured.)
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} historyTitle={'History'} />
 ```
 
 ### facetsTitle
 The `facetsTitle` prop will display the given text above the autocomplete facets area. (default is blank)
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} facetsTitle={'Filter By'} />
 ```
 
 ### contentTitle
 The `contentTitle` prop will display the given text above the autocomplete content area. (default is blank)
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} contentTitle={'Results'} />
 ```
 
 ### seeMoreButtonIcon
 The `seeMoreButtonIcon` prop will display the given icon in the see more button.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} seeMoreButtonIcon={'angle-right'} />
 ```
 
 ### seeMoreButtonText
 The `seeMoreButtonText` prop will display the given text in the see more button. It can also take a function returning a string. The function is passed the Autocomplete controller. 
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} seeMoreButtonText={'See More!'} />
 ```
 
 The `seeMoreButtonText` prop can also take a function returning a string. The function is pased the Autocomplete controller. 
 
-```jsx
+```tsx
 
 const seeMoreButtonText = (controller) => {
     const { pagination, filters, search } = controller.store;
@@ -119,7 +119,7 @@ const seeMoreButtonText = (controller) => {
 ### viewportMaxHeight
 The `viewportMaxHeight` prop will restrict autocomplete from overflowing the viewport. The max height of autocomplete will always be visible in the viewport. 
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} viewportMaxHeight={true} />
 ```
 
@@ -128,7 +128,7 @@ The `termsSlot` prop accepts a custom JSX element to render instead of the defau
 
 The following props are available to be used within your custom component: `terms`, `trending`, `termsTitle`, `trendingTitle`, `showTrending`, `valueProps`, `emIfy`, `controller`
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} termsSlot={<CustomTermsComponent />} />
 ```
 
@@ -137,7 +137,7 @@ The `facetsSlot` prop accepts a custom JSX element to render instead of the defa
 
 The following props are available to be used within your custom component: `facets`, `merchandising`, `facetsTitle`, `hideBanners`, `controller`, `valueProps`
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} facetsSlot={<CustomFacetsComponent />} />
 ```
 
@@ -146,7 +146,7 @@ The `contentSlot` prop accepts a custom JSX element to render instead of the def
 
 The following props are available to be used within your custom component: `results`, `merchandising`, `search`, `pagination`, `filters`, `controller`
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} contentSlot={<CustomContentComponent />} />
 ```
 
@@ -155,14 +155,14 @@ The `resultsSlot` prop accepts a custom JSX element to render instead of the def
 
 The following props are available to be used within your custom component: `results`, `contentTitle`, `controller`
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} resultsSlot={<CustomResultsComponent />} />
 ```
 
 ### resultComponent
 The `resultComponent` prop specifies a custom result component to render.
 
-```jsx
+```tsx
 
 const CustomResult = ({
 	controller 
@@ -180,7 +180,7 @@ The `noResultsSlot` prop accepts a custom JSX element to render instead of the d
 
 The following props are available to be used within your custom component: `search`, `pagination`, `controller`
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} noResultsSlot={<CustomNoResultsComponent />} />
 ```
 
@@ -189,70 +189,70 @@ The `linkSlot` prop accepts a custom JSX element to render instead of the defaul
 
 The following props are available to be used within your custom component: `search`, `results`, `pagination`, `filters`, `controller`
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} linkSlot={<CustomLinkComponent />} />
 ```
 
 ### hideFacets
 The `hideFacets` prop specifies if the facets within autocomplete should be rendered.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideFacets={true} />
 ```
 
 ### hideTerms
 The `hideTerms` prop specifies if the terms section within autocomplete should be rendered.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideTerms={true} />
 ```
 
 ### hideHistory
 The `hideHistory` prop specifies if the historical terms and results within autocomplete should be rendered.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideHistory={true} />
 ```
 
 ### hideTrending
 The `hideTrending` prop specifies if the trending terms and results within autocomplete should be rendered.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideTrending={true} />
 ```
 
 ### hideContent
 The `hideContent` prop specifies if the content area within autocomplete should be rendered.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideContent={true} />
 ```
 
 ### hideBanners
 The `hideBanners` prop specifies if the banners within autocomplete should be rendered. (inline banners not affected)
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideBanners={true} />
 ```
 
 ### hideLink
 The `hideLink` prop specifies if the "see n results for keyword" text within autocomplete should be rendered.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} hideLink={true} />
 ```
 
 ### retainTrending
 The `retainTrending` prop specifies if the trending terms within autocomplete should be rendered when there is a query.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} retainTrending={true} />
 ```
 
 ### retainHistory
 The `retainHistory` prop specifies if the trending terms within autocomplete should be rendered when there is a query. 
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} retainHistory={true} />
 ```
 
@@ -284,7 +284,7 @@ const breakpoints = {
 
 See `<Results />` component documentation for further details.
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} breakpoints={breakpoints} />
 ```
 
@@ -299,7 +299,7 @@ const CustomOnClickFunc = (e) => {
 };
 ```
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} onFacetOptionClick={CustomOnClickFunc} />
 ```
 
@@ -313,6 +313,6 @@ const customOnClickFunc = (e) => {
 };
 ```
 
-```jsx
+```tsx
 <Autocomplete controller={controller} input={'#searchInput'} onTermClick={customOnClickFunc} />
 ```

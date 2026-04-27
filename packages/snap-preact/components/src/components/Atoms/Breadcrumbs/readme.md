@@ -3,7 +3,7 @@
 Renders a list of breadcrumbs. 
 
 ## Usage
-```jsx
+```tsx
 import { Breadcrumbs } from '@athoscommerce/snap-preact/components';
 ```
 
@@ -37,14 +37,14 @@ const breadcrumbsFunction = (controller) => {
 
 ```
 
-```jsx
+```tsx
 <Breadcrumbs separator={'/'} data={breadcrumbs} />
 ```
 
 ### separator
 The `separator` prop spcifies a custom delimiter between each breadcrumb. The default separator is `'/'`. This can be a string or a JSX element.
 
-```jsx
+```tsx
 <Breadcrumbs separator={'>'} data={breadcrumbs} />
 ```
 
@@ -52,6 +52,6 @@ The `separator` prop spcifies a custom delimiter between each breadcrumb. The de
 ### separatorIcon
 The `separatorIcon` prop spcifies an icon to render between each breadcrumb. 
 
-```jsx
+```tsx
 <Breadcrumbs separatorIcon={'angle-right'} data={breadcrumbs} />
 ```

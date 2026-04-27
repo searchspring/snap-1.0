@@ -8,7 +8,7 @@ Renders a list of terms for autocomplete.
 
 The `controller` prop specifies a reference to the autocomplete controller.
 
-```jsx
+```tsx
 <TermsList controller={controller} />
 ```
 
@@ -18,7 +18,7 @@ The `layout` prop is used to determine which terms render and in what layout. Th
 
 The `_` module is used a seperator module to center|left|right justify the other elements in the layout.
 
-```jsx
+```tsx
 <TermsList controller={controller} layout={[['Trending'], ['Suggestions'], ['History']]}/>
 ```
 
@@ -26,7 +26,7 @@ The `_` module is used a seperator module to center|left|right justify the other
 
 The `horizontal` prop specifies if the terms should be rendered horizontally.
 
-```jsx
+```tsx
 <TermsList controller={controller} horizontal={true}/>
 ``` 
 
@@ -34,7 +34,7 @@ The `horizontal` prop specifies if the terms should be rendered horizontally.
 
 The `verticalOptions` prop specifies if the terms options should be rendered vertically.
 
-```jsx
+```tsx
 <TermsList controller={controller} verticalOptions={true}/>
 ``` 
 
@@ -42,7 +42,7 @@ The `verticalOptions` prop specifies if the terms options should be rendered ver
 
 The `historyTitle` prop specifies the title to render above the history terms.
 
-```jsx
+```tsx
 <TermsList controller={controller} historyTitle={'History Terms'}/>
 ```
 
@@ -50,7 +50,7 @@ The `historyTitle` prop specifies the title to render above the history terms.
 
 The `historyTitle` prop specifies the title to render above the history terms.
 
-```jsx
+```tsx
 <TermsList controller={controller} suggestionTitle={'Suggested Terms'}/>
 ```
 
@@ -58,7 +58,7 @@ The `historyTitle` prop specifies the title to render above the history terms.
 
 The `trendingTitle` prop specifies the title to render above the trending terms.
 
-```jsx
+```tsx
 <TermsList controller={controller} trendingTitle={'Trending Terms'}/>
 ```
 
@@ -67,7 +67,7 @@ The `trendingTitle` prop specifies the title to render above the trending terms.
 
 The `retainHistory` prop will cause the history terms to always render. 
 
-```jsx
+```tsx
 <TermsList controller={controller} retainHistory={true}/>
 ```
 
@@ -75,6 +75,6 @@ The `retainHistory` prop will cause the history terms to always render.
 
 The `retainTrending` prop will cause the Trending terms to always render. 
 
-```jsx
+```tsx
 <TermsList controller={controller} retainTrending={true}/>
 ```

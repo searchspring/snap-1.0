@@ -1,7 +1,7 @@
 ## Templates Theming
 Theming in Snap Templates is the primary method of customizing a template. A theme configuration defines a theme from the library to extend, theme variables, component props and responsive changes via overrides as well as global styles and product cart component specification.
 
-```jsx
+```tsx
 new SnapTemplates({
 	...
 	theme: {
@@ -57,7 +57,7 @@ The `resultComponent` property allows you to specify a which product card compon
 #### Theme `variables`
 Each theme will have a common set of shared variables (ie. colors and breakpoints) that are compatible when switching between themes. Certain themes may contain additional variables.
 
-```jsx
+```tsx
 new SnapTemplates({
 	...
 	theme: {
@@ -78,7 +78,7 @@ new SnapTemplates({
 #### Theme `style`
 Specifies a function that returns [emotion object styles](https://emotion.sh/docs/object-styles). This function receives theme variables as props and allows you to create styles that respond to specific breakpoints. The resulting styles are injected into the document's `<head>` element. It's important to note that these styles are scoped to the current theme by being prefixed with a class name derived from the theme's name. As a result, the styles will only affect elements that are using this particular theme.
 
-```jsx
+```tsx
 const globalStyles = (theme) => {
 	const { variables } = theme;
 	return {
@@ -113,8 +113,11 @@ Themes and components provide prop their own default component prop configuratio
 ##### Theme `overrides.components`
 The `components` section of `overrides` allows you to customize specific component prop overrides in your theme.
 
+> [!NOTE]
+> By default, only a curated subset of component props is available for overrides. To access the full set of component props in overrides, you must use an unlocked configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
 
-```jsx
+
+```tsx
 import { css } from '@emotion/react';
 
 new SnapTemplates({
@@ -149,7 +152,7 @@ Some components contain multiple subcomponents of the same type. For instance, t
 
 Here's an example that demonstrates targeting specific subcomponents:
 
-```jsx
+```tsx
 new SnapTemplates({
 	...
 	theme: {
@@ -178,6 +181,101 @@ new SnapTemplates({
 });
 ```
 
+##### The `customComponent` Override Prop
+
+All Atom, Molecule, and Organism components support a `customComponent` prop that allows you to completely replace a component with your own custom implementation. This is particularly useful when you need more control than what standard prop overrides provide.
+
+The `customComponent` prop accepts a string that references a component registered in your configuration's `components` section. When specified, the entire component is replaced with your custom component, which receives all of the original component's props.
+
+> [!NOTE]
+> When using a locked configuration (the default), only the `result` component supports the `customComponent` prop. To use `customComponent` with other components, you must use an unlocked configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
+
+**Usage Example:**
+
+First, register your custom component in the configuration:
+
+```tsx
+import { MyCustomResult } from './components/MyCustomResult';
+
+new SnapTemplates({
+	config: { ... },
+	components: {
+		result: {
+			CustomResult: async () => (await import('./components/Result')).CustomResult,
+		},
+	},
+	theme: {
+		extends: 'base',
+		overrides: {
+			default: {
+				// Replace all Result components with MyCustomResult
+				result: {
+					customComponent: 'MyCustomResult',
+				},
+			},
+		},
+	},
+	// ...
+});
+```
+
+You can also target specific instances using more specific selectors:
+
+```tsx
+new SnapTemplates({
+	config: { ... },
+	components: {
+		result: {
+			SearchResult: async () => (await import('./components/Result')).SearchResult,,
+			AutocompleteResult: () => AutocompleteResult,
+		},
+	},
+	theme: {
+		extends: 'base',
+		overrides: {
+			default: {
+				// Use different custom components in different contexts
+				'search result': {
+					customComponent: 'SearchResult',
+				},
+				'autocomplete result': {
+					customComponent: 'AutocompleteResult',
+				},
+			},
+		},
+	},
+	// ...
+});
+```
+
+**Custom Component Props:**
+
+Your custom component will receive all the same props that the original component would receive. For example, a custom Result component receives:
+
+- `result` - The product/result data object
+- `controller` - The controller instance
+- `theme` - The current theme configuration
+- `treePath` - The component tree path for cascading props
+- Plus any additional props passed through overrides
+
+```tsx
+// MyCustomResult.tsx
+import type { ResultProps } from '@athoscommerce/snap-preact/components';
+export const MyCustomResult = (props: ResultProps) => {
+	const { result, controller, onClick } = props;
+	const core = result?.display?.mappings.core || result?.mappings?.core;
+	
+	return (
+		<div className="my-custom-result" onClick={onClick}>
+			<img src={core?.thumbnailImageUrl} alt={core?.name} />
+			<h3>{core?.name}</h3>
+			<span>${core?.price}</span>
+		</div>
+	);
+};
+```
+
+
 ##### Responsive Theme Overrides
 Responsive overrides in the `overrides` property allow you to define theme configurations for different screen sizes, such as mobile, tablet, and desktop. These settings adapt your theme to various viewport sizes, enabling responsive designs.
 
@@ -187,7 +285,7 @@ Each responsive override object can define additional prop configurations that b
 
 In the following example, the number of columns for the `search results` component is adjusted for each breakpoint. The default configuration sets the number of columns to 4, but this is overridden for mobile (1 column), tablet (2 columns), and desktop (3 columns) based on the viewport size.
 
-```jsx
+```tsx
 new SnapTemplates({
 	...
 	theme: {

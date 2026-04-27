@@ -8,7 +8,7 @@ Renders a list of terms for autocomplete.
 
 The `controller` prop specifies a reference to the autocomplete controller.
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms}/>
 ```
 
@@ -16,7 +16,7 @@ The `controller` prop specifies a reference to the autocomplete controller.
 
 The `terms` prop specifies a reference to an autocomplete term store.
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} />
 ```
 
@@ -24,7 +24,7 @@ The `terms` prop specifies a reference to an autocomplete term store.
 
 The `title` prop is will display the given text above the terms area. The default value is blank. 
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} title={'Suggestions'}/>
 ```
 
@@ -32,7 +32,7 @@ The `title` prop is will display the given text above the terms area. The defaul
 
 The `vertical` prop is will specifies if the terms should render vertically.
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} vertical={true}/>
 ```
 
@@ -40,7 +40,7 @@ The `vertical` prop is will specifies if the terms should render vertically.
 
 The `limit` prop is used to determine the number of terms to render. Please note that this does not limit the number of terms fetched by the controller.  
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} limit={4}/>
 ```
 
@@ -48,7 +48,7 @@ The `limit` prop is used to determine the number of terms to render. Please note
 
 The `previewOnFocus` prop will invoke the `term.preview()` method when the value has been hovered over.
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} previewOnHover={true}/>
 ```
 
@@ -56,7 +56,7 @@ The `previewOnFocus` prop will invoke the `term.preview()` method when the value
 
 The `emify` will automatically wrap non-matching characters within the term with an `<em>` element for different styling purposes. 
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} emify={true}/>
 ```
 
@@ -64,6 +64,6 @@ The `emify` will automatically wrap non-matching characters within the term with
 
 The `onTermClick` prop allows for a custom callback function for when a term value is clicked. The function is passed the clicked terms reference in the term store. 
 
-```jsx
+```tsx
 <Terms controller={controller} terms={terms} onTermClick={(e, term)=>{console.log(e, term)}}/>
 ```

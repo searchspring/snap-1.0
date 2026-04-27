@@ -90,7 +90,7 @@ export type VariantSelectionValue = {
 
 Below is a React component demonstrating how to implement variant selections:
 
-```jsx
+```tsx
 const selections = result.variants.selections;
 
 { selections?.map((selection) => (
@@ -158,7 +158,7 @@ Alternatively, you can use the `controller/selectVariantOptions` global event to
 
 The following shows color and size selectors with "Night" and "S" selected:
 
-```jsx
+```tsx
 <div class="option-selectors">
     <div class="option-selector-fieldset">
         <a ss-variant-option="Color:Lawn Party" href="/products/hightide-crew-lawn-party">Lawn Party</a>
