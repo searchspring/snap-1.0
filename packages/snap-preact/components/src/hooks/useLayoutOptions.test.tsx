@@ -20,12 +20,16 @@ const makeProps = (overrides: any = {}) => ({
 	...overrides,
 });
 
-/** Run the hook with a pre-set selectedLayout value returned by useControllerStorage */
-const runHook = (props: any, globalTheme: any, selectedLayout: any) => {
-	const setSelectedLayout = jest.fn();
-	mockUseControllerStorage.mockReturnValue([selectedLayout, setSelectedLayout]);
+/**
+ * Run the hook with a pre-set storedSelection value returned by useControllerStorage.
+ * storedSelection should be the storable form { value, label } (or undefined), matching
+ * what the hook actually persists to session storage.
+ */
+const runHook = (props: any, globalTheme: any, storedSelection: any) => {
+	const storeSelection = jest.fn();
+	mockUseControllerStorage.mockReturnValue([storedSelection, storeSelection]);
 	useLayoutOptions(props, globalTheme);
-	return { setSelectedLayout };
+	return { storeSelection };
 };
 
 describe('useLayoutOptions', () => {
@@ -34,37 +38,36 @@ describe('useLayoutOptions', () => {
 	describe('selection validation', () => {
 		it('does not reset when no layout is stored yet', () => {
 			const props = makeProps();
-			const { setSelectedLayout } = runHook(props, {}, undefined);
-			expect(setSelectedLayout).not.toHaveBeenCalled();
+			const { storeSelection } = runHook(props, {}, undefined);
+			expect(storeSelection).not.toHaveBeenCalled();
 		});
 
-		it('does not reset when stored layout matches an option by value', () => {
+		it('does not reset when stored identifier matches an option by value', () => {
 			const props = makeProps();
-			const { setSelectedLayout } = runHook(props, {}, optionGrid);
-			expect(setSelectedLayout).not.toHaveBeenCalled();
+			const { storeSelection } = runHook(props, {}, { value: 1, label: 'grid' });
+			expect(storeSelection).not.toHaveBeenCalled();
 		});
 
-		it('resets to default when stored layout value is not in current options', () => {
+		it('resets to default (storable form) when stored value is not in current options', () => {
 			const props = makeProps();
-			const staleOption = { label: 'stale', value: 99 };
-			const { setSelectedLayout } = runHook(props, {}, staleOption);
-			expect(setSelectedLayout).toHaveBeenCalledWith(optionGrid);
+			const { storeSelection } = runHook(props, {}, { value: 99, label: 'stale' });
+			expect(storeSelection).toHaveBeenCalledWith({ value: 1, label: 'grid' });
 		});
 
 		it('falls back to label comparison when options have no value field', () => {
 			const labelOnlyGrid = { label: 'grid', default: true };
 			const labelOnlyList = { label: 'list' };
 			const props = makeProps({ layoutOptions: [labelOnlyGrid, labelOnlyList] });
-			const { setSelectedLayout } = runHook(props, {}, labelOnlyGrid);
-			expect(setSelectedLayout).not.toHaveBeenCalled();
+			const { storeSelection } = runHook(props, {}, { label: 'grid' });
+			expect(storeSelection).not.toHaveBeenCalled();
 		});
 
 		it('resets when label-only option is not found', () => {
 			const labelOnlyGrid = { label: 'grid', default: true };
 			const props = makeProps({ layoutOptions: [labelOnlyGrid] });
-			const stale = { label: 'stale' };
-			const { setSelectedLayout } = runHook(props, {}, stale);
-			expect(setSelectedLayout).toHaveBeenCalledWith(labelOnlyGrid);
+			const { storeSelection } = runHook(props, {}, { label: 'stale' });
+			// should store only serializable identifiers of the default option
+			expect(storeSelection).toHaveBeenCalledWith({ value: undefined, label: 'grid' });
 		});
 
 		it('does not throw when options contain JSX values', () => {
@@ -82,10 +85,10 @@ describe('useLayoutOptions', () => {
 				overrides: { components: { results: { columns: 1 } } },
 			};
 			const props = makeProps({ layoutOptions: [jsxOptionGrid, jsxOptionList] });
-			expect(() => runHook(props, {}, jsxOptionGrid)).not.toThrow();
+			expect(() => runHook(props, {}, { value: 1, label: 'grid' })).not.toThrow();
 		});
 
-		it('correctly identifies matching option when icon contains JSX', () => {
+		it('resolves full option (including JSX fields) from layoutOptions after storage lookup', () => {
 			const jsxOption = {
 				label: 'grid',
 				value: 1,
@@ -93,38 +96,41 @@ describe('useLayoutOptions', () => {
 				icon: { children: <span>hi</span> },
 			};
 			const props = makeProps({ layoutOptions: [jsxOption] });
-			const { setSelectedLayout } = runHook(props, {}, jsxOption);
-			expect(setSelectedLayout).not.toHaveBeenCalled();
+			runHook(props, {}, { value: 1, label: 'grid' });
+			// selected must be the full option (with JSX icon), resolved from layoutOptions
+			expect(props.theme.components.layoutSelector.selected).toBe(jsxOption);
 		});
 	});
 
 	describe('props.theme.components.layoutSelector', () => {
 		it('populates layoutSelector with options, selected, and onSelect', () => {
 			const props = makeProps();
-			runHook(props, {}, optionGrid);
+			runHook(props, {}, { value: 1, label: 'grid' });
 			const ls = props.theme.components.layoutSelector;
 			expect(ls.options).toBe(layoutOptions);
 			expect(ls.selected).toBe(optionGrid);
 			expect(typeof ls.onSelect).toBe('function');
 		});
 
-		it('onSelect calls setSelectedLayout with the option', () => {
+		it('onSelect stores only serializable identifiers (value + label)', () => {
 			const props = makeProps();
-			const { setSelectedLayout } = runHook(props, {}, optionGrid);
+			const { storeSelection } = runHook(props, {}, { value: 1, label: 'grid' });
 			props.theme.components.layoutSelector.onSelect({}, optionList);
-			expect(setSelectedLayout).toHaveBeenCalledWith(optionList);
+			expect(storeSelection).toHaveBeenCalledWith({ value: 2, label: 'list' });
+			// must not store non-serializable fields like overrides or icon
+			expect(storeSelection).not.toHaveBeenCalledWith(expect.objectContaining({ overrides: expect.anything() }));
 		});
 
-		it('onSelect does not call setSelectedLayout when option is falsy', () => {
+		it('onSelect does not store when option is falsy', () => {
 			const props = makeProps();
-			const { setSelectedLayout } = runHook(props, {}, optionGrid);
+			const { storeSelection } = runHook(props, {}, { value: 1, label: 'grid' });
 			props.theme.components.layoutSelector.onSelect({}, null);
-			expect(setSelectedLayout).not.toHaveBeenCalled();
+			expect(storeSelection).not.toHaveBeenCalled();
 		});
 
 		it('preserves existing props.theme.components entries', () => {
 			const props = makeProps({ theme: { components: { results: { columns: 3 } } } });
-			runHook(props, {}, optionGrid);
+			runHook(props, {}, { value: 1, label: 'grid' });
 			expect(props.theme.components.results).toEqual({ columns: 3 });
 			expect(props.theme.components.layoutSelector).toBeDefined();
 		});
@@ -142,7 +148,7 @@ describe('useLayoutOptions', () => {
 		it('merges selected layout overrides when toolbar renders layoutSelector', () => {
 			const props = makeProps({ treePath: 'search results result' });
 			const globalTheme = globalThemeWithToolbar('search');
-			runHook(props, globalTheme, optionGrid);
+			runHook(props, globalTheme, { value: 1, label: 'grid' });
 			expect(props.theme.components.results).toEqual({ columns: 4 });
 		});
 
@@ -153,14 +159,14 @@ describe('useLayoutOptions', () => {
 					'search toolbar': { layout: ['sortBy'] },
 				},
 			};
-			runHook(props, globalTheme, optionGrid);
+			runHook(props, globalTheme, { value: 1, label: 'grid' });
 			expect(props.theme.components.results).toBeUndefined();
 		});
 
 		it('does not merge overrides when treePath is not set', () => {
 			const props = makeProps(); // no treePath
 			const globalTheme = globalThemeWithToolbar('search');
-			runHook(props, globalTheme, optionGrid);
+			runHook(props, globalTheme, { value: 1, label: 'grid' });
 			expect(props.theme.components.results).toBeUndefined();
 		});
 
@@ -171,7 +177,7 @@ describe('useLayoutOptions', () => {
 					'*search toolbar': { layout: ['layoutSelector'] },
 				},
 			};
-			runHook(props, globalTheme, optionGrid);
+			runHook(props, globalTheme, { value: 1, label: 'grid' });
 			expect(props.theme.components.results).toEqual({ columns: 4 });
 		});
 
@@ -182,7 +188,7 @@ describe('useLayoutOptions', () => {
 					toolbar: { layout: ['layoutSelector'] },
 				},
 			};
-			runHook(props, globalTheme, optionGrid);
+			runHook(props, globalTheme, { value: 1, label: 'grid' });
 			expect(props.theme.components.results).toEqual({ columns: 4 });
 		});
 	});

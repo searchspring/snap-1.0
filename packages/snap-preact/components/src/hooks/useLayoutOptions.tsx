@@ -6,12 +6,8 @@ import { ToolbarProps } from '../components/Organisms/Toolbar';
 export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 	const layoutOptions = props?.layoutOptions || [];
 
-	// handle layoutOptions and selected option
-	const [selectedLayout, setSelectedLayout] = useControllerStorage(
-		props.controller,
-		'layoutOptions',
-		layoutOptions.filter((option: any) => option.default).pop()
-	);
+	// Note: only store serializable identifiers (value/label) to avoid JSON.stringify failures
+	// on option objects that may contain JSX (e.g. icon: { children: <span>...</span> })
 
 	// verify selectedLayout is in layoutOptions - if not set it to the default one
 	// Note: JSON.stringify is avoided here because option objects may contain JSX (non-serializable) values
@@ -21,9 +17,21 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 		if (a.label !== undefined && b.label !== undefined) return a.label === b.label;
 		return false;
 	};
-	if (selectedLayout && !layoutOptions.some((option: any) => isSameOption(option, selectedLayout))) {
-		const newSelection = layoutOptions.filter((option: any) => option.default).pop();
-		setSelectedLayout(newSelection);
+	const toStorable = (option: any) => (option ? { value: option.value, label: option.label } : option);
+
+	// handle layoutOptions and selected option — store only serializable identifiers
+	const [storedSelection, storeSelection] = useControllerStorage(
+		props.controller,
+		'layoutOptions',
+		toStorable(layoutOptions.filter((option: any) => option.default).pop())
+	);
+
+	// Resolve the stored identifier back to the full option object (which may contain JSX)
+	const selectedLayout = layoutOptions.find((option: any) => isSameOption(option, storedSelection));
+
+	// verify storedSelection is in layoutOptions - if not reset to the default
+	if (storedSelection && !selectedLayout) {
+		storeSelection(toStorable(layoutOptions.filter((option: any) => option.default).pop()));
 	}
 
 	props.theme = props.theme || {};
@@ -33,7 +41,7 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 			options: layoutOptions,
 			onSelect: (e: any, option: any) => {
 				if (option) {
-					setSelectedLayout(option);
+					storeSelection(toStorable(option));
 				}
 			},
 			selected: selectedLayout,
