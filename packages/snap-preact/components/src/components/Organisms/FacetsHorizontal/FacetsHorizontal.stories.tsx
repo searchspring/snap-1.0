@@ -159,7 +159,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'angle-down' },
+				defaultValue: { summary: 'angle-up' },
 			},
 			options: [...Object.keys(iconPaths)],
 			control: {
@@ -174,7 +174,7 @@ export default {
 				type: {
 					summary: 'string',
 				},
-				defaultValue: { summary: 'angle-up' },
+				defaultValue: { summary: 'angle-down' },
 			},
 			options: [...Object.keys(iconPaths)],
 			control: {
