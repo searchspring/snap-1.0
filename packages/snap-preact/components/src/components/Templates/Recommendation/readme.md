@@ -13,7 +13,7 @@ Any modification to the results array and data are recommended to be made using 
 - Result (default)
 
 ## Usage
-```jsx
+```tsx
 import { Recommendation } from '@athoscommerce/snap-preact/components';
 ```
 
@@ -23,13 +23,13 @@ Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.c
 ### controller
 The required `controller` prop specifies a reference to the RecommendationController
 
-```jsx
+```tsx
 <Recommendation controller={controller} />
 ```
 ### loop
 The `loop` prop enables 'infinite' looping through the result set when swiping or using the arrow buttons.
 
-```jsx
+```tsx
 <Recommendation controller={controller} loop={true} />
 ```
 
@@ -38,14 +38,14 @@ The `results` prop specifies a reference to the results store array to use inste
 
 If using children, the provided children elements array length and order must match the results stored in the `results` prop to avoid unexpected tracking behaviour.
 
-```jsx
+```tsx
 <Recommendation controller={controller} results={controller.store.results} />
 ```
 
 ### resultComponent
 The `resultComponent` prop specifies a custom result component to render.
 
-```jsx
+```tsx
 
 const CustomResult = ({
 	controller 
@@ -60,63 +60,63 @@ const CustomResult = ({
 ### title
 The `title` prop specifies the carousel title
 
-```jsx
+```tsx
 <Recommendation controller={controller} title={'Recommended Products'} />
 ```
 
 ### hideTitle
 The `hideTitle` prop hides the carousel title
 
-```jsx
+```tsx
 <Recommendation controller={controller} title={'Recommended Products'} hideTitle={true} />
 ```
 
 ### description
 The `description` prop specifies the carousel description
 
-```jsx
+```tsx
 <Recommendation controller={controller} description={'Recommended Products are so awesome!'} />
 ```
 
 ### pagination
 The `pagination` prop specifies if the carousel should display pagination dots. 
 
-```jsx
+```tsx
 <Recommendation controller={controller} pagination={true} />
 ```
 
 ### vertical
 The `vertical` prop sets the carousel scroll direction to vertical.
 
-```jsx
+```tsx
 <Recommendation vertical={true}>{children}<Recommendation/>
 ```
 
 ### hideButtons
 The `hideButtons` prop specifies if the carousel should hide prev/next buttons.
 
-```jsx
+```tsx
 <Recommendation hideButtons={true}>{children}<Recommendation/>
 ```
 
 ### prevButton
 The `prevButton` prop specifies the previous button element of the carousel. This can be a string or JSX element. 
 
-```jsx
+```tsx
 <Recommendation controller={controller} prevButton={'<'} />
 ```
 
 ### nextButton
 The `nextButton` prop specifies the next button element of the carousel. This can be a string or JSX element. 
 
-```jsx
+```tsx
 <Recommendation controller={controller} nextButton={'>'} />
 ```
 
 ### modules
 The `modules` prop accepts additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> - these may need additional props and or stylesheets to function. We include `Navigation`, `Pagination` and `A11y` modules by default.
 
-```jsx
+```tsx
 import { Scrollbar } from 'swiper';
 <Recommendation controller={controller} modules={[Scrollbar]} scrollbar={{ draggable: true }} />
 ```
@@ -124,7 +124,7 @@ import { Scrollbar } from 'swiper';
 ### lazyRender 
 The `lazyRender` prop specifies an object of lazy rendering settings. The settings include an `enable` toggle (defaults to `true`) as well as an `offset` (default `"10%"`) to specify at what distance the component should start rendering relative to the bottom of the viewport.
 
-```jsx
+```tsx
 const customLazyRenderProps = {
 	enabled: true,
 	offset: "20px" // any css margin values accepted - px, %, etc...
@@ -184,6 +184,6 @@ const defaultVerticalRecommendationBreakpoints = {
 };
 ```
 
-```jsx
+```tsx
 <Recommendation controller={controller} breakpoints={defaultRecommendationBreakpoints} />
 ```

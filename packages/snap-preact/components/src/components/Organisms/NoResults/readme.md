@@ -7,7 +7,7 @@ Renders no results verbiage. Props that accept strings in this component will re
 ### contentSlot
 The `contentSlot` prop provides a slot to provide custom content. This can be JSX, string, or stringified HTML. 
 
-```jsx
+```tsx
 const slot = <div>Nothing found..</div>
 
 <NoResults contentSlot={slot} />
@@ -16,35 +16,35 @@ const slot = <div>Nothing found..</div>
 ### hideSuggestions
 The `hideSuggestions` prop will prevent the suggestions list and title from rendering.
 
-```jsx
+```tsx
 <NoResults hideSuggestions={true} />
 ```
 
 ### hideContactsTitleText
 The `hideContactsTitleText` prop allows you to hide the contacts title.
 
-```jsx
+```tsx
 <NoResults hideContactsTitleText={true} />
 ```
 
 ### suggestionsTitleText
 The `suggestionsTitleText` prop allows you to set the inner text of the suggestions title.
 
-```jsx
+```tsx
 <NoResults suggestionsTitleText={'suggestions'} />
 ```
 
 ### hideSuggestionsTitleText
 The `hideSuggestionsTitleText` prop allows you to hide the suggestions title.
 
-```jsx
+```tsx
 <NoResults hideSuggestionsTitleText={true} />
 ```
 
 ### suggestionsList
 The `suggestionsList` prop takes an array of strings to render as suggestions 
 
-```jsx
+```tsx
 const list = [
 	`Check for misspellings.`,
 	`Remove possible redundant keywords (ie. "products").`,
@@ -57,14 +57,14 @@ const list = [
 ### hideContact
 The `hideContact` prop will prevent the contact list and title from rendering.
 
-```jsx
+```tsx
 <NoResults hideContact={true} />
 ```
 
 ### contactsTitleText
 The `contactsTitleText` prop allows you to set the inner text contacts title.
 
-```jsx
+```tsx
 <NoResults contactsTitleText={'contacts'} />
 ```
 
@@ -74,7 +74,7 @@ The `templates` prop allows you to configure and display product recommendations
 Example usage:
 
 
-```jsx
+```tsx
 const templatesConfig = {
     recommendation: {
       enabled: true,
@@ -93,7 +93,7 @@ const templatesConfig = {
 ### contactsList
 The `contactsList` prop takes an array of contact objects to render in the contact section. each object takes a title, and content.
 
-```jsx
+```tsx
 const list = [
 			{
 				title: `Address`,

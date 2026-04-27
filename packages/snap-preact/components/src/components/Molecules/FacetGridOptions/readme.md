@@ -3,56 +3,56 @@
 Renders a grid of facet options.
 
 ## Usage
-```jsx
+```tsx
 import { FacetGridOptions } from '@athoscommerce/snap-preact/components';
 ```
 
 ### values
 The `values` prop specifies all facet values where the facet type is 'grid'. Overrides values passed via the facet prop. 
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} />
 ```
 
 ### facet
 The `facet` prop specifies the reference to the facet object in the store.
 
-```jsx
+```tsx
 <FacetGridOptions facet={sizeFacet} />
 ```
 
 ### columns
 The `columns` prop is the number of columns the grid should contain. Not applicable if using `horizontal` prop'.
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} columns={3} />
 ```
 
 ### gridSize
 The `gridSize` prop is the size of each grid item. Does not apply if using `columns` prop.
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} gridSize={'45px'} columns={0} />
 ```
 
 ### gapSize
 The `gapSize` prop is the gap size between rows and columns.
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} gapSize={'10px'} />
 ```
 
 ### horizontal
 The `horizontal` prop render facet options horizontally.
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} horizontal={true} />
 ```
 
 ### previewOnFocus
 If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over. 
 
-```jsx
+```tsx
 <Autocomplete>
 	...
 	<FacetGridOptions values={sizeFacet.values} previewOnFocus={true} />
@@ -77,7 +77,7 @@ const valueProps = {
 }
 ```
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} valueProps={valueProps} />
 ```
 
@@ -86,6 +86,6 @@ const valueProps = {
 #### onClick
 The `onClick` prop allows for a custom callback function for when when a facet value is clicked.
 
-```jsx
+```tsx
 <FacetGridOptions values={sizeFacet.values} onClick={(e)=>{console.log(e)}} />
 ```

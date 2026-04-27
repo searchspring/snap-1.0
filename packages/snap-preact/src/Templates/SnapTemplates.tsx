@@ -62,7 +62,14 @@ import { combineMerge } from '../utils';
 export const TEMPLATE_EDIT_COOKIE = 'athosEditor';
 export const TEMPLATE_EDITOR_PARAM = 'athos-editor';
 
-export type SnapTemplatesConfig = (TemplatesStoreConfigLocked | TemplatesStoreConfigUnlocked) & {
+export type SnapTemplatesConfig = SnapTemplatesConfigLocked;
+export type SnapTemplatesConfigUnlocked = TemplatesStoreConfigUnlocked & {
+	unlocked: true;
+	url?: UrlTranslatorConfig;
+	features?: SnapFeatures;
+};
+
+export type SnapTemplatesConfigLocked = TemplatesStoreConfigLocked & {
 	url?: UrlTranslatorConfig;
 	features?: SnapFeatures;
 };
@@ -99,7 +106,7 @@ export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSe
 
 export class SnapTemplates extends Snap {
 	templates: TemplatesStore;
-	constructor(config: SnapTemplatesConfig) {
+	constructor(config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked) {
 		const urlParams = url(window.location.href);
 		const editMode = Boolean((urlParams?.params?.query && TEMPLATE_EDITOR_PARAM in urlParams.params.query) || cookies.get(TEMPLATE_EDIT_COOKIE));
 
@@ -255,7 +262,7 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 }
 
 export function createRecommendationComponentMapping(
-	templateConfig: SnapTemplatesConfig,
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
 	templatesStore: TemplatesStore
 ): { [name: string]: RecommendationComponentObject } {
 	// TODO: throw a warning if keys match inside each recommendation type
@@ -308,7 +315,7 @@ export function createRecommendationComponentMapping(
 		}, {} as { [name: string]: RecommendationComponentObject });
 }
 
-export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): SnapConfig {
+export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked, templatesStore: TemplatesStore): SnapConfig {
 	const initiatorPrefix = window?.athos?.managed ? `managed/` : '';
 	const snapConfig: SnapConfig = {
 		features: templateConfig.features || DEFAULT_FEATURES,
@@ -450,7 +457,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig, templatesS
 }
 
 export function createPlugins(
-	templateConfig: SnapTemplatesConfig,
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
 	templatesStore: TemplatesStore,
 	controllerType?: 'autocomplete' | 'search' | 'recommendation'
 ): PluginGrouping[] {

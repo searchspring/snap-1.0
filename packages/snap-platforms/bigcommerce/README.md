@@ -10,7 +10,7 @@ The `redirect` property can be set to `false` or supplied with an alternate redi
 
 The `idFieldName` property takes a stringified path in the result reference, to look for the product id to add. `display.mappings.core.sku` for example. By default it will use `display.mappings.core.uid`.
 
-```jsx
+```tsx
 import { addToCart } from '@athoscommerce/snap-platforms/bigcommerce';
 
 export const AddToCart = (props) => {
@@ -37,7 +37,7 @@ Plugin to attach a custom function to the addToCart controller event.
 | idFieldName | field name to use for the product identifier to use when adding product | string | 'display.mappings.core.uid' | ➖ |
 
 
-```jsx
+```tsx
 const addToCartConfig = {
 	redirect: '/cart',
 	idFieldName: 'display.mappings.core.sku'

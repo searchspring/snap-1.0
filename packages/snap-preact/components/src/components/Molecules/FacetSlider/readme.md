@@ -3,21 +3,21 @@
 Renders a slider to be used with any slider facet. Built using <a target="_blank" rel="noopener noreferrer" href="https://github.com/tannerlinsley/react-ranger">react-ranger</a>.
 
 ## Usage
-```jsx
+```tsx
 import { FacetSlider } from '@athoscommerce/snap-preact/components';
 ```
 
 ### facet
 The required `facet` prop specifies a reference to a facet within the facets store array. The facet must be a range facet (`display` type of `'slider'`).
 
-```jsx
+```tsx
 <FacetSlider facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} />
 ```
 
 ### showTicks
 The `showTicks` prop will render reference ticks below the slider track.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	showTicks={true}
@@ -27,7 +27,7 @@ The `showTicks` prop will render reference ticks below the slider track.
 ### tickSize
 The `tickSize` prop specifies the unit number between ticks. Must be used with `showTicks` prop.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	showTicks={true}
@@ -38,7 +38,7 @@ The `tickSize` prop specifies the unit number between ticks. Must be used with `
 ### tickTextColor
 The `tickTextColor` prop specifies ticks text color. Must be used with `showTicks` prop.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	showTicks={true}
@@ -49,7 +49,7 @@ The `tickTextColor` prop specifies ticks text color. Must be used with `showTick
 ### handleColor
 The `handleColor` prop specifies the handle color.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	handleColor={'#0000ff'}
@@ -59,7 +59,7 @@ The `handleColor` prop specifies the handle color.
 ### stickyHandleLabel
 The `stickyHandleLabel` prop specifies if the handle value text should display above each handle.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	stickyHandleLabel={true}
@@ -69,7 +69,7 @@ The `stickyHandleLabel` prop specifies if the handle value text should display a
 ### separateHandles
 The `separateHandles` prop prevents the minimum and maximum slider values from being equal. When enabled, if a user attempts to set both handles to the same value, they will be automatically separated by one step value. The component intelligently determines whether to adjust the min or max value based on the available range.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	separateHandles={true}
@@ -79,7 +79,7 @@ The `separateHandles` prop prevents the minimum and maximum slider values from b
 ### handleDraggingColor
 The `handleDraggingColor` prop specifies the handle color while dragging.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	handleDraggingColor={'0000ff'}
@@ -89,7 +89,7 @@ The `handleDraggingColor` prop specifies the handle color while dragging.
 ### valueTextColor
 The `valueTextColor` prop specifies the value text color.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	valueTextColor={'#222222'}
@@ -99,7 +99,7 @@ The `valueTextColor` prop specifies the value text color.
 ### trackColor
 The `trackColor` prop specifies the slider track (background) color.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	trackColor={'#cccccc'}
@@ -109,7 +109,7 @@ The `trackColor` prop specifies the slider track (background) color.
 ### railColor
 The `railColor` prop specifies the slider rail (foreground) color.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	railColor={'#0000ff'}
@@ -121,7 +121,7 @@ The `railColor` prop specifies the slider rail (foreground) color.
 #### onChange
 The `onChange` prop allows for a custom callback function for when a slider handle has been changed. This callback is invoked **before** the URL manager updates occur, allowing for mutation of values or other operations prior to API request.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	onChange={(values)=>{ console.log(`low: ${values[0]} high: ${values[1]}`) }}
@@ -131,7 +131,7 @@ The `onChange` prop allows for a custom callback function for when a slider hand
 #### onDrag
 The `onDrag` prop allows for a custom callback function for when a slider handle is being dragged.
 
-```jsx
+```tsx
 <FacetSlider 
 	facet={controller.store.facets.filter(facet => facet.display === 'slider').pop()} 
 	onDrag={(values)=>{ console.log(`low: ${values[0]} high: ${values[1]}`) }}

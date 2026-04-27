@@ -7,10 +7,10 @@ import { createSnapConfig } from './Templates/SnapTemplates';
 import { TemplatesStore } from './Templates/Stores/TemplateStore';
 
 import type { SnapConfig } from './Snap';
-import type { SnapTemplatesConfig } from './Templates/SnapTemplates';
+import type { SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from './Templates/SnapTemplates';
 import type { PluginFunction } from '@athoscommerce/snap-controller';
 
-const baseTemplatesConfig: SnapTemplatesConfig = {
+const baseTemplatesConfig: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
 	config: {
 		siteId: '8uyt2m',
@@ -616,7 +616,7 @@ describe('SnapHybrid merge', () => {
 		});
 
 		it('handles templates config with no controllers', () => {
-			const templatesConfigMinimal: SnapTemplatesConfig = {
+			const templatesConfigMinimal: SnapTemplatesConfigUnlocked = {
 				unlocked: true,
 				config: {
 					siteId: '8uyt2m',
@@ -642,7 +642,7 @@ describe('SnapHybrid merge', () => {
 		});
 
 		it('handles empty controllers objects from both sides', () => {
-			const templatesConfigMinimal: SnapTemplatesConfig = {
+			const templatesConfigMinimal: SnapTemplatesConfigUnlocked = {
 				unlocked: true,
 				config: {
 					siteId: '8uyt2m',

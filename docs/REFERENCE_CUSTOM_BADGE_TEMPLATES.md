@@ -13,7 +13,7 @@ This will create two files:
 
 - `src/components/Badges/[badgename]/[badgename].jsx` - The jsx file is the badge component itself that will be displayed by `OverlayBadge` and `CalloutBadge`. The badge `tag`, `value`, and template `parameters` will be passed down as props. If badge template parameters are going to be modifying css we recommend using `@emotion/react`, otherwise this can be removed
 
-```jsx
+```tsx
 import { css } from '@emotion/react';
 import { observer } from 'mobx-react-lite';
 
@@ -73,7 +73,7 @@ Finally in order to use a custom badge component, we'll need to provide a `compo
 > [!NOTE]
 > This is not required if using the default selection of badges
 
-```jsx
+```tsx
 import { CustomBadge } from './components/Badges/CustomBadge';
 
 <OverlayBadge 

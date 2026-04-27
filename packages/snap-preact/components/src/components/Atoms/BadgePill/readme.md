@@ -4,34 +4,34 @@ Renders a text badge in the shape of a pill. It is expected to be used with `Cal
 
 ## Usage
 
-```jsx
+```tsx
 import { BadgePill } from '@athoscommerce/snap-preact/components';
 ```
 
 ### value
 The required `value` prop specifies the badge text contents.
 
-```jsx
+```tsx
 <BadgePill value={'30% Off'} />
 ```
 
 ### color
 The `color` prop specifies the badge background color.
 
-```jsx
+```tsx
 <BadgePill color={'rgba(255, 255, 255, 0.5)'} value={'30% Off'} />
 ```
 
 ### colorText
 The `colorText` prop specifies the badge text color.
 
-```jsx
+```tsx
 <BadgePill colorText={'#000000'} value={'30% Off'} />
 ```
 
 ### tag
 The `tag` prop specifies the badge location tag and adds an identifying classname.
 
-```jsx
+```tsx
 <BadgePill tag={'30-off-promo'} colorText={'#000000'} value={'30% Off'} />
 ```

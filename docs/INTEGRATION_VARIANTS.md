@@ -88,7 +88,7 @@ export type VariantSelectionValue = {
 
 Below is a React component demonstrating how to implement variant selections:
 
-```jsx
+```tsx
 const selections = result.variants.selections;
 
 { selections?.map((selection) => (
@@ -156,7 +156,7 @@ Alternatively, you can use the `controller/selectVariantOptions` global event to
 **Example:**
 The following shows color and size selectors with "Night" and "S" selected:
 
-```jsx
+```tsx
 <div class="option-selectors">
 
     <div class="option-selector-fieldset">
@@ -214,7 +214,7 @@ Configure individual variant fields using `controllers[controller].config.settin
 | mappings[optionValue].background | Override background color for a specific option value | ➖ | |
 | mappings[optionValue].backgroundImageUrl | Override background image URL for a specific option value | ➖ | |
 
-```jsx
+```tsx
 const config = {
 	settings:  {
 		variants: {

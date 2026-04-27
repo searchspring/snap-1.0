@@ -354,7 +354,6 @@ export type PluginsConfigsUnlocked = PluginsConfigsLocked & {
 export type TemplatesStoreConfig = TemplatesStoreConfigLocked | TemplatesStoreConfigUnlocked;
 
 export type TemplatesStoreConfigLocked = {
-	unlocked: false;
 	components?: TemplateStoreComponentConfigLocked;
 	config: {
 		siteId?: string;
@@ -423,7 +422,7 @@ export type TemplatesStoreParams = {
 
 export class TemplatesStore {
 	loading = false;
-	config: TemplatesStoreConfigLocked | TemplatesStoreConfigUnlocked;
+	config: TemplatesStoreConfig;
 	storage: StorageStore;
 	language: LanguageCodes;
 	currency: CurrencyCodes;
@@ -479,7 +478,7 @@ export class TemplatesStore {
 			local: {},
 			library: {},
 		};
-		this.library = new LibraryStore({ components: config.components, unlocked: config.unlocked });
+		this.library = new LibraryStore({ components: config.components, unlocked: (config as TemplatesStoreConfigUnlocked).unlocked || false });
 
 		this.language =
 			(this.settings.editMode && this.storage.get('overrides.config.language')) ||

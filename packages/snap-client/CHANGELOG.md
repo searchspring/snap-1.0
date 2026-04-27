@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/AthosCommerce/snap/compare/v1.2.1...v1.2.2) (2026-04-22)
+
+**Note:** Version bump only for package @athoscommerce/snap-client
+
+## [1.2.1](https://github.com/AthosCommerce/snap/compare/v1.2.0...v1.2.1) (2026-04-17)
+
+**Note:** Version bump only for package @athoscommerce/snap-client
+
+# [1.2.0](https://github.com/AthosCommerce/snap/compare/v1.1.5...v1.2.0) (2026-04-14)
+
+### Bug Fixes
+
+- **client/recommend:** adding support for rectype ([8653457](https://github.com/AthosCommerce/snap/commit/86534578f6b85a25617898c26c3853510204fc83))
+
 ## [1.1.5](https://github.com/AthosCommerce/snap/compare/v1.1.4...v1.1.5) (2026-04-02)
 
 ### Bug Fixes

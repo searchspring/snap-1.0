@@ -7,21 +7,21 @@ Renders error messages.
 - Button
 
 ## Usage
-```jsx
+```tsx
 import { ErrorHandler } from '@athoscommerce/snap-preact/components';
 ```
 
 ### controller
 The `controller` prop specifies a reference to a Snap controller. This is the standard usage.
 
-```jsx
+```tsx
 <ErrorHandler controller={controller} />
 ```
 
 ### error
 The `error` prop provides an alternative means of utilizing the component to display errors messages.
 
-```jsx
+```tsx
 import { ErrorType } from '@athoscommerce/snap-store-mobx';
 const errorObject = {
 	code: 500,
@@ -35,14 +35,14 @@ const errorObject = {
 ### onRetryClick
 When a request has been rate limited, a 'warning' error with code `429` will be generated. For this error the component will render a 'retry' button to try the request again. By default the retry button will run the provided controller's `search` method unless the `onRetryClick` prop is provided.
 
-```jsx
+```tsx
 <ErrorHandler controller={controller} onRetryClick={(e) => {
     // do something
     controller.search();
 }}/>
 ```
 
-```jsx
+```tsx
 import { ErrorType } from '@athoscommerce/snap-store-mobx';
 const errorObject = {
 	code: 429,

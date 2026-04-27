@@ -62,7 +62,7 @@ An Query object contains the respective query `string` and generated query `url`
 
 An example in JSX:
 
-```jsx
+```tsx
 {
 	search?.originalQuery && 
 	<div>
@@ -165,7 +165,7 @@ Only applicable to facets where `type` is `range`.
 
 The step value is calculated by the API based on the min and max values of the range. It is typically used to set the step attribute of an input element:
 
-```jsx
+```tsx
 <input type="range" step={facet.step} min={facet.active.low} max={facet.active.high} />
 ```
 
@@ -538,7 +538,7 @@ const pages = getPages(2, 5) // 2, 3, *4*, 5, 6, 7, 8
 ### `setPageSize` method
 Sets `pageSize` and performs a query. Typical usage would be to invoke `setPageSize` on the `onChange` event the results per page dropdown:
 
-```jsx
+```tsx
 onChange={(e) => {
 	pagination.setPageSize(e.target.value);
 }}

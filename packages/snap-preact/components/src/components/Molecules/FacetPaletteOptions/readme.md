@@ -6,90 +6,90 @@ Renders a grid of facet palette options.
 - Icon
 
 ## Usage
-```jsx
+```tsx
 import { FacetPaletteOptions } from '@athoscommerce/snap-preact/components';
 ```
 
 ### values
 The `values` prop specifies all facet values where the facet type is 'palette'. Overrides values passed via the facet prop. 
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} />
 ```
 
 ### facet
 The `facet` prop specifies the reference to the facet object in the store.
 
-```jsx
+```tsx
 <FacetPaletteOptions facet={paletteFacet} />
 ```
 
 ### hideLabel
 The `hideLabel` prop will disable the facet label.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} hideLabel={true} />
 ```
 
 ### columns
 The `columns` prop is the number of columns the grid should contain. Not applicable if using `horizontal` prop'.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} columns={3} />
 ```
 
 ### gridSize
 The `gridSize` prop is the size of each palette item. Does not apply if using `columns` prop.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} gridSize={'45px'} columns={0} />
 ```
 
 ### gapSize
 The `gapSize` prop is the gap size between rows and columns.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} gapSize={'10px'} />
 ```
 
 ### hideIcon
 The `hideIcon` prop will disable the facet icon from being rendered.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} hideIcon={true} />
 ```
 
 ### hideCount
 The `hideCount` prop will disable the facet option counts from being rendered.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} hideCount={true} />
 ```
 
 ### hideCheckbox
 The `hideCheckbox` prop will disable the facet option checkboxes from being rendered.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} hideCheckbox={true} />
 ```
 
 ### layout
 The `layout` prop determines if the options should render as a `list` or `grid`. By default `grid` will be used.
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} hideCheckbox={true} />
 ```
 
 ### horizontal
 The `horizontal` prop render facet options horizontally.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} horizontal={true} />
 ```
 
 ### previewOnFocus
 If using within Autocomplete, the `previewOnFocus` prop will invoke the `value.preview()` method when the value has been hovered over.
 
-```jsx
+```tsx
 <Autocomplete>
 	...
 	<FacetPaletteOptions values={paletteFacet.values} previewOnFocus={true} />
@@ -114,7 +114,7 @@ const valueProps = {
 }
 ```
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} valueProps={valueProps} />
 ```
 
@@ -126,7 +126,7 @@ The `icon` prop specifiesan object with `Icon` component props.
 #### onClick
 The `onClick` prop allows for a custom callback function for when a facet value is clicked.
 
-```jsx
+```tsx
 <FacetPaletteOptions values={paletteFacet.values} onClick={(e)=>{console.log(e)}} />
 ```
 
@@ -137,7 +137,7 @@ The color label can be any accepted CSS background property value. So a color, s
 The label takes a string value and replaces the color's original label for display.
 The backgroundImageUrl will render an actual HTML Image element rather than css background url. 
 
-```jsx
+```tsx
 const colorMapping = {
 	'Camo': {
 		background: 'brown',
