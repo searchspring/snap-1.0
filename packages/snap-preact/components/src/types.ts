@@ -32,6 +32,7 @@ export interface ComponentProps<Props = any> {
 }
 
 export type LayoutSelectorOptions = ListOption[];
+export type LayoutSelectorOption = ListOption;
 
 export type ListOption = {
 	value: string | number;

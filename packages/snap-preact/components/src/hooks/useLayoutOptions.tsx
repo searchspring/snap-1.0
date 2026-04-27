@@ -20,7 +20,7 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 	const toStorable = (option: any) => (option ? { value: option.value, label: option.label } : option);
 
 	// handle layoutOptions and selected option — store only serializable identifiers
-	const [storedSelection, storeSelection] = useControllerStorage(
+	const [storedSelection, setStoredSelection] = useControllerStorage(
 		props.controller,
 		'layoutOptions',
 		toStorable(layoutOptions.filter((option: any) => option.default).pop())
@@ -31,7 +31,7 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 
 	// verify storedSelection is in layoutOptions - if not reset to the default
 	if (storedSelection && !selectedLayout) {
-		storeSelection(toStorable(layoutOptions.filter((option: any) => option.default).pop()));
+		setStoredSelection(toStorable(layoutOptions.filter((option: any) => option.default).pop()));
 	}
 
 	props.theme = props.theme || {};
@@ -41,7 +41,7 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 			options: layoutOptions,
 			onSelect: (e: any, option: any) => {
 				if (option) {
-					storeSelection(toStorable(option));
+					setStoredSelection(toStorable(option));
 				}
 			},
 			selected: selectedLayout,
