@@ -609,11 +609,11 @@ export class SearchController extends AbstractController {
 				}
 
 				const product: BeaconProduct = {
-					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
-					uid: result.id,
-					sku: result.mappings.core?.sku,
+					parentId: result.display.mappings.core?.parentId ? '' + result.display.mappings.core?.parentId : '',
+					uid: result.display.mappings.core?.uid || result.display.id,
+					sku: result.display.mappings.core?.sku,
 					qty: result.quantity || 1,
-					price: Number(result.mappings.core?.price),
+					price: Number(result.display.mappings.core?.price) || 0,
 				};
 				const data: AddtocartSchemaData = {
 					responseId,
