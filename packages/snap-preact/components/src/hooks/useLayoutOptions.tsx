@@ -14,13 +14,16 @@ export const useLayoutOptions = (props: any, globalTheme: Theme) => {
 	);
 
 	// verify selectedLayout is in layoutOptions - if not set it to the default one
-	try {
-		if (!layoutOptions.some((option: any) => JSON.stringify(option) == JSON.stringify(selectedLayout))) {
-			const newSelection = layoutOptions.filter((option: any) => option.default).pop();
-			setSelectedLayout(newSelection);
-		}
-	} catch (err) {
-		props.controller.log('invalid layoutOptions provided to component', props.inherits ? ` '${props.inherits}'` : '');
+	// Note: JSON.stringify is avoided here because option objects may contain JSX (non-serializable) values
+	const isSameOption = (a: any, b: any) => {
+		if (!a || !b) return false;
+		if (a.value !== undefined && b.value !== undefined) return a.value === b.value;
+		if (a.label !== undefined && b.label !== undefined) return a.label === b.label;
+		return false;
+	};
+	if (selectedLayout && !layoutOptions.some((option: any) => isSameOption(option, selectedLayout))) {
+		const newSelection = layoutOptions.filter((option: any) => option.default).pop();
+		setSelectedLayout(newSelection);
 	}
 
 	props.theme = props.theme || {};
