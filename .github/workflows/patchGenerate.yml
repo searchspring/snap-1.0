@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: ["Publish"]
     types: [completed]
+    branches: [main]
 
 jobs:
   PatchGenerate:
