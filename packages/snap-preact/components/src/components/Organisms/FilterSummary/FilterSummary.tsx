@@ -204,8 +204,8 @@ export type FilterSummaryTemplatesLegalProps = {
 	type?: 'inline' | 'list';
 	title?: string;
 	hideTitle?: boolean;
-	filterIcon?: IconType | Partial<IconProps>;
-	clearAllIcon?: IconType | Partial<IconProps>;
+	filterIcon?: IconType | Partial<IconProps> | false;
+	clearAllIcon?: IconType | Partial<IconProps> | false;
 	separator?: string;
 	hideFacetLabel?: boolean;
 	clearAllLabel?: string;

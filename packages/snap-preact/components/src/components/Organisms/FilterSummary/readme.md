@@ -37,14 +37,14 @@ The `hideTitle` prop will hide the title element.
 <FilterSummary filters={controller.store.filters} title={'Current Filters'} hideTitle={true}/>
 ```
 ### filterIcon
-The `filterIcon` prop is the name of the icon to render for each filter. 
+The `filterIcon` prop is the name of the icon to render for each filter. Pass `false` to disable the Icon from rendering. 
 
 ```tsx
 <FilterSummary filters={controller.store.filters} filterIcon={'close-thin'} />
 ```
 
 ### clearAllIcon
-The `clearAllIcon` prop is the name of the icon to render for the 'clear all' button. 
+The `clearAllIcon` prop is the name of the icon to render for the 'clear all' button. Pass `false` to disable the Icon from rendering.
 
 ```tsx
 <FilterSummary filters={controller.store.filters} clearAllIcon={'close-thin'} />

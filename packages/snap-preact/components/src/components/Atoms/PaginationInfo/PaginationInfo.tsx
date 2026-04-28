@@ -64,6 +64,7 @@ export const PaginationInfo = observer((properties: PaginationInfoProps) => {
 	const lang = deepmerge(defaultLang, props.lang || {});
 	const mergedLang = useLang(lang as any, {
 		pagination: store,
+		controller: controller,
 	});
 
 	return store?.totalResults ? (
@@ -96,4 +97,5 @@ export interface PaginationInfoLang {
 
 interface PaginationInfoPropData {
 	pagination?: SearchPaginationStore;
+	controller?: SearchController;
 }
