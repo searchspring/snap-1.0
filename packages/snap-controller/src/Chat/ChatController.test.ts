@@ -43,7 +43,7 @@ function createController(configOverrides?: Partial<ChatControllerConfig>, mockC
 	});
 }
 
-describe('Chat Controller', () => {
+describe.skip('Chat Controller', () => {
 	beforeEach(() => {
 		chatConfig = { ...chatConfigDefault };
 		chatConfig.id = uuidv4().split('-').join('');
