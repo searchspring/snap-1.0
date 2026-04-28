@@ -59,7 +59,7 @@ jobs:
 
       - name: Publish Beta packages
         if: github.ref_name == 'beta'
-        run: npm run publish:beta
+        run: npm run release:beta
 
       - name: Configure AWS credentials
         if: github.ref_name == 'main'
