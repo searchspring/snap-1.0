@@ -27,4 +27,14 @@ export {
 	ChatResponseErrorData,
 	ChatResponseTopicDriftData,
 } from './Client/transforms';
-export { MoiRequestModel, MoiResponseModelProductSearchResult, ChatRequestModel, ChatStatusResponse } from './Client/apis/Chat';
+export {
+	MoiRequestModel,
+	MoiResponseModelProductSearchResult,
+	ChatRequestModel,
+	ChatStatusResponse,
+	ChatStatusRequestModel,
+	ChatInitRequestModel,
+	ChatInitResponseModel,
+	UploadImageRequestModel,
+	UploadImageResponseModel,
+} from './Client/apis/Chat';

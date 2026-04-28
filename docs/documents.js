@@ -67,6 +67,13 @@ var documents = [
 				],
 			},
 			{
+				label: 'Chat',
+				route: '/snap-chat',
+				type: 'markdown',
+				url: './docs/SNAP_CHAT.md',
+				searchable: true,
+			},
+			{
 				label: 'Finder',
 				route: '/snap-finder',
 				type: 'markdown',
@@ -231,6 +238,13 @@ var documents = [
 						url: './packages/snap-controller/src/Recommendation/README.md',
 						searchable: true,
 					},
+					{
+						label: 'ChatController',
+						route: '/reference-controller-chat',
+						type: 'markdown',
+						url: './packages/snap-controller/src/Chat/README.md',
+						searchable: true,
+					},
 				],
 			},
 			{
@@ -280,6 +294,13 @@ var documents = [
 						route: '/reference-store-finder',
 						type: 'markdown',
 						url: './packages/snap-store-mobx/src/Finder/README.md',
+						searchable: true,
+					},
+					{
+						label: 'ChatStore',
+						route: '/reference-store-chat',
+						type: 'markdown',
+						url: './packages/snap-store-mobx/src/Chat/README.md',
 						searchable: true,
 					},
 					{

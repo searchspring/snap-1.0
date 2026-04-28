@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { makeObservable, observable, computed } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
 
 import type {
@@ -236,6 +236,8 @@ export class ChatSessionStore {
 	public dismissedSideChatMessageId: string | null = null;
 	public activeMessageId: string | null = null;
 	public sessionLimitReached: boolean = false;
+	/** Whether raw stored results have been hydrated into Product/SearchResultStore instances. */
+	public hydrated: boolean = true;
 
 	constructor(params: ChatSessionStoreConfig) {
 		const { id, sessionId, chat, attachments, actions, feedbacks, sessionFeedback, feedbackDismissed, createdAt, committedComparisons } =
@@ -302,6 +304,7 @@ export class ChatSessionStore {
 			dismissedSideChatMessageId: observable,
 			activeMessageId: observable,
 			sessionLimitReached: observable,
+			activeMessage: computed,
 		});
 	}
 
@@ -364,23 +367,36 @@ export class ChatSessionStore {
 
 	get activeMessage(): ChatMessage | null {
 		const EXCLUDED_MESSAGE_TYPES = ['topicDrift', 'productAnswer'];
-		const messages = this.chat.filter((message) => !EXCLUDED_MESSAGE_TYPES.includes(message.messageType));
 
 		if (this.activeMessageId) {
-			const override = messages.find((m) => m.id === this.activeMessageId);
-			if (override) return override;
+			// Walk backward — the override is usually near the end
+			for (let i = this.chat.length - 1; i >= 0; i--) {
+				const m = this.chat[i];
+				if (m.id === this.activeMessageId && !EXCLUDED_MESSAGE_TYPES.includes(m.messageType)) {
+					return m;
+				}
+			}
 		}
 
-		const lastMessage = messages[messages.length - 1];
+		// Find the last eligible message by iterating backwards
+		let lastMessage: ChatMessage | null = null;
+		for (let i = this.chat.length - 1; i >= 0; i--) {
+			if (!EXCLUDED_MESSAGE_TYPES.includes(this.chat[i].messageType)) {
+				lastMessage = this.chat[i];
+				break;
+			}
+		}
 
 		// When the user sends a follow-up while in a productQuery flow (e.g. "discuss product"),
 		// the last visible message becomes a 'user' message which would close the secondary panel.
 		// Instead, keep the productQuery message as the active side-chat target so the product
 		// information panel stays open during and after the request.
 		if (lastMessage?.messageType === 'user' && this.requestType === 'productQuery') {
-			const lastProductQuery = [...messages].reverse().find((m) => m.messageType === 'productQuery');
-			if (lastProductQuery) {
-				return lastProductQuery;
+			for (let i = this.chat.length - 1; i >= 0; i--) {
+				const m = this.chat[i];
+				if (m.messageType === 'productQuery' && !EXCLUDED_MESSAGE_TYPES.includes(m.messageType)) {
+					return m;
+				}
 			}
 		}
 
@@ -393,7 +409,13 @@ export class ChatSessionStore {
 	}
 
 	public handleTopicDrift(): string | undefined {
-		const lastUserMessage = [...this.chat].reverse().find((m) => m.messageType === 'user') as ChatUserMessage | undefined;
+		let lastUserMessage: ChatUserMessage | undefined;
+		for (let i = this.chat.length - 1; i >= 0; i--) {
+			if (this.chat[i].messageType === 'user') {
+				lastUserMessage = this.chat[i] as ChatUserMessage;
+				break;
+			}
+		}
 		const messageText = lastUserMessage?.text;
 
 		// remove all topicDrift messages and the last user message that triggered the drift
@@ -416,7 +438,15 @@ export class ChatSessionStore {
 		this.sessionFeedback = null;
 	}
 
-	public save(): void {
+	private saveTimerId: ReturnType<typeof setTimeout> | null = null;
+
+	/** Persist the session to storage immediately (synchronous). */
+	public saveImmediate(): void {
+		if (this.saveTimerId !== null) {
+			clearTimeout(this.saveTimerId);
+			this.saveTimerId = null;
+		}
+
 		this.storage.set(`chats.${this.id}`, {
 			sessionId: this.sessionId,
 			chat: serializeChatForStorage(this.chat),
@@ -428,22 +458,37 @@ export class ChatSessionStore {
 			createdAt: this.createdAt,
 			committedComparisons: this.comparisons.committedItems,
 		});
+	}
 
-		// prune stored chat sessions to keep only the last 10
-		const MAX_STORED_SESSIONS = 10;
-		const storedChats = this.storage.get('chats');
+	/**
+	 * Schedule a save — multiple calls within the debounce window are coalesced
+	 * into a single localStorage write.
+	 */
+	public save(): void {
+		if (this.saveTimerId !== null) {
+			clearTimeout(this.saveTimerId);
+		}
+		this.saveTimerId = setTimeout(() => {
+			this.saveTimerId = null;
+			this.saveImmediate();
+		}, 0);
+	}
+
+	/** Remove oldest stored sessions when exceeding the limit. */
+	public static pruneStoredSessions(storage: StorageStore, maxSessions: number = 10): void {
+		const storedChats = storage.get('chats');
 		if (storedChats) {
 			const chatIds = Object.keys(storedChats);
-			if (chatIds.length > MAX_STORED_SESSIONS) {
+			if (chatIds.length > maxSessions) {
 				chatIds
 					.sort((a, b) => {
 						const aTime = new Date(storedChats[a]?.createdAt || 0).getTime();
 						const bTime = new Date(storedChats[b]?.createdAt || 0).getTime();
 						return aTime - bTime;
 					})
-					.slice(0, chatIds.length - MAX_STORED_SESSIONS)
+					.slice(0, chatIds.length - maxSessions)
 					.forEach((id) => {
-						this.storage.set(`chats.${id}`, null);
+						storage.set(`chats.${id}`, null);
 					});
 			}
 		}

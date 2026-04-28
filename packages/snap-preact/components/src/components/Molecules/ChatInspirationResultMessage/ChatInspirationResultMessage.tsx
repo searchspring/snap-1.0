@@ -133,15 +133,15 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 								{section.clusterDescription}
 							</div>
 							<div className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__queries')}>
-								{section.searchQueries.map((searchQuery, index) => (
+								{section.searchQueries.map((searchTerm, index) => (
 									<div
 										key={index}
 										className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__queries__query')}
 										onClick={() => {
-											controller?.search({ data: { message: searchQuery } } as Partial<ChatRequestModel>);
+											controller?.search({ data: { requestType: 'productSearch', searchTerm } } as Partial<ChatRequestModel>);
 										}}
 									>
-										{searchQuery}
+										{searchTerm}
 									</div>
 								))}
 							</div>

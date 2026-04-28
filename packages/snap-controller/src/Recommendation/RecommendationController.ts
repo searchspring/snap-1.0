@@ -226,6 +226,8 @@ export class RecommendationController extends AbstractController {
 					qty: result.quantity || 1,
 					price: Number(result.mappings.core?.price),
 				};
+				console.log('result', result);
+				console.log('product', product);
 				const data: RecommendationsAddtocartSchemaData = {
 					responseId,
 					tag: this.store.profile.tag,

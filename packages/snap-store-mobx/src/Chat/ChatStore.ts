@@ -1,7 +1,7 @@
 import { makeObservable, observable, computed } from 'mobx';
 import { ChatStoreConfig } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
-import { MetaResponseModel } from '@athoscommerce/snapi-types';
+import type { MetaResponseModel } from '@athoscommerce/snapi-types';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import type { ChatResponseModel, ChatRequestModel, ProductsResponseModel } from '@athoscommerce/snap-client';
 import { StorageStore } from '../Storage/StorageStore';
@@ -26,6 +26,8 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public features: ChatStatusResponse['features'] = { imageSearch: { enabled: false }, similarProducts: { enabled: false } };
 	public productQuickview: Product | null = null;
 	public productQuickviewError: string | null = null;
+	/** Raw meta kept for lazy hydration of inactive chat sessions. */
+	private storedMetaData: MetaResponseModel | null = null;
 
 	constructor(config: ChatStoreConfig) {
 		super(config);
@@ -68,6 +70,9 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 							storage: this.storage,
 						},
 					});
+					// Mark as unhydrated — results are still raw JSON from storage.
+					// Only the active session will be hydrated below.
+					restoredChat.hydrated = false;
 					this.chats.push(restoredChat);
 					latestChatId = chatId;
 				}
@@ -82,8 +87,16 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 					},
 				});
 
-				// hydrate raw stored results back into Product / SearchResultStore instances
-				this.chats.forEach((chat) => chat.hydrateResults(metaData));
+				// Keep raw meta for lazy hydration of inactive sessions
+				this.storedMetaData = metaData;
+
+				// Only hydrate the active chat session — inactive sessions will be
+				// hydrated lazily when switched to via switchChat()
+				const activeChat = this.chats.find((chat) => chat.id === latestChatId);
+				if (activeChat) {
+					activeChat.hydrateResults(metaData);
+					activeChat.hydrated = true;
+				}
 			} catch {
 				this.storage.set('meta', null);
 			}
@@ -211,6 +224,9 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public createChat(data?: { sessionId: string }): ChatSessionStore {
+		// Prune old sessions before creating a new one to keep storage bounded
+		ChatSessionStore.pruneStoredSessions(this.storage);
+
 		const newChat = new ChatSessionStore({
 			data: {
 				sessionId: data?.sessionId,
@@ -228,6 +244,11 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	public switchChat(id: string): void {
 		const chatExists = this.chats.find((chat) => chat.id === id);
 		if (chatExists) {
+			// Lazily hydrate results when switching to a session for the first time
+			if (!chatExists.hydrated && this.storedMetaData) {
+				chatExists.hydrateResults(this.storedMetaData);
+				chatExists.hydrated = true;
+			}
 			this.currentChatId = id;
 		}
 	}
@@ -340,5 +361,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 				meta: data.meta,
 			},
 		});
+		// Keep raw meta in sync for lazy hydration of inactive sessions
+		this.storedMetaData = data.meta;
 	}
 }
