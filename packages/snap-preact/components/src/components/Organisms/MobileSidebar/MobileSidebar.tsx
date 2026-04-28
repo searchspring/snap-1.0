@@ -89,6 +89,7 @@ export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 		titleText,
 		hideCloseButtonText,
 		hideOpenButtonText,
+		openButtonContent,
 		hideClearButtonText,
 		hideApplyButtonText,
 		hideTitleText,
@@ -287,8 +288,9 @@ export const MobileSidebar = observer((properties: MobileSidebarProps) => {
 							}}
 							{...subProps.button}
 							name={'slideout'}
-							lang={{ button: lang.openButtonText }}
-						/>
+						>
+							{openButtonContent ? openButtonContent : <span {...mergedLang.openButtonText.all}></span>}
+						</Button>
 					}
 					{...subProps.slideout}
 				>
@@ -313,6 +315,7 @@ export type MobileSidebarTemplatesLegalProps = {
 	hideApplyButtonText?: boolean;
 	hideCloseButtonText?: boolean;
 	openButtonText?: string;
+	openButtonContent?: string | JSX.Element;
 	clearButtonText?: string;
 	applyButtonText?: string;
 	closeButtonText?: string;

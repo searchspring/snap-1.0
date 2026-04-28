@@ -45,6 +45,13 @@ The `openButtonText` prop will change the inner text of the slideout button
 <MobileSidebar controller={controller} openButtonText={'Click To Filter'} />
 ```
 
+### openButtonContent
+The `openButtonContent` prop will change the inner content of the slideout button. Overrides the `openButtonText` if provided.
+
+```tsx
+<MobileSidebar controller={controller} openButtonContent={<div>Click To Filter</div>} />
+```
+
 ### openButtonIcon
 The `openButtonIcon` prop specifies the name of an icon to add to the slideout open sidebar button.
 
