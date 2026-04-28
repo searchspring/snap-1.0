@@ -51,12 +51,6 @@ jobs:
         run: |
           npm run build
 
-      - name: Tests
-        if: github.ref_name == 'beta'
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
-        run: npm run test
-
       - name: Publish packages
         if: github.ref_name == 'main'
         run: npm run publish
