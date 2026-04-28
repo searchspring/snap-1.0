@@ -1,7 +1,7 @@
 import { AutocompleteRequestModel, AutocompleteResponseModel, SearchRequestModel, SearchResponseModel } from '@athoscommerce/snapi-types';
 
 import { API } from '.';
-import { SearchRequesterPaths } from '../../types';
+import { ProductsRequestModel, ProductsResponseModel, SearchRequesterPaths } from '../../types';
 import { AppMode } from '@athoscommerce/snap-toolbox';
 import { SearchResponseType, transformSearchResponse } from '../transforms/searchResponse';
 import { transformSearchRequest } from '../transforms';
@@ -53,5 +53,24 @@ export class SearchAPI extends API<SearchRequesterPaths> {
 
 	public async getFinder(queryParameters: SearchRequestModel): Promise<SearchResponseModel> {
 		return this.getEndpoint(queryParameters, this.configuration.paths.finder || '/v1/finder');
+	}
+
+	public async getProducts(queryParameters: ProductsRequestModel & { siteId: string }): Promise<ProductsResponseModel> {
+		const basePath = this.configuration.paths.products || '/v1/products';
+		const path = `${basePath}/${queryParameters.parentId}`;
+
+		const cacheKey = JSON.stringify({ parentId: queryParameters.parentId, siteId: queryParameters.siteId });
+
+		const response = await this.request<ProductsResponseModel>(
+			{
+				origin: `https://${queryParameters.siteId}.a.athoscommerce.net`,
+				path,
+				method: 'GET',
+				headers: {},
+			},
+			cacheKey
+		);
+
+		return response;
 	}
 }

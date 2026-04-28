@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import type { SearchController } from '@athoscommerce/snap-controller';
 import { Results, ResultsProps } from '../../Organisms/Results';
 import { defined, mergeProps, mergeStyles } from '../../../utilities';
-import { ComponentProps, ListOption, StyleScript, JSXComponent } from '../../../types';
+import { ComponentProps, StyleScript, JSXComponent, LayoutSelectorOptions } from '../../../types';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
 import { Sidebar, SidebarProps } from '../../Organisms/Sidebar';
 import { Toolbar, ToolbarProps } from '../../Organisms/Toolbar';
@@ -263,7 +263,7 @@ export type SearchTemplatesLegalProps = {
 	toggleSidebarButtonText?: string;
 	toggleSidebarStartClosed?: boolean;
 	hideToggleSidebarButton?: boolean;
-	layoutOptions?: ListOption[];
+	layoutOptions?: LayoutSelectorOptions;
 };
 
 export interface SearchLang {

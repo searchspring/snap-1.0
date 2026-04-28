@@ -382,11 +382,11 @@ export class AutocompleteController extends AbstractController {
 				}
 
 				const product: BeaconProduct = {
-					parentId: result.id,
-					uid: result.id,
-					sku: result.mappings.core?.sku,
+					parentId: result.display.mappings.core?.parentId ? '' + result.display.mappings.core?.parentId : '',
+					uid: result.display.mappings.core?.uid || result.display.id,
+					sku: result.display.mappings.core?.sku,
 					qty: result.quantity || 1,
-					price: Number(result.mappings.core?.price),
+					price: Number(result.display.mappings.core?.price) || 0,
 				};
 				const data: AddtocartSchemaData = {
 					responseId,
@@ -789,28 +789,42 @@ export class AutocompleteController extends AbstractController {
 
 	searchTrending = async (options?: { limit?: number }): Promise<void> => {
 		let trending;
-		const storedTerms = this.storage.get('terms');
-		if (storedTerms && !options?.limit) {
-			// terms exist in storage, update store
-			trending = JSON.parse(storedTerms);
-		} else {
-			// query for trending terms, save to storage, update store
-			const trendingParams = {
-				limit: options?.limit || this.config.settings?.trending?.limit || 5,
-			};
+		try {
+			const storedTerms = this.storage.get('terms');
+			if (storedTerms && !options?.limit) {
+				// terms exist in storage, update store
+				trending = JSON.parse(storedTerms);
+			} else {
+				// query for trending terms, save to storage, update store
+				const trendingParams = {
+					limit: options?.limit || this.config.settings?.trending?.limit || 5,
+				};
 
-			const trendingProfile = this.profiler.create({ type: 'event', name: 'trending', context: trendingParams }).start();
+				const trendingProfile = this.profiler.create({ type: 'event', name: 'trending', context: trendingParams }).start();
 
-			trending = await this.client.trending(trendingParams);
+				trending = await this.client.trending(trendingParams);
 
-			trendingProfile.stop();
-			this.log.profile(trendingProfile);
-			if (trending?.trending.queries?.length) {
-				this.storage.set('terms', JSON.stringify(trending));
+				trendingProfile.stop();
+				this.log.profile(trendingProfile);
+				if (trending?.trending.queries?.length) {
+					this.storage.set('terms', JSON.stringify(trending));
+				}
 			}
-		}
 
-		this.store.updateTrendingTerms(trending);
+			this.store.updateTrendingTerms(trending);
+		} catch (err) {
+			this.log.error('Error fetching trending terms', err);
+		}
+	};
+
+	openChat = (): void => {
+		// loose focus
+		this.setFocused();
+
+		// fire openChat event
+		window.searchspring.fire('chat/open', {
+			query: this.store.state.input,
+		});
 	};
 
 	search = async (): Promise<void> => {

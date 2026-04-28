@@ -8,7 +8,7 @@ import { DomTargeter, url, cookies, version } from '@athoscommerce/snap-toolbox'
 import { TemplateTarget, TemplatesStore } from './Stores/TemplateStore';
 
 import type { Target } from '@athoscommerce/snap-toolbox';
-import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
+import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings, ChatStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
 import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 import type { AutocompleteController, PluginFunction, PluginGrouping, SearchController } from '@athoscommerce/snap-controller';
 import type {
@@ -86,6 +86,11 @@ export type RecommendationBundleTargetConfig = {
 	component: keyof LibraryImports['component']['recommendation']['bundle'];
 };
 
+export type ChatTargetConfig = {
+	selector: string;
+	component: keyof LibraryImports['component']['chat'];
+};
+
 export type SnapTemplatesConfig = SnapTemplatesConfigLocked;
 
 export type SnapTemplatesConfigLocked = TemplateStoreConfigConfig & {
@@ -113,6 +118,11 @@ export type SnapTemplatesConfigLocked = TemplateStoreConfigConfig & {
 			[profileComponentName: string]: RecommendationBundleTargetConfig;
 		};
 		settings?: RecommendationInstantiatorConfigSettings;
+		plugins?: PluginsConfigs;
+	};
+	chat?: {
+		targets: ChatTargetConfig[];
+		settings?: ChatStoreConfigSettings;
 		plugins?: PluginsConfigs;
 	};
 };
@@ -276,6 +286,42 @@ export const createSearchTargeters = (
 	});
 };
 
+export const createChatTargeters = (
+	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
+	templatesStore: TemplatesStore
+): ExtendedTarget[] => {
+	const targets = templateConfig.chat?.targets || [];
+	return targets.map((target) => {
+		const targetId = templatesStore.addTarget('chat', target);
+		const targeter: ExtendedTarget = {
+			selector: target.selector,
+			hideTarget: true,
+			component: async () => {
+				const componentImportPromises = [];
+				componentImportPromises.push(templatesStore.library.import.component.chat[target.component]());
+				await Promise.all(componentImportPromises);
+				return TemplateSelect;
+			},
+			props: { type: 'chat', templatesStore, targetId },
+		};
+
+		// temporary change to allow injecting into body to append target
+		if (target.selector == 'body') {
+			targeter.hideTarget = false;
+			targeter.inject = {
+				action: 'append',
+				element: () => {
+					const chatContainer = document.createElement('div');
+					chatContainer.className = 'ss__chat--target';
+					return chatContainer;
+				},
+			};
+		}
+
+		return targeter;
+	});
+};
+
 export function createAutocompleteTargeters(
 	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
 	templatesStore: TemplatesStore
@@ -356,6 +402,7 @@ export function createRecommendationComponentMapping(
 export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked, templatesStore: TemplatesStore): SnapConfig {
 	const initiatorPrefix = window?.athos?.managed ? `managed/` : '';
 	const snapConfig: SnapConfig = {
+		mode: templateConfig.config.mode,
 		features: templateConfig.features || DEFAULT_FEATURES,
 		client: {
 			globals: {
@@ -491,13 +538,27 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTempl
 		snapConfig.instantiators.recommendation = recommendationInstantiatorConfig;
 	}
 
+	/* CHAT CONTROLLER */
+	if (templateConfig.chat && snapConfig.controllers) {
+		const chatControllerConfig = {
+			config: {
+				id: 'chat',
+				plugins: createPlugins(templateConfig, templatesStore, 'chat'),
+				settings: templateConfig.chat.settings || {},
+			},
+			targeters: createChatTargeters(templateConfig, templatesStore),
+		};
+
+		snapConfig.controllers.chat = [chatControllerConfig];
+	}
+
 	return snapConfig;
 }
 
 export function createPlugins(
 	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
 	templatesStore: TemplatesStore,
-	controllerType?: 'autocomplete' | 'search' | 'recommendation'
+	controllerType?: 'autocomplete' | 'search' | 'recommendation' | 'chat'
 ): PluginGrouping[] {
 	const plugins: TemplatePluginGrouping = [];
 	let controllerConfig;

@@ -25,6 +25,7 @@ describe('LibraryStore', () => {
 			button: {},
 			calloutBadge: {},
 			carousel: {},
+			chat: {},
 			checkbox: {},
 			dropdown: {},
 			errorHandler: {},
