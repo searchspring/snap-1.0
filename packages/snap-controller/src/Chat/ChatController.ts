@@ -36,19 +36,19 @@ import type {
 	ChatAttachmentProduct,
 	ChatAttachmentFacet,
 	Product,
-	Banner,
+	// Banner,
 	ChatSessionStore,
 } from '@athoscommerce/snap-store-mobx';
-import {
-	type Product as BeaconProduct,
-	ChatImpressionSchemaData,
-	ChatClickthroughSchemaData,
-	ChatAddtocartSchemaData,
-	ChatResultProduct,
-	FeedbackSchemaData,
-} from '@athoscommerce/beacon';
+// import {
+// type Product as BeaconProduct,
+// ChatImpressionSchemaData,
+// ChatClickthroughSchemaData,
+// ChatAddtocartSchemaData,
+// ChatResultProduct,
+// FeedbackSchemaData,
+// } from '@athoscommerce/beacon';
 import { Next } from '@athoscommerce/snap-event-manager';
-import { isClickWithinProductLink, CLICK_DUPLICATION_TIMEOUT } from '../utils/isClickWithinProductLink';
+// import { isClickWithinProductLink, CLICK_DUPLICATION_TIMEOUT } from '../utils/isClickWithinProductLink';
 
 const KEY_ENTER = 13;
 
@@ -60,13 +60,14 @@ const defaultConfig: Partial<ChatControllerConfig> = {
 };
 
 type ChatTrackMethods = {
-	product: {
-		clickThrough: (e: MouseEvent, result: Product | Banner) => void;
-		click: (e: MouseEvent, result: Product | Banner) => void;
-		impression: (result: Product | Banner) => void;
-		addToCart: (result: Product) => void;
-		feedback: (thumbs: 'UP' | 'DOWN') => void;
-	};
+	// product: {
+	// clickThrough: (e: MouseEvent, result: Product | Banner) => void;
+	// click: (e: MouseEvent, result: Product | Banner) => void;
+	// impression: (result: Product | Banner) => void;
+	// addToCart: (result: Product) => void;
+	// feedback: (thumbs: 'UP' | 'DOWN') => void;
+	// };
+	product: any;
 };
 
 export class ChatController extends AbstractController {
@@ -403,6 +404,8 @@ export class ChatController extends AbstractController {
 		currentChat.feedbackJustGiven = true;
 		currentChat.save();
 
+		// this.track.product.feedback(thumbs);
+
 		// auto-dismiss the feedback bar after 3 seconds
 		setTimeout(() => {
 			currentChat.feedbackDismissed = true;
@@ -714,145 +717,126 @@ export class ChatController extends AbstractController {
 
 	track: ChatTrackMethods = {
 		product: {
-			addToCart: (result: Product): void => {
-				if (!result) {
-					this.log.warn('No result provided to track.product.addToCart');
-					return;
-				}
-
-				const responseId = result.responseId;
-				const chatSessionId = this.store.currentChat?.sessionId;
-
-				if (!chatSessionId) {
-					this.log.warn('No chatSessionId available for track.product.addToCart');
-					return;
-				}
-
-				const product: BeaconProduct = {
-					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
-					uid: result.id,
-					sku: result.mappings.core?.sku,
-					qty: result.quantity || 1,
-					price: Number(result.mappings.core?.price),
-				};
-				const data: ChatAddtocartSchemaData = {
-					chatSessionId,
-					responseId,
-					results: [product],
-				};
-				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.chat.addToCart({ data });
-			},
-			clickThrough: (e: MouseEvent, result: Product | Banner): void => {
-				if (!result) {
-					this.log.warn('No result provided to track.product.clickThrough');
-					return;
-				}
-
-				const responseId = result.responseId;
-				const chatSessionId = this.store.currentChat?.sessionId;
-
-				if (!chatSessionId) {
-					this.log.warn('No chatSessionId available for track.product.clickThrough');
-					return;
-				}
-
-				const item: ChatResultProduct = {
-					type: 'product',
-					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
-					uid: result.id ? '' + result.id : '',
-					sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
-				};
-
-				const data: ChatClickthroughSchemaData = {
-					chatSessionId,
-					responseId,
-					results: [item],
-				};
-				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.chat.clickThrough({ data });
-			},
-			click: (e: MouseEvent, result: Product | Banner): void => {
-				if (!result) {
-					this.log.warn('No result provided to track.product.click');
-					return;
-				}
-
-				const responseId = result.responseId;
-
-				if (!responseId) {
-					this.log.warn('No responseId found on result for track.product.click');
-					return;
-				}
-
-				this.events[responseId] = this.events[responseId] || { product: {} };
-
-				if (isClickWithinProductLink(e, result as Product)) {
-					if (this.events[responseId]?.product[result.id]?.clickThrough) {
-						return;
-					}
-					this.track.product.clickThrough(e, result as Product);
-					this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
-					this.events[responseId].product[result.id].clickThrough = true;
-					setTimeout(() => {
-						if (this.events[responseId]?.product[result.id]) {
-							this.events[responseId].product[result.id].clickThrough = false;
-						}
-					}, CLICK_DUPLICATION_TIMEOUT);
-				}
-			},
-			impression: (result: Product | Banner): void => {
-				if (!result) {
-					this.log.warn('No result provided to track.product.impression');
-					return;
-				}
-
-				const responseId = result.responseId;
-				const chatSessionId = this.store.currentChat?.sessionId;
-
-				if (!chatSessionId) {
-					this.log.warn('No chatSessionId available for track.product.impression');
-					return;
-				}
-
-				this.events[responseId] = this.events[responseId] || { product: {} };
-
-				if (this.events[responseId]?.product[result.id]?.impression) {
-					return;
-				}
-
-				const item: ChatResultProduct = {
-					type: 'product',
-					parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
-					uid: result.id ? '' + result.id : '',
-					sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
-				};
-
-				const data: ChatImpressionSchemaData = {
-					chatSessionId,
-					responseId,
-					results: [item],
-				};
-				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.chat.impression({ data });
-				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
-				this.events[responseId].product[result.id].impression = true;
-			},
-			feedback: (thumbs: 'UP' | 'DOWN'): void => {
-				const chatSessionId = this.store.currentChat?.sessionId;
-
-				if (!chatSessionId) {
-					this.log.warn('No chatSessionId available for track.product.feedback');
-					return;
-				}
-
-				const data: FeedbackSchemaData = {
-					chatSessionId,
-					feedback: thumbs === 'UP',
-				};
-				this.eventManager.fire('track.product.feedback', { controller: this, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.chat.feedback({ data });
-			},
+			// addToCart: (result: Product): void => {
+			// 	if (!result) {
+			// 		this.log.warn('No result provided to track.product.addToCart');
+			// 		return;
+			// 	}
+			// 	const responseId = result.responseId;
+			// 	const chatSessionId = this.store.currentChat?.sessionId;
+			// 	if (!chatSessionId) {
+			// 		this.log.warn('No chatSessionId available for track.product.addToCart');
+			// 		return;
+			// 	}
+			// 	const product: BeaconProduct = {
+			// 		parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+			// 		uid: result.id,
+			// 		sku: result.mappings.core?.sku,
+			// 		qty: result.quantity || 1,
+			// 		price: Number(result.mappings.core?.price),
+			// 	};
+			// 	const data: ChatAddtocartSchemaData = {
+			// 		chatSessionId,
+			// 		responseId,
+			// 		results: [product],
+			// 	};
+			// 	this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
+			// 	this.config.beacon?.enabled && this.tracker.events.chat.addToCart({ data });
+			// },
+			// clickThrough: (e: MouseEvent, result: Product | Banner): void => {
+			// 	if (!result) {
+			// 		this.log.warn('No result provided to track.product.clickThrough');
+			// 		return;
+			// 	}
+			// 	const responseId = result.responseId;
+			// 	const chatSessionId = this.store.currentChat?.sessionId;
+			// 	if (!chatSessionId) {
+			// 		this.log.warn('No chatSessionId available for track.product.clickThrough');
+			// 		return;
+			// 	}
+			// 	const item: ChatResultProduct = {
+			// 		type: 'product',
+			// 		parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+			// 		uid: result.id ? '' + result.id : '',
+			// 		sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
+			// 	};
+			// 	const data: ChatClickthroughSchemaData = {
+			// 		chatSessionId,
+			// 		responseId,
+			// 		results: [item],
+			// 	};
+			// 	this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
+			// 	this.config.beacon?.enabled && this.tracker.events.chat.clickThrough({ data });
+			// },
+			// click: (e: MouseEvent, result: Product | Banner): void => {
+			// 	if (!result) {
+			// 		this.log.warn('No result provided to track.product.click');
+			// 		return;
+			// 	}
+			// 	const responseId = result.responseId;
+			// 	if (!responseId) {
+			// 		this.log.warn('No responseId found on result for track.product.click');
+			// 		return;
+			// 	}
+			// 	this.events[responseId] = this.events[responseId] || { product: {} };
+			// 	if (isClickWithinProductLink(e, result as Product)) {
+			// 		if (this.events[responseId]?.product[result.id]?.clickThrough) {
+			// 			return;
+			// 		}
+			// 		this.track.product.clickThrough(e, result as Product);
+			// 		this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
+			// 		this.events[responseId].product[result.id].clickThrough = true;
+			// 		setTimeout(() => {
+			// 			if (this.events[responseId]?.product[result.id]) {
+			// 				this.events[responseId].product[result.id].clickThrough = false;
+			// 			}
+			// 		}, CLICK_DUPLICATION_TIMEOUT);
+			// 	}
+			// },
+			// impression: (result: Product | Banner): void => {
+			// 	if (!result) {
+			// 		this.log.warn('No result provided to track.product.impression');
+			// 		return;
+			// 	}
+			// 	const responseId = result.responseId;
+			// 	const chatSessionId = this.store.currentChat?.sessionId;
+			// 	if (!chatSessionId) {
+			// 		this.log.warn('No chatSessionId available for track.product.impression');
+			// 		return;
+			// 	}
+			// 	this.events[responseId] = this.events[responseId] || { product: {} };
+			// 	if (this.events[responseId]?.product[result.id]?.impression) {
+			// 		return;
+			// 	}
+			// 	const item: ChatResultProduct = {
+			// 		type: 'product',
+			// 		parentId: result.mappings.core?.parentId ? '' + result.mappings.core?.parentId : '',
+			// 		uid: result.id ? '' + result.id : '',
+			// 		sku: result.mappings.core?.sku ? '' + result.mappings.core?.sku : undefined,
+			// 	};
+			// 	const data: ChatImpressionSchemaData = {
+			// 		chatSessionId,
+			// 		responseId,
+			// 		results: [item],
+			// 	};
+			// 	this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
+			// 	this.config.beacon?.enabled && this.tracker.events.chat.impression({ data });
+			// 	this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
+			// 	this.events[responseId].product[result.id].impression = true;
+			// },
+			// feedback: (thumbs: 'UP' | 'DOWN'): void => {
+			// 	const chatSessionId = this.store.currentChat?.sessionId;
+			// 	if (!chatSessionId) {
+			// 		this.log.warn('No chatSessionId available for track.product.feedback');
+			// 		return;
+			// 	}
+			// 	const data: FeedbackSchemaData = {
+			// 		chatSessionId,
+			// 		feedback: thumbs === 'UP',
+			// 	};
+			// 	this.eventManager.fire('track.product.feedback', { controller: this, trackEvent: data });
+			// 	this.config.beacon?.enabled && this.tracker.events.chat.feedback({ data });
+			// },
 		},
 	};
 
