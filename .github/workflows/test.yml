@@ -3,6 +3,7 @@ on:
     branches:
       - main
       - develop
+      - beta
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
