@@ -200,7 +200,6 @@ type ComponentLibraryType =
 	| keyof LibraryImports['component']['recommendation']['email'];
 
 export type TemplateTarget = {
-	index: number;
 	type: TemplateTypes;
 	selector?: string;
 	component: ComponentLibraryType | (string & NonNullable<unknown>);
@@ -569,38 +568,23 @@ export class TemplatesStore {
 
 	public addTarget(target: TemplateTarget): TargetStore | undefined {
 		if (target.selector) {
-			const path = target.type.split('/');
-
-			// TODO: fix typing (remove any)
-			let targetPath: any = this.targets;
-			for (let index = 0; index < path.length; index++) {
-				if (!targetPath[path[index]]) {
-					return;
-				}
-				targetPath = targetPath[path[index]];
+			const targetArray = getTargetArray(this.targets, target.type);
+			if (!targetArray) {
+				return;
 			}
+
 			const newTarget = new TargetStore({
-				target,
+				target: { ...target, index: targetArray.length },
 			});
 
-			targetPath.push(newTarget);
+			targetArray.push(newTarget);
 
 			return newTarget;
 		}
 	}
 
 	public getTarget(type: TemplateTypes, targetIndex: number): TargetStore | undefined {
-		const path = type.split('/');
-		// TODO: fix typing (remove any)
-		let targetPath: any = this.targets;
-		for (let index = 0; index < path.length; index++) {
-			if (!targetPath[path[index]]) {
-				return;
-			}
-			targetPath = targetPath[path[index]];
-		}
-
-		return targetPath[targetIndex];
+		return getTargetArray(this.targets, type)?.[targetIndex];
 	}
 
 	public addTheme(config: ThemeStoreThemeConfig) {
@@ -699,6 +683,17 @@ export class TemplatesStore {
 		}
 		this.loading = false;
 	}
+}
+
+function getTargetArray(targets: TemplatesStore['targets'], type: TemplateTypes): TargetStore[] | undefined {
+	const [category, subcategory] = type.split('/');
+	if (category === 'recommendation' && subcategory) {
+		return targets.recommendation[subcategory as RecsTemplateTypes];
+	}
+	if (category === 'search' || category === 'autocomplete') {
+		return targets[category];
+	}
+	return undefined;
 }
 
 export function transformTranslationsToTheme(translations: LangComponentOverrides): ThemeMinimal {

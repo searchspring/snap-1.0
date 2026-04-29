@@ -4,7 +4,9 @@ import { TemplateTarget, type TemplateTypes, type TemplateThemeTypes } from './T
 export const GLOBAL_THEME_NAME = 'global';
 
 type TargetStoreConfig = {
-	target: TemplateTarget;
+	target: TemplateTarget & {
+		index: number;
+	};
 };
 export class TargetStore {
 	public index: number;
@@ -36,8 +38,14 @@ export class TargetStore {
 	}
 
 	public setValue(name: string, value: string) {
-		if (!['selector', 'triggerSelector', 'component', 'resultComponent'].includes(name)) return;
-		this[name as 'selector' | 'component'] = value;
+		switch (name) {
+			case 'selector':
+				this.selector = value;
+				break;
+			case 'component':
+				this.component = value;
+				break;
+		}
 	}
 
 	public setTheme(themeName: string, location: TemplateThemeTypes) {

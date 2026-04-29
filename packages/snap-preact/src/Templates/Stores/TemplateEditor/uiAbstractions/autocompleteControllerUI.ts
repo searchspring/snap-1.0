@@ -120,9 +120,13 @@ export function autocompleteControllerUI(store: TemplateEditorStore): Abstractio
 							initialConfig?.enabled !== undefined ? initialConfig.enabled : initialConfig?.limit && initialConfig.limit > 0
 						);
 						const overrideConfig = store.overrides.controller.autocomplete?.history;
-						const overrideEnabled = Boolean(overrideConfig?.enabled !== undefined);
+						if (overrideConfig?.enabled === undefined && overrideConfig?.limit === undefined) return false;
 
-						return overrideEnabled && (initialEnabled !== overrideEnabled || initialConfig?.limit !== overrideConfig?.limit);
+						const overrideEnabled = Boolean(
+							overrideConfig?.enabled !== undefined ? overrideConfig.enabled : overrideConfig?.limit && overrideConfig.limit > 0
+						);
+
+						return initialEnabled !== overrideEnabled || initialConfig?.limit !== overrideConfig?.limit;
 					},
 					onValueChange: (value, controller) => {
 						if (typeof value === 'undefined' || !controller) return;
@@ -177,9 +181,13 @@ export function autocompleteControllerUI(store: TemplateEditorStore): Abstractio
 							initialConfig?.enabled !== undefined ? initialConfig.enabled : initialConfig?.limit && initialConfig.limit > 0
 						);
 						const overrideConfig = store.overrides.controller.autocomplete?.trending;
-						const overrideEnabled = Boolean(overrideConfig?.enabled !== undefined);
+						if (overrideConfig?.enabled === undefined && overrideConfig?.limit === undefined) return false;
 
-						return overrideEnabled && (initialEnabled !== overrideEnabled || initialConfig?.limit !== overrideConfig?.limit);
+						const overrideEnabled = Boolean(
+							overrideConfig?.enabled !== undefined ? overrideConfig.enabled : overrideConfig?.limit && overrideConfig.limit > 0
+						);
+
+						return initialEnabled !== overrideEnabled || initialConfig?.limit !== overrideConfig?.limit;
 					},
 					onValueChange: async (value, controller) => {
 						if (typeof value === 'undefined' || !controller) return;

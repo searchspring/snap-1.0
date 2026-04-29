@@ -1,11 +1,11 @@
 import { Snap, SnapConfig, SnapServices } from './Snap';
-import { createSnapConfig } from './Templates/SnapTemplates';
-import { TemplatesStore, TemplatesStoreConfig } from './Templates/Stores/TemplateStore';
+import { createSnapConfig, SnapTemplatesConfigLocked, SnapTemplatesConfigUnlocked } from './Templates/SnapTemplates';
+import { TemplatesStore } from './Templates/Stores/TemplateStore';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
 import { version } from '@athoscommerce/snap-toolbox';
 type HybridIntegrationConfig = {
-	templatesConfig: TemplatesStoreConfig;
+	templatesConfig: SnapTemplatesConfigLocked | SnapTemplatesConfigUnlocked;
 	snapConfig: SnapConfig;
 	services?: SnapServices;
 };

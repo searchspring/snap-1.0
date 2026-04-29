@@ -8,11 +8,10 @@ describe('TargetStore', () => {
 
 	it('has expected defaults', () => {
 		const target: TemplateTarget = {
-			index: 0,
 			type: 'search',
 			component: '',
 		};
-		const store = new TargetStore({ target });
+		const store = new TargetStore({ target: { ...target, index: 0 } });
 		expect(store).toBeDefined();
 		expect(store.selector).toStrictEqual('');
 		expect(store.component).toStrictEqual('');
@@ -26,12 +25,11 @@ describe('TargetStore', () => {
 
 	it('can create a TargetStore', () => {
 		const target: TemplateTarget = {
-			index: 0,
 			type: 'search',
 			selector: '.test',
 			component: 'Search',
 		};
-		const store = new TargetStore({ target });
+		const store = new TargetStore({ target: { ...target, index: 0 } });
 		expect(store).toBeDefined();
 		expect(store.selector).toStrictEqual(target.selector);
 		expect(store.component).toStrictEqual(target.component);
@@ -43,12 +41,11 @@ describe('TargetStore', () => {
 
 	it('can setComponent, setTheme', () => {
 		const target: TemplateTarget = {
-			index: 0,
 			type: 'search',
 			selector: '.test',
 			component: 'Search',
 		};
-		const store = new TargetStore({ target });
+		const store = new TargetStore({ target: { ...target, index: 0 } });
 
 		expect(store.component).toStrictEqual('Search');
 		store.setValue('component', 'NewSearch');

@@ -165,7 +165,6 @@ describe('TemplateStore', () => {
 		const store = new TemplatesStore({ config });
 		const type = 'search';
 		const target: TemplateTarget = {
-			index: 0,
 			type,
 			selector: '.test',
 			component: 'Search',
@@ -178,8 +177,8 @@ describe('TemplateStore', () => {
 		expect(targetObject?.selector).toBe(target.selector);
 		expect(targetObject?.component).toBe(target.component);
 
-		expect(store.targets[type][target.index]).toBeDefined();
-		expect(store.getTarget(target.type, target.index)).toBe(targetObject);
+		expect(store.targets[type][targetObject!.index]).toBeDefined();
+		expect(store.getTarget(target.type, targetObject!.index)).toBe(targetObject);
 	});
 });
 

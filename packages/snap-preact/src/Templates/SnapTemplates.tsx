@@ -211,14 +211,18 @@ export function mapBreakpoints<ControllerConfigSettings>(
 export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] => {
 	// initial target configs
 	const targetConfigs = templateConfig.search?.targets || [];
-	const overrideConfigs = (templatesStore.storage.get('overrides.targets.search') || []) as SearchTargetConfig[];
 
-	// merge override targets with config
-	const mergedConfigs = deepmerge<SearchTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	let mergedConfigs: SearchTargetConfig[];
+	if (templatesStore.settings.editMode) {
+		const overrideConfigs = (templatesStore.storage.get('overrides.targets.search') || []) as SearchTargetConfig[];
+		mergedConfigs = deepmerge<SearchTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	} else {
+		mergedConfigs = targetConfigs;
+	}
 
 	// loop through mergedConfigs ---
-	return mergedConfigs.map((targetConfig, index) => {
-		const target = templatesStore.addTarget({ ...targetConfig, index, type: 'search' });
+	return mergedConfigs.map((targetConfig) => {
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'search' });
 
 		// const overrideTemplateStoreTarget = templatesStore.getTarget('search', target.index);
 		// console.log("templatesStore", templatesStore)
@@ -245,15 +249,19 @@ export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templ
 export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] {
 	// initial target configs
 	const targetConfigs = templateConfig.autocomplete?.targets || [];
-	const overrideConfigs = (templatesStore.storage.get('overrides.targets.autocomplete') || []) as AutocompleteTargetConfig[];
 
-	// merge override targets with config
-	const mergedConfigs = deepmerge<AutocompleteTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	let mergedConfigs: AutocompleteTargetConfig[];
+	if (templatesStore.settings.editMode) {
+		const overrideConfigs = (templatesStore.storage.get('overrides.targets.autocomplete') || []) as AutocompleteTargetConfig[];
+		mergedConfigs = deepmerge<AutocompleteTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	} else {
+		mergedConfigs = targetConfigs;
+	}
 
 	// load target override from localstorage OR from the editorStore (would be better);
 
-	return mergedConfigs.map((targetConfig, index) => {
-		const target = templatesStore.addTarget({ ...targetConfig, index, type: 'autocomplete' });
+	return mergedConfigs.map((targetConfig) => {
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'autocomplete' });
 		const targeter: ExtendedTarget = {
 			selector: targetConfig.selector,
 			component: async () => {
@@ -268,7 +276,7 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};
 
-		// if (targetConfig.triggerSelector) targeter.props!.input = targetConfig.triggerSelector;
+		if (targetConfig.inputSelector) targeter.props!.input = targetConfig.inputSelector;
 
 		return targeter;
 	});

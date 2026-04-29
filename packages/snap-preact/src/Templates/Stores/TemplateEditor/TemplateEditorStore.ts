@@ -526,7 +526,7 @@ export class TemplateEditorStore {
 						inputSelector
 					
 						targetSelector -> selector
-						triggerSelector (optional) -> inputSelector
+						inputSelector (optional) -> inputSelector
 						DomTargeter
 							* selector = selector
 							* props.input = inputSelector (optional)
@@ -535,13 +535,13 @@ export class TemplateEditorStore {
 					window.athos.controller[targetFeature].retarget();
 				}
 			}
-		} else if (finalPath == 'triggerSelector' && targetIndex > -1) {
+		} else if (finalPath == 'inputSelector' && targetIndex > -1) {
 			const activeTargeterKey = Object.keys(window.athos.controller[targetFeature].targeters)[targetIndex];
 			window.athos.controller[targetFeature].targeters[activeTargeterKey].targets[0].props.input = value;
 			window.athos.controller[targetFeature].retarget();
 		}
 
-		// if the component or resultComponent changed we need to tell the targetStore about it via:
+		// if the component changed we need to tell the targetStore about it via:
 		const targetFeatureSet = this.templatesStore.targets[targetFeature];
 		if (targetFeatureSet && targetIndex != -1) {
 			const target = targetFeatureSet[targetIndex as keyof typeof targetFeatureSet] as TargetStore;
@@ -560,7 +560,6 @@ export class TemplateEditorStore {
 			});
 		}
 		// target.setComponent
-		// target.setResultComponent
 	};
 
 	registerController<ControllerType extends SearchController | AutocompleteController>(controller: ControllerType) {
