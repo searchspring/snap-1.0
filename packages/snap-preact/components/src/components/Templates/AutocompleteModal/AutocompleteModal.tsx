@@ -82,7 +82,10 @@ export const AutocompleteModal = observer((properties: AutocompleteModalProps) =
 	const props = mergeProps('autocompleteModal', globalTheme, defaultProps, properties);
 
 	const [active, setActive] = useState(false);
-	const [inputName, setInputName] = useState('query');
+	// Use an empty inputName so the rendered SearchInput does not participate in form
+	// serialization. The original input retains its name (e.g. 'q') so that native form
+	// submission still produces the expected ?q= query parameter.
+	const inputName = '';
 
 	let input: string | Element | null | undefined = props.input;
 	let buttonSelector = props.buttonSelector;
@@ -90,13 +93,6 @@ export const AutocompleteModal = observer((properties: AutocompleteModalProps) =
 	if (input) {
 		if (typeof input === 'string') {
 			input = document.querySelector(input);
-		}
-		const existingInputName = (input as HTMLInputElement)?.getAttribute('name');
-		if (existingInputName) {
-			setInputName(existingInputName);
-			if (props.renderInput) {
-				(input as HTMLInputElement).setAttribute('name', '');
-			}
 		}
 	}
 

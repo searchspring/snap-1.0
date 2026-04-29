@@ -53,13 +53,13 @@ jobs:
 
       - name: Publish packages
         if: github.ref_name == 'main'
-        run: npm run publish
+        run: npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Beta packages
         if: github.ref_name == 'beta'
-        run: npm run publish:beta
+        run: npm run release:beta
 
       - name: Configure AWS credentials
         if: github.ref_name == 'main'
