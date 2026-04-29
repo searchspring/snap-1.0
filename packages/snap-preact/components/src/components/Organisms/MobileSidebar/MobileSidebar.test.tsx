@@ -138,6 +138,30 @@ describe('MobileSidebar Component', () => {
 		expect(slideoutButton?.textContent).toBe(text);
 	});
 
+	it('can render custom openButtonContent as a string', async () => {
+		const content = 'custom button content';
+		const rendered = render(<MobileSidebar controller={controller} openButtonContent={content} />);
+		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
+		expect(slideoutButton?.textContent).toBe(content);
+	});
+
+	it('can render custom openButtonContent as a JSX element', async () => {
+		const content = <span className="custom-open-btn">Open Filters</span>;
+		const rendered = render(<MobileSidebar controller={controller} openButtonContent={content} />);
+		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
+		expect(slideoutButton?.querySelector('.custom-open-btn')).toBeInTheDocument();
+		expect(slideoutButton?.querySelector('.custom-open-btn')?.textContent).toBe('Open Filters');
+	});
+
+	it('openButtonContent overrides openButtonText when both are provided', async () => {
+		const text = 'text prop';
+		const content = <span className="content-prop">content prop</span>;
+		const rendered = render(<MobileSidebar controller={controller} openButtonText={text} openButtonContent={content} />);
+		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');
+		expect(slideoutButton?.querySelector('.content-prop')).toBeInTheDocument();
+		expect(slideoutButton?.textContent).not.toBe(text);
+	});
+
 	it('has expected default slideout open button text', async () => {
 		const rendered = render(<MobileSidebar controller={controller} />);
 		const slideoutButton = rendered.container.querySelector('.ss__mobile-sidebar__slideout__button');

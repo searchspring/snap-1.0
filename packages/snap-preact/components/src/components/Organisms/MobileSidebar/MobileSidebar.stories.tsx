@@ -85,6 +85,17 @@ export default {
 			},
 			control: { type: 'text' },
 		},
+		openButtonContent: {
+			description: 'Custom content to render in the open sidebar button. Overrides openButtonText if both are provided.',
+			type: { required: false },
+			table: {
+				category: 'Templates Legal',
+				type: {
+					summary: 'string | JSX.Element',
+				},
+			},
+			control: 'none',
+		},
 		openButtonIcon: {
 			description: 'Icon to render in the open sidebar button',
 			table: {

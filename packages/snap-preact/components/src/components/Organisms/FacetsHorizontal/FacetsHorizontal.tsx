@@ -106,8 +106,8 @@ export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => 
 
 	const defaultProps: Partial<FacetsHorizontalProps> = {
 		limit: 6,
-		iconCollapse: 'angle-up',
-		iconExpand: 'angle-down',
+		iconCollapse: 'angle-down',
+		iconExpand: 'angle-up',
 		clearAllText: 'Clear All',
 		facets: properties.controller?.store?.facets,
 		treePath: globalTreePath,
