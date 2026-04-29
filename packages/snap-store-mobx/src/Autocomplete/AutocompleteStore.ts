@@ -89,7 +89,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 
 	public initHistory(): void {
 		const limit = this.config.settings?.history?.limit;
-		if (limit) {
+		if (limit && this.config.settings?.history?.enabled !== false) {
 			const historyStore = new SearchHistoryStore({
 				services: this.services,
 				config: {

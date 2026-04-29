@@ -1,5 +1,5 @@
 import { Snap, SnapConfig, SnapServices } from './Snap';
-import { SnapTemplatesConfigLocked, SnapTemplatesConfigUnlocked, createSnapConfig } from './Templates/SnapTemplates';
+import { createSnapConfig, SnapTemplatesConfigLocked, SnapTemplatesConfigUnlocked } from './Templates/SnapTemplates';
 import { TemplatesStore } from './Templates/Stores/TemplateStore';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';

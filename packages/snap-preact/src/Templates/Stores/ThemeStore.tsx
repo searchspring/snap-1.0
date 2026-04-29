@@ -3,7 +3,7 @@ import { observable, makeObservable, toJS, computed } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import deepmerge from 'deepmerge';
 import { isPlainObject } from 'is-plain-object';
-import { TemplateThemeTypes, type TemplatesStoreConfigSettings, type TemplatesStoreDependencies } from './TemplateStore';
+import { TemplateThemeTypes, type TemplatesStoreSettings, type TemplatesStoreDependencies } from './TemplateStore';
 import { Global, css } from '@emotion/react';
 
 import {
@@ -38,7 +38,7 @@ export type ThemeStoreThemeConfig = {
 type ThemeStoreConfig = {
 	config: ThemeStoreThemeConfig;
 	dependencies: TemplatesStoreDependencies;
-	settings: TemplatesStoreConfigSettings;
+	settings: TemplatesStoreSettings;
 };
 
 export class ThemeStore {
@@ -53,7 +53,6 @@ export class ThemeStore {
 	currency: ThemeMinimal;
 	language: ThemeMinimal;
 	languageOverrides: ThemeMinimal;
-	stored: ThemePartial;
 	innerWidth?: number;
 	editMode: boolean;
 
@@ -87,7 +86,6 @@ export class ThemeStore {
 		this.currency = currency;
 		this.language = language;
 		this.languageOverrides = languageOverrides;
-		this.stored = (settings.editMode && this.dependencies.storage.get(`themes.${this.type}.${this.name}.variables`)) || {};
 		this.innerWidth = innerWidth;
 
 		makeObservable(this, {
@@ -96,7 +94,6 @@ export class ThemeStore {
 			currency: observable,
 			language: observable,
 			editorOverrides: observable,
-			stored: observable,
 			innerWidth: observable,
 			theme: computed, // make theme getter a computed property (memoized)
 		});
@@ -134,6 +131,7 @@ export class ThemeStore {
 				7. theme overrides at responsive breakpoints
 				8. altered theme variables
 				9. stored theme editor overrides
+				10. stored theme editor overrides at responsive breakpoints
 		*/
 
 		// const breakpoints = this.variables.breakpoints || this.base.variables?.breakpoints;
@@ -194,13 +192,11 @@ export class ThemeStore {
 		}
 
 		// TemplateEditor overrides
-		if (this.stored) {
-			theme = mergeThemeLayers(theme, this.stored) as Theme;
-		}
-
-		// TemplateEditor variable overrides
 		if (this.editMode) {
 			theme = mergeThemeLayers(theme, this.editorOverrides) as Theme;
+
+			const editorOverrideBreakpoint = getOverridesAtActiveBreakpoint(activeBreakpoint, this.editorOverrides);
+			theme = mergeThemeLayers(theme, editorOverrideBreakpoint) as Theme;
 		}
 
 		// change the theme name to match the ThemeStore theme name
@@ -218,27 +214,6 @@ export class ThemeStore {
 
 	public setLanguage(language: ThemeMinimal) {
 		this.language = language;
-	}
-
-	public setOverride(obj: { path: string[]; rootEditingKey: string; value: unknown }) {
-		const { path, rootEditingKey, value } = obj;
-		const overrides: ThemeOverrides = {
-			[rootEditingKey]: path
-				.slice()
-				.reverse()
-				.reduce((res, key) => {
-					if (path.indexOf(key) === path.length - 1) {
-						return {
-							[key]: value,
-						};
-					}
-					return {
-						[key]: res,
-					};
-				}, {}),
-		};
-		this.stored = mergeThemeLayers(this.stored, overrides);
-		this.dependencies.storage.set(`themes.${this.type}.${this.name}.variables`, this.stored);
 	}
 
 	public setEditorOverrides(overrides: ThemePartial) {

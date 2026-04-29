@@ -1,6 +1,6 @@
 import type { h } from 'preact';
 import { observable, makeObservable } from 'mobx';
-import { StorageStore, StorageType } from '@athoscommerce/snap-store-mobx';
+import { StorageStore, StorageType, type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
 import { ThemeStore, ThemeStoreThemeConfig } from './ThemeStore';
 import { TargetStore } from './TargetStore';
 import { CurrencyCodes, LanguageCodes, LibraryImports, LibraryStore } from './LibraryStore';
@@ -97,11 +97,34 @@ import type {
 } from '../../../components/src';
 import type { GlobalThemeStyleScript, IntegrationPlatforms } from '../../types';
 import type { ClientConfig } from '@athoscommerce/snap-client';
+import { RecommendationInstantiatorConfigSettings } from '../../Instantiators/RecommendationInstantiator';
 
 export type TemplateThemeTypes = 'library' | 'local';
 export type TemplateTypes = 'search' | 'autocomplete' | `recommendation/${RecsTemplateTypes}`;
 
 export type TemplateDefaultComponentTypes = 'result' | 'badge';
+
+// TODO: tabbing, finder
+export type SearchTargetConfig = {
+	selector: string;
+	component: keyof LibraryImports['component']['search'];
+};
+
+export type AutocompleteTargetConfig = {
+	selector: string;
+	inputSelector?: string;
+	component: keyof LibraryImports['component']['autocomplete'];
+};
+
+export type RecommendationDefaultTargetConfig = {
+	component: keyof LibraryImports['component']['recommendation']['default'];
+};
+export type RecommendationEmailTargetConfig = {
+	component: keyof LibraryImports['component']['recommendation']['email'];
+};
+export type RecommendationBundleTargetConfig = {
+	component: keyof LibraryImports['component']['recommendation']['bundle'];
+};
 
 export type TemplateCustomComponentTypes =
 	| TemplateDefaultComponentTypes
@@ -169,8 +192,6 @@ export type TemplateCustomComponentTypes =
 
 export type RecsTemplateTypes = 'bundle' | 'default' | 'email';
 
-export type TargetMap = { [targetId: string]: TargetStore };
-
 type ComponentLibraryType =
 	| keyof LibraryImports['component']['autocomplete']
 	| keyof LibraryImports['component']['search']
@@ -179,11 +200,12 @@ type ComponentLibraryType =
 	| keyof LibraryImports['component']['recommendation']['email'];
 
 export type TemplateTarget = {
+	type: TemplateTypes;
 	selector?: string;
 	component: ComponentLibraryType | (string & NonNullable<unknown>);
 };
 
-export type TemplatesStoreConfigSettings = {
+export type TemplatesStoreSettings = {
 	editMode: boolean;
 };
 
@@ -195,14 +217,14 @@ type WindowProperties = {
 	innerWidth: number;
 };
 
-type TemplateStoreThemeConfig = {
+type TemplatesStoreThemeConfigLocked = {
 	extends: keyof LibraryImports['theme'];
 	style?: GlobalThemeStyleScript;
 	variables?: ThemeVariablesPartial;
 	overrides?: ThemeResponsiveComplete;
 };
 
-type TemplateStoreThemeConfigUnlocked = Omit<TemplateStoreThemeConfig, 'overrides'> & {
+type TemplatesStoreThemeConfigUnlocked = Omit<TemplatesStoreThemeConfigLocked, 'overrides'> & {
 	overrides?: ThemeResponsiveCompleteUnlocked;
 };
 
@@ -273,7 +295,7 @@ export type ComponentTypePropsMap = {
 // Typed component function: returns a component that accepts the mapped props type
 type TypedComponentFunction<P> = () => Promise<(props: P) => h.JSX.Element | null> | ((props: P) => h.JSX.Element | null);
 
-export type TemplateStoreComponentConfig = {
+export type TemplateStoreComponentConfigLocked = {
 	[K in TemplateDefaultComponentTypes]?: {
 		[componentName: string]: TypedComponentFunction<ComponentTypePropsMap[K]>;
 	};
@@ -317,20 +339,21 @@ export type CustomPlugins = {
 	[key: string]: CustomPluginConfig;
 };
 
-export type PluginsConfigs = {
+export type PluginsConfigsLocked = {
 	common?: CommonPlugins;
 	shopify?: ShopifyPlugins;
 	bigCommerce?: BigCommercePlugins;
 	magento2?: Magento2Plugins;
 };
 
-export type PluginsConfigsUnlocked = PluginsConfigs & {
+export type PluginsConfigsUnlocked = PluginsConfigsLocked & {
 	custom?: CustomPlugins;
 };
 
-export type TemplateStoreConfigConfig = {
-	unlocked?: boolean;
-	components?: TemplateStoreComponentConfig;
+export type TemplatesStoreConfig = TemplatesStoreConfigLocked | TemplatesStoreConfigUnlocked;
+
+export type TemplatesStoreConfigLocked = {
+	components?: TemplateStoreComponentConfigLocked;
 	config: {
 		siteId?: string;
 		currency?: CurrencyCodes;
@@ -338,42 +361,79 @@ export type TemplateStoreConfigConfig = {
 		platform?: IntegrationPlatforms;
 		client?: ClientConfig;
 	};
-	plugins?: PluginsConfigs;
+	plugins?: PluginsConfigsLocked;
 	translations?: {
 		[currencyName in LanguageCodes]?: LangComponentOverrides;
 	};
-	theme: TemplateStoreThemeConfig;
+	theme: TemplatesStoreThemeConfigLocked;
+	search?: {
+		targets: SearchTargetConfig[];
+		settings?: SearchStoreConfigSettings;
+		plugins?: PluginsConfigsLocked;
+	};
+	autocomplete?: {
+		targets: AutocompleteTargetConfig[];
+		settings?: AutocompleteStoreConfigSettings;
+		plugins?: PluginsConfigsLocked;
+	};
+	recommendation?: {
+		email?: {
+			[profileComponentName: string]: RecommendationEmailTargetConfig;
+		};
+		default?: {
+			[profileComponentName: string]: RecommendationDefaultTargetConfig;
+		};
+		bundle?: {
+			[profileComponentName: string]: RecommendationBundleTargetConfig;
+		};
+		settings?: RecommendationInstantiatorConfigSettings;
+		plugins?: PluginsConfigsLocked;
+	};
 };
 
-export type TemplateStoreConfigConfigUnlocked = Omit<TemplateStoreConfigConfig, 'theme' | 'components' | 'plugins'> & {
-	theme: TemplateStoreThemeConfigUnlocked;
+// Full version that allows all component props in theme overrides (for Snap integration migration path)
+export type TemplatesStoreConfigUnlocked = Omit<
+	TemplatesStoreConfigLocked,
+	'unlocked' | 'theme' | 'components' | 'plugins' | 'search' | 'autocomplete' | 'recommendation'
+> & {
+	unlocked: true;
+	theme: TemplatesStoreThemeConfigUnlocked;
 	components?: TemplateStoreComponentConfigUnlocked;
 	plugins?: PluginsConfigsUnlocked;
+	search?: Omit<NonNullable<TemplatesStoreConfigLocked['search']>, 'plugins'> & {
+		plugins?: PluginsConfigsUnlocked;
+	};
+	autocomplete?: Omit<NonNullable<TemplatesStoreConfigLocked['autocomplete']>, 'plugins'> & {
+		plugins?: PluginsConfigsUnlocked;
+	};
+	recommendation?: Omit<NonNullable<TemplatesStoreConfigLocked['recommendation']>, 'plugins'> & {
+		plugins?: PluginsConfigsUnlocked;
+	};
 };
 
 const RESIZE_DEBOUNCE = 100;
 export const TEMPLATE_STORE_KEY = 'athos-templates';
 
-export type TemplateStoreConfig = {
-	config: TemplateStoreConfigConfig;
-	settings?: TemplatesStoreConfigSettings;
+export type TemplatesStoreParams = {
+	config: TemplatesStoreConfig;
+	settings?: TemplatesStoreSettings;
 };
 
 export class TemplatesStore {
 	loading = false;
-	config: TemplateStoreConfigConfig;
+	config: TemplatesStoreConfig;
 	storage: StorageStore;
 	language: LanguageCodes;
 	currency: CurrencyCodes;
 	platform: IntegrationPlatforms;
-	settings: TemplatesStoreConfigSettings;
+	settings: TemplatesStoreSettings;
 	dependencies: TemplatesStoreDependencies;
 
 	targets: {
-		search: TargetMap;
-		autocomplete: TargetMap;
+		search: TargetStore[];
+		autocomplete: TargetStore[];
 		recommendation: {
-			[key in RecsTemplateTypes]: TargetMap;
+			[key in RecsTemplateTypes]: TargetStore[];
 		};
 	};
 
@@ -390,7 +450,7 @@ export class TemplatesStore {
 
 	window: WindowProperties = { innerWidth: 0 };
 
-	constructor(params: TemplateStoreConfig) {
+	constructor(params: TemplatesStoreParams) {
 		const { config, settings } = params || {};
 		this.config = config;
 
@@ -404,12 +464,12 @@ export class TemplatesStore {
 		this.settings = settings || { editMode: false };
 
 		this.targets = {
-			search: {},
-			autocomplete: {},
+			search: [],
+			autocomplete: [],
 			recommendation: {
-				bundle: {},
-				default: {},
-				email: {},
+				bundle: [],
+				default: [],
+				email: [],
 			},
 		};
 
@@ -417,7 +477,7 @@ export class TemplatesStore {
 			local: {},
 			library: {},
 		};
-		this.library = new LibraryStore({ components: config.components, unlocked: config.unlocked });
+		this.library = new LibraryStore({ components: config.components, unlocked: (config as TemplatesStoreConfigUnlocked).unlocked || false });
 
 		this.language =
 			(this.settings.editMode && this.storage.get('overrides.config.language')) ||
@@ -506,43 +566,25 @@ export class TemplatesStore {
 		});
 	}
 
-	public addTarget(type: TemplateTypes, target: TemplateTarget): string | undefined {
-		const targetId = target.selector || target.component;
-		if (targetId) {
-			const path = type.split('/');
-			let targetPath: any = this.targets;
-			for (let index = 0; index < path.length; index++) {
-				if (!targetPath[path[index]]) {
-					return;
-				}
-				targetPath = targetPath[path[index]];
+	public addTarget(target: TemplateTarget): TargetStore | undefined {
+		if (target.selector) {
+			const targetArray = getTargetArray(this.targets, target.type);
+			if (!targetArray) {
+				return;
 			}
-			(targetPath as TargetMap)[targetId] = new TargetStore({
-				target,
-				dependencies: this.dependencies,
-				settings: this.settings,
+
+			const newTarget = new TargetStore({
+				target: { ...target, index: targetArray.length },
 			});
 
-			if (this.settings.editMode) {
-				// triggers a rerender for TemplateEditor
-				this.targets = { ...this.targets };
-			}
-			return targetId;
+			targetArray.push(newTarget);
+
+			return newTarget;
 		}
 	}
 
-	public getTarget(type: TemplateTypes, targetId: string): TargetStore | undefined {
-		const path = type.split('/');
-		path.push(targetId);
-		let targetPath: any = this.targets;
-		for (let index = 0; index < path.length; index++) {
-			if (!targetPath[path[index]]) {
-				return;
-			}
-			targetPath = targetPath[path[index]];
-		}
-
-		return targetPath;
+	public getTarget(type: TemplateTypes, targetIndex: number): TargetStore | undefined {
+		return getTargetArray(this.targets, type)?.[targetIndex];
 	}
 
 	public addTheme(config: ThemeStoreThemeConfig) {
@@ -641,6 +683,17 @@ export class TemplatesStore {
 		}
 		this.loading = false;
 	}
+}
+
+function getTargetArray(targets: TemplatesStore['targets'], type: TemplateTypes): TargetStore[] | undefined {
+	const [category, subcategory] = type.split('/');
+	if (category === 'recommendation' && subcategory) {
+		return targets.recommendation[subcategory as RecsTemplateTypes];
+	}
+	if (category === 'search' || category === 'autocomplete') {
+		return targets[category];
+	}
+	return undefined;
 }
 
 export function transformTranslationsToTheme(translations: LangComponentOverrides): ThemeMinimal {

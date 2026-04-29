@@ -7,7 +7,7 @@ import { createSnapConfig } from './Templates/SnapTemplates';
 import { TemplatesStore } from './Templates/Stores/TemplateStore';
 
 import type { SnapConfig } from './Snap';
-import type { SnapTemplatesConfigUnlocked } from './Templates/SnapTemplates';
+import type { SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from './Templates/SnapTemplates';
 import type { PluginFunction } from '@athoscommerce/snap-controller';
 
 const baseTemplatesConfig: SnapTemplatesConfigUnlocked = {
@@ -573,7 +573,7 @@ describe('SnapHybrid merge', () => {
 		});
 
 		it('templates features are present in merged config', () => {
-			const templatesConfigWithFeatures: SnapTemplatesConfigUnlocked = {
+			const templatesConfigWithFeatures: SnapTemplatesConfig = {
 				...baseTemplatesConfig,
 				features: {
 					integratedSpellCorrection: true,
@@ -672,7 +672,7 @@ describe('SnapHybrid merge', () => {
 		});
 
 		it('url config from snap overrides templates url config', () => {
-			const templatesConfigWithUrl: SnapTemplatesConfigUnlocked = {
+			const templatesConfigWithUrl: SnapTemplatesConfig = {
 				...baseTemplatesConfig,
 				url: {
 					parameters: {

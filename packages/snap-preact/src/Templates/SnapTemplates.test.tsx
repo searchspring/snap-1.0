@@ -1,6 +1,6 @@
 import { version } from '@athoscommerce/snap-toolbox';
 import { createPlugins, createSnapConfig, DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS, DEFAULT_FEATURES } from './SnapTemplates';
-import type { SnapTemplatesConfig, SnapTemplatesConfigLocked, SnapTemplatesConfigUnlocked } from './SnapTemplates';
+import type { SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from './SnapTemplates';
 import { TemplatesStore } from './Stores/TemplateStore';
 import type { PluginFunction } from '@athoscommerce/snap-controller';
 
@@ -15,12 +15,12 @@ describe('createPlugins with custom plugins', () => {
 		},
 	};
 
-	const baseConfig: SnapTemplatesConfigLocked = {
+	const baseConfig: SnapTemplatesConfig = {
 		...baseConfigValues,
 	};
 
 	it('should handle empty custom plugins', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			plugins: {},
 		};
@@ -423,7 +423,7 @@ describe('createSnapConfig with custom plugins', () => {
 });
 
 describe('createPlugins with built-in plugins', () => {
-	const baseConfig: SnapTemplatesConfigLocked = {
+	const baseConfig: SnapTemplatesConfig = {
 		config: {
 			platform: 'other',
 			siteId: 'test123',
@@ -448,7 +448,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should include shopify-specific plugins when platform is shopify', () => {
-		const shopifyConfig: SnapTemplatesConfigLocked = {
+		const shopifyConfig: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -464,7 +464,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should include bigCommerce-specific plugins when platform is bigCommerce', () => {
-		const bigCommerceConfig: SnapTemplatesConfigLocked = {
+		const bigCommerceConfig: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -480,7 +480,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should include magento2-specific plugins when platform is magento2', () => {
-		const magento2Config: SnapTemplatesConfigLocked = {
+		const magento2Config: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -496,7 +496,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should merge global and controller-specific configs for built-in plugins', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			plugins: {
 				common: {
@@ -535,7 +535,7 @@ describe('createPlugins with built-in plugins', () => {
 });
 
 describe('createSnapConfig additional coverage', () => {
-	const baseConfig: SnapTemplatesConfigLocked = {
+	const baseConfig: SnapTemplatesConfig = {
 		config: {
 			platform: 'other',
 			siteId: 'test123',
@@ -554,7 +554,7 @@ describe('createSnapConfig additional coverage', () => {
 
 	it('should use provided features when specified', () => {
 		const customFeatures = { integratedSpellCorrection: true };
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			features: customFeatures,
 		};
@@ -574,7 +574,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should pass through client config when provided', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -605,7 +605,7 @@ describe('createSnapConfig additional coverage', () => {
 				},
 			},
 		};
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			url: urlConfig,
 		};
@@ -624,7 +624,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should merge DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS with provided settings', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
 				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
@@ -645,7 +645,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should use DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS when no settings provided', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
 				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
@@ -660,7 +660,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should construct autocomplete selector from target selectors', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
 				targets: [
@@ -679,7 +679,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should include default recommendation components', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			recommendation: {
 				default: {
@@ -707,7 +707,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should set recommendation branch to production by default', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			recommendation: {
 				default: {
@@ -724,7 +724,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should allow overriding recommendation branch', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			recommendation: {
 				default: {
@@ -758,7 +758,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should create search controller with correct id', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			search: {
 				targets: [{ selector: '#search', component: 'Search' }],
@@ -773,7 +773,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should create autocomplete controller with correct id', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
 				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
@@ -793,7 +793,7 @@ describe('createSnapConfig additional coverage', () => {
 				backfill: 5,
 			},
 		};
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			search: {
 				targets: [{ selector: '#search', component: 'Search' }],
