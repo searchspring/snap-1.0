@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/AthosCommerce/snap/compare/v1.2.2...v1.3.0) (2026-04-29)
+
+### Bug Fixes
+
+- **autocomplete:** bugfixes for ac syncInputs setting and input names for form submittion when renderInput true ([024c75c](https://github.com/AthosCommerce/snap/commit/024c75c91f57367ebd1640039a78ef35a1306235))
+- **themecomponents:** tweaking themeComponents typing to patch open named component sub component overrides ([bc87c81](https://github.com/AthosCommerce/snap/commit/bc87c81d2a2b8541b0d8275ba45a7430aaa00fc6))
+- **uselayoutoptions:** another bugfix for layoutOptions hook when component overrides contain raw jsx ([47e0b45](https://github.com/AthosCommerce/snap/commit/47e0b45b316f2d533dd46746740ace44138d517f))
+- **uselayoutoptions:** bugfix for when layoutoption contains jsx ([72c88a2](https://github.com/AthosCommerce/snap/commit/72c88a2069f4890da8acc3f732e9066a6a9360cb))
+
+### Features
+
+- **preact/editor:** changes to support editor changes outside of the UI ([1b5a5dd](https://github.com/AthosCommerce/snap/commit/1b5a5dd8ada810b82181ab0fc7d3f7589ada80b5))
+
 ## [1.2.2](https://github.com/AthosCommerce/snap/compare/v1.2.1...v1.2.2) (2026-04-22)
 
 ### Bug Fixes
