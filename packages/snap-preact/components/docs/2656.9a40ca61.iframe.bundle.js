@@ -135,12 +135,12 @@
 								className: ne,
 								internalClassName: s,
 								controller: m,
-								customComponent: F,
+								customComponent: $,
 							} = A,
 							n = m?.store?.state?.input,
 							k = A.terms;
-						if (F) {
-							const u = (0, x.x)(K?.templates?.library.import.component.terms || {}, F);
+						if ($) {
+							const u = (0, x.x)(K?.templates?.library.import.component.terms || {}, $);
 							if (u) return (0, t.Y)(u, { ...A });
 						}
 						const C = (0, T.Z)(A, V),
@@ -150,14 +150,14 @@
 							_ = Q ? k?.slice(0, Q) : k,
 							R = { title: { value: p } },
 							B = z()(R, A.lang || {}),
-							$ = (0, U.u)({ title: B.title }, { controller: m });
+							F = (0, U.u)({ title: B.title }, { controller: m });
 						return _?.length
 							? (0, t.Y)(l._, {
 									children: (0, t.FD)('div', {
 										...C,
 										className: o()('ss__terms', ne, s),
 										children: [
-											p ? (0, t.Y)('div', { className: 'ss__terms__title', children: (0, t.Y)('h5', { ...$.title.all }) }) : null,
+											p ? (0, t.Y)('div', { className: 'ss__terms__title', children: (0, t.Y)('h5', { ...F.title.all }) }) : null,
 											(0, t.Y)('ul', {
 												className: 'ss__terms__options',
 												'aria-label': p,
@@ -219,7 +219,7 @@
 					Y = e('./components/src/hooks/useCreateController.tsx'),
 					Q = e('./components/src/hooks/useComponent.tsx');
 				function ee(s) {
-					let m, F, n;
+					let m, $, n;
 					if (s?.recommendation?.enabled) {
 						const C = s?.recommendation?.component || 'RecommendationGrid',
 							h = (0, p.uk)();
@@ -229,21 +229,21 @@
 							(B.id = B.id || `search-${B.tag}`),
 								(n = (0, Y.i)(h, 'recommendation', B)),
 								!n?.store?.loaded && !n?.store?.loading && n?.store.error?.type !== 'error' && n?.search(),
-								R && h?.templates?.library.import.component.result && (F = (0, Q.x)(h?.templates?.library.import.component.result, R)),
+								R && h?.templates?.library.import.component.result && ($ = (0, Q.x)(h?.templates?.library.import.component.result, R)),
 								C &&
 									h?.templates?.library.import.component.recommendation.default &&
 									(m = (0, Q.x)(h?.templates?.library.import.component.recommendation.default, C));
 						}
 					}
-					return { RecommendationTemplateComponent: m, RecommendationTemplateResultComponent: F, recsController: n };
+					return { RecommendationTemplateComponent: m, RecommendationTemplateResultComponent: $, recsController: n };
 				}
-				const te = ({ controller: s, input: m, viewportMaxHeight: F, width: n, theme: k, column1: C, column2: h, column3: _, column4: R }) => {
+				const te = ({ controller: s, input: m, viewportMaxHeight: $, width: n, theme: k, column1: C, column2: h, column3: _, column4: R }) => {
 						let B = 0;
 						if (m) {
 							let u;
 							typeof m == 'string' ? (u = document.querySelector(m)) : (u = m), (B = u?.getBoundingClientRect()?.bottom || 0);
 						}
-						const $ = !!(s.store.search?.query?.string && s.store.results.length === 0);
+						const F = !!(s.store.search?.query?.string && s.store.results.length === 0);
 						return (0, r.AH)({
 							'.ss__autocomplete__column.ss__autocomplete__column--c1': {
 								flex: C?.width == 'auto' ? '1 1 auto' : `1 0 ${C?.width}`,
@@ -275,7 +275,7 @@
 							border: '1px solid #ebebeb',
 							background: '#ffffff',
 							maxWidth: n,
-							maxHeight: F && B ? `calc(100vh - ${B + 10}px)` : void 0,
+							maxHeight: $ && B ? `calc(100vh - ${B + 10}px)` : void 0,
 							overflowY: 'scroll',
 							'.ss__autocomplete__row': { display: 'flex', flexDirection: 'row', flexBasis: '100%' },
 							'.ss__autocomplete__column': { display: 'flex', flexDirection: 'column', flexFlow: 'wrap' },
@@ -304,7 +304,7 @@
 								flexDirection: 'column',
 								justifyContent: 'space-between',
 								overflowY: 'auto',
-								margin: $ ? '0 auto' : void 0,
+								margin: F ? '0 auto' : void 0,
 								'.ss__autocomplete__content-inner': { padding: '10px' },
 								'.ss__autocomplete__content__results, .ss__autocomplete__content__no-results': { minHeight: '0%' },
 							},
@@ -313,14 +313,14 @@
 							'.ss__autocomplete__button--see-more': {
 								padding: '10px',
 								height: 'min-content',
-								textAlign: $ ? 'center' : 'right',
+								textAlign: F ? 'center' : 'right',
 								a: { fontWeight: 'bold', color: k?.variables?.colors?.primary, '.ss__icon': { marginLeft: '5px' } },
 							},
 						});
 					},
 					ne = (0, d.PA)((s) => {
 						const m = (0, J.u)(),
-							F = {
+							$ = {
 								facetsTitle: '',
 								contentTitle: '',
 								layout: [['c1', 'c2', 'c3']],
@@ -330,7 +330,7 @@
 								width: '100%',
 								templates: { recommendation: { enabled: !0 } },
 							};
-						let n = (0, x.v6)('autocompleteLayout', m, F, s);
+						let n = (0, x.v6)('autocompleteLayout', m, $, s);
 						delete n.treePath, n.layout == 'terms' && (n.templates = { recommendation: { enabled: !1 } });
 						const k = (0, V.l)(),
 							C = () => {
@@ -365,7 +365,7 @@
 						const {
 							facetsTitle: R,
 							contentTitle: B,
-							column1: $,
+							column1: F,
 							column2: u,
 							column3: H,
 							column4: P,
@@ -487,9 +487,9 @@
 								const y = i?.map((v) => _e(v));
 								return i.some((v, G) => v !== '_' && y[G]) ? (0, t.Y)('div', { className: 'ss__autocomplete__row', children: y }) : null;
 							}
-							if (i == 'c1' && $?.layout?.length) {
-								const y = $.layout.map((v) => _e(v));
-								return $.layout.some((v, G) => (Array.isArray(v) || v !== '_') && !!y[G])
+							if (i == 'c1' && F?.layout?.length) {
+								const y = F.layout.map((v) => _e(v));
+								return F.layout.some((v, G) => (Array.isArray(v) || v !== '_') && !!y[G])
 									? (0, t.Y)('div', { className: 'ss__autocomplete__column ss__autocomplete__column--c1', children: y })
 									: null;
 							}
@@ -777,7 +777,7 @@
 						}
 						const {
 							disableStyles: m,
-							className: F,
+							className: $,
 							internalClassName: n,
 							layout: k,
 							theme: C,
@@ -790,7 +790,7 @@
 							const P = (0, K.x)(Q?.templates?.library.import.component.results || {}, R);
 							if (P) return (0, t.Y)(P, { ...s });
 						}
-						const $ = {
+						const F = {
 							result: { internalClassName: 'ss__results__result', ...(0, U.s)({ disableStyles: m }), theme: s?.theme, treePath: _ },
 							inlineBanner: {
 								controller: h,
@@ -807,17 +807,17 @@
 							? (0, t.Y)(z._, {
 									children: (0, t.Y)('div', {
 										...H,
-										className: o()('ss__results', `ss__results-${s.layout}`, F, n),
+										className: o()('ss__results', `ss__results-${s.layout}`, $, n),
 										children: u.map((P) =>
 											P.type === c.c.BANNER
-												? (0, D.n)(g._, { ...$.inlineBanner, key: P.id, banner: P, layout: s.layout })
+												? (0, D.n)(g._, { ...F.inlineBanner, key: P.id, banner: P, layout: s.layout })
 												: B && h
 												? (0, t.Y)(E.o, {
 														result: P,
 														controller: h,
 														children: (0, T.Y)(B, { key: P.id, controller: h, result: P, theme: C, treePath: _ }),
 												  })
-												: (0, t.Y)(N, { ...$.result, result: P, layout: s.layout, controller: h }, P.id)
+												: (0, t.Y)(N, { ...F.result, result: P, layout: s.layout, controller: h }, P.id)
 										),
 									}),
 							  })
@@ -876,10 +876,10 @@
 								className: ne,
 								internalClassName: s,
 								controller: m,
-								customComponent: F,
+								customComponent: $,
 							} = E;
-						if (F) {
-							const L = (0, w.x)(b?.templates?.library.import.component.termsList || {}, F);
+						if ($) {
+							const L = (0, w.x)(b?.templates?.library.import.component.termsList || {}, $);
 							if (L) return (0, t.Y)(L, { ...E });
 						}
 						const n = { terms: { vertical: !!N, ...(0, S.s)({ disableStyles: te }), theme: E.theme, treePath: ee } },
@@ -889,11 +889,11 @@
 							_ = m?.store.trending || [],
 							R = _?.filter((L) => L.active).pop(),
 							B = C?.filter((L) => L.active).pop(),
-							{ loaded: $, results: u, state: H } = m?.store;
+							{ loaded: F, results: u, state: H } = m?.store;
 						let P = !1;
-						_?.length && ((Q && $) || (!u.length && !H.input)) && (P = !0);
+						_?.length && ((Q && F) || (!u.length && !H.input)) && (P = !0);
 						let oe = !1;
-						C?.length && ((Y && $) || (!u.length && !H.input)) && (oe = !0),
+						C?.length && ((Y && F) || (!u.length && !H.input)) && (oe = !0),
 							!m.store.state.input && (B || R) && (C?.length && (oe = !0), _?.length && (P = !0));
 						const X = (L) => {
 								if (typeof L != 'string') {
@@ -982,7 +982,12 @@
 						U = () => {
 							c && c(!0),
 								setTimeout(async () => {
-									S || (w(a.current), (r.config.selector = '.autocomplete__search-input input'), await r.bind(), a?.current?.focus()), T(!0);
+									S ||
+										(w(a.current),
+										(r.config.selector = `${r.config.selector}, .autocomplete__search-input input`),
+										await r.bind(),
+										a?.current?.focus()),
+										T(!0);
 								});
 						};
 					return (

@@ -195,16 +195,16 @@
 						settings: { trending: { limit: 5 } },
 					}),
 					m = (h, { loaded: { controller: y } }) => {
-						const [d, a] = (0, T.J0)(!1),
-							b = [
-								{ active: d === 'dress', preview: () => a('dress'), value: 'dress', url: { href: '#' } },
-								{ active: d === 'shirt', preview: () => a('shirt'), value: 'shirt', url: { href: '#' } },
-								{ active: d === 'shoes', preview: () => a('shoes'), value: 'shoes', url: { href: '#' } },
-								{ active: d === 'hat', preview: () => a('hat'), value: 'hat', url: { href: '#' } },
-								{ active: d === 'pants', preview: () => a('pants'), value: 'pants', url: { href: '#' } },
-								{ active: d === 'socks', preview: () => a('socks'), value: 'socks', url: { href: '#' } },
+						const [d, s] = (0, T.J0)(!1),
+							E = [
+								{ active: d === 'dress', preview: () => s('dress'), value: 'dress', url: { href: '#' } },
+								{ active: d === 'shirt', preview: () => s('shirt'), value: 'shirt', url: { href: '#' } },
+								{ active: d === 'shoes', preview: () => s('shoes'), value: 'shoes', url: { href: '#' } },
+								{ active: d === 'hat', preview: () => s('hat'), value: 'hat', url: { href: '#' } },
+								{ active: d === 'pants', preview: () => s('pants'), value: 'pants', url: { href: '#' } },
+								{ active: d === 'socks', preview: () => s('socks'), value: 'socks', url: { href: '#' } },
 							];
-						y.store.history = b;
+						y.store.history = E;
 						const [M, D] = (0, T.J0)(!1);
 						return (
 							(0, T.vJ)(() => {
@@ -305,8 +305,8 @@
 					h = e.n(w),
 					y = e('./components/src/components/Molecules/SearchInput/SearchInput.tsx'),
 					d = e('./components/src/hooks/useA11y.tsx'),
-					a = e('./components/src/hooks/useAcRenderedInput.tsx');
-				const b = ({}) =>
+					s = e('./components/src/hooks/useAcRenderedInput.tsx');
+				const E = ({}) =>
 						(0, g.AH)({
 							border: '1px solid #eee',
 							'& .ss__autocomplete': { position: 'relative' },
@@ -314,96 +314,91 @@
 							'& .ss__search-input__button--close-search-icon': { border: 'none' },
 						}),
 					M = (0, f.PA)((D) => {
-						const B = (0, v.u)(),
-							L = {
+						const O = (0, v.u)(),
+							B = {
 								slideDirection: 'left',
 								overlayColor: 'rgba(0,0,0,0.8)',
 								layout: [['button.see-more'], ['termsList'], ['content']],
 								width: '500px',
 								renderInput: !0,
 							},
-							t = (0, p.v6)('autocompleteSlideout', B, L, D),
-							[r, c] = (0, u.J0)('query');
+							t = (0, p.v6)('autocompleteSlideout', O, B, D),
+							r = '';
 						let n = t.input,
-							s = t.buttonSelector;
-						if (n) {
-							typeof n == 'string' && (n = document.querySelector(n));
-							const O = n?.getAttribute('name');
-							O && (c(O), t.renderInput && n.setAttribute('name', ''));
-						}
-						!s && n && (s = n);
+							c = t.buttonSelector;
+						n && typeof n == 'string' && (n = document.querySelector(n)), !c && n && (c = n);
 						const {
-								layout: _,
-								disableStyles: j,
-								slideDirection: V,
-								controller: I,
-								overlayColor: k,
-								renderInput: R,
-								className: N,
-								internalClassName: J,
-								treePath: P,
-								width: Y,
+								layout: a,
+								disableStyles: _,
+								slideDirection: W,
+								controller: P,
+								overlayColor: F,
+								renderInput: j,
+								className: V,
+								internalClassName: k,
+								treePath: C,
+								width: N,
 							} = t,
-							K = (0, u.li)(null),
-							C = () => {
-								W(!1), I.setFocused();
+							U = (0, u.li)(null),
+							I = () => {
+								R(!1), P.setFocused();
 							},
-							U = {
-								autocompleteLayout: { onReset: () => C(), layout: _, ...(0, i.s)({ disableStyles: j }), theme: t?.theme, treePath: P },
+							L = {
+								autocompleteLayout: { onReset: () => I(), layout: a, ...(0, i.s)({ disableStyles: _ }), theme: t?.theme, treePath: C },
 								slideout: {
-									width: Y,
+									width: N,
 									rerender: !1,
-									overlayColor: k,
-									slideDirection: V,
-									buttonSelector: s,
-									...(0, i.s)({ disableStyles: j }),
+									overlayColor: F,
+									slideDirection: W,
+									buttonSelector: c,
+									...(0, i.s)({ disableStyles: _ }),
 									theme: t?.theme,
-									treePath: P,
+									treePath: C,
 								},
 								searchInput: {
 									internalClassName: 'autocomplete-slideout__search-input  autocomplete__search-input',
 									inputName: r,
 									submitSearchButton: {
 										onClick: () => {
-											window.location.href = I.store.state.url.link.href;
+											window.location.href = P.store.state.url.link.href;
 										},
 									},
 									clearSearchButton: { icon: 'close-thin' },
-									closeSearchButton: { onClick: () => C(), icon: 'angle-left' },
-									...(0, i.s)({ disableStyles: j }),
-									treePath: `${P} slideout`,
+									closeSearchButton: { onClick: () => I(), icon: 'angle-left' },
+									...(0, i.s)({ disableStyles: _ }),
+									treePath: `${C} slideout`,
 									theme: t?.theme,
 								},
 							},
-							z = (0, A.Z)(t, b),
-							[H, W] = (0, u.J0)(!1);
-						let F;
+							Y = (0, A.Z)(t, E),
+							[J, R] = (0, u.J0)(!1);
+						let K;
 						n &&
 							((0, u.vJ)(() => {
-								n.addEventListener('click', () => W(!0));
+								n.addEventListener('click', () => R(!0));
 							}),
-							(F = (0, a.x)({ input: n, controller: I, renderedInputRef: K, renderInput: !!R, buttonSelector: s })));
-						const E = { ...t };
+							(K = (0, s.x)({ input: n, controller: P, renderedInputRef: U, renderInput: !!j, buttonSelector: c })));
+						const b = { ...t };
 						return (
-							delete E.width,
-							delete E.className,
-							delete E.internalClassName,
-							delete E.style,
-							delete E.styleScript,
-							delete E.themeStyleScript,
-							_?.length
+							delete b.width,
+							delete b.className,
+							delete b.internalClassName,
+							delete b.style,
+							delete b.styleScript,
+							delete b.themeStyleScript,
+							a?.length
 								? (0, o.Y)(T._, {
 										children: (0, o.Y)(m.S, {
-											...z,
-											...U.slideout,
-											className: h()('ss__autocomplete-slideout', 'ss__autocomplete-slideout__slideout', N, J),
-											active: H,
+											...Y,
+											...L.slideout,
+											className: h()('ss__autocomplete-slideout', 'ss__autocomplete-slideout__slideout', V, k),
+											active: J,
 											children: (0, o.FD)('div', {
 												className: 'ss__autocomplete-slideout__inner',
-												ref: (O) => (0, d.iy)(O, 0, !0, C),
+												ref: (z) => (0, d.iy)(z, 0, !0, I),
 												children: [
-													R ? (0, o.Y)(y.D, { ...U.searchInput, value: I.store.state.input || '', inputRef: K }) : (0, o.Y)(o.FK, {}),
-													(0, o.Y)(S.h, { ...E, ...U.autocompleteLayout, input: F, controller: I, treePath: `${P} slideout` }),
+													j ? (0, o.Y)(y.D, { ...L.searchInput, value: P.store.state.input || '', inputRef: U }) : (0, o.Y)(o.FK, {}),
+													(0, o.Y)(S.h, { ...b, ...L.autocompleteLayout, input: K, controller: P, treePath: `${C} slideout` }),
 												],
 											}),
 										}),
@@ -458,43 +453,43 @@
 					y = e('../../node_modules/@athoscommerce/snap-logger/dist/esm/Logger.js'),
 					d = e('../../node_modules/@athoscommerce/snap-tracker/dist/esm/Tracker.js');
 				(0, o.jK)({ useProxies: 'always', isolateGlobalState: !0, enforceActions: 'never' });
-				const a = {},
-					b = { globals: { siteId: 'atkzs2' } };
+				const s = {},
+					E = { globals: { siteId: 'atkzs2' } };
 				class M {
 					static recommendation(r) {
-						const c = r.id;
-						if (a[c]) return a[c];
-						const n = (a[c] = B({ client: b, controller: r }));
+						const n = r.id;
+						if (s[n]) return s[n];
+						const c = (s[n] = O({ client: E, controller: r }));
 						return (
-							n.on('afterStore', async ({ controller: s }, _) => {
-								s.log.debug('controller', s), s.log.debug('store', s.store.toJSON()), await _();
+							c.on('afterStore', async ({ controller: a }, _) => {
+								a.log.debug('controller', a), a.log.debug('store', a.store.toJSON()), await _();
 							}),
-							n.init(),
-							n
+							c.init(),
+							c
 						);
 					}
 					static autocomplete(r) {
-						const c = r.id;
-						if (a[c]) return a[c];
-						const n = (a[c] = L({ client: b, controller: r }));
+						const n = r.id;
+						if (s[n]) return s[n];
+						const c = (s[n] = B({ client: E, controller: r }));
 						return (
-							n.on('afterStore', async ({ controller: s }, _) => {
-								s.log.debug('controller', s), s.log.debug('store', s.store.toJSON()), await _();
+							c.on('afterStore', async ({ controller: a }, _) => {
+								a.log.debug('controller', a), a.log.debug('store', a.store.toJSON()), await _();
 							}),
-							n.init(),
-							n
+							c.init(),
+							c
 						);
 					}
 					static search(r) {
-						const c = r.id;
-						if (a[c]) return a[c];
-						const n = (a[c] = D({ client: b, controller: r }));
+						const n = r.id;
+						if (s[n]) return s[n];
+						const c = (s[n] = D({ client: E, controller: r }));
 						return (
-							n.on('afterStore', async ({ controller: s }, _) => {
-								s.log.debug('controller', s), s.log.debug('store', s.store.toJSON()), await _();
+							c.on('afterStore', async ({ controller: a }, _) => {
+								a.log.debug('controller', a), a.log.debug('store', a.store.toJSON()), await _();
 							}),
-							n.init(),
-							n
+							c.init(),
+							c
 						);
 					}
 				}
@@ -510,7 +505,7 @@
 						tracker: new d.J(t.client.globals),
 					});
 				}
-				function B(t) {
+				function O(t) {
 					const r = new v.V(new m.E(), S.X).detach(!0);
 					return new g.c(t.controller, {
 						client: new i.K(t.client.globals, t.client.config),
@@ -522,7 +517,7 @@
 						tracker: new d.J(t.client.globals),
 					});
 				}
-				function L(t) {
+				function B(t) {
 					const r = new v.V(new m.E(), S.X).detach();
 					return new f.Z(t.controller, {
 						client: new i.K(t.client.globals, t.client.config),
@@ -562,4 +557,4 @@
 	]);
 })();
 
-//# sourceMappingURL=components-Templates-AutocompleteSlideout-AutocompleteSlideout-stories.3edc96bb.iframe.bundle.js.map
+//# sourceMappingURL=components-Templates-AutocompleteSlideout-AutocompleteSlideout-stories.9acde391.iframe.bundle.js.map

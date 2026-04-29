@@ -8,6 +8,7 @@ Repository: https://github.com/athoscommerce/snap
 ## Welcome
 
 - [About](https://athoscommerce.github.io/snap/docs/ABOUT.md)
+- [Migration Guide](https://athoscommerce.github.io/snap/docs/REFERENCE_MIGRATION.md)
 
 ## Snap Integration
 

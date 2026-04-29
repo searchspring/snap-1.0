@@ -472,6 +472,7 @@ The \`buttonSelector\` prop specifies a selector of an element to query for, to 
 						[n, u] = (0, t.J0)(!!a.matches);
 					return (
 						(0, t.vJ)(() => {
+							u(!!a.matches);
 							const c = () => u(!!a.matches);
 							return (
 								a.addListener(c),
@@ -479,7 +480,7 @@ The \`buttonSelector\` prop specifies a selector of an element to query for, to 
 									d instanceof Function && d(), a.removeListener(c);
 								}
 							);
-						}, []),
+						}, [r]),
 						n
 					);
 				}
@@ -551,4 +552,4 @@ The \`buttonSelector\` prop specifies a selector of an element to query for, to 
 	]);
 })();
 
-//# sourceMappingURL=components-Molecules-Slideout-Slideout-stories.7939a224.iframe.bundle.js.map
+//# sourceMappingURL=components-Molecules-Slideout-Slideout-stories.de514c03.iframe.bundle.js.map

@@ -4,14 +4,14 @@
 		[3080],
 		{
 			'./components/src/components/Atoms/Banner/Banner.tsx'(w, W, e) {
-				e.d(W, { l: () => P });
+				e.d(W, { l: () => p });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('./components/src/providers/controller.tsx'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('./components/src/providers/controller.tsx'),
 					L = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					y = e('./components/src/providers/withTracking.tsx'),
 					m = e('./components/src/providers/snap.tsx'),
@@ -21,17 +21,17 @@
 					v = e('./components/src/hooks/useComponent.tsx'),
 					b = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchMerchandisingStore.js'),
 					j = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const N = () => (0, p.AH)({ ' *': { boxSizing: 'border-box' }, '& iframe, img': { maxWidth: '100%', height: 'auto' } }),
-					P = (0, T.Bk)(
+				const N = () => (0, P.AH)({ ' *': { boxSizing: 'border-box' }, '& iframe, img': { maxWidth: '100%', height: 'auto' } }),
+					p = (0, x.Bk)(
 						(0, g.PA)((f) => {
 							const i = (0, L.u)(),
-								x = (0, m.uk)(),
+								C = (0, m.uk)(),
 								U = { treePath: (0, M.LU)() },
 								a = (0, A.v6)('banner', i, U, f),
 								{ controller: _, type: o, className: Y, internalClassName: B, customComponent: l } = a,
 								K = a.content || _?.store?.merchandising.content;
 							if (l) {
-								const O = (0, v.x)(x?.templates?.library.import.component.banner || {}, l);
+								const O = (0, v.x)(C?.templates?.library.import.component.banner || {}, l);
 								if (O) return (0, t.Y)(O, { ...a });
 							}
 							if (o === b.c.INLINE) return console.warn(`BannerType '${b.c.INLINE}' is not supported in <Banner /> component`), null;
@@ -49,7 +49,7 @@
 								),
 								[n, o]
 							);
-							return (0, t.Y)(C._, { children: (0, t.Y)(E, { ...a }) });
+							return (0, t.Y)(T._, { children: (0, t.Y)(E, { ...a }) });
 						})
 					);
 			},
@@ -57,11 +57,11 @@
 				e.d(W, { B: () => j });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/classnames/index.js'),
-					D = e.n(p),
+					P = e('../../node_modules/classnames/index.js'),
+					D = e.n(P),
 					s = e('../../node_modules/mobx-react-lite/es/index.js'),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/snap.tsx'),
 					y = e('./components/src/providers/treePath.tsx'),
 					m = e('./components/src/utilities/defined.ts'),
@@ -75,9 +75,9 @@
 							'& .ss__breadcrumbs__crumbs__crumb, & .ss__breadcrumbs__crumbs__separator': { padding: '0 5px', display: 'inline-block' },
 						}),
 					j = (0, s.PA)((N) => {
-						const P = (0, T.u)(),
+						const p = (0, x.u)(),
 							f = (0, L.uk)(),
-							x = {
+							C = {
 								separator: '>',
 								treePath: (0, y.LU)(),
 								data: N.controller
@@ -87,7 +87,7 @@
 									  ]
 									: [{ label: 'Search' }],
 							},
-							c = (0, M.v6)('breadcrumbs', P, x, N),
+							c = (0, M.v6)('breadcrumbs', p, C, N),
 							{
 								data: U,
 								separator: a,
@@ -111,7 +111,7 @@
 						return (
 							typeof U == 'function' ? (E = U(B)) : (E = U),
 							E
-								? (0, t.Y)(C._, {
+								? (0, t.Y)(T._, {
 										children: (0, t.Y)('div', {
 											...n,
 											className: D()('ss__breadcrumbs', o, Y),
@@ -144,11 +144,11 @@
 				e.d(W, { h: () => v });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/classnames/index.js'),
-					D = e.n(p),
+					P = e('../../node_modules/classnames/index.js'),
+					D = e.n(P),
 					s = e('./components/src/providers/cache.tsx'),
-					C = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					T = e('./components/src/providers/snap.tsx'),
+					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					x = e('./components/src/providers/snap.tsx'),
 					L = e('./components/src/providers/treePath.tsx'),
 					y = e('./components/src/utilities/mergeProps.ts'),
 					m = e('./components/src/utilities/mergeStyles.ts'),
@@ -166,11 +166,11 @@
 						'&.ss__overlay--active': { transition: `background ${b} ease, left 0s ease`, background: j, left: '0' },
 					});
 				function v(b) {
-					const j = (0, C.u)(),
-						N = (0, T.uk)(),
+					const j = (0, T.u)(),
+						N = (0, x.uk)(),
 						f = { color: 'rgba(0,0,0,0.8)', transitionSpeed: '0.25s', treePath: (0, L.LU)() },
 						i = (0, y.v6)('overlay', j, f, b),
-						{ active: x, onClick: c, disableA11y: U, className: a, internalClassName: _, customComponent: o } = i;
+						{ active: C, onClick: c, disableA11y: U, className: a, internalClassName: _, customComponent: o } = i;
 					if (o) {
 						const B = (0, M.x)(N?.templates?.library.import.component.overlay || {}, o);
 						if (B) return (0, t.Y)(B, { ...i });
@@ -178,9 +178,9 @@
 					const Y = (0, m.Z)(i, h);
 					return (0, t.Y)(s._, {
 						children: (0, t.Y)('div', {
-							onClick: (B) => c && x && c(B),
-							ref: (B) => (U ? null : (0, A.iy)(B, x ? 0 : -1)),
-							className: D()('ss__overlay', { 'ss__overlay--active': x }, a, _),
+							onClick: (B) => c && C && c(B),
+							ref: (B) => (U ? null : (0, A.iy)(B, C ? 0 : -1)),
+							className: D()('ss__overlay', { 'ss__overlay--active': C }, a, _),
 							...Y,
 						}),
 					});
@@ -190,11 +190,11 @@
 				e.d(W, { R: () => N });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/snap.tsx'),
 					y = e('./components/src/providers/treePath.tsx'),
 					m = e('./components/src/utilities/mergeProps.ts'),
@@ -203,17 +203,17 @@
 					h = e.n(A),
 					v = e('./components/src/hooks/useLang.tsx'),
 					b = e('./components/src/hooks/useComponent.tsx');
-				const j = ({}) => (0, p.AH)({}),
-					N = (0, g.PA)((P) => {
-						const f = (0, T.u)(),
+				const j = ({}) => (0, P.AH)({}),
+					N = (0, g.PA)((p) => {
+						const f = (0, x.u)(),
 							i = (0, L.uk)(),
-							x = (0, y.LU)(),
-							c = P.controller?.store.pagination || P.pagination,
+							C = (0, y.LU)(),
+							c = p.controller?.store.pagination || p.pagination,
 							U = {
 								infoText: `${c?.multiplePages ? `${c?.begin} - ${c?.end} of` : ''} ${`${c?.totalResults} result${c?.totalResults == 1 ? '' : 's'}`}`,
-								treePath: x,
+								treePath: C,
 							},
-							a = (0, m.v6)('paginationInfo', f, U, P),
+							a = (0, m.v6)('paginationInfo', f, U, p),
 							{ controller: _, infoText: o, className: Y, internalClassName: B, customComponent: l } = a;
 						if (l) {
 							const O = (0, b.x)(i?.templates?.library.import.component.paginationInfo || {}, l);
@@ -234,7 +234,7 @@
 							n = h()(F, a.lang || {}),
 							E = (0, v.u)(n, { pagination: K });
 						return K?.totalResults
-							? (0, t.Y)(C._, {
+							? (0, t.Y)(T._, {
 									children: (0, t.Y)('div', {
 										...I,
 										'aria-atomic': !0,
@@ -250,11 +250,11 @@
 				e.d(W, { w: () => N });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/mobx-react-lite/es/index.js'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
 					D = e('./components/src/providers/cache.tsx'),
 					s = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					C = e('./components/src/providers/snap.tsx'),
-					T = e('./components/src/providers/treePath.tsx'),
+					T = e('./components/src/providers/snap.tsx'),
+					x = e('./components/src/providers/treePath.tsx'),
 					L = e('./components/src/utilities/mergeProps.ts'),
 					y = e('./components/src/utilities/mergeStyles.ts'),
 					m = e('../../node_modules/classnames/index.js'),
@@ -264,13 +264,13 @@
 					v = e('../../node_modules/deepmerge/dist/cjs.js'),
 					b = e.n(v);
 				const j = () => (0, g.AH)({}),
-					N = (0, p.PA)((P) => {
+					N = (0, P.PA)((p) => {
 						const f = (0, s.u)(),
-							i = (0, C.uk)(),
-							x = (0, T.LU)(),
-							c = P.controller?.store.merchandising.landingPage || P.merchandising?.landingPage,
-							U = P.controller?.store.pagination || P.pagination,
-							a = P.controller?.store.search || P.query,
+							i = (0, T.uk)(),
+							C = (0, x.LU)(),
+							c = p.controller?.store.merchandising.landingPage || p.merchandising?.landingPage,
+							U = p.controller?.store.pagination || p.pagination,
+							a = p.controller?.store.search || p.query,
 							_ = {
 								titleText: `Search result${U?.totalResults == 1 ? '' : 's'} ${
 									a?.query ? `for "<span class="ss__search-header__results-query">${a.query.string}</span>"` : ''
@@ -285,9 +285,9 @@
 										: '<span>No results found.</span>'
 								}`,
 								expandedSearchText: `We couldn't find an exact match for "<span class="ss__search-header__results-query">${a?.query?.string}</span>", but here's something similar:`,
-								treePath: x,
+								treePath: C,
 							},
-							o = (0, L.v6)('searchHeader', f, _, P),
+							o = (0, L.v6)('searchHeader', f, _, p),
 							{
 								className: Y,
 								internalClassName: B,
@@ -396,11 +396,11 @@
 				e.d(W, { d: () => i });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('./components/src/utilities/defined.ts'),
-					T = e('./components/src/utilities/mergeProps.ts'),
+					T = e('./components/src/utilities/defined.ts'),
+					x = e('./components/src/utilities/mergeProps.ts'),
 					L = e('./components/src/utilities/mergeStyles.ts'),
 					y = e('./components/src/providers/cache.tsx'),
 					m = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
@@ -411,19 +411,19 @@
 					b = e('./components/src/hooks/useLang.tsx'),
 					j = e('./components/src/hooks/useComponent.tsx'),
 					N = e('../../node_modules/deepmerge/dist/cjs.js'),
-					P = e.n(N);
+					p = e.n(N);
 				const f = ({}) =>
-						(0, p.AH)({
+						(0, P.AH)({
 							textDecoration: 'none',
 							display: 'inline-flex',
 							'& .ss__filter__button': { alignItems: 'center', '& .ss__filter__button__icon': { margin: '0 5px 0 0' } },
 							'& .ss__filter__label': { marginRight: '5px', marginLeft: '5px', fontWeight: 'bold' },
 						}),
-					i = (0, g.PA)((x) => {
+					i = (0, g.PA)((C) => {
 						const c = (0, m.u)(),
 							U = (0, M.uk)(),
 							_ = { treePath: (0, A.LU)() },
-							o = (0, T.v6)('filter', c, _, x),
+							o = (0, x.v6)('filter', c, _, C),
 							{
 								filter: Y,
 								facetLabel: B,
@@ -447,20 +447,20 @@
 							d = Y?.value.label || l,
 							$ = Y?.facet.label || B,
 							R = {
-								button: { internalClassName: 'ss__filter__button', disableA11y: !0, ...(0, C.s)({ disableStyles: O }), theme: o.theme, treePath: z },
+								button: { internalClassName: 'ss__filter__button', disableA11y: !0, ...(0, T.s)({ disableStyles: O }), theme: o.theme, treePath: z },
 								icon: {
 									icon: 'close-thin',
 									internalClassName: 'ss__filter__button__icon',
 									size: '10px',
-									...(0, C.s)({ disableStyles: O, icon: n }),
+									...(0, T.s)({ disableStyles: O, icon: n }),
 									theme: o.theme,
 									treePath: z,
 								},
 							},
 							G = (0, L.Z)(o, f),
 							Q = { filter: { attributes: { 'aria-label': $ ? `remove selected ${$} filter ${d}` : d } } },
-							V = P()(Q, o.lang || {}),
-							X = (0, b.u)(V, { label: $, value: d });
+							V = p()(Q, o.lang || {}),
+							k = (0, b.u)(V, { label: $, value: d });
 						return d
 							? (0, t.Y)(y._, {
 									children: (0, t.Y)('a', {
@@ -471,7 +471,7 @@
 										},
 										href: J?.href,
 										tabIndex: 0,
-										...X.filter?.all,
+										...k.filter?.all,
 										children: (0, t.FD)(h.$, {
 											...R.button,
 											children: [
@@ -493,12 +493,12 @@
 				e.d(W, { e: () => U });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('../../node_modules/mobx-react-lite/es/index.js'),
-					T = e('../../node_modules/deepmerge/dist/cjs.js'),
-					L = e.n(T),
+					T = e('../../node_modules/mobx-react-lite/es/index.js'),
+					x = e('../../node_modules/deepmerge/dist/cjs.js'),
+					L = e.n(x),
 					y = e('./components/src/providers/cache.tsx'),
 					m = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					M = e('./components/src/providers/snap.tsx'),
@@ -508,12 +508,12 @@
 					b = e('./components/src/utilities/mergeStyles.ts'),
 					j = e('./components/src/hooks/useIntersection.tsx'),
 					N = e('./components/src/hooks/useLang.tsx'),
-					P = e('./components/src/hooks/useComponent.tsx'),
+					p = e('./components/src/hooks/useComponent.tsx'),
 					f = e('./components/src/components/Atoms/Button/Button.tsx'),
 					i = e('./components/src/components/Atoms/Icon/Icon.tsx'),
-					x = e('./components/src/hooks/useFuncDebounce.tsx');
+					C = e('./components/src/hooks/useFuncDebounce.tsx');
 				const c = ({ pagination: a, progressIndicatorWidth: _, progressIndicatorSize: o, color: Y, backgroundColor: B, theme: l }) =>
-						(0, p.AH)({
+						(0, P.AH)({
 							display: 'flex',
 							flexDirection: 'column',
 							alignItems: 'center',
@@ -523,7 +523,7 @@
 							'& .ss__button': { alignItems: 'center' },
 							'& .ss__load-more__icon': {
 								marginLeft: '5px',
-								animation: `${(0, p.i7)({ '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } })} linear 1s infinite`,
+								animation: `${(0, P.i7)({ '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } })} linear 1s infinite`,
 							},
 							'&.ss__load-more': {
 								'& .ss__load-more__progress': {
@@ -545,7 +545,7 @@
 								},
 							},
 						}),
-					U = (0, C.PA)((a) => {
+					U = (0, T.PA)((a) => {
 						const _ = (0, m.u)(),
 							o = (0, M.uk)(),
 							B = {
@@ -576,17 +576,17 @@
 								customComponent: Q,
 							} = l;
 						if (Q) {
-							const k = (0, P.x)(o?.templates?.library.import.component.loadMore || {}, Q);
-							if (k) return (0, t.Y)(k, { ...l });
+							const X = (0, p.x)(o?.templates?.library.import.component.loadMore || {}, Q);
+							if (X) return (0, t.Y)(X, { ...l });
 						}
 						const V = K || I?.store?.pagination,
-							X = typeof O == 'boolean' ? O : I?.store?.loading,
-							u = (X && S === 'button') || !V?.next,
+							k = typeof O == 'boolean' ? O : I?.store?.loading,
+							u = (k && S === 'button') || !V?.next,
 							te = {
 								button: {
 									internalClassName: s()(
 										'ss__load-more__button',
-										{ 'ss__load-more__button--hidden': X && S === 'outside' },
+										{ 'ss__load-more__button--hidden': k && S === 'outside' },
 										{ 'ss__load-more__button--disabled': u }
 									),
 									...(0, h.s)({ disableStyles: d }),
@@ -596,48 +596,48 @@
 								icon: { internalClassName: 'ss__load-more__icon', ...(0, h.s)({ disableStyles: d }), theme: l?.theme, treePath: G },
 							};
 						if (!V) return null;
-						const oe = (0, b.Z)({ ...l, pagination: V }, c),
+						const se = (0, b.Z)({ ...l, pagination: V }, c),
 							q = {};
 						if (n) {
-							const k = (0, g.li)(null);
-							q.ref = k;
-							const ee = (0, j.v)(k, E || '0px'),
-								[re, se] = (0, g.J0)(!0);
-							X
-								? se(!0)
-								: (0, x.d)(() => {
-										se(!1);
+							const X = (0, g.li)(null);
+							q.ref = X;
+							const ee = (0, j.v)(X, E || '0px'),
+								[oe, ie] = (0, g.J0)(!0);
+							k
+								? ie(!0)
+								: (0, C.d)(() => {
+										ie(!1);
 								  }, 500),
-								ee && V.next && !re && V.next.url.go({ history: 'replace' });
+								ee && V.next && !oe && V.next.url.go({ history: 'replace' });
 						}
-						const ie = {
+						const re = {
 								loadMoreButton: { value: r, attributes: { 'aria-label': r } },
 								progressText: { value: `You've viewed ${V?.end} of ${V?.totalResults} products` },
 							},
-							ae = L()(ie, l.lang || {}),
+							ae = L()(re, l.lang || {}),
 							ne = (0, N.u)(ae, { pagination: V });
 						return V.totalResults
 							? (0, t.Y)(y._, {
 									children: (0, t.FD)('div', {
-										...oe,
+										...se,
 										...q,
-										className: s()('ss__load-more', { 'ss__load-more--loading': X }, { 'ss__load-more--autoFetch': n }, $, R),
+										className: s()('ss__load-more', { 'ss__load-more--loading': k }, { 'ss__load-more--autoFetch': n }, $, R),
 										children: [
 											!n &&
 												(0, t.FD)(t.FK, {
 													children: [
 														(0, t.FD)(f.$, {
-															onClick: (k) => {
-																V.next?.url.go({ history: 'replace' }), F && F(k);
+															onClick: (X) => {
+																V.next?.url.go({ history: 'replace' }), F && F(X);
 															},
 															...te.button,
 															...ne.loadMoreButton.attributes,
 															children: [
 																(0, t.Y)('span', { ...ne.loadMoreButton.value, children: r }),
-																J && X && S === 'button' ? (0, t.Y)(i.I, { ...te.icon, ...(typeof J == 'string' ? { icon: J } : J) }) : null,
+																J && k && S === 'button' ? (0, t.Y)(i.I, { ...te.icon, ...(typeof J == 'string' ? { icon: J } : J) }) : null,
 															],
 														}),
-														J && X && S === 'outside' && (0, t.Y)(i.I, { ...te.icon, ...(typeof J == 'string' ? { icon: J } : J) }),
+														J && k && S === 'outside' && (0, t.Y)(i.I, { ...te.icon, ...(typeof J == 'string' ? { icon: J } : J) }),
 													],
 												}),
 											(!H || !z) &&
@@ -670,11 +670,11 @@
 				e.d(W, { d: () => f });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/snap.tsx'),
 					y = e('./components/src/providers/treePath.tsx'),
 					m = e('./components/src/utilities/defined.ts'),
@@ -685,8 +685,8 @@
 					b = e.n(v),
 					j = e('./components/src/hooks/useLang.tsx'),
 					N = e('./components/src/hooks/useComponent.tsx');
-				const P = () =>
-						(0, p.AH)({
+				const p = () =>
+						(0, P.AH)({
 							'& .ss__pagination__page': {
 								padding: '5px',
 								display: 'inline-block',
@@ -698,10 +698,10 @@
 							},
 						}),
 					f = (0, g.PA)((i) => {
-						const x = (0, T.u)(),
+						const C = (0, x.u)(),
 							c = (0, L.uk)(),
 							a = { pages: 5, treePath: (0, y.LU)() },
-							_ = (0, M.v6)('pagination', x, a, i),
+							_ = (0, M.v6)('pagination', C, a, i),
 							{
 								pagination: o,
 								controller: Y,
@@ -729,14 +729,14 @@
 							const ee = (0, N.x)(c?.templates?.library.import.component.pagination || {}, V);
 							if (ee) return (0, t.Y)(ee, { ..._ });
 						}
-						const X = {
+						const k = {
 								icon: { internalClassName: 'ss__pagination__icon', size: '10px', ...(0, m.s)({ disableStyles: $ }), theme: _?.theme, treePath: Q },
 							},
 							u = o || Y?.store?.pagination,
 							te = Number.isInteger(l) && Number.isInteger(K) ? [l, K] : [B],
-							oe = u?.getPages(...te),
-							q = oe?.map((ee) => ee.number),
-							ie = (0, A.Z)(_, P),
+							se = u?.getPages(...te),
+							q = se?.map((ee) => ee.number),
+							re = (0, A.Z)(_, p),
 							ae = {
 								previous: { attributes: { 'aria-label': 'go to previous page' } },
 								next: { attributes: { 'aria-label': 'go to next page' } },
@@ -744,11 +744,11 @@
 								last: { attributes: { 'aria-label': `go to last page ${u?.last.number}` } },
 							},
 							ne = b()(ae, _.lang || {}),
-							k = (0, j.u)(ne, { pagination: u });
+							X = (0, j.u)(ne, { pagination: u });
 						return q && q.length > 1 && u?.totalResults
-							? (0, t.Y)(C._, {
+							? (0, t.Y)(T._, {
 									children: (0, t.Y)('div', {
-										...ie,
+										...re,
 										className: s()('ss__pagination', R, G),
 										children: (0, t.FD)('nav', {
 											role: 'navigation',
@@ -759,8 +759,8 @@
 													(0, t.Y)('a', {
 														...u.previous.url.link,
 														className: s()('ss__pagination__page', 'ss__pagination__page--previous'),
-														...k.previous?.all,
-														children: S || (0, t.Y)(h.I, { ...X.icon, icon: 'angle-left', name: 'prev' }),
+														...X.previous?.all,
+														children: S || (0, t.Y)(h.I, { ...k.icon, icon: 'angle-left', name: 'prev' }),
 													}),
 												(!q.includes(u.first.number) || (n && u.page !== u.first.number)) &&
 													!I &&
@@ -769,26 +769,26 @@
 															(0, t.Y)('a', {
 																...u.first.url.link,
 																className: s()('ss__pagination__page', 'ss__pagination__page--first'),
-																...k.first?.all,
+																...X.first?.all,
 																children: J || u.first.number,
 															}),
 															!q.includes(2) && !O && (0, t.Y)('span', { children: '\u2026' }),
 														],
 													}),
-												oe &&
-													oe.map((ee) => {
-														const re = { page: { attributes: { 'aria-label': `go to page ${ee.number}` } } },
-															se = b()(re, _.lang || {}),
-															_e = (0, j.u)(se, { pagination: u, page: ee });
+												se &&
+													se.map((ee) => {
+														const oe = { page: { attributes: { 'aria-label': `go to page ${ee.number}` } } },
+															ie = b()(oe, _.lang || {}),
+															le = (0, j.u)(ie, { pagination: u, page: ee });
 														return ee.active
 															? (0, t.Y)('span', {
 																	className: s()('ss__pagination__page', 'ss__pagination__page--active'),
-																	..._e.page?.all,
+																	...le.page?.all,
 																	'aria-current': 'true',
 																	'aria-live': 'polite',
 																	children: ee.number,
 															  })
-															: (0, t.Y)('a', { ...ee.url.link, className: 'ss__pagination__page', ..._e.page?.all, children: ee.number });
+															: (0, t.Y)('a', { ...ee.url.link, className: 'ss__pagination__page', ...le.page?.all, children: ee.number });
 													}),
 												(!q.includes(u.last.number) || (E && u.page !== u.last.number)) &&
 													!F &&
@@ -798,7 +798,7 @@
 															(0, t.Y)('a', {
 																...u.last.url.link,
 																className: s()('ss__pagination__page', 'ss__pagination__page--last'),
-																...k.last?.all,
+																...X.last?.all,
 																children: d || u.last.number,
 															}),
 														],
@@ -808,8 +808,8 @@
 													(0, t.Y)('a', {
 														...u.next.url.link,
 														className: s()('ss__pagination__page', 'ss__pagination__page--next'),
-														...k.next?.all,
-														children: z || (0, t.Y)(h.I, { ...X.icon, icon: 'angle-right', name: 'next' }),
+														...X.next?.all,
+														children: z || (0, t.Y)(h.I, { ...k.icon, icon: 'angle-right', name: 'next' }),
 													}),
 											],
 										}),
@@ -822,11 +822,11 @@
 				e.d(W, { F: () => i });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/snap.tsx'),
 					y = e('./components/src/providers/treePath.tsx'),
 					m = e('./components/src/utilities/defined.ts'),
@@ -837,13 +837,13 @@
 					b = e('./components/src/components/Molecules/List/List.tsx'),
 					j = e('../../node_modules/deepmerge/dist/cjs.js'),
 					N = e.n(j),
-					P = e('./components/src/hooks/useComponent.tsx');
-				const f = () => (0, p.AH)({ '.ss__button__content': { display: 'flex', alignItems: 'center' } }),
-					i = (0, g.PA)((x) => {
-						const c = (0, T.u)(),
+					p = e('./components/src/hooks/useComponent.tsx');
+				const f = () => (0, P.AH)({ '.ss__button__content': { display: 'flex', alignItems: 'center' } }),
+					i = (0, g.PA)((C) => {
+						const c = (0, x.u)(),
 							U = (0, L.uk)(),
 							_ = { label: 'Per Page', type: 'dropdown', treePath: (0, y.LU)() },
-							o = (0, M.v6)('perPage', c, _, x),
+							o = (0, M.v6)('perPage', c, _, C),
 							{
 								pagination: Y,
 								type: B,
@@ -856,7 +856,7 @@
 								customComponent: O,
 							} = o;
 						if (O) {
-							const $ = (0, P.x)(U?.templates?.library.import.component.perPage || {}, O);
+							const $ = (0, p.x)(U?.templates?.library.import.component.perPage || {}, O);
 							if ($) return (0, t.Y)($, { ...o });
 						}
 						const r = Y || l?.store?.pagination,
@@ -870,7 +870,7 @@
 							J = { label: { value: K } },
 							d = N()(J, o.lang || {});
 						return r?.pageSize && typeof r?.pageSizeOptions == 'object' && r.pageSizeOptions?.length
-							? (0, t.FD)(C._, {
+							? (0, t.FD)(T._, {
 									children: [
 										B?.toLowerCase() == 'dropdown' &&
 											(0, t.Y)(h.l, {
@@ -921,11 +921,11 @@
 				e.d(W, { S: () => f });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					p = e('../../node_modules/mobx-react-lite/es/index.js'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
 					D = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					s = e('../../node_modules/classnames/index.js'),
-					C = e.n(s),
-					T = e('./components/src/utilities/cloneWithProps.tsx'),
+					T = e.n(s),
+					x = e('./components/src/utilities/cloneWithProps.tsx'),
 					L = e('./components/src/utilities/defined.ts'),
 					y = e('./components/src/utilities/mergeProps.ts'),
 					m = e('./components/src/utilities/mergeStyles.ts'),
@@ -936,11 +936,11 @@
 					b = e('./components/src/hooks/useMediaQuery.tsx'),
 					j = e('./components/src/hooks/useComponent.tsx'),
 					N = e('./components/src/components/Atoms/Overlay/Overlay.tsx');
-				const P = ({ slideDirection: i, transitionSpeed: x, width: c }) =>
+				const p = ({ slideDirection: i, transitionSpeed: C, width: c }) =>
 						(0, D.AH)({
 							display: 'block',
 							position: 'fixed',
-							transition: `${i || 'left'} ${x}`,
+							transition: `${i || 'left'} ${C}`,
 							left: i == 'left' ? `-${c}` : i != 'right' ? '0' : 'initial',
 							right: i == 'right' ? `-${c}` : 'initial',
 							bottom: i == 'bottom' ? '-100vh' : 'initial',
@@ -960,8 +960,8 @@
 								top: i == 'top' ? '0' : i == 'bottom' ? 'initial' : '0',
 							},
 						}),
-					f = (0, p.PA)((i) => {
-						const x = (0, A.u)(),
+					f = (0, P.PA)((i) => {
+						const C = (0, A.u)(),
 							c = (0, h.uk)(),
 							a = {
 								active: !1,
@@ -973,7 +973,7 @@
 								treePath: (0, v.LU)(),
 								rerender: !0,
 							},
-							_ = (0, y.v6)('slideout', x, a, i),
+							_ = (0, y.v6)('slideout', C, a, i),
 							{
 								children: o,
 								active: Y,
@@ -1021,7 +1021,7 @@
 							document.body.style.overflow = '';
 						});
 						document.body.style.overflow = V && d ? 'hidden' : '';
-						const X = (0, m.Z)(_, P);
+						const k = (0, m.Z)(_, p);
 						return (
 							(0, g.vJ)(() => {
 								if (K) {
@@ -1034,17 +1034,17 @@
 										children: [
 											l &&
 												(I
-													? (0, T.Y)(l, { toggleActive: Q, active: d, treePath: z })
+													? (0, x.Y)(l, { toggleActive: Q, active: d, treePath: z })
 													: (0, t.Y)('div', {
 															className: 'ss__slideout__button',
 															onClick: () => Q(),
-															children: (0, T.Y)(l, { active: d, treePath: z }),
+															children: (0, x.Y)(l, { active: d, treePath: z }),
 													  })),
 											(0, t.Y)('div', {
-												className: C()('ss__slideout', r, H, { 'ss__slideout--active': d }),
+												className: T()('ss__slideout', r, H, { 'ss__slideout--active': d }),
 												style: { visibility: B || V ? 'visible' : 'hidden' },
-												...X,
-												children: R && (0, T.Y)(o, { toggleActive: Q, active: d, treePath: z }),
+												...k,
+												children: R && (0, x.Y)(o, { toggleActive: Q, active: d, treePath: z }),
 											}),
 											(0, t.Y)(N.h, { ...J.overlay, active: d, onClick: Q }),
 										],
@@ -1057,11 +1057,11 @@
 				e.d(W, { g: () => i });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/snap.tsx'),
 					y = e('./components/src/providers/treePath.tsx'),
 					m = e('./components/src/utilities/defined.ts'),
@@ -1072,13 +1072,13 @@
 					b = e('./components/src/components/Molecules/List/List.tsx'),
 					j = e('./components/src/hooks/useComponent.tsx'),
 					N = e('../../node_modules/deepmerge/dist/cjs.js'),
-					P = e.n(N);
-				const f = () => (0, p.AH)({ '.ss__button__content': { display: 'flex', alignItems: 'center' } }),
-					i = (0, g.PA)((x) => {
-						const c = (0, T.u)(),
+					p = e.n(N);
+				const f = () => (0, P.AH)({ '.ss__button__content': { display: 'flex', alignItems: 'center' } }),
+					i = (0, g.PA)((C) => {
+						const c = (0, x.u)(),
 							U = (0, L.uk)(),
 							_ = { label: 'Sort By', type: 'dropdown', treePath: (0, y.LU)() },
-							o = (0, M.v6)('sortBy', c, _, x),
+							o = (0, M.v6)('sortBy', c, _, C),
 							{
 								sorting: Y,
 								type: B,
@@ -1103,11 +1103,11 @@
 							},
 							S = (0, A.Z)(o, f),
 							J = { label: { value: r } },
-							d = P()(J, o.lang || {});
+							d = p()(J, o.lang || {});
 						return (
 							K && (delete d.label.value, (r = void 0)),
 							H?.current && typeof H?.options == 'object' && H.options?.length
-								? (0, t.FD)(C._, {
+								? (0, t.FD)(T._, {
 										children: [
 											B?.toLowerCase() == 'dropdown' &&
 												(0, t.Y)(h.l, {
@@ -1155,14 +1155,14 @@
 					});
 			},
 			'./components/src/components/Organisms/Facets/Facets.tsx'(w, W, e) {
-				e.d(W, { J: () => P });
+				e.d(W, { J: () => p });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/classnames/index.js'),
-					D = e.n(p),
+					P = e('../../node_modules/classnames/index.js'),
+					D = e.n(P),
 					s = e('../../node_modules/deepmerge/dist/cjs.js'),
-					C = e.n(s),
-					T = e('../../node_modules/mobx-react-lite/es/index.js'),
+					T = e.n(s),
+					x = e('../../node_modules/mobx-react-lite/es/index.js'),
 					L = e('./components/src/components/Organisms/Facet/Facet.tsx'),
 					y = e('./components/src/providers/cache.tsx'),
 					m = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
@@ -1173,9 +1173,9 @@
 					b = e('./components/src/utilities/mergeProps.ts'),
 					j = e('./components/src/utilities/mergeStyles.ts');
 				const N = () => (0, g.AH)({}),
-					P = (0, T.PA)((f) => {
+					p = (0, x.PA)((f) => {
 						const i = (0, m.u)(),
-							x = (0, M.uk)(),
+							C = (0, M.uk)(),
 							c = (0, A.LU)(),
 							U = { facets: f.controller?.store?.facets, treePath: c };
 						let a = (0, b.v6)('facets', i, U, f);
@@ -1190,7 +1190,7 @@
 							customComponent: F,
 						} = a;
 						if (F) {
-							const S = (0, h.x)(x?.templates?.library.import.component.facets || {}, F);
+							const S = (0, h.x)(C?.templates?.library.import.component.facets || {}, F);
 							if (S) return (0, t.Y)(S, { ...a });
 						}
 						const n = (S) => {
@@ -1204,7 +1204,7 @@
 									facetPaletteOptions: { onClick: n },
 								},
 							},
-							O = C()(E, a?.theme || {}, { arrayMerge: (S, J) => J });
+							O = T()(E, a?.theme || {}, { arrayMerge: (S, J) => J });
 						a = { ...a, theme: O };
 						let { facets: r } = a;
 						_ && r && _ > 0 && (r = r.slice(0, +_));
@@ -1225,12 +1225,12 @@
 				e.d(W, { b: () => _ });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					p = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					D = e('../../node_modules/classnames/index.js'),
 					s = e.n(D),
-					C = e('../../node_modules/mobx-react-lite/es/index.js'),
-					T = e('../../node_modules/deepmerge/dist/cjs.js'),
-					L = e.n(T),
+					T = e('../../node_modules/mobx-react-lite/es/index.js'),
+					x = e('../../node_modules/deepmerge/dist/cjs.js'),
+					L = e.n(x),
 					y = e('./components/src/components/Organisms/Facet/Facet.tsx'),
 					m = e('./components/src/providers/cache.tsx'),
 					M = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
@@ -1240,14 +1240,14 @@
 					b = e('./components/src/utilities/mergeProps.ts'),
 					j = e('./components/src/utilities/mergeStyles.ts'),
 					N = e('./components/src/components/Organisms/MobileSidebar/MobileSidebar.tsx'),
-					P = e('./components/src/hooks/useClickOutside.tsx'),
+					p = e('./components/src/hooks/useClickOutside.tsx'),
 					f = e('./components/src/hooks/useLang.tsx'),
 					i = e('./components/src/hooks/useComponent.tsx'),
-					x = e('./components/src/components/Atoms/Dropdown/Dropdown.tsx'),
+					C = e('./components/src/components/Atoms/Dropdown/Dropdown.tsx'),
 					c = e('./components/src/components/Atoms/Icon/Icon.tsx'),
 					U = e('./components/src/components/Atoms/Button/Button.tsx');
 				const a = ({ theme: o }) =>
-						(0, p.AH)({
+						(0, P.AH)({
 							margin: '10px 0px',
 							'& .ss__facets-horizontal__header': {
 								display: 'flex',
@@ -1293,14 +1293,14 @@
 							},
 							'& .ss__facet__show-more-less': { display: 'block', margin: '8px 8px 0 8px', cursor: 'pointer', '& .ss__icon': { marginRight: '8px' } },
 						}),
-					_ = (0, C.PA)((o) => {
+					_ = (0, T.PA)((o) => {
 						const Y = (0, M.u)(),
 							B = (0, A.uk)(),
 							l = (0, h.LU)(),
 							K = {
 								limit: 6,
-								iconCollapse: 'angle-up',
-								iconExpand: 'angle-down',
+								iconCollapse: 'angle-down',
+								iconExpand: 'angle-up',
 								clearAllText: 'Clear All',
 								facets: o.controller?.store?.facets,
 								treePath: l,
@@ -1322,7 +1322,7 @@
 							disableStyles: G,
 							className: Q,
 							internalClassName: V,
-							controller: X,
+							controller: k,
 							treePath: u,
 							customComponent: te,
 						} = I;
@@ -1330,23 +1330,23 @@
 							const Z = (0, i.x)(B?.templates?.library.import.component.facetsHorizontal || {}, te);
 							if (Z) return (0, t.Y)(Z, { ...I });
 						}
-						const oe = (Z) => {
+						const se = (Z) => {
 								r && r(Z);
 							},
 							q = {
 								components: {
-									facetGridOptions: { onClick: oe },
-									facetHierarchyOptions: { onClick: oe },
-									facetListOptions: { onClick: oe },
-									facetPaletteOptions: { onClick: oe },
+									facetGridOptions: { onClick: se },
+									facetHierarchyOptions: { onClick: se },
+									facetListOptions: { onClick: se },
+									facetPaletteOptions: { onClick: se },
 								},
 							},
-							ie = L()(q, I?.theme || {});
-						I = { ...I, theme: ie };
+							re = L()(q, I?.theme || {});
+						I = { ...I, theme: re };
 						let ae = F,
 							ne = !1;
 						typeof n < 'u' && Number.isInteger(n) && F && ((ne = F.length > +n), n > 0 ? (ae = F.slice(0, +n)) : n == 0 && (ae = []));
-						const k = {
+						const X = {
 								dropdown: {
 									internalClassName: 'ss__facets-horizontal__header__dropdown',
 									disableClickOutside: !0,
@@ -1379,85 +1379,85 @@
 								},
 							},
 							ee = (0, j.Z)(I, a),
-							[re, se] = (0, g.J0)(void 0),
-							_e = (0, P.L)(() => {
-								re && se(void 0);
+							[oe, ie] = (0, g.J0)(void 0),
+							le = (0, p.L)(() => {
+								oe && ie(void 0);
 							});
 						return (ae && ae?.length > 0) || ne
 							? (0, t.Y)(m._, {
 									children: (0, t.Y)('div', {
 										className: s()('ss__facets-horizontal', Q, V),
-										ref: _e,
+										ref: le,
 										...ee,
 										children: (0, t.FD)('div', {
 											className: 'ss__facets-horizontal__header',
 											children: [
 												ae?.map((Z) => {
-													const de =
-															Z?.values?.filter((ce) => ce?.filtered).length ||
+													const me =
+															Z?.values?.filter((de) => de?.filtered).length ||
 															Z?.active?.high !== Z?.range?.high ||
 															Z?.active?.low !== Z?.range?.low,
-														le = {
+														Pe = {
 															dropdownButton: {
 																attributes: {
-																	'aria-label': `currently ${re?.field === Z.field ? 'open' : 'collapsed'} ${Z.label} facet dropdown ${
+																	'aria-label': `currently ${oe?.field === Z.field ? 'open' : 'collapsed'} ${Z.label} facet dropdown ${
 																		Z.values?.length ? Z.values?.length + ' options' : ''
 																	}`,
 																},
 															},
 															clearAllText: { value: $ },
 														},
-														Pe = L()(le, I.lang || {}),
-														me = (0, f.u)(Pe, { selectedFacet: re, facet: Z });
-													return (0, t.Y)(x.m, {
-														...k.dropdown,
+														_e = L()(Pe, I.lang || {}),
+														ce = (0, f.u)(_e, { selectedFacet: oe, facet: Z });
+													return (0, t.Y)(C.m, {
+														...X.dropdown,
 														internalClassName: s()(
-															k.dropdown.internalClassName,
+															X.dropdown.internalClassName,
 															`ss__facets-horizontal__header__dropdown--${Z.display}`,
 															`ss__facets-horizontal__header__dropdown--${Z.field}`
 														),
-														open: re?.field === Z.field,
-														onClick: (ce) => {
-															re !== Z && ce.code !== 'Escape' ? se(Z) : se(void 0);
+														open: oe?.field === Z.field,
+														onClick: (de) => {
+															oe !== Z && de.code !== 'Escape' ? ie(Z) : ie(void 0);
 														},
 														button: (0, t.FD)('div', {
 															className: 'ss__dropdown__button__heading',
-															...me.dropdownButton.attributes,
+															...ce.dropdownButton.attributes,
 															children: [
 																(0, t.FD)('div', {
 																	className: 'ss__facet__header__inner',
 																	children: [
-																		(0, t.Y)('span', { ...me.dropdownButton.value, children: Z?.label }),
-																		H && de && Z.type !== 'range'
-																			? (0, t.Y)('span', { className: 'ss__facet__header__selected-count', children: z ? de : `(${de})` })
+																		(0, t.Y)('span', { ...ce.dropdownButton.value, children: Z?.label }),
+																		H && me && Z.type !== 'range'
+																			? (0, t.Y)('span', { className: 'ss__facet__header__selected-count', children: z ? me : `(${me})` })
 																			: null,
-																		(me.clearAllText.value || S) && de
+																		(ce.clearAllText.value || S) && me
 																			? (0, t.Y)(U.$, {
-																					...k.button,
+																					...X.button,
 																					internalClassName: 'ss__facet__header__clear-all',
 																					name: 'reset-facet',
-																					onClick: (ce) => {
-																						ce.stopPropagation(), Z?.clear.url.link.onClick();
+																					onClick: (de) => {
+																						de.stopPropagation(), Z?.clear.url.link.onClick();
 																					},
 																					icon: S || void 0,
-																					children: me.clearAllText.value && J ? (0, t.Y)('label', { ...me.clearAllText.all }) : null,
+																					children: ce.clearAllText.value && J ? (0, t.Y)('label', { ...ce.clearAllText.all }) : null,
 																			  })
 																			: (0, t.Y)(t.FK, {}),
 																	],
 																}),
 																(0, t.Y)(c.I, {
-																	...k.icon,
-																	...(re?.field === Z.field
+																	...X.icon,
+																	...(oe?.field === Z.field
 																		? { ...(typeof d == 'string' ? { icon: d } : d) }
 																		: { ...(typeof R == 'string' ? { icon: R } : R) }),
 																}),
 															],
 														}),
 														disableOverlay: !1,
-														children: (0, t.Y)(y.s, { ...k.facet, facet: Z }),
+														children: (0, t.Y)(y.s, { ...X.facet, facet: Z }),
 													});
 												}),
-												!O && (ne || E) && (0, t.Y)(N.R, { controller: X, ...k.MobileSidebar }),
+												!O && (ne || E) && (0, t.Y)(N.R, { controller: k, ...X.MobileSidebar }),
 											],
 										}),
 									}),
@@ -1469,11 +1469,11 @@
 				e.d(W, { r: () => f });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/classnames/index.js'),
-					D = e.n(p),
+					P = e('../../node_modules/classnames/index.js'),
+					D = e.n(P),
 					s = e('../../node_modules/mobx-react-lite/es/index.js'),
-					C = e('./components/src/components/Molecules/Filter/Filter.tsx'),
-					T = e('./components/src/utilities/defined.ts'),
+					T = e('./components/src/components/Molecules/Filter/Filter.tsx'),
+					x = e('./components/src/utilities/defined.ts'),
 					L = e('./components/src/utilities/mergeProps.ts'),
 					y = e('./components/src/utilities/mergeStyles.ts'),
 					m = e('./components/src/providers/cache.tsx'),
@@ -1484,8 +1484,8 @@
 					b = e('./components/src/hooks/useComponent.tsx'),
 					j = e('../../node_modules/deepmerge/dist/cjs.js'),
 					N = e.n(j);
-				const P = (i) => {
-						const x = i.theme?.variables;
+				const p = (i) => {
+						const C = i.theme?.variables;
 						return (0, g.AH)({
 							'.ss__filter-summary__title': { fontSize: '1.2em', padding: '6px 0' },
 							'.ss__filter-summary__filters': { margin: '5px 0', display: 'flex', gap: '10px', flexWrap: 'wrap' },
@@ -1509,8 +1509,8 @@
 													border: '1px solid black',
 													width: '8px',
 													height: '8px',
-													fill: x?.colors?.primary,
-													stroke: x?.colors?.primary,
+													fill: C?.colors?.primary,
+													stroke: C?.colors?.primary,
 													marginRight: '0px',
 												},
 											},
@@ -1521,7 +1521,7 @@
 						});
 					},
 					f = (0, s.PA)((i) => {
-						const x = (0, M.u)(),
+						const C = (0, M.u)(),
 							c = (0, A.uk)(),
 							U = (0, h.LU)(),
 							a = {
@@ -1534,7 +1534,7 @@
 								separator: ':',
 								treePath: U,
 							},
-							_ = (0, L.v6)('filterSummary', x, a, i),
+							_ = (0, L.v6)('filterSummary', C, a, i),
 							{
 								filters: o,
 								title: Y,
@@ -1562,15 +1562,15 @@
 								filter: {
 									name: 'filter',
 									internalClassName: 'ss__filter-summary__filter',
-									...(0, T.s)({ disableStyles: z, separator: I, hideFacetLabel: F, icon: l }),
+									...(0, x.s)({ disableStyles: z, separator: I, hideFacetLabel: F, icon: l }),
 									theme: _.theme,
 									treePath: d,
 								},
 							},
-							G = (0, y.Z)(_, P),
+							G = (0, y.Z)(_, p),
 							Q = { title: { value: Y }, clearAllLabel: { value: E } },
 							V = N()(Q, _.lang || {}),
-							X = (0, v.u)(V, { filters: o });
+							k = (0, v.u)(V, { filters: o });
 						return o?.length
 							? (0, t.Y)(m._, {
 									children: (0, t.FD)('div', {
@@ -1583,13 +1583,13 @@
 											J
 										),
 										children: [
-											!n && (0, t.Y)('div', { className: 'ss__filter-summary__title', ...X.title?.all }),
+											!n && (0, t.Y)('div', { className: 'ss__filter-summary__title', ...k.title?.all }),
 											(0, t.FD)('div', {
 												className: 'ss__filter-summary__filters',
 												children: [
-													o.map((u) => (0, t.Y)(C.d, { ...R.filter, filter: u, onClick: (te) => r && r(te, u) })),
+													o.map((u) => (0, t.Y)(T.d, { ...R.filter, filter: u, onClick: (te) => r && r(te, u) })),
 													!O &&
-														(0, t.Y)(C.d, {
+														(0, t.Y)(T.d, {
 															...R.filter,
 															name: 'clear-all',
 															icon: K,
@@ -1613,11 +1613,11 @@
 				e.d(W, { P: () => B });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/classnames/index.js'),
-					D = e.n(p),
+					P = e('../../node_modules/classnames/index.js'),
+					D = e.n(P),
 					s = e('../../node_modules/mobx-react-lite/es/index.js'),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/treePath.tsx'),
 					y = e('./components/src/components/Organisms/FilterSummary/FilterSummary.tsx'),
 					m = e('./components/src/utilities/defined.ts'),
@@ -1628,10 +1628,10 @@
 					b = e('./components/src/components/Molecules/SortBy/SortBy.tsx'),
 					j = e('./components/src/components/Molecules/PerPage/PerPage.tsx'),
 					N = e('./components/src/components/Molecules/LayoutSelector/LayoutSelector.tsx'),
-					P = e('./components/src/components/Organisms/MobileSidebar/MobileSidebar.tsx'),
+					p = e('./components/src/components/Organisms/MobileSidebar/MobileSidebar.tsx'),
 					f = e('./components/src/components/Atoms/PaginationInfo/PaginationInfo.tsx'),
 					i = e('./components/src/components/Atoms/SearchHeader/SearchHeader.tsx'),
-					x = e('./components/src/components/Atoms/Button/Button.tsx'),
+					C = e('./components/src/components/Atoms/Button/Button.tsx'),
 					c = e('./components/src/components/Atoms/Banner/Banner.tsx'),
 					U = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchMerchandisingStore.js'),
 					a = e('./components/src/components/Organisms/Facets/Facets.tsx'),
@@ -1656,7 +1656,7 @@
 							},
 						}),
 					B = (0, s.PA)((l) => {
-						const K = (0, T.u)(),
+						const K = (0, x.u)(),
 							F = { treePath: (0, L.LU)() },
 							n = (0, M.v6)('layout', K, F, l),
 							{ controller: E, toggleSideBarButton: O, disableStyles: r, className: H, internalClassName: z, layout: S } = n;
@@ -1696,7 +1696,7 @@
 						function G(u) {
 							switch (u) {
 								case 'mobileSidebar':
-									if (R) return (0, t.Y)(P.R, { controller: E, ...d.MobileSidebar });
+									if (R) return (0, t.Y)(p.R, { controller: E, ...d.MobileSidebar });
 									break;
 								case 'searchHeader':
 									return (0, t.Y)(i.w, { ...d.SearchHeader });
@@ -1721,7 +1721,7 @@
 											$ &&
 											(0, t.Y)('div', {
 												className: 'ss__button--sidebar-toggle-button-wrapper',
-												children: (0, t.Y)(x.$, { ...d.ToggleSideBarButton }),
+												children: (0, t.Y)(C.$, { ...d.ToggleSideBarButton }),
 											})
 										);
 									break;
@@ -1753,26 +1753,26 @@
 						}
 						let Q = 0,
 							V = 0;
-						const X = S?.map((u) => {
+						const k = S?.map((u) => {
 							if (Array.isArray(u)) {
 								const te = u.map((q) => G(q));
-								return u.some((q, ie) => q !== '_' && te[ie])
+								return u.some((q, re) => q !== '_' && te[re])
 									? (0, t.Y)('div', { className: `ss__layout__row ss__layout__row--${Q++}`, children: te })
 									: null;
 							} else return G(u);
 						});
-						return X?.some(Boolean) ? (0, t.Y)(C._, { children: (0, t.Y)('div', { ...J, className: D()('ss__layout', H, z), children: X }) }) : null;
+						return k?.some(Boolean) ? (0, t.Y)(T._, { children: (0, t.Y)('div', { ...J, className: D()('ss__layout', H, z), children: k }) }) : null;
 					});
 			},
 			'./components/src/components/Organisms/MobileSidebar/MobileSidebar.tsx'(w, W, e) {
 				e.d(W, { R: () => U });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					p = e('../../node_modules/classnames/index.js'),
-					D = e.n(p),
+					P = e('../../node_modules/classnames/index.js'),
+					D = e.n(P),
 					s = e('../../node_modules/mobx-react-lite/es/index.js'),
-					C = e('./components/src/providers/cache.tsx'),
-					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					T = e('./components/src/providers/cache.tsx'),
+					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					L = e('./components/src/providers/snap.tsx'),
 					y = e('./components/src/providers/treePath.tsx'),
 					m = e('./components/src/components/Molecules/Slideout/Slideout.tsx'),
@@ -1783,10 +1783,10 @@
 					b = e('./components/src/hooks/useA11y.tsx'),
 					j = e('./components/src/hooks/useLang.tsx'),
 					N = e('./components/src/hooks/useComponent.tsx'),
-					P = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					p = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
 					f = e('../../node_modules/deepmerge/dist/cjs.js'),
 					i = e.n(f),
-					x = e('./components/src/components/Organisms/Layout/Layout.tsx');
+					C = e('./components/src/components/Organisms/Layout/Layout.tsx');
 				const c = ({}) =>
 						(0, g.AH)({
 							'& .ss__mobile-sidebar__header': {
@@ -1806,7 +1806,7 @@
 							'& .ss__facets': { width: '100%' },
 						}),
 					U = (0, s.PA)((a) => {
-						const _ = (0, T.u)(),
+						const _ = (0, x.u)(),
 							o = (0, L.uk)(),
 							Y = (0, y.LU)(),
 							B = {
@@ -1837,69 +1837,70 @@
 								titleText: R,
 								hideCloseButtonText: G,
 								hideOpenButtonText: Q,
-								hideClearButtonText: V,
-								hideApplyButtonText: X,
-								hideTitleText: u,
-								displayAt: te,
-								hideClearButton: oe,
-								disableStyles: q,
-								className: ie,
-								internalClassName: ae,
-								treePath: ne,
-								customComponent: k,
+								openButtonContent: V,
+								hideClearButtonText: k,
+								hideApplyButtonText: u,
+								hideTitleText: te,
+								displayAt: se,
+								hideClearButton: q,
+								disableStyles: re,
+								className: ae,
+								internalClassName: ne,
+								treePath: X,
+								customComponent: ee,
 							} = l;
-						if (k) {
-							const ue = (0, N.x)(o?.templates?.library.import.component.mobileSidebar || {}, k);
+						if (ee) {
+							const ue = (0, N.x)(o?.templates?.library.import.component.mobileSidebar || {}, ee);
 							if (ue) return (0, t.Y)(ue, { ...l });
 						}
-						let ee = l.hideFooter;
-						n && oe && (ee = !0);
-						const re = (0, h.Z)(l, c),
-							se = {
+						let oe = l.hideFooter;
+						n && q && (oe = !0);
+						const ie = (0, h.Z)(l, c),
+							le = {
 								slideout: {
 									controller: K,
-									displayAt: (te && `(max-width: ${te})`) || '',
-									...(0, M.s)({ disableStyles: q }),
+									displayAt: (se && `(max-width: ${se})`) || '',
+									...(0, M.s)({ disableStyles: re }),
 									theme: l?.theme,
-									treePath: ne,
+									treePath: X,
 								},
-								button: { ...(0, M.s)({ disableStyles: q }), theme: l?.theme, treePath: ne },
-								layout: { ...(0, M.s)({ disableStyles: q }), theme: l?.theme, treePath: ne },
+								button: { ...(0, M.s)({ disableStyles: re }), theme: l?.theme, treePath: X },
+								layout: { ...(0, M.s)({ disableStyles: re }), theme: l?.theme, treePath: X },
 							},
-							_e = (0, P.li)(),
-							Z = (0, P.li)(),
-							de = {
+							Z = (0, p.li)(),
+							me = (0, p.li)(),
+							Pe = {
 								openButtonText: { value: H },
 								clearButtonText: { value: z },
 								applyButtonText: { value: J },
 								titleText: { value: R },
 								closeButtonText: { value: r, attributes: { 'aria-label': r || `close ${H}` } },
 							},
-							le = i()(de, l.lang || {});
-						Q && delete le.openButtonText.value,
-							V && delete le.clearButtonText.value,
-							G && delete le.closeButtonText.value,
-							X && delete le.applyButtonText.value;
-						const Pe = (0, j.u)(le, { controller: K }),
-							me = (ue) => {
+							_e = i()(Pe, l.lang || {});
+						Q && delete _e.openButtonText.value,
+							k && delete _e.clearButtonText.value,
+							G && delete _e.closeButtonText.value,
+							u && delete _e.applyButtonText.value;
+						const ce = (0, j.u)(_e, { controller: K }),
+							de = (ue) => {
 								const { toggleActive: pe } = ue;
 								return (0, t.FD)('div', {
 									className: 'ss__mobile-sidebar__content',
 									ref: (Ee) =>
 										(0, b.iy)(Ee, 0, !0, () => {
-											_e.current?.base?.focus(), _e.current?.base?.click(), Z.current.base.focus();
+											Z.current?.base?.focus(), Z.current?.base?.click(), me.current.base.focus();
 										}),
 									children: [
 										!F &&
 											(0, t.FD)('div', {
 												className: 'ss__mobile-sidebar__header',
 												children: [
-													!u &&
+													!te &&
 														(0, t.Y)('h4', {
 															'aria-atomic': 'true',
 															'aria-live': 'polite',
 															className: 'ss__mobile-sidebar__header__title',
-															...Pe.titleText?.all,
+															...ce.titleText?.all,
 														}),
 													!O &&
 														(0, t.Y)(v.$, {
@@ -1907,20 +1908,20 @@
 															disableStyles: !0,
 															onClick: () => pe(),
 															ref: (Ee) => {
-																Ee && (_e.current = Ee);
+																Ee && (Z.current = Ee);
 															},
 															icon: d,
-															lang: { button: le.closeButtonText },
-															...se.button,
+															lang: { button: _e.closeButtonText },
+															...le.button,
 															name: 'close',
 														}),
 												],
 											}),
 										(0, t.Y)('div', {
 											className: D()('ss__mobile-sidebar__inner'),
-											children: (0, t.Y)(x.P, { controller: K, layout: I || [], ...se.layout }),
+											children: (0, t.Y)(C.P, { controller: K, layout: I || [], ...le.layout }),
 										}),
-										!ee &&
+										!oe &&
 											(0, t.FD)('div', {
 												className: 'ss__mobile-sidebar__footer',
 												children: [
@@ -1929,19 +1930,19 @@
 															internalClassName: 'ss__mobile-sidebar__footer__apply-button',
 															icon: S,
 															onClick: () => pe(),
-															lang: { button: le.applyButtonText },
-															...se.button,
+															lang: { button: _e.applyButtonText },
+															...le.button,
 															name: 'apply',
 														}),
-													!oe &&
+													!q &&
 														(0, t.Y)(v.$, {
 															internalClassName: 'ss__mobile-sidebar__footer__clear-button',
 															icon: E,
 															onClick: () => {
 																K?.urlManager.remove('filter').remove('page').go(), pe();
 															},
-															lang: { button: le.clearButtonText },
-															...se.button,
+															lang: { button: _e.clearButtonText },
+															...le.button,
 															name: 'clear',
 														}),
 												],
@@ -1949,28 +1950,28 @@
 									],
 								});
 							},
-							ce = (0, P.li)();
-						return (0, t.Y)(C._, {
+							he = (0, p.li)();
+						return (0, t.Y)(T._, {
 							children: (0, t.Y)('div', {
-								...re,
-								className: D()('ss__mobile-sidebar', ie, ae),
+								...ie,
+								className: D()('ss__mobile-sidebar', ae, ne),
 								children: (0, t.Y)(m.S, {
 									internalClassName: 'ss__mobile-sidebar__slideout',
 									buttonContent: (0, t.Y)(v.$, {
 										internalClassName: 'ss__mobile-sidebar__slideout__button',
 										icon: $,
-										ref: Z,
+										ref: me,
 										onClick: () => {
 											setTimeout(() => {
-												ce.current?.base?.focus();
+												he.current?.base?.focus();
 											});
 										},
-										...se.button,
+										...le.button,
 										name: 'slideout',
-										lang: { button: le.openButtonText },
+										children: V || (0, t.Y)('span', { ...ce.openButtonText.all }),
 									}),
-									...se.slideout,
-									children: (0, t.Y)(me, { ref: ce }),
+									...le.slideout,
+									children: (0, t.Y)(de, { ref: he }),
 								}),
 							}),
 						});
@@ -1979,83 +1980,83 @@
 			'./components/src/hooks/useFuncDebounce.tsx'(w, W, e) {
 				e.d(W, { d: () => g });
 				var t = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const g = (p, D) => {
-					const s = (0, t.li)(p);
-					(s.current = p),
+				const g = (P, D) => {
+					const s = (0, t.li)(P);
+					(s.current = P),
 						(0, t.vJ)(() => {
-							const C = setTimeout(() => {
+							const T = setTimeout(() => {
 								s.current();
 							}, D);
 							return () => {
-								clearTimeout(C);
+								clearTimeout(T);
 							};
-						}, [p, D]);
+						}, [P, D]);
 				};
 			},
 			'./components/src/hooks/useIntersection.tsx'(w, W, e) {
 				e.d(W, { v: () => g });
 				var t = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const g = (p, D = '0px', s = !1) => {
-					const [C, T] = (0, t.J0)(!1);
+				const g = (P, D = '0px', s = !1) => {
+					const [T, x] = (0, t.J0)(!1);
 					return (
 						(0, t.vJ)(() => {
 							const L = new IntersectionObserver(
 								([y]) => {
-									T(y.isIntersecting), s && y.isIntersecting && L.unobserve(p.current);
+									x(y.isIntersecting), s && y.isIntersecting && L.unobserve(P.current);
 								},
 								{ rootMargin: D }
 							);
 							return (
-								p.current && L.observe(p.current),
+								P.current && L.observe(P.current),
 								() => {
-									L.unobserve(p.current);
+									L.unobserve(P.current);
 								}
 							);
 						}, []),
-						C
+						T
 					);
 				};
 			},
 			'./components/src/hooks/useIntersectionAdvanced.tsx'(w, W, e) {
-				e.d(W, { v: () => p });
+				e.d(W, { v: () => P });
 				var t = e('../../node_modules/preact/hooks/dist/hooks.module.js');
 				const g = 250,
-					p = (s, C = {}) => {
-						const { rootMargin: T = '0px', fireOnce: L = !1, threshold: y = 0, minVisibleTime: m = 0 } = C,
+					P = (s, T = {}) => {
+						const { rootMargin: x = '0px', fireOnce: L = !1, threshold: y = 0, minVisibleTime: m = 0 } = T,
 							[M, A] = (0, t.J0)(!1),
 							h = (0, t.li)(null),
 							v = (0, t.li)(null),
 							[b, j] = (0, t.J0)(0),
-							N = (0, t.hb)((P) => {
-								(s.current = P), j((f) => f + 1);
+							N = (0, t.hb)((p) => {
+								(s.current = p), j((f) => f + 1);
 							}, []);
 						return (
 							(0, t.vJ)(() => {
 								A(!1);
-								let P = null,
+								let p = null,
 									f = null;
 								if (!window.IntersectionObserver || !s.current) return;
 								const i = () => {
 										f && (window.clearInterval(f), (f = null));
 									},
-									x = () => {
+									C = () => {
 										m > 0
 											? ((v.current = Date.now()),
 											  h.current && window.clearTimeout(h.current),
 											  (h.current = window.setTimeout(() => {
-													A(!0), L && s.current && P && P.unobserve(s.current);
+													A(!0), L && s.current && p && p.unobserve(s.current);
 											  }, m)))
-											: (A(!0), L && s.current && P && P.unobserve(s.current));
+											: (A(!0), L && s.current && p && p.unobserve(s.current));
 									},
 									c = () => {
 										h.current && window.clearTimeout(h.current), (h.current = null), (v.current = null), A(!1);
 									};
 								return (
-									(P = new IntersectionObserver(
+									(p = new IntersectionObserver(
 										([U]) => {
 											U.isIntersecting
 												? s.current && D(s.current)
-													? (i(), x())
+													? (i(), C())
 													: (c(),
 													  f ||
 															(f = window.setInterval(() => {
@@ -2063,15 +2064,15 @@
 																	i();
 																	return;
 																}
-																D(s.current) && (i(), x());
+																D(s.current) && (i(), C());
 															}, g)))
 												: (i(), c());
 										},
-										{ rootMargin: T, threshold: y }
+										{ rootMargin: x, threshold: y }
 									)),
-									s.current && P.observe(s.current),
+									s.current && p.observe(s.current),
 									() => {
-										A(!1), i(), h.current && window.clearTimeout(h.current), P && s.current && P.unobserve(s.current);
+										A(!1), i(), h.current && window.clearTimeout(h.current), p && s.current && p.unobserve(s.current);
 									}
 								);
 							}, [s, b]),
@@ -2085,21 +2086,22 @@
 			'./components/src/hooks/useMediaQuery.tsx'(w, W, e) {
 				e.d(W, { U: () => g });
 				var t = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				function g(p, D) {
+				function g(P, D) {
 					if (typeof window > 'u' || typeof window.matchMedia > 'u') return !1;
-					const s = window.matchMedia(p),
-						[C, T] = (0, t.J0)(!!s.matches);
+					const s = window.matchMedia(P),
+						[T, x] = (0, t.J0)(!!s.matches);
 					return (
 						(0, t.vJ)(() => {
-							const L = () => T(!!s.matches);
+							x(!!s.matches);
+							const L = () => x(!!s.matches);
 							return (
 								s.addListener(L),
 								() => {
 									D instanceof Function && D(), s.removeListener(L);
 								}
 							);
-						}, []),
-						C
+						}, [P]),
+						T
 					);
 				}
 			},
@@ -2107,35 +2109,35 @@
 				e.d(W, { N: () => D, W: () => s });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					g = e('./components/src/utilities/createImpressionObserver.ts'),
-					p = e('../../node_modules/preact/hooks/dist/hooks.module.js');
+					P = e('../../node_modules/preact/hooks/dist/hooks.module.js');
 				const D = 'sstracking';
-				function s(C) {
-					const T = C;
+				function s(T) {
+					const x = T;
 					return (y) => {
 						const { controller: m, result: M, banner: A, type: h, content: v, ...b } = y;
-						if (y.trackingRef) return (0, t.Y)(T, { ...y });
+						if (y.trackingRef) return (0, t.Y)(x, { ...y });
 						!m && (!h || !v) && console.warn('Warning: No controller provided to withTracking', y),
 							!M && !A && (!h || !v) && console.warn('Warning: No result or banner provided to withTracking');
-						const { ref: j, inViewport: N, updateRef: P } = (0, g.Q)(),
+						const { ref: j, inViewport: N, updateRef: p } = (0, g.Q)(),
 							f = (M || A || (h && v?.[h]?.[0]))?.responseId,
-							i = (0, p.li)(f),
-							x = (0, p.li)(!1);
-						i.current !== f && (x.current = !0),
-							(0, p.vJ)(() => {
-								i.current !== f && ((i.current = f), P(j.current));
-							}, [f, P]),
-							(0, p.vJ)(() => {
-								x.current && !N && (x.current = !1);
+							i = (0, P.li)(f),
+							C = (0, P.li)(!1);
+						i.current !== f && (C.current = !0),
+							(0, P.vJ)(() => {
+								i.current !== f && ((i.current = f), p(j.current));
+							}, [f, p]),
+							(0, P.vJ)(() => {
+								C.current && !N && (C.current = !1);
 							}, [N, f]);
 						const c = h && v && !M && ['search', 'autocomplete'].includes(m?.type || '');
-						N && !x.current && (c ? m?.track.banner.impression(v[h][0]) : M?.bundleSeed || m?.track.product.impression(M || A));
-						const U = (0, p.hb)(
+						N && !C.current && (c ? m?.track.banner.impression(v[h][0]) : M?.bundleSeed || m?.track.product.impression(M || A));
+						const U = (0, P.hb)(
 							(_) => {
 								c ? m?.track.banner.click(_, v[h][0]) : m?.track.product.click(_, M || A);
 							},
 							[m, M, A, h, v]
 						);
-						(0, p.vJ)(() => {
+						(0, P.vJ)(() => {
 							const _ = j.current;
 							if (_)
 								return (
@@ -2153,14 +2155,14 @@
 							banner: A,
 							type: h,
 							content: v,
-							trackingRef: (0, p.hb)(
+							trackingRef: (0, P.hb)(
 								(_) => {
-									P(_);
+									p(_);
 								},
-								[P]
+								[p]
 							),
 						};
-						return (0, t.Y)(T, { ...a });
+						return (0, t.Y)(x, { ...a });
 					};
 				}
 			},
@@ -2168,16 +2170,16 @@
 				e.d(W, { Q: () => s });
 				var t = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
 					g = e('./components/src/hooks/useIntersectionAdvanced.tsx');
-				const p = 0.7,
+				const P = 0.7,
 					D = 1e3;
-				function s(C) {
-					const T = (0, t.li)(null),
-						{ inViewport: L, updateRef: y } = (0, g.v)(T, { ...C, fireOnce: !0, threshold: p, minVisibleTime: D });
-					return { ref: T, inViewport: L, updateRef: y };
+				function s(T) {
+					const x = (0, t.li)(null),
+						{ inViewport: L, updateRef: y } = (0, g.v)(x, { ...T, fireOnce: !0, threshold: P, minVisibleTime: D });
+					return { ref: x, inViewport: L, updateRef: y };
 				}
 			},
 		},
 	]);
 })();
 
-//# sourceMappingURL=3080.a3141abb.iframe.bundle.js.map
+//# sourceMappingURL=3080.fe4cfecf.iframe.bundle.js.map

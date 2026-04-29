@@ -86,14 +86,12 @@
 								control: { type: 'select' },
 							},
 							iconExpand: {
-								defaultValue: 'angle-down',
 								description: 'Icon for when facet is collapsed',
 								table: { category: 'Templates Legal', type: { summary: 'string' }, defaultValue: { summary: 'angle-down' } },
 								options: [...Object.keys(x.c)],
 								control: { type: 'select' },
 							},
 							iconCollapse: {
-								defaultValue: 'angle-up',
 								description: 'Icon for when facet is expanded',
 								table: { category: 'Templates Legal', type: { summary: 'string' }, defaultValue: { summary: 'angle-up' } },
 								options: [...Object.keys(x.c)],
@@ -152,7 +150,7 @@
 					v = e('./components/src/utilities/mergeProps.ts'),
 					I = e('./components/src/utilities/mergeStyles.ts'),
 					h = e('./components/src/components/Molecules/Checkbox/Checkbox.tsx'),
-					w = e('./components/src/hooks/useA11y.tsx'),
+					L = e('./components/src/hooks/useA11y.tsx'),
 					j = e('./components/src/hooks/useLang.tsx'),
 					U = e('./components/src/hooks/useComponent.tsx'),
 					B = e('./components/src/components/Atoms/Icon/Icon.tsx');
@@ -187,7 +185,7 @@
 					});
 				function n(s) {
 					const c = (0, E.u)(),
-						p = (0, _.uk)(),
+						u = (0, _.uk)(),
 						M = { treePath: (0, C.LU)() },
 						T = (0, v.v6)('list', c, M, s),
 						{
@@ -209,7 +207,7 @@
 							customComponent: N,
 						} = T;
 					if (N) {
-						const o = (0, U.x)(p?.templates?.library.import.component.list || {}, N);
+						const o = (0, U.x)(u?.templates?.library.import.component.list || {}, N);
 						if (o) return (0, t.Y)(o, { ...T });
 					}
 					let g = T.selected;
@@ -224,26 +222,26 @@
 					try {
 						if (g) {
 							const o = JSON.stringify(se),
-								u = JSON.stringify(g),
+								p = JSON.stringify(g),
 								a = JSON.stringify(D);
-							o !== u && u !== a && J(g);
+							o !== p && p !== a && J(g);
 						}
 					} catch {}
-					const ne = (o, u) => {
+					const ne = (o, p) => {
 							let a;
 							Z
-								? D.find((L) => L.value === u.value)
+								? D.find((w) => w.value === p.value)
 									? ((a = [...D]),
 									  a.splice(
-											a.findIndex((L) => L.value === u.value),
+											a.findIndex((w) => w.value === p.value),
 											1
 									  ),
-									  a.length == 0 && H && (a = [u]))
-									: (a = [...D, u])
-								: !H && D.find((L) => L.value === u.value)
+									  a.length == 0 && H && (a = [p]))
+									: (a = [...D, p])
+								: !H && D.find((w) => w.value === p.value)
 								? (a = [])
-								: (a = [u]),
-								K && K(o, u, a),
+								: (a = [p]),
+								K && K(o, p, a),
 								J(a);
 						},
 						le = {},
@@ -261,21 +259,21 @@
 											role: 'listbox',
 											'aria-label': F,
 											children: S.map((o) => {
-												const u = D.some((a) => a.value == o.value);
+												const p = D.some((a) => a.value == o.value);
 												return (0, t.FD)('li', {
 													className: d()(`ss__list__option ss__list__option--${A.p(o.value?.toString())}`, {
-														'ss__list__option--selected': u,
+														'ss__list__option--selected': p,
 														'ss__list__option--disabled': o?.disabled,
 														'ss__list__option--unavailable': o?.available === !1,
 													}),
-													ref: (a) => (0, w.iy)(a),
+													ref: (a) => (0, L.iy)(a),
 													onClick: (a) => !z && !o?.disabled && ne(a, o),
 													title: o.label,
 													role: 'option',
-													'aria-selected': u,
+													'aria-selected': p,
 													'aria-disabled': o.disabled || o?.available === !1,
 													children: [
-														!Q && (0, t.Y)(h.S, { ...Y.checkbox, checked: u, disableA11y: !0, 'aria-label': o.label }),
+														!Q && (0, t.Y)(h.S, { ...Y.checkbox, checked: p, disableA11y: !0, 'aria-label': o.label }),
 														o.icon && !$ && (0, t.Y)(B.I, { ...Y.icon, ...(typeof o.icon == 'string' ? { icon: o.icon } : o.icon) }),
 														!X && (o.label || !o.icon) && (0, t.Y)('label', { className: 'ss__list__option__label', children: o.label || o.value }),
 													],
@@ -349,42 +347,42 @@
 					I = e('../../node_modules/@athoscommerce/snap-tracker/dist/esm/Tracker.js');
 				(0, t.jK)({ useProxies: 'always', isolateGlobalState: !0, enforceActions: 'never' });
 				const h = {},
-					w = { globals: { siteId: 'atkzs2' } };
+					L = { globals: { siteId: 'atkzs2' } };
 				class j {
 					static recommendation(s) {
 						const c = s.id;
 						if (h[c]) return h[c];
-						const p = (h[c] = B({ client: w, controller: s }));
+						const u = (h[c] = B({ client: L, controller: s }));
 						return (
-							p.on('afterStore', async ({ controller: i }, M) => {
+							u.on('afterStore', async ({ controller: i }, M) => {
 								i.log.debug('controller', i), i.log.debug('store', i.store.toJSON()), await M();
 							}),
-							p.init(),
-							p
+							u.init(),
+							u
 						);
 					}
 					static autocomplete(s) {
 						const c = s.id;
 						if (h[c]) return h[c];
-						const p = (h[c] = R({ client: w, controller: s }));
+						const u = (h[c] = R({ client: L, controller: s }));
 						return (
-							p.on('afterStore', async ({ controller: i }, M) => {
+							u.on('afterStore', async ({ controller: i }, M) => {
 								i.log.debug('controller', i), i.log.debug('store', i.store.toJSON()), await M();
 							}),
-							p.init(),
-							p
+							u.init(),
+							u
 						);
 					}
 					static search(s) {
 						const c = s.id;
 						if (h[c]) return h[c];
-						const p = (h[c] = U({ client: w, controller: s }));
+						const u = (h[c] = U({ client: L, controller: s }));
 						return (
-							p.on('afterStore', async ({ controller: i }, M) => {
+							u.on('afterStore', async ({ controller: i }, M) => {
 								i.log.debug('controller', i), i.log.debug('store', i.store.toJSON()), await M();
 							}),
-							p.init(),
-							p
+							u.init(),
+							u
 						);
 					}
 				}
@@ -452,4 +450,4 @@
 	]);
 })();
 
-//# sourceMappingURL=components-Organisms-FacetsHorizontal-FacetsHorizontal-stories.a53a35f8.iframe.bundle.js.map
+//# sourceMappingURL=components-Organisms-FacetsHorizontal-FacetsHorizontal-stories.bb6dbd16.iframe.bundle.js.map

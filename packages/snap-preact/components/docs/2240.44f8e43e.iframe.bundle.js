@@ -191,7 +191,13 @@
 											this.log.warn('No responseId found in controller, ensure correct controller is used');
 											return;
 										}
-										const i = { parentId: e.id, uid: e.id, sku: e.mappings.core?.sku, qty: e.quantity || 1, price: Number(e.mappings.core?.price) },
+										const i = {
+												parentId: e.display.mappings.core?.parentId ? '' + e.display.mappings.core?.parentId : '',
+												uid: e.display.mappings.core?.uid || e.display.id,
+												sku: e.display.mappings.core?.sku,
+												qty: e.quantity || 1,
+												price: Number(e.display.mappings.core?.price) || 0,
+											},
 											c = { responseId: s, results: [i] };
 										this.eventManager.fire('track.product.addToCart', { controller: this, product: e, trackEvent: c }),
 											this.config.beacon?.enabled && this.tracker.events.autocomplete.addToCart({ data: c, siteId: this.config.globals?.siteId });
@@ -758,7 +764,7 @@
 					}
 					initHistory() {
 						const r = this.config.settings?.history?.limit;
-						if (r) {
+						if (r && this.config.settings?.history?.enabled !== !1) {
 							const o = new N.E({ services: this.services, config: { id: this.config.id, globals: this.config.globals } });
 							this.history = new L({
 								services: this.services,

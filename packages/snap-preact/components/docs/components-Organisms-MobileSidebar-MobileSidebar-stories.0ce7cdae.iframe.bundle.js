@@ -4,7 +4,7 @@
 		{
 			'./components/src/components/Organisms/MobileSidebar/MobileSidebar.stories.tsx'(f, l, e) {
 				'use strict';
-				e.r(l), e.d(l, { Default: () => h, __namedExportsOrder: () => B, default: () => M });
+				e.r(l), e.d(l, { Default: () => h, __namedExportsOrder: () => M, default: () => B });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					d = e('../../node_modules/@storybook/blocks/dist/index.mjs'),
 					r = e('./components/src/components/Organisms/MobileSidebar/MobileSidebar.tsx'),
@@ -12,9 +12,9 @@
 					m = e('./components/src/utilities/componentArgs.ts'),
 					y = e('./components/src/utilities/snapify.ts');
 				const S =
-					"# MobileSidebar\nRenders a Sidebar component wrapped in a Slideout Component to be used on mobile. \n\n\n## Components Used\n- Sidebar\n- Slideout\n- Button\n\n\n## Usage\n\n### controller\nThe required `controller` prop specifies a reference to the search controller.\n\n```tsx\n<MobileSidebar controller={controller} />\n```\n\n### displayAt\nThe `displayAt` prop specifies a CSS media query for when the max width the component will render. By default, the component will render at 650px or less. \n\n```tsx\n<MobileSidebar controller={controller} displayAt={'600px'}/>\n```\n\n\n### layout\nThe `layout` prop is used to specify which child components render and where. The prop takes an array of specific module names, the order of these module names determines the order in which they will be rendered. Additionally you can pass arrays of modules to the array to specify new rows in the display.\n\nThe `_` module is used a seperator module to center|left|right justify the other elements in the layout.\n\navailable modules to use in the layout are \n\n`filterSummary`, `sortBy`, `perPage`, `facets`, `banner.left`, `paginationInfo`, `layoutSelector`, `_`;\n\n```tsx\n<MobileSidebar controller={controller} layout={['filterSummary', 'sortBy', 'perPage', 'facets', 'banner.left']}/>\n```\n\n### openButtonText\nThe `openButtonText` prop will change the inner text of the slideout button\n\n```tsx\n<MobileSidebar controller={controller} openButtonText={'Click To Filter'} />\n```\n\n### openButtonIcon\nThe `openButtonIcon` prop specifies the name of an icon to add to the slideout open sidebar button.\n\n```tsx\n<MobileSidebar controller={controller} openButtonIcon={'cog'} />\n```\n\n### hideHeader\nThe `hideHeader` prop will disable the sidebar header from rendering. \n\n```tsx\n<MobileSidebar controller={controller} hideHeader />\n```\n\n### titleText\nThe `titleText` prop will change the inner text of the sidebar title.\n\n```tsx\n<MobileSidebar controller={controller} titleText={'Filter By: '} />\n```\n\n### hideCloseButton\nThe `hideCloseButton` prop will disable the close Button component from rendering.\n\n```tsx\n<MobileSidebar controller={controller} hideCloseButton />\n```\n\n### closeButtonIcon \nThe `closeButtonIcon` prop specifies the name of an icon to add to the close sidebar button.\n\n```tsx\n<MobileSidebar controller={controller} closeButtonIcon={'close'} />\n```\n\n### closeButtonText\nThe `closeButtonText` prop will change the inner text of the sidebar close button.\n\n```tsx\n<MobileSidebar controller={controller} closeButtonText={'Close Sidebar'} />\n```\n\n### hideFooter\nThe `hideFooter` prop will disable the sidebar footer from rendering. \n\n```tsx\n<MobileSidebar controller={controller} hideFooter />\n```\n\n### hideApplyButton\nThe `hideApplyButton` prop will disable the apply Button component from rendering.\n\n```tsx\n<MobileSidebar controller={controller} hideApplyButton />\n```\n\n### applyButtonText\nThe `applyButtonText` prop will change the inner text of the apply Button component.\n\n```tsx\n<MobileSidebar controller={controller} applyButtonText={'Apply Changees'} />\n```\n\n### applyButtonIcon \nThe `applyButtonIcon` prop specifies the name of an icon to add to the sidebar apply filters button.\n\n```tsx\n<MobileSidebar controller={controller} applyButtonIcon={'cog'} />\n```\n\n### hideClearButton\nThe `hideClearButton` prop will disable the clear all Button component from rendering.\n\n```tsx\n<MobileSidebar controller={controller} hideClearButton />\n```\n\n### clearButtonText\nThe `clearButtonText` prop will change the inner text of the clear all Button component.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonText={'Start Over'} />\n```\n\n### clearButtonIcon \nThe `clearButtonIcon` prop specifies the name of an icon to add to the sidebar clear all filters button.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonIcon={'close'} />\n```\n\n### hideTitleText \nThe `hideTitleText` prop hides the title text.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonIcon={'close'} hideTitleText={true} />\n```\n\n### hideOpenButtonText \nThe `hideOpenButtonText` prop hides the open button text.\n\n```tsx\n<MobileSidebar controller={controller} openButtonText={'open'} hideOpenButtonText={true} />\n```\n\n### hideClearButtonText \nThe `hideClearButtonText` prop hides the clear button text.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonText={'start over'} hideClearButtonText={true} />\n```\n\n### hideApplyButtonText \nThe `hideApplyButtonText` prop hides the apply button text.\n\n```tsx\n<MobileSidebar controller={controller} applyButtonText={'Apply Changees'} hideApplyButtonText={true} />\n```\n\n### hideCloseButtonText \nThe `hideCloseButtonText` prop hides the close button text.\n\n```tsx\n<MobileSidebar controller={controller} closeButtonText={'close'} hideCloseButtonText={true} />\n```\n";
+					"# MobileSidebar\nRenders a Sidebar component wrapped in a Slideout Component to be used on mobile. \n\n\n## Components Used\n- Sidebar\n- Slideout\n- Button\n\n\n## Usage\n\n### controller\nThe required `controller` prop specifies a reference to the search controller.\n\n```tsx\n<MobileSidebar controller={controller} />\n```\n\n### displayAt\nThe `displayAt` prop specifies a CSS media query for when the max width the component will render. By default, the component will render at 650px or less. \n\n```tsx\n<MobileSidebar controller={controller} displayAt={'600px'}/>\n```\n\n\n### layout\nThe `layout` prop is used to specify which child components render and where. The prop takes an array of specific module names, the order of these module names determines the order in which they will be rendered. Additionally you can pass arrays of modules to the array to specify new rows in the display.\n\nThe `_` module is used a seperator module to center|left|right justify the other elements in the layout.\n\navailable modules to use in the layout are \n\n`filterSummary`, `sortBy`, `perPage`, `facets`, `banner.left`, `paginationInfo`, `layoutSelector`, `_`;\n\n```tsx\n<MobileSidebar controller={controller} layout={['filterSummary', 'sortBy', 'perPage', 'facets', 'banner.left']}/>\n```\n\n### openButtonText\nThe `openButtonText` prop will change the inner text of the slideout button\n\n```tsx\n<MobileSidebar controller={controller} openButtonText={'Click To Filter'} />\n```\n\n### openButtonContent\nThe `openButtonContent` prop will change the inner content of the slideout button. Overrides the `openButtonText` if provided.\n\n```tsx\n<MobileSidebar controller={controller} openButtonContent={<div>Click To Filter</div>} />\n```\n\n### openButtonIcon\nThe `openButtonIcon` prop specifies the name of an icon to add to the slideout open sidebar button.\n\n```tsx\n<MobileSidebar controller={controller} openButtonIcon={'cog'} />\n```\n\n### hideHeader\nThe `hideHeader` prop will disable the sidebar header from rendering. \n\n```tsx\n<MobileSidebar controller={controller} hideHeader />\n```\n\n### titleText\nThe `titleText` prop will change the inner text of the sidebar title.\n\n```tsx\n<MobileSidebar controller={controller} titleText={'Filter By: '} />\n```\n\n### hideCloseButton\nThe `hideCloseButton` prop will disable the close Button component from rendering.\n\n```tsx\n<MobileSidebar controller={controller} hideCloseButton />\n```\n\n### closeButtonIcon \nThe `closeButtonIcon` prop specifies the name of an icon to add to the close sidebar button.\n\n```tsx\n<MobileSidebar controller={controller} closeButtonIcon={'close'} />\n```\n\n### closeButtonText\nThe `closeButtonText` prop will change the inner text of the sidebar close button.\n\n```tsx\n<MobileSidebar controller={controller} closeButtonText={'Close Sidebar'} />\n```\n\n### hideFooter\nThe `hideFooter` prop will disable the sidebar footer from rendering. \n\n```tsx\n<MobileSidebar controller={controller} hideFooter />\n```\n\n### hideApplyButton\nThe `hideApplyButton` prop will disable the apply Button component from rendering.\n\n```tsx\n<MobileSidebar controller={controller} hideApplyButton />\n```\n\n### applyButtonText\nThe `applyButtonText` prop will change the inner text of the apply Button component.\n\n```tsx\n<MobileSidebar controller={controller} applyButtonText={'Apply Changees'} />\n```\n\n### applyButtonIcon \nThe `applyButtonIcon` prop specifies the name of an icon to add to the sidebar apply filters button.\n\n```tsx\n<MobileSidebar controller={controller} applyButtonIcon={'cog'} />\n```\n\n### hideClearButton\nThe `hideClearButton` prop will disable the clear all Button component from rendering.\n\n```tsx\n<MobileSidebar controller={controller} hideClearButton />\n```\n\n### clearButtonText\nThe `clearButtonText` prop will change the inner text of the clear all Button component.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonText={'Start Over'} />\n```\n\n### clearButtonIcon \nThe `clearButtonIcon` prop specifies the name of an icon to add to the sidebar clear all filters button.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonIcon={'close'} />\n```\n\n### hideTitleText \nThe `hideTitleText` prop hides the title text.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonIcon={'close'} hideTitleText={true} />\n```\n\n### hideOpenButtonText \nThe `hideOpenButtonText` prop hides the open button text.\n\n```tsx\n<MobileSidebar controller={controller} openButtonText={'open'} hideOpenButtonText={true} />\n```\n\n### hideClearButtonText \nThe `hideClearButtonText` prop hides the clear button text.\n\n```tsx\n<MobileSidebar controller={controller} clearButtonText={'start over'} hideClearButtonText={true} />\n```\n\n### hideApplyButtonText \nThe `hideApplyButtonText` prop hides the apply button text.\n\n```tsx\n<MobileSidebar controller={controller} applyButtonText={'Apply Changees'} hideApplyButtonText={true} />\n```\n\n### hideCloseButtonText \nThe `hideCloseButtonText` prop hides the close button text.\n\n```tsx\n<MobileSidebar controller={controller} closeButtonText={'close'} hideCloseButtonText={true} />\n```\n";
 				var x = e('./components/src/components/Atoms/Icon/paths.tsx');
-				const M = {
+				const B = {
 						title: 'Organisms/MobileSidebar',
 						component: r.R,
 						tags: ['autodocs'],
@@ -57,6 +57,12 @@
 								defaultValue: 'Click to open filters',
 								table: { category: 'Templates Legal', type: { summary: 'string' }, defaultValue: { summary: 'Filters' } },
 								control: { type: 'text' },
+							},
+							openButtonContent: {
+								description: 'Custom content to render in the open sidebar button. Overrides openButtonText if both are provided.',
+								type: { required: !1 },
+								table: { category: 'Templates Legal', type: { summary: 'string | JSX.Element' } },
+								control: 'none',
 							},
 							openButtonIcon: {
 								description: 'Icon to render in the open sidebar button',
@@ -182,7 +188,7 @@
 							},
 						},
 					});
-				const B = ['Default'];
+				const M = ['Default'];
 			},
 			'./components/src/components/Molecules/List/List.tsx'(f, l, e) {
 				'use strict';
@@ -195,10 +201,10 @@
 					y = e('../../node_modules/deepmerge/dist/cjs.js'),
 					S = e.n(y),
 					x = e('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/filters/handleize.js'),
-					M = e('./components/src/providers/cache.tsx'),
+					B = e('./components/src/providers/cache.tsx'),
 					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					h = e('./components/src/providers/snap.tsx'),
-					B = e('./components/src/providers/treePath.tsx'),
+					M = e('./components/src/providers/treePath.tsx'),
 					b = e('./components/src/utilities/defined.ts'),
 					O = e('./components/src/utilities/mergeProps.ts'),
 					D = e('./components/src/utilities/mergeStyles.ts'),
@@ -239,14 +245,14 @@
 				function s(n) {
 					const i = (0, T.u)(),
 						u = (0, h.uk)(),
-						P = { treePath: (0, B.LU)() },
-						v = (0, O.v6)('list', i, P, n),
+						v = { treePath: (0, M.LU)() },
+						C = (0, O.v6)('list', i, v, n),
 						{
 							titleText: W,
 							onSelect: w,
 							native: N,
-							multiSelect: Z,
-							hideOptionLabels: X,
+							multiSelect: X,
+							hideOptionLabels: Z,
 							hideOptionIcons: $,
 							hideOptionCheckboxes: Q,
 							disabled: V,
@@ -258,50 +264,50 @@
 							internalClassName: te,
 							treePath: k,
 							customComponent: F,
-						} = v;
+						} = C;
 					if (F) {
 						const o = (0, U.x)(u?.templates?.library.import.component.list || {}, F);
-						if (o) return (0, t.Y)(o, { ...v });
+						if (o) return (0, t.Y)(o, { ...C });
 					}
-					let g = v.selected;
+					let g = C.selected;
 					const H = {
-							checkbox: { native: N, ...(0, b.s)({ disableStyles: J }), theme: v?.theme, treePath: k },
-							icon: { internalClassName: 'ss__list__option__icon', size: '16px', ...(0, b.s)({ disableStyles: J }), theme: v?.theme, treePath: k },
+							checkbox: { native: N, ...(0, b.s)({ disableStyles: J }), theme: C?.theme, treePath: k },
+							icon: { internalClassName: 'ss__list__option__icon', size: '16px', ...(0, b.s)({ disableStyles: J }), theme: C?.theme, treePath: k },
 						},
-						oe = (0, D.Z)(v, K);
+						oe = (0, D.Z)(C, K);
 					g && !Array.isArray(g) && (g = [g]);
-					const [C, z] = (0, d.J0)(g || []),
+					const [P, z] = (0, d.J0)(g || []),
 						[ne] = (0, d.J0)(g || []);
 					try {
 						if (g) {
 							const o = JSON.stringify(ne),
 								p = JSON.stringify(g),
-								a = JSON.stringify(C);
+								a = JSON.stringify(P);
 							o !== p && p !== a && z(g);
 						}
 					} catch {}
 					const se = (o, p) => {
 							let a;
-							Z
-								? C.find((A) => A.value === p.value)
-									? ((a = [...C]),
+							X
+								? P.find((A) => A.value === p.value)
+									? ((a = [...P]),
 									  a.splice(
 											a.findIndex((A) => A.value === p.value),
 											1
 									  ),
 									  a.length == 0 && Y && (a = [p]))
-									: (a = [...C, p])
-								: !Y && C.find((A) => A.value === p.value)
+									: (a = [...P, p])
+								: !Y && P.find((A) => A.value === p.value)
 								? (a = [])
 								: (a = [p]),
 								w && w(o, p, a),
 								z(a);
 						},
 						re = {},
-						G = S()(re, v.lang || {}),
-						le = (0, j.u)(G, { options: L, selectedOptions: C });
+						G = S()(re, C.lang || {}),
+						le = (0, j.u)(G, { options: L, selectedOptions: P });
 					return typeof L == 'object' && L?.length
-						? (0, t.Y)(M._, {
+						? (0, t.Y)(B._, {
 								children: (0, t.FD)('div', {
 									...oe,
 									className: m()('ss__list', { 'ss__list--native': N, 'ss__list--disabled': V }, ee, te),
@@ -312,7 +318,7 @@
 											role: 'listbox',
 											'aria-label': W,
 											children: L.map((o) => {
-												const p = C.some((a) => a.value == o.value);
+												const p = P.some((a) => a.value == o.value);
 												return (0, t.FD)('li', {
 													className: m()(`ss__list__option ss__list__option--${x.p(o.value?.toString())}`, {
 														'ss__list__option--selected': p,
@@ -328,7 +334,7 @@
 													children: [
 														!Q && (0, t.Y)(_.S, { ...H.checkbox, checked: p, disableA11y: !0, 'aria-label': o.label }),
 														o.icon && !$ && (0, t.Y)(R.I, { ...H.icon, ...(typeof o.icon == 'string' ? { icon: o.icon } : o.icon) }),
-														!X && (o.label || !o.icon) && (0, t.Y)('label', { className: 'ss__list__option__label', children: o.label || o.value }),
+														!Z && (o.label || !o.icon) && (0, t.Y)('label', { className: 'ss__list__option__label', children: o.label || o.value }),
 													],
 												});
 											}),
@@ -391,10 +397,10 @@
 					y = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Autocomplete/AutocompleteStore.js'),
 					S = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/SearchStore.js'),
 					x = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Recommendation/RecommendationStore.js'),
-					M = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/UrlManager/UrlManager.js'),
+					B = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/UrlManager/UrlManager.js'),
 					T = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/linkers/react/react.js'),
 					h = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/Translators/Url/UrlTranslator.js'),
-					B = e('../../node_modules/@athoscommerce/snap-event-manager/dist/esm/EventManager.js'),
+					M = e('../../node_modules/@athoscommerce/snap-event-manager/dist/esm/EventManager.js'),
 					b = e('../../node_modules/@athoscommerce/snap-profiler/dist/esm/Profiler.js'),
 					O = e('../../node_modules/@athoscommerce/snap-logger/dist/esm/Logger.js'),
 					D = e('../../node_modules/@athoscommerce/snap-tracker/dist/esm/Tracker.js');
@@ -407,8 +413,8 @@
 						if (_[i]) return _[i];
 						const u = (_[i] = R({ client: I, controller: n }));
 						return (
-							u.on('afterStore', async ({ controller: c }, P) => {
-								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await P();
+							u.on('afterStore', async ({ controller: c }, v) => {
+								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await v();
 							}),
 							u.init(),
 							u
@@ -419,8 +425,8 @@
 						if (_[i]) return _[i];
 						const u = (_[i] = K({ client: I, controller: n }));
 						return (
-							u.on('afterStore', async ({ controller: c }, P) => {
-								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await P();
+							u.on('afterStore', async ({ controller: c }, v) => {
+								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await v();
 							}),
 							u.init(),
 							u
@@ -431,8 +437,8 @@
 						if (_[i]) return _[i];
 						const u = (_[i] = U({ client: I, controller: n }));
 						return (
-							u.on('afterStore', async ({ controller: c }, P) => {
-								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await P();
+							u.on('afterStore', async ({ controller: c }, v) => {
+								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await v();
 							}),
 							u.init(),
 							u
@@ -440,36 +446,36 @@
 					}
 				}
 				function U(s) {
-					const n = new M.V(new h.E({ settings: { coreType: 'query', corePrefix: s.controller.id } }), T.X);
+					const n = new B.V(new h.E({ settings: { coreType: 'query', corePrefix: s.controller.id } }), T.X);
 					return new d.Tp(s.controller, {
 						client: new m.K(s.client.globals, s.client.config),
 						store: new S.U(s.controller, { urlManager: n }),
 						urlManager: n,
-						eventManager: new B.E(),
+						eventManager: new M.E(),
 						profiler: new b.U(),
 						logger: new O.V(),
 						tracker: new D.J(s.client.globals),
 					});
 				}
 				function R(s) {
-					const n = new M.V(new h.E(), T.X).detach(!0);
+					const n = new B.V(new h.E(), T.X).detach(!0);
 					return new E.c(s.controller, {
 						client: new m.K(s.client.globals, s.client.config),
 						store: new x.t(s.controller, { urlManager: n }),
 						urlManager: n,
-						eventManager: new B.E(),
+						eventManager: new M.E(),
 						profiler: new b.U(),
 						logger: new O.V(),
 						tracker: new D.J(s.client.globals),
 					});
 				}
 				function K(s) {
-					const n = new M.V(new h.E(), T.X).detach();
+					const n = new B.V(new h.E(), T.X).detach();
 					return new r.Z(s.controller, {
 						client: new m.K(s.client.globals, s.client.config),
 						store: new y.Y(s.controller, { urlManager: n }),
 						urlManager: n,
-						eventManager: new B.E(),
+						eventManager: new M.E(),
 						profiler: new b.U(),
 						logger: new O.V(),
 						tracker: new D.J(s.client.globals),
@@ -503,4 +509,4 @@
 	]);
 })();
 
-//# sourceMappingURL=components-Organisms-MobileSidebar-MobileSidebar-stories.de1baf03.iframe.bundle.js.map
+//# sourceMappingURL=components-Organisms-MobileSidebar-MobileSidebar-stories.0ce7cdae.iframe.bundle.js.map

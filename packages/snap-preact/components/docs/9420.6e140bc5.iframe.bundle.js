@@ -3,56 +3,56 @@
 	(self.webpackChunk_athoscommerce_snap_preact = self.webpackChunk_athoscommerce_snap_preact || []).push([
 		[9420],
 		{
-			'./components/src/components/Atoms/BadgeImage/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/BadgeImage/index.ts'(n, o, e) {
 				e.d(o, { z: () => s.z });
 				var s = e('./components/src/components/Atoms/BadgeImage/BadgeImage.tsx');
 			},
-			'./components/src/components/Atoms/BadgePill/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/BadgePill/index.ts'(n, o, e) {
 				e.d(o, { L: () => s.L });
 				var s = e('./components/src/components/Atoms/BadgePill/BadgePill.tsx');
 			},
-			'./components/src/components/Atoms/BadgeRectangle/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/BadgeRectangle/index.ts'(n, o, e) {
 				e.d(o, { Z: () => s.Z });
 				var s = e('./components/src/components/Atoms/BadgeRectangle/BadgeRectangle.tsx');
 			},
-			'./components/src/components/Atoms/BadgeText/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/BadgeText/index.ts'(n, o, e) {
 				e.d(o, { p: () => s.p });
 				var s = e('./components/src/components/Atoms/BadgeText/BadgeText.tsx');
 			},
-			'./components/src/components/Atoms/Banner/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Banner/index.ts'(n, o, e) {
 				e.d(o, { l: () => s.l });
 				var s = e('./components/src/components/Atoms/Banner/Banner.tsx');
 			},
-			'./components/src/components/Atoms/Breadcrumbs/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Breadcrumbs/index.ts'(n, o, e) {
 				e.d(o, { B: () => s.B });
 				var s = e('./components/src/components/Atoms/Breadcrumbs/Breadcrumbs.tsx');
 			},
-			'./components/src/components/Atoms/Button/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Button/index.ts'(n, o, e) {
 				e.d(o, { $: () => s.$ });
 				var s = e('./components/src/components/Atoms/Button/Button.tsx');
 			},
-			'./components/src/components/Atoms/Dropdown/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Dropdown/index.ts'(n, o, e) {
 				e.d(o, { m: () => s.m });
 				var s = e('./components/src/components/Atoms/Dropdown/Dropdown.tsx');
 			},
-			'./components/src/components/Atoms/FormattedNumber/FormattedNumber.tsx'(r, o, e) {
-				e.d(o, { G: () => K });
+			'./components/src/components/Atoms/FormattedNumber/FormattedNumber.tsx'(n, o, e) {
+				e.d(o, { G: () => U });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/filters/formatNumber.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/filters/formatNumber.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('./components/src/providers/cache.tsx'),
 					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					x = e('./components/src/providers/snap.tsx'),
-					d = e('./components/src/providers/treePath.tsx'),
-					P = e('./components/src/utilities/mergeProps.ts'),
-					O = e('./components/src/utilities/mergeStyles.ts'),
-					W = e('./components/src/hooks/useComponent.tsx');
-				const L = () => (0, M.AH)({});
-				function K(b) {
-					const U = (0, T.u)(),
-						A = (0, x.uk)(),
+					O = e('./components/src/providers/snap.tsx'),
+					_ = e('./components/src/providers/treePath.tsx'),
+					h = e('./components/src/utilities/mergeProps.ts'),
+					M = e('./components/src/utilities/mergeStyles.ts'),
+					L = e('./components/src/hooks/useComponent.tsx');
+				const A = () => (0, P.AH)({});
+				function U(b) {
+					const f = (0, T.u)(),
+						R = (0, O.uk)(),
 						I = {
 							symbol: '',
 							decimalPlaces: 3,
@@ -60,66 +60,66 @@
 							thousandsSeparator: '',
 							decimalSeparator: '.',
 							symbolAfter: !0,
-							treePath: (0, d.LU)(),
+							treePath: (0, _.LU)(),
 						},
-						l = (0, P.v6)('formattedNumber', U, I, b),
+						p = (0, h.v6)('formattedNumber', f, I, b),
 						{
-							value: a,
-							symbol: m,
-							decimalPlaces: v,
-							padDecimalPlaces: n,
-							thousandsSeparator: i,
-							decimalSeparator: _,
-							symbolAfter: B,
-							className: f,
-							internalClassName: h,
-							raw: D,
-							customComponent: R,
-						} = l;
-					if (R) {
-						const p = (0, W.x)(A?.templates?.library.import.component.formattedNumber || {}, R);
-						if (p) return (0, s.Y)(p, { ...l });
+							value: r,
+							symbol: d,
+							decimalPlaces: C,
+							padDecimalPlaces: a,
+							thousandsSeparator: u,
+							decimalSeparator: m,
+							symbolAfter: K,
+							className: D,
+							internalClassName: i,
+							raw: B,
+							customComponent: W,
+						} = p;
+					if (W) {
+						const g = (0, L.x)(R?.templates?.library.import.component.formattedNumber || {}, W);
+						if (g) return (0, s.Y)(g, { ...p });
 					}
-					const C = g.Z(a, { symbol: m, decimalPlaces: v, padDecimalPlaces: n, thousandsSeparator: i, decimalSeparator: _, symbolAfter: B }),
-						S = (0, O.Z)(l, L);
-					return D
-						? (0, s.Y)(s.FK, { children: C })
-						: (0, s.Y)(E._, { children: (0, s.Y)('span', { className: c()('ss__formatted-number', f, h), ...S, children: C }) });
+					const x = v.Z(r, { symbol: d, decimalPlaces: C, padDecimalPlaces: a, thousandsSeparator: u, decimalSeparator: m, symbolAfter: K }),
+						S = (0, M.Z)(p, A);
+					return B
+						? (0, s.Y)(s.FK, { children: x })
+						: (0, s.Y)(E._, { children: (0, s.Y)('span', { className: c()('ss__formatted-number', D, i), ...S, children: x }) });
 				}
 			},
-			'./components/src/components/Atoms/FormattedNumber/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/FormattedNumber/index.ts'(n, o, e) {
 				e.d(o, { G: () => s.G });
 				var s = e('./components/src/components/Atoms/FormattedNumber/FormattedNumber.tsx');
 			},
-			'./components/src/components/Atoms/Icon/index.ts'(r, o, e) {
-				e.d(o, { I: () => s.I, c: () => M.c });
+			'./components/src/components/Atoms/Icon/index.ts'(n, o, e) {
+				e.d(o, { I: () => s.I, c: () => P.c });
 				var s = e('./components/src/components/Atoms/Icon/Icon.tsx'),
-					M = e('./components/src/components/Atoms/Icon/paths.tsx');
+					P = e('./components/src/components/Atoms/Icon/paths.tsx');
 			},
-			'./components/src/components/Atoms/Image/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Image/index.ts'(n, o, e) {
 				e.d(o, { _: () => s._, t: () => s.t });
 				var s = e('./components/src/components/Atoms/Image/Image.tsx');
 			},
-			'./components/src/components/Atoms/InlineBanner/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/InlineBanner/index.ts'(n, o, e) {
 				e.d(o, { _: () => s._ });
 				var s = e('./components/src/components/Atoms/InlineBanner/InlineBanner.tsx');
 			},
-			'./components/src/components/Atoms/LoadingBar/LoadingBar.tsx'(r, o, e) {
-				e.d(o, { G: () => K });
+			'./components/src/components/Atoms/LoadingBar/LoadingBar.tsx'(n, o, e) {
+				e.d(o, { G: () => U });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/mobx-react-lite/es/index.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('./components/src/providers/cache.tsx'),
 					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					x = e('./components/src/providers/snap.tsx'),
-					d = e('./components/src/providers/treePath.tsx'),
-					P = e('./components/src/utilities/mergeProps.ts'),
-					O = e('./components/src/utilities/mergeStyles.ts'),
-					W = e('./components/src/hooks/useComponent.tsx');
-				const L = ({ color: b, height: U, backgroundColor: A, theme: u }) => {
-						const I = (0, g.i7)({
+					O = e('./components/src/providers/snap.tsx'),
+					_ = e('./components/src/providers/treePath.tsx'),
+					h = e('./components/src/utilities/mergeProps.ts'),
+					M = e('./components/src/utilities/mergeStyles.ts'),
+					L = e('./components/src/hooks/useComponent.tsx');
+				const A = ({ color: b, height: f, backgroundColor: R, theme: l }) => {
+						const I = (0, v.i7)({
 							from: { left: '-200px', width: '30%' },
 							'50%': { width: '30%' },
 							'70%': { width: '70%' },
@@ -127,8 +127,8 @@
 							'95%': { left: '120%' },
 							to: { left: '100%' },
 						});
-						return (0, g.AH)({
-							height: U,
+						return (0, v.AH)({
+							height: f,
 							position: 'fixed',
 							top: '0',
 							left: '0',
@@ -138,80 +138,80 @@
 							opacity: '1',
 							visibility: 'visible',
 							zIndex: '10000',
-							background: A || u?.variables?.colors?.secondary || '#f8f8f8',
+							background: R || l?.variables?.colors?.secondary || '#f8f8f8',
 							'& .ss__loading-bar__bar': {
 								position: 'absolute',
 								top: '0',
 								left: '-200px',
 								height: '100%',
-								background: `${b || u?.variables?.colors?.primary || '#ccc'}`,
+								background: `${b || l?.variables?.colors?.primary || '#ccc'}`,
 								animation: `${I} 2s linear infinite`,
 							},
 						});
 					},
-					K = (0, M.PA)((b) => {
-						const U = (0, T.u)(),
-							A = (0, x.uk)(),
-							I = { height: '5px', treePath: (0, d.LU)() },
-							l = (0, P.v6)('loadingBar', U, I, b),
-							{ active: a, className: m, internalClassName: v, customComponent: n } = l;
-						if (n) {
-							const _ = (0, W.x)(A?.templates?.library.import.component.loadingBar || {}, n);
-							if (_) return (0, s.Y)(_, { ...l });
+					U = (0, P.PA)((b) => {
+						const f = (0, T.u)(),
+							R = (0, O.uk)(),
+							I = { height: '5px', treePath: (0, _.LU)() },
+							p = (0, h.v6)('loadingBar', f, I, b),
+							{ active: r, className: d, internalClassName: C, customComponent: a } = p;
+						if (a) {
+							const m = (0, L.x)(R?.templates?.library.import.component.loadingBar || {}, a);
+							if (m) return (0, s.Y)(m, { ...p });
 						}
-						const i = (0, O.Z)(l, L);
-						return a
+						const u = (0, M.Z)(p, A);
+						return r
 							? (0, s.Y)(E._, {
 									children: (0, s.Y)('div', {
-										...i,
-										className: c()('ss__loading-bar', m, v),
+										...u,
+										className: c()('ss__loading-bar', d, C),
 										children: (0, s.Y)('div', { className: 'ss__loading-bar__bar' }),
 									}),
 							  })
 							: null;
 					});
 			},
-			'./components/src/components/Atoms/LoadingBar/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/LoadingBar/index.ts'(n, o, e) {
 				e.d(o, { G: () => s.G });
 				var s = e('./components/src/components/Atoms/LoadingBar/LoadingBar.tsx');
 			},
-			'./components/src/components/Atoms/Overlay/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Overlay/index.ts'(n, o, e) {
 				e.d(o, { h: () => s.h });
 				var s = e('./components/src/components/Atoms/Overlay/Overlay.tsx');
 			},
-			'./components/src/components/Atoms/PaginationInfo/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/PaginationInfo/index.ts'(n, o, e) {
 				e.d(o, { R: () => s.R });
 				var s = e('./components/src/components/Atoms/PaginationInfo/PaginationInfo.tsx');
 			},
-			'./components/src/components/Atoms/Price/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Price/index.ts'(n, o, e) {
 				e.d(o, { g: () => s.g });
 				var s = e('./components/src/components/Atoms/Price/Price.tsx');
 			},
-			'./components/src/components/Atoms/SearchHeader/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/SearchHeader/index.ts'(n, o, e) {
 				e.d(o, { w: () => s.w });
 				var s = e('./components/src/components/Atoms/SearchHeader/SearchHeader.tsx');
 			},
-			'./components/src/components/Atoms/Skeleton/Skeleton.tsx'(r, o, e) {
-				e.d(o, { E: () => K });
+			'./components/src/components/Atoms/Skeleton/Skeleton.tsx'(n, o, e) {
+				e.d(o, { E: () => U });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/classnames/index.js'),
-					t = e.n(g),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/classnames/index.js'),
+					t = e.n(v),
 					c = e('../../node_modules/mobx-react-lite/es/index.js'),
 					E = e('./components/src/providers/cache.tsx'),
 					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					x = e('./components/src/providers/snap.tsx'),
-					d = e('./components/src/providers/treePath.tsx'),
-					P = e('./components/src/utilities/mergeProps.ts'),
-					O = e('./components/src/utilities/mergeStyles.ts'),
-					W = e('./components/src/hooks/useComponent.tsx');
-				const L = ({ width: b, height: U, round: A, backgroundColor: u, animatedColor: I }) => {
-						const l = (0, M.i7)({ from: { transform: 'translateX(-100%)' }, to: { transform: 'translateX(100%)' } });
-						return (0, M.AH)({
+					O = e('./components/src/providers/snap.tsx'),
+					_ = e('./components/src/providers/treePath.tsx'),
+					h = e('./components/src/utilities/mergeProps.ts'),
+					M = e('./components/src/utilities/mergeStyles.ts'),
+					L = e('./components/src/hooks/useComponent.tsx');
+				const A = ({ width: b, height: f, round: R, backgroundColor: l, animatedColor: I }) => {
+						const p = (0, P.i7)({ from: { transform: 'translateX(-100%)' }, to: { transform: 'translateX(100%)' } });
+						return (0, P.AH)({
 							width: b,
-							height: U,
-							borderRadius: A ? b : '0.25rem',
-							backgroundColor: u,
+							height: f,
+							borderRadius: R ? b : '0.25rem',
+							backgroundColor: l,
 							display: 'inline-flex',
 							lineHeight: '1',
 							position: 'relative',
@@ -225,70 +225,70 @@
 								right: '0',
 								height: '100%',
 								backgroundRepeat: 'no-repeat',
-								backgroundImage: `linear-gradient(90deg, ${u}, ${I}, ${u})`,
+								backgroundImage: `linear-gradient(90deg, ${l}, ${I}, ${l})`,
 								transform: 'translateX(-100%)',
-								animation: `${l} 1.5s linear infinite`,
+								animation: `${p} 1.5s linear infinite`,
 								animationTimingFunction: 'ease-in-out',
 							},
 						});
 					},
-					K = (0, c.PA)((b) => {
-						const U = (0, T.u)(),
-							A = (0, x.uk)(),
-							I = { backgroundColor: '#ebebeb', animatedColor: '#f5f5f5', treePath: (0, d.LU)() },
-							l = (0, P.v6)('skeleton', U, I, b),
-							{ className: a, internalClassName: m, customComponent: v } = l;
-						if (v) {
-							const i = (0, W.x)(A?.templates?.library.import.component.skeleton || {}, v);
-							if (i) return (0, s.Y)(i, { ...l });
+					U = (0, c.PA)((b) => {
+						const f = (0, T.u)(),
+							R = (0, O.uk)(),
+							I = { backgroundColor: '#ebebeb', animatedColor: '#f5f5f5', treePath: (0, _.LU)() },
+							p = (0, h.v6)('skeleton', f, I, b),
+							{ className: r, internalClassName: d, customComponent: C } = p;
+						if (C) {
+							const u = (0, L.x)(R?.templates?.library.import.component.skeleton || {}, C);
+							if (u) return (0, s.Y)(u, { ...p });
 						}
-						const n = (0, O.Z)(l, L);
-						return (0, s.Y)(E._, { children: (0, s.Y)('div', { ...n, className: t()('ss__skeleton', a, m) }) });
+						const a = (0, M.Z)(p, A);
+						return (0, s.Y)(E._, { children: (0, s.Y)('div', { ...a, className: t()('ss__skeleton', r, d) }) });
 					});
 			},
-			'./components/src/components/Atoms/Skeleton/index.ts'(r, o, e) {
+			'./components/src/components/Atoms/Skeleton/index.ts'(n, o, e) {
 				e.d(o, { E: () => s.E });
 				var s = e('./components/src/components/Atoms/Skeleton/Skeleton.tsx');
 			},
-			'./components/src/components/Molecules/CalloutBadge/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/CalloutBadge/index.ts'(n, o, e) {
 				e.d(o, { W: () => s.W });
 				var s = e('./components/src/components/Molecules/CalloutBadge/CalloutBadge.tsx');
 			},
-			'./components/src/components/Molecules/Carousel/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Carousel/index.ts'(n, o, e) {
 				e.d(o, { FN: () => s.FN, K: () => s.K, og: () => s.og });
 				var s = e('./components/src/components/Molecules/Carousel/Carousel.tsx');
 			},
-			'./components/src/components/Molecules/Checkbox/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Checkbox/index.ts'(n, o, e) {
 				e.d(o, { S: () => s.S });
 				var s = e('./components/src/components/Molecules/Checkbox/Checkbox.tsx');
 			},
-			'./components/src/components/Molecules/ErrorHandler/ErrorHandler.tsx'(r, o, e) {
-				e.d(o, { z: () => i });
+			'./components/src/components/Molecules/ErrorHandler/ErrorHandler.tsx'(n, o, e) {
+				e.d(o, { z: () => u });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/classnames/index.js'),
-					t = e.n(g),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/classnames/index.js'),
+					t = e.n(v),
 					c = e('../../node_modules/mobx-react-lite/es/index.js'),
 					E = e('./components/src/components/Atoms/Icon/Icon.tsx'),
 					T = e('./components/src/components/Atoms/Button/Button.tsx'),
-					x = e('./components/src/utilities/defined.ts'),
-					d = e('./components/src/utilities/Colour/Colour.ts'),
-					P = e('./components/src/utilities/mergeProps.ts'),
-					O = e('./components/src/utilities/mergeStyles.ts'),
-					W = e('./components/src/providers/cache.tsx'),
-					L = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					K = e('./components/src/providers/snap.tsx'),
+					O = e('./components/src/utilities/defined.ts'),
+					_ = e('./components/src/utilities/Colour/Colour.ts'),
+					h = e('./components/src/utilities/mergeProps.ts'),
+					M = e('./components/src/utilities/mergeStyles.ts'),
+					L = e('./components/src/providers/cache.tsx'),
+					A = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					U = e('./components/src/providers/snap.tsx'),
 					b = e('./components/src/providers/treePath.tsx'),
-					U = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/types.js'),
-					A = e('./components/src/hooks/useLang.tsx'),
-					u = e('./components/src/hooks/useComponent.tsx'),
+					f = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/types.js'),
+					R = e('./components/src/hooks/useLang.tsx'),
+					l = e('./components/src/hooks/useComponent.tsx'),
 					I = e('../../node_modules/deepmerge/dist/cjs.js'),
-					l = e.n(I);
-				const a = new d.V('#ecaa15'),
-					m = new d.V('#cc1212'),
-					v = new d.V('#4c3ce2'),
-					n = ({ theme: _ }) =>
-						(0, M.AH)({
+					p = e.n(I);
+				const r = new _.V('#ecaa15'),
+					d = new _.V('#cc1212'),
+					C = new _.V('#4c3ce2'),
+					a = ({ theme: m }) =>
+						(0, P.AH)({
 							borderRadius: '2px',
 							display: 'flex',
 							flexDirection: 'row',
@@ -305,88 +305,88 @@
 							'& .ss__error-handler__button': {
 								backgroundColor: 'unset',
 								color: 'inherit',
-								borderColor: _?.variables?.colors?.primary,
+								borderColor: m?.variables?.colors?.primary,
 								width: ['150px', 'fit-content'],
 								margin: '5px 10px',
 								'&:hover': { backgroundColor: 'unset', borderColor: 'unset', color: 'unset', '.ss__icon': { fill: 'unset', stroke: 'unset' } },
 								'.ss__icon': { margin: '0 5px 0 0' },
 							},
 							'&.ss__error-handler--error': {
-								backgroundColor: m.lighten(180).hex,
-								borderLeftColor: m.hex,
-								'.ss__error-handler__message': { '.ss__icon': { fill: m.hex } },
+								backgroundColor: d.lighten(180).hex,
+								borderLeftColor: d.hex,
+								'.ss__error-handler__message': { '.ss__icon': { fill: d.hex } },
 							},
 							'&.ss__error-handler--warning': {
-								backgroundColor: a.lighten(180).hex,
-								borderLeftColor: a.hex,
-								'.ss__icon': { fill: a.hex, stroke: a.hex },
+								backgroundColor: r.lighten(180).hex,
+								borderLeftColor: r.hex,
+								'.ss__icon': { fill: r.hex, stroke: r.hex },
 								'.ss__error-handler__button': {
-									color: a.hex,
-									borderColor: a.hex,
+									color: r.hex,
+									borderColor: r.hex,
 									fontWeight: 'bold',
 									textTransform: 'uppercase',
 									display: 'inline-flex',
 									alignItems: 'center',
 									'.ss__button__content': { order: 2 },
-									'.ss__button__icon': { order: 1, width: '10px', height: '10px', fill: a.hex, stroke: a.hex },
+									'.ss__button__icon': { order: 1, width: '10px', height: '10px', fill: r.hex, stroke: r.hex },
 									'&:hover': {
-										color: a.darken(30).hex,
-										borderColor: a.darken(30).hex,
-										'.ss__button__icon': { fill: a.darken(30).hex, stroke: a.darken(30).hex },
+										color: r.darken(30).hex,
+										borderColor: r.darken(30).hex,
+										'.ss__button__icon': { fill: r.darken(30).hex, stroke: r.darken(30).hex },
 									},
 								},
 							},
 							'&.ss__error-handler--info': {
-								backgroundColor: v.lighten(180).hex,
-								borderLeftColor: v.hex,
-								'.ss__error-handler__message': { '.ss__icon': { fill: v.hex } },
+								backgroundColor: C.lighten(180).hex,
+								borderLeftColor: C.hex,
+								'.ss__error-handler__message': { '.ss__icon': { fill: C.hex } },
 							},
 						}),
-					i = (0, c.PA)((_) => {
-						const B = (0, L.u)(),
-							f = (0, K.uk)(),
-							D = { treePath: (0, b.LU)() },
-							R = (0, P.v6)('errorHandler', B, D, _),
-							{ controller: C, error: S, disableStyles: p, onRetryClick: y, className: Q, internalClassName: w, treePath: H, customComponent: V } = R;
+					u = (0, c.PA)((m) => {
+						const K = (0, A.u)(),
+							D = (0, U.uk)(),
+							B = { treePath: (0, b.LU)() },
+							W = (0, h.v6)('errorHandler', K, B, m),
+							{ controller: x, error: S, disableStyles: g, onRetryClick: y, className: X, internalClassName: w, treePath: H, customComponent: V } = W;
 						if (V) {
-							const k = (0, u.x)(f?.templates?.library.import.component.errorHandler || {}, V);
-							if (k) return (0, s.Y)(k, { ...R });
+							const k = (0, l.x)(D?.templates?.library.import.component.errorHandler || {}, V);
+							if (k) return (0, s.Y)(k, { ...W });
 						}
 						const $ = {
-								icon: { size: '18px', internalClassName: 'ss__error-handler__icon', ...(0, x.s)({ disableStyles: p }), theme: R.theme, treePath: H },
+								icon: { size: '18px', internalClassName: 'ss__error-handler__icon', ...(0, O.s)({ disableStyles: g }), theme: W.theme, treePath: H },
 								buttonRetry: {
 									internalClassName: 'ss__error-handler__button',
 									icon: 'rotate-right',
-									...(0, x.s)({ disableStyles: p }),
-									theme: R.theme,
+									...(0, O.s)({ disableStyles: g }),
+									theme: W.theme,
 									treePath: H,
 								},
 							},
-							Z = C?.store?.error || S,
-							N = (0, O.Z)(R, n),
+							Z = x?.store?.error || S,
+							N = (0, M.Z)(W, a),
 							Y = {
 								warningText: { value: 'Warning:' },
 								infoText: { value: 'Info:' },
 								errorText: { value: 'Error:' },
 								reloadText: { value: 'Retry' },
 							},
-							F = l()(Y, R.lang || {}),
-							X = (0, A.u)(F, { controller: C });
-						return Object.values(U.B).includes(Z?.type) && Z?.message
-							? (0, s.Y)(W._, {
+							F = p()(Y, W.lang || {}),
+							Q = (0, R.u)(F, { controller: x });
+						return Object.values(f.B).includes(Z?.type) && Z?.message
+							? (0, s.Y)(L._, {
 									children: (0, s.Y)('div', {
-										className: t()('ss__error-handler', `ss__error-handler--${Z.type}`, Q, w),
+										className: t()('ss__error-handler', `ss__error-handler--${Z.type}`, X, w),
 										...N,
 										children: (() => {
 											switch (Z.type) {
-												case U.B.WARNING:
+												case f.B.WARNING:
 													return (0, s.FD)(s.FK, {
 														children: [
 															(0, s.FD)('div', {
 																className: 'ss__error-handler__message',
 																children: [
 																	(0, s.Y)(E.I, { ...$.icon, icon: 'warn' }),
-																	(0, s.Y)('span', { className: 'ss__error-handler__message__type', ...X.warningText?.all }),
+																	(0, s.Y)('span', { className: 'ss__error-handler__message__type', ...Q.warningText?.all }),
 																	(0, s.Y)('span', { className: 'ss__error-handler__message__content', children: Z.message }),
 																],
 															}),
@@ -394,29 +394,29 @@
 																? (0, s.Y)(T.$, {
 																		...$.buttonRetry,
 																		onClick: (k) => {
-																			y ? y(k) : C?.search();
+																			y ? y(k) : x?.search();
 																		},
-																		...X.reloadText.attributes,
-																		children: (0, s.Y)('span', { className: 'ss__error-handler__button__text', ...X.reloadText.value }),
+																		...Q.reloadText.attributes,
+																		children: (0, s.Y)('span', { className: 'ss__error-handler__button__text', ...Q.reloadText.value }),
 																  })
 																: null,
 														],
 													});
-												case U.B.ERROR:
+												case f.B.ERROR:
 													return (0, s.FD)('div', {
 														className: 'ss__error-handler__message',
 														children: [
 															(0, s.Y)(E.I, { ...$.icon, icon: 'error' }),
-															(0, s.Y)('span', { className: 'ss__error-handler__message__type', ...X.errorText?.all }),
+															(0, s.Y)('span', { className: 'ss__error-handler__message__type', ...Q.errorText?.all }),
 															(0, s.Y)('span', { className: 'ss__error-handler__message__content', children: Z.message }),
 														],
 													});
-												case U.B.INFO:
+												case f.B.INFO:
 													return (0, s.FD)('div', {
 														className: 'ss__error-handler__message',
 														children: [
 															(0, s.Y)(E.I, { ...$.icon, icon: 'info' }),
-															(0, s.Y)('span', { className: 'ss__error-handler__message__type', ...X.infoText?.all }),
+															(0, s.Y)('span', { className: 'ss__error-handler__message__type', ...Q.infoText?.all }),
 															(0, s.Y)('span', { className: 'ss__error-handler__message__content', children: Z.message }),
 														],
 													});
@@ -427,73 +427,73 @@
 							: null;
 					});
 			},
-			'./components/src/components/Molecules/ErrorHandler/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/ErrorHandler/index.ts'(n, o, e) {
 				e.d(o, { z: () => s.z });
 				var s = e('./components/src/components/Molecules/ErrorHandler/ErrorHandler.tsx');
 			},
-			'./components/src/components/Molecules/FacetGridOptions/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/FacetGridOptions/index.ts'(n, o, e) {
 				e.d(o, { S: () => s.S });
 				var s = e('./components/src/components/Molecules/FacetGridOptions/FacetGridOptions.tsx');
 			},
-			'./components/src/components/Molecules/FacetHierarchyOptions/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/FacetHierarchyOptions/index.ts'(n, o, e) {
 				e.d(o, { T: () => s.T });
 				var s = e('./components/src/components/Molecules/FacetHierarchyOptions/FacetHierarchyOptions.tsx');
 			},
-			'./components/src/components/Molecules/FacetListOptions/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/FacetListOptions/index.ts'(n, o, e) {
 				e.d(o, { C: () => s.C });
 				var s = e('./components/src/components/Molecules/FacetListOptions/FacetListOptions.tsx');
 			},
-			'./components/src/components/Molecules/FacetPaletteOptions/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/FacetPaletteOptions/index.ts'(n, o, e) {
 				e.d(o, { P: () => s.P });
 				var s = e('./components/src/components/Molecules/FacetPaletteOptions/FacetPaletteOptions.tsx');
 			},
-			'./components/src/components/Molecules/FacetSlider/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/FacetSlider/index.ts'(n, o, e) {
 				e.d(o, { l: () => s.l });
 				var s = e('./components/src/components/Molecules/FacetSlider/FacetSlider.tsx');
 			},
-			'./components/src/components/Molecules/Filter/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Filter/index.ts'(n, o, e) {
 				e.d(o, { d: () => s.d });
 				var s = e('./components/src/components/Molecules/Filter/Filter.tsx');
 			},
-			'./components/src/components/Molecules/Grid/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Grid/index.ts'(n, o, e) {
 				e.d(o, { x: () => s.x });
 				var s = e('./components/src/components/Molecules/Grid/Grid.tsx');
 			},
-			'./components/src/components/Molecules/LayoutSelector/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/LayoutSelector/index.ts'(n, o, e) {
 				e.d(o, { s: () => s.s });
 				var s = e('./components/src/components/Molecules/LayoutSelector/LayoutSelector.tsx');
 			},
-			'./components/src/components/Molecules/List/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/List/index.ts'(n, o, e) {
 				e.d(o, { B: () => s.B });
 				var s = e('./components/src/components/Molecules/List/List.tsx');
 			},
-			'./components/src/components/Molecules/LoadMore/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/LoadMore/index.ts'(n, o, e) {
 				e.d(o, { e: () => s.e });
 				var s = e('./components/src/components/Molecules/LoadMore/LoadMore.tsx');
 			},
-			'./components/src/components/Molecules/Modal/Modal.tsx'(r, o, e) {
-				e.d(o, { a: () => a });
+			'./components/src/components/Molecules/Modal/Modal.tsx'(n, o, e) {
+				e.d(o, { a: () => r });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('../../node_modules/mobx-react-lite/es/index.js'),
 					T = e('./components/src/providers/cache.tsx'),
-					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					d = e('./components/src/providers/snap.tsx'),
-					P = e('./components/src/providers/treePath.tsx'),
-					O = e('./components/src/hooks/useClickOutside.tsx'),
-					W = e('./components/src/hooks/useComponent.tsx'),
-					L = e('./components/src/utilities/cloneWithProps.tsx'),
-					K = e('./components/src/utilities/defined.ts'),
+					O = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					_ = e('./components/src/providers/snap.tsx'),
+					h = e('./components/src/providers/treePath.tsx'),
+					M = e('./components/src/hooks/useClickOutside.tsx'),
+					L = e('./components/src/hooks/useComponent.tsx'),
+					A = e('./components/src/utilities/cloneWithProps.tsx'),
+					U = e('./components/src/utilities/defined.ts'),
 					b = e('./components/src/utilities/mergeProps.ts'),
-					U = e('./components/src/utilities/mergeStyles.ts'),
-					A = e('./components/src/hooks/useA11y.tsx'),
-					u = e('./components/src/components/Atoms/Overlay/Overlay.tsx'),
+					f = e('./components/src/utilities/mergeStyles.ts'),
+					R = e('./components/src/hooks/useA11y.tsx'),
+					l = e('./components/src/components/Atoms/Overlay/Overlay.tsx'),
 					I = e('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/debounce/debounce.js');
-				const l = () =>
-						(0, g.AH)({
+				const p = () =>
+						(0, v.AH)({
 							position: 'relative',
 							'&.ss__modal--open': { '& .ss__modal__content': { visibility: 'visible', opacity: 1 } },
 							'&.ss__modal--disabled': { '& .ss__modal__button': { cursor: 'initial' } },
@@ -509,21 +509,21 @@
 								zIndex: 10004,
 							},
 						}),
-					a = (0, E.PA)((m) => {
-						const v = (0, x.u)(),
-							n = (0, d.uk)(),
-							_ = { startOpen: !1, disableA11y: !1, lockScroll: !0, overlayColor: 'rgba(0,0,0,0.8)', treePath: (0, P.LU)() },
-							B = (0, b.v6)('modal', v, _, m),
+					r = (0, E.PA)((d) => {
+						const C = (0, O.u)(),
+							a = (0, _.uk)(),
+							m = { startOpen: !1, disableA11y: !1, lockScroll: !0, overlayColor: 'rgba(0,0,0,0.8)', treePath: (0, h.LU)() },
+							K = (0, b.v6)('modal', C, m, d),
 							{
-								button: f,
-								content: h,
-								buttonSelector: D,
-								children: R,
-								disabled: C,
+								button: D,
+								content: i,
+								buttonSelector: B,
+								children: W,
+								disabled: x,
 								open: S,
-								onClick: p,
+								onClick: g,
 								lockScroll: y,
-								startOpen: Q,
+								startOpen: X,
 								disableClickOutside: w,
 								disableA11y: H,
 								className: V,
@@ -532,11 +532,11 @@
 								overlayColor: N,
 								onOverlayClick: Y,
 								treePath: F,
-								customComponent: X,
-							} = B;
-						if (X) {
-							const z = (0, W.x)(n?.templates?.library.import.component.modal || {}, X);
-							if (z) return (0, s.Y)(z, { ...B });
+								customComponent: Q,
+							} = K;
+						if (Q) {
+							const z = (0, L.x)(a?.templates?.library.import.component.modal || {}, Q);
+							if (z) return (0, s.Y)(z, { ...K });
 						}
 						const k = {
 							overlay: {
@@ -544,25 +544,25 @@
 								onClick: (z) => {
 									Y && Y(z), ee();
 								},
-								...(0, K.s)({ disableStyles: Z, color: N }),
-								theme: B?.theme,
+								...(0, U.s)({ disableStyles: Z, color: N }),
+								theme: K?.theme,
 								treePath: F,
 							},
 						};
 						let J, j;
 						const se = S === void 0;
-						se ? ([J, j] = (0, M.J0)(Q)) : (J = S);
+						se ? ([J, j] = (0, P.J0)(X)) : (J = S);
 						let G;
 						w ||
-							(G = (0, O.L)(() => {
-								J && (C || (se && j && j(!1)));
+							(G = (0, M.L)(() => {
+								J && (x || (se && j && j(!1)));
 							}));
 						const ee = () => {
 								se && j && j((z) => !z);
 							},
-							re = (0, U.Z)(B, l);
+							re = (0, f.Z)(K, p);
 						return (
-							(0, M.vJ)(
+							(0, P.vJ)(
 								() => (
 									J && y ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = ''),
 									() => {
@@ -571,18 +571,18 @@
 								),
 								[J, y]
 							),
-							(0, M.vJ)(() => {
-								const z = D ? (typeof D == 'string' ? document.querySelector(D) : D) : null,
+							(0, P.vJ)(() => {
+								const z = B ? (typeof B == 'string' ? document.querySelector(B) : B) : null,
 									ne = (0, I.s)(() => {
 										setTimeout(() => {
 											J && y ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = '');
 										}, 100);
 									}, 10),
 									te = (ae) => {
-										ee(), p && p(ae);
+										ee(), g && g(ae);
 									};
 								return (
-									z && (C || z.addEventListener('click', te)),
+									z && (x || z.addEventListener('click', te)),
 									window.addEventListener('resize', ne),
 									() => {
 										window.removeEventListener('resize', ne), z && z.removeEventListener('click', te);
@@ -592,97 +592,97 @@
 							(0, s.Y)(T._, {
 								children: (0, s.FD)('div', {
 									...re,
-									className: c()('ss__modal', { 'ss__modal--open': J }, { 'ss__modal--disabled': C }, V, $),
+									className: c()('ss__modal', { 'ss__modal--open': J }, { 'ss__modal--disabled': x }, V, $),
 									ref: G,
 									children: [
-										!D &&
-											f &&
+										!B &&
+											D &&
 											(0, s.Y)('div', {
 												className: 'ss__modal__button',
-												ref: (z) => (H ? null : (0, A.iy)(z)),
+												ref: (z) => (H ? null : (0, R.iy)(z)),
 												'aria-expanded': J,
 												role: 'button',
 												onClick: (z) => {
-													C || (ee(), p && p(z));
+													x || (ee(), g && g(z));
 												},
-												children: (0, L.Y)(f, { open: J, toggleOpen: ee, treePath: F }),
+												children: (0, A.Y)(D, { open: J, toggleOpen: ee, treePath: F }),
 											}),
-										(h || R) &&
+										(i || W) &&
 											J &&
 											(0, s.FD)('div', {
 												className: 'ss__modal__content',
-												ref: (z) => (H ? null : (0, A.iy)(z)),
-												children: [(0, L.Y)(h, { open: J, toggleOpen: ee, treePath: F }), (0, L.Y)(R, { open: J, toggleOpen: ee, treePath: F })],
+												ref: (z) => (H ? null : (0, R.iy)(z)),
+												children: [(0, A.Y)(i, { open: J, toggleOpen: ee, treePath: F }), (0, A.Y)(W, { open: J, toggleOpen: ee, treePath: F })],
 											}),
-										(0, s.Y)(u.h, { ...k.overlay, active: !!J }),
+										(0, s.Y)(l.h, { ...k.overlay, active: !!J }),
 									],
 								}),
 							})
 						);
 					});
 			},
-			'./components/src/components/Molecules/Modal/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Modal/index.ts'(n, o, e) {
 				e.d(o, { a: () => s.a });
 				var s = e('./components/src/components/Molecules/Modal/Modal.tsx');
 			},
-			'./components/src/components/Molecules/OverlayBadge/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/OverlayBadge/index.ts'(n, o, e) {
 				e.d(o, { Q: () => s.Q });
 				var s = e('./components/src/components/Molecules/OverlayBadge/OverlayBadge.tsx');
 			},
-			'./components/src/components/Molecules/Pagination/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Pagination/index.ts'(n, o, e) {
 				e.d(o, { d: () => s.d });
 				var s = e('./components/src/components/Molecules/Pagination/Pagination.tsx');
 			},
-			'./components/src/components/Molecules/PerPage/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/PerPage/index.ts'(n, o, e) {
 				e.d(o, { F: () => s.F });
 				var s = e('./components/src/components/Molecules/PerPage/PerPage.tsx');
 			},
-			'./components/src/components/Molecules/Radio/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Radio/index.ts'(n, o, e) {
 				e.d(o, { s: () => s.s });
 				var s = e('./components/src/components/Molecules/Radio/Radio.tsx');
 			},
-			'./components/src/components/Molecules/RadioList/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/RadioList/index.ts'(n, o, e) {
 				e.d(o, { q: () => s.q });
 				var s = e('./components/src/components/Molecules/RadioList/RadioList.tsx');
 			},
-			'./components/src/components/Molecules/Rating/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Rating/index.ts'(n, o, e) {
 				e.d(o, { G: () => s.G });
 				var s = e('./components/src/components/Molecules/Rating/Rating.tsx');
 			},
-			'./components/src/components/Molecules/Result/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Result/index.ts'(n, o, e) {
 				e.d(o, { Q: () => s.Q });
 				var s = e('./components/src/components/Molecules/Result/Result.tsx');
 			},
-			'./components/src/components/Molecules/SearchInput/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/SearchInput/index.ts'(n, o, e) {
 				e.d(o, { D: () => s.D });
 				var s = e('./components/src/components/Molecules/SearchInput/SearchInput.tsx');
 			},
-			'./components/src/components/Molecules/Select/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Select/index.ts'(n, o, e) {
 				e.d(o, { l: () => s.l });
 				var s = e('./components/src/components/Molecules/Select/Select.tsx');
 			},
-			'./components/src/components/Molecules/Slideout/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Slideout/index.ts'(n, o, e) {
 				e.d(o, { S: () => s.S });
 				var s = e('./components/src/components/Molecules/Slideout/Slideout.tsx');
 			},
-			'./components/src/components/Molecules/Slideshow/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Slideshow/index.ts'(n, o, e) {
 				e.d(o, { b: () => s.b });
 				var s = e('./components/src/components/Molecules/Slideshow/Slideshow.tsx');
 			},
-			'./components/src/components/Molecules/SortBy/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/SortBy/index.ts'(n, o, e) {
 				e.d(o, { g: () => s.g });
 				var s = e('./components/src/components/Molecules/SortBy/SortBy.tsx');
 			},
-			'./components/src/components/Molecules/Swatches/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/Swatches/index.ts'(n, o, e) {
 				e.d(o, { l: () => s.l });
 				var s = e('./components/src/components/Molecules/Swatches/Swatches.tsx');
 			},
-			'./components/src/components/Molecules/TemplatesEditor/index.ts'(r, o, e) {
-				e.d(o, { j: () => U });
+			'./components/src/components/Molecules/TemplatesEditor/index.ts'(n, o, e) {
+				e.d(o, { j: () => b });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/classnames/index.js'),
-					t = e.n(g),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/classnames/index.js'),
+					t = e.n(v),
 					c = e('../../node_modules/mobx-react-lite/es/index.js'),
 					E = e('./components/src/providers/cache.tsx');
 				const T = () =>
@@ -785,8 +785,8 @@
 							}),
 						}),
 					});
-				var x = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const d = () =>
+				var O = e('../../node_modules/preact/hooks/dist/hooks.module.js');
+				const _ = () =>
 						(0, s.FD)('svg', {
 							fill: '#000000',
 							viewBox: '0 0 1920 1920',
@@ -803,130 +803,133 @@
 								}),
 							],
 						}),
-					P = (0, c.PA)((u) => {
-						const { type: I, label: l, description: a, onReset: m, display: v, showReset: n, value: i, options: _, onChange: B } = u,
-							[f, h] = (0, x.J0)(i);
+					h = (0, c.PA)((f) => {
+						const { type: R, label: l, description: I, onReset: p, display: r, showReset: d, value: C, options: a, onChange: u } = f,
+							[m, K] = (0, O.J0)(C);
 						return (
-							(0, x.vJ)(() => {
-								h(i);
-							}, [i]),
-							v === 'hidden'
+							(0, O.vJ)(() => {
+								K(C);
+							}, [C]),
+							r === 'hidden'
 								? null
-								: (0, s.FD)('div', {
-										className: 'option checkbox',
-										children: [
-											(0, s.Y)('label', { children: l }),
-											(0, s.Y)('div', {
-												className: 'reset',
-												children: n
-													? (0, s.Y)('button', {
-															title: 'Reset',
-															onClick: () => {
-																m();
-															},
-															children: (0, s.Y)(d, {}),
-													  })
-													: null,
-											}),
-											(0, s.Y)('div', {
-												className: 'value',
-												title: a,
-												children: (() => {
-													switch (I) {
-														case 'text':
-															return (0, s.Y)('input', { type: 'text', value: i, onChange: (D) => B(D.target.value), disabled: v === 'disabled' });
-														case 'number':
-															return (0, s.Y)('input', {
-																type: 'number',
-																value: i,
-																onChange: (D) => B(Number(D.target.value)),
-																disabled: v === 'disabled',
-															});
-														case 'checkbox':
-															return (0, s.Y)('input', {
-																type: 'checkbox',
-																checked: i,
-																onChange: (D) => B(D.target.checked),
-																disabled: v === 'disabled',
-															});
-														case 'dropdown':
-															return (0, s.Y)('select', {
-																onChange: (D) => B(D.target.value),
-																disabled: v === 'disabled',
-																value: i,
-																children: _?.map((D, R) =>
-																	D.group
-																		? (0, s.Y)(
-																				'optgroup',
-																				{
-																					label: D.group,
-																					children: D.options.map((C, S) =>
-																						(0, s.Y)('option', { value: C.value, children: C.label || C.value }, `${R}-${S}`)
-																					),
-																				},
-																				R
-																		  )
-																		: D.options.map((C, S) => (0, s.Y)('option', { value: C.value, children: C.label || C.value }, `${R}-${S}`))
-																),
-															});
-														case 'color':
-															return (0, s.FD)(s.FK, {
-																children: [
-																	(0, s.Y)('input', {
-																		type: 'color',
-																		value: i,
-																		onChange: (D) => {
-																			h(D.target.value), B(D.target.value);
-																		},
-																		disabled: v === 'disabled',
-																	}),
-																	(0, s.Y)('input', {
-																		type: 'text',
-																		className: O(f) ? '' : 'invalid',
-																		value: f,
-																		onChange: (D) => {
-																			h(D.target.value), O(D.target.value) && B(D.target.value);
-																		},
-																		disabled: v === 'disabled',
-																	}),
-																],
-															});
-														default:
-															return null;
-													}
-												})(),
-											}),
-										],
+								: (0, s.Y)('div', {
+										className: `control ${R} ${r}`,
+										children: (0, s.FD)('div', {
+											className: 'option checkbox',
+											children: [
+												(0, s.Y)('label', { children: l }),
+												(0, s.Y)('div', {
+													className: 'reset',
+													children: d
+														? (0, s.Y)('button', {
+																title: 'Reset',
+																onClick: () => {
+																	p();
+																},
+																children: (0, s.Y)(_, {}),
+														  })
+														: null,
+												}),
+												(0, s.Y)('div', {
+													className: 'value',
+													title: I,
+													children: (() => {
+														switch (R) {
+															case 'text':
+																return (0, s.Y)('input', { type: 'text', value: C, onChange: (D) => u(D.target.value), disabled: r === 'disabled' });
+															case 'number':
+																return (0, s.Y)('input', {
+																	type: 'number',
+																	value: C,
+																	onChange: (D) => u(Number(D.target.value)),
+																	disabled: r === 'disabled',
+																});
+															case 'checkbox':
+																return (0, s.Y)('input', {
+																	type: 'checkbox',
+																	checked: C,
+																	onChange: (D) => u(D.target.checked),
+																	disabled: r === 'disabled',
+																});
+															case 'dropdown':
+																return (0, s.Y)('select', {
+																	onChange: (D) => u(D.target.value),
+																	disabled: r === 'disabled',
+																	value: C,
+																	children: a?.map((D, i) =>
+																		D.group
+																			? (0, s.Y)(
+																					'optgroup',
+																					{
+																						label: D.group,
+																						children: D.options.map((B, W) =>
+																							(0, s.Y)('option', { value: B.value, children: B.label || B.value }, `${i}-${W}`)
+																						),
+																					},
+																					i
+																			  )
+																			: D.options.map((B, W) => (0, s.Y)('option', { value: B.value, children: B.label || B.value }, `${i}-${W}`))
+																	),
+																});
+															case 'color':
+																return (0, s.FD)(s.FK, {
+																	children: [
+																		(0, s.Y)('input', {
+																			type: 'color',
+																			value: C,
+																			onChange: (D) => {
+																				K(D.target.value), u(D.target.value);
+																			},
+																			disabled: r === 'disabled',
+																		}),
+																		(0, s.Y)('input', {
+																			type: 'text',
+																			className: M(m) ? '' : 'invalid',
+																			value: m,
+																			onChange: (D) => {
+																				K(D.target.value), M(D.target.value) && u(D.target.value);
+																			},
+																			disabled: r === 'disabled',
+																		}),
+																	],
+																});
+															default:
+																return null;
+														}
+													})(),
+												}),
+											],
+										}),
 								  })
 						);
 					}),
-					O = (u) => !!/^#[0-9A-F]{6}$/i.test(u),
-					W = { AbstractedControls: ({}) => (0, M.AH)({}) },
-					L = (0, c.PA)((u) => {
-						const I = { css: [W.AbstractedControls({ ...u })] },
-							{ title: l, enableGroupReset: a, feature: m, editorStore: v, data: n } = u,
-							[i, _] = m.split('/'),
-							B = v.uiAbstractions[i],
-							f = B?.[_];
-						if (!f) return console.warn(`No controls found for feature: ${m}`, B, f), null;
-						const h = a && f.some((R) => R.controls.some((C) => C.shouldShowReset())),
+					M = (f) => !!/^#[0-9A-F]{6}$/i.test(f),
+					L = { AbstractedControls: ({}) => (0, P.AH)({}) },
+					A = (0, c.PA)((f) => {
+						const R = { css: [L.AbstractedControls({ ...f })] },
+							{ title: l, enableGroupReset: I, feature: p, editorStore: r, data: d } = f,
+							[C, a] = p.split('/'),
+							u = r.uiAbstractions[C],
+							m = u?.[a];
+						if (!m) return console.warn(`No controls found for feature: ${p}`, u, m), null;
+						const K = I && m.some((i) => i.controls.some((B) => B.shouldShowReset(d))),
 							D = () => {
-								f.forEach((R) => {
-									R.controls.forEach((C) => {
-										C.shouldShowReset() && C.onReset(n);
+								m.forEach((i) => {
+									i.controls.forEach((B) => {
+										B.shouldShowReset(d) && B.onReset(d);
 									});
 								});
 							};
 						return (0, s.FD)('div', {
 							className: 'ss__template-editor__abstracted-controls',
-							...I,
+							...R,
 							children: [
 								l &&
 									(0, s.FD)('div', {
 										className: 'control-title',
 										children: [
 											(0, s.Y)('h3', { children: l }),
-											h &&
+											K &&
 												(0, s.Y)('span', {
 													className: 'reset',
 													children: (0, s.Y)('button', {
@@ -934,16 +937,16 @@
 														onClick: () => {
 															D();
 														},
-														children: (0, s.Y)(d, {}),
+														children: (0, s.Y)(_, {}),
 													}),
 												}),
 										],
 									}),
-								f.map((R) => {
-									const C = R.showReset && R.controls.some((p) => p.shouldShowReset()),
-										S = () => {
-											R.controls.forEach((p) => {
-												p.shouldShowReset() && p.onReset(n);
+								m.map((i) => {
+									const B = i.showReset && i.controls.some((x) => x.shouldShowReset(d)),
+										W = () => {
+											i.controls.forEach((x) => {
+												x.shouldShowReset(d) && x.onReset(d);
 											});
 										};
 									return (0, s.FD)(
@@ -951,87 +954,54 @@
 										{
 											className: 'group',
 											children: [
-												R.title &&
+												i.title &&
 													(0, s.FD)('div', {
 														className: 'group-title',
 														children: [
-															(0, s.Y)('h4', { title: R.description, children: R.title }),
-															C &&
+															(0, s.Y)('h4', { title: i.description, children: i.title }),
+															B &&
 																(0, s.Y)('span', {
 																	className: 'reset',
-																	children: C
+																	children: B
 																		? (0, s.Y)('button', {
 																				title: 'Reset',
 																				onClick: () => {
-																					S();
+																					W();
 																				},
-																				children: (0, s.Y)(d, {}),
+																				children: (0, s.Y)(_, {}),
 																		  })
 																		: null,
 																}),
 														],
 													}),
-												R.controls.map((p, y) =>
+												i.controls.map((x, S) =>
 													(0, s.Y)(
-														P,
+														h,
 														{
-															type: p.type,
-															label: p.label,
-															description: p.description,
-															showReset: p.shouldShowReset(),
-															onChange: (Q) => p.onValueChange(Q, n),
-															onReset: () => p.onReset(n),
-															display: p.getDisplayState ? p.getDisplayState(n) : 'visible',
-															value: p.getValue(n),
-															options: p.getOptions ? p.getOptions(n) : [],
+															type: x.type,
+															label: x.label,
+															description: x.description,
+															showReset: x.shouldShowReset(d),
+															onChange: (g) => x.onValueChange(g, d),
+															onReset: () => x.onReset(d),
+															display: x.getDisplayState ? x.getDisplayState(d) : 'visible',
+															value: x.getValue(d),
+															options: x.getOptions ? x.getOptions(d) : [],
 														},
-														y
+														S
 													)
 												),
 											],
 										},
-										R.title
+										i.title
 									);
 								}),
 							],
 						});
 					}),
-					K = (u) => {
-						const { label: I, description: l, onReset: a, disabled: m, showReset: v, value: n, options: i, onChange: _ } = u;
-						return (0, s.FD)('div', {
-							className: 'option dropdown',
-							children: [
-								(0, s.Y)('label', { children: I }),
-								(0, s.Y)('div', {
-									className: 'reset',
-									children: v
-										? (0, s.Y)('button', {
-												title: 'Reset',
-												onClick: () => {
-													a();
-												},
-												children: (0, s.Y)(d, {}),
-										  })
-										: null,
-								}),
-								(0, s.FD)('div', {
-									className: 'value',
-									children: [
-										(0, s.Y)('select', {
-											onChange: (B) => _(B.target.value),
-											disabled: m,
-											value: n,
-											children: i.map((B, f) => (0, s.Y)('option', { value: B, children: B }, f)),
-										}),
-										(0, s.Y)('span', { children: l }),
-									],
-								}),
-							],
-						});
-					},
-					b = {
+					U = {
 						TemplatesEditor: ({}) =>
-							(0, M.AH)({
+							(0, P.AH)({
 								display: 'flex',
 								flexDirection: 'column',
 								minWidth: '400px',
@@ -1214,38 +1184,61 @@
 								},
 							}),
 					},
-					U = (0, c.PA)((u) => {
-						const { onRemoveClick: I, templatesStore: l, editorStore: a, snap: m } = u,
-							v = { css: [b.TemplatesEditor({ ...u })] };
+					b = (0, c.PA)((f) => {
+						const { onRemoveClick: R, editorStore: l, snap: I } = f,
+							p = { css: [U.TemplatesEditor(f)] };
 						return (0, s.Y)(E._, {
 							children: (0, s.FD)('div', {
-								className: t()('ss__template-editor', { 'ss__template-editor--collapsed': a.state.hidden }),
-								...v,
-								onClick: (n) => {
-									n.stopPropagation(), a.toggleHide(!1);
+								className: t()('ss__template-editor', { 'ss__template-editor--collapsed': l.storedState.hidden }),
+								...p,
+								onClick: (r) => {
+									r.stopPropagation(), l.toggleHide(!1);
 								},
 								children: [
 									(0, s.FD)('div', {
 										className: 'ss__template-editor__header',
 										children: [
-											(0, s.Y)('div', { className: 'logo', children: (0, s.Y)(T, {}) }),
+											(0, s.Y)('div', {
+												className: 'logo',
+												onClick: (r) => {
+													r.stopPropagation(), l.toggleHide(!1);
+												},
+												children: (0, s.Y)(T, {}),
+											}),
 											(0, s.FD)('div', {
 												className: 'header-actions',
-												onClick: (n) => {
-													n.preventDefault(), n.stopPropagation(), a.toggleHide(!0);
+												onClick: (r) => {
+													r.preventDefault(), r.stopPropagation(), l.toggleHide(!0);
 												},
 												children: [
-													(0, s.Y)('button', {
-														onClick: (n) => {
-															n.stopPropagation(), confirm('Closing the editor will disable modification.') && I();
-														},
-														children: 'Close',
+													(0, s.Y)('div', {
+														className: '',
+														children: (0, s.Y)('button', {
+															onClick: (r) => {
+																r.stopPropagation(), confirm('Closing the editor will disable modification.') && R();
+															},
+															children: 'Close',
+														}),
 													}),
-													(0, s.Y)('button', {
-														onClick: () => {
-															a.toggleHide(!0);
-														},
-														children: 'Hide',
+													(0, s.Y)('div', {
+														className: '',
+														children: (0, s.Y)('button', {
+															onClick: (r) => {
+																r.stopPropagation();
+																const d = l.generateTemplatesConfig();
+																navigator.clipboard.writeText(JSON.stringify(d, null, 4)), alert('Configuration copied to clipboard');
+															},
+															children: 'Copy',
+														}),
+													}),
+													(0, s.Y)('div', {
+														className: '',
+														children: (0, s.Y)('button', {
+															onClick: () => {
+																l.toggleHide(!0);
+															},
+															children: 'Hide',
+														}),
 													}),
 												],
 											}),
@@ -1255,17 +1248,17 @@
 										children: [
 											(0, s.Y)('div', {
 												className: 'tab-selection',
-												children: a.tabs.map((n, i) =>
+												children: l.tabs.map((r, d) =>
 													(0, s.Y)(
 														'div',
 														{
-															className: t()('tab', { active: a.state.activeTab === n }),
+															className: t()('tab', { active: l.storedState.activeTab === r }),
 															onClick: () => {
-																a.switchTabs(n);
+																l.switchTabs(r);
 															},
-															children: n,
+															children: r,
 														},
-														i
+														d
 													)
 												),
 											}),
@@ -1276,23 +1269,23 @@
 													(0, s.FD)('div', {
 														className: 'tab-view-content',
 														children: [
-															a.state.activeTab === 'templates'
+															l.storedState.activeTab === 'templates'
 																? (0, s.FD)(s.FK, {
 																		children: [
-																			(0, s.Y)(A, { feature: 'search', templatesStore: l }),
-																			(0, s.Y)(L, { editorStore: a, data: m.controllers.search, feature: 'controllers/search' }),
-																			(0, s.Y)(A, { feature: 'autocomplete', templatesStore: l }),
-																			(0, s.Y)(L, { editorStore: a, data: m.controllers.autocomplete, feature: 'controllers/autocomplete' }),
-																			(0, s.Y)(A, { feature: 'recommendation/default', templatesStore: l }),
-																			(0, s.Y)(A, { feature: 'recommendation/bundle', templatesStore: l }),
+																			(0, s.Y)('h1', { children: 'Search' }),
+																			(0, s.Y)(A, { editorStore: l, data: 0, feature: 'targets/search' }),
+																			(0, s.Y)(A, { editorStore: l, data: I.controllers.search, feature: 'controllers/search' }),
+																			(0, s.Y)('h1', { children: 'Autocomplete' }),
+																			(0, s.Y)(A, { editorStore: l, data: 0, feature: 'targets/autocomplete' }),
+																			(0, s.Y)(A, { editorStore: l, data: I.controllers.autocomplete, feature: 'controllers/autocomplete' }),
 																		],
 																  })
 																: '',
-															a.state.activeTab === 'configuration'
+															l.storedState.activeTab === 'configuration'
 																? (0, s.FD)(s.FK, {
 																		children: [
-																			(0, s.Y)(L, { title: 'Project Configuration', editorStore: a, feature: 'templates/config' }),
-																			(0, s.Y)(L, { title: 'Theme Configuration', editorStore: a, feature: 'templates/theme' }),
+																			(0, s.Y)(A, { title: 'Project Configuration', editorStore: l, feature: 'templates/config' }),
+																			(0, s.Y)(A, { title: 'Theme Configuration', editorStore: l, feature: 'templates/theme' }),
 																		],
 																  })
 																: '',
@@ -1307,71 +1300,28 @@
 								],
 							}),
 						});
-					}),
-					A = (0, c.PA)((u) => {
-						const { feature: I, templatesStore: l } = u,
-							[a, m = ''] = I.split('/'),
-							v = `${a}${m ? `-${m}` : ''}`,
-							n = l.config,
-							i = n[a]?.[m]?.[`${m.charAt(0).toUpperCase() + m.slice(1)}`] || n[a]?.targets?.[0],
-							_ = l.library.components,
-							B = m ? _[a]?.[m] : _[a],
-							f = l.getTarget(I, i.selector),
-							h = !!f?.component && f?.component !== i?.component;
-						return (0, s.FD)('div', {
-							className: 'template-target-settings',
-							children: [
-								(0, s.Y)('h3', { children: a.charAt(0).toUpperCase() + a.slice(1) + (m ? ` (${m})` : '') }),
-								!m &&
-									(0, s.FD)('div', {
-										className: 'option',
-										children: [
-											(0, s.Y)('label', { htmlFor: `${v}-target`, children: 'Target' }),
-											(0, s.Y)('div', { className: 'reset' }),
-											(0, s.Y)('div', {
-												className: 'value',
-												children: (0, s.Y)('input', { id: `${v}-target`, type: 'text', placeholder: '', disabled: !0, value: i.selector }),
-											}),
-										],
-									}),
-								(0, s.Y)(
-									K,
-									{
-										label: 'Template',
-										description: '',
-										showReset: h,
-										options: Object.keys(B),
-										onReset: () => f?.setComponent(i?.component),
-										disabled: !1,
-										value: f?.component,
-										onChange: (D) => f?.setComponent(`${D}`),
-									},
-									`${v}-template`
-								),
-							],
-						});
 					});
 			},
-			'./components/src/components/Molecules/Terms/Terms.tsx'(r, o, e) {
-				e.d(o, { i: () => l });
+			'./components/src/components/Molecules/Terms/Terms.tsx'(n, o, e) {
+				e.d(o, { i: () => p });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/mobx-react-lite/es/index.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('./components/src/providers/cache.tsx'),
 					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					x = e('./components/src/providers/snap.tsx'),
-					d = e('./components/src/providers/treePath.tsx'),
-					P = e('./components/src/toolbox/createHoverProps/createHoverProps.ts'),
-					O = e('./components/src/utilities/mergeProps.ts'),
-					W = e('./components/src/utilities/mergeStyles.ts'),
-					L = e('./components/src/hooks/useLang.tsx'),
-					K = e('./components/src/hooks/useComponent.tsx'),
+					O = e('./components/src/providers/snap.tsx'),
+					_ = e('./components/src/providers/treePath.tsx'),
+					h = e('./components/src/toolbox/createHoverProps/createHoverProps.ts'),
+					M = e('./components/src/utilities/mergeProps.ts'),
+					L = e('./components/src/utilities/mergeStyles.ts'),
+					A = e('./components/src/hooks/useLang.tsx'),
+					U = e('./components/src/hooks/useComponent.tsx'),
 					b = e('../../node_modules/deepmerge/dist/cjs.js'),
-					U = e.n(b);
-				const A = ({ vertical: a, theme: m }) =>
-						(0, g.AH)({
+					f = e.n(b);
+				const R = ({ vertical: r, theme: d }) =>
+						(0, v.AH)({
 							'.ss__terms__title': {
 								fontWeight: 'normal',
 								margin: 0,
@@ -1382,7 +1332,7 @@
 							'.ss__terms__options': {
 								display: 'flex',
 								justifyContent: 'space-evenly',
-								flexDirection: a ? 'column' : 'row',
+								flexDirection: r ? 'column' : 'row',
 								flexWrap: 'wrap',
 								padding: '0px',
 								'.ss__terms__option': {
@@ -1390,77 +1340,77 @@
 									padding: '10px',
 									wordBreak: 'break-all',
 									a: { display: 'block', em: { fontStyle: 'normal' } },
-									'&.ss__terms__option--active': { a: { fontWeight: 'bold', color: m?.variables?.colors?.primary } },
+									'&.ss__terms__option--active': { a: { fontWeight: 'bold', color: d?.variables?.colors?.primary } },
 								},
 							},
 						}),
-					u = (a) => a?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-					I = (a, m) => {
-						if (a && m) {
-							const v = a.match(u(m));
-							if (m && a && v && typeof v.index == 'number') {
-								const n = a.slice(0, v.index),
-									i = a.slice(v.index + m.length, a.length);
-								return `${n ? `<em>${n}</em>` : ''}${m}${i ? `<em>${i}</em>` : ''}`;
+					l = (r) => r?.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+					I = (r, d) => {
+						if (r && d) {
+							const C = r.match(l(d));
+							if (d && r && C && typeof C.index == 'number') {
+								const a = r.slice(0, C.index),
+									u = r.slice(C.index + d.length, r.length);
+								return `${a ? `<em>${a}</em>` : ''}${d}${u ? `<em>${u}</em>` : ''}`;
 							}
 						}
-						return `<em>${a}</em>`;
+						return `<em>${r}</em>`;
 					},
-					l = (0, M.PA)((a) => {
-						const m = (0, T.u)(),
-							v = (0, x.uk)(),
-							i = { vertical: !0, previewOnHover: !0, treePath: (0, d.LU)() },
-							_ = (0, O.v6)('terms', m, i, a),
+					p = (0, P.PA)((r) => {
+						const d = (0, T.u)(),
+							C = (0, O.uk)(),
+							u = { vertical: !0, previewOnHover: !0, treePath: (0, _.LU)() },
+							m = (0, M.v6)('terms', d, u, r),
 							{
-								title: B,
-								onTermClick: f,
-								limit: h,
-								previewOnHover: D,
-								emIfy: R,
-								className: C,
+								title: K,
+								onTermClick: D,
+								limit: i,
+								previewOnHover: B,
+								emIfy: W,
+								className: x,
 								internalClassName: S,
-								controller: p,
+								controller: g,
 								customComponent: y,
-							} = _,
-							Q = p?.store?.state?.input,
-							w = _.terms;
+							} = m,
+							X = g?.store?.state?.input,
+							w = m.terms;
 						if (y) {
-							const F = (0, K.x)(v?.templates?.library.import.component.terms || {}, y);
-							if (F) return (0, s.Y)(F, { ..._ });
+							const F = (0, U.x)(C?.templates?.library.import.component.terms || {}, y);
+							if (F) return (0, s.Y)(F, { ...m });
 						}
-						const H = (0, W.Z)(_, A),
-							V = (F, X) => {
-								f && f(F, X), p?.setFocused && p?.setFocused();
+						const H = (0, L.Z)(m, R),
+							V = (F, Q) => {
+								D && D(F, Q), g?.setFocused && g?.setFocused();
 							},
-							$ = h ? w?.slice(0, h) : w,
-							Z = { title: { value: B } },
-							N = U()(Z, _.lang || {}),
-							Y = (0, L.u)({ title: N.title }, { controller: p });
+							$ = i ? w?.slice(0, i) : w,
+							Z = { title: { value: K } },
+							N = f()(Z, m.lang || {}),
+							Y = (0, A.u)({ title: N.title }, { controller: g });
 						return $?.length
 							? (0, s.Y)(E._, {
 									children: (0, s.FD)('div', {
 										...H,
-										className: c()('ss__terms', C, S),
+										className: c()('ss__terms', x, S),
 										children: [
-											B ? (0, s.Y)('div', { className: 'ss__terms__title', children: (0, s.Y)('h5', { ...Y.title.all }) }) : null,
+											K ? (0, s.Y)('div', { className: 'ss__terms__title', children: (0, s.Y)('h5', { ...Y.title.all }) }) : null,
 											(0, s.Y)('ul', {
 												className: 'ss__terms__options',
-												'aria-label': B,
-												children: $?.map((F, X) => {
+												'aria-label': K,
+												children: $?.map((F, Q) => {
 													const k = {
 															term: {
-																value: `${R ? I(F.value, Q || '') : F.value}`,
-																attributes: { 'aria-label': `${B || ''} item ${X + 1} of ${$.length}, ${F.value}` },
+																value: `${W ? I(F.value, X || '') : F.value}`,
+																attributes: { 'aria-label': `${K || ''} item ${Q + 1} of ${$.length}, ${F.value}` },
 															},
 														},
-														J = U()(k, _.lang || {}),
-														j = (0, L.u)({ term: J.term }, { index: X, numberOfTerms: $.length, term: F });
+														J = f()(k, m.lang || {}),
+														j = (0, A.u)({ term: J.term }, { index: Q, numberOfTerms: $.length, term: F });
 													return (0, s.Y)('li', {
 														className: c()('ss__terms__option', { 'ss__terms__option--active': F.active }),
 														children: (0, s.Y)('a', {
 															onClick: (se) => V(se, F),
 															href: F.url.href,
-															...(D ? (0, P.l)(F.preview) : {}),
+															...(B ? (0, h.l)(F.preview) : {}),
 															...j.term?.all,
 														}),
 													});
@@ -1472,35 +1422,35 @@
 							: null;
 					});
 			},
-			'./components/src/components/Molecules/Terms/index.tsx'(r, o, e) {
+			'./components/src/components/Molecules/Terms/index.tsx'(n, o, e) {
 				e.d(o, { i: () => s.i });
 				var s = e('./components/src/components/Molecules/Terms/Terms.tsx');
 			},
-			'./components/src/components/Molecules/VariantSelection/index.ts'(r, o, e) {
+			'./components/src/components/Molecules/VariantSelection/index.ts'(n, o, e) {
 				e.d(o, { m: () => s.m });
 				var s = e('./components/src/components/Molecules/VariantSelection/VariantSelection.tsx');
 			},
-			'./components/src/components/Organisms/Autocomplete/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/Autocomplete/index.ts'(n, o, e) {
 				e.d(o, { j: () => s.j });
 				var s = e('./components/src/components/Organisms/Autocomplete/Autocomplete.tsx');
 			},
-			'./components/src/components/Organisms/BranchOverride/BranchOverride.tsx'(r, o, e) {
+			'./components/src/components/Organisms/BranchOverride/BranchOverride.tsx'(n, o, e) {
 				e.d(o, { n: () => I });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/classnames/index.js'),
-					t = e.n(g),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/classnames/index.js'),
+					t = e.n(v),
 					c = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
 					E = e('./components/src/components/Atoms/Icon/Icon.tsx'),
 					T = e('./components/src/utilities/defined.ts'),
-					x = e('./components/src/utilities/mergeProps.ts'),
-					d = e('./components/src/utilities/mergeStyles.ts'),
-					P = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					O = e('./components/src/providers/snap.tsx'),
-					W = e('./components/src/providers/treePath.tsx'),
-					L = e('./components/src/hooks/useComponent.tsx');
-				const K = ({ componentTheme: l }) =>
-						(0, M.AH)({
+					O = e('./components/src/utilities/mergeProps.ts'),
+					_ = e('./components/src/utilities/mergeStyles.ts'),
+					h = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					M = e('./components/src/providers/snap.tsx'),
+					L = e('./components/src/providers/treePath.tsx'),
+					A = e('./components/src/hooks/useComponent.tsx');
+				const U = ({ componentTheme: p }) =>
+						(0, P.AH)({
 							width: '360px',
 							height: '120px',
 							overflow: 'hidden',
@@ -1511,12 +1461,12 @@
 							bottom: '50px',
 							right: 0,
 							padding: '0 5px',
-							background: l.main.background,
-							color: l.main.color,
-							border: l.main.border,
+							background: p.main.background,
+							color: p.main.color,
+							border: p.main.border,
 							borderTopLeftRadius: '10px',
 							borderBottomLeftRadius: '10px',
-							boxShadow: l.main.boxShadow,
+							boxShadow: p.main.boxShadow,
 							transition: 'height ease 0.2s, right ease 0.5s 0.2s',
 							'&.ss__branch-override--collapsed': {
 								transition: 'height ease 0.5s 0.5s, right ease 0.5s',
@@ -1526,8 +1476,8 @@
 							},
 							'.ss__branch-override__top': {
 								padding: '10px 5px',
-								background: l.top.background,
-								borderBottom: l.top.border,
+								background: p.top.background,
+								borderBottom: p.top.border,
 								'.ss__branch-override__top__logo': { display: 'inline-block', height: '30px', maxHeight: '30px', verticalAlign: 'middle' },
 								'.ss__branch-override__top__collapse': { display: 'inline-block', float: 'right', paddingTop: '7px', cursor: 'pointer' },
 								'.ss__branch-override__top__button': {
@@ -1538,8 +1488,8 @@
 									textAlign: 'center',
 									cursor: 'pointer',
 									fontSize: '10px',
-									border: l.top.button.border,
-									color: l.top.button.color,
+									border: p.top.button.border,
+									color: p.top.button.color,
 									float: 'right',
 									marginRight: '14px',
 								},
@@ -1549,8 +1499,8 @@
 								fontSize: '12px',
 								'.ss__branch-override__bottom__left': {
 									fontWeight: 'bold',
-									fontStyle: l.bottom.branch.style,
-									color: l.bottom.branch.color,
+									fontStyle: p.bottom.branch.style,
+									color: p.bottom.branch.color,
 									fontSize: '14px',
 									lineHeight: '20px',
 									display: 'inline-flex',
@@ -1564,14 +1514,14 @@
 								'.ss__branch-override__bottom__right': {
 									float: 'right',
 									fontStyle: 'italic',
-									color: l.bottom.additional.color,
+									color: p.bottom.additional.color,
 									fontSize: '12px',
 									lineHeight: '20px',
 								},
 								'.ss__branch-override__bottom__content': { marginTop: '10px' },
 							},
 						}),
-					u = {
+					l = {
 						darkTheme: {
 							class: 'ss__branch-override--dark',
 							main: { border: '0', background: 'rgba(26, 29, 36, 0.9)', color: '#fff', boxShadow: '' },
@@ -1618,44 +1568,44 @@
 							},
 						},
 					},
-					I = (l) => {
-						const a = (0, P.u)(),
-							m = (0, O.uk)(),
-							n = { treePath: (0, W.LU)() },
-							i = (0, x.v6)('branchOverride', a, n, l),
+					I = (p) => {
+						const r = (0, h.u)(),
+							d = (0, M.uk)(),
+							a = { treePath: (0, L.LU)() },
+							u = (0, O.v6)('branchOverride', r, a, p),
 							{
-								branch: _,
-								details: B,
-								error: f,
-								className: h,
-								internalClassName: D,
-								darkMode: R,
-								disableStyles: C,
+								branch: m,
+								details: K,
+								error: D,
+								className: i,
+								internalClassName: B,
+								darkMode: W,
+								disableStyles: x,
 								onRemoveClick: S,
-								treePath: p,
+								treePath: g,
 								customComponent: y,
-							} = i;
+							} = u;
 						if (y) {
-							const Y = (0, L.x)(m?.templates?.library.import.component.branchOverride || {}, y);
-							if (Y) return (0, s.Y)(Y, { ...i });
+							const Y = (0, A.x)(d?.templates?.library.import.component.branchOverride || {}, y);
+							if (Y) return (0, s.Y)(Y, { ...u });
 						}
-						const Q = {
+						const X = {
 								icon: {
 									internalClassName: 'ss__branch-override__bottom__left__icon',
 									size: '12px',
-									...(0, T.s)({ disableStyles: C }),
-									theme: i?.theme,
-									treePath: p,
+									...(0, T.s)({ disableStyles: x }),
+									theme: u?.theme,
+									treePath: g,
 								},
 							},
-							w = typeof R == 'boolean' ? R : window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : !1,
+							w = typeof W == 'boolean' ? W : window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : !1,
 							[H, V] = (0, c.J0)(w ? 'darkTheme' : 'lightTheme'),
 							[$, Z] = (0, c.J0)(0);
-						f && V('failureTheme');
-						const N = (0, d.Z)({ ...i, componentTheme: u[H] }, K);
-						return (B || f) && _
+						D && V('failureTheme');
+						const N = (0, _.Z)({ ...u, componentTheme: l[H] }, U);
+						return (K || D) && m
 							? (0, s.FD)('div', {
-									className: t()('ss__branch-override', u[H].class, { 'ss__branch-override--collapsed': $ }, h, D),
+									className: t()('ss__branch-override', l[H].class, { 'ss__branch-override--collapsed': $ }, i, B),
 									...N,
 									onClick: (Y) => {
 										Y.preventDefault(), Y.stopPropagation(), Z(0);
@@ -1664,20 +1614,20 @@
 										(0, s.FD)('div', {
 											className: 'ss__branch-override__top',
 											children: [
-												(0, s.Y)('img', { className: 'ss__branch-override__top__logo', src: u[H].top.logo.src }),
+												(0, s.Y)('img', { className: 'ss__branch-override__top__logo', src: l[H].top.logo.src }),
 												(0, s.Y)('div', {
 													className: 'ss__branch-override__top__collapse',
 													onClick: (Y) => {
 														Y.preventDefault(), Y.stopPropagation(), Z(1);
 													},
-													children: (0, s.Y)(E.I, { size: '18px', color: u[H].top.close.fill, ...Q.icon, icon: 'close-thin' }),
+													children: (0, s.Y)(E.I, { size: '18px', color: l[H].top.close.fill, ...X.icon, icon: 'close-thin' }),
 												}),
 												(0, s.Y)('div', {
 													className: 'ss__branch-override__top__button',
 													onClick: (Y) => {
-														Y.preventDefault(), Y.stopPropagation(), S && S(Y, _);
+														Y.preventDefault(), Y.stopPropagation(), S && S(Y, m);
 													},
-													children: u[H].top.button.content,
+													children: l[H].top.button.content,
 												}),
 											],
 										}),
@@ -1686,17 +1636,17 @@
 											children: [
 												(0, s.Y)('span', {
 													className: 'ss__branch-override__bottom__left',
-													children: f
+													children: D
 														? (0, s.FD)(s.FK, {
 																children: [
-																	(0, s.Y)(E.I, { size: '12px', color: u[H].bottom.branch.color, ...Q.icon, icon: 'warn' }),
-																	(0, s.Y)('span', { children: f.message }),
+																	(0, s.Y)(E.I, { size: '12px', color: l[H].bottom.branch.color, ...X.icon, icon: 'warn' }),
+																	(0, s.Y)('span', { children: D.message }),
 																],
 														  })
-														: _,
+														: m,
 												}),
-												(0, s.Y)('span', { className: 'ss__branch-override__bottom__right', children: f ? _ : B?.lastModified }),
-												(0, s.Y)('div', { className: 'ss__branch-override__bottom__content', children: f?.description || u[H].bottom.content }),
+												(0, s.Y)('span', { className: 'ss__branch-override__bottom__right', children: D ? m : K?.lastModified }),
+												(0, s.Y)('div', { className: 'ss__branch-override__bottom__content', children: D?.description || l[H].bottom.content }),
 											],
 										}),
 									],
@@ -1704,60 +1654,60 @@
 							: null;
 					};
 			},
-			'./components/src/components/Organisms/BranchOverride/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/BranchOverride/index.ts'(n, o, e) {
 				e.r(o), e.d(o, { BranchOverride: () => s.n });
 				var s = e('./components/src/components/Organisms/BranchOverride/BranchOverride.tsx');
 			},
-			'./components/src/components/Organisms/Facet/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/Facet/index.ts'(n, o, e) {
 				e.d(o, { s: () => s.s });
 				var s = e('./components/src/components/Organisms/Facet/Facet.tsx');
 			},
-			'./components/src/components/Organisms/Facets/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/Facets/index.ts'(n, o, e) {
 				e.d(o, { J: () => s.J });
 				var s = e('./components/src/components/Organisms/Facets/Facets.tsx');
 			},
-			'./components/src/components/Organisms/FacetsHorizontal/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/FacetsHorizontal/index.ts'(n, o, e) {
 				e.d(o, { b: () => s.b });
 				var s = e('./components/src/components/Organisms/FacetsHorizontal/FacetsHorizontal.tsx');
 			},
-			'./components/src/components/Organisms/FilterSummary/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/FilterSummary/index.ts'(n, o, e) {
 				e.d(o, { r: () => s.r });
 				var s = e('./components/src/components/Organisms/FilterSummary/FilterSummary.tsx');
 			},
-			'./components/src/components/Organisms/MobileSidebar/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/MobileSidebar/index.ts'(n, o, e) {
 				e.d(o, { R: () => s.R });
 				var s = e('./components/src/components/Organisms/MobileSidebar/MobileSidebar.tsx');
 			},
-			'./components/src/components/Organisms/NoResults/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/NoResults/index.ts'(n, o, e) {
 				e.d(o, { a: () => s.a });
 				var s = e('./components/src/components/Organisms/NoResults/NoResults.tsx');
 			},
-			'./components/src/components/Organisms/Results/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/Results/index.ts'(n, o, e) {
 				e.d(o, { n: () => s.n });
 				var s = e('./components/src/components/Organisms/Results/Results.tsx');
 			},
-			'./components/src/components/Organisms/Sidebar/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/Sidebar/index.ts'(n, o, e) {
 				e.d(o, { B: () => s.B });
 				var s = e('./components/src/components/Organisms/Sidebar/Sidebar.tsx');
 			},
-			'./components/src/components/Organisms/TermsList/TermsList.tsx'(r, o, e) {
-				e.d(o, { G: () => U });
+			'./components/src/components/Organisms/TermsList/TermsList.tsx'(n, o, e) {
+				e.d(o, { G: () => f });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/mobx-react-lite/es/index.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('./components/src/providers/cache.tsx'),
 					T = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					x = e('./components/src/providers/snap.tsx'),
-					d = e('./components/src/providers/treePath.tsx'),
-					P = e('./components/src/hooks/useComponent.tsx'),
-					O = e('./components/src/utilities/defined.ts'),
-					W = e('./components/src/utilities/mergeProps.ts'),
-					L = e('./components/src/utilities/mergeStyles.ts'),
-					K = e('./components/src/components/Molecules/Terms/Terms.tsx');
+					O = e('./components/src/providers/snap.tsx'),
+					_ = e('./components/src/providers/treePath.tsx'),
+					h = e('./components/src/hooks/useComponent.tsx'),
+					M = e('./components/src/utilities/defined.ts'),
+					L = e('./components/src/utilities/mergeProps.ts'),
+					A = e('./components/src/utilities/mergeStyles.ts'),
+					U = e('./components/src/components/Molecules/Terms/Terms.tsx');
 				const b = ({}) =>
-						(0, g.AH)({
+						(0, v.AH)({
 							display: 'flex',
 							flexDirection: 'row',
 							background: '#f8f8f8',
@@ -1767,50 +1717,50 @@
 							'.ss__terms-list__row:empty': { display: 'none' },
 							'.ss__terms-list__separator': { flexGrow: 1, flexShrink: 1 },
 						}),
-					U = (0, M.PA)((A) => {
-						const u = (0, T.u)(),
-							I = (0, x.uk)(),
-							l = (0, d.LU)(),
-							a = {
+					f = (0, P.PA)((R) => {
+						const l = (0, T.u)(),
+							I = (0, O.uk)(),
+							p = (0, _.LU)(),
+							r = {
 								layout: [['Suggestions'], ['Trending'], ['History']],
 								historyTitle: 'Recent Searches',
 								trendingTitle: 'Popular Searches',
 								suggestionTitle: 'Search Suggestions',
-								treePath: l,
+								treePath: p,
 							},
-							m = (0, W.v6)('termsList', u, a, A),
+							d = (0, L.v6)('termsList', l, r, R),
 							{
-								layout: v,
-								historyTitle: n,
-								verticalOptions: i,
-								trendingTitle: _,
-								suggestionTitle: B,
-								retainHistory: f,
-								retainTrending: h,
-								treePath: D,
-								disableStyles: R,
-								className: C,
+								layout: C,
+								historyTitle: a,
+								verticalOptions: u,
+								trendingTitle: m,
+								suggestionTitle: K,
+								retainHistory: D,
+								retainTrending: i,
+								treePath: B,
+								disableStyles: W,
+								className: x,
 								internalClassName: S,
-								controller: p,
+								controller: g,
 								customComponent: y,
-							} = m;
+							} = d;
 						if (y) {
-							const G = (0, P.x)(I?.templates?.library.import.component.termsList || {}, y);
-							if (G) return (0, s.Y)(G, { ...m });
+							const G = (0, h.x)(I?.templates?.library.import.component.termsList || {}, y);
+							if (G) return (0, s.Y)(G, { ...d });
 						}
-						const Q = { terms: { vertical: !!i, ...(0, O.s)({ disableStyles: R }), theme: m.theme, treePath: D } },
-							w = (0, L.Z)(m, b),
-							H = p?.store.history || [],
-							V = p?.store.terms || [],
-							$ = p?.store.trending || [],
+						const X = { terms: { vertical: !!u, ...(0, M.s)({ disableStyles: W }), theme: d.theme, treePath: B } },
+							w = (0, A.Z)(d, b),
+							H = g?.store.history || [],
+							V = g?.store.terms || [],
+							$ = g?.store.trending || [],
 							Z = $?.filter((G) => G.active).pop(),
 							N = H?.filter((G) => G.active).pop(),
-							{ loaded: Y, results: F, state: X } = p?.store;
+							{ loaded: Y, results: F, state: Q } = g?.store;
 						let k = !1;
-						$?.length && ((h && Y) || (!F.length && !X.input)) && (k = !0);
+						$?.length && ((i && Y) || (!F.length && !Q.input)) && (k = !0);
 						let J = !1;
-						H?.length && ((f && Y) || (!F.length && !X.input)) && (J = !0),
-							!p.store.state.input && (N || Z) && (H?.length && (J = !0), $?.length && (k = !0));
+						H?.length && ((D && Y) || (!F.length && !Q.input)) && (J = !0),
+							!g.store.state.input && (N || Z) && (H?.length && (J = !0), $?.length && (k = !0));
 						const j = (G) => {
 								if (typeof G != 'string') {
 									const ee = G?.map((z) => j(z));
@@ -1818,97 +1768,97 @@
 								}
 								if (G == '_') return (0, s.Y)('div', { className: 'ss__terms-list__separator' });
 								if (G == 'History' && J)
-									return (0, s.Y)(K.i, {
+									return (0, s.Y)(U.i, {
 										internalClassName: 'ss__terms-list__terms--history',
-										title: n,
+										title: a,
 										terms: H,
-										controller: p,
+										controller: g,
 										name: 'history',
-										limit: p.config.settings?.history?.limit,
-										...Q.terms,
+										limit: g.config.settings?.history?.limit,
+										...X.terms,
 									});
 								if (G == 'Trending' && k)
-									return (0, s.Y)(K.i, {
+									return (0, s.Y)(U.i, {
 										internalClassName: 'ss__terms-list__terms--trending',
-										title: _,
+										title: m,
 										terms: $,
-										controller: p,
+										controller: g,
 										name: 'trending',
-										limit: p.config.settings?.trending?.limit,
-										...Q.terms,
+										limit: g.config.settings?.trending?.limit,
+										...X.terms,
 									});
 								if (G == 'Suggestions')
 									return V.length
-										? (0, s.Y)(K.i, {
+										? (0, s.Y)(U.i, {
 												internalClassName: 'ss__terms-list__terms--suggestions',
-												title: B,
+												title: K,
 												terms: V,
-												controller: p,
+												controller: g,
 												name: 'suggestions',
-												...Q.terms,
+												...X.terms,
 										  })
 										: null;
 							},
-							se = v?.map((G) => j(G));
+							se = C?.map((G) => j(G));
 						return se?.some(Boolean)
-							? (0, s.Y)(E._, { children: (0, s.Y)('div', { ...w, className: c()('ss__terms-list', C, S), children: se }) })
+							? (0, s.Y)(E._, { children: (0, s.Y)('div', { ...w, className: c()('ss__terms-list', x, S), children: se }) })
 							: null;
 					});
 			},
-			'./components/src/components/Organisms/TermsList/index.tsx'(r, o, e) {
+			'./components/src/components/Organisms/TermsList/index.tsx'(n, o, e) {
 				e.d(o, { G: () => s.G });
 				var s = e('./components/src/components/Organisms/TermsList/TermsList.tsx');
 			},
-			'./components/src/components/Organisms/Toolbar/index.ts'(r, o, e) {
+			'./components/src/components/Organisms/Toolbar/index.ts'(n, o, e) {
 				e.d(o, { M: () => s.M });
 				var s = e('./components/src/components/Organisms/Toolbar/Toolbar.tsx');
 			},
-			'./components/src/components/Templates/Recommendation/Recommendation.tsx'(r, o, e) {
-				e.d(o, { A: () => n });
+			'./components/src/components/Templates/Recommendation/Recommendation.tsx'(n, o, e) {
+				e.d(o, { A: () => a });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('../../node_modules/mobx-react-lite/es/index.js'),
 					T = e('../../node_modules/deepmerge/dist/cjs.js'),
-					x = e.n(T),
-					d = e('./components/src/components/Molecules/Carousel/Carousel.tsx'),
-					P = e('./components/src/components/Molecules/Result/Result.tsx'),
-					O = e('./components/src/utilities/cloneWithProps.tsx'),
-					W = e('./components/src/utilities/defined.ts'),
-					L = e('./components/src/utilities/mergeProps.ts'),
-					K = e('./components/src/utilities/mergeStyles.ts'),
+					O = e.n(T),
+					_ = e('./components/src/components/Molecules/Carousel/Carousel.tsx'),
+					h = e('./components/src/components/Molecules/Result/Result.tsx'),
+					M = e('./components/src/utilities/cloneWithProps.tsx'),
+					L = e('./components/src/utilities/defined.ts'),
+					A = e('./components/src/utilities/mergeProps.ts'),
+					U = e('./components/src/utilities/mergeStyles.ts'),
 					b = e('./components/src/hooks/useIntersection.tsx'),
-					U = e('./components/src/providers/cache.tsx'),
-					A = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					u = e('./components/src/providers/treePath.tsx'),
+					f = e('./components/src/providers/cache.tsx'),
+					R = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					l = e('./components/src/providers/treePath.tsx'),
 					I = e('./components/src/hooks/useDisplaySettings.tsx'),
-					l = e('./components/src/components/Trackers/Recommendation/ProfileTracker/RecommendationProfileTracker.tsx'),
-					a = e('./components/src/hooks/useLang.tsx'),
-					m = e('./components/src/components/Trackers/ResultTracker/ResultTracker.tsx');
-				const v = ({ vertical: i }) => (0, g.AH)({ height: i ? '100%' : void 0, '.ss__result__image-wrapper': { height: i ? '85%' : void 0 } }),
-					n = (0, E.PA)((i) => {
-						const _ = (0, A.u)(),
-							B = (0, u.LU)(),
-							f = {
-								breakpoints: i.vertical ? JSON.parse(JSON.stringify(d.og)) : JSON.parse(JSON.stringify(d.K)),
+					p = e('./components/src/components/Trackers/Recommendation/ProfileTracker/RecommendationProfileTracker.tsx'),
+					r = e('./components/src/hooks/useLang.tsx'),
+					d = e('./components/src/components/Trackers/ResultTracker/ResultTracker.tsx');
+				const C = ({ vertical: u }) => (0, v.AH)({ height: u ? '100%' : void 0, '.ss__result__image-wrapper': { height: u ? '85%' : void 0 } }),
+					a = (0, E.PA)((u) => {
+						const m = (0, R.u)(),
+							K = (0, l.LU)(),
+							D = {
+								breakpoints: u.vertical ? JSON.parse(JSON.stringify(_.og)) : JSON.parse(JSON.stringify(_.K)),
 								pagination: !1,
 								loop: !0,
-								title: i.controller?.store?.profile?.display?.templateParameters?.title,
-								description: i.controller?.store?.profile?.display?.templateParameters?.description,
-								treePath: B,
+								title: u.controller?.store?.profile?.display?.templateParameters?.title,
+								description: u.controller?.store?.profile?.display?.templateParameters?.description,
+								treePath: K,
 							},
-							h = { name: i.controller?.store?.profile?.tag?.toLowerCase(), ...i };
-						let D = (0, L.v6)('recommendation', _, f, h),
-							R;
-						!(i.theme?.name || _.name) && D.breakpoints && ((R = (0, I.X)(D.breakpoints)), R && Object.keys(R).length && (D = { ...D, ...R }));
+							i = { name: u.controller?.store?.profile?.tag?.toLowerCase(), ...u };
+						let B = (0, A.v6)('recommendation', m, D, i),
+							W;
+						!(u.theme?.name || m.name) && B.breakpoints && ((W = (0, I.X)(B.breakpoints)), W && Object.keys(W).length && (B = { ...B, ...W }));
 						const {
-								title: C,
+								title: x,
 								description: S,
-								controller: p,
+								controller: g,
 								children: y,
-								loop: Q,
+								loop: X,
 								results: w,
 								pagination: H,
 								nextButton: V,
@@ -1917,7 +1867,7 @@
 								resultComponent: N,
 								disableStyles: Y,
 								className: F,
-								internalClassName: X,
+								internalClassName: Q,
 								style: k,
 								styleScript: J,
 								themeStyleScript: j,
@@ -1926,14 +1876,14 @@
 								hideTitle: ee,
 								treePath: re,
 								...z
-							} = D,
+							} = B,
 							ne = { enabled: !0, offset: '10%', ...se };
-						if (!p || p.type !== 'recommendation')
+						if (!g || g.type !== 'recommendation')
 							throw new Error("<Recommendation> Component requires 'controller' prop with an instance of RecommendationController");
-						const te = w || p.store?.results;
+						const te = w || g.store?.results;
 						if (Array.isArray(y) && y.length !== te.length)
 							return (
-								p.log.error(
+								g.log.error(
 									"<Recommendation> Component received invalid number of children. Must match length of 'results' prop or 'controller.store.results'"
 								),
 								null
@@ -1941,139 +1891,139 @@
 						const ae = {
 								carousel: {
 									internalClassName: 'ss__recommendation__Carousel',
-									...(0, W.s)({ disableStyles: Y, vertical: G }),
-									theme: D?.theme,
+									...(0, L.s)({ disableStyles: Y, vertical: G }),
+									theme: B?.theme,
 									treePath: re,
 								},
-								result: { internalClassName: 'ss__recommendation__result', ...(0, W.s)({ disableStyles: Y }), theme: D?.theme, treePath: re },
+								result: { internalClassName: 'ss__recommendation__result', ...(0, L.s)({ disableStyles: Y }), theme: B?.theme, treePath: re },
 							},
-							me = (0, K.Z)(D, v),
-							[_e, de] = (0, M.J0)(!1),
-							ie = (0, M.li)(null);
+							me = (0, U.Z)(B, C),
+							[_e, de] = (0, P.J0)(!1),
+							ie = (0, P.li)(null);
 						(!ne?.enabled || (0, b.v)(ie, `${ne.offset} 0px ${ne.offset} 0px`, !0)) && de(!0);
-						const pe = { titleText: { value: `${C}` } },
-							Ee = x()(pe, D.lang || {}),
-							ue = (0, a.u)(Ee, {});
+						const pe = { titleText: { value: `${x}` } },
+							Ee = O()(pe, B.lang || {}),
+							ue = (0, r.u)(Ee, {});
 						return (Array.isArray(y) && y.length) || te?.length
-							? (0, s.Y)(U._, {
+							? (0, s.Y)(f._, {
 									children: (0, s.Y)('div', {
 										...me,
-										className: c()('ss__recommendation', F, X),
+										className: c()('ss__recommendation', F, Q),
 										ref: ie,
 										children: _e
-											? (0, s.FD)(l.l, {
-													controller: p,
+											? (0, s.FD)(p.l, {
+													controller: g,
 													children: [
-														C && !ee && (0, s.Y)('h3', { className: 'ss__recommendation__title', ...ue.titleText?.all, children: C }),
+														x && !ee && (0, s.Y)('h3', { className: 'ss__recommendation__title', ...ue.titleText?.all, children: x }),
 														S && (0, s.Y)('p', { className: 'ss__recommendation__description', children: S }),
-														(0, s.Y)(d.FN, {
+														(0, s.Y)(_.FN, {
 															prevButton: $,
 															nextButton: V,
 															hideButtons: Z,
-															loop: Q,
+															loop: X,
 															pagination: H,
 															...ae.carousel,
 															...z,
 															children:
 																Array.isArray(y) && y.length
-																	? y.map((oe, le) => (0, s.Y)(m.o, { controller: p, result: te[le], children: oe }))
+																	? y.map((oe, le) => (0, s.Y)(d.o, { controller: g, result: te[le], children: oe }))
 																	: te.map((oe) =>
-																			(0, s.Y)(m.o, {
-																				controller: p,
+																			(0, s.Y)(d.o, {
+																				controller: g,
 																				result: oe,
 																				children:
-																					N && p
-																						? (0, O.Y)(N, { controller: p, result: oe, treePath: ae.result.treePath })
-																						: (0, s.Y)(P.Q, { ...ae.result, controller: p, result: oe }, oe.id),
+																					N && g
+																						? (0, M.Y)(N, { controller: g, result: oe, treePath: ae.result.treePath })
+																						: (0, s.Y)(h.Q, { ...ae.result, controller: g, result: oe }, oe.id),
 																			})
 																	  ),
 														}),
 													],
 											  })
-											: (0, s.Y)(l.l, {
-													controller: p,
+											: (0, s.Y)(p.l, {
+													controller: g,
 													children:
 														Array.isArray(y) && y.length
-															? y.map((oe, le) => (0, s.Y)(m.o, { controller: p, result: te[le], children: (0, s.Y)(s.FK, {}) }))
-															: te.map((oe) => (0, s.Y)(m.o, { controller: p, result: oe, children: (0, s.Y)(s.FK, {}) })),
+															? y.map((oe, le) => (0, s.Y)(d.o, { controller: g, result: te[le], children: (0, s.Y)(s.FK, {}) }))
+															: te.map((oe) => (0, s.Y)(d.o, { controller: g, result: oe, children: (0, s.Y)(s.FK, {}) })),
 											  }),
 									}),
 							  })
 							: (0, s.Y)(s.FK, {});
 					});
 			},
-			'./components/src/components/Templates/Recommendation/index.ts'(r, o, e) {
+			'./components/src/components/Templates/Recommendation/index.ts'(n, o, e) {
 				e.d(o, { A: () => s.A });
 				var s = e('./components/src/components/Templates/Recommendation/Recommendation.tsx');
 			},
-			'./components/src/components/Templates/RecommendationBundle/index.ts'(r, o, e) {
+			'./components/src/components/Templates/RecommendationBundle/index.ts'(n, o, e) {
 				e.d(o, { g: () => s.g });
 				var s = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx');
 			},
-			'./components/src/components/Templates/RecommendationBundleEasyAdd/RecommendationBundleEasyAdd.tsx'(r, o, e) {
-				e.d(o, { F: () => O });
+			'./components/src/components/Templates/RecommendationBundleEasyAdd/RecommendationBundleEasyAdd.tsx'(n, o, e) {
+				e.d(o, { F: () => M });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					t = e('../../node_modules/mobx-react-lite/es/index.js'),
 					c = e('./components/src/utilities/defined.ts'),
 					E = e('./components/src/utilities/mergeProps.ts'),
 					T = e('./components/src/utilities/mergeStyles.ts'),
-					x = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx');
-				const d = () => (0, M.AH)({ '.ss__recommendation-bundle-easy-add__wrapper__cta': { textAlign: 'center' } }),
-					P = 'recommendationBundleEasyAdd',
-					O = (0, t.PA)((W) => {
-						const L = (0, g.u)(),
-							K = { name: W.controller?.store?.profile?.tag?.toLowerCase(), ...W },
-							{ treePath: b, disableStyles: U, controller: A, style: u, styleScript: I, themeStyleScript: l, ...a } = K,
-							m = {
+					O = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx');
+				const _ = () => (0, P.AH)({ '.ss__recommendation-bundle-easy-add__wrapper__cta': { textAlign: 'center' } }),
+					h = 'recommendationBundleEasyAdd',
+					M = (0, t.PA)((L) => {
+						const A = (0, v.u)(),
+							U = { name: L.controller?.store?.profile?.tag?.toLowerCase(), ...L },
+							{ treePath: b, disableStyles: f, controller: R, style: l, styleScript: I, themeStyleScript: p, ...r } = U,
+							d = {
 								recommendationBundle: {
 									hideCheckboxes: !0,
 									seedText: '',
 									ctaButtonText: 'Add Both',
 									ctaInline: !1,
 									hideSeed: !0,
-									alias: P,
+									alias: h,
 									limit: 1,
 									carousel: { enabled: !1 },
 									separatorIcon: !1,
-									...(0, c.s)({ disableStyles: U }),
-									theme: K?.theme,
+									...(0, c.s)({ disableStyles: f }),
+									theme: U?.theme,
 									treePath: b,
 								},
 							},
-							v = (0, E.v6)(P, L, {}, K),
-							n = (0, T.Z)(v, d);
-						return (0, s.Y)(x.g, { controller: A, ...n, ...m.recommendationBundle, ...a });
+							C = (0, E.v6)(h, A, {}, U),
+							a = (0, T.Z)(C, _);
+						return (0, s.Y)(O.g, { controller: R, ...a, ...d.recommendationBundle, ...r });
 					});
 			},
-			'./components/src/components/Templates/RecommendationBundleEasyAdd/index.ts'(r, o, e) {
+			'./components/src/components/Templates/RecommendationBundleEasyAdd/index.ts'(n, o, e) {
 				e.d(o, { F: () => s.F });
 				var s = e('./components/src/components/Templates/RecommendationBundleEasyAdd/RecommendationBundleEasyAdd.tsx');
 			},
-			'./components/src/components/Templates/RecommendationBundleList/RecommendationBundleList.tsx'(r, o, e) {
-				e.d(o, { X: () => v, a: () => m });
+			'./components/src/components/Templates/RecommendationBundleList/RecommendationBundleList.tsx'(n, o, e) {
+				e.d(o, { X: () => C, a: () => d });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					t = e('../../node_modules/mobx-react-lite/es/index.js'),
 					c = e('./components/src/utilities/defined.ts'),
 					E = e('./components/src/utilities/mergeProps.ts'),
 					T = e('./components/src/utilities/mergeStyles.ts'),
-					x = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx'),
-					d = e('./components/src/components/Atoms/Price/Price.tsx'),
-					P = e('./components/src/components/Atoms/Button/Button.tsx'),
-					O = e('./components/src/components/Atoms/Icon/Icon.tsx'),
-					W = e('./components/src/components/Atoms/Image/Image.tsx'),
-					L = e('./components/src/utilities/componentNameToClassName.ts'),
-					K = e('../../node_modules/classnames/index.js'),
-					b = e.n(K),
-					U = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					A = e('../../node_modules/deepmerge/dist/cjs.js'),
-					u = e.n(A),
+					O = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx'),
+					_ = e('./components/src/components/Atoms/Price/Price.tsx'),
+					h = e('./components/src/components/Atoms/Button/Button.tsx'),
+					M = e('./components/src/components/Atoms/Icon/Icon.tsx'),
+					L = e('./components/src/components/Atoms/Image/Image.tsx'),
+					A = e('./components/src/utilities/componentNameToClassName.ts'),
+					U = e('../../node_modules/classnames/index.js'),
+					b = e.n(U),
+					f = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					R = e('../../node_modules/deepmerge/dist/cjs.js'),
+					l = e.n(R),
 					I = e('./components/src/hooks/useLang.tsx');
-				const l = () =>
-						(0, M.AH)({
+				const p = () =>
+						(0, P.AH)({
 							'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper': {
 								display: 'flex',
 								'.ss__recommendation-bundle-list__wrapper__selector__result-wrapper__checkbox': { position: 'relative', minWidth: '20px' },
@@ -2094,98 +2044,98 @@
 								'.ss__recommendation-bundle-list__wrapper__cta__inner__image-wrapper': { padding: '0px 15px', position: 'relative' },
 							},
 						}),
-					a = 'recommendationBundleList',
-					m = (0, t.PA)((n) => {
-						const i = (0, g.u)(),
-							_ = { name: n.controller?.store?.profile?.tag?.toLowerCase(), ...n },
-							{ treePath: B, disableStyles: f, controller: h, style: D, styleScript: R, themeStyleScript: C, ...S } = _,
-							p = {
+					r = 'recommendationBundleList',
+					d = (0, t.PA)((a) => {
+						const u = (0, v.u)(),
+							m = { name: a.controller?.store?.profile?.tag?.toLowerCase(), ...a },
+							{ treePath: K, disableStyles: D, controller: i, style: B, styleScript: W, themeStyleScript: x, ...S } = m,
+							g = {
 								recommendationBundle: {
 									seedText: '',
 									ctaInline: !1,
 									limit: 5,
 									preselectedCount: 2,
 									carousel: { enabled: !1, seedInCarousel: !0 },
-									ctaSlot: (w) => (0, s.Y)(v, { ...w }),
+									ctaSlot: (w) => (0, s.Y)(C, { ...w }),
 									vertical: !0,
 									separatorIcon: !1,
-									alias: a,
-									...(0, c.s)({ disableStyles: f }),
-									theme: _?.theme,
-									treePath: B,
+									alias: r,
+									...(0, c.s)({ disableStyles: D }),
+									theme: m?.theme,
+									treePath: K,
 								},
 							},
-							y = (0, E.v6)(a, i, {}, _),
-							Q = (0, T.Z)(y, l);
-						return (0, s.Y)(x.g, { controller: h, ...Q, ...p.recommendationBundle, ...S });
+							y = (0, E.v6)(r, u, {}, m),
+							X = (0, T.Z)(y, p);
+						return (0, s.Y)(O.g, { controller: i, ...X, ...g.recommendationBundle, ...S });
 					}),
-					v = (0, t.PA)((n) => {
-						const i = n.cartStore,
-							_ = `ss__${(0, L.b)(a)}`;
-						n.onAddToCart = (C) => {
-							f(!0), n.onAddToCart(C), setTimeout(() => f(!1), n.ctaButtonSuccessTimeout);
+					C = (0, t.PA)((a) => {
+						const u = a.cartStore,
+							m = `ss__${(0, A.b)(r)}`;
+						a.onAddToCart = (x) => {
+							D(!0), a.onAddToCart(x), setTimeout(() => D(!1), a.ctaButtonSuccessTimeout);
 						};
-						const [B, f] = (0, U.J0)(!1);
-						n.addedToCart = B;
-						const h = {
-								image: { className: `${_}__wrapper__cta__image`, theme: n?.theme, treePath: n.treePath },
+						const [K, D] = (0, f.J0)(!1);
+						a.addedToCart = K;
+						const i = {
+								image: { className: `${m}__wrapper__cta__image`, theme: a?.theme, treePath: a.treePath },
 								separatorIcon: {
 									name: 'bundle-cart-separator',
-									className: `${_}__wrapper__cta__icon--separator`,
+									className: `${m}__wrapper__cta__icon--separator`,
 									icon: 'plus',
 									size: 12,
-									theme: n?.theme,
-									treePath: n.treePath,
+									theme: a?.theme,
+									treePath: a.treePath,
 								},
-								icon: { name: 'bundle-cart', className: `${_}__wrapper__cta__icon`, size: 50, theme: n?.theme, treePath: n.treePath },
-								subtotalStrike: { name: 'bundle-msrp', className: `${_}__wrapper__cta__price--strike`, theme: n?.theme, treePath: n.treePath },
-								subtotalPrice: { className: `${_}__wrapper__cta__price`, name: 'bundle-price', theme: n?.theme, treePath: n.treePath },
-								button: { className: `${_}__wrapper__cta__button`, theme: n?.theme, treePath: n.treePath },
+								icon: { name: 'bundle-cart', className: `${m}__wrapper__cta__icon`, size: 50, theme: a?.theme, treePath: a.treePath },
+								subtotalStrike: { name: 'bundle-msrp', className: `${m}__wrapper__cta__price--strike`, theme: a?.theme, treePath: a.treePath },
+								subtotalPrice: { className: `${m}__wrapper__cta__price`, name: 'bundle-price', theme: a?.theme, treePath: a.treePath },
+								button: { className: `${m}__wrapper__cta__button`, theme: a?.theme, treePath: a.treePath },
 							},
-							D = u()({}, n.lang || {}),
-							R = (0, I.u)(D, {});
+							B = l()({}, a.lang || {}),
+							W = (0, I.u)(B, {});
 						return (0, s.FD)(s.FK, {
 							children: [
 								(0, s.FD)('div', {
-									className: `${_}__wrapper__cta__inner`,
+									className: `${m}__wrapper__cta__inner`,
 									children: [
 										(0, s.Y)('div', {
-											className: `${_}__wrapper__cta__inner__images`,
-											children: i.items.map((C) => {
-												const S = C.display.mappings.core;
+											className: `${m}__wrapper__cta__inner__images`,
+											children: u.items.map((x) => {
+												const S = x.display.mappings.core;
 												return (0, s.FD)('div', {
-													className: `${_}__wrapper__cta__inner__image-wrapper`,
+													className: `${m}__wrapper__cta__inner__image-wrapper`,
 													children: [
-														(0, s.Y)('a', { href: S.url, children: (0, s.Y)(W._, { src: S.thumbnailImageUrl, alt: S.name, lazy: !1 }) }),
-														(0, s.Y)(O.I, { ...h.separatorIcon }),
+														(0, s.Y)('a', { href: S.url, children: (0, s.Y)(L._, { src: S.thumbnailImageUrl, alt: S.name, lazy: !1 }) }),
+														(0, s.Y)(M.I, { ...i.separatorIcon }),
 													],
 												});
 											}),
 										}),
 										(0, s.FD)('div', {
-											className: `${_}__wrapper__cta__subtotal`,
+											className: `${m}__wrapper__cta__subtotal`,
 											'aria-atomic': 'false',
 											'aria-live': 'polite',
 											children: [
-												n.ctaIcon
+												a.ctaIcon
 													? (0, s.Y)('div', {
-															className: `${_}__wrapper__cta__subtotal__icon__wrapper`,
-															children: (0, s.Y)(O.I, { ...h.icon, ...(typeof n.ctaIcon == 'string' ? { icon: n.ctaIcon } : n.ctaIcon) }),
+															className: `${m}__wrapper__cta__subtotal__icon__wrapper`,
+															children: (0, s.Y)(M.I, { ...i.icon, ...(typeof a.ctaIcon == 'string' ? { icon: a.ctaIcon } : a.ctaIcon) }),
 													  })
 													: (0, s.Y)(s.FK, {}),
-												(0, s.Y)('span', { className: `${_}__wrapper__cta__subtotal__title`, children: `Subtotal for ${i.count} items` }),
+												(0, s.Y)('span', { className: `${m}__wrapper__cta__subtotal__title`, children: `Subtotal for ${u.count} items` }),
 												(0, s.FD)('div', {
-													className: `${_}__wrapper__cta__subtotal__prices`,
+													className: `${m}__wrapper__cta__subtotal__prices`,
 													children: [
-														i.msrp && i.msrp !== i.price
+														u.msrp && u.msrp !== u.price
 															? (0, s.FD)('label', {
-																	className: `${_}__wrapper__cta__subtotal__strike`,
-																	children: ['Was ', (0, s.Y)(d.g, { ...h.subtotalStrike, lineThrough: !0, value: i.msrp })],
+																	className: `${m}__wrapper__cta__subtotal__strike`,
+																	children: ['Was ', (0, s.Y)(_.g, { ...i.subtotalStrike, lineThrough: !0, value: u.msrp })],
 															  })
 															: (0, s.Y)(s.FK, {}),
 														(0, s.Y)('label', {
-															className: `${_}__wrapper__cta__subtotal__price`,
-															children: (0, s.Y)(d.g, { ...h.subtotalPrice, value: i.price }),
+															className: `${m}__wrapper__cta__subtotal__price`,
+															children: (0, s.Y)(_.g, { ...i.subtotalPrice, value: u.price }),
 														}),
 													],
 												}),
@@ -2194,243 +2144,243 @@
 									],
 								}),
 								(0, s.Y)('div', {
-									className: `${_}__cta__button__wrapper`,
-									children: (0, s.Y)(P.$, {
-										...h.button,
-										disabled: i.items.length == 0,
+									className: `${m}__cta__button__wrapper`,
+									children: (0, s.Y)(h.$, {
+										...i.button,
+										disabled: u.items.length == 0,
 										disableStyles: !0,
-										internalClassName: b()(`${_}__cta__button`, { [`${_}__cta__button--added`]: B }),
-										'aria-live': B,
-										onClick: (C) => n.onAddToCart(C),
-										...(B ? R.ctaButtonSuccessText?.all : R.ctaButtonText?.all),
-										children: n.addedToCart ? n.ctaButtonSuccessText : n.ctaButtonText,
+										internalClassName: b()(`${m}__cta__button`, { [`${m}__cta__button--added`]: K }),
+										'aria-live': K,
+										onClick: (x) => a.onAddToCart(x),
+										...(K ? W.ctaButtonSuccessText?.all : W.ctaButtonText?.all),
+										children: a.addedToCart ? a.ctaButtonSuccessText : a.ctaButtonText,
 									}),
 								}),
 							],
 						});
 					});
 			},
-			'./components/src/components/Templates/RecommendationBundleList/index.ts'(r, o, e) {
+			'./components/src/components/Templates/RecommendationBundleList/index.ts'(n, o, e) {
 				e.d(o, { X: () => s.X, a: () => s.a });
 				var s = e('./components/src/components/Templates/RecommendationBundleList/RecommendationBundleList.tsx');
 			},
-			'./components/src/components/Templates/RecommendationBundleVertical/RecommendationBundleVertical.tsx'(r, o, e) {
-				e.d(o, { a: () => O });
+			'./components/src/components/Templates/RecommendationBundleVertical/RecommendationBundleVertical.tsx'(n, o, e) {
+				e.d(o, { a: () => M });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					t = e('../../node_modules/mobx-react-lite/es/index.js'),
 					c = e('./components/src/utilities/defined.ts'),
 					E = e('./components/src/utilities/mergeProps.ts'),
 					T = e('./components/src/utilities/mergeStyles.ts'),
-					x = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx');
-				const d = () =>
-						(0, M.AH)({
+					O = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx');
+				const _ = () =>
+						(0, P.AH)({
 							'.ss__recommendation-bundle-vertical__wrapper': { flexDirection: 'column' },
 							'.ss__recommendation-bundle-vertical__wrapper__cta': { textAlign: 'center' },
 						}),
-					P = 'recommendationBundleVertical',
-					O = (0, t.PA)((W) => {
-						const L = (0, g.u)(),
-							K = { name: W.controller?.store?.profile?.tag?.toLowerCase(), ...W },
-							{ treePath: b, disableStyles: U, controller: A, style: u, styleScript: I, themeStyleScript: l, ...a } = K,
-							m = {
+					h = 'recommendationBundleVertical',
+					M = (0, t.PA)((L) => {
+						const A = (0, v.u)(),
+							U = { name: L.controller?.store?.profile?.tag?.toLowerCase(), ...L },
+							{ treePath: b, disableStyles: f, controller: R, style: l, styleScript: I, themeStyleScript: p, ...r } = U,
+							d = {
 								recommendationBundle: {
 									ctaInline: !1,
 									carousel: { enabled: !1 },
 									separatorIcon: !1,
-									alias: P,
-									...(0, c.s)({ disableStyles: U }),
-									theme: K?.theme,
+									alias: h,
+									...(0, c.s)({ disableStyles: f }),
+									theme: U?.theme,
 									treePath: b,
 								},
 							},
-							v = (0, E.v6)(P, L, {}, K),
-							n = (0, T.Z)(v, d);
-						return (0, s.Y)(x.g, { controller: A, ...n, ...m.recommendationBundle, ...a });
+							C = (0, E.v6)(h, A, {}, U),
+							a = (0, T.Z)(C, _);
+						return (0, s.Y)(O.g, { controller: R, ...a, ...d.recommendationBundle, ...r });
 					});
 			},
-			'./components/src/components/Templates/RecommendationBundleVertical/index.ts'(r, o, e) {
+			'./components/src/components/Templates/RecommendationBundleVertical/index.ts'(n, o, e) {
 				e.d(o, { a: () => s.a });
 				var s = e('./components/src/components/Templates/RecommendationBundleVertical/RecommendationBundleVertical.tsx');
 			},
-			'./components/src/components/Templates/RecommendationEmail/RecommendationEmail.tsx'(r, o, e) {
-				e.d(o, { O: () => L, i: () => b });
+			'./components/src/components/Templates/RecommendationEmail/RecommendationEmail.tsx'(n, o, e) {
+				e.d(o, { O: () => A, i: () => b });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					g = e('../../node_modules/mobx-react-lite/es/index.js'),
+					P = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					v = e('../../node_modules/mobx-react-lite/es/index.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('./components/src/components/Molecules/Result/Result.tsx'),
 					T = e('./components/src/utilities/cloneWithProps.tsx'),
-					x = e('./components/src/utilities/defined.ts'),
-					d = e('./components/src/utilities/mergeProps.ts'),
-					P = e('./components/src/utilities/mergeStyles.ts'),
-					O = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					W = e('./components/src/providers/treePath.tsx');
-				const L = { default: {}, mobile: {}, tablet: {}, desktop: {} },
-					K = () => (0, M.AH)({}),
-					b = (0, g.PA)((U) => {
-						const A = (0, O.u)(),
-							u = (0, W.LU)(),
-							I = { resultWidth: '240px', name: U.controller?.store?.profile?.tag?.toLowerCase(), treePath: u },
-							l = (0, d.v6)('recommendationEmail', A, I, U),
+					O = e('./components/src/utilities/defined.ts'),
+					_ = e('./components/src/utilities/mergeProps.ts'),
+					h = e('./components/src/utilities/mergeStyles.ts'),
+					M = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					L = e('./components/src/providers/treePath.tsx');
+				const A = { default: {}, mobile: {}, tablet: {}, desktop: {} },
+					U = () => (0, P.AH)({}),
+					b = (0, v.PA)((f) => {
+						const R = (0, M.u)(),
+							l = (0, L.LU)(),
+							I = { resultWidth: '240px', name: f.controller?.store?.profile?.tag?.toLowerCase(), treePath: l },
+							p = (0, _.v6)('recommendationEmail', R, I, f),
 							{
-								controller: a,
-								results: m,
-								resultComponent: v,
-								resultProps: n,
-								resultWidth: i,
-								treePath: _,
-								disableStyles: B,
-								internalClassName: f,
-								className: h,
-							} = l,
-							D = {
-								result: { internalClassName: 'ss__recommendation-email__result', ...(0, x.s)({ disableStyles: B }), theme: l?.theme, treePath: _ },
+								controller: r,
+								results: d,
+								resultComponent: C,
+								resultProps: a,
+								resultWidth: u,
+								treePath: m,
+								disableStyles: K,
+								internalClassName: D,
+								className: i,
+							} = p,
+							B = {
+								result: { internalClassName: 'ss__recommendation-email__result', ...(0, O.s)({ disableStyles: K }), theme: p?.theme, treePath: m },
 							},
-							R = (0, P.Z)(l, K),
-							C = m || a?.store?.results || [];
-						return C.length > 0
+							W = (0, h.Z)(p, U),
+							x = d || r?.store?.results || [];
+						return x.length > 0
 							? (0, s.Y)('div', {
-									className: c()('ss__recommendation-email', h, f),
-									...R,
-									children: C.map((S, p) =>
+									className: c()('ss__recommendation-email', i, D),
+									...W,
+									children: x.map((S, g) =>
 										(0, s.Y)(
 											'div',
 											{
-												id: `ss-emailrec${p}`,
+												id: `ss-emailrec${g}`,
 												className: c()('ss__recommendation-email__result-wrapper'),
-												style: { display: 'block', width: i },
-												children: v
-													? (0, T.Y)(v, { controller: a, result: S, ...n, email: !0, treePath: _ })
-													: (0, s.Y)(E.Q, { result: S, hideBadge: !0, theme: { components: { image: { lazy: !1 } } }, ...D.result, ...n }),
+												style: { display: 'block', width: u },
+												children: C
+													? (0, T.Y)(C, { controller: r, result: S, ...a, email: !0, treePath: m })
+													: (0, s.Y)(E.Q, { result: S, hideBadge: !0, theme: { components: { image: { lazy: !1 } } }, ...B.result, ...a }),
 											},
-											p
+											g
 										)
 									),
 							  })
 							: (0, s.Y)(s.FK, {});
 					});
 			},
-			'./components/src/components/Templates/RecommendationEmail/index.ts'(r, o, e) {
+			'./components/src/components/Templates/RecommendationEmail/index.ts'(n, o, e) {
 				e.d(o, { O: () => s.O, i: () => s.i });
 				var s = e('./components/src/components/Templates/RecommendationEmail/RecommendationEmail.tsx');
 			},
-			'./components/src/components/Templates/RecommendationGrid/RecommendationGrid.tsx'(r, o, e) {
-				e.d(o, { q: () => v });
+			'./components/src/components/Templates/RecommendationGrid/RecommendationGrid.tsx'(n, o, e) {
+				e.d(o, { q: () => C });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/mobx-react-lite/es/index.js'),
-					g = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
+					v = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
 					t = e('../../node_modules/classnames/index.js'),
 					c = e.n(t),
 					E = e('../../node_modules/deepmerge/dist/cjs.js'),
 					T = e.n(E),
-					x = e('./components/src/components/Molecules/Result/Result.tsx'),
-					d = e('./components/src/utilities/cloneWithProps.tsx'),
-					P = e('./components/src/utilities/defined.ts'),
-					O = e('./components/src/utilities/mergeProps.ts'),
-					W = e('./components/src/utilities/mergeStyles.ts'),
-					L = e('./components/src/providers/cache.tsx'),
-					K = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					O = e('./components/src/components/Molecules/Result/Result.tsx'),
+					_ = e('./components/src/utilities/cloneWithProps.tsx'),
+					h = e('./components/src/utilities/defined.ts'),
+					M = e('./components/src/utilities/mergeProps.ts'),
+					L = e('./components/src/utilities/mergeStyles.ts'),
+					A = e('./components/src/providers/cache.tsx'),
+					U = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
 					b = e('./components/src/providers/treePath.tsx'),
-					U = e('./components/src/hooks/useDisplaySettings.tsx'),
-					A = e('./components/src/components/Trackers/Recommendation/ProfileTracker/RecommendationProfileTracker.tsx'),
-					u = e('./components/src/components/Trackers/ResultTracker/ResultTracker.tsx'),
+					f = e('./components/src/hooks/useDisplaySettings.tsx'),
+					R = e('./components/src/components/Trackers/Recommendation/ProfileTracker/RecommendationProfileTracker.tsx'),
+					l = e('./components/src/components/Trackers/ResultTracker/ResultTracker.tsx'),
 					I = e('../../node_modules/preact/compat/dist/compat.module.js'),
-					l = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
-					a = e('./components/src/hooks/useIntersection.tsx');
-				const m = ({ gapSize: n, columns: i }) =>
-						(0, g.AH)({
+					p = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					r = e('./components/src/hooks/useIntersection.tsx');
+				const d = ({ gapSize: a, columns: u }) =>
+						(0, v.AH)({
 							maxWidth: '100%',
 							maxHeight: '100%',
 							'.ss__recommendation-grid__results': {
 								display: 'flex',
 								flexFlow: 'row wrap',
-								gap: n,
+								gap: a,
 								gridTemplateRows: 'auto',
-								gridTemplateColumns: `repeat(${i}, 1fr)`,
+								gridTemplateColumns: `repeat(${u}, 1fr)`,
 								overflow: 'auto',
 								'@supports (display: grid)': { display: 'grid' },
 							},
 						}),
-					v = (0, M.PA)((n) => {
-						const i = (0, K.u)(),
-							_ = (0, b.LU)(),
-							B = {
-								results: n.controller?.store?.results,
+					C = (0, P.PA)((a) => {
+						const u = (0, U.u)(),
+							m = (0, b.LU)(),
+							K = {
+								results: a.controller?.store?.results,
 								gapSize: '20px',
-								title: n.controller?.store?.profile?.display?.templateParameters?.title,
-								treePath: _,
+								title: a.controller?.store?.profile?.display?.templateParameters?.title,
+								treePath: m,
 							},
-							f = { name: n.controller?.store?.profile?.tag?.toLowerCase(), ...n };
-						let h = (0, O.v6)('recommendationGrid', i, B, f);
-						if (!n.theme?.name) {
-							const j = (0, U.X)(h?.breakpoints || {}),
-								se = T()(h?.theme || {}, j?.theme || {}, { arrayMerge: (G, ee) => ee });
-							h = { ...h, ...j, theme: se };
+							D = { name: a.controller?.store?.profile?.tag?.toLowerCase(), ...a };
+						let i = (0, M.v6)('recommendationGrid', u, K, D);
+						if (!a.theme?.name) {
+							const j = (0, f.X)(i?.breakpoints || {}),
+								se = T()(i?.theme || {}, j?.theme || {}, { arrayMerge: (G, ee) => ee });
+							i = { ...i, ...j, theme: se };
 						}
 						const {
-								disableStyles: D,
-								title: R,
-								resultComponent: C,
+								disableStyles: B,
+								title: W,
+								resultComponent: x,
 								trim: S,
-								lazyRender: p,
+								lazyRender: g,
 								className: y,
-								internalClassName: Q,
+								internalClassName: X,
 								treePath: w,
 								theme: H,
 								controller: V,
-							} = h,
-							$ = { enabled: !0, offset: '10%', ...p },
-							Z = { result: { internalClassName: 'ss__recommendation-grid__result', ...(0, P.s)({ disableStyles: D }), theme: h?.theme } };
-						let N = h.results || V.store.results;
-						if (!h.columns && !h.rows) (h.rows = 1), (h.columns = N.length);
-						else if (h.columns && !h.rows) {
-							if (((h.rows = Math.floor(N.length / h.columns)), S)) {
-								const j = N.length % h.columns;
+							} = i,
+							$ = { enabled: !0, offset: '10%', ...g },
+							Z = { result: { internalClassName: 'ss__recommendation-grid__result', ...(0, h.s)({ disableStyles: B }), theme: i?.theme } };
+						let N = i.results || V.store.results;
+						if (!i.columns && !i.rows) (i.rows = 1), (i.columns = N.length);
+						else if (i.columns && !i.rows) {
+							if (((i.rows = Math.floor(N.length / i.columns)), S)) {
+								const j = N.length % i.columns;
 								N = N.slice(0, N.length - j);
 							}
-						} else if (h.rows && !h.columns) {
+						} else if (i.rows && !i.columns) {
 							if (S) {
-								const j = N.length % h.rows;
+								const j = N.length % i.rows;
 								N = N.slice(0, N.length - j);
 							}
-							h.columns = Math.ceil(N.length / h.rows);
-						} else h?.columns && h?.rows && h.columns > 0 && h.rows > 0 && (N = N?.slice(0, h.columns * h.rows));
-						const Y = (0, W.Z)(h, m),
-							[F, X] = (0, I.useState)(!1),
-							k = (0, l.li)(null);
+							i.columns = Math.ceil(N.length / i.rows);
+						} else i?.columns && i?.rows && i.columns > 0 && i.rows > 0 && (N = N?.slice(0, i.columns * i.rows));
+						const Y = (0, L.Z)(i, d),
+							[F, Q] = (0, I.useState)(!1),
+							k = (0, p.li)(null);
 						return (
-							(!$?.enabled || (0, a.v)(k, `${$.offset} 0px ${$.offset} 0px`, !0)) && X(!0),
+							(!$?.enabled || (0, r.v)(k, `${$.offset} 0px ${$.offset} 0px`, !0)) && Q(!0),
 							N?.length
-								? (0, s.Y)(L._, {
+								? (0, s.Y)(A._, {
 										children: (0, s.Y)('div', {
 											...Y,
 											ref: k,
-											className: c()('ss__recommendation-grid', y, Q),
+											className: c()('ss__recommendation-grid', y, X),
 											children: F
-												? (0, s.FD)(A.l, {
+												? (0, s.FD)(R.l, {
 														controller: V,
 														children: [
-															R && (0, s.Y)('h3', { className: 'ss__recommendation-grid__title', children: R }),
+															W && (0, s.Y)('h3', { className: 'ss__recommendation-grid__title', children: W }),
 															(0, s.Y)('div', {
 																className: 'ss__recommendation-grid__results',
 																children: N.map((j) =>
-																	C && V
-																		? (0, d.Y)(C, { controller: V, result: j, theme: H, treePath: w })
-																		: (0, s.Y)(u.o, {
+																	x && V
+																		? (0, _.Y)(x, { controller: V, result: j, theme: H, treePath: w })
+																		: (0, s.Y)(l.o, {
 																				result: j,
 																				controller: V,
-																				children: (0, s.Y)(x.Q, { ...Z.result, result: j, controller: V, treePath: w }, j.id),
+																				children: (0, s.Y)(O.Q, { ...Z.result, result: j, controller: V, treePath: w }, j.id),
 																		  })
 																),
 															}),
 														],
 												  })
-												: (0, s.Y)(A.l, {
+												: (0, s.Y)(R.l, {
 														controller: V,
-														children: N.map((j) => (0, s.Y)(u.o, { controller: V, result: j, children: (0, s.Y)(s.FK, {}) })),
+														children: N.map((j) => (0, s.Y)(l.o, { controller: V, result: j, children: (0, s.Y)(s.FK, {}) })),
 												  }),
 										}),
 								  })
@@ -2438,128 +2388,128 @@
 						);
 					});
 			},
-			'./components/src/components/Templates/RecommendationGrid/index.ts'(r, o, e) {
+			'./components/src/components/Templates/RecommendationGrid/index.ts'(n, o, e) {
 				e.d(o, { q: () => s.q });
 				var s = e('./components/src/components/Templates/RecommendationGrid/RecommendationGrid.tsx');
 			},
-			'./components/src/components/Templates/Search/index.ts'(r, o, e) {
+			'./components/src/components/Templates/Search/index.ts'(n, o, e) {
 				e.d(o, { v: () => s.v });
 				var s = e('./components/src/components/Templates/Search/Search.tsx');
 			},
-			'./components/src/components/Templates/SearchCollapsible/SearchCollapsible.tsx'(r, o, e) {
+			'./components/src/components/Templates/SearchCollapsible/SearchCollapsible.tsx'(n, o, e) {
 				e.d(o, { x: () => c });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/mobx-react-lite/es/index.js'),
-					g = e('./components/src/providers/cache.tsx'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
+					v = e('./components/src/providers/cache.tsx'),
 					t = e('./components/src/components/Templates/Search/Search.tsx');
-				const c = (0, M.PA)((E) => (0, s.Y)(g._, { children: (0, s.Y)(t.v, { ...E, alias: 'searchCollapsible' }) }));
+				const c = (0, P.PA)((E) => (0, s.Y)(v._, { children: (0, s.Y)(t.v, { ...E, alias: 'searchCollapsible' }) }));
 			},
-			'./components/src/components/Templates/SearchCollapsible/index.ts'(r, o, e) {
+			'./components/src/components/Templates/SearchCollapsible/index.ts'(n, o, e) {
 				e.d(o, { x: () => s.x });
 				var s = e('./components/src/components/Templates/SearchCollapsible/SearchCollapsible.tsx');
 			},
-			'./components/src/components/Templates/SearchHorizontal/SearchHorizontal.tsx'(r, o, e) {
+			'./components/src/components/Templates/SearchHorizontal/SearchHorizontal.tsx'(n, o, e) {
 				e.d(o, { j: () => c });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/mobx-react-lite/es/index.js'),
-					g = e('./components/src/providers/cache.tsx'),
+					P = e('../../node_modules/mobx-react-lite/es/index.js'),
+					v = e('./components/src/providers/cache.tsx'),
 					t = e('./components/src/components/Templates/Search/Search.tsx');
-				const c = (0, M.PA)((E) =>
-					(0, s.Y)(g._, { children: (0, s.Y)(t.v, { ...E, alias: 'searchHorizontal', internalClassName: 'ss__search-horizontal' }) })
+				const c = (0, P.PA)((E) =>
+					(0, s.Y)(v._, { children: (0, s.Y)(t.v, { ...E, alias: 'searchHorizontal', internalClassName: 'ss__search-horizontal' }) })
 				);
 			},
-			'./components/src/components/Templates/SearchHorizontal/index.ts'(r, o, e) {
+			'./components/src/components/Templates/SearchHorizontal/index.ts'(n, o, e) {
 				e.d(o, { j: () => s.j });
 				var s = e('./components/src/components/Templates/SearchHorizontal/SearchHorizontal.tsx');
 			},
-			'./components/src/components/Trackers/Recommendation/ProfileTracker/index.ts'(r, o, e) {
+			'./components/src/components/Trackers/Recommendation/ProfileTracker/index.ts'(n, o, e) {
 				e.d(o, { l: () => s.l });
 				var s = e('./components/src/components/Trackers/Recommendation/ProfileTracker/RecommendationProfileTracker.tsx');
 			},
-			'./components/src/components/Trackers/ResultTracker/index.ts'(r, o, e) {
+			'./components/src/components/Trackers/ResultTracker/index.ts'(n, o, e) {
 				e.d(o, { o: () => s.o });
 				var s = e('./components/src/components/Trackers/ResultTracker/ResultTracker.tsx');
 			},
-			'./components/src/hooks/index.ts'(r, o, e) {
+			'./components/src/hooks/index.ts'(n, o, e) {
 				e.d(o, {
-					aZ: () => d.aZ,
-					DH: () => d.DH,
-					JA: () => P.Lang,
+					aZ: () => _.aZ,
+					DH: () => _.DH,
+					JA: () => h.Lang,
 					QQ: () => T.Q,
-					iy: () => d.iy,
+					iy: () => _.iy,
 					Ls: () => s.L,
-					xZ: () => L.x,
-					QH: () => g,
-					iG: () => W.i,
-					Ij: () => O.I,
-					rU: () => O.r,
+					xZ: () => A.x,
+					QH: () => v,
+					iG: () => L.i,
+					Ij: () => M.I,
+					rU: () => M.r,
 					Xs: () => T.X,
-					dw: () => x.d,
+					dw: () => O.d,
 					v1: () => c.v,
 					vS: () => E.v,
-					uU: () => P.u,
+					uU: () => h.u,
 					Ub: () => t.U,
-					z1: () => U,
+					z1: () => f,
 				});
 				var s = e('./components/src/hooks/useClickOutside.tsx'),
-					M = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const g = (A = () => {}) => {
-					const u = (0, M.li)(!1);
-					u.current || (A(), (u.current = !0));
+					P = e('../../node_modules/preact/hooks/dist/hooks.module.js');
+				const v = (R = () => {}) => {
+					const l = (0, P.li)(!1);
+					l.current || (R(), (l.current = !0));
 				};
 				var t = e('./components/src/hooks/useMediaQuery.tsx'),
 					c = e('./components/src/hooks/useIntersection.tsx'),
 					E = e('./components/src/hooks/useIntersectionAdvanced.tsx'),
 					T = e('./components/src/hooks/useDisplaySettings.tsx'),
-					x = e('./components/src/hooks/useFuncDebounce.tsx'),
-					d = e('./components/src/hooks/useA11y.tsx'),
-					P = e('./components/src/hooks/useLang.tsx'),
-					O = e('./components/src/hooks/useDeepCompareEffect.tsx'),
-					W = e('./components/src/hooks/useCreateController.tsx'),
-					L = e('./components/src/hooks/useComponent.tsx'),
-					K = e('./components/src/utilities/createImpressionObserver.ts'),
+					O = e('./components/src/hooks/useFuncDebounce.tsx'),
+					_ = e('./components/src/hooks/useA11y.tsx'),
+					h = e('./components/src/hooks/useLang.tsx'),
+					M = e('./components/src/hooks/useDeepCompareEffect.tsx'),
+					L = e('./components/src/hooks/useCreateController.tsx'),
+					A = e('./components/src/hooks/useComponent.tsx'),
+					U = e('./components/src/utilities/createImpressionObserver.ts'),
 					b = e('./components/src/providers/withTracking.tsx');
-				function U({ controller: A, result: u, banner: I, type: l, content: a }) {
-					A || console.warn('Warning: No controller provided to useTracking'),
-						u || console.warn('Warning: No result provided to useTracking'),
-						!u && !I && (!l || !a) && console.warn('Warning: No result or banner provided to withTracking');
-					const { ref: m, inViewport: v } = (0, K.Q)();
+				function f({ controller: R, result: l, banner: I, type: p, content: r }) {
+					R || console.warn('Warning: No controller provided to useTracking'),
+						l || console.warn('Warning: No result provided to useTracking'),
+						!l && !I && (!p || !r) && console.warn('Warning: No result or banner provided to withTracking');
+					const { ref: d, inViewport: C } = (0, U.Q)();
 					return (
-						(0, M.vJ)(() => {
-							v &&
-								(l && a && !u && ['search', 'autocomplete'].includes(A?.type || '')
-									? A?.track.banner.impression(a[l][0])
-									: u?.bundleSeed || A?.track.product.impression(u || I));
-						}, [v]),
-						(0, M.vJ)(() => {
-							const n = m.current;
-							if (n) {
-								const i = (_) => {
-									l && a && !u && ['search', 'autocomplete'].includes(A?.type || '')
-										? A?.track.banner.click(_, a[l][0])
-										: A?.track.product.click(_, u || I);
+						(0, P.vJ)(() => {
+							C &&
+								(p && r && !l && ['search', 'autocomplete'].includes(R?.type || '')
+									? R?.track.banner.impression(r[p][0])
+									: l?.bundleSeed || R?.track.product.impression(l || I));
+						}, [C]),
+						(0, P.vJ)(() => {
+							const a = d.current;
+							if (a) {
+								const u = (m) => {
+									p && r && !l && ['search', 'autocomplete'].includes(R?.type || '')
+										? R?.track.banner.click(m, r[p][0])
+										: R?.track.product.click(m, l || I);
 								};
 								return (
-									n.setAttribute(b.N, 'true'),
-									n.addEventListener('click', i),
+									a.setAttribute(b.N, 'true'),
+									a.addEventListener('click', u),
 									() => {
-										n.removeEventListener('click', i);
+										a.removeEventListener('click', u);
 									}
 								);
 							}
-						}, [A, u, I, l, a]),
-						{ trackingRef: m }
+						}, [R, l, I, p, r]),
+						{ trackingRef: d }
 					);
 				}
 			},
-			'./components/src/index.ts'(r, o, e) {
+			'./components/src/index.ts'(n, o, e) {
 				e.r(o),
 					e.d(o, {
 						A11Y_ATTRIBUTE: () => q.aZ,
 						Autocomplete: () => ie.j,
 						BadgeImage: () => s.z,
-						BadgePill: () => M.L,
-						BadgeRectangle: () => g.Z,
+						BadgePill: () => P.L,
+						BadgeRectangle: () => v.Z,
 						BadgeText: () => t.p,
 						Banner: () => c.l,
 						BranchOverride: () => G.BranchOverride,
@@ -2567,42 +2517,42 @@
 						Button: () => T.$,
 						CTASlot: () => oe.X,
 						CalloutBadge: () => I.W,
-						Carousel: () => l.FN,
-						Checkbox: () => a.S,
-						Dropdown: () => x.m,
-						ErrorHandler: () => m.z,
-						FALLBACK_IMAGE_URL: () => O.t,
+						Carousel: () => p.FN,
+						Checkbox: () => r.S,
+						Dropdown: () => O.m,
+						ErrorHandler: () => d.z,
+						FALLBACK_IMAGE_URL: () => M.t,
 						FOCUSABLE_ELEMENTS: () => q.DH,
 						Facet: () => ee.s,
 						FacetDisplay: () => Oe.Q,
-						FacetGridOptions: () => v.S,
-						FacetHierarchyOptions: () => n.T,
-						FacetListOptions: () => i.C,
-						FacetPaletteOptions: () => _.P,
-						FacetSlider: () => B.l,
+						FacetGridOptions: () => C.S,
+						FacetHierarchyOptions: () => a.T,
+						FacetListOptions: () => u.C,
+						FacetPaletteOptions: () => m.P,
+						FacetSlider: () => K.l,
 						Facets: () => re.J,
 						FacetsHorizontal: () => z.b,
-						Filter: () => f.d,
+						Filter: () => D.d,
 						FilterSummary: () => ne.r,
-						FormattedNumber: () => d.G,
-						Grid: () => C.x,
-						Icon: () => P.I,
-						Image: () => O._,
-						InlineBanner: () => W._,
+						FormattedNumber: () => _.G,
+						Grid: () => x.x,
+						Icon: () => h.I,
+						Image: () => M._,
+						InlineBanner: () => L._,
 						Lang: () => q.JA,
-						LayoutSelector: () => h.s,
-						List: () => D.B,
-						LoadMore: () => R.e,
-						LoadingBar: () => L.G,
+						LayoutSelector: () => i.s,
+						List: () => B.B,
+						LoadMore: () => W.e,
+						LoadingBar: () => A.G,
 						MobileSidebar: () => te.R,
 						Modal: () => S.a,
 						NoResults: () => ae.a,
-						Overlay: () => K.h,
-						OverlayBadge: () => p.Q,
+						Overlay: () => U.h,
+						OverlayBadge: () => g.Q,
 						Pagination: () => y.d,
 						PaginationInfo: () => b.R,
-						PerPage: () => Q.F,
-						Price: () => U.g,
+						PerPage: () => X.F,
+						Price: () => f.g,
 						Radio: () => w.s,
 						RadioList: () => H.q,
 						Rating: () => V.G,
@@ -2622,17 +2572,17 @@
 						ResultsLayout: () => Oe.V,
 						Search: () => Te.v,
 						SearchCollapsible: () => Ce.x,
-						SearchHeader: () => A.w,
+						SearchHeader: () => R.w,
 						SearchHorizontal: () => Re.j,
 						SearchInput: () => Z.D,
 						Select: () => N.l,
 						Sidebar: () => _e.B,
-						Skeleton: () => u.E,
+						Skeleton: () => l.E,
 						Slideout: () => Y.S,
 						Slideshow: () => J.b,
 						SortBy: () => F.g,
 						Swatches: () => k.l,
-						TemplatesEditor: () => X.j,
+						TemplatesEditor: () => Q.j,
 						Terms: () => se.i,
 						TermsList: () => Pe.G,
 						Toolbar: () => de.M,
@@ -2640,11 +2590,11 @@
 						base: () => ce.E3,
 						bocachica: () => ce.SE,
 						createHoverProps: () => fe.l,
-						defaultCarouselBreakpoints: () => l.K,
-						defaultVerticalCarouselBreakpoints: () => l.og,
+						defaultCarouselBreakpoints: () => p.K,
+						defaultVerticalCarouselBreakpoints: () => p.og,
 						everest: () => ce.Hg,
 						getDisplaySettings: () => q.QQ,
-						iconPaths: () => P.c,
+						iconPaths: () => h.c,
 						matterhorn: () => ce.hU,
 						pike: () => ce.Ct,
 						recommendationEmailThemeComponentProps: () => Me.O,
@@ -2666,41 +2616,41 @@
 						useTracking: () => q.z1,
 					});
 				var s = e('./components/src/components/Atoms/BadgeImage/index.ts'),
-					M = e('./components/src/components/Atoms/BadgePill/index.ts'),
-					g = e('./components/src/components/Atoms/BadgeRectangle/index.ts'),
+					P = e('./components/src/components/Atoms/BadgePill/index.ts'),
+					v = e('./components/src/components/Atoms/BadgeRectangle/index.ts'),
 					t = e('./components/src/components/Atoms/BadgeText/index.ts'),
 					c = e('./components/src/components/Atoms/Banner/index.ts'),
 					E = e('./components/src/components/Atoms/Breadcrumbs/index.ts'),
 					T = e('./components/src/components/Atoms/Button/index.ts'),
-					x = e('./components/src/components/Atoms/Dropdown/index.ts'),
-					d = e('./components/src/components/Atoms/FormattedNumber/index.ts'),
-					P = e('./components/src/components/Atoms/Icon/index.ts'),
-					O = e('./components/src/components/Atoms/Image/index.ts'),
-					W = e('./components/src/components/Atoms/InlineBanner/index.ts'),
-					L = e('./components/src/components/Atoms/LoadingBar/index.ts'),
-					K = e('./components/src/components/Atoms/Overlay/index.ts'),
+					O = e('./components/src/components/Atoms/Dropdown/index.ts'),
+					_ = e('./components/src/components/Atoms/FormattedNumber/index.ts'),
+					h = e('./components/src/components/Atoms/Icon/index.ts'),
+					M = e('./components/src/components/Atoms/Image/index.ts'),
+					L = e('./components/src/components/Atoms/InlineBanner/index.ts'),
+					A = e('./components/src/components/Atoms/LoadingBar/index.ts'),
+					U = e('./components/src/components/Atoms/Overlay/index.ts'),
 					b = e('./components/src/components/Atoms/PaginationInfo/index.ts'),
-					U = e('./components/src/components/Atoms/Price/index.ts'),
-					A = e('./components/src/components/Atoms/SearchHeader/index.ts'),
-					u = e('./components/src/components/Atoms/Skeleton/index.ts'),
+					f = e('./components/src/components/Atoms/Price/index.ts'),
+					R = e('./components/src/components/Atoms/SearchHeader/index.ts'),
+					l = e('./components/src/components/Atoms/Skeleton/index.ts'),
 					I = e('./components/src/components/Molecules/CalloutBadge/index.ts'),
-					l = e('./components/src/components/Molecules/Carousel/index.ts'),
-					a = e('./components/src/components/Molecules/Checkbox/index.ts'),
-					m = e('./components/src/components/Molecules/ErrorHandler/index.ts'),
-					v = e('./components/src/components/Molecules/FacetGridOptions/index.ts'),
-					n = e('./components/src/components/Molecules/FacetHierarchyOptions/index.ts'),
-					i = e('./components/src/components/Molecules/FacetListOptions/index.ts'),
-					_ = e('./components/src/components/Molecules/FacetPaletteOptions/index.ts'),
-					B = e('./components/src/components/Molecules/FacetSlider/index.ts'),
-					f = e('./components/src/components/Molecules/Filter/index.ts'),
-					h = e('./components/src/components/Molecules/LayoutSelector/index.ts'),
-					D = e('./components/src/components/Molecules/List/index.ts'),
-					R = e('./components/src/components/Molecules/LoadMore/index.ts'),
-					C = e('./components/src/components/Molecules/Grid/index.ts'),
+					p = e('./components/src/components/Molecules/Carousel/index.ts'),
+					r = e('./components/src/components/Molecules/Checkbox/index.ts'),
+					d = e('./components/src/components/Molecules/ErrorHandler/index.ts'),
+					C = e('./components/src/components/Molecules/FacetGridOptions/index.ts'),
+					a = e('./components/src/components/Molecules/FacetHierarchyOptions/index.ts'),
+					u = e('./components/src/components/Molecules/FacetListOptions/index.ts'),
+					m = e('./components/src/components/Molecules/FacetPaletteOptions/index.ts'),
+					K = e('./components/src/components/Molecules/FacetSlider/index.ts'),
+					D = e('./components/src/components/Molecules/Filter/index.ts'),
+					i = e('./components/src/components/Molecules/LayoutSelector/index.ts'),
+					B = e('./components/src/components/Molecules/List/index.ts'),
+					W = e('./components/src/components/Molecules/LoadMore/index.ts'),
+					x = e('./components/src/components/Molecules/Grid/index.ts'),
 					S = e('./components/src/components/Molecules/Modal/index.ts'),
-					p = e('./components/src/components/Molecules/OverlayBadge/index.ts'),
+					g = e('./components/src/components/Molecules/OverlayBadge/index.ts'),
 					y = e('./components/src/components/Molecules/Pagination/index.ts'),
-					Q = e('./components/src/components/Molecules/PerPage/index.ts'),
+					X = e('./components/src/components/Molecules/PerPage/index.ts'),
 					w = e('./components/src/components/Molecules/Radio/index.ts'),
 					H = e('./components/src/components/Molecules/RadioList/index.ts'),
 					V = e('./components/src/components/Molecules/Rating/index.ts'),
@@ -2709,7 +2659,7 @@
 					N = e('./components/src/components/Molecules/Select/index.ts'),
 					Y = e('./components/src/components/Molecules/Slideout/index.ts'),
 					F = e('./components/src/components/Molecules/SortBy/index.ts'),
-					X = e('./components/src/components/Molecules/TemplatesEditor/index.ts'),
+					Q = e('./components/src/components/Molecules/TemplatesEditor/index.ts'),
 					k = e('./components/src/components/Molecules/Swatches/index.ts'),
 					J = e('./components/src/components/Molecules/Slideshow/index.ts'),
 					j = e('./components/src/components/Molecules/VariantSelection/index.ts'),
@@ -2852,39 +2802,39 @@
 				var fe = e('./components/src/toolbox/index.ts'),
 					ce = e('./components/src/themes/index.ts');
 			},
-			'./components/src/providers/index.ts'(r, o, e) {
+			'./components/src/providers/index.ts'(n, o, e) {
 				e.r(o),
 					e.d(o, {
 						CacheProvider: () => s._,
-						ControllerProvider: () => M.e2,
-						SnapProvider: () => O.Mz,
-						StoreProvider: () => g.tv,
+						ControllerProvider: () => P.e2,
+						SnapProvider: () => M.Mz,
+						StoreProvider: () => v.tv,
 						TRACKING_ATTRIBUTE: () => c.N,
 						ThemeProvider: () => t.NP,
-						TreePathProvider: () => W.p3,
+						TreePathProvider: () => L.p3,
 						css: () => t.AH,
 						defaultTheme: () => t.zQ,
-						useController: () => M.as,
-						useSnap: () => O.uk,
-						useStore: () => g.Pj,
+						useController: () => P.as,
+						useSnap: () => M.uk,
+						useStore: () => v.Pj,
 						useTheme: () => t.DP,
-						useTreePath: () => W.LU,
-						withController: () => M.Bk,
-						withSnap: () => O.b$,
-						withStore: () => g.aH,
+						useTreePath: () => L.LU,
+						withController: () => P.Bk,
+						withSnap: () => M.b$,
+						withStore: () => v.aH,
 						withTheme: () => t.SL,
 						withTracking: () => c.W,
-						withTreePath: () => W.QE,
+						withTreePath: () => L.QE,
 					});
 				var s = e('./components/src/providers/cache.tsx'),
-					M = e('./components/src/providers/controller.tsx'),
-					g = e('./components/src/providers/store.tsx'),
+					P = e('./components/src/providers/controller.tsx'),
+					v = e('./components/src/providers/store.tsx'),
 					t = e('./components/src/providers/theme.ts'),
 					c = e('./components/src/providers/withTracking.tsx'),
 					E = e('./components/src/providers/themeComponents.ts'),
 					T = e.n(E),
-					P = {};
-				for (const L in E)
+					h = {};
+				for (const A in E)
 					[
 						'default',
 						'CacheProvider',
@@ -2901,12 +2851,12 @@
 						'withTheme',
 						'TRACKING_ATTRIBUTE',
 						'withTracking',
-					].indexOf(L) < 0 && (P[L] = () => E[L]);
-				e.d(o, P);
-				var x = e('./components/src/providers/langComponents.ts'),
-					d = e.n(x),
-					P = {};
-				for (const L in x)
+					].indexOf(A) < 0 && (h[A] = () => E[A]);
+				e.d(o, h);
+				var O = e('./components/src/providers/langComponents.ts'),
+					_ = e.n(O),
+					h = {};
+				for (const A in O)
 					[
 						'default',
 						'CacheProvider',
@@ -2923,33 +2873,33 @@
 						'withTheme',
 						'TRACKING_ATTRIBUTE',
 						'withTracking',
-					].indexOf(L) < 0 && (P[L] = () => x[L]);
-				e.d(o, P);
-				var O = e('./components/src/providers/snap.tsx'),
-					W = e('./components/src/providers/treePath.tsx');
+					].indexOf(A) < 0 && (h[A] = () => O[A]);
+				e.d(o, h);
+				var M = e('./components/src/providers/snap.tsx'),
+					L = e('./components/src/providers/treePath.tsx');
 			},
 			'./components/src/providers/langComponents.ts'() {},
-			'./components/src/providers/store.tsx'(r, o, e) {
-				e.d(o, { Pj: () => T, aH: () => x, tv: () => E });
+			'./components/src/providers/store.tsx'(n, o, e) {
+				e.d(o, { Pj: () => T, aH: () => O, tv: () => E });
 				var s = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					M = e('../../node_modules/preact/dist/preact.module.js'),
-					g = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const t = (0, M.q6)(null),
+					P = e('../../node_modules/preact/dist/preact.module.js'),
+					v = e('../../node_modules/preact/hooks/dist/hooks.module.js');
+				const t = (0, P.q6)(null),
 					c = t.Provider,
-					E = ({ children: d, store: P }) => (0, s.Y)(c, { value: P, children: d }),
-					T = () => (0, g.NT)(t);
-				function x(d) {
-					return (P) => {
-						const O = d;
-						return (0, s.Y)(O, { store: T(), ...P });
+					E = ({ children: _, store: h }) => (0, s.Y)(c, { value: h, children: _ }),
+					T = () => (0, v.NT)(t);
+				function O(_) {
+					return (h) => {
+						const M = _;
+						return (0, s.Y)(M, { store: T(), ...h });
 					};
 				}
 			},
-			'./components/src/providers/theme.ts'(r, o, e) {
-				e.d(o, { AH: () => s.AH, DP: () => M.u, NP: () => M.a, SL: () => M.b, zQ: () => g });
+			'./components/src/providers/theme.ts'(n, o, e) {
+				e.d(o, { AH: () => s.AH, DP: () => P.u, NP: () => P.a, SL: () => P.b, zQ: () => v });
 				var s = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					M = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js');
-				const g = {
+					P = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js');
+				const v = {
 					variables: {
 						breakpoints: { mobile: 540, tablet: 767, desktop: 1200 },
 						colors: { text: '#222222', primary: '#3A23AD', secondary: '#4c3ce2', accent: '#00cee1' },
@@ -2957,21 +2907,21 @@
 				};
 			},
 			'./components/src/providers/themeComponents.ts'() {},
-			'./components/src/themes/index.ts'(r, o, e) {
-				e.d(o, { Ct: () => c.pike, E3: () => s.E, Hg: () => g.H, NZ: () => E.N, SE: () => M.S, hU: () => t.h, mJ: () => T.m });
+			'./components/src/themes/index.ts'(n, o, e) {
+				e.d(o, { Ct: () => c.pike, E3: () => s.E, Hg: () => v.H, NZ: () => E.N, SE: () => P.S, hU: () => t.h, mJ: () => T.m });
 				var s = e('./components/src/themes/base/base.ts'),
-					M = e('./components/src/themes/bocachica/bocachica.ts'),
-					g = e('./components/src/themes/everest/everest.ts'),
+					P = e('./components/src/themes/bocachica/bocachica.ts'),
+					v = e('./components/src/themes/everest/everest.ts'),
 					t = e('./components/src/themes/matterhorn/matterhorn.ts'),
 					c = e('./components/src/themes/pike/pike.ts'),
 					E = e('./components/src/themes/snapnco/snapnco.ts'),
 					T = e('./components/src/themes/snappy/snappy.ts');
 			},
-			'./components/src/toolbox/index.ts'(r, o, e) {
+			'./components/src/toolbox/index.ts'(n, o, e) {
 				e.d(o, { l: () => s.l });
 				var s = e('./components/src/toolbox/createHoverProps/createHoverProps.ts');
 			},
-			'./components/src/utilities/Colour/Colour.ts'(r, o, e) {
+			'./components/src/utilities/Colour/Colour.ts'(n, o, e) {
 				e.d(o, { V: () => s });
 				class s {
 					get hex() {
@@ -2985,8 +2935,8 @@
 							const t = parseInt(this.hexValue.slice(1, 3), 16),
 								c = parseInt(this.hexValue.slice(3, 5), 16),
 								E = parseInt(this.hexValue.slice(5, 7), 16),
-								x = [t / 255, c / 255, E / 255].map((P) => (P <= 0.03928 ? P / 12.92 : Math.pow((P + 0.055) / 1.055, 2.4)));
-							return 0.2126 * x[0] + 0.7152 * x[1] + 0.0722 * x[2] <= 0.179 ? '#ffffff' : '#000000';
+								O = [t / 255, c / 255, E / 255].map((h) => (h <= 0.03928 ? h / 12.92 : Math.pow((h + 0.055) / 1.055, 2.4)));
+							return 0.2126 * O[0] + 0.7152 * O[1] + 0.0722 * O[2] <= 0.179 ? '#ffffff' : '#000000';
 						}
 						return this.value;
 					}
@@ -3030,54 +2980,54 @@
 						const c = parseInt(t.slice(1, 3), 16),
 							E = parseInt(t.slice(3, 5), 16),
 							T = parseInt(t.slice(5, 7), 16),
-							x = parseInt(t.slice(7, 9), 16);
-						return Number.isInteger(x) ? `rgba(${c}, ${E}, ${T}, ${M(x / 255)})` : `rgb(${c}, ${E}, ${T})`;
+							O = parseInt(t.slice(7, 9), 16);
+						return Number.isInteger(O) ? `rgba(${c}, ${E}, ${T}, ${P(O / 255)})` : `rgb(${c}, ${E}, ${T})`;
 					}
 					static rgbToHex(t) {
 						if (!s.isRgb(t)) throw 'invalid rgb supplied';
-						const [c, E, T, x] = (t.match(/[0-9]?\.?[0-9]+%?/g) || []).map((d, P) => {
-							if (P == 3) {
-								d.match(/%/) && (d = (Number(d.replace('%', '').trim()) / 100).toString());
-								let O = Number(d);
-								(Number.isNaN(O) || O > 1) && (O = 1), O < 0 && (O = 0), (d = Math.floor(O * 255).toString());
+						const [c, E, T, O] = (t.match(/[0-9]?\.?[0-9]+%?/g) || []).map((_, h) => {
+							if (h == 3) {
+								_.match(/%/) && (_ = (Number(_.replace('%', '').trim()) / 100).toString());
+								let M = Number(_);
+								(Number.isNaN(M) || M > 1) && (M = 1), M < 0 && (M = 0), (_ = Math.floor(M * 255).toString());
 							}
-							return Number(d).toString(16).padStart(2, '0');
+							return Number(_).toString(16).padStart(2, '0');
 						});
-						return `#${c}${E}${T}${x || ''}`;
+						return `#${c}${E}${T}${O || ''}`;
 					}
 					static opacity(t, c) {
 						let E = !1;
 						if ((t && s.isRgb(t) && ((E = !0), (t = s.rgbToHex(t))), !t || !s.isHex(t) || !Number.isInteger(c))) return t;
 						c > 255 && (c = 255), c < -255 && (c = -255);
 						const T = t.slice(7, 9) || 'ff';
-						let d = parseInt(T, 16) - c;
-						d > 255 ? (d = 255) : d < 0 && (d = 0);
-						const P = d.toString(16).padStart(2, '0'),
-							O = `${t.slice(0, 7)}${P}`;
-						return E ? s.hexToRgb(O) : O;
+						let _ = parseInt(T, 16) - c;
+						_ > 255 ? (_ = 255) : _ < 0 && (_ = 0);
+						const h = _.toString(16).padStart(2, '0'),
+							M = `${t.slice(0, 7)}${h}`;
+						return E ? s.hexToRgb(M) : M;
 					}
 					static brightness(t, c) {
 						let E = !1;
 						if ((t && s.isRgb(t) && ((E = !0), (t = s.rgbToHex(t))), !t || !s.isHex(t) || !Number.isInteger(c))) return t;
 						c > 255 && (c = 255), c < -255 && (c = -255);
 						const T = t.slice(1, 7),
-							x = parseInt(T, 16);
-						let d = (x & 255) + c;
-						d > 255 ? (d = 255) : d < 0 && (d = 0);
-						let P = ((x >> 8) & 255) + c;
-						P > 255 ? (P = 255) : P < 0 && (P = 0);
-						let O = (x >> 16) + c;
-						O > 255 ? (O = 255) : O < 0 && (O = 0);
-						const W = `#${(d | (P << 8) | (O << 16)).toString(16).padStart(6, '0')}${t.slice(7, 9)}`;
-						return E ? s.hexToRgb(W) : W;
+							O = parseInt(T, 16);
+						let _ = (O & 255) + c;
+						_ > 255 ? (_ = 255) : _ < 0 && (_ = 0);
+						let h = ((O >> 8) & 255) + c;
+						h > 255 ? (h = 255) : h < 0 && (h = 0);
+						let M = (O >> 16) + c;
+						M > 255 ? (M = 255) : M < 0 && (M = 0);
+						const L = `#${(_ | (h << 8) | (M << 16)).toString(16).padStart(6, '0')}${t.slice(7, 9)}`;
+						return E ? s.hexToRgb(L) : L;
 					}
 				}
-				function M(g) {
-					const t = Math.floor(g),
-						c = g - t;
-					if (!c) return g;
+				function P(v) {
+					const t = Math.floor(v),
+						c = v - t;
+					if (!c) return v;
 					const E = Math.floor(c * 10) * 10,
-						T = Math.round(g * 100 - E);
+						T = Math.round(v * 100 - E);
 					return t + (E + T) / 100;
 				}
 			},

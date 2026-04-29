@@ -2,19 +2,19 @@
 	(self.webpackChunk_athoscommerce_snap_preact = self.webpackChunk_athoscommerce_snap_preact || []).push([
 		[9769],
 		{
-			'./components/src/components/Templates/AutocompleteModal/AutocompleteModal.stories.tsx'(B, l, e) {
+			'./components/src/components/Templates/AutocompleteModal/AutocompleteModal.stories.tsx'(I, l, e) {
 				'use strict';
-				e.r(l), e.d(l, { Default: () => d, __namedExportsOrder: () => O, default: () => P });
+				e.r(l), e.d(l, { Default: () => d, __namedExportsOrder: () => O, default: () => b });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					i = e('../../node_modules/@storybook/blocks/dist/index.mjs'),
+					m = e('../../node_modules/@storybook/blocks/dist/index.mjs'),
 					E = e('./components/src/components/Templates/AutocompleteModal/AutocompleteModal.tsx'),
-					b = e('./components/src/utilities/storybook.tsx'),
-					m = e('./components/src/utilities/componentArgs.ts'),
-					g = e('./components/src/utilities/snapify.ts');
-				const L =
+					T = e('./components/src/utilities/storybook.tsx'),
+					c = e('./components/src/utilities/componentArgs.ts'),
+					f = e('./components/src/utilities/snapify.ts');
+				const S =
 					"# AutocompleteModal\n\nRenders an autocomplete modal that binds to an `<input>` element.\n\nThe AutocompleteModal component is very similar to the Autocomplete component in functionality, however the main difference is that the AutocompleteModal components layout is determined by the layout prop, which specifies what child components render and where.\n\n## Components Used\n- autocompleteLayout\n- SearchInput\n- Modal\n\n## Usage\n\n### input\nThe required `input` prop expects either:\n\n- a string CSS selector that targets `<input>` element(s) to bind to\n\n- an `<input>` element to bind to\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} />\n```\n\n### controller\nThe required `controller` prop specifies a reference to the autocomplete controller.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} />\n```\n\n### layout\nThe `layout` prop is used to specify which child components render and where. The prop takes an array of specific module names, the order of these module names determines the order in which they will be rendered. Additionally you can pass arrays of modules to the array to specify new rows in the display.\n\nThere are also a few special module names - `c1`, `c2`, `c3`, `c4`, & `_` \n\nAll of the `cx` modules represent Columns which also have their own layout array by default, and can be overwrote via their own layout props. IE - `c1` module can be overwrote via the `column1` prop. \n\nThe `_` module is used a seperator module to center|left|right justify the other elements in the layout.\n\navailable modules to use in the layout are \n\n`c1`, `c2`, `c3`, `c4`,`TermsList`, `Terms.history`, `Terms.trending`, `Terms.suggestions`, `Facets`, `FacetsHorizontal`, `Button.see-more`, `Content`, `_`, `Banner.left`, `Banner.banner`, `Banner.footer`, `Banner.header`.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} layout={[['c1','c2','c3']]}/>\n```\n\n### column1\nThe `column1` prop specifies the layout to render in the `c1` module. Takes an object with two properties, \n\n`width` which specifies how wide the the column should be. This can be a string - `150px` or `auto`. If set to auto, the column will automatically grow and shrink based on its surroundings. \n\n`layout` which specifies an array of modules to render in the column. Defaults to `['TermsList']`. All layout modules are available to use with the exception of the `cx` modules. Additional arrays for new rows are also supported.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} column1={{\n    width: '150px',\n    layout: ['Terms.history', 'Terms.trending']\n}}/>\n```\n\n### column2\nThe `column2` prop specifies a layout array to render in the `c2` module. Takes an object with two properties, \n\n`width` which specifies how wide the the column should be. This can be a string - `150px` or `auto`. If set to auto, the column will automatically grow and shrink based on its surroundings. \n\n`layout` which specifies an array of modules to render in the column. Defaults to `['Facets']`. All layout modules are available to use with the exception of the `cx` modules. Additional arrays for new rows are also supported.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} column2={{\n    width: '150px',\n    layout: ['Facets']\n}}/>\n```\n\n### column3\nThe `column3` prop specifies a layout array to render in the `c3` module. Takes an object with two properties, \n\n`width` which specifies how wide the the column should be. This can be a string - `150px` or `auto`. If set to auto, the column will automatically grow and shrink based on its surroundings. \n\n`layout` which specifies an array of modules to render in the column. Defaults to `[['Content'], ['_', 'Button.see-more']]`. All layout modules are available to use with the exception of the `cx` modules. Additional arrays for new rows are also supported.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} column3={{\n    width: '150px',\n    layout: [['Content', ['_', 'Button.see-more', '_']]]\n}}/>\n```\n\n### column4\nThe `column4` prop specifies a layout array to render in the `c4` module. Takes an object with two properties, \n\n`width` which specifies how wide the the column should be. This can be a string - `150px` or `auto`. If set to auto, the column will automatically grow and shrink based on its surroundings. \n\n`layout` which specifies an array of modules to render in the column. Defaults to `[['Content'], ['_', 'Button.see-more']]`. All layout modules are available to use with the exception of the `cx` modules. Additional arrays for new rows are also supported.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} column4={{\nwidth: '150px',\nlayout: ['Facets']\n}}/>\n```\n\n### buttonSelector\nThe `buttonSelector` prop defines a CSS selector for the element that triggers the Modal to open. By default, it uses the selector provided in the `input` prop.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} buttonSelector={\".openSearchButton\"} />\n```\n\n### renderInput\nThe `renderInput` prop specifies whether the Search Input should be rendered. \n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} renderInput={false} />\n```\n\n### width\nThe `width` prop specifies a width for the overall component. The default value is '100%'.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} width=\"800px\" />\n```\n\n### excludeBanners\nThe `excludeBanners` prop specifies if the Autocomplete should automatically include banners. \n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} excludeBanners={true} />\n```\n\n### facetsTitle\nThe `facetsTitle` prop will display the given text above the facets area.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} facetsTitle={'Facets'} />\n```\n\n### contentTitle\nThe `contentTitle` prop will display the given text above the content area.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} contentTitle={'Search Results'} />\n```\n\n### overlayColor \nThe `overlayColor` prop specifies the color of the overlay.\n\n```tsx\n<AutocompleteModal controller={controller} input={'#searchInput'} overlayColor={'rgba(0,0,0,0.8)'} />\n```\n";
 				var x = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const P = {
+				const b = {
 						title: 'Templates/AutocompleteModal',
 						component: E.c,
 						tags: ['autodocs'],
@@ -22,7 +22,7 @@
 							docs: {
 								page: () =>
 									(0, t.FD)('div', {
-										children: [(0, t.Y)(i.oz, { options: { overrides: { code: b.Z } }, children: L }), (0, t.Y)(i.uY, { story: i.h1 })],
+										children: [(0, t.Y)(m.oz, { options: { overrides: { code: T.Z } }, children: S }), (0, t.Y)(m.uY, { story: m.h1 })],
 									}),
 							},
 						},
@@ -184,16 +184,16 @@
 								table: { category: 'Templates Legal', type: { summary: 'JSX.Element' } },
 								control: { type: 'object' },
 							},
-							...m.F,
+							...c.F,
 						},
 					},
-					A = g.p.autocomplete({
+					P = f.p.autocomplete({
 						id: 'AutocompleteModal',
 						selector: '#searchInput',
 						globals: { siteId: 'atkzs2' },
 						settings: { trending: { limit: 5 } },
 					}),
-					d = (_, { loaded: { controller: v } }) => {
+					d = (_, { loaded: { controller: g } }) => {
 						const [p, r] = (0, x.J0)(!1),
 							M = [
 								{ active: p === 'dress', preview: () => r('dress'), value: 'dress', url: { href: '#' } },
@@ -203,16 +203,16 @@
 								{ active: p === 'pants', preview: () => r('pants'), value: 'pants', url: { href: '#' } },
 								{ active: p === 'socks', preview: () => r('socks'), value: 'socks', url: { href: '#' } },
 							];
-						v.store.history = M;
-						const [U, C] = (0, x.J0)(!1);
+						g.store.history = M;
+						const [B, A] = (0, x.J0)(!1);
 						return (
 							(0, x.vJ)(() => {
-								document.querySelector('#searchInput') && C(!0);
+								document.querySelector('#searchInput') && A(!0);
 							}, []),
-							U ? (0, t.Y)(E.c, { ..._, controller: v, input: v?.config.selector }) : (0, t.Y)(t.FK, {})
+							B ? (0, t.Y)(E.c, { ..._, controller: g, input: g?.config.selector }) : (0, t.Y)(t.FK, {})
 						);
 					};
-				(d.loaders = [async () => ({ controller: await A })]),
+				(d.loaders = [async () => ({ controller: await P })]),
 					(d.parameters = {
 						...d.parameters,
 						docs: {
@@ -286,29 +286,29 @@
 					});
 				const O = ['Default'];
 			},
-			'./components/src/components/Molecules/Modal/Modal.tsx'(B, l, e) {
+			'./components/src/components/Molecules/Modal/Modal.tsx'(I, l, e) {
 				'use strict';
-				e.d(l, { a: () => R });
+				e.d(l, { a: () => L });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					i = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					m = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
 					E = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					b = e('../../node_modules/classnames/index.js'),
-					m = e.n(b),
-					g = e('../../node_modules/mobx-react-lite/es/index.js'),
-					L = e('./components/src/providers/cache.tsx'),
+					T = e('../../node_modules/classnames/index.js'),
+					c = e.n(T),
+					f = e('../../node_modules/mobx-react-lite/es/index.js'),
+					S = e('./components/src/providers/cache.tsx'),
 					x = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					P = e('./components/src/providers/snap.tsx'),
-					A = e('./components/src/providers/treePath.tsx'),
+					b = e('./components/src/providers/snap.tsx'),
+					P = e('./components/src/providers/treePath.tsx'),
 					d = e('./components/src/hooks/useClickOutside.tsx'),
 					O = e('./components/src/hooks/useComponent.tsx'),
 					_ = e('./components/src/utilities/cloneWithProps.tsx'),
-					v = e('./components/src/utilities/defined.ts'),
+					g = e('./components/src/utilities/defined.ts'),
 					p = e('./components/src/utilities/mergeProps.ts'),
 					r = e('./components/src/utilities/mergeStyles.ts'),
 					M = e('./components/src/hooks/useA11y.tsx'),
-					U = e('./components/src/components/Atoms/Overlay/Overlay.tsx'),
-					C = e('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/debounce/debounce.js');
-				const I = () =>
+					B = e('./components/src/components/Atoms/Overlay/Overlay.tsx'),
+					A = e('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/debounce/debounce.js');
+				const w = () =>
 						(0, E.AH)({
 							position: 'relative',
 							'&.ss__modal--open': { '& .ss__modal__content': { visibility: 'visible', opacity: 1 } },
@@ -325,140 +325,140 @@
 								zIndex: 10004,
 							},
 						}),
-					R = (0, g.PA)((o) => {
-						const n = (0, x.u)(),
-							a = (0, P.uk)(),
-							c = { startOpen: !1, disableA11y: !1, lockScroll: !0, overlayColor: 'rgba(0,0,0,0.8)', treePath: (0, A.LU)() },
-							s = (0, p.v6)('modal', n, c, o),
+					L = (0, f.PA)((o) => {
+						const s = (0, x.u)(),
+							a = (0, b.uk)(),
+							n = { startOpen: !1, disableA11y: !1, lockScroll: !0, overlayColor: 'rgba(0,0,0,0.8)', treePath: (0, P.LU)() },
+							u = (0, p.v6)('modal', s, n, o),
 							{
-								button: j,
-								content: k,
-								buttonSelector: w,
-								children: H,
-								disabled: y,
-								open: N,
-								onClick: K,
-								lockScroll: V,
-								startOpen: W,
-								disableClickOutside: Z,
-								disableA11y: S,
-								className: Y,
-								internalClassName: G,
-								disableStyles: X,
-								overlayColor: D,
-								onOverlayClick: T,
-								treePath: z,
-								customComponent: $,
-							} = s;
-						if ($) {
-							const u = (0, O.x)(a?.templates?.library.import.component.modal || {}, $);
-							if (u) return (0, t.Y)(u, { ...s });
+								button: Y,
+								content: K,
+								buttonSelector: U,
+								children: v,
+								disabled: R,
+								open: H,
+								onClick: W,
+								lockScroll: D,
+								startOpen: J,
+								disableClickOutside: j,
+								disableA11y: F,
+								className: X,
+								internalClassName: Z,
+								disableStyles: C,
+								overlayColor: k,
+								onOverlayClick: $,
+								treePath: V,
+								customComponent: Q,
+							} = u;
+						if (Q) {
+							const i = (0, O.x)(a?.templates?.library.import.component.modal || {}, Q);
+							if (i) return (0, t.Y)(i, { ...u });
 						}
 						const oe = {
 							overlay: {
 								internalClassName: 'ss__modal__overlay',
-								onClick: (u) => {
-									T && T(u), F();
+								onClick: (i) => {
+									$ && $(i), N();
 								},
-								...(0, v.s)({ disableStyles: X, color: D }),
-								theme: s?.theme,
-								treePath: z,
+								...(0, g.s)({ disableStyles: C, color: k }),
+								theme: u?.theme,
+								treePath: V,
 							},
 						};
-						let f, J;
-						const Q = N === void 0;
-						Q ? ([f, J] = (0, i.J0)(W)) : (f = N);
+						let y, z;
+						const G = H === void 0;
+						G ? ([y, z] = (0, m.J0)(J)) : (y = H);
 						let q;
-						Z ||
+						j ||
 							(q = (0, d.L)(() => {
-								f && (y || (Q && J && J(!1)));
+								y && (R || (G && z && z(!1)));
 							}));
-						const F = () => {
-								Q && J && J((u) => !u);
+						const N = () => {
+								G && z && z((i) => !i);
 							},
-							ne = (0, r.Z)(s, I);
+							ne = (0, r.Z)(u, w);
 						return (
-							(0, i.vJ)(
+							(0, m.vJ)(
 								() => (
-									f && V ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = ''),
+									y && D ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = ''),
 									() => {
 										document.body.style.overflow = '';
 									}
 								),
-								[f, V]
+								[y, D]
 							),
-							(0, i.vJ)(() => {
-								const u = w ? (typeof w == 'string' ? document.querySelector(w) : w) : null,
-									ee = (0, C.s)(() => {
+							(0, m.vJ)(() => {
+								const i = U ? (typeof U == 'string' ? document.querySelector(U) : U) : null,
+									ee = (0, A.s)(() => {
 										setTimeout(() => {
-											f && V ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = '');
+											y && D ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = '');
 										}, 100);
 									}, 10),
 									te = (se) => {
-										F(), K && K(se);
+										N(), W && W(se);
 									};
 								return (
-									u && (y || u.addEventListener('click', te)),
+									i && (R || i.addEventListener('click', te)),
 									window.addEventListener('resize', ee),
 									() => {
-										window.removeEventListener('resize', ee), u && u.removeEventListener('click', te);
+										window.removeEventListener('resize', ee), i && i.removeEventListener('click', te);
 									}
 								);
 							}, []),
-							(0, t.Y)(L._, {
+							(0, t.Y)(S._, {
 								children: (0, t.FD)('div', {
 									...ne,
-									className: m()('ss__modal', { 'ss__modal--open': f }, { 'ss__modal--disabled': y }, Y, G),
+									className: c()('ss__modal', { 'ss__modal--open': y }, { 'ss__modal--disabled': R }, X, Z),
 									ref: q,
 									children: [
-										!w &&
-											j &&
+										!U &&
+											Y &&
 											(0, t.Y)('div', {
 												className: 'ss__modal__button',
-												ref: (u) => (S ? null : (0, M.iy)(u)),
-												'aria-expanded': f,
+												ref: (i) => (F ? null : (0, M.iy)(i)),
+												'aria-expanded': y,
 												role: 'button',
-												onClick: (u) => {
-													y || (F(), K && K(u));
+												onClick: (i) => {
+													R || (N(), W && W(i));
 												},
-												children: (0, _.Y)(j, { open: f, toggleOpen: F, treePath: z }),
+												children: (0, _.Y)(Y, { open: y, toggleOpen: N, treePath: V }),
 											}),
-										(k || H) &&
-											f &&
+										(K || v) &&
+											y &&
 											(0, t.FD)('div', {
 												className: 'ss__modal__content',
-												ref: (u) => (S ? null : (0, M.iy)(u)),
-												children: [(0, _.Y)(k, { open: f, toggleOpen: F, treePath: z }), (0, _.Y)(H, { open: f, toggleOpen: F, treePath: z })],
+												ref: (i) => (F ? null : (0, M.iy)(i)),
+												children: [(0, _.Y)(K, { open: y, toggleOpen: N, treePath: V }), (0, _.Y)(v, { open: y, toggleOpen: N, treePath: V })],
 											}),
-										(0, t.Y)(U.h, { ...oe.overlay, active: !!f }),
+										(0, t.Y)(B.h, { ...oe.overlay, active: !!y }),
 									],
 								}),
 							})
 						);
 					});
 			},
-			'./components/src/components/Templates/AutocompleteModal/AutocompleteModal.tsx'(B, l, e) {
+			'./components/src/components/Templates/AutocompleteModal/AutocompleteModal.tsx'(I, l, e) {
 				'use strict';
-				e.d(l, { c: () => U });
+				e.d(l, { c: () => B });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					i = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
+					m = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
 					E = e('../../node_modules/mobx-react-lite/es/index.js'),
-					b = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					m = e('./components/src/utilities/defined.ts'),
-					g = e('./components/src/utilities/mergeProps.ts'),
-					L = e('./components/src/utilities/mergeStyles.ts'),
+					T = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
+					c = e('./components/src/utilities/defined.ts'),
+					f = e('./components/src/utilities/mergeProps.ts'),
+					S = e('./components/src/utilities/mergeStyles.ts'),
 					x = e('./components/src/providers/cache.tsx'),
-					P = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					A = e('./components/src/components/Organisms/AutocompleteLayout/AutocompleteLayout.tsx'),
+					b = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
+					P = e('./components/src/components/Organisms/AutocompleteLayout/AutocompleteLayout.tsx'),
 					d = e('./components/src/components/Molecules/Modal/Modal.tsx'),
 					O = e('../../node_modules/classnames/index.js'),
 					_ = e.n(O),
-					v = e('./components/src/components/Molecules/SearchInput/SearchInput.tsx'),
+					g = e('./components/src/components/Molecules/SearchInput/SearchInput.tsx'),
 					p = e('./components/src/hooks/useA11y.tsx'),
 					r = e('./components/src/hooks/useAcRenderedInput.tsx');
-				const M = ({ width: C, height: I, theme: R }) => {
-						const o = R?.variables;
-						return (0, b.AH)({
+				const M = ({ width: A, height: w, theme: L }) => {
+						const o = L?.variables;
+						return (0, T.AH)({
 							position: 'fixed',
 							left: '0',
 							width: '100%',
@@ -472,14 +472,14 @@
 								left: 0,
 								right: 0,
 								top: '10vh',
-								maxHeight: I ? 'initial' : '80vh',
+								maxHeight: w ? 'initial' : '80vh',
 								overflow: 'scroll',
 								marginLeft: 'auto',
 								marginRight: 'auto',
 								background: '#fff',
 								zIndex: 1001,
-								width: C,
-								height: I,
+								width: A,
+								height: w,
 								maxWidth: '100vw',
 								pointerEvents: 'auto',
 							},
@@ -491,96 +491,91 @@
 							[`@media (max-width: ${o?.breakpoints.desktop}px)`]: { '& .ss__autocomplete-modal__inner': { top: '0', maxHeight: '100vh' } },
 						});
 					},
-					U = (0, E.PA)((C) => {
-						const I = (0, P.u)(),
-							R = { layout: [['c1', 'c2', 'c3']], overlayColor: 'rgba(0,0,0,0.8)', width: '950px', renderInput: !0 },
-							o = (0, g.v6)('autocompleteModal', I, R, C),
-							[n, a] = (0, i.J0)(!1),
-							[h, c] = (0, i.J0)('query');
-						let s = o.input,
-							j = o.buttonSelector;
-						if (s) {
-							typeof s == 'string' && (s = document.querySelector(s));
-							const T = s?.getAttribute('name');
-							T && (c(T), o.renderInput && s.setAttribute('name', ''));
-						}
-						!j && s && (j = s);
+					B = (0, E.PA)((A) => {
+						const w = (0, b.u)(),
+							L = { layout: [['c1', 'c2', 'c3']], overlayColor: 'rgba(0,0,0,0.8)', width: '950px', renderInput: !0 },
+							o = (0, f.v6)('autocompleteModal', w, L, A),
+							[s, a] = (0, m.J0)(!1),
+							h = '';
+						let n = o.input,
+							u = o.buttonSelector;
+						n && typeof n == 'string' && (n = document.querySelector(n)), !u && n && (u = n);
 						const {
-								layout: k,
-								disableStyles: w,
-								overlayColor: H,
-								controller: y,
-								renderInput: N,
-								className: K,
-								internalClassName: V,
-								treePath: W,
+								layout: Y,
+								disableStyles: K,
+								overlayColor: U,
+								controller: v,
+								renderInput: R,
+								className: H,
+								internalClassName: W,
+								treePath: D,
 							} = o,
-							Z = (0, i.li)(null);
-						(0, i.vJ)(() => {
-							const T = (z, $) => {
-								y.store.state.focusedInput || a(!1), $();
+							J = (0, m.li)(null);
+						(0, m.vJ)(() => {
+							const k = ($, V) => {
+								v.store.state.focusedInput || a(!1), V();
 							};
 							return (
-								y.eventManager.on('focusChange', T),
+								v.eventManager.on('focusChange', k),
 								() => {
-									y.eventManager.events.focusChange?.remove(T);
+									v.eventManager.events.focusChange?.remove(k);
 								}
 							);
 						}, []);
-						const S = () => {
-								y.setFocused(), a(!1);
+						const j = () => {
+								v.setFocused(), a(!1);
 							},
-							Y = {
-								autocompleteLayout: { layout: k, onReset: () => S(), ...(0, m.s)({ disableStyles: w }), theme: o?.theme, treePath: W },
+							F = {
+								autocompleteLayout: { layout: Y, onReset: () => j(), ...(0, c.s)({ disableStyles: K }), theme: o?.theme, treePath: D },
 								modal: {
 									internalClassName: 'autocomplete-modal__modal',
-									buttonSelector: j,
-									onOverlayClick: S,
-									overlayColor: H,
-									open: n,
-									...(0, m.s)({ disableStyles: w }),
+									buttonSelector: u,
+									onOverlayClick: j,
+									overlayColor: U,
+									open: s,
+									...(0, c.s)({ disableStyles: K }),
 									theme: o?.theme,
-									treePath: W,
+									treePath: D,
 								},
 								searchInput: {
 									internalClassName: 'autocomplete-modal__search-input autocomplete__search-input',
 									submitSearchButton: {
 										onClick: () => {
-											window.location.href = y.store.state.url.link.href;
+											window.location.href = v.store.state.url.link.href;
 										},
 									},
 									clearSearchButton: { icon: 'close-thin' },
-									closeSearchButton: { onClick: () => S(), icon: 'angle-left' },
+									closeSearchButton: { onClick: () => j(), icon: 'angle-left' },
 									inputName: h,
-									...(0, m.s)({ disableStyles: w }),
+									...(0, c.s)({ disableStyles: K }),
 									theme: o?.theme,
-									treePath: `${W} modal`,
+									treePath: `${D} modal`,
 								},
 							},
-							G = (0, L.Z)(o, M);
-						let X;
-						s && (X = (0, r.x)({ input: s, controller: y, renderedInputRef: Z, renderInput: !!N, buttonSelector: j, setActive: a }));
-						const D = { ...o };
+							X = (0, S.Z)(o, M);
+						let Z;
+						n && (Z = (0, r.x)({ input: n, controller: v, renderedInputRef: J, renderInput: !!R, buttonSelector: u, setActive: a }));
+						const C = { ...o };
 						return (
-							delete D.width,
-							delete D.className,
-							delete D.internalClassName,
-							delete D.style,
-							delete D.styleScript,
-							delete D.themeStyleScript,
-							k?.length && n
+							delete C.width,
+							delete C.className,
+							delete C.internalClassName,
+							delete C.style,
+							delete C.styleScript,
+							delete C.themeStyleScript,
+							Y?.length && s
 								? (0, t.Y)(x._, {
 										children: (0, t.Y)('div', {
-											...G,
-											className: _()('ss__autocomplete-modal', K, V),
+											...X,
+											className: _()('ss__autocomplete-modal', H, W),
 											children: (0, t.Y)(d.a, {
-												...Y.modal,
+												...F.modal,
 												children: (0, t.FD)('div', {
 													className: 'ss__autocomplete-modal__inner',
-													ref: (T) => (0, p.iy)(T, 0, !0, S),
+													ref: (k) => (0, p.iy)(k, 0, !0, j),
 													children: [
-														N ? (0, t.Y)(v.D, { ...Y.searchInput, value: y.store.state.input || '', inputRef: Z }) : (0, t.Y)(t.FK, {}),
-														(0, t.Y)(A.h, { ...D, ...Y.autocompleteLayout, input: X, controller: y, treePath: `${W} modal` }),
+														R ? (0, t.Y)(g.D, { ...F.searchInput, value: v.store.state.input || '', inputRef: J }) : (0, t.Y)(t.FK, {}),
+														(0, t.Y)(P.h, { ...C, ...F.autocompleteLayout, input: Z, controller: v, treePath: `${D} modal` }),
 													],
 												}),
 											}),
@@ -590,7 +585,7 @@
 						);
 					});
 			},
-			'./components/src/utilities/componentArgs.ts'(B, l, e) {
+			'./components/src/utilities/componentArgs.ts'(I, l, e) {
 				'use strict';
 				e.d(l, { F: () => t });
 				const t = {
@@ -617,127 +612,127 @@
 					},
 				};
 			},
-			'./components/src/utilities/snapify.ts'(B, l, e) {
+			'./components/src/utilities/snapify.ts'(I, l, e) {
 				'use strict';
-				e.d(l, { p: () => U });
+				e.d(l, { p: () => B });
 				var t = e('../../node_modules/mobx/dist/mobx.esm.js'),
-					i = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Search/SearchController.js'),
+					m = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Search/SearchController.js'),
 					E = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Autocomplete/AutocompleteController.js'),
-					b = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Recommendation/RecommendationController.js'),
-					m = e('../../node_modules/@athoscommerce/snap-client/dist/esm/Client/Client.js'),
-					g = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Autocomplete/AutocompleteStore.js'),
-					L = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/SearchStore.js'),
+					T = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Recommendation/RecommendationController.js'),
+					c = e('../../node_modules/@athoscommerce/snap-client/dist/esm/Client/Client.js'),
+					f = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Autocomplete/AutocompleteStore.js'),
+					S = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/SearchStore.js'),
 					x = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Recommendation/RecommendationStore.js'),
-					P = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/UrlManager/UrlManager.js'),
-					A = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/linkers/react/react.js'),
+					b = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/UrlManager/UrlManager.js'),
+					P = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/linkers/react/react.js'),
 					d = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/Translators/Url/UrlTranslator.js'),
 					O = e('../../node_modules/@athoscommerce/snap-event-manager/dist/esm/EventManager.js'),
 					_ = e('../../node_modules/@athoscommerce/snap-profiler/dist/esm/Profiler.js'),
-					v = e('../../node_modules/@athoscommerce/snap-logger/dist/esm/Logger.js'),
+					g = e('../../node_modules/@athoscommerce/snap-logger/dist/esm/Logger.js'),
 					p = e('../../node_modules/@athoscommerce/snap-tracker/dist/esm/Tracker.js');
 				(0, t.jK)({ useProxies: 'always', isolateGlobalState: !0, enforceActions: 'never' });
 				const r = {},
 					M = { globals: { siteId: 'atkzs2' } };
-				class U {
-					static recommendation(n) {
-						const a = n.id;
+				class B {
+					static recommendation(s) {
+						const a = s.id;
 						if (r[a]) return r[a];
-						const h = (r[a] = I({ client: M, controller: n }));
+						const h = (r[a] = w({ client: M, controller: s }));
 						return (
-							h.on('afterStore', async ({ controller: c }, s) => {
-								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await s();
+							h.on('afterStore', async ({ controller: n }, u) => {
+								n.log.debug('controller', n), n.log.debug('store', n.store.toJSON()), await u();
 							}),
 							h.init(),
 							h
 						);
 					}
-					static autocomplete(n) {
-						const a = n.id;
+					static autocomplete(s) {
+						const a = s.id;
 						if (r[a]) return r[a];
-						const h = (r[a] = R({ client: M, controller: n }));
+						const h = (r[a] = L({ client: M, controller: s }));
 						return (
-							h.on('afterStore', async ({ controller: c }, s) => {
-								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await s();
+							h.on('afterStore', async ({ controller: n }, u) => {
+								n.log.debug('controller', n), n.log.debug('store', n.store.toJSON()), await u();
 							}),
 							h.init(),
 							h
 						);
 					}
-					static search(n) {
-						const a = n.id;
+					static search(s) {
+						const a = s.id;
 						if (r[a]) return r[a];
-						const h = (r[a] = C({ client: M, controller: n }));
+						const h = (r[a] = A({ client: M, controller: s }));
 						return (
-							h.on('afterStore', async ({ controller: c }, s) => {
-								c.log.debug('controller', c), c.log.debug('store', c.store.toJSON()), await s();
+							h.on('afterStore', async ({ controller: n }, u) => {
+								n.log.debug('controller', n), n.log.debug('store', n.store.toJSON()), await u();
 							}),
 							h.init(),
 							h
 						);
 					}
 				}
-				function C(o) {
-					const n = new P.V(new d.E({ settings: { coreType: 'query', corePrefix: o.controller.id } }), A.X);
-					return new i.Tp(o.controller, {
-						client: new m.K(o.client.globals, o.client.config),
-						store: new L.U(o.controller, { urlManager: n }),
-						urlManager: n,
+				function A(o) {
+					const s = new b.V(new d.E({ settings: { coreType: 'query', corePrefix: o.controller.id } }), P.X);
+					return new m.Tp(o.controller, {
+						client: new c.K(o.client.globals, o.client.config),
+						store: new S.U(o.controller, { urlManager: s }),
+						urlManager: s,
 						eventManager: new O.E(),
 						profiler: new _.U(),
-						logger: new v.V(),
+						logger: new g.V(),
 						tracker: new p.J(o.client.globals),
 					});
 				}
-				function I(o) {
-					const n = new P.V(new d.E(), A.X).detach(!0);
-					return new b.c(o.controller, {
-						client: new m.K(o.client.globals, o.client.config),
-						store: new x.t(o.controller, { urlManager: n }),
-						urlManager: n,
+				function w(o) {
+					const s = new b.V(new d.E(), P.X).detach(!0);
+					return new T.c(o.controller, {
+						client: new c.K(o.client.globals, o.client.config),
+						store: new x.t(o.controller, { urlManager: s }),
+						urlManager: s,
 						eventManager: new O.E(),
 						profiler: new _.U(),
-						logger: new v.V(),
+						logger: new g.V(),
 						tracker: new p.J(o.client.globals),
 					});
 				}
-				function R(o) {
-					const n = new P.V(new d.E(), A.X).detach();
+				function L(o) {
+					const s = new b.V(new d.E(), P.X).detach();
 					return new E.Z(o.controller, {
-						client: new m.K(o.client.globals, o.client.config),
-						store: new g.Y(o.controller, { urlManager: n }),
-						urlManager: n,
+						client: new c.K(o.client.globals, o.client.config),
+						store: new f.Y(o.controller, { urlManager: s }),
+						urlManager: s,
 						eventManager: new O.E(),
 						profiler: new _.U(),
-						logger: new v.V(),
+						logger: new g.V(),
 						tracker: new p.J(o.client.globals),
 					});
 				}
 			},
-			'./components/src/utilities/storybook.tsx'(B, l, e) {
+			'./components/src/utilities/storybook.tsx'(I, l, e) {
 				'use strict';
-				e.d(l, { Z: () => b });
+				e.d(l, { Z: () => T });
 				var t = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					i = e('../../node_modules/preact/hooks/dist/hooks.module.js');
+					m = e('../../node_modules/preact/hooks/dist/hooks.module.js');
 				const E = 'prism-block',
-					b = (m) => {
-						const g = (0, i.li)(null);
+					T = (c) => {
+						const f = (0, m.li)(null);
 						return (
-							(0, i.vJ)(() => {
-								g.current && m.className?.includes('lang-') && !m.className?.includes(E) && window?.Prism?.highlightElement(g.current);
-							}, [m.className, m.children, g]),
-							(0, t.Y)('code', { ...m, ref: g, 'data-prismjs-copy': 'Copy' })
+							(0, m.vJ)(() => {
+								f.current && c.className?.includes('lang-') && !c.className?.includes(E) && window?.Prism?.highlightElement(f.current);
+							}, [c.className, c.children, f]),
+							(0, t.Y)('code', { ...c, ref: f, 'data-prismjs-copy': 'Copy' })
 						);
 					};
 			},
-			'../../node_modules/memoizerific sync recursive'(B) {
+			'../../node_modules/memoizerific sync recursive'(I) {
 				function l(e) {
 					var t = new Error("Cannot find module '" + e + "'");
 					throw ((t.code = 'MODULE_NOT_FOUND'), t);
 				}
-				(l.keys = () => []), (l.resolve = l), (l.id = '../../node_modules/memoizerific sync recursive'), (B.exports = l);
+				(l.keys = () => []), (l.resolve = l), (l.id = '../../node_modules/memoizerific sync recursive'), (I.exports = l);
 			},
 		},
 	]);
 })();
 
-//# sourceMappingURL=components-Templates-AutocompleteModal-AutocompleteModal-stories.de0671f1.iframe.bundle.js.map
+//# sourceMappingURL=components-Templates-AutocompleteModal-AutocompleteModal-stories.ed731a15.iframe.bundle.js.map
