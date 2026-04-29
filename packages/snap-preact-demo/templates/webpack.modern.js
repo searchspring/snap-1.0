@@ -10,7 +10,7 @@ const branchName = childProcess.execSync('git rev-parse --abbrev-ref HEAD').toSt
 
 export default merge(common, {
 	mode: 'production',
-	entry: './templates/src/index.ts',
+	entry: './templates/src/index.tsx',
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: 'bundle.js',

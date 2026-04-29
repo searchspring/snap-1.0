@@ -31,6 +31,9 @@ export interface ComponentProps<Props = any> {
 	customComponent?: string;
 }
 
+export type LayoutSelectorOptions = ListOption[];
+export type LayoutSelectorOption = ListOption;
+
 export type ListOption = {
 	value: string | number;
 	label?: string;

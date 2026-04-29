@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'beta'
 
 permissions:
   id-token: write  # Required for OIDC
@@ -47,15 +48,21 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: | 
+        run: |
           npm run build
 
       - name: Publish packages
-        run: npm run publish
+        if: github.ref_name == 'main'
+        run: npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Publish Beta packages
+        if: github.ref_name == 'beta'
+        run: npm run release:beta
+
       - name: Configure AWS credentials
+        if: github.ref_name == 'main'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.SNAPFU_AWS_KEY_ID }}

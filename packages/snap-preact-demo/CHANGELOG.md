@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/AthosCommerce/snap/compare/v1.2.2...v1.3.0) (2026-04-29)
+
+### Bug Fixes
+
+- **themecomponents:** tweaking themeComponents typing to patch open named component sub component overrides ([bc87c81](https://github.com/AthosCommerce/snap/commit/bc87c81d2a2b8541b0d8275ba45a7430aaa00fc6))
+
 ## [1.2.2](https://github.com/AthosCommerce/snap/compare/v1.2.1...v1.2.2) (2026-04-22)
 
 **Note:** Version bump only for package @athoscommerce/snap-preact-demo
