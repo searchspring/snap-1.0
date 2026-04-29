@@ -59,8 +59,8 @@ import {
 } from '@athoscommerce/snap-platforms/magento2';
 import { combineMerge } from '../utils';
 
-export const TEMPLATE_EDIT_COOKIE = 'athosEditor';
-export const TEMPLATE_EDITOR_PARAM = 'athos-editor';
+export const TEMPLATE_EDITOR_COOKIE = 'athosEditor';
+export const TEMPLATE_EDITOR_UI_PARAM = 'athos-editor';
 
 export type SnapTemplatesConfig = SnapTemplatesConfigLocked;
 export type SnapTemplatesConfigUnlocked = TemplatesStoreConfigUnlocked & {
@@ -108,7 +108,9 @@ export class SnapTemplates extends Snap {
 	templates: TemplatesStore;
 	constructor(config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked) {
 		const urlParams = url(window.location.href);
-		const editMode = Boolean((urlParams?.params?.query && TEMPLATE_EDITOR_PARAM in urlParams.params.query) || cookies.get(TEMPLATE_EDIT_COOKIE));
+		const editorCookieValue = cookies.get(TEMPLATE_EDITOR_COOKIE);
+		const editUIMode = Boolean((urlParams?.params?.query && TEMPLATE_EDITOR_UI_PARAM in urlParams.params.query) || editorCookieValue === 'ui');
+		const editMode = Boolean(editorCookieValue) || editUIMode;
 
 		const templatesStore = new TemplatesStore({ config, settings: { editMode } });
 
@@ -118,70 +120,81 @@ export class SnapTemplates extends Snap {
 
 		this.templates = templatesStore;
 
-		if (editMode) {
-			cookies.set(TEMPLATE_EDIT_COOKIE, 'true');
-			setTimeout(async () => {
+		setTimeout(async () => {
+			if (editMode) {
+				// create templateditor store
 				// preload the library
 				await templatesStore.preLoad();
 
-				new DomTargeter(
-					[
-						{
-							selector: 'body',
-							inject: {
-								action: 'append',
-								element: () => {
-									const themeEditContainer = document.createElement('div');
-									themeEditContainer.id = 'athos-template-editor';
-									return themeEditContainer;
+				// create editor store and register controllers
+				const TemplateEditorStore = (await import('./Stores/TemplateEditor/TemplateEditorStore')).TemplateEditorStore;
+				const templateEditorStore = new TemplateEditorStore({ templatesStore });
+
+				// attach to the window object
+				window.athos = window.athos || {};
+				window.athos.editor = templateEditorStore;
+
+				const searchController = this.controllers['search'] as SearchController | undefined;
+				const autocompleteController = this.controllers['autocomplete'] as AutocompleteController | undefined;
+
+				if (searchController) {
+					templateEditorStore.registerController(searchController);
+				}
+
+				if (autocompleteController) {
+					templateEditorStore.registerController(autocompleteController);
+				}
+
+				// render ui editor
+				if (editUIMode) {
+					cookies.set(TEMPLATE_EDITOR_COOKIE, 'ui');
+
+					new DomTargeter(
+						[
+							{
+								selector: 'body',
+								inject: {
+									action: 'append',
+									element: () => {
+										const themeEditContainer = document.createElement('div');
+										themeEditContainer.id = 'athos-template-editor';
+										return themeEditContainer;
+									},
 								},
 							},
-						},
-					],
-					async (target: Target, elem: Element) => {
-						try {
-							const TemplateEditor = (await import('../../components/src')).TemplatesEditor;
-							const TemplateEditorStore = (await import('./Stores/TemplateEditor/TemplateEditorStore')).TemplateEditorStore;
-							const templateEditorStore = new TemplateEditorStore({ templatesStore });
+						],
+						async (target: Target, elem: Element) => {
+							try {
+								const TemplateEditor = (await import('../../components/src')).TemplatesEditor;
 
-							const searchController = this.controllers['search'] as SearchController | undefined;
-							const autocompleteController = this.controllers['autocomplete'] as AutocompleteController | undefined;
+								render(
+									<TemplateEditor
+										templatesStore={templatesStore}
+										editorStore={templateEditorStore}
+										snap={this}
+										onRemoveClick={() => {
+											cookies.unset(TEMPLATE_EDITOR_COOKIE);
+											const urlState = url(window.location.href);
+											delete urlState?.params.query[TEMPLATE_EDITOR_UI_PARAM];
 
-							if (searchController) {
-								templateEditorStore.registerController(searchController);
+											const newUrl = urlState?.url();
+											if (newUrl && newUrl != window.location.href) {
+												window.location.href = newUrl;
+											} else {
+												window.location.reload();
+											}
+										}}
+									/>,
+									elem
+								);
+							} catch (error) {
+								console.error('Error rendering TemplateEditor:', error);
 							}
-
-							if (autocompleteController) {
-								templateEditorStore.registerController(autocompleteController);
-							}
-
-							render(
-								<TemplateEditor
-									templatesStore={templatesStore}
-									editorStore={templateEditorStore}
-									snap={this}
-									onRemoveClick={() => {
-										cookies.unset(TEMPLATE_EDIT_COOKIE);
-										const urlState = url(window.location.href);
-										delete urlState?.params.query[TEMPLATE_EDITOR_PARAM];
-
-										const newUrl = urlState?.url();
-										if (newUrl && newUrl != window.location.href) {
-											window.location.href = newUrl;
-										} else {
-											window.location.reload();
-										}
-									}}
-								/>,
-								elem
-							);
-						} catch (error) {
-							console.error('Error rendering TemplateEditor:', error);
 						}
-					}
-				);
-			});
-		}
+					);
+				}
+			}
+		});
 	}
 }
 

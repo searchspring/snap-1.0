@@ -8,13 +8,16 @@ export function useMediaQuery(query: string, runOnCleanup?: () => void): boolean
 	const [match, setMatch] = useState(!!mediaQuery.matches);
 
 	useEffect(() => {
+		// sync state immediately in case query changed
+		setMatch(!!mediaQuery.matches);
+
 		const handler = () => setMatch(!!mediaQuery.matches);
 		mediaQuery.addListener(handler);
 		return () => {
 			runOnCleanup instanceof Function && runOnCleanup();
 			mediaQuery.removeListener(handler);
 		};
-	}, []);
+	}, [query]);
 
 	return match;
 }

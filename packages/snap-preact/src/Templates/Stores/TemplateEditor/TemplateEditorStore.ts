@@ -7,7 +7,7 @@ import { TemplatesStore, TEMPLATE_STORE_KEY, TemplateTarget, SearchTargetConfig,
 import { AutocompleteController, SearchController } from '@athoscommerce/snap-controller';
 
 import type { AbstractionGroup } from '../../../types';
-import { ThemeVariables, ThemeVariablesPartial } from '../../../../components/src';
+import { ThemeVariables, ThemeVariablesPartial, ThemeResponsiveComplete, ThemePartial } from '../../../../components/src';
 import { TargetStore } from '../TargetStore';
 import { SnapTemplatesConfig } from '../../SnapTemplates';
 import {
@@ -62,11 +62,32 @@ type EditorTargets = {
 type EditorInitialThemeConfig = {
 	extends: string;
 	variables: ThemeVariables;
+	overrides?: ThemeResponsiveComplete;
 };
 
 type EditorOverridesThemeConfig = {
 	extends?: string;
 	variables?: ThemeVariablesPartial;
+	overrides?: ThemeResponsiveComplete;
+};
+
+type SourceControl = {
+	initial?: boolean;
+	overrides?: boolean;
+};
+
+type GenerateTemplatesConfigOptions = {
+	config?: boolean | SourceControl;
+	theme?:
+		| boolean
+		| {
+				extends?: boolean | SourceControl;
+				variables?: boolean | SourceControl;
+				overrides?: boolean | SourceControl;
+		  };
+	search?: boolean;
+	autocomplete?: boolean;
+	unlocked?: boolean;
 };
 
 export class TemplateEditorStore {
@@ -150,18 +171,6 @@ export class TemplateEditorStore {
 		this.storage = new StorageStore({ type: StorageType.local, key: TEMPLATE_STORE_KEY });
 		this.storedState = this.storage.get('editor') || this.storedState;
 
-		// TODO: could be better to not have to redifine everything here in "prevent empty objects in overrides"
-		this.overrides = this.storage.get('overrides') || this.overrides;
-
-		// prevent empty objects in overrides
-		this.overrides.config = this.overrides.config || {};
-		this.overrides.controller = this.overrides.controller || {};
-		this.overrides.theme = this.overrides.theme || {};
-		this.overrides.targets = this.overrides.targets || {
-			search: [],
-			autocomplete: [],
-		};
-
 		this.initial.config = deepmerge(this.initial.config, templatesStore.config.config);
 		this.initial.controller = {}; // set when registering controllers
 
@@ -171,19 +180,22 @@ export class TemplateEditorStore {
 
 		const themeConfig = JSON.parse(JSON.stringify(templatesStore.config.theme || {})) as SnapTemplatesConfig['theme'];
 		delete themeConfig.style;
-		delete themeConfig.overrides;
 		this.initial.theme = deepmerge(this.initial.theme, themeConfig);
 
-		// normalize all colors to hexadecimal format using the Color library
-		Object.keys(this.initial.theme.variables.colors).forEach((key) => {
-			const color = this.initial.theme.variables.colors[key as keyof typeof this.initial.theme.variables.colors];
-			this.initial.theme.variables.colors[key as keyof typeof this.initial.theme.variables.colors] = Color(color).hex();
+		// apply stored overrides (normalizes, persists, and triggers theme changes)
+		const storedOverrides = this.storage.get('overrides') || {};
+		this.setOverrides({
+			config: storedOverrides.config,
+			theme: storedOverrides.theme,
+			search: {
+				targets: storedOverrides.targets?.search,
+				settings: storedOverrides.controller?.search,
+			},
+			autocomplete: {
+				targets: storedOverrides.targets?.autocomplete,
+				settings: storedOverrides.controller?.autocomplete,
+			},
 		});
-
-		// switch to the theme set in the initial config if no override is set
-		this.setTheme(this.overrides.theme.extends ?? this.initial.theme.extends);
-		// initialize themes with overrides
-		this.setThemeOverride({ path: [], value: undefined });
 
 		this.storage.set('initial', this.initial);
 
@@ -211,6 +223,77 @@ export class TemplateEditorStore {
 		this.storage.set('editor', this.storedState);
 	}
 
+	setOverrides(overrides: {
+		config?: SnapTemplatesConfig['config'];
+		theme?: EditorOverridesThemeConfig;
+		search?: { targets?: Partial<TemplateTarget>[]; settings?: SearchStoreConfigSettings };
+		autocomplete?: { targets?: Partial<TemplateTarget>[]; settings?: AutocompleteStoreConfigSettings };
+	}) {
+		// normalize and set overrides, preventing empty objects
+		this.overrides.config = overrides.config || {};
+		this.overrides.controller = {
+			search: overrides.search?.settings,
+			autocomplete: overrides.autocomplete?.settings,
+		};
+		this.overrides.theme = overrides.theme || {};
+		this.overrides.targets = {
+			search: overrides.search?.targets || [],
+			autocomplete: overrides.autocomplete?.targets || [],
+		};
+
+		// persist each section to storage
+		this.storage.set('overrides.config', this.overrides.config);
+		this.storage.set('overrides.controller', this.overrides.controller);
+		this.storage.set('overrides.targets', this.overrides.targets);
+
+		// apply language/currency overrides to the templates store
+		const language = (this.overrides.config.language || this.initial.config.language) as LanguageCodes;
+		const currency = (this.overrides.config.currency || this.initial.config.currency) as CurrencyCodes;
+		this.templatesStore.setLanguage(language);
+		this.templatesStore.setCurrency(currency);
+
+		// re-apply controller configs with merged overrides
+		// (skip if initial.controller hasn't been populated yet — registerController handles that case)
+		(['search', 'autocomplete'] as const).forEach((type) => {
+			const controller = window.athos?.controller?.[type];
+			if (controller && this.initial.controller[type]) {
+				// reset settings to initial values first, then merge overrides on top
+				// (controller.config.settings already has old overrides baked in, so we can't use it as a base)
+				const cleanConfig = { ...controller.config, settings: JSON.parse(JSON.stringify(this.initial.controller[type])) };
+				const mergedConfig = deepmerge<any>(cleanConfig, {
+					settings: this.overrides.controller[type] || {},
+				});
+				controller.setConfig(mergedConfig);
+			}
+		});
+
+		// re-apply target overrides (component, selector, etc.)
+		(['search', 'autocomplete'] as const).forEach((feature) => {
+			const targetFeatureSet = this.templatesStore.targets[feature];
+			const mergedTargets = deepmerge<EditorTargets[typeof feature]>(
+				toJS(this.initial.targets[feature]) || [],
+				toJS(this.overrides.targets[feature]) || [],
+				{ arrayMerge: combineMerge }
+			);
+			targetFeatureSet.forEach((target, index) => {
+				const mergedTarget = mergedTargets[index];
+				if (mergedTarget) {
+					Object.keys(mergedTarget).forEach((key) => {
+						target.setValue(key, mergedTarget[key as keyof typeof mergedTarget] as string);
+					});
+				}
+			});
+		});
+
+		// apply theme changes (also persists overrides.theme)
+		this.setTheme(this.overrides.theme.extends ?? this.initial.theme.extends);
+	}
+
+	resetOverrides() {
+		this.storage.set('overrides', undefined);
+		this.setOverrides({});
+	}
+
 	setActiveDomSelector(selectorId: string | null) {
 		if (selectorId?.length) {
 			this.state.activeDomSelector = selectorId;
@@ -235,7 +318,6 @@ export class TemplateEditorStore {
 		this.overrides.config = updatedOverrides;
 		this.storage.set('overrides.config', updatedOverrides);
 
-		// TODO: handle setting language and currency separately
 		if (path[0] === 'language') {
 			this.templatesStore.setLanguage((value || initialValue) as LanguageCodes).then(() => {
 				this.storage.set('overrides.config', updatedOverrides);
@@ -256,6 +338,28 @@ export class TemplateEditorStore {
 		this.overrides.theme = deepmerge(this.overrides.theme, updatedConfig);
 
 		this.storage.set('overrides.theme', this.overrides.theme);
+
+		// update initial variables from the newly selected theme's raw definition
+		const themeDefinition = this.templatesStore.library.themes[themeName];
+		if (themeDefinition) {
+			const themeConfig = JSON.parse(JSON.stringify(this.templatesStore.config.theme || {})) as SnapTemplatesConfig['theme'];
+			delete themeConfig.style;
+			this.initial.theme.variables = deepmerge(themeDefinition.variables || {}, themeConfig.variables || {}) as ThemeVariables;
+			// normalize colors to hexadecimal format
+			Object.keys(this.initial.theme.variables.colors).forEach((key) => {
+				const color = this.initial.theme.variables.colors[key as keyof typeof this.initial.theme.variables.colors];
+				this.initial.theme.variables.colors[key as keyof typeof this.initial.theme.variables.colors] = Color(color).hex();
+			});
+			this.storage.set('initial', this.initial);
+		}
+
+		// update all library themes with recomputed editor overrides based on the new theme's variables
+		const mergedOverrides = deepmerge(this.initial.theme || {}, this.overrides.theme || {});
+		const transformedMergedOverrides = transformThemeComponentOverrides(mergedOverrides);
+		Object.keys(this.templatesStore.themes.library).forEach((libThemeName) => {
+			const themeStore = this.templatesStore.themes.library[libThemeName];
+			themeStore.setEditorOverrides(transformedMergedOverrides);
+		});
 
 		// loop through all targets in templateStore and call setTheme on them all
 		Object.keys(this.templatesStore.targets).forEach((feature) => {
@@ -292,10 +396,12 @@ export class TemplateEditorStore {
 
 		const mergedOverrides = deepmerge(this.initial.theme || {}, this.overrides.theme || {});
 
+		const transformedMergedOverrides = transformThemeComponentOverrides(mergedOverrides);
+
 		// update all themes with the new overrides
 		Object.keys(this.templatesStore.themes.library).forEach((themeName) => {
 			const themeStore = this.templatesStore.themes.library[themeName];
-			themeStore.setEditorOverrides({ variables: mergedOverrides.variables || {} });
+			themeStore.setEditorOverrides(transformedMergedOverrides);
 		});
 	};
 
@@ -427,8 +533,6 @@ export class TemplateEditorStore {
 					*/
 
 					window.athos.controller[targetFeature].retarget();
-				} else {
-					console.log('no active targeter key');
 				}
 			}
 		} else if (finalPath == 'triggerSelector' && targetIndex > -1) {
@@ -534,56 +638,140 @@ export class TemplateEditorStore {
 		return targets;
 	}
 
-	generateTemplatesConfig(): SnapTemplatesConfig {
+	generateTemplatesConfig(options?: GenerateTemplatesConfigOptions): SnapTemplatesConfig {
+		const resolveSource = (opt: boolean | SourceControl | undefined): Required<SourceControl> => {
+			if (opt === undefined || opt === true) return { initial: true, overrides: true };
+			if (opt === false) return { initial: false, overrides: false };
+			return { initial: opt.initial ?? true, overrides: opt.overrides ?? true };
+		};
+
+		const configOpt = resolveSource(options?.config);
+
+		let themeExtendsOpt: Required<SourceControl>;
+		let themeVariablesOpt: Required<SourceControl>;
+		let themeOverridesOpt: Required<SourceControl>;
+
+		if (options?.theme === undefined || options?.theme === true) {
+			themeExtendsOpt = { initial: true, overrides: true };
+			themeVariablesOpt = { initial: true, overrides: true };
+			themeOverridesOpt = { initial: true, overrides: true };
+		} else if (options?.theme === false) {
+			themeExtendsOpt = { initial: false, overrides: false };
+			themeVariablesOpt = { initial: false, overrides: false };
+			themeOverridesOpt = { initial: false, overrides: false };
+		} else {
+			themeExtendsOpt = resolveSource(options.theme.extends);
+			themeVariablesOpt = resolveSource(options.theme.variables);
+			themeOverridesOpt = resolveSource(options.theme.overrides);
+		}
+
+		const includeTheme =
+			themeExtendsOpt.initial ||
+			themeExtendsOpt.overrides ||
+			themeVariablesOpt.initial ||
+			themeVariablesOpt.overrides ||
+			themeOverridesOpt.initial ||
+			themeOverridesOpt.overrides;
+
 		const originalConfig = JSON.parse(JSON.stringify(this.templatesStore.config)) as SnapTemplatesConfig;
 		delete originalConfig.search;
 		delete originalConfig.autocomplete;
 		delete originalConfig.recommendation;
 		delete originalConfig.components;
 
-		const storageConfigData = (this.storage.get('overrides.config') || {}) as SnapTemplatesConfig['config'];
-		const themeConfigData = (this.storage.get('overrides.theme') || {}) as SnapTemplatesConfig['theme'];
-		const overrideConfig: SnapTemplatesConfig = { config: storageConfigData, theme: themeConfigData };
-
-		const targets = this.getTargets();
-		const searchTargets = targets
-			.filter((target) => target.type === 'search')
-			.map(
-				(target) =>
-					({
-						selector: target.selector,
-						component: target.target.component,
-					} as SearchTargetConfig)
-			);
-		const autocompleteTargets = targets
-			.filter((target) => target.type === 'autocomplete')
-			.map(
-				(target) =>
-					({
-						selector: target.selector,
-						component: target.target.component,
-					} as AutocompleteTargetConfig)
-			);
-
-		// add search controller settings
-		if (searchTargets.length) {
-			overrideConfig.search = {
-				targets: searchTargets,
-				settings: this.overrides.controller.search || {},
-			};
+		// selectively strip initial config
+		if (!configOpt.initial) {
+			delete (originalConfig as Partial<SnapTemplatesConfig>).config;
 		}
 
-		// add autocomplete controller settings
-		if (autocompleteTargets.length) {
-			overrideConfig.autocomplete = {
-				targets: autocompleteTargets,
-				settings: this.overrides.controller.autocomplete || {},
-			};
+		// selectively strip initial theme fields
+		if (!includeTheme) {
+			delete (originalConfig as Partial<SnapTemplatesConfig>).theme;
+		} else if (originalConfig.theme) {
+			if (!themeExtendsOpt.initial) delete (originalConfig.theme as Partial<typeof originalConfig.theme>).extends;
+			if (!themeVariablesOpt.initial) delete originalConfig.theme.variables;
+			if (!themeOverridesOpt.initial) delete originalConfig.theme.overrides;
+		}
+
+		const overrideConfig: Partial<SnapTemplatesConfig> = {};
+
+		if (configOpt.overrides) {
+			overrideConfig.config = (this.storage.get('overrides.config') || {}) as SnapTemplatesConfig['config'];
+		}
+
+		if (includeTheme) {
+			const themeOverrideData = (this.storage.get('overrides.theme') || {}) as Record<string, unknown>;
+			const filteredTheme: Record<string, unknown> = {};
+			if (themeExtendsOpt.overrides && themeOverrideData.extends !== undefined) filteredTheme.extends = themeOverrideData.extends;
+			if (themeVariablesOpt.overrides && themeOverrideData.variables !== undefined) filteredTheme.variables = themeOverrideData.variables;
+			if (themeOverridesOpt.overrides && themeOverrideData.overrides !== undefined) filteredTheme.overrides = themeOverrideData.overrides;
+			if (Object.keys(filteredTheme).length) {
+				overrideConfig.theme = filteredTheme as SnapTemplatesConfig['theme'];
+			}
+		}
+
+		const targets = this.getTargets();
+
+		if (options?.search !== false) {
+			const searchTargets = targets
+				.filter((target) => target.type === 'search')
+				.map(
+					(target) =>
+						({
+							selector: target.selector,
+							component: target.target.component,
+						} as SearchTargetConfig)
+				);
+
+			if (searchTargets.length) {
+				overrideConfig.search = {
+					targets: searchTargets,
+					settings: this.overrides.controller.search || {},
+				};
+			}
+		}
+
+		if (options?.autocomplete !== false) {
+			const autocompleteTargets = targets
+				.filter((target) => target.type === 'autocomplete')
+				.map(
+					(target) =>
+						({
+							selector: target.selector,
+							component: target.target.component,
+						} as AutocompleteTargetConfig)
+				);
+
+			if (autocompleteTargets.length) {
+				overrideConfig.autocomplete = {
+					targets: autocompleteTargets,
+					settings: this.overrides.controller.autocomplete || {},
+				};
+			}
 		}
 
 		const config = deepmerge(originalConfig, overrideConfig);
+		const cleaned = removeEmptyObjects(config) as Record<string, unknown>;
 
-		return config;
+		if (!options?.unlocked) {
+			delete cleaned.unlocked;
+		}
+
+		// reorder keys: unlocked, config, theme, search, autocomplete, then everything else
+		const orderedKeys = ['unlocked', 'config', 'theme', 'search', 'autocomplete'];
+		const ordered: Record<string, unknown> = {};
+		for (const key of orderedKeys) {
+			if (key in cleaned) {
+				ordered[key] = cleaned[key];
+			}
+		}
+		for (const key of Object.keys(cleaned)) {
+			if (!(key in ordered)) {
+				ordered[key] = cleaned[key];
+			}
+		}
+
+		return ordered as SnapTemplatesConfig;
 	}
 }
 
@@ -677,4 +865,25 @@ function generateObject<T>(path: string[], value: unknown): T {
 				[key]: res,
 			};
 		}, value) as T;
+}
+
+function transformThemeComponentOverrides(theme: { overrides?: ThemeResponsiveComplete; variables?: ThemeVariablesPartial }): ThemePartial {
+	const { overrides, variables } = theme;
+	const result: ThemePartial = {};
+
+	if (variables) {
+		result.variables = variables;
+	}
+	if (overrides?.default) {
+		result.components = overrides.default;
+	}
+	if (overrides?.mobile || overrides?.tablet || overrides?.desktop) {
+		result.responsive = {
+			mobile: overrides?.mobile,
+			tablet: overrides?.tablet,
+			desktop: overrides?.desktop,
+		};
+	}
+
+	return result;
 }
