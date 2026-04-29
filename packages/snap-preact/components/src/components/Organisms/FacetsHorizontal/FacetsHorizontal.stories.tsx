@@ -152,7 +152,6 @@ export default {
 			},
 		},
 		iconExpand: {
-			defaultValue: 'angle-down',
 			description: 'Icon for when facet is collapsed',
 			table: {
 				category: 'Templates Legal',
@@ -167,7 +166,6 @@ export default {
 			},
 		},
 		iconCollapse: {
-			defaultValue: 'angle-up',
 			description: 'Icon for when facet is expanded',
 			table: {
 				category: 'Templates Legal',

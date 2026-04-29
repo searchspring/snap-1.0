@@ -9,6 +9,13 @@ var documents = [
 				url: './docs/ABOUT.md',
 				searchable: false,
 			},
+			{
+				label: 'Migration Guide',
+				route: '/reference-migration',
+				type: 'markdown',
+				url: './docs/REFERENCE_MIGRATION.md',
+				searchable: true,
+			},
 		],
 	},
 	{
