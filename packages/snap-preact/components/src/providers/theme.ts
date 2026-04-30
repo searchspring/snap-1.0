@@ -72,9 +72,11 @@ export type ThemeResponsive = {
 
 export type ThemeResponsiveComplete = ThemeResponsive & { default?: ThemeComponentsRestricted };
 
-// Utility type that adds customComponent to every component entry in ThemeComponentsRestricted
+// Utility type that adds customComponent to every component entry in ThemeComponentsRestricted.
+// For entries typed as `unknown` (open named selectors), we preserve `unknown` so they remain
+// permissive — intersecting unknown & { customComponent?: string } would narrow to only that prop.
 type WithCustomComponent<T> = {
-	[K in keyof T]: T[K] & { customComponent?: string };
+	[K in keyof T]: [unknown] extends [T[K]] ? T[K] : T[K] & { customComponent?: string };
 };
 export type ThemeComponentsRestrictedWithCustomComponent = WithCustomComponent<ThemeComponentsRestricted>;
 
