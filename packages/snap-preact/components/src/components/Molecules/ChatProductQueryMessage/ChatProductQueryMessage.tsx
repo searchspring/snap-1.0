@@ -509,7 +509,12 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 							{displayedCore.name && (
 								<div className={classnames('ss__chat-product-query-message__header__product__details__name')}>
 									{displayedCore.url ? (
-										<a href={displayedCore.url as string} target="_blank" rel="noopener noreferrer">
+										<a
+											href={displayedCore.url as string}
+											onClick={(e) => controller?.track.product.click(e as any, product)}
+											target="_blank"
+											rel="noopener noreferrer"
+										>
 											{displayedCore.name}
 										</a>
 									) : (
@@ -529,13 +534,24 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 						<div className={classnames('ss__chat-product-query-message__header__product__actions')}>
 							{displayedCore.url && (
 								<div className={classnames('ss__chat-product-query-message__header__product__actions__go-to-product')}>
-									<a href={displayedCore.url as string} target="_blank" rel="noopener noreferrer">
+									<a
+										href={displayedCore.url as string}
+										onClick={(e) => controller?.track.product.click(e as any, product)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
 										Go to product
 									</a>
 								</div>
 							)}
 							<div className={classnames('ss__chat-product-query-message__header__product__actions__add-to-cart')}>
-								<Button content={'Add to Cart'} onClick={() => controller?.addToCart(sourceProduct as any)} />
+								<Button
+									content={'Add to Cart'}
+									onClick={() => {
+										controller?.track.product.addToCart(product);
+										controller?.addToCart(product);
+									}}
+								/>
 							</div>
 							{controller?.store.features.similarProducts.enabled && (
 								<div className={classnames('ss__chat-product-query-message__header__product__actions__show-similar')}>
@@ -606,6 +622,8 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 												>
 													{row.value === 'In Stock' ? `\u2713 ${row.value}` : row.value}
 												</span>
+											) : row.rawKey.toLowerCase() === 'price' ? (
+												<Price value={Number(row.value)} />
 											) : (
 												row.value
 											)}

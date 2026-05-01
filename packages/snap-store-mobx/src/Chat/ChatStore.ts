@@ -77,6 +77,11 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 					latestChatId = chatId;
 				}
 			});
+
+		// Prefer the persisted active chat ID so switching chats survives page reloads.
+		// Fall back to the most recently created chat if the stored ID is missing or stale.
+		const storedCurrentChatId = this.storage.get('currentChatId');
+		const activeChatId = storedCurrentChatId && this.chats.some((chat) => chat.id === storedCurrentChatId) ? storedCurrentChatId : latestChatId;
 		const storedMeta = this.storage.get('meta');
 		if (storedMeta) {
 			try {
@@ -92,7 +97,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 
 				// Only hydrate the active chat session — inactive sessions will be
 				// hydrated lazily when switched to via switchChat()
-				const activeChat = this.chats.find((chat) => chat.id === latestChatId);
+				const activeChat = this.chats.find((chat) => chat.id === activeChatId);
 				if (activeChat) {
 					activeChat.hydrateResults(metaData);
 					activeChat.hydrated = true;
@@ -102,7 +107,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			}
 		}
 
-		this.currentChatId = latestChatId;
+		this.currentChatId = activeChatId;
 
 		makeObservable(this, {
 			meta: observable,
@@ -224,6 +229,12 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	}
 
 	public createChat(data?: { sessionId: string }): ChatSessionStore {
+		// abandon any in-flight request state from the previous chat — its
+		// response will be discarded by the controller, so the UI shouldn't
+		// keep showing its loading spinner or stale error
+		this.loading = false;
+		this.error = undefined;
+
 		// Prune old sessions before creating a new one to keep storage bounded
 		ChatSessionStore.pruneStoredSessions(this.storage);
 
@@ -237,6 +248,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		});
 
 		this.currentChatId = newChat.id;
+		this.storage.set('currentChatId', newChat.id);
 		this.chats.push(newChat);
 		return newChat;
 	}
@@ -250,6 +262,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 				chatExists.hydrated = true;
 			}
 			this.currentChatId = id;
+			this.storage.set('currentChatId', id);
 		}
 	}
 

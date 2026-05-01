@@ -138,6 +138,7 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 										key={index}
 										className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__queries__query')}
 										onClick={() => {
+											if (controller?.store.loading || controller?.store.blocked) return;
 											controller?.search({ data: { requestType: 'productSearch', searchTerm } } as Partial<ChatRequestModel>);
 										}}
 									>
@@ -155,7 +156,8 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 												className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__products__product')}
 											>
 												<Image
-													onClick={() => {
+													onClick={(e: any) => {
+														controller?.track.product.click(e, product);
 														controller?.viewProduct(product);
 														onViewProduct?.();
 													}}

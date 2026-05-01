@@ -98,7 +98,7 @@ export const ChatProductComparisonMessage = observer((properties: ChatProductCom
 		return null;
 	}
 
-	const headings = comparisonData.features.length ? Object.keys(comparisonData.features[0].values) : [];
+	const headings = searchResults.length ? searchResults.map((r: any) => String(r?.id)) : [];
 	const getDisplay = (r: any) => r?.display || r;
 	const allProductsHaveImage =
 		headings.length > 0 && headings.every((heading) => !!getDisplay(searchResults.find((r: any) => r?.id === heading))?.mappings?.core?.imageUrl);

@@ -28,6 +28,11 @@ const defaultStyles: StyleScript<MessageUserProps> = () => {
 			alignItems: 'center',
 			gap: '10px',
 		},
+		'.ss__chat__message-user__text-wrapper': {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'flex-end',
+		},
 		'.ss__chat__message-user__text': {
 			padding: '0.5em 1em',
 			borderRadius: '12px',
@@ -40,9 +45,10 @@ const defaultStyles: StyleScript<MessageUserProps> = () => {
 			padding: 0,
 			margin: 0,
 			display: 'flex',
-			gap: '8px',
-			flexWrap: 'nowrap',
+			flexWrap: 'wrap',
 			justifyContent: 'flex-end',
+			flex: '0 0 40px',
+			alignSelf: 'flex-end',
 			'.ss__chat__message-user__attachment__product, .ss__chat__message-user__attachment__image, .ss__chat__message-user__attachment__facet': {
 				width: '40px',
 				height: '40px',
@@ -68,6 +74,11 @@ const defaultStyles: StyleScript<MessageUserProps> = () => {
 					borderColor: colorPrimary,
 				},
 			},
+			'.ss__chat__message-user__attachment__facet--overflow': {
+				fontSize: '12px',
+				fontWeight: 600,
+				color: '#555',
+			},
 		},
 	});
 };
@@ -82,7 +93,11 @@ function getRequestTypeLabel(chatItem: any): string | undefined {
 		case 'productComparison':
 			return 'Comparing products';
 		case 'productSearch':
-			return 'Filtering products';
+			if (chatItem.request?.searchFilters?.length) {
+				return 'Filtering products';
+			} else {
+				return 'Searching products';
+			}
 		case 'imageSearch':
 			return 'Searching by image';
 		case 'productSimilar':
@@ -143,13 +158,17 @@ export const MessageUser = observer((props: MessageUserProps) => {
 
 	return (
 		<div className="ss__chat__message-user" {...styling}>
-			{requestTypeLabel ? <div className="ss__chat__message-user__request-type">{requestTypeLabel}</div> : null}
 			<div className="ss__chat__message-user__row">
 				<ul className="ss__chat__message-user__attachments">
-					{chatItem.attachments?.length
-						? chatItem.attachments?.map((attachmentId: string) => {
-								const attachment = store.currentChat?.attachments.get(attachmentId);
-								switch (attachment?.type) {
+					{(() => {
+						if (!chatItem.attachments?.length) return null;
+						const resolved = chatItem.attachments.map((id: string) => store.currentChat?.attachments.get(id)).filter(Boolean);
+						const totalFacets = resolved.filter((a: any) => a.type === 'facet').length;
+						const hiddenFacetCount = Math.max(0, totalFacets - 2);
+						let facetIndex = 0;
+						const items = resolved
+							.map((attachment: any) => {
+								switch (attachment.type) {
 									case 'image':
 										return (
 											<li className="ss__chat__message-user__attachment__image" key={attachment.id}>
@@ -171,21 +190,40 @@ export const MessageUser = observer((props: MessageUserProps) => {
 											</li>
 										);
 									}
-									case 'facet':
+									case 'facet': {
+										facetIndex += 1;
+										if (facetIndex > 2) return null;
 										return (
 											<li className="ss__chat__message-user__attachment__facet" key={attachment.id}>
 												<Icon title={`Filter: ${attachment.facetLabel} = ${attachment.label}`} icon="filter-funnel" size={27} />
 											</li>
 										);
+									}
 									default:
 										return null;
 								}
-						  })
-						: null}
+							})
+							.filter(Boolean);
+						if (hiddenFacetCount > 0) {
+							items.push(
+								<li
+									className="ss__chat__message-user__attachment__facet ss__chat__message-user__attachment__facet--overflow"
+									key="facet-overflow"
+									title={`${hiddenFacetCount} more filter${hiddenFacetCount === 1 ? '' : 's'}`}
+								>
+									+{hiddenFacetCount}
+								</li>
+							);
+						}
+						return items;
+					})()}
 				</ul>
-				{chatItem.text ? (
-					<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-				) : null}
+				<div className="ss__chat__message-user__text-wrapper">
+					{requestTypeLabel ? <div className="ss__chat__message-user__request-type">{requestTypeLabel}</div> : null}
+					{chatItem.text ? (
+						<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
+					) : null}
+				</div>
 			</div>
 		</div>
 	);

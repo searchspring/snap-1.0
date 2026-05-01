@@ -29,6 +29,21 @@ const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);
 // mocks fetch so beacon client does not make network requests
 jest.spyOn(global.window, 'fetch').mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
 
+// mock window.matchMedia for jsdom (used by discussProduct to detect mobile)
+Object.defineProperty(window, 'matchMedia', {
+	writable: true,
+	value: jest.fn().mockImplementation((query: string) => ({
+		matches: false,
+		media: query,
+		onchange: null,
+		addListener: jest.fn(),
+		removeListener: jest.fn(),
+		addEventListener: jest.fn(),
+		removeEventListener: jest.fn(),
+		dispatchEvent: jest.fn(),
+	})),
+});
+
 function createController(configOverrides?: Partial<ChatControllerConfig>, mockClient?: MockClient): ChatController {
 	const config = { ...chatConfig, ...configOverrides };
 	const client = mockClient || new MockClient(globals, {});
@@ -43,7 +58,7 @@ function createController(configOverrides?: Partial<ChatControllerConfig>, mockC
 	});
 }
 
-describe.skip('Chat Controller', () => {
+describe('Chat Controller', () => {
 	beforeEach(() => {
 		chatConfig = { ...chatConfigDefault };
 		chatConfig.id = uuidv4().split('-').join('');
@@ -251,7 +266,7 @@ describe.skip('Chat Controller', () => {
 			expect(controller.store.error).toStrictEqual({
 				code: 429,
 				type: 'warning',
-				message: 'Too many frequent requests. Please try again later',
+				message: 'Failed to process request. Please try again shortly',
 			});
 			expect(handleError).toHaveBeenCalledWith(error, { status: 429, url: 'test.com' });
 			handleError.mockClear();
@@ -635,6 +650,7 @@ describe.skip('Chat Controller', () => {
 			const controller = createController();
 			controller.store.createChat({ sessionId: 'test-session-001' });
 			controller.store.chatEnabled = true;
+			controller.store.inputValue = 'test query';
 			const searchSpy = jest.spyOn(controller, 'search').mockResolvedValue();
 
 			const event = { keyCode: 13 } as KeyboardEvent;
@@ -844,6 +860,7 @@ describe.skip('Chat Controller', () => {
 				id: 'prod1',
 				responseId: 'resp1',
 				quantity: 1,
+				display: { mappings: { core: { parentId: 'parent1', uid: 'uid1', sku: 'sku1', price: 48 } } },
 				mappings: { core: { parentId: 'parent1', uid: 'uid1', sku: 'sku1', price: 48 } },
 			} as unknown as Product;
 

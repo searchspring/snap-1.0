@@ -190,11 +190,11 @@ const defaultStyles: StyleScript<{
 				padding: '12px 16px',
 				fontSize: '14px',
 				color: '#333',
-				boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+				boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
 				cursor: 'pointer',
 				lineHeight: 1.4,
 				'&:hover': {
-					boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+					boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
 				},
 			},
 		},
@@ -241,6 +241,7 @@ const defaultStyles: StyleScript<{
 				display: 'flex',
 				'.ss__chat__header__title__logo': {
 					height: '44px',
+					width: 'auto',
 				},
 				'.ss__chat__header__title__text': {
 					display: 'flex',
@@ -460,9 +461,9 @@ const defaultStyles: StyleScript<{
 
 						'.ss__chat__content__header__comparisons__content__items': {
 							display: 'flex',
-							gap: '1em',
 							flex: '1 1 calc(100% - 100px)',
 							justifyContent: 'space-between',
+							gap: '0.5em',
 						},
 
 						'.ss__chat__content__header__comparisons__content__comparison': {
@@ -472,7 +473,7 @@ const defaultStyles: StyleScript<{
 							display: 'flex',
 							flexDirection: 'column',
 							gap: '0.5em',
-							flex: '0 1 20%',
+							flex: '0 1 25%',
 							position: 'relative',
 
 							'&.ss__chat__content__header__comparisons__content__comparison--placeholder': {
@@ -534,7 +535,6 @@ const defaultStyles: StyleScript<{
 			},
 			'.ss__chat__messages': {
 				flex: '1 1 auto',
-				overflowY: 'auto',
 				overscrollBehavior: 'contain',
 				margin: 0,
 				maxHeight: '100%',
@@ -542,6 +542,32 @@ const defaultStyles: StyleScript<{
 
 				'.ss__chat__messages__end': {
 					height: '1px',
+				},
+				'.ss__chat__new-messages': {
+					position: 'sticky',
+					bottom: '10px',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					gap: '6px',
+					margin: '0 auto',
+					width: 'fit-content',
+					padding: '6px 16px',
+					background: colorPrimary,
+					color: '#fff',
+					borderRadius: '999px',
+					fontSize: '13px',
+					fontWeight: 500,
+					cursor: 'pointer',
+					boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+					zIndex: 5,
+					'&:hover': {
+						background: '#1a2a5c',
+					},
+					svg: {
+						fill: '#fff',
+						stroke: '#fff',
+					},
 				},
 				'.ss__chat__message': {
 					marginBottom: '30px',
@@ -707,13 +733,19 @@ const defaultStyles: StyleScript<{
 				display: 'flex',
 				justifyContent: 'flex-end',
 				padding: '0 2px',
+				// reserve the slot so toggling the button's visibility doesn't reflow the header
+				visibility: 'hidden',
+				'&.ss__chat__actions__facets-apply--active': {
+					visibility: 'visible',
+				},
 				'.ss__button': {
 					background: '#253B80',
 					color: '#fff',
 					border: 'none',
 					borderRadius: '999px',
-					padding: '6px 16px',
-					fontSize: '14px',
+					padding: '2px 10px',
+					fontSize: '12px',
+					lineHeight: '1.4',
 					cursor: 'pointer',
 					'&:not(.ss__button--disabled):hover': {
 						background: '#1a2a5c',
@@ -958,6 +990,7 @@ const defaultStyles: StyleScript<{
 						padding: '0.5em 0',
 						margin: '0 0 0 1em',
 						flex: '1 0 auto',
+						border: 'none',
 						'&::placeholder': {
 							color: '#999',
 							opacity: 0.7,
@@ -1052,6 +1085,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const [swipeAnimating, setSwipeAnimating] = useState(false);
 	const [mobileProductInfoOpen, setMobileProductInfoOpen] = useState(false);
 	const [footerHeight, setFooterHeight] = useState(0);
+	const [showNewMessages, setShowNewMessages] = useState(false);
+	const isNearBottomRef = useRef(true);
 
 	const updateSwipeOffset = (value: number) => {
 		swipeOffsetRef.current = value;
@@ -1062,16 +1097,80 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 	};
 
-	// Auto-scroll to bottom when new messages are added or chat state changes
-	useEffect(() => {
-		// if (store.open && messagesContainerRef.current) {
-		// 	messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-		// }
-
-		if (store.open) {
+	// Conditional scroll: only scrolls if the user is already near the bottom.
+	// Passed to child components (e.g. image onLoad) so they don't yank the user
+	// back to the bottom when they have scrolled up to read older messages.
+	const scrollToBottomIfNear = () => {
+		if (isNearBottomRef.current) {
 			scrollToBottom();
 		}
-	}, [store.currentChat?.chat.length, store.loading, store.open]);
+	};
+
+	// productQuery messages are filtered out of the main chat render (they only drive the side-chat panel),
+	// so don't auto-scroll when one is added — otherwise clicking a product in the side chat scrolls the main thread.
+	const visibleChatLength = (store.currentChat?.chat || []).filter((m) => m.messageType !== 'productQuery').length;
+
+	// Scroll to bottom when chat opens
+	useEffect(() => {
+		if (store.open) {
+			scrollToBottom();
+			setShowNewMessages(false);
+			isNearBottomRef.current = true;
+		}
+	}, [store.open]);
+
+	// Handle new messages — auto-scroll for user messages, show popup for response messages when scrolled up
+	useEffect(() => {
+		if (!store.open) return;
+		const chat = store.currentChat?.chat || [];
+		const visibleChat = chat.filter((m) => m.messageType !== 'productQuery');
+		const lastMessage = visibleChat[visibleChat.length - 1];
+		if (!lastMessage) return;
+
+		if (lastMessage.messageType === 'user') {
+			scrollToBottom();
+			setShowNewMessages(false);
+		} else {
+			if (isNearBottomRef.current) {
+				scrollToBottom();
+				setShowNewMessages(false);
+			} else {
+				setShowNewMessages(true);
+			}
+		}
+	}, [visibleChatLength]);
+
+	// Scroll to show loading indicator when user sends a message
+	useEffect(() => {
+		if (store.open && store.loading) {
+			scrollToBottom();
+		}
+	}, [store.loading]);
+
+	// Track scroll position to dismiss the "New messages" popup when user scrolls to bottom
+	useEffect(() => {
+		const container = messagesContainerRef.current;
+		if (!container) return;
+		const handleScroll = () => {
+			const threshold = 100;
+			const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+			isNearBottomRef.current = isNearBottom;
+			if (isNearBottom) {
+				setShowNewMessages(false);
+			}
+		};
+		container.addEventListener('scroll', handleScroll);
+		return () => container.removeEventListener('scroll', handleScroll);
+	}, [store.open]);
+
+	// Re-focus the chat input on desktop after a search completes.
+	// The input is disabled while loading, which causes the browser to drop focus.
+	// On mobile we intentionally skip this so the virtual keyboard dismisses.
+	useEffect(() => {
+		if (!store.loading && !isMobile && store.open) {
+			controller.focusInput();
+		}
+	}, [store.loading]);
 
 	// const subProps: ChatSubProps = {};
 
@@ -1348,10 +1447,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 										{(
 											{
 												inspirationResult: 'Choose a style direction to explore',
-												productComparison: `Comparing ${
-													(activeMessage as ChatResponseProductComparisonData)?.comparisonData?.features.length ||
-													(activeMessage as ChatResponseProductComparisonData)?.searchResults?.length
-												} products`,
+												productComparison: `Comparing ${(activeMessage as ChatResponseProductComparisonData)?.searchResults?.length || ''} products`,
 												productQuery: 'Complete product details',
 											} as any
 										)[activeMessage.messageType] || null}
@@ -1570,7 +1666,11 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 										</div>
 									)}
 								</div>
-								<div className={'ss__chat__messages'} ref={messagesContainerRef}>
+								<div
+									className={'ss__chat__messages'}
+									ref={messagesContainerRef}
+									style={visibleChatLength ? { overflowY: 'auto', scrollbarGutter: 'stable' } : undefined}
+								>
 									{(!store.currentChat?.chat || store.currentChat.chat.length === 0) && store.welcomeMessage && (
 										<div className="ss__chat__welcome">
 											<div className="ss__chat__welcome__message">{store.welcomeMessage}</div>
@@ -1593,7 +1693,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
@@ -1602,7 +1702,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
@@ -1611,7 +1711,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
@@ -1620,7 +1720,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
@@ -1629,7 +1729,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
@@ -1644,7 +1744,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 															<MessageText
 																chatItem={chatItem}
 																controller={controller}
-																scrollToBottom={scrollToBottom}
+																scrollToBottom={scrollToBottomIfNear}
 																onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 																showDetailsButton={isMobile && !isFirst}
 																sideChatOpen={!!shouldShowSideChat}
@@ -1655,7 +1755,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															onViewProduct={isMobile ? () => setMobileProductInfoOpen(true) : undefined}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
@@ -1665,7 +1765,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
@@ -1673,7 +1773,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														<MessageText
 															chatItem={chatItem}
 															controller={controller}
-															scrollToBottom={scrollToBottom}
+															scrollToBottom={scrollToBottomIfNear}
 															sideChatOpen={!!shouldShowSideChat}
 														/>
 													),
@@ -1682,6 +1782,18 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											</div>
 										))}
 									<div className="ss__chat__messages__end" ref={messagesEndRef} />
+									{showNewMessages && (
+										<div
+											className="ss__chat__new-messages"
+											onClick={() => {
+												scrollToBottom();
+												setShowNewMessages(false);
+											}}
+										>
+											<Icon icon="angle-down" size="12px" />
+											<span>New messages</span>
+										</div>
+									)}
 								</div>
 								<ChatLoadingIndicator loading={store.loading} verbs={loadingVerbs} />
 								{!store.currentChat?.isExpired ? (
@@ -1713,14 +1825,20 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																<>
 																	<div className="ss__chat__actions__facets-header">
 																		<div className="ss__chat__actions--title">Filter by:</div>
-																		{multiselectFacets && (store.currentChat?.attachments.attached.some((item) => item.type === 'facet') || false) && (
-																			<div className="ss__chat__actions__facets-apply">
+																		{multiselectFacets && (
+																			<div
+																				className={`ss__chat__actions__facets-apply${
+																					store.currentChat?.attachments.attached.some((item) => item.type === 'facet')
+																						? ' ss__chat__actions__facets-apply--active'
+																						: ''
+																				}`}
+																			>
 																				<Button
 																					onClick={() => {
 																						controller.search();
 																					}}
 																				>
-																					Apply Filters
+																					Apply
 																				</Button>
 																			</div>
 																		)}
@@ -2083,6 +2201,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																const messageText = store.currentChat?.handleTopicDrift();
 																if (messageText) {
 																	controller.store.createChat();
+																	controller.search({ data: { message: messageText } } as any);
 																}
 															}}
 														>
@@ -2169,7 +2288,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 														(item) => item.type === 'image' && !item.error
 													);
 													const messageEmpty = !controller.store.inputValue.trim();
-													const sendDisabled = store.blocked || store.currentChat?.sessionLimitReached || (hasImageAttachment && messageEmpty);
+													const sendDisabled =
+														store.blocked || store.currentChat?.sessionLimitReached || (hasImageAttachment && messageEmpty) || messageEmpty;
 													return (
 														<Button
 															className="ss__chat__send-button"
