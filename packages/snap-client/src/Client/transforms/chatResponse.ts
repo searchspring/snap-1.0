@@ -56,6 +56,8 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 		};
 	}
 
+	const responseId = response.responseId || '';
+
 	const transformedData = response.data
 		.map((data) => {
 			if (data.messageType === 'text') {
@@ -63,17 +65,17 @@ export function transformChatResponse(response: MoiResponseModel): ChatResponseM
 			} else if (data.messageType === 'content') {
 				return transformChatResponse.content(data);
 			} else if (data.messageType === 'productSearchResult') {
-				return transformChatResponse.productData(data);
+				return transformChatResponse.productData(data, responseId);
 			} else if (data.messageType === 'inspirationResult') {
-				return transformChatResponse.inspirationResult(data);
+				return transformChatResponse.inspirationResult(data, responseId);
 			} else if (data.messageType === 'productAnswer') {
-				return transformChatResponse.productAnswer(data);
+				return transformChatResponse.productAnswer(data, responseId);
 			} else if (data.messageType === 'productComparison') {
-				return transformChatResponse.productComparison(data);
+				return transformChatResponse.productComparison(data, responseId);
 			} else if (data.messageType === 'actions') {
 				return transformChatResponse.actions(data);
 			} else if (data.messageType === 'productRecommendation') {
-				return transformChatResponse.productRecommendation(data);
+				return transformChatResponse.productRecommendation(data, responseId);
 			} else if (data.messageType === 'errorResponse') {
 				return transformChatResponse.error(data);
 			} else if (data.messageType === 'topicDrift') {
@@ -145,7 +147,7 @@ export type ChatResponseProductSearchResultData = BaseResponseProperties & {
 	results: SearchResponseModelResult[];
 	facets: SearchResponseModelFacet[];
 };
-transformChatResponse.productData = (data: MoiResponseModelProductSearchResult): ChatResponseProductSearchResultData => {
+transformChatResponse.productData = (data: MoiResponseModelProductSearchResult, responseId: string): ChatResponseProductSearchResultData => {
 	return {
 		// base
 		messageType: data.messageType,
@@ -153,7 +155,7 @@ transformChatResponse.productData = (data: MoiResponseModelProductSearchResult):
 
 		// specific
 		text: data.text,
-		results: data.searchResult?.results?.map(mapProductToSearchResultProduct) || [],
+		results: data.searchResult?.results?.map((product) => mapProductToSearchResultProduct(product, responseId)) || [],
 		facets: mapFacetToSearchResultFacets(data.searchResult),
 	};
 };
@@ -168,7 +170,7 @@ export type ChatResponseInspirationResultData = BaseResponseProperties & {
 		searchQueries: string[];
 	}[];
 };
-transformChatResponse.inspirationResult = (data: MoiResponseModelInspirationResult): ChatResponseInspirationResultData => {
+transformChatResponse.inspirationResult = (data: MoiResponseModelInspirationResult, responseId: string): ChatResponseInspirationResultData => {
 	return {
 		// base
 		messageType: data.messageType,
@@ -179,7 +181,7 @@ transformChatResponse.inspirationResult = (data: MoiResponseModelInspirationResu
 		inspirationSections: data.inspirationSections?.map((section) => ({
 			clusterDescription: section.clusterDescription,
 			clusterTitle: section.clusterTitle,
-			products: section.products.map(mapProductToSearchResultProduct),
+			products: section.products.map((product) => mapProductToSearchResultProduct(product, responseId)),
 			searchQueries: section.searchQueries,
 		})),
 	};
@@ -190,13 +192,13 @@ export type ChatResponseProductAnswerData = BaseResponseProperties & {
 	text: string;
 	sourceProduct: SearchResponseModelResult;
 };
-transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer): ChatResponseProductAnswerData => {
+transformChatResponse.productAnswer = (data: MoiResponseModelProductAnswer, responseId: string): ChatResponseProductAnswerData => {
 	return {
 		messageType: data.messageType,
 		id: data.id,
 
 		text: data.text,
-		sourceProduct: mapProductToSearchResultProduct(data.sourceProduct),
+		sourceProduct: mapProductToSearchResultProduct(data.sourceProduct, responseId),
 	};
 };
 
@@ -213,12 +215,14 @@ export type ChatResponseProductComparisonData = BaseResponseProperties & {
 		summary: string;
 	};
 };
-transformChatResponse.productComparison = (data: MoiResponseModelProductComparison): ChatResponseProductComparisonData => {
+transformChatResponse.productComparison = (data: MoiResponseModelProductComparison, responseId: string): ChatResponseProductComparisonData => {
 	return {
 		messageType: data.messageType,
 		id: data.id,
 
-		searchResults: (Array.isArray(data.searchResults) ? data.searchResults : [data.searchResults]).map(mapProductToSearchResultProduct),
+		searchResults: (Array.isArray(data.searchResults) ? data.searchResults : [data.searchResults]).map((product) =>
+			mapProductToSearchResultProduct(product, responseId)
+		),
 		comparisonData: data.comparisonData,
 	};
 };
@@ -237,13 +241,19 @@ export type ChatResponseProductRecommendationData = BaseResponseProperties & {
 	sourceProduct: SearchResponseModelResult;
 	text: string;
 };
-transformChatResponse.productRecommendation = (data: MoiResponseModelProductRecommendation): ChatResponseProductRecommendationData => {
+transformChatResponse.productRecommendation = (
+	data: MoiResponseModelProductRecommendation,
+	responseId: string
+): ChatResponseProductRecommendationData => {
 	return {
 		messageType: data.messageType,
 		id: data.id,
 
-		recommendationResult: data.recommendationResult,
-		sourceProduct: mapProductToSearchResultProduct(data.sourceProduct),
+		recommendationResult: data.recommendationResult?.map((rec) => ({
+			...rec,
+			results: rec.results?.map((result) => ({ ...result, responseId })) as SearchResponseModelResult[],
+		})),
+		sourceProduct: mapProductToSearchResultProduct(data.sourceProduct, responseId),
 		text: data.text,
 	};
 };
@@ -261,7 +271,7 @@ transformChatResponse.error = (data: MoiResponseModelError): ChatResponseErrorDa
 	};
 };
 
-const mapProductToSearchResultProduct = (product: RawResult): SearchResponseModelResult => {
+const mapProductToSearchResultProduct = (product: RawResult, responseId: string): SearchResponseModelResult => {
 	const coreFieldValues: SearchResponseModelResultCoreMappings = CORE_FIELDS.reduce((coreFields, key) => {
 		if (typeof product[key as keyof RawResult] != 'undefined') {
 			return {
@@ -293,7 +303,7 @@ const mapProductToSearchResultProduct = (product: RawResult): SearchResponseMode
 
 	return new Result({
 		id: product.uid,
-		responseId: '',
+		responseId,
 		mappings: {
 			core: coreFieldValues,
 		},

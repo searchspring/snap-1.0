@@ -134,6 +134,7 @@ export type MoiRequestModelContent = {
 
 // DISCRIMINATOR: "messageType" === text, productAnswer, productRecommendation, productComparison, productSearchResult, content, errorResponse, topicDrift, actions
 export type MoiResponseModel = {
+	responseId: string;
 	context: {
 		sessionId: string;
 	};
@@ -320,6 +321,18 @@ export class ChatAPI extends API<any> {
 				body: requestParameters.data,
 			});
 
+			// some error conditions (e.g. session limit CS_003) are returned as a
+			// 200 response with an errorCode body — surface as a thrown error so
+			// the controller's existing error handling can react
+			const errorBody = response as unknown as ChatBadRequestResponse & { errorCode?: string };
+			if (errorBody?.errorCode) {
+				throw {
+					err: new Error(errorBody.errorMessage || 'Bad Request'),
+					fetchDetails: { status: 200, message: 'OK' },
+					responseBody: errorBody,
+				};
+			}
+
 			return transformChatResponse(response);
 		} catch (err: any) {
 			this.handle400Error(err);
@@ -367,7 +380,7 @@ export class ChatAPI extends API<any> {
 		}
 
 		const response = await this.request<UploadImageResponseModel>({
-			path: '/visual-search/upload-image',
+			path: '/chat/upload-image',
 			method: 'POST',
 			headers: {},
 			query: { siteId: requestParameters.siteId },

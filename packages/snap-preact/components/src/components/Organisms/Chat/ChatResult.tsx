@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Image, ImageProps } from '../../Atoms/Image';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { mergeProps, mergeStyles } from '../../../utilities';
-import { css, Theme, useTheme, useTreePath, useSnap } from '../../../providers';
+import { css, Theme, useTheme, useTreePath, useSnap, withTracking } from '../../../providers';
 import { ComponentProps, StyleScript } from '../../../types';
 import { CalloutBadge, OverlayBadge, Price } from '../../..';
 import { useComponent } from '../../../hooks';
@@ -110,104 +110,118 @@ const defaultStyles: StyleScript<ChatResultProps> = () => {
 		},
 	});
 };
-export const ChatResult = observer((properties: ChatResultProps): JSX.Element => {
-	const globalTheme: Theme = useTheme();
-	const globalTreePath = useTreePath();
-	const snap = useSnap();
+export const ChatResult = withTracking(
+	observer((properties: ChatResultProps): JSX.Element => {
+		const globalTheme: Theme = useTheme();
+		const globalTreePath = useTreePath();
+		const snap = useSnap();
 
-	const defaultProps: Partial<ChatResultProps> = {
-		treePath: globalTreePath,
-	};
+		const defaultProps: Partial<ChatResultProps> = {
+			treePath: globalTreePath,
+		};
 
-	const props = mergeProps('chatResult', globalTheme, defaultProps, properties);
+		const props = mergeProps('chatResult', globalTheme, defaultProps, properties);
 
-	const { controller, result, scrollToBottom, customComponent } = props;
+		const { controller, result, scrollToBottom, customComponent, trackingRef } = props;
 
-	if (customComponent) {
-		const ComponentOverride = useComponent((snap as SnapTemplates)?.templates?.library.import.component.result || {}, customComponent);
-		if (ComponentOverride) {
-			return <ComponentOverride {...props} />;
+		if (customComponent) {
+			const ComponentOverride = useComponent((snap as SnapTemplates)?.templates?.library.import.component.result || {}, customComponent);
+			if (ComponentOverride) {
+				return <ComponentOverride {...props} />;
+			}
 		}
-	}
 
-	const isInComparison = controller.store.currentChat?.comparisons.items.some((item) => item.result?.id === result.id);
+		const isInComparison = controller.store.currentChat?.comparisons.items.some((item) => item.result?.id === result.id);
+		// a result is "configurable" when it ships with selectable variant options
+		// (e.g. color/size); those need a selection before they can be added to cart
+		const isConfigurable = !!(result as any).variants?.optionConfig && Object.keys((result as any).variants.optionConfig).length > 0;
 
-	const subProps: ChatResultSubProps = {
-		button: {
-			// component theme overrides
-			theme: props.theme,
-			// treePath,
-		},
-		image: {
-			lazy: false,
-			onLoad: scrollToBottom,
-			// component theme overrides
-			theme: props.theme,
-			// treePath,
-		},
-	};
+		const subProps: ChatResultSubProps = {
+			button: {
+				// component theme overrides
+				theme: props.theme,
+				// treePath,
+			},
+			image: {
+				lazy: false,
+				onLoad: scrollToBottom,
+				// component theme overrides
+				theme: props.theme,
+				// treePath,
+			},
+		};
 
-	const styling = mergeStyles<ChatResultProps>(properties, defaultStyles);
-	return (
-		<div className="ss__chat__result" {...styling}>
-			<div className="ss__chat__result__image">
-				<OverlayBadge controller={controller as any} result={result} renderEmpty={true}>
-					<Image
-						className={'ss__chat__result__detail-slot__image'}
-						alt={result.display.mappings.core?.name || ''}
-						src={result.display.mappings.core?.imageUrl || ''}
-						{...subProps.image}
-					/>
-				</OverlayBadge>
-				<div className="ss__chat__result__image__buttons">
-					{controller.store.features.similarProducts.enabled && (
+		const styling = mergeStyles<ChatResultProps>(properties, defaultStyles);
+		return (
+			<div className="ss__chat__result" ref={trackingRef} {...styling}>
+				<div className="ss__chat__result__image">
+					<OverlayBadge controller={controller as any} result={result} renderEmpty={true}>
+						<Image
+							className={'ss__chat__result__detail-slot__image'}
+							alt={result.display.mappings.core?.name || ''}
+							src={result.display.mappings.core?.imageUrl || ''}
+							{...subProps.image}
+						/>
+					</OverlayBadge>
+					<div className="ss__chat__result__image__buttons">
+						{controller.store.features.similarProducts.enabled && (
+							<Button
+								className={'ss__chat__result__image__buttons__similar'}
+								content={'Similar'}
+								onClick={() => {
+									controller.discussProduct(result, { requestType: 'productSimilar' });
+								}}
+							/>
+						)}
 						<Button
-							className={'ss__chat__result__image__buttons__similar'}
-							content={'Similar'}
+							className={'ss__chat__result__image__buttons__compare'}
+							content={isInComparison ? undefined : 'Compare'}
+							icon={isInComparison ? { icon: 'check-thin', title: 'Added to comparison' } : undefined}
 							onClick={() => {
-								controller.discussProduct(result, { requestType: 'productSimilar' });
+								controller.compareProduct(result);
 							}}
 						/>
-					)}
-					<Button
-						className={'ss__chat__result__image__buttons__compare'}
-						content={isInComparison ? undefined : 'Compare'}
-						icon={isInComparison ? { icon: 'check-thin', title: 'Added to comparison' } : undefined}
-						onClick={() => {
-							controller.compareProduct(result);
-						}}
-					/>
-				</div>
-				<div className="ss__chat__result__image__icons">
-					<Button
-						className={'ss__chat__result__image__icons__icon--inquire'}
-						icon={{ icon: 'chat', title: 'Discuss Product' }}
-						onClick={() => {
-							controller.discussProduct(result, { requestType: 'productQuery' });
-						}}
-					/>
-					<Button
-						className={'ss__chat__result__image__icons__icon--cart'}
-						icon={{ icon: 'cart', title: 'Add to Cart' }}
-						onClick={() => {
-							controller.addToCart(result);
-						}}
-					/>
-				</div>
-			</div>
-			<div className="ss__chat__result__content">
-				{result.display.mappings.core?.name && <div className="ss__chat__result__content__title--primary">{result.display.mappings.core?.name}</div>}
-				{/* {(result as any).brand && <div className="ss__chat__result__content__title--secondary">{(result as any).brand}</div>} */}
-				{result.display.mappings.core?.price && (
-					<div className="ss__chat__result__content__price">
-						<Price value={result.display.mappings.core?.price} />
 					</div>
-				)}
-				<CalloutBadge controller={controller} result={result} />
+					<div className="ss__chat__result__image__icons">
+						<Button
+							className={'ss__chat__result__image__icons__icon--inquire'}
+							icon={{ icon: 'chat', title: 'Discuss Product' }}
+							onClick={() => {
+								controller.discussProduct(result, { requestType: 'productQuery' });
+							}}
+						/>
+						<Button
+							className={'ss__chat__result__image__icons__icon--cart'}
+							icon={{ icon: 'cart', title: isConfigurable ? 'Configure' : 'Add to Cart' }}
+							onClick={() => {
+								// configurable products need a variant selection — open the product
+								// information panel so the user can pick options before adding to cart
+								if (isConfigurable) {
+									controller.viewProduct(result);
+									return;
+								}
+								controller.track.product.addToCart(result);
+								controller.addToCart(result);
+							}}
+						/>
+					</div>
+				</div>
+				<div className="ss__chat__result__content">
+					{result.display.mappings.core?.name && (
+						<div className="ss__chat__result__content__title--primary">{result.display.mappings.core?.name}</div>
+					)}
+					{/* {(result as any).brand && <div className="ss__chat__result__content__title--secondary">{(result as any).brand}</div>} */}
+					{result.display.mappings.core?.price && (
+						<div className="ss__chat__result__content__price">
+							<Price value={result.display.mappings.core?.price} />
+						</div>
+					)}
+					<CalloutBadge controller={controller} result={result} />
+				</div>
 			</div>
-		</div>
-	);
-});
+		);
+	})
+);
 
 interface ChatResultSubProps {
 	button: Partial<ButtonProps>;
@@ -217,4 +231,5 @@ export interface ChatResultProps extends ComponentProps {
 	result: Product;
 	controller: ChatController;
 	scrollToBottom: () => void;
+	trackingRef?: (el: HTMLElement | null) => void;
 }

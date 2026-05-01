@@ -51,6 +51,7 @@ function serializeProduct(product: any): any {
 	if (!(product instanceof Product)) return product;
 	const raw: any = {
 		id: product.id,
+		responseId: product.responseId,
 		mappings: product.mappings,
 		attributes: product.attributes,
 	};
@@ -165,6 +166,7 @@ export type ChatUserMessage = {
 	text: string;
 	attachments?: string[];
 	requestType?: string;
+	request?: Record<string, any>;
 };
 
 export type ChatProductQueryMessageData = {
@@ -562,6 +564,16 @@ export class ChatSessionStore {
 					attachments: attachments.length > 0 ? attachments : undefined,
 					text: `Filter by ${filterTextArray.join(' and ')}`,
 					requestType: request.data.requestType,
+					request: request.data, // request is added here to conditionally display different text in MessageUser
+				});
+			} else if (request.data.searchTerm) {
+				// for when a query is clicked from ChatInspirationResultMessage
+				this.chat.push({
+					id: uuidv4(),
+					messageType: 'user',
+					text: request.data.searchTerm,
+					requestType: request.data.requestType,
+					request: request.data, // request is added here to conditionally display different text in MessageUser
 				});
 			}
 		} else if ('message' in request.data && request.data.message) {

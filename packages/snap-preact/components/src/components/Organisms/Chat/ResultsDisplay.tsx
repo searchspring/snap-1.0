@@ -44,7 +44,9 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 		currentChat?.dismissedSideChatMessageId !== activeMessage.id;
 
 	const isNarrow = typeof window !== 'undefined' && window.innerWidth < 550;
-	const isConstrained = !isNarrow && isSideChatOpen && typeof window !== 'undefined' && window.innerWidth >= 768;
+	// only the tablet range needs the narrower carousel when the side chat is open;
+	// at >= 1200px there's room to keep 2.9 slides alongside the secondary chat
+	const isConstrained = !isNarrow && isSideChatOpen && typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth <= 1200;
 	const slidesPerView = isNarrow || isConstrained ? 1.9 : 2.9;
 	const carouselProps: Partial<CarouselProps> = {
 		breakpoints: undefined,
@@ -60,6 +62,7 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 	const handleResultClick = (e: MouseEvent, result: any) => {
 		// buttons should be able to be clicked without triggering the product click
 		if (e.composedPath().some((el) => el instanceof HTMLElement && el.matches('button, .ss__button, a'))) return;
+		controller.track.product.click(e, result);
 		controller.viewProduct(result);
 		onViewProduct?.();
 	};
