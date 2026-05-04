@@ -107,7 +107,13 @@ export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSe
 export class SnapTemplates extends Snap {
 	templates: TemplatesStore;
 	constructor(config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked) {
-		const { editor } = getContext(['editor']);
+		let context: { editor?: { mode?: string } } = {};
+		try {
+			context = getContext(['editor']);
+		} catch (error) {
+			context = {};
+		}
+		const { editor } = context;
 
 		const urlParams = url(window.location.href);
 		const editorCookieValue = cookies.get(TEMPLATE_EDITOR_COOKIE);
