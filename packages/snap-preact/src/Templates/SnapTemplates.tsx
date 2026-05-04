@@ -110,7 +110,7 @@ export class SnapTemplates extends Snap {
 		let context: { editor?: { mode?: string } } = {};
 		try {
 			context = getContext(['editor']);
-		} catch (error) {
+		} catch {
 			context = {};
 		}
 		const { editor } = context;
