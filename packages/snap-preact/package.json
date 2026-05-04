@@ -43,10 +43,12 @@
 		"dequal": "2.0.3",
 		"intersection-observer": "0.12.2",
 		"is-plain-object": "5.0.0",
-		"mobx-react-lite": "4.1.1",
-		"preact": "10.28.4",
 		"react-ranger": "2.1.0",
 		"swiper": "11.0.7"
+	},
+	"peerDependencies": {
+		"mobx-react-lite": "^4.1.1",
+		"preact": "^10.28.4"
 	},
 	"devDependencies": {
 		"@cypress/react": "^8.0.2",
@@ -68,6 +70,8 @@
 		"cypress": "^13.7.1",
 		"cypress-wait-until": "^1.7.2",
 		"esbuild-loader": "^4.4.2",
+		"mobx-react-lite": "4.1.1",
+		"preact": "10.28.4",
 		"react": "16.14.0",
 		"react-dom": "16.14.0",
 		"sass-loader": "^13.3.3",
