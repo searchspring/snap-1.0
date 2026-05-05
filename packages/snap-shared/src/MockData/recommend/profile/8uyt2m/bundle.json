@@ -2,6 +2,7 @@
     "profile": {
         "tag": "bundle-trending",
         "placement": "product-page",
+        "isBundle": true,
         "display": {
             "threshold": 4,
             "template": {
