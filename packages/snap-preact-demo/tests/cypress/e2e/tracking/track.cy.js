@@ -319,16 +319,16 @@ describe('Tracking Beacon 2.0', () => {
 		cy.visit('https://localhost:2222/snap/bundle.html');
 
 		cy.scrollTo('bottom'); // Scroll down to trigger render in viewport
-		cy.wait(`@beacon/recommendations/render`).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/bundles/render`).its('response.statusCode').should('eq', 200);
 
 		cy.wait(2000);
 		cy.scrollTo('bottom'); // Scroll down to trigger impressions
 
-		cy.wait(`@beacon/recommendations/impression`, { timeout: 10000 }).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/bundles/impression`, { timeout: 10000 }).its('response.statusCode').should('eq', 200);
 
 		cy.get('.ss__recommendation-bundle__wrapper__cta__button').click({ force: true });
 
-		cy.wait(`@beacon/recommendations/addtocart`).then(({ request, response }) => {
+		cy.wait(`@beacon/bundles/addtocart`).then(({ request, response }) => {
 			expect(response.body).to.have.property('success').to.equal(true);
 
 			const { data } = JSON.parse(request.body);
@@ -343,7 +343,7 @@ describe('Tracking Beacon 2.0', () => {
 		// Click on first product
 		cy.get('.ss__recommendation-bundle .ss__result a').first().click({ force: true });
 
-		cy.wait(`@beacon/recommendations/clickthrough`).its('response.statusCode').should('eq', 200);
+		cy.wait(`@beacon/bundles/clickthrough`).its('response.statusCode').should('eq', 200);
 	});
 
 	it('tracked page view', () => {
