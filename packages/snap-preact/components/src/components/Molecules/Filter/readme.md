@@ -46,10 +46,14 @@ The `separator` prop will specify the separator character between `facetLabel` a
 ```
 
 ### icon
-The `icon` prop specifies a path within the `Icon` component paths (see Icon Gallery). Can take a `false` boolean to disable the icon. 
+The `icon` prop specifies the icon to render alongside the filter label/value. It can be an icon path/name string from the `Icon` component paths (see Icon Gallery), a `Partial<IconProps>` object to override `Icon` props such as `path`, `size`, and `color`, or `false` to disable the icon.
 
 ```tsx
 <Filter facetLabel={filter.facet.label} valueLabel={filter.value.label} icon={'close-thin'} />
+```
+or 
+```tsx
+<Filter facetLabel={filter.facet.label} valueLabel={filter.value.label} icon={{icon: 'close-thin', size: 12, color: '#eee'}} />
 ```
 
 ### Events
