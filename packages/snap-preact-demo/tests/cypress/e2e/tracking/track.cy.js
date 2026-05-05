@@ -315,7 +315,7 @@ describe('Tracking Beacon 2.0', () => {
 		});
 	});
 
-	it('tracked recommendation addToCart', () => {
+	it('tracked bundles render, impression, addToCart, clickthrough', () => {
 		cy.visit('https://localhost:2222/snap/bundle.html');
 
 		cy.scrollTo('bottom'); // Scroll down to trigger render in viewport
