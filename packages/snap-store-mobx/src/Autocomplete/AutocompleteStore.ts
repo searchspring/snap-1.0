@@ -1,6 +1,7 @@
 import { makeObservable, observable } from 'mobx';
 
 import { UrlManager } from '@athoscommerce/snap-url-manager';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import {
 	SearchFilterStore,
@@ -10,7 +11,6 @@ import {
 	SearchSortingStore,
 	SearchHistoryStore,
 } from '../Search/Stores';
-import { StorageStore } from '../Storage/StorageStore';
 import {
 	AutocompleteStateStore,
 	AutocompleteTermStore,

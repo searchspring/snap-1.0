@@ -1,5 +1,5 @@
 import type { FinderStoreConfig, FinderFieldConfig, StoreServices, SelectedSelection } from '../../types';
-import type { StorageStore } from '../../Storage/StorageStore';
+import type { StorageStore } from '@athoscommerce/snap-toolbox';
 import type {
 	MetaResponseModel,
 	MetaResponseModelFacetGrid,
