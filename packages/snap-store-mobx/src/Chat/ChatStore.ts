@@ -47,7 +47,10 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 					// chat status is expired, remove from storage to trigger a new check
 					this.storage.set('chatStatusResponse', null);
 				} else {
-					this.handleChatStatusResponse(storedChatStatus.response);
+					// Apply the stored response without persisting, so the 12-hour
+					// checkTime keeps counting from the last real API call rather
+					// than resetting on every page load.
+					this.applyChatStatusResponse(storedChatStatus.response);
 				}
 			} catch {
 				this.storage.set('chatStatusResponse', null);
@@ -146,15 +149,22 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		return isBlocked;
 	}
 
-	public handleChatStatusResponse(response: ChatStatusResponse): boolean {
+	private applyChatStatusResponse(response: ChatStatusResponse): boolean {
 		const { chatbot, features } = response;
 		const { status, suggestedQuestions, welcomeMessage } = chatbot;
 		this.chatEnabled = status.enabled === true;
 		this.features = features;
 		this.suggestedQuestions = suggestedQuestions || [];
 		this.welcomeMessage = welcomeMessage || '';
-		this.storage.set('chatStatusResponse', JSON.stringify({ response, checkTime: Date.now() }));
 		return this.chatEnabled;
+	}
+
+	public handleChatStatusResponse(response: ChatStatusResponse): boolean {
+		const enabled = this.applyChatStatusResponse(response);
+		// Always persist on a real API response — restarts the 12-hour expiration
+		// so each new chat session refreshes the cache.
+		this.storage.set('chatStatusResponse', JSON.stringify({ response, checkTime: Date.now() }));
+		return enabled;
 	}
 
 	public reset(): void {
@@ -299,6 +309,14 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			label: facet.label,
 			count: facet.count,
 		});
+
+		// If re-selecting a previously removed server-side filter, remove it from removedFacets
+		if (this.currentChat) {
+			const removedIndex = this.currentChat.removedFacets.findIndex((rf) => rf.key === facet.key && rf.value === facet.value);
+			if (removedIndex !== -1) {
+				this.currentChat.removedFacets.splice(removedIndex, 1);
+			}
+		}
 	}
 
 	public removeFacet(key: string, value: string): void {
@@ -314,6 +332,13 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			if (index !== undefined && index !== -1) {
 				this.currentChat?.attachments.items.splice(index, 1);
 			}
+		} else if (this.currentChat) {
+			// No attachment exists — this is a server-side filtered facet.
+			// Track it as explicitly removed so the next request excludes it.
+			const alreadyRemoved = this.currentChat.removedFacets.some((rf) => rf.key === key && rf.value === value);
+			if (!alreadyRemoved) {
+				this.currentChat.removedFacets.push({ key, value });
+			}
 		}
 	}
 
@@ -326,9 +351,18 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 				this.currentChat?.attachments.items.splice(index, 1);
 			}
 		});
+		if (this.currentChat) {
+			this.currentChat.removedFacets = [];
+		}
 	}
 
 	public isFacetSelected(key: string, value: string): boolean {
+		// A facet that has been explicitly removed by the user is not selected,
+		// even if the server still reports it as filtered.
+		if (this.isFacetRemoved(key, value)) {
+			return false;
+		}
+
 		return (
 			this.currentChat?.attachments.items.some(
 				(item) =>
@@ -338,6 +372,10 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 					(item.state === 'active' || item.state === 'attached')
 			) || false
 		);
+	}
+
+	public isFacetRemoved(key: string, value: string): boolean {
+		return this.currentChat?.removedFacets.some((rf) => rf.key === key && rf.value === value) || false;
 	}
 
 	public request(request: ChatRequestModel): void {

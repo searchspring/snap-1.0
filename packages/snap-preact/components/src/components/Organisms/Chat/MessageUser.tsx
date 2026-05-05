@@ -2,7 +2,6 @@ import { ChatController } from '@athoscommerce/snap-controller';
 import { observer } from 'mobx-react-lite';
 import classnames from 'classnames';
 import { Image } from '../../Atoms/Image';
-import { marked } from 'marked';
 import { Icon } from '../../Atoms/Icon';
 import { css, StyleScript } from '../../..';
 import { mergeStyles } from '../../../utilities';
@@ -220,9 +219,7 @@ export const MessageUser = observer((props: MessageUserProps) => {
 				</ul>
 				<div className="ss__chat__message-user__text-wrapper">
 					{requestTypeLabel ? <div className="ss__chat__message-user__request-type">{requestTypeLabel}</div> : null}
-					{chatItem.text ? (
-						<div className="ss__chat__message-user__text" dangerouslySetInnerHTML={{ __html: marked.parse(chatItem.text) as string }}></div>
-					) : null}
+					{chatItem.text ? <div className="ss__chat__message-user__text">{chatItem.text}</div> : null}
 				</div>
 			</div>
 		</div>

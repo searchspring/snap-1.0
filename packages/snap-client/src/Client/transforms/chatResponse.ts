@@ -146,6 +146,7 @@ export type ChatResponseProductSearchResultData = BaseResponseProperties & {
 	text: string;
 	results: SearchResponseModelResult[];
 	facets: SearchResponseModelFacet[];
+	filterSummary: { field: string; value: string; label?: string; filterLabel?: string; filterValue?: string }[];
 };
 transformChatResponse.productData = (data: MoiResponseModelProductSearchResult, responseId: string): ChatResponseProductSearchResultData => {
 	return {
@@ -157,6 +158,7 @@ transformChatResponse.productData = (data: MoiResponseModelProductSearchResult, 
 		text: data.text,
 		results: data.searchResult?.results?.map((product) => mapProductToSearchResultProduct(product, responseId)) || [],
 		facets: mapFacetToSearchResultFacets(data.searchResult),
+		filterSummary: ((data.searchResult as any)?.filterSummary || []) as ChatResponseProductSearchResultData['filterSummary'],
 	};
 };
 
@@ -308,7 +310,7 @@ const mapProductToSearchResultProduct = (product: RawResult, responseId: string)
 			core: coreFieldValues,
 		},
 		attributes,
-		// badges: Array.isArray(product.badges) && typeof product.badges[0] == 'object' ? product.badges : [],
+		badges: Array.isArray(product.badges) && typeof product.badges[0] == 'object' ? product.badges : [],
 		variants: product.variants,
 	});
 };

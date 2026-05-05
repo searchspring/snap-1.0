@@ -23,8 +23,17 @@ const defaultStyles: StyleScript<ChatResultProps> = () => {
 
 		'.ss__chat__result__image': {
 			width: '100%',
+			aspectRatio: '1 / 1',
 			position: 'relative',
 			overflow: 'hidden',
+			// fixed-aspect frame: scale the image to fill it and crop overflow so
+			// results with different intrinsic image aspect ratios still line up
+			// at the same height when displayed side-by-side.
+			img: {
+				width: '100%',
+				height: '100%',
+				objectFit: 'cover',
+			},
 			'.ss__chat__result__image__buttons': {
 				position: 'absolute',
 				bottom: 0,

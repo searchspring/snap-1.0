@@ -17,7 +17,7 @@ import { SuggestedQuestions } from './SuggestedQuestions';
 import { ChatAttachmentContext, ChatAttachmentContextItem } from './ChatAttachmentContext';
 import { Image } from '../../Atoms/Image';
 import { ChatLoadingIndicator } from '../../Atoms/ChatLoadingIndicator';
-import { FacetsData } from '@athoscommerce/snap-store-mobx';
+import { FacetsData, ValueFacet, FacetValue, FacetRangeValue } from '@athoscommerce/snap-store-mobx';
 
 import { Dropdown, Icon, Overlay, useMediaQuery } from '../../..';
 import { ChatInspirationResultMessage } from '../../Molecules/ChatInspirationResultMessage';
@@ -413,7 +413,19 @@ const defaultStyles: StyleScript<{
 			borderBottomRightRadius: mobile ? 0 : '12px',
 			borderBottomLeftRadius: mobile ? 0 : '12px',
 			flexGrow: 1,
+			position: 'relative',
 			'.ss__chat__content__header': {
+				// In overlay mode (only applied when messages overflow), the comparisons
+				// tray floats over the messages so toggling it doesn't shift the layout
+				// or push the latest message out of view. When messages don't overflow,
+				// the tray stays in flow so older messages remain reachable above it.
+				'&.ss__chat__content__header--overlay': {
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					right: 0,
+					zIndex: 20,
+				},
 				// '.ss__chat__attachments': {
 				// 	'.ss__chat__attachment': {
 				// 		borderRadius: 0,
@@ -535,6 +547,7 @@ const defaultStyles: StyleScript<{
 			},
 			'.ss__chat__messages': {
 				flex: '1 1 auto',
+				overflowY: 'auto',
 				overscrollBehavior: 'contain',
 				margin: 0,
 				maxHeight: '100%',
@@ -595,7 +608,7 @@ const defaultStyles: StyleScript<{
 				'.ss__chat__welcome': {
 					display: 'flex',
 					flexDirection: 'column',
-					height: '100%',
+					minHeight: '100%',
 					'.ss__chat__welcome__message': {
 						fontSize: '15px',
 						lineHeight: 1.5,
@@ -1051,11 +1064,12 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 		title: 'Athos Conversational Assistant',
 		subtitle: 'Ready to assist you',
 		multiselectFacets: true,
+		disableBubbleSuggestedQuestions: false,
 	};
 
 	let props = mergeProps('facets', globalTheme, defaultProps, properties);
 
-	const { className, internalClassName, controller, logo, title, subtitle, offset, multiselectFacets } = props;
+	const { className, internalClassName, controller, logo, title, subtitle, offset, multiselectFacets, disableBubbleSuggestedQuestions } = props;
 	const { store } = controller;
 
 	const themeDefaults: Theme = {
@@ -1073,6 +1087,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const messagesContainerRef = useRef<HTMLDivElement>(null);
+	const headerRef = useRef<HTMLDivElement>(null);
 	const footerRef = useRef<HTMLDivElement>(null);
 
 	// Swipe-to-dismiss state for mobile secondary panel
@@ -1086,6 +1101,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	const [mobileProductInfoOpen, setMobileProductInfoOpen] = useState(false);
 	const [footerHeight, setFooterHeight] = useState(0);
 	const [showNewMessages, setShowNewMessages] = useState(false);
+	const [messagesOverflow, setMessagesOverflow] = useState(false);
 	const isNearBottomRef = useRef(true);
 
 	const updateSwipeOffset = (value: number) => {
@@ -1094,7 +1110,14 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 	};
 
 	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+		// Scroll the messages container directly (instead of scrollIntoView on the
+		// bottom anchor) so the browser never walks up the ancestor chain. On small
+		// viewports a smooth scrollIntoView could otherwise animate the document/
+		// visual viewport and visually push the fixed-position chat off-screen.
+		const container = messagesContainerRef.current;
+		if (container) {
+			container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+		}
 	};
 
 	// Conditional scroll: only scrolls if the user is already near the bottom.
@@ -1162,6 +1185,34 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 		container.addEventListener('scroll', handleScroll);
 		return () => container.removeEventListener('scroll', handleScroll);
 	}, [store.open]);
+
+	// Track whether the messages container is overflowing so the comparisons header
+	// can switch between in-flow (short conversations — top content stays reachable)
+	// and overlay (overflowing — avoid layout shift when toggling the tray).
+	// Hysteresis: when already in overlay, only return to in-flow if the content
+	// would still fit *with* the header re-inserted — otherwise the two states
+	// fight each other and the layout flickers.
+	useEffect(() => {
+		const container = messagesContainerRef.current;
+		if (!container || typeof ResizeObserver === 'undefined') return;
+		const update = () => {
+			setMessagesOverflow((prev) => {
+				const headerHeight = headerRef.current?.offsetHeight || 0;
+				if (prev) {
+					// Currently overlay: header isn't taking flow space. Only switch
+					// back to in-flow if the content would fit with the header added.
+					return container.scrollHeight > container.clientHeight - headerHeight + 1;
+				}
+				// Currently in-flow: header already takes space — straightforward check.
+				return container.scrollHeight > container.clientHeight + 1;
+			});
+		};
+		update();
+		const observer = new ResizeObserver(update);
+		observer.observe(container);
+		if (headerRef.current) observer.observe(headerRef.current);
+		return () => observer.disconnect();
+	}, [store.open, visibleChatLength]);
 
 	// Re-focus the chat input on desktop after a search completes.
 	// The input is disabled while loading, which causes the browser to drop focus.
@@ -1283,6 +1334,29 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 
 	const FacetButton = (props: { label: string; open?: boolean }) => <Button icon={props.open ? 'angle-down' : 'angle-up'}>{props.label}</Button>;
 
+	const getFacetButtonLabel = (facet: ValueFacet): string => {
+		const applied = new Set<string>();
+
+		// Count values marked as filtered (already applied on the server)
+		(facet.values || []).forEach((value) => {
+			if (value?.filtered) {
+				if ('low' in value && 'high' in value) {
+					applied.add(`${(value as FacetRangeValue).low ?? '*'}:${(value as FacetRangeValue).high ?? '*'}`);
+				} else {
+					applied.add((value as FacetValue).value);
+				}
+			}
+		});
+
+		// Count pending facet attachments (newly selected, not yet sent)
+		(controller.store.currentChat?.attachments.items || [])
+			.filter((item: any) => item.type === 'facet' && item.key === facet.field && (item.state === 'active' || item.state === 'attached'))
+			.forEach((item: any) => applied.add(item.value));
+
+		const base = facet.label || facet.field;
+		return applied.size > 0 ? `${base} (${applied.size})` : base;
+	};
+
 	// TODO: if starting a new chat and it's expired, this button would then disappear
 	if (!controller.store.chatEnabled) {
 		return <></>;
@@ -1390,7 +1464,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 					)}
 					{...styling}
 				>
-					{!store.open && !store.currentChat && store.suggestedQuestions?.length > 0 && (
+					{!disableBubbleSuggestedQuestions && !store.open && !store.currentChat && store.suggestedQuestions?.length > 0 && (
 						<div className="ss__chat__suggested-questions">
 							{store.suggestedQuestions.map((question, index) => (
 								<div
@@ -1593,7 +1667,12 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								) : null;
 							})()}
 							<div className="ss__chat__content">
-								<div className="ss__chat__content__header">
+								<div
+									ref={headerRef}
+									className={classnames('ss__chat__content__header', {
+										'ss__chat__content__header--overlay': messagesOverflow,
+									})}
+								>
 									{/* <div className="ss__chat__attachments">
 									{store.currentChat?.attachments.attached
 										.filter((item) => item.state === 'active')
@@ -1669,9 +1748,9 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 								<div
 									className={'ss__chat__messages'}
 									ref={messagesContainerRef}
-									style={visibleChatLength ? { overflowY: 'auto', scrollbarGutter: 'stable' } : undefined}
+									style={visibleChatLength ? { scrollbarGutter: 'stable' } : undefined}
 								>
-									{(!store.currentChat?.chat || store.currentChat.chat.length === 0) && store.welcomeMessage && (
+									{(!store.currentChat?.chat || store.currentChat.chat.length === 0) && store.welcomeMessage && !store.currentChat?.isExpired && (
 										<div className="ss__chat__welcome">
 											<div className="ss__chat__welcome__message">{store.welcomeMessage}</div>
 											<SuggestedQuestions questions={store.suggestedQuestions} controller={controller} />
@@ -1782,7 +1861,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 											</div>
 										))}
 									<div className="ss__chat__messages__end" ref={messagesEndRef} />
-									{showNewMessages && (
+									{showNewMessages && messagesOverflow && (
 										<div
 											className="ss__chat__new-messages"
 											onClick={() => {
@@ -1828,7 +1907,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																		{multiselectFacets && (
 																			<div
 																				className={`ss__chat__actions__facets-apply${
-																					store.currentChat?.attachments.attached.some((item) => item.type === 'facet')
+																					store.currentChat?.attachments.attached.some((item) => item.type === 'facet') ||
+																					(store.currentChat?.removedFacets && store.currentChat.removedFacets.length > 0)
 																						? ' ss__chat__actions__facets-apply--active'
 																						: ''
 																				}`}
@@ -1844,7 +1924,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																		)}
 																	</div>
 																	<div className="ss__chat__actions--facets">
-																		{(action as FacetsData).data.slice(0, 10).map((facet: any, idx: number) => {
+																		{(action as FacetsData).data.slice(0, 10).map((facet: ValueFacet, idx: number) => {
 																			if (!facet.values?.length) return null;
 																			return (
 																				<div className={`ss__chat__actions__facet ss__chat__actions__facet--${facet.type}`} key={idx}>
@@ -1852,7 +1932,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																						key={facet.field}
 																						usePortal
 																						dropUp
-																						button={<FacetButton label={facet.label || facet.field} />}
+																						button={<FacetButton label={getFacetButtonLabel(facet)} />}
 																						style={{
 																							'.ss__dropdown__content': {
 																								width: '150px',
@@ -1919,10 +1999,13 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																					>
 																						<div className="ss__chat__actions__facet__options">
 																							{facet.type === 'range-buckets'
-																								? facet.values.map((option: any) => {
-																										const optionValue = `${option.low ?? '*'}:${option.high ?? '*'}`;
+																								? facet.values.map((option) => {
+																										const rangeOption = option as FacetRangeValue;
+																										const optionValue = `${rangeOption.low ?? '*'}:${rangeOption.high ?? '*'}`;
 																										if (multiselectFacets) {
-																											const isSelected = controller.store.isFacetSelected(facet.field, optionValue);
+																											const isSelected =
+																												(rangeOption.filtered && !controller.store.isFacetRemoved(facet.field, optionValue)) ||
+																												controller.store.isFacetSelected(facet.field, optionValue);
 																											return (
 																												<div
 																													key={optionValue}
@@ -1935,8 +2018,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																																key: facet.field,
 																																facetLabel: facet.label,
 																																value: optionValue,
-																																label: option.label,
-																																count: option.count,
+																																label: rangeOption.label,
+																																count: rangeOption.count,
 																															});
 																														}
 																													}}
@@ -1948,7 +2031,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																													>
 																														{isSelected && <Icon icon="check-thin" size="10px" />}
 																													</div>
-																													<span className="ss__chat__actions__facet__option__label">{option.label}</span>
+																													<span className="ss__chat__actions__facet__option__label">{rangeOption.label}</span>
 																												</div>
 																											);
 																										}
@@ -1960,20 +2043,23 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																														key: facet.field,
 																														facetLabel: facet.label,
 																														value: optionValue,
-																														label: option.label,
-																														count: option.count,
+																														label: rangeOption.label,
+																														count: rangeOption.count,
 																													});
 																													controller.search();
 																												}}
 																											>
-																												{option.label}
+																												{rangeOption.label}
 																											</Button>
 																										);
 																								  })
-																								: facet.values.map((option: any) => {
-																										const optionValue = option.value || option.label;
+																								: facet.values.map((option) => {
+																										const valueOption = option as FacetValue;
+																										const optionValue = valueOption.value || valueOption.label;
 																										if (multiselectFacets) {
-																											const isSelected = controller.store.isFacetSelected(facet.field, optionValue);
+																											const isSelected =
+																												(valueOption.filtered && !controller.store.isFacetRemoved(facet.field, optionValue)) ||
+																												controller.store.isFacetSelected(facet.field, optionValue);
 																											return (
 																												<div
 																													key={optionValue}
@@ -1986,8 +2072,8 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																																key: facet.field,
 																																facetLabel: facet.label,
 																																value: optionValue,
-																																label: option.label,
-																																count: option.count,
+																																label: valueOption.label,
+																																count: valueOption.count,
 																															});
 																														}
 																													}}
@@ -1999,7 +2085,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																													>
 																														{isSelected && <Icon icon="check-thin" size="10px" />}
 																													</div>
-																													<span className="ss__chat__actions__facet__option__label">{option.label}</span>
+																													<span className="ss__chat__actions__facet__option__label">{valueOption.label}</span>
 																												</div>
 																											);
 																										}
@@ -2011,13 +2097,13 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 																														key: facet.field,
 																														facetLabel: facet.label,
 																														value: optionValue,
-																														label: option.label,
-																														count: option.count,
+																														label: valueOption.label,
+																														count: valueOption.count,
 																													});
 																													controller.search();
 																												}}
 																											>
-																												{option.label}
+																												{valueOption.label}
 																											</Button>
 																										);
 																								  })}
@@ -2336,4 +2422,5 @@ export interface ChatProps extends ComponentProps {
 	subtitle?: string;
 	offset?: string | number;
 	multiselectFacets?: boolean;
+	disableBubbleSuggestedQuestions?: boolean;
 }

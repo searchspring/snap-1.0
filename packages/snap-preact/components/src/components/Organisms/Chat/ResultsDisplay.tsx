@@ -48,16 +48,21 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 	// at >= 1200px there's room to keep 2.9 slides alongside the secondary chat
 	const isConstrained = !isNarrow && isSideChatOpen && typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth <= 1200;
 	const slidesPerView = isNarrow || isConstrained ? 1.9 : 2.9;
-	const carouselProps: Partial<CarouselProps> = {
+	const visibleSlides = Math.ceil(slidesPerView);
+	// When all results fit, use a whole-number slidesPerView so the last slide
+	// isn't clipped to a fraction; otherwise keep the fractional value to hint
+	// at additional content beyond the viewport.
+	const resolveSlidesPerView = (count: number) => (count <= visibleSlides ? count : slidesPerView);
+	const buildCarouselProps = (count: number): Partial<CarouselProps> => ({
 		breakpoints: undefined,
-		slidesPerView,
+		slidesPerView: resolveSlidesPerView(count),
 		slidesPerGroup: isNarrow || isConstrained ? 2 : 3,
 		loop: false,
 		pagination: false,
 		centerInsufficientSlides: false,
 		freeMode: true,
 		styleScript: carouselStyleScript,
-	};
+	});
 
 	const handleResultClick = (e: MouseEvent, result: any) => {
 		// buttons should be able to be clicked without triggering the product click
@@ -73,7 +78,7 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 				{chatItem.recommendationResult.map((recommendation: any, index: number) => {
 					return recommendation.results?.length > 0 ? (
 						<div key={index} className="ss__chat__message-text__results" style={{ width: '100%' }}>
-							<Carousel {...carouselProps} hideButtons={recommendation.results.length <= slidesPerView}>
+							<Carousel {...buildCarouselProps(recommendation.results.length)} hideButtons={recommendation.results.length <= visibleSlides}>
 								{recommendation.results.map((result: any) => {
 									return (
 										<div
@@ -96,7 +101,7 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 
 	return chatItem.results?.length > 0 ? (
 		<div className="ss__chat__message-text__results" style={{ width: '100%' }}>
-			<Carousel {...carouselProps} hideButtons={chatItem.results.length <= slidesPerView}>
+			<Carousel {...buildCarouselProps(chatItem.results.length)} hideButtons={chatItem.results.length <= visibleSlides}>
 				{chatItem.results.map((result: any) => {
 					return (
 						<div

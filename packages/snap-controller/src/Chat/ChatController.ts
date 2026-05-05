@@ -27,6 +27,7 @@
 */
 
 import deepmerge from 'deepmerge';
+import { filters } from '@athoscommerce/snap-toolbox';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ChatControllerConfig, ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore } from '@athoscommerce/snap-store-mobx';
@@ -35,6 +36,10 @@ import type {
 	ChatAttachmentImage,
 	ChatAttachmentProduct,
 	ChatAttachmentFacet,
+	FacetsData,
+	ValueFacet,
+	FacetValue,
+	FacetRangeValue,
 	Product,
 	Banner,
 	ChatSessionStore,
@@ -256,28 +261,72 @@ export class ChatController extends AbstractController {
 			.filter((attachment) => attachment.type === 'product' && (attachment as ChatAttachmentProduct).requestType !== 'productComparison')
 			.map((attachment) => (attachment as ChatAttachmentProduct).productId);
 
-		const searchFilters = (this.store.currentChat?.attachments.attached || [])
-			.filter((attachment) => attachment.type === 'facet')
-			.reduce((filters: any[], attachment) => {
-				const facetAttachment = attachment as ChatAttachmentFacet;
+		// Seed searchFilters with previously applied filters from the most recent
+		// productSearchResult response's SearchFacetStore so that selecting
+		// additional facet options does not discard filters already active on the
+		// server. Only merge when the user is actively modifying filters (has new
+		// facet attachments or has explicitly removed server-side filters);
+		// otherwise a regular text message would incorrectly become a
+		// productSearch request.
+		const newFacetAttachments = (this.store.currentChat?.attachments.attached || []).filter((attachment) => attachment.type === 'facet');
 
-				const exisitingFacet = filters.find((filter) => filter.key === facetAttachment.key);
-				if (exisitingFacet) {
-					exisitingFacet.options.push({
+		const removedFacets = this.store.currentChat?.removedFacets || [];
+
+		const facetsAction =
+			newFacetAttachments.length > 0 || removedFacets.length > 0
+				? ((this.store.currentChat?.actions || []).find((action) => action.type === 'facets') as FacetsData | undefined)
+				: undefined;
+
+		// Build existing applied filters from the SearchFacetStore's filtered values
+		const searchFilters: { key: string; options: { key: string }[] }[] = [];
+		if (facetsAction?.data) {
+			for (const facet of facetsAction.data) {
+				const valueFacet = facet as ValueFacet;
+				if (!valueFacet.values) continue;
+
+				const filteredOptions = valueFacet.values
+					.filter((v): v is FacetValue | FacetRangeValue => !!v?.filtered)
+					.filter((v) => {
+						// Exclude facets the user has explicitly unselected
+						const optionKey =
+							'low' in v && 'high' in v ? `${(v as FacetRangeValue).low ?? '*'}:${(v as FacetRangeValue).high ?? '*'}` : (v as FacetValue).value;
+						return !removedFacets.some((rf) => rf.key === valueFacet.field && rf.value === optionKey);
+					})
+					.map((v) => {
+						if ('low' in v && 'high' in v) {
+							return { key: `${(v as FacetRangeValue).low ?? '*'}:${(v as FacetRangeValue).high ?? '*'}` };
+						}
+						return { key: (v as FacetValue).value };
+					});
+
+				if (filteredOptions.length > 0) {
+					searchFilters.push({ key: valueFacet.field, options: filteredOptions });
+				}
+			}
+		}
+
+		// Layer on any newly attached facet selections
+		newFacetAttachments.forEach((attachment) => {
+			const facetAttachment = attachment as ChatAttachmentFacet;
+
+			const existingFacet = searchFilters.find((filter) => filter.key === facetAttachment.key);
+			if (existingFacet) {
+				if (!existingFacet.options.some((o) => o.key === facetAttachment.value)) {
+					existingFacet.options.push({
 						key: facetAttachment.value,
 					});
-				} else {
-					filters.push({
-						key: facetAttachment.key,
-						options: [
-							{
-								key: facetAttachment.value,
-							},
-						],
-					});
 				}
-				return filters;
-			}, []);
+			} else {
+				searchFilters.push({
+					key: facetAttachment.key,
+					options: [
+						{
+							key: facetAttachment.value,
+						},
+					],
+				});
+			}
+		});
 
 		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
 		const similarProducts = this.store.currentChat?.attachments.attached.filter(
@@ -591,6 +640,10 @@ export class ChatController extends AbstractController {
 
 	search = async (overrides?: Partial<ChatRequestModel>): Promise<void> => {
 		this.store.error = undefined;
+		// Strip HTML from the input at the submit boundary — the value flows into
+		// both the API request body (via this.params) and the rendered user message,
+		// so sanitizing once here prevents tag injection / XSS in both flows.
+		this.store.inputValue = filters.stripHTML(this.store.inputValue);
 		let requestChatId: string | undefined;
 		try {
 			// TODO: add middleware
