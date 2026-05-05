@@ -26,7 +26,6 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 		right: '0',
 		top: '0',
 		zIndex: 1001,
-		pointerEvents: 'none',
 
 		'& .ss__autocomplete-modal__inner': {
 			position: 'absolute',
@@ -42,7 +41,6 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 			width: width,
 			height: height,
 			maxWidth: '100vw',
-			pointerEvents: 'auto',
 		},
 		'& .ss__overlay': {
 			zIndex: 1000,
