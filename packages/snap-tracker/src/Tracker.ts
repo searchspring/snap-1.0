@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore } from '@athoscommerce/snap-store-mobx';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { version, DomTargeter, getContext } from '@athoscommerce/snap-toolbox';
 import { AppMode } from '@athoscommerce/snap-toolbox';
 import { Beacon } from '@athoscommerce/beacon';

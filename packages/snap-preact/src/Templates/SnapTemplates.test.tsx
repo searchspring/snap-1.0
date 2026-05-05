@@ -808,3 +808,51 @@ describe('createSnapConfig additional coverage', () => {
 		expect(searchConfig?.config?.settings).toEqual(customSettings);
 	});
 });
+
+describe('SnapTemplatesConfigUnlocked theme overrides typing', () => {
+	it('should allow arbitrary props on open named selectors (regression: WithCustomComponent narrowing)', () => {
+		const config: SnapTemplatesConfigUnlocked = {
+			unlocked: true,
+			config: { siteId: 'test', platform: 'other' },
+			theme: {
+				extends: 'base',
+				overrides: {
+					default: {
+						'recommendation.similar': {
+							slidesPerView: 3,
+						},
+						'recommendation.similar carousel': {
+							slidesPerView: 3,
+						},
+					},
+				},
+			},
+		};
+
+		expect(config.theme.overrides?.default?.['recommendation.similar carousel']).toBeDefined();
+		expect(config.theme.overrides?.default?.['recommendation.similar']).toBeDefined();
+	});
+
+	it('should still allow customComponent on open named selectors', () => {
+		const config: SnapTemplatesConfigUnlocked = {
+			unlocked: true,
+			config: { siteId: 'test', platform: 'other' },
+			theme: {
+				extends: 'base',
+				overrides: {
+					default: {
+						'recommendation.similar carousel': {
+							customComponent: 'MyCustomCarousel',
+						},
+						'recommendation.similar': {
+							customComponent: 'MyCustomComponent',
+						},
+					},
+				},
+			},
+		};
+
+		expect(config.theme.overrides?.default?.['recommendation.similar carousel']).toBeDefined();
+		expect(config.theme.overrides?.default?.['recommendation.similar']).toBeDefined();
+	});
+});

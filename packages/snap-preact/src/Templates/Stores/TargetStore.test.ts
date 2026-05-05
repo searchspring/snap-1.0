@@ -1,4 +1,3 @@
-import { StorageStore } from '@athoscommerce/snap-store-mobx';
 import { GLOBAL_THEME_NAME, TargetStore } from './TargetStore';
 import { TemplatesStoreDependencies, TemplatesStoreSettings, TemplateTarget, TemplateThemeTypes } from './TemplateStore';
 

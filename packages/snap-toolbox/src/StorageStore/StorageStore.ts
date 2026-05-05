@@ -1,4 +1,4 @@
-import { featureFlags, cookies } from '@athoscommerce/snap-toolbox';
+import { featureFlags, cookies } from '../';
 
 const utils = {
 	cookies,

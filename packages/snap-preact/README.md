@@ -11,6 +11,22 @@ To install the `snap-preact` package and it's dependencies:
 npm install --save @athoscommerce/snap-preact
 ```
 
+### Peer Dependencies
+
+This package requires the following peer dependencies:
+
+- `preact` `^10.28.4` — UI rendering
+- `mobx` `^6.15.1` — state management
+
+Optionally:
+
+- `mobx-react-lite` `^4.1.1` — provides the `observer` HOC for creating reactive components
+
+```bash
+npm install --save preact mobx
+```
+
+
 ## Instantiation
 
 ```js
