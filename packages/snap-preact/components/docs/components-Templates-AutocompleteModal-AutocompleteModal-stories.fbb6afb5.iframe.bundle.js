@@ -466,7 +466,6 @@
 							right: '0',
 							top: '0',
 							zIndex: 1001,
-							pointerEvents: 'none',
 							'& .ss__autocomplete-modal__inner': {
 								position: 'absolute',
 								left: 0,
@@ -481,7 +480,6 @@
 								width: A,
 								height: w,
 								maxWidth: '100vw',
-								pointerEvents: 'auto',
 							},
 							'& .ss__overlay': { zIndex: 1e3 },
 							'& .ss__autocomplete': { position: 'relative' },
@@ -735,4 +733,4 @@
 	]);
 })();
 
-//# sourceMappingURL=components-Templates-AutocompleteModal-AutocompleteModal-stories.ed731a15.iframe.bundle.js.map
+//# sourceMappingURL=components-Templates-AutocompleteModal-AutocompleteModal-stories.fbb6afb5.iframe.bundle.js.map

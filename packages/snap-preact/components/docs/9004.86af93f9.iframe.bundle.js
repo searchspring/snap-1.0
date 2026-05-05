@@ -181,7 +181,6 @@
 							right: '0',
 							top: '0',
 							zIndex: 1001,
-							pointerEvents: 'none',
 							'& .ss__autocomplete-modal__inner': {
 								position: 'absolute',
 								left: 0,
@@ -196,7 +195,6 @@
 								width: A,
 								height: E,
 								maxWidth: '100vw',
-								pointerEvents: 'auto',
 							},
 							'& .ss__overlay': { zIndex: 1e3 },
 							'& .ss__autocomplete': { position: 'relative' },

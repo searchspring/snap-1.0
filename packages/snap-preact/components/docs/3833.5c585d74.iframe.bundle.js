@@ -5,7 +5,7 @@
 		{
 			'./src/Templates/Stores/TemplateEditor/TemplateEditorStore.ts'(P, E, p) {
 				p.r(E), p.d(E, { TemplateEditorStore: () => $ });
-				var V = p('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Storage/StorageStore.js'),
+				var V = p('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/StorageStore/StorageStore.js'),
 					m = p('../../node_modules/mobx/dist/mobx.esm.js'),
 					D = p('../../node_modules/color/index.js'),
 					I = p.n(D),

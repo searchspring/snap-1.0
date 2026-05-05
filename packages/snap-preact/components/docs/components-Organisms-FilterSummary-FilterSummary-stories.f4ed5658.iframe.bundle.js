@@ -13,7 +13,7 @@
 					t = e('./components/src/utilities/componentArgs.ts'),
 					n = e('./components/src/utilities/snapify.ts');
 				const x =
-						"# Filter Summary\n\nRenders all selected filters including a wrapper with a title and a 'clear all' button. \n\n## Components Used\n- Filter\n## Usage\n```tsx\nimport { FilterSummary } from '@athoscommerce/snap-preact/components';\n```\n\n### controller\nThe `controller` prop specifies a reference to the search controller.\n\n```tsx\n<FilterSummary controller={controller} />\n```\n\n### filters\nThe `filters` prop specifies a reference to the filters store array. If no filters prop is passed in, the component will default to using the filters in controller.store. \n\n```tsx\n<FilterSummary filters={controller.store.filters} />\n```\n\n### title\nThe `title` prop specifies the title of the filter summary wrapper. The default is `'Current Filters'`.\n\n```tsx\n<FilterSummary filters={controller.store.filters} title={'Current Filters'} />\n```\n\n### hideTitle\nThe `hideTitle` prop will hide the title element.\n\n```tsx\n<FilterSummary filters={controller.store.filters} title={'Current Filters'} hideTitle={true}/>\n```\n### filterIcon\nThe `filterIcon` prop is the name of the icon to render for each filter. \n\n```tsx\n<FilterSummary filters={controller.store.filters} filterIcon={'close-thin'} />\n```\n\n### clearAllIcon\nThe `clearAllIcon` prop is the name of the icon to render for the 'clear all' button. \n\n```tsx\n<FilterSummary filters={controller.store.filters} clearAllIcon={'close-thin'} />\n```\n\n### separator\nThe `separator` prop will specify the separator character between `facetLabel` and `valueLabel` of the `<Filter />` sub-component.\n\n```tsx\n<FilterSummary filters={controller.store.filters} separator={': '} />\n```\n\n### hideFacetLabel\nThe `hideFacetLabel` prop prevents the filter label (selected facet name) from displaying. Only the value selected will be displayed. Use of this prop will nullify the `separator` prop.\n\n```tsx\n<FilterSummary filters={controller.store.filters} hideFacetLabel={true} />\n```\n\n### clearAllLabel\nThe `clearAllLabel` prop is the 'clear all' button text. This is passed to the `<Filter />` sub-component `valueLabel` prop. The default value is `'Clear All'`.\n\n```tsx\n<FilterSummary filters={controller.store.filters} clearAllLabel={'Clear All'} />\n```\n\n### hideClearAll\nThe `hideClearAll` prop prevents the 'clear all' button from rendering.\n\n```tsx\n<FilterSummary filters={controller.store.filters} hideClearAll={true} />\n```\n\n### type\nThe `type` prop determines what layout the filters should be rendered as. Options are `list` or `inline`. `inline` is default.\n\n```tsx\n<FilterSummary filters={controller.store.filters} type={'list'} />\n```\n\n### Events\n\n#### onClick\nThe `onClick` prop allows for a custom callback function for when any of the selected filters are clicked.\n\n```tsx\n<FilterSummary filters={controller.store.filters} onClick={(e, filter) => {console.log(e, filter)}} />\n```\n\n#### onClearAllClick\nThe `onClearAllClick` prop allows for a custom callback function for when the 'clear all' button is clicked.\n\n```tsx\n<FilterSummary filters={controller.store.filters} onClearAllClick={(e) => {console.log(e)}} />\n```\n",
+						"# Filter Summary\n\nRenders all selected filters including a wrapper with a title and a 'clear all' button. \n\n## Components Used\n- Filter\n## Usage\n```tsx\nimport { FilterSummary } from '@athoscommerce/snap-preact/components';\n```\n\n### controller\nThe `controller` prop specifies a reference to the search controller.\n\n```tsx\n<FilterSummary controller={controller} />\n```\n\n### filters\nThe `filters` prop specifies a reference to the filters store array. If no filters prop is passed in, the component will default to using the filters in controller.store. \n\n```tsx\n<FilterSummary filters={controller.store.filters} />\n```\n\n### title\nThe `title` prop specifies the title of the filter summary wrapper. The default is `'Current Filters'`.\n\n```tsx\n<FilterSummary filters={controller.store.filters} title={'Current Filters'} />\n```\n\n### hideTitle\nThe `hideTitle` prop will hide the title element.\n\n```tsx\n<FilterSummary filters={controller.store.filters} title={'Current Filters'} hideTitle={true}/>\n```\n### filterIcon\n The `filterIcon` prop specifies the icon to render for each filter. It can be an icon name string, a `Partial<IconProps>` object to override icon props such as `size` and `color`, or `false` to disable the icon.\n\n```tsx\n<FilterSummary filters={controller.store.filters} filterIcon={'close-thin'} />\n```\nor \n```tsx\n<FilterSummary filters={controller.store.filters} filterIcon={{ icon: 'close-thin', size: 14, color: '#eee' }} />\n```\n\n\n### clearAllIcon\nThe `clearAllIcon` prop specifies the icon for the 'clear all' button. It can be a string icon name, a `Partial<IconProps>` object to override icon props, or `false` to disable the icon. \n\n```tsx\n<FilterSummary filters={controller.store.filters} clearAllIcon={'close-thin'} />\n```\nor\n```tsx\n<FilterSummary filters={controller.store.filters} clearAllIcon={{ icon: 'close-thin', size: 14, color: '#eee' }} />\n```\n\n### separator\nThe `separator` prop will specify the separator character between `facetLabel` and `valueLabel` of the `<Filter />` sub-component.\n\n```tsx\n<FilterSummary filters={controller.store.filters} separator={': '} />\n```\n\n### hideFacetLabel\nThe `hideFacetLabel` prop prevents the filter label (selected facet name) from displaying. Only the value selected will be displayed. Use of this prop will nullify the `separator` prop.\n\n```tsx\n<FilterSummary filters={controller.store.filters} hideFacetLabel={true} />\n```\n\n### clearAllLabel\nThe `clearAllLabel` prop is the 'clear all' button text. This is passed to the `<Filter />` sub-component `valueLabel` prop. The default value is `'Clear All'`.\n\n```tsx\n<FilterSummary filters={controller.store.filters} clearAllLabel={'Clear All'} />\n```\n\n### hideClearAll\nThe `hideClearAll` prop prevents the 'clear all' button from rendering.\n\n```tsx\n<FilterSummary filters={controller.store.filters} hideClearAll={true} />\n```\n\n### type\nThe `type` prop determines what layout the filters should be rendered as. Options are `list` or `inline`. `inline` is default.\n\n```tsx\n<FilterSummary filters={controller.store.filters} type={'list'} />\n```\n\n### Events\n\n#### onClick\nThe `onClick` prop allows for a custom callback function for when any of the selected filters are clicked.\n\n```tsx\n<FilterSummary filters={controller.store.filters} onClick={(e, filter) => {console.log(e, filter)}} />\n```\n\n#### onClearAllClick\nThe `onClearAllClick` prop allows for a custom callback function for when the 'clear all' button is clicked.\n\n```tsx\n<FilterSummary filters={controller.store.filters} onClearAllClick={(e) => {console.log(e)}} />\n```\n",
 					g = {
 						title: 'Organisms/FilterSummary',
 						component: u.r,
@@ -224,13 +224,13 @@
 							{
 								content: K,
 								children: W,
-								disabled: B,
-								native: S,
+								disabled: S,
+								native: B,
 								onClick: F,
 								disableA11y: k,
-								disableStyles: H,
-								className: $,
-								internalClassName: z,
+								disableStyles: z,
+								className: H,
+								internalClassName: $,
 								icon: O,
 								lang: j,
 								treePath: D,
@@ -244,12 +244,12 @@
 							const Z = (0, R.x)(r?.templates?.library.import.component.button || {}, U);
 							if (Z) return (0, s.Y)(Z, { ...I });
 						}
-						const J = { icon: { internalClassName: 'ss__button__icon', ...(0, p.s)({ disableStyles: H }), theme: I?.theme, treePath: D } },
+						const J = { icon: { internalClassName: 'ss__button__icon', ...(0, p.s)({ disableStyles: z }), theme: I?.theme, treePath: D } },
 							Q = {
 								...(0, P.Z)(I, m),
-								className: u()('ss__button', { 'ss__button--native': S, 'ss__button--disabled': B }, $, z),
-								disabled: B,
-								onClick: (Z) => !B && F && F(Z),
+								className: u()('ss__button', { 'ss__button--native': B, 'ss__button--disabled': S }, H, $),
+								disabled: S,
+								onClick: (Z) => !S && F && F(Z),
 								...w,
 							},
 							ee = { ref: (Z) => (0, y.iy)(Z) },
@@ -258,7 +258,7 @@
 							q = (0, f.u)(se, {});
 						return K || W || O || j?.button?.value
 							? (0, s.Y)(t._, {
-									children: S
+									children: B
 										? (0, s.FD)('button', {
 												...Q,
 												children: [
@@ -273,7 +273,7 @@
 										: (0, s.FD)('div', {
 												...(k ? {} : ee),
 												role: 'button',
-												'aria-disabled': B,
+												'aria-disabled': S,
 												...Q,
 												...q.button?.attributes,
 												children: [
@@ -330,13 +330,13 @@
 								valueLabel: I,
 								url: K,
 								hideFacetLabel: W,
-								onClick: B,
-								icon: S,
+								onClick: S,
+								icon: B,
 								separator: F,
 								disableStyles: k,
-								className: H,
-								internalClassName: $,
-								treePath: z,
+								className: z,
+								internalClassName: H,
+								treePath: $,
 								customComponent: O,
 							} = r;
 						if (O) {
@@ -347,14 +347,14 @@
 							D = v?.value.label || I,
 							U = v?.facet.label || T,
 							V = {
-								button: { internalClassName: 'ss__filter__button', disableA11y: !0, ...(0, t.s)({ disableStyles: k }), theme: r.theme, treePath: z },
+								button: { internalClassName: 'ss__filter__button', disableA11y: !0, ...(0, t.s)({ disableStyles: k }), theme: r.theme, treePath: $ },
 								icon: {
 									icon: 'close-thin',
 									internalClassName: 'ss__filter__button__icon',
 									size: '10px',
-									...(0, t.s)({ disableStyles: k, icon: S }),
+									...(0, t.s)({ disableStyles: k, icon: B }),
 									theme: r.theme,
-									treePath: z,
+									treePath: $,
 								},
 							},
 							X = (0, x.Z)(r, Y),
@@ -365,9 +365,9 @@
 							? (0, s.Y)(g._, {
 									children: (0, s.Y)('a', {
 										...X,
-										className: i()('ss__filter', H, $),
+										className: i()('ss__filter', z, H),
 										onClick: (C) => {
-											j?.onClick && j.onClick(C), B && B(C);
+											j?.onClick && j.onClick(C), S && S(C);
 										},
 										href: j?.href,
 										tabIndex: 0,
@@ -375,7 +375,7 @@
 										children: (0, s.FD)(h.$, {
 											...V.button,
 											children: [
-												(0, s.Y)(P.I, { ...V.icon, ...(typeof S == 'string' ? { icon: S } : S) }),
+												(0, s.Y)(P.I, { ...V.icon, ...(typeof B == 'string' ? { icon: B } : B) }),
 												!W &&
 													(0, s.FD)('span', {
 														className: 'ss__filter__label',
@@ -467,13 +467,13 @@
 								filterIcon: I,
 								clearAllIcon: K,
 								separator: W,
-								hideFacetLabel: B,
-								hideTitle: S,
+								hideFacetLabel: S,
+								hideTitle: B,
 								clearAllLabel: F,
 								hideClearAll: k,
-								onClick: H,
-								onClearAllClick: $,
-								disableStyles: z,
+								onClick: z,
+								onClearAllClick: H,
+								disableStyles: $,
 								className: O,
 								internalClassName: j,
 								treePath: D,
@@ -487,7 +487,7 @@
 								filter: {
 									name: 'filter',
 									internalClassName: 'ss__filter-summary__filter',
-									...(0, n.s)({ disableStyles: z, separator: W, hideFacetLabel: B, icon: I }),
+									...(0, n.s)({ disableStyles: $, separator: W, hideFacetLabel: S, icon: I }),
 									theme: d.theme,
 									treePath: D,
 								},
@@ -508,11 +508,11 @@
 											j
 										),
 										children: [
-											!S && (0, s.Y)('div', { className: 'ss__filter-summary__title', ...J.title?.all }),
+											!B && (0, s.Y)('div', { className: 'ss__filter-summary__title', ...J.title?.all }),
 											(0, s.FD)('div', {
 												className: 'ss__filter-summary__filters',
 												children: [
-													r.map((C) => (0, s.Y)(t.d, { ...V.filter, filter: C, onClick: (Q) => H && H(Q, C) })),
+													r.map((C) => (0, s.Y)(t.d, { ...V.filter, filter: C, onClick: (Q) => z && z(Q, C) })),
 													!k &&
 														(0, s.Y)(t.d, {
 															...V.filter,
@@ -522,7 +522,7 @@
 															hideFacetLabel: !0,
 															valueLabel: F,
 															onClick: (C) => {
-																$ && $(C), A.controller?.urlManager.remove('filter').remove('page').go();
+																H && H(C), A.controller?.urlManager.remove('filter').remove('page').go();
 															},
 															lang: { filter: { attributes: { 'aria-label': F } } },
 														}),
@@ -779,4 +779,4 @@
 	]);
 })();
 
-//# sourceMappingURL=components-Organisms-FilterSummary-FilterSummary-stories.67dda7f8.iframe.bundle.js.map
+//# sourceMappingURL=components-Organisms-FilterSummary-FilterSummary-stories.f4ed5658.iframe.bundle.js.map
