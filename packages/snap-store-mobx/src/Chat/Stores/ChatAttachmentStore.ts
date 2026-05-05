@@ -81,9 +81,11 @@ export class ChatAttachmentStore {
 					return existingProductAttachment as T;
 				}
 
-				// if there are already two product attachments, remove until only one remains
+				// productComparison supports up to 4 products (matches ChatCompareStore.maxItems);
+				// trim oldest active/attached product attachments to keep total below the cap.
+				const COMPARISON_MAX = 4;
 				const productAttachments = this.items.filter((item) => item.type === 'product' && (item.state === 'active' || item.state === 'attached'));
-				while (productAttachments.length >= 2) {
+				while (productAttachments.length >= COMPARISON_MAX) {
 					const toRemove = productAttachments.pop();
 					if (toRemove) {
 						this.remove(toRemove.id);

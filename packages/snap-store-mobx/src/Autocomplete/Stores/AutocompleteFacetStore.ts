@@ -19,10 +19,12 @@ export class AutocompleteFacetStore extends Array {
 
 		const facets = new SearchFacetStore({
 			...params,
-			services: {
-				...services,
-				urlManager: services.urlManager.remove('filter'),
-			},
+			services: services?.urlManager
+				? {
+						...services,
+						urlManager: services.urlManager.remove('filter'),
+				  }
+				: services,
 		});
 
 		// mutate facet values to add 'preview' function
@@ -39,7 +41,7 @@ export class AutocompleteFacetStore extends Array {
 					facet.filtered = true;
 					value.filtered = true;
 					state?.autocomplete.locks.facets.lock();
-					value.url.go();
+					value.url?.go();
 				};
 			});
 		});

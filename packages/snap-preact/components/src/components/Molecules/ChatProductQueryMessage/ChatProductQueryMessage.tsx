@@ -92,6 +92,9 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 						fontWeight: 'bold',
 						fontSize: '1.1em',
 						color: '#D4A843',
+						display: 'flex',
+						gap: '0.5em',
+						alignItems: 'center',
 					},
 				},
 
@@ -527,6 +530,9 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 							)}
 							{displayedCore.price != null && (
 								<div className={classnames('ss__chat-product-query-message__header__product__details__price')}>
+									{displayedCore.msrp != null && Number(displayedCore.msrp) > Number(displayedCore.price) && (
+										<Price value={displayedCore.msrp} lineThrough={true} />
+									)}
 									<Price value={displayedCore.price} />
 								</div>
 							)}
@@ -623,7 +629,12 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 													{row.value === 'In Stock' ? `\u2713 ${row.value}` : row.value}
 												</span>
 											) : row.rawKey.toLowerCase() === 'price' ? (
-												<Price value={Number(row.value)} />
+												<span style={{ display: 'flex', gap: '0.5em', alignItems: 'center', justifyContent: 'flex-end' }}>
+													{displayedCore.msrp != null && Number(displayedCore.msrp) > Number(row.value) && (
+														<Price value={Number(displayedCore.msrp)} lineThrough={true} />
+													)}
+													<Price value={Number(row.value)} />
+												</span>
 											) : (
 												row.value
 											)}

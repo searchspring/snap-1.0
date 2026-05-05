@@ -25,7 +25,7 @@ export type SearchFacetStoreConfig = {
 	stores: {
 		storage: StorageStore;
 	};
-	services: StoreServices;
+	services?: StoreServices;
 	data: {
 		search?: SearchResponseModel;
 		meta: MetaResponseModel;
@@ -104,7 +104,7 @@ export class SearchFacetStore extends Array {
 }
 
 export class Facet {
-	public services: StoreServices;
+	public services?: StoreServices;
 	public type!: 'range' | 'value' | 'range-buckets';
 	public field!: string;
 	public filtered = false;
@@ -115,7 +115,7 @@ export class Facet {
 	public storage: StorageStore;
 
 	constructor(
-		services: StoreServices,
+		services: StoreServices | undefined,
 		storage: StorageStore,
 		facet: SearchResponseModelFacetValue | SearchResponseModelFacetRange,
 		facetMeta: MetaResponseModelFacet,
@@ -147,7 +147,7 @@ export class Facet {
 
 	public get clear() {
 		return {
-			url: this.services.urlManager.remove('page').remove(`filter.${this.field}`),
+			url: this.services?.urlManager?.remove('page').remove(`filter.${this.field}`),
 		};
 	}
 
@@ -172,7 +172,7 @@ export class RangeFacet extends Facet {
 	public formatValue: string;
 
 	constructor(
-		services: StoreServices,
+		services: StoreServices | undefined,
 		storage: StorageStore,
 		facet: SearchResponseModelFacetRange,
 		facetMeta: MetaResponseModelFacetSlider,
@@ -272,7 +272,7 @@ export class ValueFacet extends Facet {
 	};
 
 	constructor(
-		services: StoreServices,
+		services: StoreServices | undefined,
 		storage: StorageStore,
 		facet: SearchResponseModelFacetValue,
 		facetMeta: MetaResponseModelFacet,
@@ -353,20 +353,23 @@ export class FacetValue {
 	public filtered!: boolean;
 	public value!: string;
 	public custom!: object;
-	public url: UrlManager;
+	public url?: UrlManager;
 	public preview?: () => void;
 
-	constructor(services: StoreServices, facet: ValueFacet, value: SearchResponseModelFacetValueAllOfValues) {
+	constructor(services: StoreServices | undefined, facet: ValueFacet, value: SearchResponseModelFacetValueAllOfValues) {
 		Object.assign(this, value);
 
-		if (this.filtered) {
-			this.url = services.urlManager.remove('page').remove(`filter.${facet.field}`, value.value);
-		} else {
-			let valueUrl = services.urlManager.remove('page');
-			if (facet.multiple == 'single') {
-				valueUrl = valueUrl?.remove(`filter.${facet.field}`);
+		const urlManager = services?.urlManager;
+		if (urlManager) {
+			if (this.filtered) {
+				this.url = urlManager.remove('page').remove(`filter.${facet.field}`, value.value);
+			} else {
+				let valueUrl = urlManager.remove('page');
+				if (facet.multiple == 'single') {
+					valueUrl = valueUrl?.remove(`filter.${facet.field}`);
+				}
+				this.url = valueUrl?.merge(`filter.${facet.field}`, value.value);
 			}
-			this.url = valueUrl?.merge(`filter.${facet.field}`, value.value);
 		}
 	}
 }
@@ -376,7 +379,7 @@ export class FacetHierarchyValue extends FacetValue {
 	public history = false;
 
 	constructor(
-		services: StoreServices,
+		services: StoreServices | undefined,
 		facet: ValueFacet & MetaResponseModelFacetHierarchyAllOf,
 		value: SearchResponseModelFacetValueAllOfValues,
 		filteredValues: SearchResponseModelFacetValueAllOfValues[]
@@ -394,10 +397,13 @@ export class FacetHierarchyValue extends FacetValue {
 			}
 		}
 
-		if (value.value) {
-			this.url = services.urlManager.remove('page').set(`filter.${facet.field}`, value.value);
-		} else {
-			this.url = services.urlManager.remove('page').remove(`filter.${facet.field}`);
+		const urlManager = services?.urlManager;
+		if (urlManager) {
+			if (value.value) {
+				this.url = urlManager.remove('page').set(`filter.${facet.field}`, value.value);
+			} else {
+				this.url = urlManager.remove('page').remove(`filter.${facet.field}`);
+			}
 		}
 	}
 }
@@ -409,21 +415,24 @@ export class FacetRangeValue {
 	public low!: number;
 	public high!: number;
 	public custom!: object;
-	public url: UrlManager;
+	public url?: UrlManager;
 
-	constructor(services: StoreServices, facet: ValueFacet, value: SearchResponseModelFacetValueAllOfValues) {
+	constructor(services: StoreServices | undefined, facet: ValueFacet, value: SearchResponseModelFacetValueAllOfValues) {
 		Object.assign(this, value);
 
-		if (this.filtered) {
-			this.url = services.urlManager.remove('page').remove(`filter.${facet.field}`, [{ low: this.low, high: this.high }]);
-		} else {
-			let valueUrl = services.urlManager.remove('page');
+		const urlManager = services?.urlManager;
+		if (urlManager) {
+			if (this.filtered) {
+				this.url = urlManager.remove('page').remove(`filter.${facet.field}`, [{ low: this.low, high: this.high }]);
+			} else {
+				let valueUrl = urlManager.remove('page');
 
-			if (facet.multiple == 'single') {
-				valueUrl = valueUrl?.remove(`filter.${facet.field}`);
+				if (facet.multiple == 'single') {
+					valueUrl = valueUrl?.remove(`filter.${facet.field}`);
+				}
+
+				this.url = valueUrl?.merge(`filter.${facet.field}`, [{ low: this.low, high: this.high }]);
 			}
-
-			this.url = valueUrl?.merge(`filter.${facet.field}`, [{ low: this.low, high: this.high }]);
 		}
 	}
 }

@@ -22,9 +22,10 @@ import {
 	ChatAttachmentStore,
 } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
-import { MetaResponseModel, SearchResponseModelResult } from '@athoscommerce/snapi-types';
+import { MetaResponseModel, SearchResponseModelFacet, SearchResponseModelResult } from '@athoscommerce/snapi-types';
 import { ChatCompareStore } from './ChatCompareStore';
 import { SearchResultStore, Product } from '../../Search/Stores/SearchResultStore';
+import { SearchFacetStore } from '../../Search/Stores/SearchFacetStore';
 
 function createChatResultStore(results: SearchResponseModelResult[], meta: MetaResponseModel): SearchResultStore {
 	return new SearchResultStore({
@@ -46,6 +47,17 @@ function createChatProduct(result: SearchResponseModelResult, meta: MetaResponse
 	});
 }
 
+function createChatFacetStore(facets: SearchResponseModelFacet[], meta: MetaResponseModel, storage: StorageStore): SearchFacetStore {
+	return new SearchFacetStore({
+		config: {} as any,
+		stores: { storage },
+		data: {
+			search: { facets } as any,
+			meta,
+		},
+	});
+}
+
 /** Extract raw serializable data from a Product instance for storage. */
 function serializeProduct(product: any): any {
 	if (!(product instanceof Product)) return product;
@@ -54,6 +66,7 @@ function serializeProduct(product: any): any {
 		responseId: product.responseId,
 		mappings: product.mappings,
 		attributes: product.attributes,
+		badges: product.badges?.all?.map((b: any) => ({ tag: b.tag })) || [],
 	};
 	if (product.variants) {
 		raw.variants = {
@@ -156,6 +169,49 @@ function serializeChatForStorage(chat: ChatMessage[]): any[] {
 	});
 }
 
+/** Serialize SearchFacetStore instances in actions back to plain facet arrays for localStorage. */
+function serializeActionsForStorage(actions: ChatActions): any[] {
+	return actions.map((action) => {
+		if (action.type === 'facets') {
+			return {
+				...action,
+				data: serializeFacetStore(action.data),
+			};
+		}
+		return action;
+	});
+}
+
+/** Convert a SearchFacetStore (or raw array) back to plain serializable facet objects. */
+function serializeFacetStore(facetStore: SearchFacetStore | any[]): any[] {
+	return Array.from(facetStore).map((facet: any) => {
+		const serialized: any = {
+			field: facet.field,
+			label: facet.label,
+			type: facet.type,
+			filtered: facet.filtered,
+		};
+		if (facet.values) {
+			serialized.values = facet.values.map((value: any) => {
+				if (facet.type === 'range-buckets') {
+					return { low: value.low, high: value.high, label: value.label, count: value.count, filtered: value.filtered };
+				}
+				return { value: value.value, label: value.label, count: value.count, filtered: value.filtered };
+			});
+		}
+		if (facet.range) {
+			serialized.range = facet.range;
+		}
+		if (facet.active) {
+			serialized.active = facet.active;
+		}
+		if (facet.step != null) {
+			serialized.step = facet.step;
+		}
+		return serialized;
+	});
+}
+
 export type ChatFeedbacks = { messageId: string; rating: 'UP' | 'DOWN' };
 
 export type ChatSessionFeedback = { rating: 'UP' | 'DOWN' };
@@ -210,8 +266,8 @@ type ChatSessionStoreConfig = {
 
 export type FacetsData = {
 	type: 'facets';
-	// data: MoiResponseModelProductSearchResult['facets'];
-	data: any;
+	data: SearchFacetStore;
+	filterSummary?: { field: string; value: string; label?: string; filterLabel?: string; filterValue?: string }[];
 };
 
 export type ActionsData = {
@@ -238,6 +294,8 @@ export class ChatSessionStore {
 	public dismissedSideChatMessageId: string | null = null;
 	public activeMessageId: string | null = null;
 	public sessionLimitReached: boolean = false;
+	/** Tracks server-filtered facets the user has explicitly unselected (pending next request). */
+	public removedFacets: { key: string; value: string }[] = [];
 	/** Whether raw stored results have been hydrated into Product/SearchResultStore instances. */
 	public hydrated: boolean = true;
 
@@ -306,6 +364,7 @@ export class ChatSessionStore {
 			dismissedSideChatMessageId: observable,
 			activeMessageId: observable,
 			sessionLimitReached: observable,
+			removedFacets: observable,
 			activeMessage: computed,
 		});
 	}
@@ -436,6 +495,7 @@ export class ChatSessionStore {
 		this.attachments.reset();
 		this.chat = [];
 		this.actions = [];
+		this.removedFacets = [];
 		this.feedbacks = [];
 		this.sessionFeedback = null;
 	}
@@ -453,7 +513,7 @@ export class ChatSessionStore {
 			sessionId: this.sessionId,
 			chat: serializeChatForStorage(this.chat),
 			attachments: serializeAttachmentsForStorage(this.attachments.items),
-			actions: this.actions,
+			actions: serializeActionsForStorage(this.actions),
 			feedbacks: this.feedbacks,
 			sessionFeedback: this.sessionFeedback,
 			feedbackDismissed: this.feedbackDismissed,
@@ -530,11 +590,22 @@ export class ChatSessionStore {
 				});
 			}
 		});
+
+		// Re-wrap raw stored facets as SearchFacetStore instances
+		this.actions.forEach((action, index) => {
+			if (action.type === 'facets' && action.data?.length > 0 && !(action.data instanceof SearchFacetStore)) {
+				this.actions[index] = {
+					...action,
+					data: createChatFacetStore(action.data as SearchResponseModelFacet[], meta, this.storage),
+				};
+			}
+		});
 	}
 
 	public request(request: ChatRequestModel): void {
 		// clear the questions on new request
 		this.actions = [];
+		this.removedFacets = [];
 		this.requestType = request.data.requestType;
 		this.activeMessageId = null;
 
@@ -685,7 +756,8 @@ export class ChatSessionStore {
 			if (messageData.messageType === 'productSearchResult' && messageData.facets?.length > 0) {
 				this.actions.push({
 					type: 'facets',
-					data: messageData.facets,
+					data: createChatFacetStore(messageData.facets as SearchResponseModelFacet[], meta, this.storage),
+					filterSummary: (messageData as any).filterSummary || [],
 				});
 			}
 
