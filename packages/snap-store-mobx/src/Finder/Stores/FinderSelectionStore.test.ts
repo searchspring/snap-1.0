@@ -1,8 +1,8 @@
 import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 import { MockData } from '@athoscommerce/snap-shared';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 
 import { FinderSelectionStore } from './FinderSelectionStore';
-import { StorageStore } from '../../Storage/StorageStore';
 import { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
 
 const services = {

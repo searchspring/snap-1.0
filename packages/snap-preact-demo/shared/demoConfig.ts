@@ -1,5 +1,4 @@
-import { url } from '@athoscommerce/snap-toolbox';
-import { StorageStore } from '@athoscommerce/snap-store-mobx';
+import { url, StorageStore } from '@athoscommerce/snap-toolbox';
 import type { ClientConfig } from '@athoscommerce/snap-client';
 
 const DEFAULT_SITE_ID = 'atkzs2';

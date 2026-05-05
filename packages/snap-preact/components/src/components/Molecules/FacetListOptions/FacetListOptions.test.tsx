@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '../../../providers';
 
 import { FacetListOptions } from './FacetListOptions';
-import { SearchFacetStore, StorageStore, type FacetValue } from '@athoscommerce/snap-store-mobx';
+import { SearchFacetStore, type FacetValue } from '@athoscommerce/snap-store-mobx';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 
 import { MockData } from '@athoscommerce/snap-shared';
 import { SearchResponseModelFacet, SearchResponseModelFacetValueAllOf } from '@athoscommerce/snapi-types';

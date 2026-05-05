@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/AthosCommerce/snap/compare/v1.3.0...v1.4.0) (2026-05-05)
+
+### Bug Fixes
+
+- **theme:** typing fix ([85e9741](https://github.com/AthosCommerce/snap/commit/85e974112bbec4235e058fecd22b4ff285e6bb03))
+- **useacrenderedinput:** trying to solve this inconsistent document click target bug again ([b718096](https://github.com/AthosCommerce/snap/commit/b7180965c7de5b73593e2672776bd2e85e311ba9))
+
+### Features
+
+- **toolbox:** moving StorageStore to toolbox, but preserving the export from mobx-store ([800fe9a](https://github.com/AthosCommerce/snap/commit/800fe9a13a49296ec7d4b1c548bc03e633a79d96))
+
 # [1.3.0](https://github.com/AthosCommerce/snap/compare/v1.2.2...v1.3.0) (2026-04-29)
 
 ### Bug Fixes
