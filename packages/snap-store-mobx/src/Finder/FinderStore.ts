@@ -1,9 +1,9 @@
 import { makeObservable, observable } from 'mobx';
 
 import type { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { SearchPaginationStore } from '../Search/Stores';
-import { StorageStore } from '../Storage/StorageStore';
 import { FinderSelectionStore } from './Stores';
 import type { FinderStoreConfig, StoreServices, SelectedSelection } from '../types';
 import { UrlManager } from '@athoscommerce/snap-url-manager';

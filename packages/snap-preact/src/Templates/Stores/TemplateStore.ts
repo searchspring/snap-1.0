@@ -1,6 +1,7 @@
 import type { h } from 'preact';
 import { observable, makeObservable } from 'mobx';
-import { StorageStore, StorageType, type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
+import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
+import { StorageStore, StorageType } from '@athoscommerce/snap-toolbox';
 import { ThemeStore, ThemeStoreThemeConfig } from './ThemeStore';
 import { TargetStore } from './TargetStore';
 import { CurrencyCodes, LanguageCodes, LibraryImports, LibraryStore } from './LibraryStore';

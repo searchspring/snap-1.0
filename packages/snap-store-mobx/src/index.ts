@@ -6,6 +6,6 @@ export * from './Search/Stores/';
 export * from './Autocomplete/Stores/';
 export { RecommendationStore } from './Recommendation/RecommendationStore';
 export { CartStore } from './Cart/CartStore';
-export { StorageStore, StorageConfig, StorageType } from './Storage/StorageStore';
+export { StorageStore, StorageConfig, StorageType } from '@athoscommerce/snap-toolbox';
 export { MetaStore } from './Meta/MetaStore';
 export * from './types';

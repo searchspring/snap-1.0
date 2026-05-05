@@ -1,4 +1,4 @@
-import { StorageStore } from '../../Storage/StorageStore';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import type { AutocompleteStoreConfig, SearchStoreConfig, StoreServices } from '../../types';
 import { Query } from './SearchQueryStore';
 

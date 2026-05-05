@@ -1,4 +1,5 @@
-import { AutocompleteStoreConfigSettings, SearchStoreConfigSettings, StorageStore, StorageType } from '@athoscommerce/snap-store-mobx';
+import { AutocompleteStoreConfigSettings, SearchStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
+import { StorageStore, StorageType } from '@athoscommerce/snap-toolbox';
 import { observable, makeObservable, toJS } from 'mobx';
 import Color from 'color';
 import deepmerge from 'deepmerge';
