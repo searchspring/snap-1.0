@@ -158,7 +158,7 @@ export type FilterTemplatesLegalProps = {
 	valueLabel?: string;
 	hideFacetLabel?: boolean;
 	onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-	icon?: IconType | Partial<IconProps>;
+	icon?: IconType | Partial<IconProps> | false;
 	separator?: string;
 };
 

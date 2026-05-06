@@ -1,9 +1,9 @@
 import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
 import { MockData } from '@athoscommerce/snap-shared';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 
 import { AutocompleteFacetStore } from './AutocompleteFacetStore';
 import { AutocompleteStateStore } from './AutocompleteStateStore';
-import { StorageStore } from '../../Storage/StorageStore';
 import { FacetValue } from '../../Search/Stores';
 
 const services = {

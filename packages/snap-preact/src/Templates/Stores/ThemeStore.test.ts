@@ -2,8 +2,8 @@ import { configure as configureMobx } from 'mobx';
 import '@testing-library/jest-dom';
 import { waitFor } from '@testing-library/preact';
 
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { ThemeStore, ThemeStoreThemeConfig, mergeThemeLayers } from './ThemeStore';
-import { StorageStore } from '@athoscommerce/snap-store-mobx';
 import type { TemplatesStoreDependencies, TemplateThemeTypes, TemplatesStoreSettings } from './TemplateStore';
 import type { ThemeComplete, ThemeVariables, ThemePartial } from '../../../components/src/providers/theme';
 import { GLOBAL_THEME_NAME } from './TargetStore';

@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge';
 import { Snap } from '../Snap';
 import { TemplateSelect } from '../../components/src/components/Atoms/TemplateSelect';
 
-import { DomTargeter, url, cookies, version } from '@athoscommerce/snap-toolbox';
+import { DomTargeter, url, cookies, version, getContext } from '@athoscommerce/snap-toolbox';
 import { TemplateTarget, TemplatesStore } from './Stores/TemplateStore';
 
 import type { Target } from '@athoscommerce/snap-toolbox';
@@ -107,10 +107,20 @@ export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSe
 export class SnapTemplates extends Snap {
 	templates: TemplatesStore;
 	constructor(config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked) {
+		let context: { editor?: { mode?: string } } = {};
+		try {
+			context = getContext(['editor']);
+		} catch {
+			context = {};
+		}
+		const { editor } = context;
+
 		const urlParams = url(window.location.href);
 		const editorCookieValue = cookies.get(TEMPLATE_EDITOR_COOKIE);
-		const editUIMode = Boolean((urlParams?.params?.query && TEMPLATE_EDITOR_UI_PARAM in urlParams.params.query) || editorCookieValue === 'ui');
-		const editMode = Boolean(editorCookieValue) || editUIMode;
+		const editUIMode = Boolean(
+			(urlParams?.params?.query && TEMPLATE_EDITOR_UI_PARAM in urlParams.params.query) || editorCookieValue === 'ui' || editor?.mode === 'ui'
+		);
+		const editMode = Boolean(editorCookieValue) || editUIMode || Boolean(editor?.mode === 'headless');
 
 		const templatesStore = new TemplatesStore({ config, settings: { editMode } });
 
