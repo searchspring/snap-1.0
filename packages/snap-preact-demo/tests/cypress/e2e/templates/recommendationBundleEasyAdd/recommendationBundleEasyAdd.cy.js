@@ -21,7 +21,7 @@ const config = {
 			customResult: '.ss__custom-result',
 			seed: '.ss__recommendation-bundle-easy-add__wrapper__selector--seed',
 			cta: '.ss__recommendation-bundle-easy-add__wrapper__cta',
-			controller: 'recommend_bundle_0',
+			controller: 'recommend_bundley_0',
 		},
 	},
 };

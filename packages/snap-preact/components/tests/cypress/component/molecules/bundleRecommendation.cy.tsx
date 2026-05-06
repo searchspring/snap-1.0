@@ -20,7 +20,7 @@ const globals = { siteId: 'atkzs2' };
 
 const recommendConfig: RecommendationStoreConfig = {
 	id: 'search',
-	tag: 'bundle',
+	tag: 'bundley',
 	globals: {
 		products: ['C-AD-W1-1869P'],
 	},
