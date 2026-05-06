@@ -27,7 +27,7 @@ export class RecommendationProfileStore {
 		this.tag = profile.tag;
 		this.placement = profile.placement;
 		this.display = profile.display;
-		this.type = profile.display.template.type;
+		this.type = profile.isBundle ? 'bundle' : 'default';
 
 		makeObservable(this, {
 			tag: observable,

@@ -195,7 +195,7 @@ export default {
 
 const config: RecommendationControllerConfig = {
 	id: 'RecommendationBundle',
-	tag: 'bundle',
+	tag: 'bundley',
 	globals: {
 		siteId: 'atkzs2',
 		products: ['VW1982-UQZ-AS'],
