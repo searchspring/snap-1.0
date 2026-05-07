@@ -271,9 +271,9 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 	// load target override from localstorage OR from the editorStore (would be better);
 
 	return mergedConfigs.map((targetConfig) => {
-		const target = templatesStore.addTarget({ ...targetConfig, type: 'autocomplete' });
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'autocomplete', selector: targetConfig.selector || targetConfig.inputSelector });
 		const targeter: ExtendedTarget = {
-			selector: targetConfig.selector,
+			selector: targetConfig.selector || targetConfig.inputSelector,
 			component: async () => {
 				const componentImportPromises = [];
 				componentImportPromises.push(templatesStore.library.import.component.autocomplete[targetConfig.component]());
@@ -281,12 +281,10 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 				await Promise.all(componentImportPromises);
 				return TemplateSelect;
 			},
-			props: { target, templatesStore },
+			props: { target, templatesStore, input: targetConfig.inputSelector },
 			hideTarget: true,
 			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};
-
-		if (targetConfig.inputSelector) targeter.props!.input = targetConfig.inputSelector;
 
 		return targeter;
 	});

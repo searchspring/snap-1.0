@@ -194,7 +194,7 @@ describe('createPlugins with custom plugins', () => {
 				},
 			},
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 				plugins: {
 					custom: {
 						autocompletePlugin: {
@@ -358,7 +358,7 @@ describe('createSnapConfig with custom plugins', () => {
 				extends: 'base',
 			},
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 				plugins: {
 					custom: {
 						autocompletePlugin: {
@@ -627,7 +627,7 @@ describe('createSnapConfig additional coverage', () => {
 		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 				settings: {
 					trending: {
 						limit: 10,
@@ -648,7 +648,7 @@ describe('createSnapConfig additional coverage', () => {
 		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 			},
 		};
 
@@ -664,7 +664,7 @@ describe('createSnapConfig additional coverage', () => {
 			...baseConfig,
 			autocomplete: {
 				targets: [
-					{ selector: '#autocomplete1', component: 'AutocompleteFixed' },
+					{ inputSelector: '#autocomplete1', component: 'AutocompleteFixed' },
 					{ selector: '#autocomplete2', inputSelector: '#search-input', component: 'AutocompleteFixed' },
 				],
 			},
@@ -776,7 +776,7 @@ describe('createSnapConfig additional coverage', () => {
 		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 			},
 		};
 

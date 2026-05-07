@@ -86,7 +86,7 @@ let templatesConfig: SnapTemplatesConfig = {
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.athos-ac',
+				inputSelector: 'input.athos-ac',
 				component: 'AutocompleteFixed',
 			},
 		],
