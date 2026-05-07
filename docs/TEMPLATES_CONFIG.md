@@ -470,8 +470,8 @@ In addition to the common target properties, the following properties apply to t
 | `autocomplete` | Autocomplete configuration | Object | ➖ |
 | `autocomplete.plugins` | Autocomplete specific plugins configurations | Object | ➖ |
 | `autocomplete.targets` | Autocomplete target configurations | Array | Required |
-| `autocomplete.targets[].inputSelector` | CSS selector for the autocomplete `<input>` element | String | Required |
-| `autocomplete.targets[].selector` | CSS selector where the component injects; defaults to `inputSelector` | String | ➖ |
+| `autocomplete.targets[].inputSelector` | DOM selector for the autocomplete `<input>` element | String | Required |
+| `autocomplete.targets[].selector` | DOM selector where the component injects; defaults to `inputSelector` | String | ➖ |
 | `autocomplete.targets[].component` | Component to use for autocomplete | String | 'Autocomplete' |
 | `autocomplete.targets[].resultComponent` | Custom result component for autocomplete | String | 'Result' |
 

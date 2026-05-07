@@ -281,7 +281,12 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 				await Promise.all(componentImportPromises);
 				return TemplateSelect;
 			},
-			props: { target, templatesStore, input: targetConfig.inputSelector },
+			props: {
+				target,
+				templatesStore,
+				//only set input if selector and inputSelector are different. else bind to orinalElem
+				...(targetConfig.selector && targetConfig.selector !== targetConfig.inputSelector ? { input: targetConfig.inputSelector } : {}),
+			},
 			hideTarget: true,
 			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};

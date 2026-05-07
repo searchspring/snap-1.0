@@ -1,5 +1,11 @@
 import { version } from '@athoscommerce/snap-toolbox';
-import { createPlugins, createSnapConfig, DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS, DEFAULT_FEATURES } from './SnapTemplates';
+import {
+	createAutocompleteTargeters,
+	createPlugins,
+	createSnapConfig,
+	DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS,
+	DEFAULT_FEATURES,
+} from './SnapTemplates';
 import type { SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from './SnapTemplates';
 import { TemplatesStore } from './Stores/TemplateStore';
 import type { PluginFunction } from '@athoscommerce/snap-controller';
@@ -854,5 +860,82 @@ describe('SnapTemplatesConfigUnlocked theme overrides typing', () => {
 
 		expect(config.theme.overrides?.default?.['recommendation.similar carousel']).toBeDefined();
 		expect(config.theme.overrides?.default?.['recommendation.similar']).toBeDefined();
+	});
+});
+
+describe('createAutocompleteTargeters props.input', () => {
+	const baseConfig: SnapTemplatesConfig = {
+		config: { platform: 'other', siteId: 'test123' },
+		theme: { extends: 'base' },
+	};
+
+	it('omits props.input when only inputSelector is provided (no explicit selector)', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [{ inputSelector: '.search-input', component: 'AutocompleteFixed' }],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(1);
+		expect(targeters[0].props).not.toHaveProperty('input');
+	});
+
+	it('omits props.input when selector equals inputSelector', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [{ selector: '.search-input', inputSelector: '.search-input', component: 'AutocompleteFixed' }],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(1);
+		expect(targeters[0].props).not.toHaveProperty('input');
+	});
+
+	it('sets props.input to inputSelector when selector differs from inputSelector', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [{ selector: '#ac-container', inputSelector: '.search-input', component: 'AutocompleteFixed' }],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(1);
+		expect(targeters[0].props?.input).toBe('.search-input');
+	});
+
+	it('handles multiple targets independently — class selector targets omit props.input, separate-container targets set it', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [
+					// class selector matching multiple inputs: selector omitted, originalElem used per element
+					{ inputSelector: '.search-input', component: 'AutocompleteFixed' },
+					// separate injection container: props.input must point back to the input
+					{ selector: '#ac-dropdown', inputSelector: '#header-search', component: 'AutocompleteFixed' },
+				],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(2);
+
+		// First targeter uses originalElem (the matched .search-input element itself) — no override needed
+		expect(targeters[0].props).not.toHaveProperty('input');
+
+		// Second targeter renders into a separate node; originalElem is #ac-dropdown, not the input
+		expect(targeters[1].props?.input).toBe('#header-search');
 	});
 });
