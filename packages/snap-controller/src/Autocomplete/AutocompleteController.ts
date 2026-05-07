@@ -610,6 +610,9 @@ export class AutocompleteController extends AbstractController {
 					if (this.config.settings?.trending?.enabled && this.config.settings?.trending?.limit && this.config.settings?.trending?.limit > 0) {
 						this.searchTrending();
 					}
+					if (this.config.settings?.history?.enabled && this.config.settings?.history?.limit && this.config.settings?.history?.limit > 0) {
+						this.store.initHistory();
+					}
 				}
 			},
 			input: (e: Event) => {
