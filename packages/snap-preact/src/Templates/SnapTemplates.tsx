@@ -409,7 +409,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTempl
 			config: {
 				id: 'autocomplete',
 				plugins: createPlugins(templateConfig, templatesStore, 'autocomplete'),
-				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector || target.selector).join(', '),
+				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector).join(', '),
 				settings: autocompleteControllerSettings,
 			},
 			targeters: createAutocompleteTargeters(templateConfig, templatesStore),
