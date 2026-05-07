@@ -463,7 +463,7 @@ In addition to the common target properties, the following properties apply to t
 
 `inputSelector` - The DOM selector of the `<input>` element(s) autocomplete should bind to. This is required for each autocomplete target.
 
-`selector` - DOM selector where this target will inject into. If not provided, `inputSelector` is used as the selector, rendering the component as a child of the input element.
+`selector` - DOM selector where this target will inject into. If not provided, `inputSelector` is used as the selector, and the component is injected after the matched input element unless configured otherwise.
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|
