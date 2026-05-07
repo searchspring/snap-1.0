@@ -29,7 +29,7 @@ import type { Target, OnTarget } from '@athoscommerce/snap-toolbox';
 import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 
 import { default as createSearchController } from './create/createSearchController';
-import { RecommendationInstantiator, RecommendationInstantiatorConfig } from './Instantiators/RecommendationInstantiator';
+import type { RecommendationInstantiator, RecommendationInstantiatorConfig } from './Instantiators/RecommendationInstantiator';
 import type { SnapControllerServices, SnapControllerConfig, InitialUrlConfig, SnapFeatures } from './types';
 import { configureSnapFeatures } from './utils';
 import { setupEvents } from './setupEvents';
