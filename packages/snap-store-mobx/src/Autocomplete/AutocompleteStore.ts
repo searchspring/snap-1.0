@@ -140,7 +140,9 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 			this.services[name] = service;
 			if (name === 'urlManager') {
 				this.state.url = service;
-				this.initHistory();
+				this.history?.forEach((term) => {
+					term.url = service.set({ query: term.value });
+				});
 			}
 		}
 	}
