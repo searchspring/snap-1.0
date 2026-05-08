@@ -271,9 +271,9 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 	// load target override from localstorage OR from the editorStore (would be better);
 
 	return mergedConfigs.map((targetConfig) => {
-		const target = templatesStore.addTarget({ ...targetConfig, type: 'autocomplete' });
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'autocomplete', selector: targetConfig.selector || targetConfig.inputSelector });
 		const targeter: ExtendedTarget = {
-			selector: targetConfig.selector,
+			selector: targetConfig.selector || targetConfig.inputSelector,
 			component: async () => {
 				const componentImportPromises = [];
 				componentImportPromises.push(templatesStore.library.import.component.autocomplete[targetConfig.component]());
@@ -281,12 +281,15 @@ export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig,
 				await Promise.all(componentImportPromises);
 				return TemplateSelect;
 			},
-			props: { target, templatesStore },
+			props: {
+				target,
+				templatesStore,
+				//only set input if selector and inputSelector are different. else bind to orinalElem
+				...(targetConfig.selector && targetConfig.selector !== targetConfig.inputSelector ? { input: targetConfig.inputSelector } : {}),
+			},
 			hideTarget: true,
 			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};
-
-		if (targetConfig.inputSelector) targeter.props!.input = targetConfig.inputSelector;
 
 		return targeter;
 	});
@@ -406,7 +409,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTempl
 			config: {
 				id: 'autocomplete',
 				plugins: createPlugins(templateConfig, templatesStore, 'autocomplete'),
-				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector || target.selector).join(', '),
+				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector).join(', '),
 				settings: autocompleteControllerSettings,
 			},
 			targeters: createAutocompleteTargeters(templateConfig, templatesStore),

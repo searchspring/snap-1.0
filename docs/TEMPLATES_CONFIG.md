@@ -39,10 +39,9 @@ new SnapTemplates({
 		],
 	},
 	autocomplete: {
-		inputSelector: 'input#search-input',
 		targets: [
 			{
-				selector: 'input#search-input',
+				inputSelector: 'input#search-input',
 				component: 'Autocomplete',
 			},
 		],
@@ -462,17 +461,17 @@ In addition to the common target properties, the following properties apply to t
 
 In addition to the common target properties, the following properties apply to the autocomplete target(s):
 
-`selector` - DOM selector where this target will inject into
+`inputSelector` - The DOM selector of the `<input>` element(s) autocomplete should bind to. This is required for each autocomplete target.
 
-`inputSelector` - The DOM selector of the `<input>` element(s) autocomplete should bind to. Typically this will match the target `selector` value however defining an alternative value in `selector` allows the `component` to inject into a separate DOM node.
+`selector` - DOM selector where this target will inject into. If not provided, `inputSelector` is used as the selector, and the component is injected after the matched input element unless configured otherwise.
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|
 | `autocomplete` | Autocomplete configuration | Object | ➖ |
 | `autocomplete.plugins` | Autocomplete specific plugins configurations | Object | ➖ |
-| `autocomplete.inputSelector` | CSS selector for autocomplete input | String | ➖ |
 | `autocomplete.targets` | Autocomplete target configurations | Array | Required |
-| `autocomplete.targets[].selector` | CSS selector for autocomplete target | String | Required |
+| `autocomplete.targets[].inputSelector` | DOM selector for the autocomplete `<input>` element | String | Required |
+| `autocomplete.targets[].selector` | DOM selector where the component injects; defaults to `inputSelector` | String | ➖ |
 | `autocomplete.targets[].component` | Component to use for autocomplete | String | 'Autocomplete' |
 | `autocomplete.targets[].resultComponent` | Custom result component for autocomplete | String | 'Result' |
 

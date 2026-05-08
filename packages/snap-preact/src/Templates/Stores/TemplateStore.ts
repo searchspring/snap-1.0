@@ -112,8 +112,8 @@ export type SearchTargetConfig = {
 };
 
 export type AutocompleteTargetConfig = {
-	selector: string;
-	inputSelector?: string;
+	selector?: string;
+	inputSelector: string;
 	component: keyof LibraryImports['component']['autocomplete'];
 };
 
