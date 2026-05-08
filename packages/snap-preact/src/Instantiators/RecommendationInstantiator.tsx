@@ -230,7 +230,7 @@ export class RecommendationInstantiator {
 									targeter?: DomTargeter
 								) => {
 									// skip retarget if the source script element was removed and release the current target
-									if (typeof scriptElement.isConnected !== 'undefined' && !scriptElement.isConnected) {
+									if (scriptElement.isConnected === false) {
 										if (targetElem) {
 											targeter?.releaseTargets([targetElem]);
 										}
@@ -307,7 +307,7 @@ export class RecommendationInstantiator {
 						[{ selector: `[searchspring-recommend="${profileAttr}"]`, name: `legacy_${profile}_${profileCount[profile || ''] || 0}` }],
 						async (_target: Target, targetElem: Element | undefined, _originalElem?: Element, targeter?: DomTargeter) => {
 							// skip retarget if the source script element was removed and release the current target
-							if (typeof scriptElement.isConnected !== 'undefined' && !scriptElement.isConnected) {
+							if (scriptElement.isConnected === false) {
 								if (targetElem) {
 									targeter?.releaseTargets([targetElem]);
 								}
@@ -352,7 +352,7 @@ export class RecommendationInstantiator {
 
 			const hasConnectedTarget = targeters.some((targeter) =>
 				targeter.getTargetedElems().some((elem) => {
-					const attr = typeof elem.isConnected !== 'undefined' && elem.isConnected && elem.getAttribute('ss-controller-id');
+					const attr = elem.isConnected !== false && elem.getAttribute('ss-controller-id');
 					return attr === id;
 				})
 			);
@@ -407,7 +407,7 @@ async function readyTheController(
 		plugins: instance.config.config.plugins,
 		branch: instance.config.config?.branch || 'production',
 		limit: instance.config.config?.limit,
-		beacon: instance.config.config?.beacon,
+		beacon: instance.config.config?.beacon || { enabled: true },
 		settings: {
 			variants: instance.config.config?.variants,
 		},
