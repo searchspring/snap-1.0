@@ -230,7 +230,7 @@ export class RecommendationInstantiator {
 									targeter?: DomTargeter
 								) => {
 									// skip retarget if the source script element was removed and release the current target
-									if (!scriptElement.isConnected) {
+									if (typeof scriptElement.isConnected !== 'undefined' && !scriptElement.isConnected) {
 										if (targetElem) {
 											targeter?.releaseTargets([targetElem]);
 										}
@@ -307,7 +307,7 @@ export class RecommendationInstantiator {
 						[{ selector: `[searchspring-recommend="${profileAttr}"]`, name: `legacy_${profile}_${profileCount[profile || ''] || 0}` }],
 						async (_target: Target, targetElem: Element | undefined, _originalElem?: Element, targeter?: DomTargeter) => {
 							// skip retarget if the source script element was removed and release the current target
-							if (!scriptElement.isConnected) {
+							if (typeof scriptElement.isConnected !== 'undefined' && !scriptElement.isConnected) {
 								if (targetElem) {
 									targeter?.releaseTargets([targetElem]);
 								}
@@ -352,7 +352,7 @@ export class RecommendationInstantiator {
 
 			const hasConnectedTarget = targeters.some((targeter) =>
 				targeter.getTargetedElems().some((elem) => {
-					const attr = elem.isConnected && elem.getAttribute('ss-controller-id');
+					const attr = typeof elem.isConnected !== 'undefined' && elem.isConnected && elem.getAttribute('ss-controller-id');
 					return attr === id;
 				})
 			);
@@ -407,6 +407,7 @@ async function readyTheController(
 		plugins: instance.config.config.plugins,
 		branch: instance.config.config?.branch || 'production',
 		limit: instance.config.config?.limit,
+		beacon: instance.config.config?.beacon,
 		settings: {
 			variants: instance.config.config?.variants,
 		},
@@ -487,6 +488,11 @@ async function renderController(
 	scriptElem: Element | undefined,
 	target: ExtendedRecommendationProfileTarget
 ) {
+	// update the element with the controller id
+	if (targetElem) {
+		targetElem.setAttribute('ss-controller-id', controller.id);
+	}
+
 	const tag = controller.config.tag;
 	const component = controller.store.profile.display?.template?.component;
 
@@ -504,7 +510,7 @@ async function renderController(
 		  }> = undefined;
 
 	props.className = `ss__recommendation-${component.toLowerCase()}`;
-	targetElem?.setAttribute('id', `${controller.config.id}`);
+
 	(instance.config.components[component] as RecommendationComponentObject)?.onTarget?.(target, scriptElem, targetElem, controller);
 
 	if (instance.config.components[component] && typeof instance.config.components[component] == 'function') {
@@ -524,11 +530,6 @@ async function renderController(
 			`profile '${tag}' found on the following element is expecting component mapping for '${component}' - verify instantiator config.\n${scriptElem?.outerHTML}`
 		);
 		return;
-	}
-
-	// update the element with the controller id
-	if (targetElem) {
-		targetElem.setAttribute('ss-controller-id', controller.id);
 	}
 
 	setTimeout(() => {
