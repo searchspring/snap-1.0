@@ -296,7 +296,7 @@ export class RecommendationInstantiator {
 
 					// inject a render container before the script element
 					const profileAttr = scriptElement.getAttribute('profile') || '';
-					const recsContainer = document.createElement('div');
+					const recsContainer = scriptElement.ownerDocument.createElement('div');
 					recsContainer.setAttribute('searchspring-recommend', profileAttr);
 					scriptElement.before(recsContainer);
 
