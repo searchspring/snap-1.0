@@ -2,6 +2,7 @@
     "profile": {
         "tag": "bundled",
         "placement": "product-page",
+        "isBundle": true,
         "display": {
             "threshold": 2,
             "template": {
