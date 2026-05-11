@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/AthosCommerce/snap/compare/v1.4.0...v1.5.0) (2026-05-11)
+
+### Bug Fixes
+
+- add missing isBundle property to mock bundle profile ([8f6c8d9](https://github.com/AthosCommerce/snap/commit/8f6c8d93bd85b679338e97b038082c3689deb48c))
+
 # [1.4.0](https://github.com/AthosCommerce/snap/compare/v1.3.0...v1.4.0) (2026-05-05)
 
 **Note:** Version bump only for package @athoscommerce/snap-shared

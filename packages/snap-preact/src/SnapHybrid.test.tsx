@@ -35,7 +35,7 @@ const baseTemplatesConfig: SnapTemplatesConfigUnlocked = {
 	autocomplete: {
 		targets: [
 			{
-				selector: 'input.templates-ac',
+				inputSelector: 'input.templates-ac',
 				component: 'AutocompleteFixed',
 			},
 		],

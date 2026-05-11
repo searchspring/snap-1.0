@@ -16,7 +16,7 @@ const globals = { siteId: '8uyt2m' };
 
 const recommendConfig: RecommendationStoreConfig = {
 	id: 'search',
-	tag: 'bundle',
+	tag: 'bundley',
 	globals: {
 		products: ['C-AD-W1-1869P'],
 	},

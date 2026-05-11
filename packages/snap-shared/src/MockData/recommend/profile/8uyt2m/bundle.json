@@ -1,0 +1,19 @@
+{
+    "profile": {
+        "tag": "bundle-trending",
+        "placement": "product-page",
+        "isBundle": true,
+        "display": {
+            "threshold": 4,
+            "template": {
+                "type": "bundle",
+                "name": "smc__production",
+                "uuid": "aefcf718-8514-44c3-bff6-80c15dbc42fc",
+                "component": "Default",
+                "branch": "production",
+                "group": "smc"
+            },
+            "templateParameters": { "headerText": "Bundle Products" }
+        }
+    }
+}
