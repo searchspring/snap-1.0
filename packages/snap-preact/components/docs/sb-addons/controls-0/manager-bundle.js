@@ -4039,8 +4039,9 @@ try {
 							if (!r.has(n)) throw new w_('Side channel does not contain ' + F_(n));
 						},
 						delete: function (n) {
-							var a = O_(t, n);
-							return a && t && !t.next && (t = void 0), !!a;
+							var a = t && t.next,
+								o = O_(t, n);
+							return o && a && a === o && (t = void 0), !!o;
 						},
 						get: function (n) {
 							return B_(t, n);
@@ -5306,8 +5307,8 @@ try {
 						a = r.ignoreQueryPrefix ? t.replace(/^\?/, '') : t;
 					a = a.replace(/%5B/gi, '[').replace(/%5D/gi, ']');
 					var o = r.parameterLimit === 1 / 0 ? void 0 : r.parameterLimit,
-						i = a.split(r.delimiter, r.throwOnLimitExceeded && typeof o < 'u' ? o + 1 : o);
-					if (r.throwOnLimitExceeded && typeof o < 'u' && i.length > o)
+						i = a.split(r.delimiter, r.throwOnLimitExceeded ? o + 1 : o);
+					if (r.throwOnLimitExceeded && i.length > o)
 						throw new RangeError('Parameter limit exceeded. Only ' + o + ' parameter' + (o === 1 ? '' : 's') + ' allowed.');
 					var s = -1,
 						u,

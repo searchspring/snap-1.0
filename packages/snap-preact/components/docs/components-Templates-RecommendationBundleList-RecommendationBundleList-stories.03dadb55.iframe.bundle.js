@@ -117,7 +117,7 @@
 							...n.F,
 						},
 					},
-					C = { id: 'RecommendationBundle', tag: 'bundle', globals: { siteId: 'atkzs2', products: ['VW1982-UQZ-AS'] } },
+					C = { id: 'RecommendationBundle', tag: 'bundley', globals: { siteId: 'atkzs2', products: ['VW1982-UQZ-AS'] } },
 					E = u.p.recommendation(C),
 					i = (g, { loaded: { controller: P } }) => (0, t.Y)(m.a, { ...g, controller: P, results: P.store.results });
 				(i.loaders = [
@@ -566,4 +566,4 @@
 	]);
 })();
 
-//# sourceMappingURL=components-Templates-RecommendationBundleList-RecommendationBundleList-stories.576a3475.iframe.bundle.js.map
+//# sourceMappingURL=components-Templates-RecommendationBundleList-RecommendationBundleList-stories.03dadb55.iframe.bundle.js.map

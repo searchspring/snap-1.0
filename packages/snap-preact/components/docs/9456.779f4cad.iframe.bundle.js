@@ -3,20 +3,21 @@
 	(self.webpackChunk_athoscommerce_snap_preact = self.webpackChunk_athoscommerce_snap_preact || []).push([
 		[9456],
 		{
-			'../../node_modules/@athoscommerce/snap-controller/dist/esm/Recommendation/RecommendationController.js'(T, v, i) {
+			'../../node_modules/@athoscommerce/snap-controller/dist/esm/Recommendation/RecommendationController.js'(M, v, i) {
 				i.d(v, { c: () => w });
 				var n = i('../../node_modules/deepmerge/dist/cjs.js'),
-					I = i.n(n),
-					f = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/types.js'),
+					b = i.n(n),
+					g = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/types.js'),
 					y = i('../../node_modules/@athoscommerce/snap-controller/dist/esm/Abstract/AbstractController.js'),
-					b = i('../../node_modules/@athoscommerce/snap-controller/dist/esm/types.js'),
+					I = i('../../node_modules/@athoscommerce/snap-controller/dist/esm/types.js'),
 					u = i('../../node_modules/@athoscommerce/snap-controller/dist/esm/utils/isClickWithinProductLink.js');
 				const k = { id: 'recommend', beacon: { enabled: !0 }, tag: '', batched: !0, realtime: !1, globals: {} };
 				class w extends y.r {
-					constructor(c, { client: g, store: r, urlManager: s, eventManager: a, profiler: h, logger: E, tracker: R }, P) {
+					constructor(c, { client: f, store: r, urlManager: s, eventManager: a, profiler: h, logger: E, tracker: R }, P) {
 						if (
-							(super(c, { client: g, store: r, urlManager: s, eventManager: a, profiler: h, logger: E, tracker: R }, P),
-							(this.type = b.k.recommendation),
+							(super(c, { client: f, store: r, urlManager: s, eventManager: a, profiler: h, logger: E, tracker: R }, P),
+							(this.type = I.k.recommendation),
+							(this.beaconType = 'recommendations'),
 							(this.events = {}),
 							(this.track = {
 								product: {
@@ -45,7 +46,7 @@
 											l = { tag: this.store.profile.tag, responseId: o, results: [p] };
 										this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: t, trackEvent: l }),
 											this.config.beacon?.enabled &&
-												this.tracker.events.recommendations.clickThrough({ data: l, siteId: this.config.globals?.siteId }),
+												this.tracker.events[this.beaconType].clickThrough({ data: l, siteId: this.config.globals?.siteId }),
 											(this.events[o].product[t.id] = this.events[o].product[t.id] || {}),
 											(this.events[o].product[t.id].productClickThrough = !0);
 									},
@@ -102,7 +103,8 @@
 											},
 											p = { tag: this.store.profile.tag, responseId: t, results: [d], banners: [] };
 										this.eventManager.fire('track.product.impression', { controller: this, product: e, trackEvent: p }),
-											this.config.beacon?.enabled && this.tracker.events.recommendations.impression({ data: p, siteId: this.config.globals?.siteId }),
+											this.config.beacon?.enabled &&
+												this.tracker.events[this.beaconType].impression({ data: p, siteId: this.config.globals?.siteId }),
 											(this.events[t].product[e.id] = this.events[t].product[e.id] || {}),
 											(this.events[t].product[e.id].impression = !0);
 									},
@@ -125,7 +127,7 @@
 											},
 											d = { responseId: t, tag: this.store.profile.tag, results: [o] };
 										this.eventManager.fire('track.product.addToCart', { controller: this, product: e, trackEvent: d }),
-											this.config.beacon?.enabled && this.tracker.events.recommendations.addToCart({ data: d, siteId: this.config.globals?.siteId });
+											this.config.beacon?.enabled && this.tracker.events[this.beaconType].addToCart({ data: d, siteId: this.config.globals?.siteId });
 									},
 								},
 							}),
@@ -145,19 +147,22 @@
 									const t = this.profiler.create({ type: 'event', name: 'search', context: e }).start(),
 										{ meta: o, profile: d, results: p, responseId: l } = await this.client.recommend(e);
 									t.stop(), this.log.profile(t), (this.events[l] = this.events[l] || { product: {} });
-									const C = this.profiler.create({ type: 'event', name: 'afterSearch', context: e }).start();
+									const T = this.profiler.create({ type: 'event', name: 'afterSearch', context: e }).start();
 									try {
 										await this.eventManager.fire('afterSearch', { controller: this, request: e, response: { meta: o, profile: d, results: p } });
 									} catch (m) {
 										if (m?.message == 'cancelled') {
-											this.log.warn("'afterSearch' middleware cancelled"), C.stop();
+											this.log.warn("'afterSearch' middleware cancelled"), T.stop();
 											return;
 										} else throw (this.log.error("error in 'afterSearch' middleware"), m);
 									}
-									C.stop(), this.log.profile(C), this.store.update({ meta: o, profile: d, results: p, responseId: l });
+									T.stop(),
+										this.log.profile(T),
+										this.store.update({ meta: o, profile: d, results: p, responseId: l }),
+										(this.beaconType = this.store.profile.type === 'bundle' ? 'bundles' : 'recommendations');
 									const x = { responseId: l, tag: this.store.profile.tag };
-									this.config.beacon?.enabled && this.tracker.events.recommendations.render({ data: x, siteId: this.config.globals?.siteId });
-									const S = this.profiler.create({ type: 'event', name: 'afterStore', context: e }).start();
+									this.config.beacon?.enabled && this.tracker.events[this.beaconType].render({ data: x, siteId: this.config.globals?.siteId });
+									const C = this.profiler.create({ type: 'event', name: 'afterStore', context: e }).start();
 									try {
 										await this.eventManager.fire('afterStore', {
 											controller: this,
@@ -166,31 +171,31 @@
 										});
 									} catch (m) {
 										if (m?.message == 'cancelled') {
-											this.log.warn("'afterStore' middleware cancelled"), S.stop();
+											this.log.warn("'afterStore' middleware cancelled"), C.stop();
 											return;
 										} else throw (this.log.error("error in 'afterStore' middleware"), m);
 									}
-									S.stop(), this.log.profile(S);
+									C.stop(), this.log.profile(C);
 								} catch (e) {
 									if (e)
 										if (e.err && e.fetchDetails) {
 											switch (e.fetchDetails.status) {
 												case 429: {
-													this.store.error = { code: 429, type: f.B.WARNING, message: 'Too many requests try again later' };
+													this.store.error = { code: 429, type: g.B.WARNING, message: 'Too many requests try again later' };
 													break;
 												}
 												case 500: {
-													this.store.error = { code: 500, type: f.B.ERROR, message: 'Invalid Search Request or Service Unavailable' };
+													this.store.error = { code: 500, type: g.B.ERROR, message: 'Invalid Search Request or Service Unavailable' };
 													break;
 												}
 												default: {
-													this.store.error = { type: f.B.ERROR, message: e.err.message };
+													this.store.error = { type: g.B.ERROR, message: e.err.message };
 													break;
 												}
 											}
 											this.log.error(this.store.error), this.handleError(e.err, e.fetchDetails);
 										} else
-											(this.store.error = { type: f.B.ERROR, message: `Something went wrong... - ${e}` }), this.log.error(e), this.handleError(e);
+											(this.store.error = { type: g.B.ERROR, message: `Something went wrong... - ${e}` }), this.log.error(e), this.handleError(e);
 								} finally {
 									this.store.loading = !1;
 								}
@@ -213,7 +218,7 @@
 							window.addEventListener('pageshow', (e) => {
 								e.persisted && !this.store.error && this.store.loaded && !this.store.loading && this.search();
 							}),
-							(this.config = I()(k, this.config)),
+							(this.config = b()(k, this.config)),
 							this.store.setConfig(this.config),
 							this.use(this.config);
 					}
@@ -225,8 +230,8 @@
 								batchId: this.config.batchId,
 								...this.config.globals,
 							},
-							{ shopperId: g } = this.tracker.getContext();
-						if ((g && (c.shopper = g), !c.siteId || c.siteId == this.tracker.getGlobals().siteId)) {
+							{ shopperId: f } = this.tracker.getContext();
+						if ((f && (c.shopper = f), !c.siteId || c.siteId == this.tracker.getGlobals().siteId)) {
 							const r = this.tracker.cookies.cart.get(),
 								s = this.tracker.cookies.viewed.get();
 							r?.length && (c.cart = r), s?.length && (c.lastViewed = s);
@@ -235,13 +240,13 @@
 					}
 				}
 			},
-			'../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Recommendation/RecommendationStore.js'(T, v, i) {
+			'../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Recommendation/RecommendationStore.js'(M, v, i) {
 				i.d(v, { t: () => c });
 				var n = i('../../node_modules/mobx/dist/mobx.esm.js'),
-					I = i('../../node_modules/deepmerge/dist/cjs.js'),
-					f = i.n(I),
+					b = i('../../node_modules/deepmerge/dist/cjs.js'),
+					g = i.n(b),
 					y = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Abstract/AbstractStore.js'),
-					b = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchResultStore.js'),
+					I = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchResultStore.js'),
 					u = i('../../node_modules/@athoscommerce/snap-event-manager/dist/esm/EventManager.js');
 				class k {
 					constructor() {
@@ -308,12 +313,12 @@
 							(this.tag = a.tag),
 								(this.placement = a.placement),
 								(this.display = a.display),
-								(this.type = a.display.template.type),
+								(this.type = a.isBundle ? 'bundle' : 'default'),
 								(0, n.Gn)(this, { tag: n.sH, placement: n.sH, display: n.sH, type: n.sH });
 						}
 					}
 				}
-				var M = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Meta/MetaStore.js');
+				var S = i('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Meta/MetaStore.js');
 				class c extends y.K {
 					constructor(r, s) {
 						if (
@@ -332,11 +337,11 @@
 					update(r) {
 						const { meta: s, profile: a, results: h } = r || {};
 						(this.error = void 0),
-							(this.meta = new M.l({ data: { meta: s } })),
+							(this.meta = new S.l({ data: { meta: s } })),
 							(this.profile = new w({ data: { profile: { profile: a } } })),
 							this.profile.type == 'bundle' &&
-								((this.config.settings = f()(this.config.settings || {}, { variants: { autoSelect: !0 } })), (this.cart = new k())),
-							(this.results = new b.vP({
+								((this.config.settings = g()(this.config.settings || {}, { variants: { autoSelect: !0 } })), (this.cart = new k())),
+							(this.results = new I.vP({
 								config: this.config,
 								state: { loaded: this.loaded },
 								data: { search: { results: h, tracking: { responseId: r.responseId } }, meta: this.meta.data },

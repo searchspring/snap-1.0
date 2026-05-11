@@ -1,24 +1,28 @@
 (() => {
 	(self.webpackChunk_athoscommerce_snap_preact = self.webpackChunk_athoscommerce_snap_preact || []).push([
-		[6969],
+		[6225],
 		{
-			'./components/src/components/Templates/RecommendationBundleVertical/RecommendationBundleVertical.stories.tsx'(R, r, e) {
+			'./components/src/components/Templates/RecommendationBundle/RecommendationBundle.stories.tsx'(w, r, e) {
 				'use strict';
 				e.r(r), e.d(r, { Default: () => l, __namedExportsOrder: () => d, default: () => y });
 				var o = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					c = e('../../node_modules/@storybook/blocks/dist/index.mjs'),
-					a = e('./components/src/components/Templates/RecommendationBundleVertical/RecommendationBundleVertical.tsx'),
-					_ = e('./components/src/utilities/storybook.tsx'),
+					a = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx'),
+					b = e('./components/src/utilities/storybook.tsx'),
 					t = e('./components/src/utilities/componentArgs.ts'),
 					i = e('./components/src/utilities/snapify.ts');
-				const f = `# RecommendationBundleVertical
+				const _ = `# RecommendationBundle
 
-Vertically renders a recommended bundle of products with seed, recommendations and add to cart display.
+Renders a recommended bundle of products with seed, carousel of recommendations and add to cart display.
 
 ## Sub-components
-- RecommendationBundle
+- Carousel
+- Result (default)
 
 ## Usage
+\`\`\`tsx
+import { RecommendationBundle } from '@athoscommerce/snap-preact/components';
+\`\`\`
 
 Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/react#swiper-props">Swiper Component Props</a> can be specified, but may need to be camelCased where appropriate.
 Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/swiper-api#modules">Swiper Modules</a> can be provided via the \`modules\` prop; these may need additional props and or stylesheets.
@@ -27,36 +31,102 @@ Additional <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.c
 The required \`controller\` prop specifies a reference to the RecommendationController
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
 \`\`\`
 
 ### onAddToCart 
 the \`onAddToCart\` prop sets a the callback function for when a add to cart button is clicked. This function will be passed an array of selected item ids and their quantities. 
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} />
 \`\`\`
 
 ### results
 The \`results\` prop specifies a reference to the results store array to use instead of the default \`controller.store.results\`. Note the first result will be displayed as the \`seed\` product. 
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} results={controller.store.results} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} results={controller.store.results} />
 \`\`\`
 
+### carousel 
+The \`carousel\` prop specifies an object of carousel settings. These settings will be merged with the default settings (listed below). All valid Carousel component props (and any non-documented SwiperJS props) can be used here. The below example uses the \`prevButton\`, \`nextButton\` and \`loop\` props from the Carousel:
+
+\`\`\`tsx
+type BundleCarouselProps = {
+	enabled: boolean;
+	seedInCarousel?: boolean;
+} & CarouselProps
+
+const customCarouselProps = {
+	enabled: true,
+	loop: false,
+	prevButton: 'Previous',
+	nextButton: 'Next'
+}
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ customCarouselProps } />
+\`\`\`
+
+### enabled
+The \`enabled\` prop is a sub prop under the \`carousel\` prop. It specifies weather the bundle should render as a carousel or not.
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ enabled:false } />
+\`\`\`
 
 ### hideSeed
 The \`hideSeed\` prop specifies if the seed result should be rendered or not.  
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeed={true} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeed={true} />
+\`\`\`
+
+### seedInCarousel
+The \`seedInCarousel\` prop is a sub prop under the \`carousel\` prop. It specifies if the seed product should be included in the carousel or not.  
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ seedInCarousel:true } />
+\`\`\`
+
+### pagination
+The \`pagination\` prop is a sub prop under the \`carousel\` prop. It specifies if the carousel should display pagination dots. 
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ pagination:true } />
+\`\`\`
+
+### hideButtons
+The \`hideButtons\` is a sub prop under the \`carousel\` prop. It specifies if the carousel should hide prev/next buttons.
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ hideButtons:true }><Recommendation/>
+\`\`\`
+
+### prevButton
+The \`prevButton\` prop is a sub prop under the \`carousel\` prop. It specifies the previous button element of the carousel. This can be a string or JSX element. 
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ prevButton: '<' } />
+\`\`\`
+
+### nextButton
+The \`nextButton\` prop  is a sub prop under the \`carousel\` prop. It specifies the next button element of the carousel. This can be a string or JSX element. 
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} carousel={ nextButton: '>' } />
 \`\`\`
 
 ### title
 The \`title\` prop specifies the bundle title
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} title={'Recommended Bundle'} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} title={'Recommended Bundle'} />
+\`\`\`
+
+### description
+The \`description\` prop specifies the bundle description
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} description={'Recommended Bundle products are so awesome!'} />
 \`\`\`
 
 ### resultComponent
@@ -72,35 +142,42 @@ The \`resultComponent\` prop allows for a custom result component to be rendered
 \`\`\`
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} resultComponent={<ResultSlot />} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} resultComponent={<ResultSlot />} />
 \`\`\`
 
 ### ctaButtonText
 The \`ctaButtonText\` prop specifies the inner text to render in the add to cart button.
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonText={'Add Bundle'} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonText={'Add Bundle'} />
 \`\`\`
 
 ### ctaButtonSuccessText
 The \`ctaButtonSuccessText\` prop specifies text to temporarily render in the add to cart button after it is clicked.
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessText={'Thanks for Shopping!'} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessText={'Thanks for Shopping!'} />
 \`\`\`
 
 ### ctaButtonSuccessTimeout
 The \`ctaButtonSuccessTimeout\` prop specifies number of ms to show success text in add to cart button before reverting back to normal text
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessTimeout={1500} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaButtonSuccessTimeout={1500} />
 \`\`\`
 
 ### ctaIcon
 The \`ctaIcon\` prop specifies the icon to render in the CTA. Takes an object with \`Icon\` component props or a string.     
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaIcon={'bag'} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaIcon={'bag'} />
+\`\`\`
+
+### ctaInline
+The \`ctaInline\` prop specifies if the add to cart display should be block or inline witht the carousel.
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaInline={true} />
 \`\`\`
 
 ### ctaSlot
@@ -114,35 +191,35 @@ The \`ctaSlot\` prop allows for a custom add to cart cta component to be rendere
 \`\`\`
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaSlot={<CTASlot />} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} ctaSlot={<CTASlot />} />
 \`\`\`
 
 ### preselectedCount
 The \`preselectedCount\` prop specifies how many products in the bundle will be preselected. This number will include the seed. Example \`preselectedCount={3}\` would be \`seed\` + 2 preselected items. If not provided, this will default to however many products are initially visible. 
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} preselectedCount={4} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} preselectedCount={4} />
 \`\`\`
 
 ### seedText
 The \`seedText\` prop specifies text to be rendered as a badge in the seed product.   
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} seedText={"Main Product"} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} seedText={"Main Product"} />
 \`\`\`
 
 ### separatorIcon
 The \`separatorIcon\` prop specifies the icon to render between products. Takes an object with \`Icon\` component props or a string.     
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIcon={'cog'} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIcon={'cog'} />
 \`\`\`
 
 ### separatorIconSeedOnly
 The \`separatorIconSeedOnly\` prop specifies if the seperator Icon should only be rendered after the seed or after every product.     
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIconSeedOnly={true} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} separatorIconSeedOnly={true} />
 \`\`\`
 
 
@@ -150,7 +227,29 @@ The \`separatorIconSeedOnly\` prop specifies if the seperator Icon should only b
 The \`hideCheckboxes\` prop specifies if the bundle checkboxes should be rendered. 
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideCheckboxes={true} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideCheckboxes={true} />
+\`\`\`
+
+### vertical
+The \`vertical\` prop sets the carousel scroll direction to vertical.
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} vertical={true} />
+\`\`\`
+
+### hideSeedText
+The \`hideSeedText\` prop sets determines if the seed text should render.
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} hideSeedText={true} />
+\`\`\`
+
+
+### limit
+The \`limit\` prop limits the number of products rendered.
+
+\`\`\`tsx
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} vertical={true} limit={5} />
 \`\`\`
 
 ### modules
@@ -158,7 +257,7 @@ The \`modules\` prop accepts additional <a target="_blank" rel="noopener norefer
 
 \`\`\`tsx
 import { Scrollbar } from 'swiper';
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} modules={[Scrollbar]} scrollbar={{ draggable: true }} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} modules={[Scrollbar]} scrollbar={{ draggable: true }} />
 \`\`\`
 
 ### lazyRender 
@@ -170,52 +269,67 @@ const customLazyRenderProps = {
 	offset: "20px" // any css margin values accepted - px, %, etc...
 }
 
-<RecommendationBundleVertical controller={controller} lazyRender={ customLazyRenderProps } onAddToCart={(e, items)=>{console.log(items)}} />
+<RecommendationBundle controller={controller} lazyRender={ customLazyRenderProps } onAddToCart={(e, items)=>{console.log(items)}} />
 \`\`\`
 
 ### breakpoints
-An object that modifies the responsive behavior of the bundle at various viewports. 
+An object that modifies the responsive behavior of the carousel at various viewports. 
 
 The object key specified the viewport for when the parameters will be applied. 
 
-The configuration can take any **\`RecommendationBundleVertical props\`**, 
+The default configuration contains the following properties, however **\`any BundleRecommendation props\`**, or <a target="_blank" rel="noopener noreferrer" href="https://swiperjs.com/react#swiper-props">Swiper API parameters</a> can also be specified. 
 
-\`\`\`typescript
-const customRecommendationBreakpoints = {
+\`slidesPerView\` - number of products to display per page
+
+\`slidesPerGroup\` - number of products to scroll by when next/previous button is clicked
+
+\`spaceBetween\` - spacing between each product
+
+\`\`\`js
+const defaultRecommendationBreakpoints = {
 	0: {
+		carousel: {
+			enabled: false,
+		},
 		limit: 2
 	},
 	768: {
-		limit: 3
+		slidesPerView: 3,
+		slidesPerGroup: 3,
+		spaceBetween: 10,
 	},
 	1024: {
-		limit: 4
+		slidesPerView: 3,
+		slidesPerGroup: 3,
+		spaceBetween: 10,
 	},
 	1200: {
-		limit: 5
+		slidesPerView: 4,
+		slidesPerGroup: 4,
+		spaceBetween: 10,
 	},
 };
 \`\`\`
 
 \`\`\`tsx
-<RecommendationBundleVertical controller={controller} onAddToCart={(e, items)=>{console.log(items)}} breakpoints={customRecommendationBreakpoints} />
+<RecommendationBundle controller={controller} onAddToCart={(e, items)=>{console.log(items)}} breakpoints={defaultRecommendationBreakpoints} />
 \`\`\`
 
 `;
 				var p = e('./components/src/components/Atoms/Icon/paths.tsx');
 				const y = {
-						title: 'Templates/RecommendationBundleVertical',
-						component: a.a,
+						title: 'Templates/RecommendationBundle',
+						component: a.g,
 						tags: ['autodocs'],
 						parameters: {
 							docs: {
 								page: () =>
 									(0, o.FD)('div', {
-										children: [(0, o.Y)(c.oz, { options: { overrides: { code: _.Z } }, children: f }), (0, o.Y)(c.uY, { story: c.h1 })],
+										children: [(0, o.Y)(c.oz, { options: { overrides: { code: b.Z } }, children: _ }), (0, o.Y)(c.uY, { story: c.h1 })],
 									}),
 							},
 						},
-						decorators: [(m) => (0, o.Y)('div', { style: { maxWidth: '500px' }, children: (0, o.Y)(m, {}) })],
+						decorators: [(f) => (0, o.Y)('div', { style: { maxWidth: '1200px' }, children: (0, o.Y)(f, {}) })],
 						argTypes: {
 							controller: {
 								description: 'Controller reference',
@@ -231,7 +345,12 @@ const customRecommendationBreakpoints = {
 							},
 							resultComponent: { description: 'Slot for custom result component', table: { type: { summary: 'component' } } },
 							title: {
-								description: 'recommendation title',
+								description: 'recommendation bundle title',
+								table: { category: 'Templates Legal', type: { summary: 'string | JSX Element' }, defaultValue: { summary: '' } },
+								control: { type: 'text' },
+							},
+							description: {
+								description: 'recommendation bundle description',
 								table: { category: 'Templates Legal', type: { summary: 'string | JSX Element' }, defaultValue: { summary: '' } },
 								control: { type: 'text' },
 							},
@@ -244,6 +363,12 @@ const customRecommendationBreakpoints = {
 								description: 'limit the number of results rendered',
 								table: { category: 'Templates Legal', type: { summary: 'number' } },
 								control: { type: 'number' },
+							},
+							carousel: {
+								description: 'Carousel settings object',
+								defaultValue: { enabled: !0, loop: !1 },
+								table: { category: 'Templates Legal', type: { summary: 'object' }, defaultValue: { summary: 'Carousel settings object' } },
+								control: { type: 'object' },
 							},
 							preselectedCount: {
 								description: 'Number of results to have selected by default. (seed included)',
@@ -261,9 +386,16 @@ const customRecommendationBreakpoints = {
 								table: { category: 'Templates Legal', type: { summary: 'string' }, defaultValue: { summary: 'Seed Product' } },
 								control: { type: 'text' },
 							},
+							hideSeedText: {
+								description: 'Hide seed product badge text',
+								defaultValue: !1,
+								table: { category: 'Templates Legal', type: { summary: 'boolean' }, defaultValue: { summary: !1 } },
+								control: { type: 'boolean' },
+							},
 							hideSeed: {
 								description: 'Hide/show seed result',
-								table: { category: 'Templates Legal', type: { summary: 'boolean' }, defaultValue: { summary: !0 } },
+								defaultValue: !1,
+								table: { category: 'Templates Legal', type: { summary: 'boolean' }, defaultValue: { summary: !1 } },
 								control: { type: 'boolean' },
 							},
 							separatorIconSeedOnly: {
@@ -298,6 +430,11 @@ const customRecommendationBreakpoints = {
 								table: { category: 'Templates Legal', type: { summary: 'number' } },
 								control: { type: 'number' },
 							},
+							ctaInline: {
+								description: 'boolean to enable the stacked add to cart button display',
+								table: { category: 'Templates Legal', type: { summary: 'boolean' }, defaultValue: { summary: !0 } },
+								control: { type: 'boolean' },
+							},
 							ctaSlot: {
 								description: 'Slot for custom add to cart component',
 								table: { category: 'Templates Legal', type: { summary: 'component' } },
@@ -311,31 +448,31 @@ const customRecommendationBreakpoints = {
 							breakpoints: {
 								defaultValue: void 0,
 								description: 'Recommendation title',
-								table: { category: 'Templates Legal', type: { summary: 'object' }, defaultValue: { summary: 'Breakpoint object' } },
+								table: { type: { summary: 'object' }, defaultValue: { summary: 'Breakpoint object' } },
 								control: { type: 'object' },
 							},
+							modules: { description: 'additional swiper modules to use', table: { type: { summary: 'object' } }, control: { type: 'object' } },
 							...t.F,
 						},
 					},
-					E = { id: 'RecommendationBundle', tag: 'bundle', globals: { siteId: 'atkzs2', products: ['VW1982-UQZ-AS'] } },
-					v = i.p.recommendation(E),
-					l = (m, { loaded: { controller: T } }) => (0, o.Y)(a.a, { ...m, controller: T, results: T.store.results });
+					B = { id: 'RecommendationBundle', tag: 'bundley', globals: { siteId: 'atkzs2', products: ['VW1982-UQZ-AS'] } },
+					v = i.p.recommendation(B),
+					l = (f, { loaded: { controller: x } }) => (0, o.Y)(a.g, { ...f, controller: x, results: x.store.results });
 				(l.loaders = [
 					async () => (
-						v.on('afterStore', async ({ controller: m }, T) => {
-							m.store.results.forEach((h) => (h.mappings.core.url = 'javascript:void(0);')), await T();
+						v.on('afterStore', async ({ controller: f }, x) => {
+							f.store.results.forEach((h) => (h.mappings.core.url = 'javascript:void(0);')), await x();
 						}),
 						await v.search(),
 						{ controller: v }
 					),
 				]),
-					(l.args = { limit: 3 }),
 					(l.parameters = {
 						...l.parameters,
 						docs: {
 							...l.parameters?.docs,
 							source: {
-								originalSource: `(props: RecommendationBundleVerticalProps, {
+								originalSource: `(props: RecommendationBundleProps, {
   loaded: {
     controller
   }
@@ -344,7 +481,7 @@ const customRecommendationBreakpoints = {
     controller: RecommendationController;
   };
 }) => {
-  return <RecommendationBundleVertical {...props} controller={controller} results={controller.store.results} />;
+  return <RecommendationBundle {...props} controller={controller} results={controller.store.results} />;
 }`,
 								...l.parameters?.docs?.source,
 							},
@@ -352,56 +489,19 @@ const customRecommendationBreakpoints = {
 					});
 				const d = ['Default'];
 			},
-			'./components/src/components/Templates/RecommendationBundleVertical/RecommendationBundleVertical.tsx'(R, r, e) {
-				'use strict';
-				e.d(r, { a: () => v });
-				var o = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
-					c = e('../../node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-					a = e('../../node_modules/@emotion/react/dist/emotion-element-5486c51c.browser.esm.js'),
-					_ = e('../../node_modules/mobx-react-lite/es/index.js'),
-					t = e('./components/src/utilities/defined.ts'),
-					i = e('./components/src/utilities/mergeProps.ts'),
-					f = e('./components/src/utilities/mergeStyles.ts'),
-					p = e('./components/src/components/Templates/RecommendationBundle/RecommendationBundle.tsx');
-				const y = () =>
-						(0, c.AH)({
-							'.ss__recommendation-bundle-vertical__wrapper': { flexDirection: 'column' },
-							'.ss__recommendation-bundle-vertical__wrapper__cta': { textAlign: 'center' },
-						}),
-					E = 'recommendationBundleVertical',
-					v = (0, _.PA)((l) => {
-						const d = (0, a.u)(),
-							m = { name: l.controller?.store?.profile?.tag?.toLowerCase(), ...l },
-							{ treePath: T, disableStyles: h, controller: B, style: g, styleScript: C, themeStyleScript: I, ...P } = m,
-							n = {
-								recommendationBundle: {
-									ctaInline: !1,
-									carousel: { enabled: !1 },
-									separatorIcon: !1,
-									alias: E,
-									...(0, t.s)({ disableStyles: h }),
-									theme: m?.theme,
-									treePath: T,
-								},
-							},
-							s = (0, i.v6)(E, d, {}, m),
-							u = (0, f.Z)(s, y);
-						return (0, o.Y)(p.g, { controller: B, ...u, ...n.recommendationBundle, ...P });
-					});
-			},
-			'./components/src/hooks/useIntersection.tsx'(R, r, e) {
+			'./components/src/hooks/useIntersection.tsx'(w, r, e) {
 				'use strict';
 				e.d(r, { v: () => c });
 				var o = e('../../node_modules/preact/hooks/dist/hooks.module.js');
-				const c = (a, _ = '0px', t = !1) => {
-					const [i, f] = (0, o.J0)(!1);
+				const c = (a, b = '0px', t = !1) => {
+					const [i, _] = (0, o.J0)(!1);
 					return (
 						(0, o.vJ)(() => {
 							const p = new IntersectionObserver(
 								([y]) => {
-									f(y.isIntersecting), t && y.isIntersecting && p.unobserve(a.current);
+									_(y.isIntersecting), t && y.isIntersecting && p.unobserve(a.current);
 								},
-								{ rootMargin: _ }
+								{ rootMargin: b }
 							);
 							return (
 								a.current && p.observe(a.current),
@@ -414,18 +514,18 @@ const customRecommendationBreakpoints = {
 					);
 				};
 			},
-			'./components/src/hooks/useIntersectionAdvanced.tsx'(R, r, e) {
+			'./components/src/hooks/useIntersectionAdvanced.tsx'(w, r, e) {
 				'use strict';
 				e.d(r, { v: () => a });
 				var o = e('../../node_modules/preact/hooks/dist/hooks.module.js');
 				const c = 250,
 					a = (t, i = {}) => {
-						const { rootMargin: f = '0px', fireOnce: p = !1, threshold: y = 0, minVisibleTime: E = 0 } = i,
+						const { rootMargin: _ = '0px', fireOnce: p = !1, threshold: y = 0, minVisibleTime: B = 0 } = i,
 							[v, l] = (0, o.J0)(!1),
 							d = (0, o.li)(null),
-							m = (0, o.li)(null),
-							[T, h] = (0, o.J0)(0),
-							B = (0, o.hb)((g) => {
+							f = (0, o.li)(null),
+							[x, h] = (0, o.J0)(0),
+							R = (0, o.hb)((g) => {
 								(t.current = g), h((C) => C + 1);
 							}, []);
 						return (
@@ -437,24 +537,24 @@ const customRecommendationBreakpoints = {
 								const I = () => {
 										C && (window.clearInterval(C), (C = null));
 									},
-									P = () => {
-										E > 0
-											? ((m.current = Date.now()),
+									E = () => {
+										B > 0
+											? ((f.current = Date.now()),
 											  d.current && window.clearTimeout(d.current),
 											  (d.current = window.setTimeout(() => {
 													l(!0), p && t.current && g && g.unobserve(t.current);
-											  }, E)))
+											  }, B)))
 											: (l(!0), p && t.current && g && g.unobserve(t.current));
 									},
 									n = () => {
-										d.current && window.clearTimeout(d.current), (d.current = null), (m.current = null), l(!1);
+										d.current && window.clearTimeout(d.current), (d.current = null), (f.current = null), l(!1);
 									};
 								return (
 									(g = new IntersectionObserver(
 										([s]) => {
 											s.isIntersecting
-												? t.current && _(t.current)
-													? (I(), P())
+												? t.current && b(t.current)
+													? (I(), E())
 													: (n(),
 													  C ||
 															(C = window.setInterval(() => {
@@ -462,26 +562,26 @@ const customRecommendationBreakpoints = {
 																	I();
 																	return;
 																}
-																_(t.current) && (I(), P());
+																b(t.current) && (I(), E());
 															}, c)))
 												: (I(), n());
 										},
-										{ rootMargin: f, threshold: y }
+										{ rootMargin: _, threshold: y }
 									)),
 									t.current && g.observe(t.current),
 									() => {
 										l(!1), I(), d.current && window.clearTimeout(d.current), g && t.current && g.unobserve(t.current);
 									}
 								);
-							}, [t, T]),
-							{ inViewport: v, updateRef: B }
+							}, [t, x]),
+							{ inViewport: v, updateRef: R }
 						);
 					};
-				function _(t) {
+				function b(t) {
 					return t && 'checkVisibility' in t ? t.checkVisibility({ contentVisibilityAuto: !0, opacityProperty: !0, visibilityProperty: !0 }) : !0;
 				}
 			},
-			'./components/src/utilities/componentArgs.ts'(R, r, e) {
+			'./components/src/utilities/componentArgs.ts'(w, r, e) {
 				'use strict';
 				e.d(r, { F: () => o });
 				const o = {
@@ -508,122 +608,122 @@ const customRecommendationBreakpoints = {
 					},
 				};
 			},
-			'./components/src/utilities/createImpressionObserver.ts'(R, r, e) {
+			'./components/src/utilities/createImpressionObserver.ts'(w, r, e) {
 				'use strict';
 				e.d(r, { Q: () => t });
 				var o = e('../../node_modules/preact/hooks/dist/hooks.module.js'),
 					c = e('./components/src/hooks/useIntersectionAdvanced.tsx');
 				const a = 0.7,
-					_ = 1e3;
+					b = 1e3;
 				function t(i) {
-					const f = (0, o.li)(null),
-						{ inViewport: p, updateRef: y } = (0, c.v)(f, { ...i, fireOnce: !0, threshold: a, minVisibleTime: _ });
-					return { ref: f, inViewport: p, updateRef: y };
+					const _ = (0, o.li)(null),
+						{ inViewport: p, updateRef: y } = (0, c.v)(_, { ...i, fireOnce: !0, threshold: a, minVisibleTime: b });
+					return { ref: _, inViewport: p, updateRef: y };
 				}
 			},
-			'./components/src/utilities/snapify.ts'(R, r, e) {
+			'./components/src/utilities/snapify.ts'(w, r, e) {
 				'use strict';
 				e.d(r, { p: () => g });
 				var o = e('../../node_modules/mobx/dist/mobx.esm.js'),
 					c = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Search/SearchController.js'),
 					a = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Autocomplete/AutocompleteController.js'),
-					_ = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Recommendation/RecommendationController.js'),
+					b = e('../../node_modules/@athoscommerce/snap-controller/dist/esm/Recommendation/RecommendationController.js'),
 					t = e('../../node_modules/@athoscommerce/snap-client/dist/esm/Client/Client.js'),
 					i = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Autocomplete/AutocompleteStore.js'),
-					f = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/SearchStore.js'),
+					_ = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/SearchStore.js'),
 					p = e('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Recommendation/RecommendationStore.js'),
 					y = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/UrlManager/UrlManager.js'),
-					E = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/linkers/react/react.js'),
+					B = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/linkers/react/react.js'),
 					v = e('../../node_modules/@athoscommerce/snap-url-manager/dist/esm/Translators/Url/UrlTranslator.js'),
 					l = e('../../node_modules/@athoscommerce/snap-event-manager/dist/esm/EventManager.js'),
 					d = e('../../node_modules/@athoscommerce/snap-profiler/dist/esm/Profiler.js'),
-					m = e('../../node_modules/@athoscommerce/snap-logger/dist/esm/Logger.js'),
-					T = e('../../node_modules/@athoscommerce/snap-tracker/dist/esm/Tracker.js');
+					f = e('../../node_modules/@athoscommerce/snap-logger/dist/esm/Logger.js'),
+					x = e('../../node_modules/@athoscommerce/snap-tracker/dist/esm/Tracker.js');
 				(0, o.jK)({ useProxies: 'always', isolateGlobalState: !0, enforceActions: 'never' });
 				const h = {},
-					B = { globals: { siteId: 'atkzs2' } };
+					R = { globals: { siteId: 'atkzs2' } };
 				class g {
 					static recommendation(s) {
-						const u = s.id;
-						if (h[u]) return h[u];
-						const x = (h[u] = I({ client: B, controller: s }));
+						const m = s.id;
+						if (h[m]) return h[m];
+						const T = (h[m] = I({ client: R, controller: s }));
 						return (
-							x.on('afterStore', async ({ controller: b }, O) => {
-								b.log.debug('controller', b), b.log.debug('store', b.store.toJSON()), await O();
+							T.on('afterStore', async ({ controller: u }, A) => {
+								u.log.debug('controller', u), u.log.debug('store', u.store.toJSON()), await A();
 							}),
-							x.init(),
-							x
+							T.init(),
+							T
 						);
 					}
 					static autocomplete(s) {
-						const u = s.id;
-						if (h[u]) return h[u];
-						const x = (h[u] = P({ client: B, controller: s }));
+						const m = s.id;
+						if (h[m]) return h[m];
+						const T = (h[m] = E({ client: R, controller: s }));
 						return (
-							x.on('afterStore', async ({ controller: b }, O) => {
-								b.log.debug('controller', b), b.log.debug('store', b.store.toJSON()), await O();
+							T.on('afterStore', async ({ controller: u }, A) => {
+								u.log.debug('controller', u), u.log.debug('store', u.store.toJSON()), await A();
 							}),
-							x.init(),
-							x
+							T.init(),
+							T
 						);
 					}
 					static search(s) {
-						const u = s.id;
-						if (h[u]) return h[u];
-						const x = (h[u] = C({ client: B, controller: s }));
+						const m = s.id;
+						if (h[m]) return h[m];
+						const T = (h[m] = C({ client: R, controller: s }));
 						return (
-							x.on('afterStore', async ({ controller: b }, O) => {
-								b.log.debug('controller', b), b.log.debug('store', b.store.toJSON()), await O();
+							T.on('afterStore', async ({ controller: u }, A) => {
+								u.log.debug('controller', u), u.log.debug('store', u.store.toJSON()), await A();
 							}),
-							x.init(),
-							x
+							T.init(),
+							T
 						);
 					}
 				}
 				function C(n) {
-					const s = new y.V(new v.E({ settings: { coreType: 'query', corePrefix: n.controller.id } }), E.X);
+					const s = new y.V(new v.E({ settings: { coreType: 'query', corePrefix: n.controller.id } }), B.X);
 					return new c.Tp(n.controller, {
 						client: new t.K(n.client.globals, n.client.config),
-						store: new f.U(n.controller, { urlManager: s }),
+						store: new _.U(n.controller, { urlManager: s }),
 						urlManager: s,
 						eventManager: new l.E(),
 						profiler: new d.U(),
-						logger: new m.V(),
-						tracker: new T.J(n.client.globals),
+						logger: new f.V(),
+						tracker: new x.J(n.client.globals),
 					});
 				}
 				function I(n) {
-					const s = new y.V(new v.E(), E.X).detach(!0);
-					return new _.c(n.controller, {
+					const s = new y.V(new v.E(), B.X).detach(!0);
+					return new b.c(n.controller, {
 						client: new t.K(n.client.globals, n.client.config),
 						store: new p.t(n.controller, { urlManager: s }),
 						urlManager: s,
 						eventManager: new l.E(),
 						profiler: new d.U(),
-						logger: new m.V(),
-						tracker: new T.J(n.client.globals),
+						logger: new f.V(),
+						tracker: new x.J(n.client.globals),
 					});
 				}
-				function P(n) {
-					const s = new y.V(new v.E(), E.X).detach();
+				function E(n) {
+					const s = new y.V(new v.E(), B.X).detach();
 					return new a.Z(n.controller, {
 						client: new t.K(n.client.globals, n.client.config),
 						store: new i.Y(n.controller, { urlManager: s }),
 						urlManager: s,
 						eventManager: new l.E(),
 						profiler: new d.U(),
-						logger: new m.V(),
-						tracker: new T.J(n.client.globals),
+						logger: new f.V(),
+						tracker: new x.J(n.client.globals),
 					});
 				}
 			},
-			'./components/src/utilities/storybook.tsx'(R, r, e) {
+			'./components/src/utilities/storybook.tsx'(w, r, e) {
 				'use strict';
-				e.d(r, { Z: () => _ });
+				e.d(r, { Z: () => b });
 				var o = e('../../node_modules/@emotion/react/jsx-runtime/dist/emotion-react-jsx-runtime.browser.esm.js'),
 					c = e('../../node_modules/preact/hooks/dist/hooks.module.js');
 				const a = 'prism-block',
-					_ = (t) => {
+					b = (t) => {
 						const i = (0, c.li)(null);
 						return (
 							(0, c.vJ)(() => {
@@ -633,15 +733,15 @@ const customRecommendationBreakpoints = {
 						);
 					};
 			},
-			'../../node_modules/memoizerific sync recursive'(R) {
+			'../../node_modules/memoizerific sync recursive'(w) {
 				function r(e) {
 					var o = new Error("Cannot find module '" + e + "'");
 					throw ((o.code = 'MODULE_NOT_FOUND'), o);
 				}
-				(r.keys = () => []), (r.resolve = r), (r.id = '../../node_modules/memoizerific sync recursive'), (R.exports = r);
+				(r.keys = () => []), (r.resolve = r), (r.id = '../../node_modules/memoizerific sync recursive'), (w.exports = r);
 			},
 		},
 	]);
 })();
 
-//# sourceMappingURL=components-Templates-RecommendationBundleVertical-RecommendationBundleVertical-stories.65103e7a.iframe.bundle.js.map
+//# sourceMappingURL=components-Templates-RecommendationBundle-RecommendationBundle-stories.af25ca74.iframe.bundle.js.map

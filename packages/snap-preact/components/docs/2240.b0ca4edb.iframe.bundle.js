@@ -3,20 +3,20 @@
 	(self.webpackChunk_athoscommerce_snap_preact = self.webpackChunk_athoscommerce_snap_preact || []).push([
 		[2240],
 		{
-			'../../node_modules/@athoscommerce/snap-controller/dist/esm/Autocomplete/AutocompleteController.js'(z, H, u) {
-				u.d(H, { Z: () => K });
+			'../../node_modules/@athoscommerce/snap-controller/dist/esm/Autocomplete/AutocompleteController.js'(z, N, u) {
+				u.d(N, { Z: () => K });
 				var l = u('../../node_modules/deepmerge/dist/cjs.js'),
 					P = u.n(l),
 					S = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/types.js'),
-					N = u('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/StorageStore/StorageStore.js'),
-					D = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/Abstract/AbstractController.js'),
+					D = u('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/StorageStore/StorageStore.js'),
+					H = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/Abstract/AbstractController.js'),
 					F = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/utils/getParams.js'),
-					B = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/types.js'),
+					q = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/types.js'),
 					b = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/utils/isClickWithinProductLink.js'),
 					R = u('../../node_modules/@athoscommerce/snap-controller/dist/esm/utils/isClickWithinBannerLink.js');
 				const k = 'ss-autocomplete-input',
 					y = 200,
-					q = 13,
+					B = 13,
 					I = 27,
 					L = 'fallbackQuery',
 					U = {
@@ -34,10 +34,10 @@
 							bind: { input: !0, submit: !0 },
 						},
 					};
-				class K extends D.r {
+				class K extends H.r {
 					constructor(o, { client: t, store: n, urlManager: a, eventManager: d, profiler: g, logger: v, tracker: T }, W) {
 						super(o, { client: t, store: n, urlManager: a, eventManager: d, profiler: g, logger: v, tracker: T }, W),
-							(this.type = B.k.autocomplete),
+							(this.type = q.k.autocomplete),
 							(this.events = {}),
 							(this.track = {
 								banner: {
@@ -216,7 +216,7 @@
 							(this.handlers = {
 								input: {
 									enterKey: async (e) => {
-										if (e.keyCode == q) {
+										if (e.keyCode == B) {
 											const s = e.target;
 											let i = this.store.services.urlManager;
 											for (e.preventDefault(); this.store.loading; ) await w(y);
@@ -413,7 +413,7 @@
 								(this.config.settings = { ...this.config.settings, history: { enabled: !0, ...this.config.settings.history } }),
 							this.store.setConfig(this.config),
 							this.config.settings.initializeFromUrl && ((this.store.state.input = this.urlManager.state.query), this.urlManager.reset().go()),
-							(this.storage = new N.t({ type: 'session', key: `athos-controller-${this.config.id}` })),
+							(this.storage = new D.t({ type: 'session', key: `athos-controller-${this.config.id}` })),
 							this.eventManager.on('afterSearch', async (e, s) => {
 								if ((await s(), e.response.search.autocomplete?.query != e.controller.urlManager.state.query)) return !1;
 							}),
@@ -569,15 +569,15 @@
 						}
 				}
 			},
-			'../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Autocomplete/AutocompleteStore.js'(z, H, u) {
-				u.d(H, { Y: () => _ });
+			'../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Autocomplete/AutocompleteStore.js'(z, N, u) {
+				u.d(N, { Y: () => _ });
 				var l = u('../../node_modules/mobx/dist/mobx.esm.js'),
 					P = u('../../node_modules/@athoscommerce/snap-toolbox/dist/esm/StorageStore/StorageStore.js'),
 					S = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Abstract/AbstractStore.js'),
-					N = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchHistoryStore.js'),
-					D = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchMerchandisingStore.js'),
+					D = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchHistoryStore.js'),
+					H = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchMerchandisingStore.js'),
 					F = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchFilterStore.js'),
-					B = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchResultStore.js'),
+					q = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchResultStore.js'),
 					b = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchPaginationStore.js'),
 					R = u('../../node_modules/@athoscommerce/snap-store-mobx/dist/esm/Search/Stores/SearchSortingStore.js');
 				class k {
@@ -609,7 +609,7 @@
 						this.state = !1;
 					}
 				}
-				class q extends Array {
+				class B extends Array {
 					static get [Symbol.species]() {
 						return Array;
 					}
@@ -765,7 +765,7 @@
 					initHistory() {
 						const r = this.config.settings?.history?.limit;
 						if (r && this.config.settings?.history?.enabled !== !1) {
-							const o = new N.E({ services: this.services, config: { id: this.config.id, globals: this.config.globals } });
+							const o = new D.E({ services: this.services, config: { id: this.config.id, globals: this.config.globals } });
 							this.history = new L({
 								services: this.services,
 								functions: {
@@ -791,7 +791,14 @@
 						this.history?.forEach((r) => (r.active = !1));
 					}
 					setService(r, o) {
-						this.services[r] && o && ((this.services[r] = o), r === 'urlManager' && ((this.state.url = o), this.initHistory()));
+						this.services[r] &&
+							o &&
+							((this.services[r] = o),
+							r === 'urlManager' &&
+								((this.state.url = o),
+								this.history?.forEach((t) => {
+									t.url = o.set({ query: t.value });
+								})));
 					}
 					updateTrendingTerms(r) {
 						this.trending = new U({
@@ -810,7 +817,7 @@
 						(this.meta = new j.l({ data: { meta: o } })),
 							t?.search && (this.state.url = this.services.urlManager = this.services.urlManager.set('query', t.search.query)),
 							this.state.locks.terms.locked ||
-								((this.terms = new q({
+								((this.terms = new B({
 									config: this.config,
 									services: this.services,
 									functions: {
@@ -822,7 +829,7 @@
 									data: { autocomplete: t },
 								})),
 								t?.autocomplete && this.state.locks.terms.lock()),
-							(this.merchandising = new D.W({ data: { search: t } })),
+							(this.merchandising = new H.W({ data: { search: t } })),
 							(this.search = new K({ config: this.config, services: this.services, data: { autocomplete: t } })),
 							this.state.locks.facets.locked ||
 								(this.facets = new M({
@@ -833,7 +840,7 @@
 									data: { search: t, meta: this.meta.data },
 								})),
 							(this.filters = new F.Al({ config: this.config, services: this.services, data: { search: t, meta: this.meta.data } })),
-							(this.results = new B.vP({ config: this.config, state: { loaded: this.loaded }, data: { search: t, meta: this.meta.data } })),
+							(this.results = new q.vP({ config: this.config, state: { loaded: this.loaded }, data: { search: t, meta: this.meta.data } })),
 							((this.results.length === 0 && !this.trending.filter((n) => n.active).length) || this.terms?.filter((n) => n.active).length) &&
 								this.resetTrending(),
 							(this.pagination = new b.a3({ services: this.services, data: { search: t, meta: this.meta.data } })),
