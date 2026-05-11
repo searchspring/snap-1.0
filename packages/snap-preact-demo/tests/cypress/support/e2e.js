@@ -64,6 +64,12 @@ beforeEach(() => {
 	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/recommendations\/clickthrough/, { success: true }).as(
 		'beacon/recommendations/clickthrough'
 	);
+
+	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/bundles\/render/, { success: true }).as('beacon/bundles/render');
+	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/bundles\/impression/, { success: true }).as('beacon/bundles/impression');
+	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/bundles\/addtocart/, { success: true }).as('beacon/bundles/addtocart');
+	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/bundles\/clickthrough/, { success: true }).as('beacon/bundles/clickthrough');
+
 	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/product\/pageview/, { success: true }).as('beacon/product/pageview');
 	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/cart\/add/, { success: true }).as('beacon/cart/add');
 	cy.intercept('POST', /analytics.athoscommerce.net\/beacon\/v2\/.*\/cart\/remove/, { success: true }).as('beacon/cart/remove');

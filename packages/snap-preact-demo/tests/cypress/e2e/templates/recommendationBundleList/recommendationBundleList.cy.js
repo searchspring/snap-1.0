@@ -24,7 +24,7 @@ const config = {
 			prevArrow: '.ss__recommendation-bundle-list .ss__carousel__prev',
 			activeSlide: '.ss__recommendation-bundle-list .swiper-slide-active',
 			cta: '.ss__recommendation-bundle-list__wrapper__cta',
-			controller: 'recommend_bundle_0',
+			controller: 'recommend_bundley_0',
 		},
 	},
 };

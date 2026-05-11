@@ -1043,4 +1043,471 @@ describe('DomTargeter', () => {
 
 		consoleSpy.mockRestore();
 	});
+
+	describe('getTargetedElems', () => {
+		it('returns targeted elements for non-inject targets', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target-a"></div>
+					<div class="target-b"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+
+			const targeter = new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], () => {}, document);
+
+			const elems = targeter.getTargetedElems();
+			expect(elems.length).toBe(2);
+			expect(elems[0].className).toBe('target-a');
+			expect(elems[1].className).toBe('target-b');
+		});
+
+		it('returns targeted elements for inject targets', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="original"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+
+			const targeter = new DomTargeter(
+				[
+					{
+						selector: '.original',
+						inject: {
+							action: 'before',
+							element: () => {
+								const el = document.createElement('div');
+								el.className = 'injected';
+								return el;
+							},
+						},
+					},
+				],
+				() => {},
+				document
+			);
+
+			const elems = targeter.getTargetedElems();
+			expect(elems.length).toBe(1);
+			expect(elems[0].className).toBe('original');
+		});
+
+		it('returns empty array when no elements are found', () => {
+			const dom = createDocument(`<div id="content"></div>`);
+			const document = dom.window.document;
+
+			const targeter = new DomTargeter([{ selector: '.nonexistent' }], () => {}, document);
+
+			expect(targeter.getTargetedElems()).toEqual([]);
+		});
+
+		it('prunes disconnected elements from targetedElems', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target-a"></div>
+					<div class="target-b"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+
+			const targeter = new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], () => {}, document);
+
+			expect(targeter.getTargetedElems().length).toBe(2);
+
+			// remove one element from the DOM
+			const elemA = document.querySelector('.target-a')!;
+			elemA.parentNode!.removeChild(elemA);
+
+			// disconnected element should be pruned
+			const elems = targeter.getTargetedElems();
+			expect(elems.length).toBe(1);
+			expect(elems[0].className).toBe('target-b');
+		});
+
+		it('prunes disconnected elements during retarget and allows re-targeting', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter([{ selector: '.target' }], onTarget, document);
+
+			expect(onTarget).toHaveBeenCalledTimes(1);
+			expect(targeter.getTargetedElems().length).toBe(1);
+
+			// retarget should not call onTarget again for the same connected element
+			targeter.retarget();
+			expect(onTarget).toHaveBeenCalledTimes(1);
+
+			// remove the element and add a new one with the same selector
+			const oldElem = document.querySelector('.target')!;
+			oldElem.parentNode!.removeChild(oldElem);
+			const newElem = document.createElement('div');
+			newElem.className = 'target';
+			document.getElementById('content')!.appendChild(newElem);
+
+			// retarget should prune the disconnected element and target the new one
+			targeter.retarget();
+			expect(onTarget).toHaveBeenCalledTimes(2);
+			expect(targeter.getTargetedElems().length).toBe(1);
+			expect(targeter.getTargetedElems()[0]).toBe(newElem);
+		});
+	});
+
+	describe('onTarget targeter parameter', () => {
+		it('passes the DomTargeter instance as the fourth argument to onTarget', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			let receivedTargeter: DomTargeter | undefined;
+
+			const targeter = new DomTargeter(
+				[{ selector: '.target' }],
+				(_target, _elem, _originalElem, t) => {
+					receivedTargeter = t;
+				},
+				document
+			);
+
+			expect(receivedTargeter).toBe(targeter);
+		});
+
+		it('passes the DomTargeter instance for inject targets', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			let receivedTargeter: DomTargeter | undefined;
+
+			const targeter = new DomTargeter(
+				[
+					{
+						selector: '.target',
+						inject: {
+							action: 'append',
+							element: () => {
+								const el = document.createElement('div');
+								el.className = 'injected';
+								return el;
+							},
+						},
+					},
+				],
+				(_target, _elem, _originalElem, t) => {
+					receivedTargeter = t;
+				},
+				document
+			);
+
+			expect(receivedTargeter).toBe(targeter);
+		});
+	});
+
+	describe('releaseTargets', () => {
+		it('clears tracked elements and allows retargeting', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target-a"></div>
+					<div class="target-b"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], onTarget, document);
+
+			expect(onTarget).toHaveBeenCalledTimes(2);
+			expect(targeter.getTargetedElems().length).toBe(2);
+
+			// retarget without release should not re-trigger
+			targeter.retarget();
+			expect(onTarget).toHaveBeenCalledTimes(2);
+
+			// release and retarget should re-trigger for the same elements
+			targeter.releaseTargets();
+			expect(targeter.getTargetedElems().length).toBe(0);
+
+			targeter.retarget();
+			expect(onTarget).toHaveBeenCalledTimes(4);
+			expect(targeter.getTargetedElems().length).toBe(2);
+		});
+
+		it('removes elements from global tracking so other targeters can pick them up', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="shared"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const onTargetA = jest.fn();
+			const onTargetB = jest.fn();
+
+			// first targeter claims the element
+			const targeterA = new DomTargeter([{ selector: '.shared' }], onTargetA, document);
+			expect(onTargetA).toHaveBeenCalledTimes(1);
+
+			// second targeter cannot target it (globally tracked)
+			new DomTargeter([{ selector: '.shared' }], onTargetB, document);
+			expect(onTargetB).toHaveBeenCalledTimes(0);
+
+			// release from first targeter
+			targeterA.releaseTargets();
+
+			// now a new targeter can claim it
+			const onTargetC = jest.fn();
+			new DomTargeter([{ selector: '.shared' }], onTargetC, document);
+			expect(onTargetC).toHaveBeenCalledTimes(1);
+		});
+
+		it('works with inject targets', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="original"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter(
+				[
+					{
+						selector: '.original',
+						inject: {
+							action: 'append',
+							element: () => {
+								const el = document.createElement('div');
+								el.className = 'injected';
+								return el;
+							},
+						},
+					},
+				],
+				onTarget,
+				document
+			);
+
+			expect(onTarget).toHaveBeenCalledTimes(1);
+			expect(targeter.getTargetedElems().length).toBe(1);
+
+			targeter.releaseTargets();
+			expect(targeter.getTargetedElems().length).toBe(0);
+		});
+
+		it('is safe to call when there are no tracked elements', () => {
+			const dom = createDocument(`<div id="content"></div>`);
+			const document = dom.window.document;
+
+			const targeter = new DomTargeter([{ selector: '.nonexistent' }], () => {}, document);
+
+			expect(targeter.getTargetedElems().length).toBe(0);
+			expect(() => targeter.releaseTargets()).not.toThrow();
+			expect(targeter.getTargetedElems().length).toBe(0);
+		});
+
+		it('releases only specified elements when an array is provided', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target-a"></div>
+					<div class="target-b"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], onTarget, document);
+
+			expect(onTarget).toHaveBeenCalledTimes(2);
+			expect(targeter.getTargetedElems().length).toBe(2);
+
+			const elemA = document.querySelector('.target-a')!;
+
+			// release only element A
+			targeter.releaseTargets([elemA]);
+			expect(targeter.getTargetedElems().length).toBe(1);
+			expect(targeter.getTargetedElems()[0]).toBe(document.querySelector('.target-b'));
+
+			// retarget should only re-trigger for released element A
+			targeter.retarget();
+			expect(onTarget).toHaveBeenCalledTimes(3);
+			expect(targeter.getTargetedElems().length).toBe(2);
+		});
+
+		it('releases specified elements from global tracking so other targeters can pick them up', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target-a"></div>
+					<div class="target-b"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const onTargetA = jest.fn();
+			const onTargetB = jest.fn();
+
+			// first targeter claims both elements
+			const targeterA = new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], onTargetA, document);
+			expect(onTargetA).toHaveBeenCalledTimes(2);
+
+			// second targeter cannot target either (globally tracked)
+			new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], onTargetB, document);
+			expect(onTargetB).toHaveBeenCalledTimes(0);
+
+			const elemA = document.querySelector('.target-a')!;
+
+			// release only element A from first targeter
+			targeterA.releaseTargets([elemA]);
+
+			// a new targeter can claim element A but not element B
+			const onTargetC = jest.fn();
+			new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], onTargetC, document);
+			expect(onTargetC).toHaveBeenCalledTimes(1);
+			expect(onTargetC.mock.calls[0][1]).toBe(elemA);
+		});
+	});
+
+	describe('destroy', () => {
+		it('releases all tracked elements', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target-a"></div>
+					<div class="target-b"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const targeter = new DomTargeter([{ selector: '.target-a' }, { selector: '.target-b' }], () => {}, document);
+
+			expect(targeter.getTargetedElems().length).toBe(2);
+
+			targeter.destroy();
+			expect(targeter.getTargetedElems().length).toBe(0);
+		});
+
+		it('stops autoRetarget polling after destroy', async () => {
+			const dom = createDocument(`
+				<div id="content"></div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter([{ selector: '.dynamic', autoRetarget: true }], onTarget, document);
+
+			expect(onTarget).toHaveBeenCalledTimes(0);
+
+			targeter.destroy();
+
+			// add the element after destroy
+			const elem = document.createElement('div');
+			elem.className = 'dynamic';
+			document.getElementById('content')!.appendChild(elem);
+
+			await wait(500);
+
+			// should not have been targeted because polling was stopped
+			expect(onTarget).toHaveBeenCalledTimes(0);
+		});
+
+		it('removes click listeners after destroy', async () => {
+			const dom = createDocument(`
+				<div id="content"></div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter([{ selector: '.dynamic', clickRetarget: true }], onTarget, document);
+
+			targeter.destroy();
+
+			// add element and click
+			const elem = document.createElement('div');
+			elem.className = 'dynamic';
+			document.getElementById('content')!.appendChild(elem);
+			document.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
+
+			await wait(300);
+
+			expect(onTarget).toHaveBeenCalledTimes(0);
+		});
+
+		it('stops autoRetarget and listeners after destroy', async () => {
+			const dom = createDocument(`
+				<div id="content"></div>
+			`);
+
+			const document = dom.window.document;
+			const onTarget = jest.fn();
+
+			const targeter = new DomTargeter([{ selector: '.dynamic', autoRetarget: true }], onTarget, document);
+
+			targeter.destroy();
+
+			// add element after destroy - listeners should be cleaned up
+			const elem = document.createElement('div');
+			elem.className = 'dynamic';
+			document.getElementById('content')!.appendChild(elem);
+
+			await wait(300);
+
+			expect(onTarget).toHaveBeenCalledTimes(0);
+		});
+
+		it('frees elements for other targeters after destroy', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+
+			const targeterA = new DomTargeter([{ selector: '.target' }], () => {}, document);
+
+			const onTargetB = jest.fn();
+			new DomTargeter([{ selector: '.target' }], onTargetB, document);
+			expect(onTargetB).toHaveBeenCalledTimes(0);
+
+			targeterA.destroy();
+
+			const onTargetC = jest.fn();
+			new DomTargeter([{ selector: '.target' }], onTargetC, document);
+			expect(onTargetC).toHaveBeenCalledTimes(1);
+		});
+
+		it('is safe to call multiple times', () => {
+			const dom = createDocument(`
+				<div id="content">
+					<div class="target"></div>
+				</div>
+			`);
+
+			const document = dom.window.document;
+			const targeter = new DomTargeter([{ selector: '.target' }], () => {}, document);
+
+			expect(() => {
+				targeter.destroy();
+				targeter.destroy();
+			}).not.toThrow();
+		});
+	});
 });

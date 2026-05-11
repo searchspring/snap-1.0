@@ -21,10 +21,9 @@ new SnapTemplates({
 		],
 	},
 	autocomplete: {
-		inputSelector: 'input#search-input',
 		targets: [
 			{
-				selector: 'input#search-input',
+				inputSelector: 'input#search-input',
 				component: 'Autocomplete',
 			},
 		],
