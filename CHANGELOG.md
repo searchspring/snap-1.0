@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/AthosCommerce/snap/compare/v1.4.0...v1.5.0) (2026-05-11)
+
+### Bug Fixes
+
+- add isBundle check to profile store ([05025ff](https://github.com/AthosCommerce/snap/commit/05025ffd9334872f18b6324e720da43989461ead))
+- add missing isBundle property to mock bundle profile ([8f6c8d9](https://github.com/AthosCommerce/snap/commit/8f6c8d93bd85b679338e97b038082c3689deb48c))
+- **autocompletecontroller:** only re init the history of formelement change ([3739375](https://github.com/AthosCommerce/snap/commit/3739375a4442da1636ade53162fa97eae846431e))
+
+### Features
+
+- **preact/recommendationinstantiator:** porting over functionality from searchspring snap for SPA support ([4ce4da0](https://github.com/AthosCommerce/snap/commit/4ce4da0fe0ce0ef8808d33de0bf80d037fac85e5))
+
 # [1.4.0](https://github.com/AthosCommerce/snap/compare/v1.3.0...v1.4.0) (2026-05-05)
 
 ### Bug Fixes
