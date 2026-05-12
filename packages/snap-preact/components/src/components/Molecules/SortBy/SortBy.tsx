@@ -25,7 +25,7 @@ const defaultStyles: StyleScript<SortByProps> = () => {
 };
 
 export const SortBy = observer((properties: SortByProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

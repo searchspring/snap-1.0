@@ -131,7 +131,7 @@ const defaultStyles: StyleScript<GridProps> = ({ gapSize, columns, theme, disabl
 };
 
 export function Grid(properties: GridProps) {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<GridProps> = {

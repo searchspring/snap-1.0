@@ -40,7 +40,7 @@ const defaultStyles: StyleScript<SlideoutProps> = ({ slideDirection, transitionS
 };
 
 export const Slideout = observer((properties: SlideoutProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

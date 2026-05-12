@@ -81,7 +81,7 @@ const defaultStyles: StyleScript<SelectProps> = ({ color, backgroundColor, borde
 };
 
 export const Select = observer((properties: SelectProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

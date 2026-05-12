@@ -82,7 +82,7 @@ const CSS = {
 };
 
 export const Toggle = observer((properties: ToggleProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 
 	const defaultProps: Partial<ToggleProps> = {
 		round: true,

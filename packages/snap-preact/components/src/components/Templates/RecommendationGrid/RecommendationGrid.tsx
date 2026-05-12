@@ -8,7 +8,7 @@ import type { Product } from '@athoscommerce/snap-store-mobx';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, BreakpointsProps, StyleScript, JSXComponent } from '../../../types';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
-import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
+import { useTheme, CacheProvider, useTreePath, Theme } from '../../../providers';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
 import { ResultTracker } from '../../Trackers/ResultTracker';
@@ -36,7 +36,7 @@ const defaultStyles: StyleScript<RecommendationGridProps> = ({ gapSize, columns 
 };
 
 export const RecommendationGrid = observer((properties: RecommendationGridProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<RecommendationGridProps> = {
@@ -54,7 +54,7 @@ export const RecommendationGrid = observer((properties: RecommendationGridProps)
 
 	let props = mergeProps('recommendationGrid', globalTheme, defaultProps, _properties);
 
-	if (!properties.theme?.name) {
+	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 		const displaySettings = useDisplaySettings(props?.breakpoints || {});
 		const theme = deepmerge(props?.theme || {}, displaySettings?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });

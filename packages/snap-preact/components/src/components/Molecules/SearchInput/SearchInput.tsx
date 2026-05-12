@@ -48,7 +48,7 @@ const defaultStyles: StyleScript<SearchInputProps> = ({ theme }) => {
 };
 
 export const SearchInput = observer((properties: SearchInputProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<SearchInputProps> = {

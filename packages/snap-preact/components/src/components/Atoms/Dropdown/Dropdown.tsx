@@ -39,7 +39,7 @@ const defaultStyles: StyleScript<DropdownProps> = ({ disableOverlay }) => {
 };
 
 export const Dropdown = observer((properties: DropdownProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

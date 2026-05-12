@@ -82,7 +82,7 @@ const defaultStyles: StyleScript<FacetGridOptionsProps> = ({ columns, gapSize, g
 };
 
 export const FacetGridOptions = observer((properties: FacetGridOptionsProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

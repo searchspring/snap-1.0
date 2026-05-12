@@ -120,7 +120,7 @@ const defaultStyles: StyleScript<ErrorHandlerProps> = ({ theme }) => {
 };
 
 export const ErrorHandler = observer((properties: ErrorHandlerProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

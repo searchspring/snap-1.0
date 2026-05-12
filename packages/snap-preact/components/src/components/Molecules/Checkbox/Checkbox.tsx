@@ -40,7 +40,7 @@ const defaultStyles: StyleScript<CheckboxProps> = ({ size, color, theme, native 
 };
 
 export const Checkbox = observer((properties: CheckboxProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

@@ -18,7 +18,7 @@ const defaultStyles: StyleScript<PaginationInfoProps> = ({}) => {
 };
 
 export const PaginationInfo = observer((properties: PaginationInfoProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

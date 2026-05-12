@@ -75,7 +75,7 @@ const defaultStyles: StyleScript<ResultProps> = () => {
 };
 
 export const Result = observer((properties: ResultProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<ResultProps> = {

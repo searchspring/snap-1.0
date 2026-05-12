@@ -47,7 +47,7 @@ const defaultStyles: StyleScript<RatingProps> = () => {
 };
 
 export const Rating = observer((properties: RatingProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<RatingProps> = {

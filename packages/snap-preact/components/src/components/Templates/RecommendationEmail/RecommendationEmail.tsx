@@ -26,7 +26,7 @@ const defaultStyles: StyleScript<RecommendationEmailProps> = () => {
 };
 
 export const RecommendationEmail = observer((properties: RecommendationEmailProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<RecommendationEmailProps> = {

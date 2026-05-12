@@ -68,7 +68,7 @@ const defaultStyles: StyleScript<AutocompleteModalProps> = ({ width, height, the
 };
 
 export const AutocompleteModal = observer((properties: AutocompleteModalProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 
 	const defaultProps: Partial<AutocompleteModalProps> = {
 		layout: [['c1', 'c2', 'c3']],

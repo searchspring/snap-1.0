@@ -189,7 +189,7 @@ const defaultStyles: StyleScript<AutocompleteLayoutProps> = ({
 };
 
 export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 
 	const defaultProps: Partial<AutocompleteLayoutProps> = {
 		facetsTitle: '',

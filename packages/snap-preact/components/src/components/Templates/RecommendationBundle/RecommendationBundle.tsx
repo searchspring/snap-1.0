@@ -144,7 +144,7 @@ const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean;
 };
 
 export const RecommendationBundle = observer((properties: RecommendationBundleProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const globalTreePath = useTreePath();
 
 	const defaultCarouselBreakpoints = {
@@ -198,7 +198,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	}
 
 	let displaySettings: BreakpointsEntry | undefined;
-	if (!(properties.theme?.name || globalTheme.name)) {
+	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
 		displaySettings = useDisplaySettings(props.breakpoints!);
 		if (displaySettings && Object.keys(displaySettings).length) {
 			const theme = deepmerge(props?.theme || {}, displaySettings?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });
@@ -378,7 +378,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		};
 
 		//no breakpoint props allowed in templates
-		if (!(properties.theme?.name || globalTheme.name)) {
+		if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
 			Object.keys(props.breakpoints!).forEach((breakpoint) => {
 				const obj = props.breakpoints![breakpoint as keyof typeof props.breakpoints];
 

@@ -55,7 +55,7 @@ const defaultStyles: StyleScript<ResultsProps> = ({ gapSize, columns }) => {
 const TrackedResultComponent = withTracking<ResultProps>(Result);
 
 export const Results = observer((properties: ResultsProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultBreakpointsProps = {
@@ -84,7 +84,7 @@ export const Results = observer((properties: ResultsProps) => {
 
 	let props = mergeProps('results', globalTheme, defaultProps, properties);
 
-	if (!properties.theme?.name) {
+	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 		const displaySettings = useDisplaySettings(props?.breakpoints || {});
 		const theme = deepmerge(props?.theme || {}, displaySettings?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });

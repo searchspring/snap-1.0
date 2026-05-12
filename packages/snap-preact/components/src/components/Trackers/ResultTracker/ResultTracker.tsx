@@ -15,7 +15,7 @@ const CSS = {
 };
 
 export const ResultTracker = observer((properties: ResultTrackerProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 
 	const props = mergeProps('resultTracker', globalTheme, {}, properties);
 

@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<BadgePillProps> = ({ color, colorText }) => {
 	});
 };
 export const BadgePill = observer((properties: BadgePillProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

@@ -18,7 +18,7 @@ const defaultStyles: StyleScript<BadgeImageProps> = () => {
 };
 
 export const BadgeImage = observer((properties: BadgeImageProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

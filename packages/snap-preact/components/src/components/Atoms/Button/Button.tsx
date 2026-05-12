@@ -52,7 +52,7 @@ const defaultStyles: StyleScript<ButtonProps> = ({ native, color, backgroundColo
 };
 
 export const Button = observer((properties: ButtonProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

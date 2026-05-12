@@ -21,7 +21,7 @@ const defaultStyles: StyleScript<CalloutBadgeProps> = () => {
 };
 
 export const CalloutBadge = observer((properties: CalloutBadgeProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

@@ -124,7 +124,7 @@ const defaultStyles: StyleScript<FacetProps> = ({ disableCollapse, color, theme 
 };
 
 export const Facet = observer((properties: FacetProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

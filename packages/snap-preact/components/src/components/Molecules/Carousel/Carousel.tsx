@@ -200,7 +200,7 @@ export const defaultVerticalCarouselBreakpoints = {
 };
 
 export const Carousel = observer((properties: CarouselProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<CarouselProps> = {
@@ -219,7 +219,7 @@ export const Carousel = observer((properties: CarouselProps) => {
 	let displaySettings;
 
 	//no breakpoint props allowed in templates
-	if (!(properties.theme?.name || globalTheme.name) && props.breakpoints) {
+	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme') && props.breakpoints) {
 		Object.keys(props.breakpoints!).forEach((breakpoint) => {
 			const breakPointProps = props.breakpoints![breakpoint as unknown as keyof typeof props.breakpoints];
 			// make certain props numbers

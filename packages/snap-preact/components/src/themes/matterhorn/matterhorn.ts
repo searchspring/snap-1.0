@@ -21,4 +21,5 @@ export const matterhorn: ThemeComplete = {
 	variables: matterhornVariables,
 	components,
 	responsive,
+	type: 'snap_templates_theme',
 };

@@ -47,7 +47,8 @@ export type ThemeVariablesPartial = {
 export type ThemeLayoutOption = Omit<ListOption, 'overrides'> & { overrides?: ThemeMinimal };
 
 export type Theme = {
-	name?: string; // Used as a flag in components to provide backwards compatability
+	type: 'snap_templates_theme'; // Used as a flag in components to provide backwards compatability
+	name?: string;
 	variables?: ThemeVariables;
 	responsive?: ThemeResponsive;
 	components?: ThemeComponents;

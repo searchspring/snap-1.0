@@ -46,7 +46,7 @@ const defaultStyles: StyleScript<ModalProps> = () => {
 };
 
 export const Modal = observer((properties: ModalProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

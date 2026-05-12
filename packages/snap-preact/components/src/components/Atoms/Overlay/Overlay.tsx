@@ -28,7 +28,7 @@ const defaultStyles: StyleScript<OverlayProps> = ({ transitionSpeed, color }) =>
 };
 
 export function Overlay(properties: OverlayProps) {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

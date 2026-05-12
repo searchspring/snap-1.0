@@ -17,7 +17,7 @@ const defaultStyles: StyleScript<ToolbarProps> = ({}) => {
 };
 
 export const Toolbar = observer((properties: ToolbarProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

@@ -27,7 +27,7 @@ const defaultStyles: StyleScript<BannerProps> = () => {
 
 export const Banner = withController<any>(
 	observer((properties: BannerProps) => {
-		const globalTheme: Theme = useTheme();
+		const globalTheme = useTheme() as Theme;
 		const snap = useSnap();
 		const globalTreePath = useTreePath();
 		const defaultProps: Partial<BannerProps> = {

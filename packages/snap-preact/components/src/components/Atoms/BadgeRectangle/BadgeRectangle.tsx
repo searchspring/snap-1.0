@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<BadgeRectangleProps> = ({ color, colorText }) =
 };
 
 export const BadgeRectangle = observer((properties: BadgeRectangleProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

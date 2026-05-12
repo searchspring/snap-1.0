@@ -67,7 +67,7 @@ const defaultStyles: StyleScript<LoadMoreProps> = ({ pagination, progressIndicat
 };
 
 export const LoadMore = observer((properties: LoadMoreProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<LoadMoreProps> = {

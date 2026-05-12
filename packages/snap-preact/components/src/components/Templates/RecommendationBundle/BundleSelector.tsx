@@ -11,7 +11,7 @@ import { Lang, useLang } from '../../../hooks';
 import deepmerge from 'deepmerge';
 
 export const BundleSelector = observer((properties: BundleSelectorProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const defaultProps: Partial<BundleSelectorProps> = {
 		hideCheckboxes: false,
 		classNamePrefix: 'ss__recommendation-bundle',

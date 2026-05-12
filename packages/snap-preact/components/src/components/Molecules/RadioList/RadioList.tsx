@@ -57,7 +57,7 @@ const defaultStyles: StyleScript<RadioListProps> = ({ horizontal }) => {
 };
 
 export function RadioList(properties: RadioListProps) {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<RadioListProps> = {

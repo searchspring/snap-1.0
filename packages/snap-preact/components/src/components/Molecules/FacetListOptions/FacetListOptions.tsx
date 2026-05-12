@@ -45,7 +45,7 @@ const defaultStyles: StyleScript<FacetListOptionsProps> = ({ horizontal, theme, 
 };
 
 export const FacetListOptions = observer((properties: FacetListOptionsProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

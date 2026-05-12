@@ -244,7 +244,7 @@ const componentThemes = {
 };
 
 export const BranchOverride = (properties: BranchOverrideProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

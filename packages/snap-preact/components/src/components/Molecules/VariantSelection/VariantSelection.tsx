@@ -66,7 +66,7 @@ const dropdownContentStyles: StyleScript<VariantSelectionProps> = () => {
 };
 
 export const VariantSelection = observer((properties: VariantSelectionProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

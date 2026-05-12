@@ -15,7 +15,7 @@ const defaultStyles: StyleScript<FormattedNumberProps> = () => {
 };
 
 export function FormattedNumber(properties: FormattedNumberProps) {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

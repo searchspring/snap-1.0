@@ -21,4 +21,5 @@ export const everest: ThemeComplete = {
 	variables: everestVariables,
 	components,
 	responsive,
+	type: 'snap_templates_theme',
 };

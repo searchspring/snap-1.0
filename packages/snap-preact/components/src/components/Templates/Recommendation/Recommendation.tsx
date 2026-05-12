@@ -31,9 +31,8 @@ const defaultStyles: StyleScript<RecommendationProps> = ({ vertical }) => {
 };
 
 export const Recommendation = observer((properties: RecommendationProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const globalTreePath = useTreePath();
-
 	const defaultProps: Partial<RecommendationProps> = {
 		breakpoints: properties.vertical
 			? JSON.parse(JSON.stringify(defaultVerticalCarouselBreakpoints))
@@ -55,7 +54,7 @@ export const Recommendation = observer((properties: RecommendationProps) => {
 	let displaySettings;
 
 	//no breakpoint props allowed in templates
-	if (!(properties.theme?.name || globalTheme.name) && props.breakpoints) {
+	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme') && props.breakpoints) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 
 		displaySettings = useDisplaySettings(props.breakpoints);

@@ -195,7 +195,7 @@ const defaultStyles: StyleScript<AutocompleteProps> = ({
 };
 
 export const Autocomplete = observer((properties: AutocompleteProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

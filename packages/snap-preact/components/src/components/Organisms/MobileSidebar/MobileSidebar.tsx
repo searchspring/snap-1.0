@@ -55,7 +55,7 @@ const defaultStyles: StyleScript<MobileSidebarProps> = ({}) => {
 };
 
 export const MobileSidebar = observer((properties: MobileSidebarProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

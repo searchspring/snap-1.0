@@ -161,7 +161,7 @@ const defaultStyles: StyleScript<FacetPaletteOptionsProps> = ({ columns, gridSiz
 };
 
 export const FacetPaletteOptions = observer((properties: FacetPaletteOptionsProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FacetPaletteOptionsProps> = {

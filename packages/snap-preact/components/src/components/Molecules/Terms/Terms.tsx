@@ -80,7 +80,7 @@ const emIfyTerm = (term: string, search: string): string => {
 };
 
 export const Terms = observer((properties: TermsProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

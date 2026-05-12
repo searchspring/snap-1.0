@@ -51,7 +51,7 @@ const defaultStyles: StyleScript<LayoutProps> = ({}) => {
 };
 
 export const Layout = observer((properties: LayoutProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<LayoutProps> = {

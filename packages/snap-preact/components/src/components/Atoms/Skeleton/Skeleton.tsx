@@ -50,7 +50,7 @@ const defaultStyles: StyleScript<SkeletonProps> = ({ width, height, round, backg
 };
 
 export const Skeleton = observer((properties: SkeletonProps) => {
-	const globalTheme: Theme = useTheme();
+	const globalTheme = useTheme() as Theme;
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 
