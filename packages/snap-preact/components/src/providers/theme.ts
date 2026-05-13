@@ -64,7 +64,7 @@ export type ThemeComponent<Template extends string, Props extends LegalProps, Le
 
 export type ThemeComplete = Required<Omit<Theme, 'overrides' | 'activeBreakpoint' | 'components'>> & {
 	components: ThemeComponentsRestricted;
-	type: 'snap_templates_theme'; // Used as a flag in components to provide backwards compatability
+	type: 'snap_templates_theme'; // Used as a flag in components to provide backwards compatibility
 };
 
 export type ThemeResponsive = {
