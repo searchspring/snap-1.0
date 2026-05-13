@@ -4,30 +4,28 @@ import deepmerge from 'deepmerge';
 import { Snap } from '../Snap';
 import { TemplateSelect } from '../../components/src/components/Atoms/TemplateSelect';
 
-import { DomTargeter, url, cookies, version } from '@athoscommerce/snap-toolbox';
+import { DomTargeter, url, cookies, version, getContext } from '@athoscommerce/snap-toolbox';
 import { TemplateTarget, TemplatesStore } from './Stores/TemplateStore';
 
 import type { Target } from '@athoscommerce/snap-toolbox';
-import { type SearchStoreConfigSettings, type AutocompleteStoreConfigSettings, ChatStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
+import { type AutocompleteStoreConfigSettings } from '@athoscommerce/snap-store-mobx';
 import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 import type { AutocompleteController, PluginFunction, PluginGrouping, SearchController } from '@athoscommerce/snap-controller';
-import type {
-	RecommendationInstantiatorConfigSettings,
-	RecommendationComponentObject,
-	RecommendationInstantiatorConfig,
-} from '../Instantiators/RecommendationInstantiator';
+import type { RecommendationComponentObject, RecommendationInstantiatorConfig } from '../Instantiators/RecommendationInstantiator';
 import type { SnapFeatures } from '../types';
 import type { SnapConfig, ExtendedTarget } from '../Snap';
 import type {
+	AutocompleteTargetConfig,
+	ChatTargetConfig,
 	CustomPlugins,
-	PluginsConfigs,
 	PluginsConfigsUnlocked,
 	RecsTemplateTypes,
-	TemplateStoreConfigConfig,
-	TemplateStoreConfigConfigUnlocked,
+	SearchTargetConfig,
+	TemplatesStoreConfigLocked,
+	TemplatesStoreConfigUnlocked,
 	TemplateTypes,
 } from './Stores/TemplateStore';
-import { LibraryImports } from './Stores/LibraryStore';
+
 import {
 	pluginBackgroundFilters,
 	PluginBackgroundFiltersConfig,
@@ -60,87 +58,22 @@ import {
 	pluginBase as pluginMagento2Base,
 	PluginBaseConfig as PluginMagento2BaseConfig,
 } from '@athoscommerce/snap-platforms/magento2';
+import { combineMerge } from '../utils';
 
-export const TEMPLATE_EDIT_COOKIE = 'athosEditor';
-export const TEMPLATE_EDITOR_PARAM = 'athos-editor';
-
-// TODO: tabbing, finder
-export type SearchTargetConfig = {
-	selector: string;
-	component: keyof LibraryImports['component']['search'];
-};
-
-export type AutocompleteTargetConfig = {
-	selector: string;
-	inputSelector?: string;
-	component: keyof LibraryImports['component']['autocomplete'];
-};
-
-export type RecommendationDefaultTargetConfig = {
-	component: keyof LibraryImports['component']['recommendation']['default'];
-};
-export type RecommendationEmailTargetConfig = {
-	component: keyof LibraryImports['component']['recommendation']['email'];
-};
-export type RecommendationBundleTargetConfig = {
-	component: keyof LibraryImports['component']['recommendation']['bundle'];
-};
-
-export type ChatTargetConfig = {
-	selector: string;
-	component: keyof LibraryImports['component']['chat'];
-};
+export const TEMPLATE_EDITOR_COOKIE = 'athosEditor';
+export const TEMPLATE_EDITOR_UI_PARAM = 'athos-editor';
 
 export type SnapTemplatesConfig = SnapTemplatesConfigLocked;
-
-export type SnapTemplatesConfigLocked = TemplateStoreConfigConfig & {
-	unlocked?: false;
+export type SnapTemplatesConfigUnlocked = TemplatesStoreConfigUnlocked & {
+	unlocked: true;
 	url?: UrlTranslatorConfig;
 	features?: SnapFeatures;
-	search?: {
-		targets: SearchTargetConfig[];
-		settings?: SearchStoreConfigSettings;
-		plugins?: PluginsConfigs;
-	};
-	autocomplete?: {
-		targets: AutocompleteTargetConfig[];
-		settings?: AutocompleteStoreConfigSettings;
-		plugins?: PluginsConfigs;
-	};
-	recommendation?: {
-		email?: {
-			[profileComponentName: string]: RecommendationEmailTargetConfig;
-		};
-		default?: {
-			[profileComponentName: string]: RecommendationDefaultTargetConfig;
-		};
-		bundle?: {
-			[profileComponentName: string]: RecommendationBundleTargetConfig;
-		};
-		settings?: RecommendationInstantiatorConfigSettings;
-		plugins?: PluginsConfigs;
-	};
-	chat?: {
-		targets: ChatTargetConfig[];
-		settings?: ChatStoreConfigSettings;
-		plugins?: PluginsConfigs;
-	};
 };
 
-// Full version that allows all component props in theme overrides (for Snap integration migration path)
-export type SnapTemplatesConfigUnlocked = Omit<SnapTemplatesConfigLocked, 'unlocked' | 'plugins' | 'search' | 'autocomplete' | 'recommendation'> &
-	TemplateStoreConfigConfigUnlocked & {
-		unlocked: true;
-		search?: Omit<NonNullable<SnapTemplatesConfigLocked['search']>, 'plugins'> & {
-			plugins?: PluginsConfigsUnlocked;
-		};
-		autocomplete?: Omit<NonNullable<SnapTemplatesConfigLocked['autocomplete']>, 'plugins'> & {
-			plugins?: PluginsConfigsUnlocked;
-		};
-		recommendation?: Omit<NonNullable<SnapTemplatesConfigLocked['recommendation']>, 'plugins'> & {
-			plugins?: PluginsConfigsUnlocked;
-		};
-	};
+export type SnapTemplatesConfigLocked = TemplatesStoreConfigLocked & {
+	url?: UrlTranslatorConfig;
+	features?: SnapFeatures;
+};
 
 type TemplatePlugins =
 	// common
@@ -175,8 +108,20 @@ export const DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS: AutocompleteStoreConfigSe
 export class SnapTemplates extends Snap {
 	templates: TemplatesStore;
 	constructor(config: SnapTemplatesConfig | SnapTemplatesConfigUnlocked) {
+		let context: { editor?: { mode?: string } } = {};
+		try {
+			context = getContext(['editor']);
+		} catch {
+			context = {};
+		}
+		const { editor } = context;
+
 		const urlParams = url(window.location.href);
-		const editMode = Boolean((urlParams?.params?.query && TEMPLATE_EDITOR_PARAM in urlParams.params.query) || cookies.get(TEMPLATE_EDIT_COOKIE));
+		const editorCookieValue = cookies.get(TEMPLATE_EDITOR_COOKIE);
+		const editUIMode = Boolean(
+			(urlParams?.params?.query && TEMPLATE_EDITOR_UI_PARAM in urlParams.params.query) || editorCookieValue === 'ui' || editor?.mode === 'ui'
+		);
+		const editMode = Boolean(editorCookieValue) || editUIMode || Boolean(editor?.mode === 'headless');
 
 		const templatesStore = new TemplatesStore({ config, settings: { editMode } });
 
@@ -186,70 +131,81 @@ export class SnapTemplates extends Snap {
 
 		this.templates = templatesStore;
 
-		if (editMode) {
-			cookies.set(TEMPLATE_EDIT_COOKIE, 'true');
-			setTimeout(async () => {
+		setTimeout(async () => {
+			if (editMode) {
+				// create templateditor store
 				// preload the library
 				await templatesStore.preLoad();
 
-				new DomTargeter(
-					[
-						{
-							selector: 'body',
-							inject: {
-								action: 'append',
-								element: () => {
-									const themeEditContainer = document.createElement('div');
-									themeEditContainer.id = 'athos-template-editor';
-									return themeEditContainer;
+				// create editor store and register controllers
+				const TemplateEditorStore = (await import('./Stores/TemplateEditor/TemplateEditorStore')).TemplateEditorStore;
+				const templateEditorStore = new TemplateEditorStore({ templatesStore });
+
+				// attach to the window object
+				window.athos = window.athos || {};
+				window.athos.editor = templateEditorStore;
+
+				const searchController = this.controllers['search'] as SearchController | undefined;
+				const autocompleteController = this.controllers['autocomplete'] as AutocompleteController | undefined;
+
+				if (searchController) {
+					templateEditorStore.registerController(searchController);
+				}
+
+				if (autocompleteController) {
+					templateEditorStore.registerController(autocompleteController);
+				}
+
+				// render ui editor
+				if (editUIMode) {
+					cookies.set(TEMPLATE_EDITOR_COOKIE, 'ui');
+
+					new DomTargeter(
+						[
+							{
+								selector: 'body',
+								inject: {
+									action: 'append',
+									element: () => {
+										const themeEditContainer = document.createElement('div');
+										themeEditContainer.id = 'athos-template-editor';
+										return themeEditContainer;
+									},
 								},
 							},
-						},
-					],
-					async (target: Target, elem: Element) => {
-						try {
-							const TemplateEditor = (await import('../../components/src')).TemplatesEditor;
-							const TemplateEditorStore = (await import('./Stores/TemplateEditor/TemplateEditorStore')).TemplateEditorStore;
-							const templateEditorStore = new TemplateEditorStore({ templatesStore });
+						],
+						async (target: Target, elem: Element) => {
+							try {
+								const TemplateEditor = (await import('../../components/src')).TemplatesEditor;
 
-							const searchController = this.controllers['search'] as SearchController | undefined;
-							const autocompleteController = this.controllers['autocomplete'] as AutocompleteController | undefined;
+								render(
+									<TemplateEditor
+										templatesStore={templatesStore}
+										editorStore={templateEditorStore}
+										snap={this}
+										onRemoveClick={() => {
+											cookies.unset(TEMPLATE_EDITOR_COOKIE);
+											const urlState = url(window.location.href);
+											delete urlState?.params.query[TEMPLATE_EDITOR_UI_PARAM];
 
-							if (searchController) {
-								templateEditorStore.registerController(searchController);
+											const newUrl = urlState?.url();
+											if (newUrl && newUrl != window.location.href) {
+												window.location.href = newUrl;
+											} else {
+												window.location.reload();
+											}
+										}}
+									/>,
+									elem
+								);
+							} catch (error) {
+								console.error('Error rendering TemplateEditor:', error);
 							}
-
-							if (autocompleteController) {
-								templateEditorStore.registerController(autocompleteController);
-							}
-
-							render(
-								<TemplateEditor
-									templatesStore={templatesStore}
-									editorStore={templateEditorStore}
-									snap={this}
-									onRemoveClick={() => {
-										cookies.unset(TEMPLATE_EDIT_COOKIE);
-										const urlState = url(window.location.href);
-										delete urlState?.params.query[TEMPLATE_EDITOR_PARAM];
-
-										const newUrl = urlState?.url();
-										if (newUrl && newUrl != window.location.href) {
-											window.location.href = newUrl;
-										} else {
-											window.location.reload();
-										}
-									}}
-								/>,
-								elem
-							);
-						} catch (error) {
-							console.error('Error rendering TemplateEditor:', error);
 						}
-					}
-				);
-			});
-		}
+					);
+				}
+			}
+		});
 	}
 }
 
@@ -263,50 +219,74 @@ export function mapBreakpoints<ControllerConfigSettings>(
 	}, {});
 }
 
-export const createSearchTargeters = (
-	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
-	templatesStore: TemplatesStore
-): ExtendedTarget[] => {
-	const targets = templateConfig.search?.targets || [];
-	return targets.map((target) => {
-		const targetId = templatesStore.addTarget('search', target);
+export const createSearchTargeters = (templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] => {
+	// initial target configs
+	const targetConfigs = templateConfig.search?.targets || [];
+
+	let mergedConfigs: SearchTargetConfig[];
+	if (templatesStore.settings.editMode) {
+		const overrideConfigs = (templatesStore.storage.get('overrides.targets.search') || []) as SearchTargetConfig[];
+		mergedConfigs = deepmerge<SearchTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	} else {
+		mergedConfigs = targetConfigs;
+	}
+
+	// loop through mergedConfigs ---
+	return mergedConfigs.map((targetConfig) => {
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'search' });
+
+		// const overrideTemplateStoreTarget = templatesStore.getTarget('search', target.index);
+		// console.log("templatesStore", templatesStore)
+		// console.log('selector', targetConfig.selector);
+		// console.log('overrideTemplateStoreTarget', overrideTemplateStoreTarget);
+
 		const targeter: ExtendedTarget = {
-			selector: target.selector,
+			selector: targetConfig.selector,
 			hideTarget: true,
 			component: async () => {
 				const componentImportPromises = [];
-				componentImportPromises.push(templatesStore.library.import.component.search[target.component]());
+				componentImportPromises.push(templatesStore.library.import.component.search[targetConfig.component]());
+
 				await Promise.all(componentImportPromises);
 				return TemplateSelect;
 			},
-			props: { type: 'search', templatesStore, targetId },
+			props: { target, templatesStore },
 		};
 
 		return targeter;
 	});
 };
 
-export const createChatTargeters = (
-	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
-	templatesStore: TemplatesStore
-): ExtendedTarget[] => {
-	const targets = templateConfig.chat?.targets || [];
-	return targets.map((target) => {
-		const targetId = templatesStore.addTarget('chat', target);
+export const createChatTargeters = (templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] => {
+	// initial target configs
+	const targetConfigs = templateConfig.chat?.targets || [];
+
+	let mergedConfigs: ChatTargetConfig[];
+	if (templatesStore.settings.editMode) {
+		const overrideConfigs = (templatesStore.storage.get('overrides.targets.chat') || []) as ChatTargetConfig[];
+		mergedConfigs = deepmerge<ChatTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	} else {
+		mergedConfigs = targetConfigs;
+	}
+
+	return mergedConfigs.map((targetConfig) => {
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'chat' });
+
 		const targeter: ExtendedTarget = {
-			selector: target.selector,
+			selector: targetConfig.selector,
 			hideTarget: true,
 			component: async () => {
 				const componentImportPromises = [];
-				componentImportPromises.push(templatesStore.library.import.component.chat[target.component]());
+				componentImportPromises.push(templatesStore.library.import.component.chat[targetConfig.component]());
+
 				await Promise.all(componentImportPromises);
 				return TemplateSelect;
 			},
-			props: { type: 'chat', templatesStore, targetId },
+			props: { target, templatesStore },
 		};
 
 		// temporary change to allow injecting into body to append target
-		if (target.selector == 'body') {
+		if (targetConfig.selector == 'body') {
 			targeter.hideTarget = false;
 			targeter.inject = {
 				action: 'append',
@@ -322,26 +302,40 @@ export const createChatTargeters = (
 	});
 };
 
-export function createAutocompleteTargeters(
-	templateConfig: SnapTemplatesConfig | SnapTemplatesConfigUnlocked,
-	templatesStore: TemplatesStore
-): ExtendedTarget[] {
-	const targets = templateConfig.autocomplete?.targets || [];
-	return targets.map((target) => {
-		const targetId = templatesStore.addTarget('autocomplete', target);
+export function createAutocompleteTargeters(templateConfig: SnapTemplatesConfig, templatesStore: TemplatesStore): ExtendedTarget[] {
+	// initial target configs
+	const targetConfigs = templateConfig.autocomplete?.targets || [];
+
+	let mergedConfigs: AutocompleteTargetConfig[];
+	if (templatesStore.settings.editMode) {
+		const overrideConfigs = (templatesStore.storage.get('overrides.targets.autocomplete') || []) as AutocompleteTargetConfig[];
+		mergedConfigs = deepmerge<AutocompleteTargetConfig[]>(targetConfigs, overrideConfigs, { arrayMerge: combineMerge });
+	} else {
+		mergedConfigs = targetConfigs;
+	}
+
+	// load target override from localstorage OR from the editorStore (would be better);
+
+	return mergedConfigs.map((targetConfig) => {
+		const target = templatesStore.addTarget({ ...targetConfig, type: 'autocomplete', selector: targetConfig.selector || targetConfig.inputSelector });
 		const targeter: ExtendedTarget = {
-			selector: target.selector,
+			selector: targetConfig.selector || targetConfig.inputSelector,
 			component: async () => {
 				const componentImportPromises = [];
-				componentImportPromises.push(templatesStore.library.import.component.autocomplete[target.component]());
+				componentImportPromises.push(templatesStore.library.import.component.autocomplete[targetConfig.component]());
+
 				await Promise.all(componentImportPromises);
 				return TemplateSelect;
 			},
-			props: { type: 'autocomplete', templatesStore, targetId },
+			props: {
+				target,
+				templatesStore,
+				//only set input if selector and inputSelector are different. else bind to orinalElem
+				...(targetConfig.selector && targetConfig.selector !== targetConfig.inputSelector ? { input: targetConfig.inputSelector } : {}),
+			},
 			hideTarget: true,
+			createControllerBeforeTargeting: templatesStore.settings.editMode,
 		};
-
-		if (target.inputSelector) targeter.props!.input = target.inputSelector;
 
 		return targeter;
 	});
@@ -352,14 +346,17 @@ export function createRecommendationComponentMapping(
 	templatesStore: TemplatesStore
 ): { [name: string]: RecommendationComponentObject } {
 	// TODO: throw a warning if keys match inside each recommendation type
-
 	return Object.keys(templateConfig.recommendation || {})
 		.filter((key) => ['default', 'email', 'bundle'].includes(key))
 		.reduce((mapping, type) => {
 			const recsType = type as RecsTemplateTypes;
-			Object.keys(templateConfig.recommendation![recsType] || {}).forEach((targetName) => {
+			Object.keys(templateConfig.recommendation![recsType] || {}).forEach((targetName, index) => {
 				const type: TemplateTypes = `recommendation/${recsType}`;
-				const target = templateConfig.recommendation![recsType]![targetName] as TemplateTarget;
+				const targetConfig = {
+					...(templateConfig.recommendation![recsType]![targetName] as TemplateTarget),
+					index,
+					type,
+				};
 
 				const mappedConfig: RecommendationComponentObject = {
 					component: async () => {
@@ -367,30 +364,29 @@ export function createRecommendationComponentMapping(
 						switch (recsType) {
 							case 'default': {
 								const importLocation = templatesStore.library.import.component.recommendation.default;
-								componentImportPromises.push(importLocation[target.component as keyof typeof importLocation]());
+								componentImportPromises.push(importLocation[targetConfig.component as keyof typeof importLocation]());
 								break;
 							}
 							case 'bundle': {
 								const importLocation = templatesStore.library.import.component.recommendation.bundle;
-								componentImportPromises.push(importLocation[target.component as keyof typeof importLocation]());
+								componentImportPromises.push(importLocation[targetConfig.component as keyof typeof importLocation]());
 								break;
 							}
 							case 'email': {
 								const importLocation = templatesStore.library.import.component.recommendation.email;
-								componentImportPromises.push(importLocation[target.component as keyof typeof importLocation]());
+								componentImportPromises.push(importLocation[targetConfig.component as keyof typeof importLocation]());
 								break;
 							}
 						}
+
 						await Promise.all(componentImportPromises);
 						return TemplateSelect;
 					},
-					props: { type, templatesStore },
+					props: { templatesStore },
 					onTarget: function (domTarget, elem, injectedElem, controller) {
-						target.selector = `#${controller.id}`;
-						const targetId = templatesStore.addTarget(type, target);
-
+						targetConfig.selector = `#${controller.id}`;
 						this.props = this.props || {};
-						this.props.targetId = targetId;
+						this.props.target = templatesStore.addTarget(targetConfig);
 					},
 				};
 				mapping[targetName] = mappedConfig;
@@ -460,7 +456,7 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTempl
 			config: {
 				id: 'autocomplete',
 				plugins: createPlugins(templateConfig, templatesStore, 'autocomplete'),
-				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector || target.selector).join(', '),
+				selector: templateConfig.autocomplete.targets.map((target) => target.inputSelector).join(', '),
 				settings: autocompleteControllerSettings,
 			},
 			targeters: createAutocompleteTargeters(templateConfig, templatesStore),

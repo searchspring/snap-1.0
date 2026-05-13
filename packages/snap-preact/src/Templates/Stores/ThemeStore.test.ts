@@ -2,9 +2,9 @@ import { configure as configureMobx } from 'mobx';
 import '@testing-library/jest-dom';
 import { waitFor } from '@testing-library/preact';
 
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { ThemeStore, ThemeStoreThemeConfig, mergeThemeLayers } from './ThemeStore';
-import { StorageStore } from '@athoscommerce/snap-store-mobx';
-import type { TemplatesStoreDependencies, TemplateThemeTypes, TemplatesStoreConfigSettings } from './TemplateStore';
+import type { TemplatesStoreDependencies, TemplateThemeTypes, TemplatesStoreSettings } from './TemplateStore';
 import type { ThemeComplete, ThemeVariables, ThemePartial } from '../../../components/src/providers/theme';
 import { GLOBAL_THEME_NAME } from './TargetStore';
 
@@ -29,7 +29,7 @@ let testTheme: ThemeComplete = {
 
 describe('ThemeStore', () => {
 	let dependencies: TemplatesStoreDependencies;
-	let settings: TemplatesStoreConfigSettings;
+	let settings: TemplatesStoreSettings;
 
 	beforeEach(() => {
 		dependencies = {
@@ -102,7 +102,7 @@ describe('ThemeStore', () => {
 		expect(store.variables).toStrictEqual(config.variables);
 		expect(store.currency).toStrictEqual(config.currency);
 		expect(store.language).toStrictEqual(config.language);
-		expect(store.stored).toStrictEqual({});
+		expect(store.editorOverrides).toStrictEqual({});
 		expect(store.innerWidth).toBe(config.innerWidth);
 
 		expect(store.theme).toStrictEqual({
@@ -122,16 +122,16 @@ describe('ThemeStore', () => {
 		store.setLanguage(language);
 		expect(store.language).toStrictEqual(language);
 
-		const overrideObj = { path: ['custom'], rootEditingKey: 'variables', value: 'customValue' };
-		store.setOverride(overrideObj);
-		expect(store.stored).toStrictEqual({ variables: { custom: 'customValue' } });
+		const editorOverride1: ThemePartial = { components: { results: { columns: 3 } } };
+		store.setEditorOverrides(editorOverride1);
+		expect(store.editorOverrides).toStrictEqual(editorOverride1);
 
-		const overrideObj2 = { path: ['custom', 'property'], rootEditingKey: 'variables', value: 'customValue' };
-		store.setOverride(overrideObj2);
-		expect(store.stored).toStrictEqual({ variables: { custom: { property: 'customValue' } } });
+		const editorOverride2: ThemePartial = { components: { results: { columns: 5, gapSize: '10px' } } };
+		store.setEditorOverrides(editorOverride2);
+		expect(store.editorOverrides).toStrictEqual(editorOverride2);
 
-		// order here matches order merged via theme() getter
-		const merged = mergeThemeLayers(config.base, currency, language, store.stored);
+		// order here matches order merged via theme() getter (editorOverrides not applied when editMode=false)
+		const merged = mergeThemeLayers(config.base, currency, language);
 
 		expect(store.theme).toStrictEqual({
 			...merged,
@@ -512,7 +512,7 @@ describe('ThemeStore', () => {
 			innerWidth: 50,
 		};
 
-		const store = new ThemeStore({ config, dependencies, settings });
+		const store = new ThemeStore({ config, dependencies, settings: { editMode: true } });
 		expect(store.innerWidth).toBe(config.innerWidth);
 
 		const baseResponsiveOverrides = config.base.responsive?.mobile!;
@@ -521,11 +521,10 @@ describe('ThemeStore', () => {
 		const additionalResponsiveOverrides = config.overrides?.responsive?.mobile!;
 		expect(additionalResponsiveOverrides).toBeDefined();
 
-		const overrideObj = { path: ['results', 'columns'], rootEditingKey: 'components', value: 12 };
-		store.setOverride(overrideObj);
+		store.setEditorOverrides({ components: { results: { columns: 12 } } });
 
 		// testing all the things!!!
-		// mergeThemeLayers(base, baseResponsive, currency, language, overrides, overridesResponsive, variables, layout, editor)
+		// mergeThemeLayers(base, baseResponsive, currency, language, overrides, overridesResponsive, variables, editor)
 
 		const merged = mergeThemeLayers(
 			config.base,
@@ -535,7 +534,7 @@ describe('ThemeStore', () => {
 			config.overrides!,
 			{ components: additionalResponsiveOverrides },
 			{ variables: config.variables },
-			store.stored
+			store.editorOverrides
 		);
 
 		expect(store.theme).toStrictEqual({

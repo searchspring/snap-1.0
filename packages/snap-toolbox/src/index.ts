@@ -10,6 +10,7 @@ export * from './until/until';
 export * from './url/url';
 export * from './version/version';
 export * from './charsParams/charsParams';
+export * from './StorageStore/StorageStore';
 export * from './types';
 export * from './fieldNameToComponentName/fieldNameToComponentName';
 export * from './sprintf/sprintf';

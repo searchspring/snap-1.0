@@ -5,7 +5,7 @@ import type { MetaResponseModel, SearchResponseModelFacet } from '@athoscommerce
 import { AbstractStore } from '../Abstract/AbstractStore';
 import type { ChatResponseModel, ChatRequestModel, ProductsResponseModel } from '@athoscommerce/snap-client';
 import type { UrlManager } from '@athoscommerce/snap-url-manager';
-import { StorageStore } from '../Storage/StorageStore';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { ChatSessionStore } from './Stores/ChatSessionStore';
 import { ChatAttachmentProduct } from './Stores/ChatAttachmentStore';
 import { ChatStatusResponse } from '@athoscommerce/snap-client';

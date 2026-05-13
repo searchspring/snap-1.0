@@ -1,6 +1,7 @@
 import deepmerge from 'deepmerge';
 
-import { StorageStore, ErrorType, Product, Banner, MerchandisingContentBanner } from '@athoscommerce/snap-store-mobx';
+import { ErrorType, Product, Banner, MerchandisingContentBanner } from '@athoscommerce/snap-store-mobx';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { AbstractController } from '../Abstract/AbstractController';
 import { getSearchParams } from '../utils/getParams';
 import { ControllerTypes } from '../types';

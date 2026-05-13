@@ -10,9 +10,9 @@ const baseVariables: ThemeVariables = {
 	},
 	colors: {
 		text: '#333333',
-		primary: '#3A23AD',
-		secondary: '#4c3ce2',
-		accent: '#00cee1',
+		primary: '#333333',
+		secondary: '#000000',
+		accent: '#cccccc',
 	},
 };
 

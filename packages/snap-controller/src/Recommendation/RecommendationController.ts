@@ -43,6 +43,8 @@ export class RecommendationController extends AbstractController {
 	declare store: RecommendationStore;
 	declare config: RecommendationControllerConfig;
 
+	private beaconType: 'recommendations' | 'bundles' = 'recommendations';
+
 	private events: {
 		[responseId: string]: {
 			product: {
@@ -131,7 +133,7 @@ export class RecommendationController extends AbstractController {
 					results: [beaconResult],
 				};
 				this.eventManager.fire('track.product.clickThrough', { controller: this, event: e, product: result, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.recommendations.clickThrough({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.beaconType].clickThrough({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
 				this.events[responseId].product[result.id].productClickThrough = true;
 			},
@@ -202,7 +204,7 @@ export class RecommendationController extends AbstractController {
 					banners: [],
 				};
 				this.eventManager.fire('track.product.impression', { controller: this, product: result, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.recommendations.impression({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.beaconType].impression({ data, siteId: this.config.globals?.siteId });
 				this.events[responseId].product[result.id] = this.events[responseId].product[result.id] || {};
 				this.events[responseId].product[result.id].impression = true;
 			},
@@ -234,7 +236,7 @@ export class RecommendationController extends AbstractController {
 					results: [product],
 				};
 				this.eventManager.fire('track.product.addToCart', { controller: this, product: result, trackEvent: data });
-				this.config.beacon?.enabled && this.tracker.events.recommendations.addToCart({ data, siteId: this.config.globals?.siteId });
+				this.config.beacon?.enabled && this.tracker.events[this.beaconType].addToCart({ data, siteId: this.config.globals?.siteId });
 			},
 		},
 	};
@@ -332,8 +334,10 @@ export class RecommendationController extends AbstractController {
 				responseId: responseId,
 			});
 
+			this.beaconType = this.store.profile.type === 'bundle' ? 'bundles' : 'recommendations';
+
 			const data: RecommendationsRenderSchemaData = { responseId, tag: this.store.profile.tag };
-			this.config.beacon?.enabled && this.tracker.events.recommendations.render({ data, siteId: this.config.globals?.siteId });
+			this.config.beacon?.enabled && this.tracker.events[this.beaconType].render({ data, siteId: this.config.globals?.siteId });
 
 			const afterStoreProfile = this.profiler.create({ type: 'event', name: 'afterStore', context: params }).start();
 

@@ -21,7 +21,7 @@ import {
 	ChatAttachmentProduct,
 	ChatAttachmentStore,
 } from '../Stores/ChatAttachmentStore';
-import type { StorageStore } from '../../Storage/StorageStore';
+import type { StorageStore } from '@athoscommerce/snap-toolbox';
 import { MetaResponseModel, SearchResponseModelResult } from '@athoscommerce/snapi-types';
 import { ChatCompareStore } from './ChatCompareStore';
 import { SearchResultStore, Product } from '../../Search/Stores/SearchResultStore';

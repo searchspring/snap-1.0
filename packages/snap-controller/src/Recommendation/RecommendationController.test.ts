@@ -466,6 +466,110 @@ describe('Recommendation Controller', () => {
 		expect(controller.params.shopper).toEqual(shopper.id);
 	});
 
+	describe('bundle beacon events', () => {
+		const createBundleController = () => {
+			const client = new MockClient(globals, {});
+			client.mockData.updateConfig({ recommend: { profile: 'bundle' } });
+			return new RecommendationController(recommendConfig, {
+				client,
+				store: new RecommendationStore(recommendConfig, services),
+				urlManager,
+				eventManager: new EventManager(),
+				profiler: new Profiler(),
+				logger: new Logger(),
+				tracker: new Tracker(globals),
+			});
+		};
+
+		it('sends render event to bundles endpoint for bundle type profiles', async () => {
+			const controller = createBundleController();
+			const bundlesRenderFn = jest.spyOn(controller.tracker.events.bundles, 'render');
+			const recsRenderFn = jest.spyOn(controller.tracker.events.recommendations, 'render');
+
+			await controller.search();
+
+			expect(bundlesRenderFn).toHaveBeenCalledTimes(1);
+			expect(recsRenderFn).not.toHaveBeenCalled();
+
+			bundlesRenderFn.mockClear();
+			recsRenderFn.mockClear();
+		});
+
+		it('sends impression event to bundles endpoint for bundle type profiles', async () => {
+			const controller = createBundleController();
+			const bundlesImpressionFn = jest.spyOn(controller.tracker.events.bundles, 'impression');
+			const recsImpressionFn = jest.spyOn(controller.tracker.events.recommendations, 'impression');
+
+			await controller.search();
+
+			controller.store.results.forEach((result) => {
+				controller.track.product.impression(result);
+			});
+
+			expect(bundlesImpressionFn).toHaveBeenCalledTimes(controller.store.results.length);
+			expect(recsImpressionFn).not.toHaveBeenCalled();
+
+			bundlesImpressionFn.mockClear();
+			recsImpressionFn.mockClear();
+		});
+
+		it('sends clickThrough event to bundles endpoint for bundle type profiles', async () => {
+			const controller = createBundleController();
+			const bundlesClickFn = jest.spyOn(controller.tracker.events.bundles, 'clickThrough');
+			const recsClickFn = jest.spyOn(controller.tracker.events.recommendations, 'clickThrough');
+
+			await controller.search();
+
+			const event = new MouseEvent('click');
+			controller.track.product.clickThrough(event, controller.store.results[0]);
+
+			expect(bundlesClickFn).toHaveBeenCalledTimes(1);
+			expect(recsClickFn).not.toHaveBeenCalled();
+
+			bundlesClickFn.mockClear();
+			recsClickFn.mockClear();
+		});
+
+		it('sends addToCart event to bundles endpoint for bundle type profiles', async () => {
+			const controller = createBundleController();
+			const bundlesAddToCartFn = jest.spyOn(controller.tracker.events.bundles, 'addToCart');
+			const recsAddToCartFn = jest.spyOn(controller.tracker.events.recommendations, 'addToCart');
+
+			await controller.search();
+
+			const result = controller.store.results[0];
+			controller.track.product.addToCart(result);
+
+			expect(bundlesAddToCartFn).toHaveBeenCalledTimes(1);
+			expect(recsAddToCartFn).not.toHaveBeenCalled();
+
+			bundlesAddToCartFn.mockClear();
+			recsAddToCartFn.mockClear();
+		});
+
+		it('sends events to recommendations endpoint for non-bundle type profiles', async () => {
+			const controller = new RecommendationController(recommendConfig, {
+				client: new MockClient(globals, {}),
+				store: new RecommendationStore(recommendConfig, services),
+				urlManager,
+				eventManager: new EventManager(),
+				profiler: new Profiler(),
+				logger: new Logger(),
+				tracker: new Tracker(globals),
+			});
+			const bundlesRenderFn = jest.spyOn(controller.tracker.events.bundles, 'render');
+			const recsRenderFn = jest.spyOn(controller.tracker.events.recommendations, 'render');
+
+			await controller.search();
+
+			expect(recsRenderFn).toHaveBeenCalledTimes(1);
+			expect(bundlesRenderFn).not.toHaveBeenCalled();
+
+			bundlesRenderFn.mockClear();
+			recsRenderFn.mockClear();
+		});
+	});
+
 	it('logs error if 429', async () => {
 		const controller = new RecommendationController(recommendConfig, {
 			client: new MockClient(globals, {}),

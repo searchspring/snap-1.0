@@ -107,6 +107,9 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 		closeSearchButton,
 		clearSearchButton,
 		chatButton,
+		hideSubmitSearchButton,
+		hideClearSearchButton,
+		hideCloseSearchButton,
 		inputRef,
 		inputName,
 		onChange,
@@ -254,7 +257,7 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 				className={classnames('ss__search-input', { 'ss__input--disabled': disabled }, className, internalClassName)}
 				onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => !disabled && onClick && onClick(e)}
 			>
-				{closeSearchButton && <Button {...subProps.closeSearchButton} {...mergedLang.closeSearchButton.all} />}
+				{!hideCloseSearchButton && closeSearchButton && <Button {...subProps.closeSearchButton} {...mergedLang.closeSearchButton.all} />}
 
 				<input
 					type="text"
@@ -274,10 +277,12 @@ export const SearchInput = observer((properties: SearchInputProps) => {
 					disabled={disabled}
 				/>
 				<div className="ss__search-input__icons">
-					{clearSearchButton && inputValue?.length ? <Button {...subProps.clearSearchButton} {...mergedLang.clearSearchButton.all} /> : null}
+					{!hideClearSearchButton && clearSearchButton && inputValue?.length ? (
+						<Button {...subProps.clearSearchButton} {...mergedLang.clearSearchButton.all} />
+					) : null}
 					{chatButton ? <Button {...subProps.chatButton} {...mergedLang.chatButton.all} /> : null}
 
-					{submitSearchButton && <Button {...subProps.submitSearchButton} {...mergedLang.submitSearchButton.all} />}
+					{!hideSubmitSearchButton && submitSearchButton && <Button {...subProps.submitSearchButton} {...mergedLang.submitSearchButton.all} />}
 				</div>
 			</div>
 		</CacheProvider>
@@ -297,6 +302,9 @@ export type SearchInputTemplatesLegalProps = {
 	clearSearchButton?: Buttons;
 	closeSearchButton?: Buttons;
 	chatButton?: Buttons;
+	hideSubmitSearchButton?: boolean;
+	hideClearSearchButton?: boolean;
+	hideCloseSearchButton?: boolean;
 	inputName?: string;
 	disabled?: boolean;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -306,7 +314,7 @@ export type SearchInputTemplatesLegalProps = {
 	disableA11y?: boolean;
 };
 
-type Buttons = Partial<ButtonProps> | false;
+type Buttons = Partial<ButtonProps>;
 
 interface SearchInputSubProps {
 	submitSearchButton: Partial<ButtonProps>;

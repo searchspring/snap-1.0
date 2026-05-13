@@ -1,10 +1,10 @@
 import { configure } from 'mobx';
 
 import { UrlManager, UrlTranslator } from '@athoscommerce/snap-url-manager';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { MockData } from '@athoscommerce/snap-shared';
 
 import { SearchFacetStore, ValueFacet, FacetRangeValue, FacetValue, FacetHierarchyValue, RangeFacet } from './SearchFacetStore';
-import { StorageStore } from '../../Storage/StorageStore';
 
 import type {
 	SearchResponseModel,

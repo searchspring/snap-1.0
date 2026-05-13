@@ -23,7 +23,7 @@ const config = {
 			prevArrow: '.ss__recommendation-bundle .ss__carousel__prev',
 			activeSlide: '.ss__recommendation-bundle .swiper-slide-active',
 			cta: '.ss__recommendation-bundle__wrapper__cta',
-			controller: 'recommend_bundle_0',
+			controller: 'recommend_bundley_0',
 		},
 	},
 };
