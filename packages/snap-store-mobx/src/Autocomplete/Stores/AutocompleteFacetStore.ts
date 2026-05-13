@@ -19,12 +19,10 @@ export class AutocompleteFacetStore extends Array {
 
 		const facets = new SearchFacetStore({
 			...params,
-			services: services?.urlManager
-				? {
-						...services,
-						urlManager: services.urlManager.remove('filter'),
-				  }
-				: services,
+			services: {
+				...services,
+				urlManager: services.urlManager.remove('filter'),
+			},
 		});
 
 		// mutate facet values to add 'preview' function

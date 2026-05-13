@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { Recommendation, Result } from '@athoscommerce/snap-preact/components';
+import { Recommendation, Result, ProductQuickView } from '@athoscommerce/snap-preact/components';
 
 type RecsProps = {
 	controller: RecommendationController;
@@ -24,6 +24,7 @@ export const Recs = observer((props: RecsProps) => {
 					<Result controller={controller} result={result}></Result>
 				))}
 			</Recommendation>
+			<ProductQuickView controller={controller} />
 		</div>
 	);
 });

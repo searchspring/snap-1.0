@@ -20,7 +20,7 @@ const globals = { siteId: 'atkzs2' };
 
 const recommendConfig: RecommendationStoreConfig = {
 	id: 'search',
-	tag: 'bundle',
+	tag: 'bundley',
 	globals: {
 		products: ['C-AD-W1-1869P'],
 	},
@@ -46,9 +46,9 @@ let controller: RecommendationController;
 
 describe('RecommendationBundle Component', async () => {
 	beforeEach(async () => {
-		cy.intercept('POST', '**/v1/recommend', json);
-		cy.intercept('GET', '**/v1/profile', profile);
-		cy.intercept('GET', '**/v1/meta', meta);
+		cy.intercept('POST', '*recommend*', json);
+		cy.intercept('GET', '*profile*', profile);
+		cy.intercept('GET', '*meta*', meta);
 
 		const client = new Client(globals, {});
 

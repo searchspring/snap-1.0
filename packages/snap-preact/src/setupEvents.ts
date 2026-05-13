@@ -1,4 +1,13 @@
 import { AbstractController, ChatController } from '@athoscommerce/snap-controller';
+import type {
+	MoiRequestModelProductQuery,
+	MoiRequestModelProductSearch,
+	MoiRequestModelProductComparison,
+	MoiRequestModelImageSearch,
+	MoiRequestModelProductSimilar,
+	MoiRequestModelInspiration,
+	MoiRequestModelContent,
+} from '@athoscommerce/snap-client';
 import { EventManager, Next } from '@athoscommerce/snap-event-manager';
 import { Product, SearchStore } from '@athoscommerce/snap-store-mobx';
 
@@ -10,15 +19,27 @@ type ControllerRecommendationUpdateData = {
 	controllerIds?: (string | RegExp)[];
 };
 
-type ControllerChatOpenData = {
+type ControllerChatSendBase = {
 	controllerIds?: (string | RegExp)[];
-	query?: string;
 };
 
-type ControllerChatOpenProductQueryData = {
+/** Payload for the `chat/send` global event. Carries an optional chat request to fire
+ * after opening the chat. The request shape is the same discriminated union the controller
+ * uses internally — `requestType` may be omitted, in which case it defaults to `'general'`
+ * when a `message` is supplied. */
+export type ControllerChatSendData =
+	| (ControllerChatSendBase & { requestType?: 'general'; message?: string })
+	| (ControllerChatSendBase & MoiRequestModelProductQuery)
+	| (ControllerChatSendBase & MoiRequestModelProductSearch)
+	| (ControllerChatSendBase & MoiRequestModelProductComparison)
+	| (ControllerChatSendBase & MoiRequestModelImageSearch)
+	| (ControllerChatSendBase & MoiRequestModelProductSimilar)
+	| (ControllerChatSendBase & MoiRequestModelInspiration)
+	| (ControllerChatSendBase & MoiRequestModelContent);
+
+type ControllerChatProductActionData = {
 	controllerIds?: (string | RegExp)[];
 	result?: any;
-	options?: any;
 };
 
 export const setupEvents = () => {
@@ -60,31 +81,53 @@ export const setupEvents = () => {
 		await next();
 	});
 
-	eventManager.on('chat/open', async (data: ControllerChatOpenData, next: Next) => {
-		const { controllerIds, query } = data || {};
+	eventManager.on('chat/send', async (data: ControllerChatSendData, next: Next) => {
+		const { controllerIds, ...payload } = (data || {}) as ControllerChatSendData & { [key: string]: any };
 
-		//filter through all chat controllers for matches with profileIds and realtime config
 		const controllers = matchControllers(controllerIds).filter((controller) => {
 			return Boolean(controller.type === 'chat');
 		});
 
+		// A request is dispatched only when the payload carries either an explicit
+		// requestType or a message. With nothing to send the event still opens the chat.
+		const hasRequest = 'requestType' in payload || 'message' in payload;
+		const requestData = hasRequest ? { requestType: 'general', ...payload } : null;
+
 		controllers.map((controller) => {
-			(controller as ChatController).openChat(query);
+			const chatController = controller as ChatController;
+			chatController.openChat();
+			if (requestData) {
+				chatController.search({ data: requestData as any });
+			}
 		});
 
 		await next();
 	});
 
-	eventManager.on('chat/open/discussProduct', async (data: ControllerChatOpenProductQueryData, next: Next) => {
-		const { controllerIds, result, options } = data || {};
+	eventManager.on('chat/productQuery', async (data: ControllerChatProductActionData, next: Next) => {
+		const { controllerIds, result } = data || {};
 
-		//filter through all chat controllers for matches with profileIds and realtime config
 		const controllers = matchControllers(controllerIds).filter((controller) => {
 			return Boolean(controller.type === 'chat');
 		});
 
 		controllers.map((controller) => {
-			(controller as ChatController).discussProduct(result, options);
+			(controller as ChatController).productQuery(result);
+			(controller as ChatController).openChat();
+		});
+
+		await next();
+	});
+
+	eventManager.on('chat/productSimilar', async (data: ControllerChatProductActionData, next: Next) => {
+		const { controllerIds, result } = data || {};
+
+		const controllers = matchControllers(controllerIds).filter((controller) => {
+			return Boolean(controller.type === 'chat');
+		});
+
+		controllers.map((controller) => {
+			(controller as ChatController).productSimilar(result);
 			(controller as ChatController).openChat();
 		});
 

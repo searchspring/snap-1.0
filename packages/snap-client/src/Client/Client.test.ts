@@ -365,7 +365,8 @@ describe('Snap Client', () => {
 			const productsCacheKey = '{"parentId":"abc123","siteId":"8uyt2m"}';
 
 			expect(searchRequesterSpy).toHaveBeenCalledTimes(1);
-			expect(searchRequesterSpy.mock.calls).toEqual([[productsRequest, productsCacheKey]]);
+			// getProducts routes through the memory-only cache so /v1/products responses don't persist to sessionStorage.
+			expect(searchRequesterSpy).toHaveBeenCalledWith(productsRequest, productsCacheKey, searchRequester.memoryCache);
 
 			expect(fetchApiMock).toHaveBeenCalledTimes(1);
 			fetchApiMock.mockReset();

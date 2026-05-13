@@ -219,6 +219,7 @@ export type ProfileResponseModel = {
 	profile: {
 		tag: string;
 		placement: string;
+		isBundle?: boolean;
 		display: {
 			threshold: number;
 			template: {

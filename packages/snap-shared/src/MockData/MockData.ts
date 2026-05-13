@@ -13,7 +13,7 @@ import deepmerge from 'deepmerge';
 import type { MetaResponseModel, SearchResponseModel, AutocompleteResponseModel } from '@athoscommerce/snapi-types';
 import { RecommendCombinedResponseModel, ChatResponseModel, ChatStatusResponse } from '@athoscommerce/snap-client';
 
-type ChatInitResponseModel = { chatSessionId: string };
+type ChatInitResponseModel = { chatSessionId: string; sessionEndTime: string };
 type UploadImageResponseModel = { imageId: string; imageUrl: string; thumbnailUrl: string };
 
 type MockDataConfig = {

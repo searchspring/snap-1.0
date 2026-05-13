@@ -1,9 +1,12 @@
 import { computed, makeObservable, observable } from 'mobx';
 
+/** Maximum number of products that can be added to a chat comparison. */
+export const CHAT_COMPARISON_MAX = 4;
+
 export class ChatCompareStore {
 	public items: any[] = [];
 	public committedItems: any[] = [];
-	public maxItems: number = 4;
+	public maxItems: number = CHAT_COMPARISON_MAX;
 
 	constructor() {
 		makeObservable(this, {

@@ -4,13 +4,15 @@ export { FinderStore } from './Finder/FinderStore';
 export { SearchStore } from './Search/SearchStore';
 export { ChatStore } from './Chat/ChatStore';
 export type { ChatAttachmentImage, ChatAttachmentProduct, ChatAttachmentFacet } from './Chat/Stores/ChatAttachmentStore';
-export type { ChatActions, ActionsData, FacetsData, ChatMessage, ChatSessionFeedback } from './Chat/Stores/ChatSessionStore';
+export type { ChatActions, ActionsData, ChatMessage, ChatSessionFeedback } from './Chat/Stores/ChatSessionStore';
 
 export * from './Search/Stores/';
 export * from './Autocomplete/Stores/';
 export { RecommendationStore } from './Recommendation/RecommendationStore';
 export { CartStore } from './Cart/CartStore';
-export { StorageStore, StorageConfig, StorageType } from './Storage/StorageStore';
+export { StorageStore, StorageConfig, StorageType } from '@athoscommerce/snap-toolbox';
 export { MetaStore } from './Meta/MetaStore';
+export { ProductQuickViewStore } from './ProductQuickView/ProductQuickViewStore';
+export { cloneProductForQuickView } from './ProductQuickView/cloneProductForQuickView';
 export * from './types';
 export { ChatSessionStore } from './Chat/Stores/ChatSessionStore';

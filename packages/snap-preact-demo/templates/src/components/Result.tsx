@@ -3,15 +3,13 @@ import { Icon, Price, Image, OverlayBadge, CalloutBadge, Rating, ResultProps } f
 import type { SearchController, AutocompleteController, RecommendationController, ChatController } from '@athoscommerce/snap-controller';
 
 const openChatProductQuery = (result: any, controller?: SearchController | AutocompleteController | RecommendationController | ChatController) => {
-	const options = { requestType: 'productQuery' };
-	window.athos.fire('chat/open/discussProduct', { result, options });
+	window.athos.fire('chat/productQuery', { result });
 	if (controller?.type === 'autocomplete') {
 		(controller as AutocompleteController).setFocused();
 	}
 };
 const openChatProductSimilar = (result: any, controller?: SearchController | AutocompleteController | RecommendationController | ChatController) => {
-	const options = { requestType: 'productSimilar' };
-	window.athos.fire('chat/open/discussProduct', { result, options });
+	window.athos.fire('chat/productSimilar', { result });
 	if (controller?.type === 'autocomplete') {
 		(controller as AutocompleteController).setFocused();
 	}
@@ -21,6 +19,8 @@ export const CustomResult = (props: ResultProps) => {
 	const { result, controller, treePath } = props;
 	const core = result.mappings.core;
 	const isChatEnabled = !!window?.athos?.controller?.chat;
+	const isRecommendation = controller?.type === 'recommendation';
+	const isQuickViewEnabled = isRecommendation && !!(controller as RecommendationController).config.settings?.quickview?.enabled;
 
 	return (
 		<article className="ss__custom-result">
@@ -51,6 +51,18 @@ export const CustomResult = (props: ResultProps) => {
 									<Icon icon={'similar'} title={'Find similar products'} />
 								</span>
 							</>
+						)}
+						{isQuickViewEnabled && (
+							<span
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									(controller as RecommendationController).productQuickView(result as any);
+								}}
+								style={{ position: 'absolute', bottom: '0px', right: '0px', cursor: 'pointer' }}
+							>
+								<Icon icon={'eye'} title={'Quick view'} />
+							</span>
 						)}
 					</OverlayBadge>
 				</a>

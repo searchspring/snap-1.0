@@ -1,6 +1,12 @@
 import { version } from '@athoscommerce/snap-toolbox';
-import { createPlugins, createSnapConfig, DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS, DEFAULT_FEATURES } from './SnapTemplates';
-import type { SnapTemplatesConfig, SnapTemplatesConfigLocked, SnapTemplatesConfigUnlocked } from './SnapTemplates';
+import {
+	createAutocompleteTargeters,
+	createPlugins,
+	createSnapConfig,
+	DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS,
+	DEFAULT_FEATURES,
+} from './SnapTemplates';
+import type { SnapTemplatesConfig, SnapTemplatesConfigUnlocked } from './SnapTemplates';
 import { TemplatesStore } from './Stores/TemplateStore';
 import type { PluginFunction } from '@athoscommerce/snap-controller';
 
@@ -15,12 +21,12 @@ describe('createPlugins with custom plugins', () => {
 		},
 	};
 
-	const baseConfig: SnapTemplatesConfigLocked = {
+	const baseConfig: SnapTemplatesConfig = {
 		...baseConfigValues,
 	};
 
 	it('should handle empty custom plugins', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			plugins: {},
 		};
@@ -194,7 +200,7 @@ describe('createPlugins with custom plugins', () => {
 				},
 			},
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 				plugins: {
 					custom: {
 						autocompletePlugin: {
@@ -358,7 +364,7 @@ describe('createSnapConfig with custom plugins', () => {
 				extends: 'base',
 			},
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 				plugins: {
 					custom: {
 						autocompletePlugin: {
@@ -423,7 +429,7 @@ describe('createSnapConfig with custom plugins', () => {
 });
 
 describe('createPlugins with built-in plugins', () => {
-	const baseConfig: SnapTemplatesConfigLocked = {
+	const baseConfig: SnapTemplatesConfig = {
 		config: {
 			platform: 'other',
 			siteId: 'test123',
@@ -448,7 +454,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should include shopify-specific plugins when platform is shopify', () => {
-		const shopifyConfig: SnapTemplatesConfigLocked = {
+		const shopifyConfig: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -464,7 +470,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should include bigCommerce-specific plugins when platform is bigCommerce', () => {
-		const bigCommerceConfig: SnapTemplatesConfigLocked = {
+		const bigCommerceConfig: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -480,7 +486,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should include magento2-specific plugins when platform is magento2', () => {
-		const magento2Config: SnapTemplatesConfigLocked = {
+		const magento2Config: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -496,7 +502,7 @@ describe('createPlugins with built-in plugins', () => {
 	});
 
 	it('should merge global and controller-specific configs for built-in plugins', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			plugins: {
 				common: {
@@ -535,7 +541,7 @@ describe('createPlugins with built-in plugins', () => {
 });
 
 describe('createSnapConfig additional coverage', () => {
-	const baseConfig: SnapTemplatesConfigLocked = {
+	const baseConfig: SnapTemplatesConfig = {
 		config: {
 			platform: 'other',
 			siteId: 'test123',
@@ -554,7 +560,7 @@ describe('createSnapConfig additional coverage', () => {
 
 	it('should use provided features when specified', () => {
 		const customFeatures = { integratedSpellCorrection: true };
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			features: customFeatures,
 		};
@@ -574,7 +580,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should pass through client config when provided', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			config: {
 				...baseConfig.config,
@@ -605,7 +611,7 @@ describe('createSnapConfig additional coverage', () => {
 				},
 			},
 		};
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			url: urlConfig,
 		};
@@ -624,10 +630,10 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should merge DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS with provided settings', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 				settings: {
 					trending: {
 						limit: 10,
@@ -645,10 +651,10 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should use DEFAULT_AUTOCOMPLETE_CONTROLLER_SETTINGS when no settings provided', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 			},
 		};
 
@@ -660,11 +666,11 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should construct autocomplete selector from target selectors', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
 				targets: [
-					{ selector: '#autocomplete1', component: 'AutocompleteFixed' },
+					{ inputSelector: '#autocomplete1', component: 'AutocompleteFixed' },
 					{ selector: '#autocomplete2', inputSelector: '#search-input', component: 'AutocompleteFixed' },
 				],
 			},
@@ -679,7 +685,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should include default recommendation components', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			recommendation: {
 				default: {
@@ -707,7 +713,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should set recommendation branch to production by default', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			recommendation: {
 				default: {
@@ -724,7 +730,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should allow overriding recommendation branch', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			recommendation: {
 				default: {
@@ -758,7 +764,7 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should create search controller with correct id', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			search: {
 				targets: [{ selector: '#search', component: 'Search' }],
@@ -773,10 +779,10 @@ describe('createSnapConfig additional coverage', () => {
 	});
 
 	it('should create autocomplete controller with correct id', () => {
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			autocomplete: {
-				targets: [{ selector: '#autocomplete', component: 'AutocompleteFixed' }],
+				targets: [{ inputSelector: '#autocomplete', component: 'AutocompleteFixed' }],
 			},
 		};
 
@@ -793,7 +799,7 @@ describe('createSnapConfig additional coverage', () => {
 				backfill: 5,
 			},
 		};
-		const config: SnapTemplatesConfigLocked = {
+		const config: SnapTemplatesConfig = {
 			...baseConfig,
 			search: {
 				targets: [{ selector: '#search', component: 'Search' }],
@@ -806,5 +812,130 @@ describe('createSnapConfig additional coverage', () => {
 
 		const searchConfig = snapConfig.controllers?.search?.[0];
 		expect(searchConfig?.config?.settings).toEqual(customSettings);
+	});
+});
+
+describe('SnapTemplatesConfigUnlocked theme overrides typing', () => {
+	it('should allow arbitrary props on open named selectors (regression: WithCustomComponent narrowing)', () => {
+		const config: SnapTemplatesConfigUnlocked = {
+			unlocked: true,
+			config: { siteId: 'test', platform: 'other' },
+			theme: {
+				extends: 'base',
+				overrides: {
+					default: {
+						'recommendation.similar': {
+							slidesPerView: 3,
+						},
+						'recommendation.similar carousel': {
+							slidesPerView: 3,
+						},
+					},
+				},
+			},
+		};
+
+		expect(config.theme.overrides?.default?.['recommendation.similar carousel']).toBeDefined();
+		expect(config.theme.overrides?.default?.['recommendation.similar']).toBeDefined();
+	});
+
+	it('should still allow customComponent on open named selectors', () => {
+		const config: SnapTemplatesConfigUnlocked = {
+			unlocked: true,
+			config: { siteId: 'test', platform: 'other' },
+			theme: {
+				extends: 'base',
+				overrides: {
+					default: {
+						'recommendation.similar carousel': {
+							customComponent: 'MyCustomCarousel',
+						},
+						'recommendation.similar': {
+							customComponent: 'MyCustomComponent',
+						},
+					},
+				},
+			},
+		};
+
+		expect(config.theme.overrides?.default?.['recommendation.similar carousel']).toBeDefined();
+		expect(config.theme.overrides?.default?.['recommendation.similar']).toBeDefined();
+	});
+});
+
+describe('createAutocompleteTargeters props.input', () => {
+	const baseConfig: SnapTemplatesConfig = {
+		config: { platform: 'other', siteId: 'test123' },
+		theme: { extends: 'base' },
+	};
+
+	it('omits props.input when only inputSelector is provided (no explicit selector)', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [{ inputSelector: '.search-input', component: 'AutocompleteFixed' }],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(1);
+		expect(targeters[0].props).not.toHaveProperty('input');
+	});
+
+	it('omits props.input when selector equals inputSelector', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [{ selector: '.search-input', inputSelector: '.search-input', component: 'AutocompleteFixed' }],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(1);
+		expect(targeters[0].props).not.toHaveProperty('input');
+	});
+
+	it('sets props.input to inputSelector when selector differs from inputSelector', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [{ selector: '#ac-container', inputSelector: '.search-input', component: 'AutocompleteFixed' }],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(1);
+		expect(targeters[0].props?.input).toBe('.search-input');
+	});
+
+	it('handles multiple targets independently — class selector targets omit props.input, separate-container targets set it', () => {
+		const config: SnapTemplatesConfig = {
+			...baseConfig,
+			autocomplete: {
+				targets: [
+					// class selector matching multiple inputs: selector omitted, originalElem used per element
+					{ inputSelector: '.search-input', component: 'AutocompleteFixed' },
+					// separate injection container: props.input must point back to the input
+					{ selector: '#ac-dropdown', inputSelector: '#header-search', component: 'AutocompleteFixed' },
+				],
+			},
+		};
+
+		const templatesStore = new TemplatesStore({ config });
+		const targeters = createAutocompleteTargeters(config, templatesStore);
+
+		expect(targeters).toHaveLength(2);
+
+		// First targeter uses originalElem (the matched .search-input element itself) — no override needed
+		expect(targeters[0].props).not.toHaveProperty('input');
+
+		// Second targeter renders into a separate node; originalElem is #ac-dropdown, not the input
+		expect(targeters[1].props?.input).toBe('#header-search');
 	});
 });

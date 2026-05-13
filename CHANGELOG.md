@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/AthosCommerce/snap/compare/v1.4.0...v1.5.0) (2026-05-11)
+
+### Bug Fixes
+
+- add isBundle check to profile store ([05025ff](https://github.com/AthosCommerce/snap/commit/05025ffd9334872f18b6324e720da43989461ead))
+- add missing isBundle property to mock bundle profile ([8f6c8d9](https://github.com/AthosCommerce/snap/commit/8f6c8d93bd85b679338e97b038082c3689deb48c))
+- **autocompletecontroller:** only re init the history of formelement change ([3739375](https://github.com/AthosCommerce/snap/commit/3739375a4442da1636ade53162fa97eae846431e))
+
+### Features
+
+- **preact/recommendationinstantiator:** porting over functionality from searchspring snap for SPA support ([4ce4da0](https://github.com/AthosCommerce/snap/commit/4ce4da0fe0ce0ef8808d33de0bf80d037fac85e5))
+
+# [1.4.0](https://github.com/AthosCommerce/snap/compare/v1.3.0...v1.4.0) (2026-05-05)
+
+### Bug Fixes
+
+- **theme:** typing fix ([85e9741](https://github.com/AthosCommerce/snap/commit/85e974112bbec4235e058fecd22b4ff285e6bb03))
+- **useacrenderedinput:** trying to solve this inconsistent document click target bug again ([b718096](https://github.com/AthosCommerce/snap/commit/b7180965c7de5b73593e2672776bd2e85e311ba9))
+
+### Features
+
+- **toolbox:** moving StorageStore to toolbox, but preserving the export from mobx-store ([800fe9a](https://github.com/AthosCommerce/snap/commit/800fe9a13a49296ec7d4b1c548bc03e633a79d96))
+
+# [1.3.0](https://github.com/AthosCommerce/snap/compare/v1.2.2...v1.3.0) (2026-04-29)
+
+### Bug Fixes
+
+- add main branch guard for merge and patchGenerate workflows ([22b86cf](https://github.com/AthosCommerce/snap/commit/22b86cf934fafd12f51f454c12ca378bc99e7d58))
+- **autocomplete:** bugfixes for ac syncInputs setting and input names for form submittion when renderInput true ([024c75c](https://github.com/AthosCommerce/snap/commit/024c75c91f57367ebd1640039a78ef35a1306235))
+- **controllers:** updating all controller addtocart track methods to use display. and fix broken ac parentid ([3006732](https://github.com/AthosCommerce/snap/commit/30067326bbff7107f5a0c2ac8f943d2776ac33b1))
+- rename ([4414226](https://github.com/AthosCommerce/snap/commit/4414226985e5b82514e0ac01b127a39c383d5ad8))
+- **themecomponents:** tweaking themeComponents typing to patch open named component sub component overrides ([bc87c81](https://github.com/AthosCommerce/snap/commit/bc87c81d2a2b8541b0d8275ba45a7430aaa00fc6))
+- **uselayoutoptions:** another bugfix for layoutOptions hook when component overrides contain raw jsx ([47e0b45](https://github.com/AthosCommerce/snap/commit/47e0b45b316f2d533dd46746740ace44138d517f))
+- **uselayoutoptions:** bugfix for when layoutoption contains jsx ([72c88a2](https://github.com/AthosCommerce/snap/commit/72c88a2069f4890da8acc3f732e9066a6a9360cb))
+
+### Features
+
+- **preact/editor:** changes to support editor changes outside of the UI ([1b5a5dd](https://github.com/AthosCommerce/snap/commit/1b5a5dd8ada810b82181ab0fc7d3f7589ada80b5))
+
 ## [1.2.2](https://github.com/AthosCommerce/snap/compare/v1.2.1...v1.2.2) (2026-04-22)
 
 ### Bug Fixes

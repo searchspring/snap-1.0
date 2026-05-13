@@ -2,6 +2,7 @@
 // how should localStorage be handled for attachments?
 import { v4 as uuidv4 } from 'uuid';
 import { makeObservable, observable, computed } from 'mobx';
+import { CHAT_COMPARISON_MAX } from './ChatCompareStore';
 
 type AttachmentState = 'loading' | 'error' | 'attached' | 'active' | 'saved';
 type AttachmentError = {
@@ -81,11 +82,10 @@ export class ChatAttachmentStore {
 					return existingProductAttachment as T;
 				}
 
-				// productComparison supports up to 4 products (matches ChatCompareStore.maxItems);
+				// productComparison supports up to CHAT_COMPARISON_MAX products (matches ChatCompareStore.maxItems);
 				// trim oldest active/attached product attachments to keep total below the cap.
-				const COMPARISON_MAX = 4;
 				const productAttachments = this.items.filter((item) => item.type === 'product' && (item.state === 'active' || item.state === 'attached'));
-				while (productAttachments.length >= COMPARISON_MAX) {
+				while (productAttachments.length >= CHAT_COMPARISON_MAX) {
 					const toRemove = productAttachments.pop();
 					if (toRemove) {
 						this.remove(toRemove.id);

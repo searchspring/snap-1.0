@@ -35,7 +35,7 @@ const carouselStyleScript = () => {
 };
 
 export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
-	const { chatItem, controller, scrollToBottom, onViewProduct } = props;
+	const { chatItem, controller, scrollToBottom, onProductQuickView } = props;
 	const currentChat = controller.store.currentChat;
 	const activeMessage = currentChat?.activeMessage;
 	const isSideChatOpen =
@@ -49,13 +49,9 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 	const isConstrained = !isNarrow && isSideChatOpen && typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth <= 1200;
 	const slidesPerView = isNarrow || isConstrained ? 1.9 : 2.9;
 	const visibleSlides = Math.ceil(slidesPerView);
-	// When all results fit, use a whole-number slidesPerView so the last slide
-	// isn't clipped to a fraction; otherwise keep the fractional value to hint
-	// at additional content beyond the viewport.
-	const resolveSlidesPerView = (count: number) => (count <= visibleSlides ? count : slidesPerView);
-	const buildCarouselProps = (count: number): Partial<CarouselProps> => ({
+	const buildCarouselProps = (): Partial<CarouselProps> => ({
 		breakpoints: undefined,
-		slidesPerView: resolveSlidesPerView(count),
+		slidesPerView,
 		slidesPerGroup: isNarrow || isConstrained ? 2 : 3,
 		loop: false,
 		pagination: false,
@@ -68,8 +64,8 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 		// buttons should be able to be clicked without triggering the product click
 		if (e.composedPath().some((el) => el instanceof HTMLElement && el.matches('button, .ss__button, a'))) return;
 		controller.track.product.click(e, result);
-		controller.viewProduct(result);
-		onViewProduct?.();
+		controller.productQuickView(result);
+		onProductQuickView?.();
 	};
 
 	if (chatItem.messageType === 'productRecommendation' && chatItem.recommendationResult?.length) {
@@ -78,7 +74,7 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 				{chatItem.recommendationResult.map((recommendation: any, index: number) => {
 					return recommendation.results?.length > 0 ? (
 						<div key={index} className="ss__chat__message-text__results" style={{ width: '100%' }}>
-							<Carousel {...buildCarouselProps(recommendation.results.length)} hideButtons={recommendation.results.length <= visibleSlides}>
+							<Carousel {...buildCarouselProps()} hideButtons={recommendation.results.length <= visibleSlides}>
 								{recommendation.results.map((result: any) => {
 									return (
 										<div
@@ -101,7 +97,7 @@ export const ResultsDisplay = observer((props: ResultsDisplayProps) => {
 
 	return chatItem.results?.length > 0 ? (
 		<div className="ss__chat__message-text__results" style={{ width: '100%' }}>
-			<Carousel {...buildCarouselProps(chatItem.results.length)} hideButtons={chatItem.results.length <= visibleSlides}>
+			<Carousel {...buildCarouselProps()} hideButtons={chatItem.results.length <= visibleSlides}>
 				{chatItem.results.map((result: any) => {
 					return (
 						<div
@@ -123,5 +119,5 @@ export interface ResultsDisplayProps {
 	chatItem: any;
 	controller: ChatController;
 	scrollToBottom: () => void;
-	onViewProduct?: () => void;
+	onProductQuickView?: () => void;
 }

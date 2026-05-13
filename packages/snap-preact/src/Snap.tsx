@@ -31,7 +31,7 @@ import type { Target, OnTarget } from '@athoscommerce/snap-toolbox';
 import type { UrlTranslatorConfig } from '@athoscommerce/snap-url-manager';
 
 import { default as createSearchController } from './create/createSearchController';
-import { RecommendationInstantiator, RecommendationInstantiatorConfig } from './Instantiators/RecommendationInstantiator';
+import type { RecommendationInstantiator, RecommendationInstantiatorConfig } from './Instantiators/RecommendationInstantiator';
 import type { SnapControllerServices, SnapControllerConfig, InitialUrlConfig, SnapFeatures } from './types';
 import { configureSnapFeatures } from './utils';
 import { setupEvents } from './setupEvents';
@@ -272,13 +272,15 @@ export class Snap {
 			elem = event && (event.target as HTMLElement);
 
 			while (Object.keys(attributes).length == 0 && elem !== null && levels <= MAX_PARENT_LEVELS) {
-				Object.values(elem.attributes).forEach((attr: Attr) => {
-					const attrName = attr.nodeName;
+				if (elem.attributes) {
+					Object.values(elem.attributes).forEach((attr: Attr) => {
+						const attrName = attr.nodeName;
 
-					if (attributeList.indexOf(attrName) != -1) {
-						attributes[attrName] = elem && elem.getAttribute(attrName);
-					}
-				});
+						if (attributeList.indexOf(attrName) != -1) {
+							attributes[attrName] = elem && elem.getAttribute(attrName);
+						}
+					});
+				}
 
 				elem = elem.parentElement;
 				levels++;
@@ -787,6 +789,20 @@ export class Snap {
 									}
 									if (!target.component) {
 										throw new Error(`Targets at index ${target_index} missing component value (Component).`);
+									}
+
+									// Chat mounts at the document level — if the consumer aimed at <body>
+									// directly, give DomTargeter a child to render into instead of stomping on body.
+									if (target.selector === 'body' && !target.inject) {
+										target = {
+											...target,
+											inject: {
+												action: 'append',
+												element: () => {
+													return document.createElement('div');
+												},
+											},
+										};
 									}
 
 									const targeter = new DomTargeter([{ ...target }], async (target: Target, elem: Element, originalElem?: Element) => {

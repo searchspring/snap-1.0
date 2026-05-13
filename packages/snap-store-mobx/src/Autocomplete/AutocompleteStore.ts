@@ -1,6 +1,7 @@
 import { makeObservable, observable } from 'mobx';
 
 import { UrlManager } from '@athoscommerce/snap-url-manager';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import {
 	SearchFilterStore,
@@ -10,7 +11,6 @@ import {
 	SearchSortingStore,
 	SearchHistoryStore,
 } from '../Search/Stores';
-import { StorageStore } from '../Storage/StorageStore';
 import {
 	AutocompleteStateStore,
 	AutocompleteTermStore,
@@ -89,7 +89,7 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 
 	public initHistory(): void {
 		const limit = this.config.settings?.history?.limit;
-		if (limit) {
+		if (limit && this.config.settings?.history?.enabled !== false) {
 			const historyStore = new SearchHistoryStore({
 				services: this.services,
 				config: {
@@ -140,7 +140,9 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 			this.services[name] = service;
 			if (name === 'urlManager') {
 				this.state.url = service;
-				this.initHistory();
+				this.history?.forEach((term) => {
+					term.url = service.set({ query: term.value });
+				});
 			}
 		}
 	}

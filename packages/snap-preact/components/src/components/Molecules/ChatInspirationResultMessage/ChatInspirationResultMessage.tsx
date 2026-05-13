@@ -75,7 +75,7 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 
 	const props = mergeProps('chatInspirationResultMessage', globalTheme, defaultProps, properties);
 
-	const { chatItem, controller, onViewProduct, disableStyles, className, internalClassName, treePath } = props;
+	const { chatItem, controller, onProductQuickView, disableStyles, className, internalClassName, treePath } = props;
 
 	const subProps: ChatInspirationResultMessageSubProps = {
 		Carousel: {
@@ -158,8 +158,8 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 												<Image
 													onClick={(e: any) => {
 														controller?.track.product.click(e, product);
-														controller?.viewProduct(product);
-														onViewProduct?.();
+														controller?.productQuickView(product);
+														onProductQuickView?.();
 													}}
 													alt={display?.mappings?.core?.name || ''}
 													src={display?.mappings?.core?.imageUrl || ''}
@@ -184,7 +184,7 @@ interface ChatInspirationResultMessageSubProps {
 export type ChatInspirationResultMessageProps = {
 	chatItem: ChatResponseInspirationResultData;
 	controller?: ChatController;
-	onViewProduct?: () => void;
+	onProductQuickView?: () => void;
 	lang?: Partial<ChatInspirationResultMessageLang>;
 } & ChatInspirationResultMessageTemplatesLegalProps &
 	ComponentProps<ChatInspirationResultMessageProps>;

@@ -289,6 +289,33 @@ describe('Search Api', () => {
 		requestMock.mockReset();
 	});
 
+	it('caches getProducts in memoryCache only (not sessionStorage)', async () => {
+		const api = new SearchAPI(new ApiConfiguration({}));
+		const mockResponse = { mappings: { core: { name: 'Cached Product' } } };
+
+		const requestMock = jest
+			.spyOn(global.window, 'fetch')
+			.mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve(mockResponse), headers: new Headers() } as Response));
+
+		// First call hits the network and primes the cache.
+		await api.getProducts({ parentId: 'memcache-1', siteId: '8uyt2m' });
+		expect(requestMock).toHaveBeenCalledTimes(1);
+
+		// Entry should live in memoryCache, not the sessionStorage-backed cache.
+		const cacheKey = `/v1/products/memcache-1/${JSON.stringify({ parentId: 'memcache-1', siteId: '8uyt2m' })}`;
+		expect(api.memoryCache.get(cacheKey)).toEqual(mockResponse);
+		expect(api.cache.get(cacheKey)).toBeUndefined();
+		const persistedCache = JSON.parse(window.sessionStorage.getItem('athos-networkcache') || '{}');
+		expect(persistedCache[cacheKey]).toBeUndefined();
+
+		// Second call is served from memoryCache without a new fetch.
+		const result = await api.getProducts({ parentId: 'memcache-1', siteId: '8uyt2m' });
+		expect(result).toEqual(mockResponse);
+		expect(requestMock).toHaveBeenCalledTimes(1);
+
+		requestMock.mockReset();
+	});
+
 	it('uses configured paths for getProducts', async () => {
 		const api = new SearchAPI(
 			new ApiConfiguration({

@@ -1,6 +1,7 @@
 import { makeObservable, observable } from 'mobx';
 
 import type { SearchResponseModel, MetaResponseModel } from '@athoscommerce/snapi-types';
+import { StorageStore } from '@athoscommerce/snap-toolbox';
 import type { SearchStoreConfig, StoreServices } from '../types';
 import {
 	SearchMerchandisingStore,
@@ -13,7 +14,6 @@ import {
 	SearchHistoryStore,
 } from './Stores';
 import { AbstractStore } from '../Abstract/AbstractStore';
-import { StorageStore } from '../Storage/StorageStore';
 import { MetaStore } from '../Meta/MetaStore';
 
 export class SearchStore extends AbstractStore<SearchStoreConfig> {

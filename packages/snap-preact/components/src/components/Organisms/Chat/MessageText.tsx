@@ -7,7 +7,9 @@ import { css, StyleScript } from '../../..';
 import { mergeStyles } from '../../../utilities';
 import { Button } from '../../Atoms/Button';
 
-const defaultStyles: StyleScript<MessageTextProps> = () => {
+const defaultStyles: StyleScript<MessageTextProps> = ({ primaryColor, primaryColorText }) => {
+	const colorPrimary = primaryColor || '#253B80';
+	const colorPrimaryText = primaryColorText || '#fff';
 	return css({
 		display: 'flex',
 		flexDirection: 'column',
@@ -34,30 +36,30 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 				height: '2em',
 				padding: 0,
 				borderRadius: '50%',
-				border: '1px solid #253B80',
+				border: `1px solid ${colorPrimary}`,
 				background: '#fff',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 				cursor: 'pointer',
 				svg: {
-					fill: '#253B80',
-					stroke: '#253B80',
+					fill: colorPrimary,
+					stroke: colorPrimary,
 				},
 				'&.ss__chat__message-text__view-side-chat--active': {
-					background: '#253B80',
+					background: colorPrimary,
 					svg: {
-						fill: '#fff',
-						stroke: '#fff',
+						fill: colorPrimaryText,
+						stroke: colorPrimaryText,
 					},
 				},
 			},
 		},
 		'.ss__chat__message-text__show-details': {
 			alignSelf: 'flex-start',
-			border: '1px solid #253B80',
+			border: `1px solid ${colorPrimary}`,
 			background: '#fff',
-			color: '#253B80',
+			color: colorPrimary,
 			borderRadius: '999px',
 			padding: '6px 16px',
 			fontSize: '14px',
@@ -68,16 +70,16 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 			gap: '6px',
 			marginTop: '4px',
 			'&:not(.ss__button--disabled):hover': {
-				background: '#253B80',
-				color: '#fff',
+				background: colorPrimary,
+				color: colorPrimaryText,
 				svg: {
-					fill: '#fff',
-					stroke: '#fff',
+					fill: colorPrimaryText,
+					stroke: colorPrimaryText,
 				},
 			},
 			svg: {
-				fill: '#253B80',
-				stroke: '#253B80',
+				fill: colorPrimary,
+				stroke: colorPrimary,
 			},
 		},
 		'.ss__chat__message-text__results': {
@@ -101,8 +103,8 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 			},
 			'.ss__carousel__next-wrapper, .ss__carousel__prev-wrapper': {
 				svg: {
-					fill: '#0066cc',
-					stroke: '#0066cc',
+					fill: colorPrimary,
+					stroke: colorPrimary,
 				},
 			},
 		},
@@ -125,7 +127,7 @@ const defaultStyles: StyleScript<MessageTextProps> = () => {
 };
 
 export const MessageText = observer((props: MessageTextProps) => {
-	const { controller, chatItem, scrollToBottom, onViewProduct, showDetailsButton } = props;
+	const { controller, chatItem, scrollToBottom, onProductQuickView, showDetailsButton } = props;
 
 	const styling = mergeStyles<MessageTextProps>(props, defaultStyles);
 
@@ -179,7 +181,9 @@ export const MessageText = observer((props: MessageTextProps) => {
 					Show Details
 				</Button>
 			)}
-			{chatItem && <ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} onViewProduct={onViewProduct} />}
+			{chatItem && (
+				<ResultsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} onProductQuickView={onProductQuickView} />
+			)}
 			{/* <FacetsDisplay controller={controller} chatItem={chatItem} scrollToBottom={scrollToBottom} /> */}
 		</div>
 	);
@@ -224,7 +228,9 @@ export interface MessageTextProps {
 	chatItem: any;
 	controller: ChatController;
 	scrollToBottom: () => void;
-	onViewProduct?: () => void;
+	onProductQuickView?: () => void;
 	showDetailsButton?: boolean;
 	sideChatOpen?: boolean;
+	primaryColor?: string;
+	primaryColorText?: string;
 }
