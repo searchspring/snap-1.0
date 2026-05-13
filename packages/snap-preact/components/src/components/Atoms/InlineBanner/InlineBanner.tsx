@@ -37,7 +37,7 @@ const defaultStyles: StyleScript<InlineBannerProps> = ({ width }) => {
 export const InlineBanner = withController<any>(
 	withTracking(
 		observer((properties: InlineBannerProps) => {
-			const globalTheme = useTheme() as Theme;
+			const globalTheme: Theme = useTheme();
 			const snap = useSnap();
 			const globalTreePath = useTreePath();
 

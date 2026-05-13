@@ -35,7 +35,7 @@ const defaultStyles: StyleScript<RadioProps> = ({ size, native }) => {
 };
 
 export const Radio = observer((properties: RadioProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

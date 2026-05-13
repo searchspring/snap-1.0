@@ -15,7 +15,7 @@ import type { PaginationOptions } from 'swiper/types/modules/pagination';
 import type { NavigationOptions } from 'swiper/types/modules/navigation';
 import type { ScrollbarOptions } from 'swiper/types/modules/scrollbar';
 
-import { Theme, useTheme, CacheProvider, useTreePath, useSnap } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath, useSnap, ThemeComplete } from '../../../providers';
 import { ComponentProps, BreakpointsProps, StyleScript } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { useComponent } from '../../../hooks';
@@ -200,7 +200,7 @@ export const defaultVerticalCarouselBreakpoints = {
 };
 
 export const Carousel = observer((properties: CarouselProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<CarouselProps> = {
@@ -219,7 +219,10 @@ export const Carousel = observer((properties: CarouselProps) => {
 	let displaySettings;
 
 	//no breakpoint props allowed in templates
-	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme') && props.breakpoints) {
+	if (
+		!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme') &&
+		props.breakpoints
+	) {
 		Object.keys(props.breakpoints!).forEach((breakpoint) => {
 			const breakPointProps = props.breakpoints![breakpoint as unknown as keyof typeof props.breakpoints];
 			// make certain props numbers

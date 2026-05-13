@@ -25,7 +25,7 @@ const defaultStyles: StyleScript<BreadcrumbsProps> = () => {
 };
 
 export const Breadcrumbs = observer((properties: BreadcrumbsProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

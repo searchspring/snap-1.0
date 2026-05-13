@@ -31,7 +31,7 @@ const defaultStyles: StyleScript<PaginationProps> = () => {
 };
 
 export const Pagination = observer((properties: PaginationProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<PaginationProps> = {

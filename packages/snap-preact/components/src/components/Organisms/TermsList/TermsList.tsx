@@ -38,7 +38,7 @@ const defaultStyles: StyleScript<TermsListProps> = ({}) => {
 };
 
 export const TermsList = observer((properties: TermsListProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

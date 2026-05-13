@@ -149,7 +149,7 @@ const defaultStyles: StyleScript<FacetSliderProps> = ({
 };
 
 export const FacetSlider = observer((properties: FacetSliderProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

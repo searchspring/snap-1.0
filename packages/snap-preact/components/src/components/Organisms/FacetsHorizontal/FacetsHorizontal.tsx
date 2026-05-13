@@ -100,7 +100,7 @@ const defaultStyles: StyleScript<FacetsHorizontalProps> = ({ theme }) => {
 };
 
 export const FacetsHorizontal = observer((properties: FacetsHorizontalProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

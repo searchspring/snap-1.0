@@ -26,7 +26,7 @@ const defaultStyles: StyleScript<PerPageProps> = () => {
 };
 
 export const PerPage = observer((properties: PerPageProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

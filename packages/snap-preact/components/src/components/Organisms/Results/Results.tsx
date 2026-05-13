@@ -12,7 +12,7 @@ import { InlineBanner, InlineBannerProps } from '../../Atoms/InlineBanner';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { ComponentProps, ResultsLayout, BreakpointsProps, StyleScript, JSXComponent } from '../../../types';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
-import { Theme, useTheme, CacheProvider, withTracking, useSnap, useTreePath } from '../../../providers';
+import { Theme, useTheme, CacheProvider, withTracking, useSnap, useTreePath, ThemeComplete } from '../../../providers';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { ResultTracker } from '../../Trackers/ResultTracker';
 import { SnapTemplates } from '../../../../../src';
@@ -55,7 +55,7 @@ const defaultStyles: StyleScript<ResultsProps> = ({ gapSize, columns }) => {
 const TrackedResultComponent = withTracking<ResultProps>(Result);
 
 export const Results = observer((properties: ResultsProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultBreakpointsProps = {
@@ -84,7 +84,7 @@ export const Results = observer((properties: ResultsProps) => {
 
 	let props = mergeProps('results', globalTheme, defaultProps, properties);
 
-	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
+	if (!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme')) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 		const displaySettings = useDisplaySettings(props?.breakpoints || {});
 		const theme = deepmerge(props?.theme || {}, displaySettings?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });

@@ -63,7 +63,7 @@ const defaultStyles: StyleScript<ListProps> = ({ horizontal }) => {
 };
 
 export function List(properties: ListProps) {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

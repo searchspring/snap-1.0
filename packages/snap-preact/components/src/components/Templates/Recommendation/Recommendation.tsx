@@ -14,7 +14,7 @@ import { Carousel, CarouselProps, defaultCarouselBreakpoints, defaultVerticalCar
 import { Result, ResultProps } from '../../Molecules/Result';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
 import { useIntersection } from '../../../hooks';
-import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath, ThemeComplete } from '../../../providers';
 import { ComponentProps, BreakpointsProps, StyleScript, JSXComponent } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
@@ -31,7 +31,7 @@ const defaultStyles: StyleScript<RecommendationProps> = ({ vertical }) => {
 };
 
 export const Recommendation = observer((properties: RecommendationProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<RecommendationProps> = {
 		breakpoints: properties.vertical
@@ -54,7 +54,10 @@ export const Recommendation = observer((properties: RecommendationProps) => {
 	let displaySettings;
 
 	//no breakpoint props allowed in templates
-	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme') && props.breakpoints) {
+	if (
+		!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme') &&
+		props.breakpoints
+	) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 
 		displaySettings = useDisplaySettings(props.breakpoints);

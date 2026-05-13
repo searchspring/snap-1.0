@@ -23,7 +23,7 @@ const defaultStyles: StyleScript<BadgeTextProps> = ({ colorText }) => {
 };
 
 export const BadgeText = observer((properties: BadgeTextProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

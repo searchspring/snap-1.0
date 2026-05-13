@@ -35,7 +35,7 @@ const defaultStyles: StyleScript<FilterProps> = ({}) => {
 
 // TODO: look into urlManager and how it connects in this case, left the href out for the time being
 export const Filter = observer((properties: FilterProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FilterProps> = {

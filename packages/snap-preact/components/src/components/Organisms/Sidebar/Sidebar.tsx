@@ -27,7 +27,7 @@ const defaultStyles: StyleScript<SidebarProps> = ({ stickyOffset }) => {
 };
 
 export const Sidebar = observer((properties: SidebarProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

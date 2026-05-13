@@ -22,6 +22,7 @@ const testThemeVariables: ThemeVariables = {
 
 let testTheme: ThemeComplete = {
 	name: 'test',
+	type: 'snap_templates_theme',
 	variables: testThemeVariables,
 	components: {},
 	responsive: {},
@@ -44,6 +45,7 @@ describe('ThemeStore', () => {
 
 		testTheme = {
 			name: 'test',
+			type: 'snap_templates_theme',
 			variables: testThemeVariables,
 			components: {
 				results: {
@@ -76,6 +78,7 @@ describe('ThemeStore', () => {
 			type: 'local',
 			base: {
 				name: 'empty',
+				type: 'snap_templates_theme',
 				variables: testThemeVariables,
 				components: {},
 				responsive: {},
@@ -146,6 +149,7 @@ describe('ThemeStore', () => {
 			type: 'local',
 			base: {
 				name: 'empty',
+				type: 'snap_templates_theme',
 				variables: testThemeVariables,
 				components: {},
 				responsive: {},

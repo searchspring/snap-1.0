@@ -54,7 +54,7 @@ const defaultStyles: StyleScript<SearchProps> = (props) => {
 };
 
 export const Search = observer((properties: SearchProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
 	const defaultProps: Partial<SearchProps> = {

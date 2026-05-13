@@ -11,7 +11,7 @@ const defaultStyles: StyleScript<CustomComponentWrapperProps> = () => {
 };
 
 export const CustomComponentWrapper = observer((properties: CustomComponentWrapperProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
 	const componentType = properties.type.charAt(0).toUpperCase() + properties.type.slice(1).toLowerCase();

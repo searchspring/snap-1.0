@@ -71,7 +71,7 @@ const defaultStyles: StyleScript<SwatchesProps> = ({ theme }) => {
 };
 
 export function Swatches(properties: SwatchesProps) {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

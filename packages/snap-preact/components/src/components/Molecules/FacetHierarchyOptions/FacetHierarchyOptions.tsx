@@ -101,7 +101,7 @@ const defaultStyles: StyleScript<FacetHierarchyOptionsProps> = ({ theme, horizon
 };
 
 export const FacetHierarchyOptions = observer((properties: FacetHierarchyOptionsProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<FacetHierarchyOptionsProps> = {

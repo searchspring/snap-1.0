@@ -22,7 +22,7 @@ const defaultStyles: StyleScript<IconProps> = ({ color, fill, stroke, theme, wid
 };
 
 export function Icon(properties: IconProps) {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

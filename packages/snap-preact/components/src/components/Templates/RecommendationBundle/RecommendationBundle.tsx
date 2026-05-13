@@ -7,7 +7,7 @@ import deepmerge from 'deepmerge';
 import { Carousel, CarouselProps as CarouselProps } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
-import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
+import { Theme, useTheme, CacheProvider, useTreePath, ThemeComplete } from '../../../providers';
 import { ComponentProps, BreakpointsProps, StyleScript, BreakpointsEntry, JSXComponent } from '../../../types';
 import { useDisplaySettings } from '../../../hooks/useDisplaySettings';
 import { RecommendationProfileTracker } from '../../Trackers/Recommendation/ProfileTracker';
@@ -144,7 +144,7 @@ const defaultStyles: StyleScript<RecommendationBundleProps & { hasSeed: boolean;
 };
 
 export const RecommendationBundle = observer((properties: RecommendationBundleProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const globalTreePath = useTreePath();
 
 	const defaultCarouselBreakpoints = {
@@ -198,7 +198,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 	}
 
 	let displaySettings: BreakpointsEntry | undefined;
-	if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
+	if (!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme')) {
 		displaySettings = useDisplaySettings(props.breakpoints!);
 		if (displaySettings && Object.keys(displaySettings).length) {
 			const theme = deepmerge(props?.theme || {}, displaySettings?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });
@@ -378,7 +378,7 @@ export const RecommendationBundle = observer((properties: RecommendationBundlePr
 		};
 
 		//no breakpoint props allowed in templates
-		if (!(properties.theme?.type == 'snap_templates_theme' || globalTheme.type == 'snap_templates_theme')) {
+		if (!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme')) {
 			Object.keys(props.breakpoints!).forEach((breakpoint) => {
 				const obj = props.breakpoints![breakpoint as keyof typeof props.breakpoints];
 

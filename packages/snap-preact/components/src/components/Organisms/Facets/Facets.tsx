@@ -19,7 +19,7 @@ const defaultStyles: StyleScript<FacetsProps> = () => {
 };
 
 export const Facets = observer((properties: FacetsProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

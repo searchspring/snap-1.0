@@ -34,7 +34,7 @@ const defaultStyles: StyleScript<ImageProps> = ({ height }) => {
 };
 
 export function Image(properties: ImageProps) {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

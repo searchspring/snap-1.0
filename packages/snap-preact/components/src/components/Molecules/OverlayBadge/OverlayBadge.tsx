@@ -65,7 +65,7 @@ const defaultStyles: StyleScript<OverlayBadgeProps> = ({ controller }) => {
 };
 
 export const OverlayBadge = observer((properties: OverlayBadgeProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

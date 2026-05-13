@@ -24,7 +24,7 @@ const defaultStyles: StyleScript<LayoutSelectorProps> = ({}) => {
 };
 
 export const LayoutSelector = observer((properties: LayoutSelectorProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 	const defaultProps: Partial<LayoutSelectorProps> = {

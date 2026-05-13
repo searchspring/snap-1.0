@@ -44,7 +44,7 @@ const defaultStyles: StyleScript<LoadingBarProps> = ({ color, height, background
 };
 
 export const LoadingBar = observer((properties: LoadingBarProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 	const snap = useSnap();
 	const globalTreePath = useTreePath();
 

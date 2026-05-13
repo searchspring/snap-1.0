@@ -14,7 +14,7 @@ const CSS = {
 };
 
 export const FacetToggle = observer((properties: FacetToggleProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 
 	let value: FacetValue | undefined = undefined;
 	if (properties.values && properties.values.length == 1) {

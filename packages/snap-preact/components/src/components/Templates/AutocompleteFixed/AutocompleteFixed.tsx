@@ -55,7 +55,7 @@ const defaultStyles: StyleScript<AutocompleteFixedProps & { inputBounds: inputBo
 };
 
 export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<AutocompleteFixedProps> = {
 		layout: [['c1', 'c2', 'c3']],

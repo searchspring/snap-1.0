@@ -22,7 +22,7 @@ const defaultStyles: StyleScript<RecommendationBundleVerticalProps> = () => {
 
 const alias = 'recommendationBundleVertical';
 export const RecommendationBundleVertical = observer((properties: RecommendationBundleVerticalProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 
 	//mergeprops only uses names that are passed via properties, so this cannot be put in the defaultProps
 	const _properties = {

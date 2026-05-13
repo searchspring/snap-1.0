@@ -31,7 +31,7 @@ const defaultStyles: StyleScript<AutocompleteSlideoutProps> = ({}) => {
 };
 
 export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutProps) => {
-	const globalTheme = useTheme() as Theme;
+	const globalTheme: Theme = useTheme();
 
 	const defaultProps: Partial<AutocompleteSlideoutProps> = {
 		slideDirection: 'left',
