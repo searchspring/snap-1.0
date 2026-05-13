@@ -8,6 +8,7 @@ import type {
 	ChatAddtocartSchemaData,
 	ChatFeedbackSchemaData,
 } from '@athoscommerce/beacon';
+import { ChatFeedbackSchemaDataFeedbackEnum } from '@athoscommerce/beacon';
 
 const PREFLIGHT_DEBOUNCE_TIMEOUT = 300;
 // mocks fetch so beacon client does not make network requests
@@ -828,7 +829,7 @@ describe('Chat Events', () => {
 	it('can send positive chat feedback events', async () => {
 		const feedbackData: ChatFeedbackSchemaData = {
 			chatSessionId: 'session-123',
-			feedback: true,
+			feedback: ChatFeedbackSchemaDataFeedbackEnum.Positive,
 		};
 
 		tracker.events.chat.feedback({ data: feedbackData });
@@ -840,7 +841,7 @@ describe('Chat Events', () => {
 	it('can send negative chat feedback events', async () => {
 		const feedbackData: ChatFeedbackSchemaData = {
 			chatSessionId: 'session-123',
-			feedback: false,
+			feedback: ChatFeedbackSchemaDataFeedbackEnum.Negative,
 		};
 
 		tracker.events.chat.feedback({ data: feedbackData });
@@ -849,16 +850,16 @@ describe('Chat Events', () => {
 		expect(mockFetchApi).toHaveBeenCalledWith(expect.stringContaining('/chat/feedback'), expect.any(Object));
 	});
 
-	it('feedback sends correct payload with boolean feedback value', () => {
+	it('feedback sends correct payload with feedback enum value', () => {
 		const feedbackSpy = jest.spyOn(tracker.events.chat, 'feedback');
 
 		// positive feedback
-		tracker.events.chat.feedback({ data: { chatSessionId: 'session-abc', feedback: true } });
-		expect(feedbackSpy).toHaveBeenCalledWith({ data: { chatSessionId: 'session-abc', feedback: true } });
+		tracker.events.chat.feedback({ data: { chatSessionId: 'session-abc', feedback: ChatFeedbackSchemaDataFeedbackEnum.Positive } });
+		expect(feedbackSpy).toHaveBeenCalledWith({ data: { chatSessionId: 'session-abc', feedback: ChatFeedbackSchemaDataFeedbackEnum.Positive } });
 
 		// negative feedback
-		tracker.events.chat.feedback({ data: { chatSessionId: 'session-abc', feedback: false } });
-		expect(feedbackSpy).toHaveBeenCalledWith({ data: { chatSessionId: 'session-abc', feedback: false } });
+		tracker.events.chat.feedback({ data: { chatSessionId: 'session-abc', feedback: ChatFeedbackSchemaDataFeedbackEnum.Negative } });
+		expect(feedbackSpy).toHaveBeenCalledWith({ data: { chatSessionId: 'session-abc', feedback: ChatFeedbackSchemaDataFeedbackEnum.Negative } });
 
 		feedbackSpy.mockRestore();
 	});

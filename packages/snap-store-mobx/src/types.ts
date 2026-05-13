@@ -90,10 +90,16 @@ export type ChatStoreConfig = StoreConfig & {
 	siteId?: string;
 };
 
-export type ChatStoreConfigSettings = {
+export type QuickviewConfig = {
+	enabled: boolean;
 	displayFields?: string[];
-	addToCart?: (products: any) => void;
+};
+
+export type ChatStoreConfigSettings = {
+	quickview?: QuickviewConfig;
 	feedbackAfterMessages?: number;
+	/** Background filters forwarded to the chat init API as `searchConfig.bgFilters`. */
+	bgFilters?: Record<string, string>;
 	[key: string]: unknown;
 };
 
@@ -190,6 +196,7 @@ export type RecommendationStoreConfig = StoreConfig & {
 	settings?: {
 		variants?: VariantConfig;
 		searchOnPageShow?: boolean;
+		quickview?: QuickviewConfig;
 	};
 };
 

@@ -6,8 +6,9 @@ import { Icon } from '../../Atoms/Icon';
 import { css, StyleScript } from '../../..';
 import { mergeStyles } from '../../../utilities';
 
-const defaultStyles: StyleScript<MessageUserProps> = () => {
-	const colorPrimary = '#253B80';
+const defaultStyles: StyleScript<MessageUserProps> = ({ primaryColor, primaryColorText }) => {
+	const colorPrimary = primaryColor || '#253B80';
+	const colorPrimaryText = primaryColorText || '#fff';
 	return css({
 		display: 'flex',
 		flexDirection: 'column',
@@ -37,17 +38,19 @@ const defaultStyles: StyleScript<MessageUserProps> = () => {
 			borderRadius: '12px',
 			borderBottomRightRadius: '3px',
 			backgroundColor: colorPrimary,
-			color: '#fff',
+			color: colorPrimaryText,
 		},
 		'.ss__chat__message-user__attachments': {
 			listStyleType: 'none',
 			padding: 0,
 			margin: 0,
 			display: 'flex',
-			flexWrap: 'wrap',
+			flexDirection: 'row',
+			flexWrap: 'nowrap',
 			justifyContent: 'flex-end',
-			flex: '0 0 40px',
-			alignSelf: 'flex-end',
+			alignItems: 'center',
+			gap: '4px',
+			alignSelf: 'end',
 			'.ss__chat__message-user__attachment__product, .ss__chat__message-user__attachment__image, .ss__chat__message-user__attachment__facet': {
 				width: '40px',
 				height: '40px',
@@ -134,7 +137,7 @@ function findProductInChat(chat: any[] | undefined, productId: string): any | nu
 }
 
 export const MessageUser = observer((props: MessageUserProps) => {
-	const { controller, chatItem, onViewProduct } = props;
+	const { controller, chatItem, onProductQuickView } = props;
 	const { store } = controller;
 	const styling = mergeStyles<MessageUserProps>(props, defaultStyles);
 	const requestTypeLabel = getRequestTypeLabel(chatItem);
@@ -145,13 +148,13 @@ export const MessageUser = observer((props: MessageUserProps) => {
 		const existingQuery = chat?.find((m: any) => m.messageType === 'productQuery' && m.sourceProduct?.id === attachment.productId) as any;
 		if (existingQuery) {
 			store.currentChat?.setActiveMessage(existingQuery.id);
-			onViewProduct?.(existingQuery.sourceProduct);
+			onProductQuickView?.(existingQuery.sourceProduct);
 			return;
 		}
 		const product = findProductInChat(chat, attachment.productId);
 		if (product) {
-			controller.viewProduct(product);
-			onViewProduct?.(product);
+			controller.productQuickView(product);
+			onProductQuickView?.(product);
 		}
 	};
 
@@ -160,11 +163,28 @@ export const MessageUser = observer((props: MessageUserProps) => {
 			<div className="ss__chat__message-user__row">
 				<ul className="ss__chat__message-user__attachments">
 					{(() => {
-						if (!chatItem.attachments?.length) return null;
-						const resolved = chatItem.attachments.map((id: string) => store.currentChat?.attachments.get(id)).filter(Boolean);
-						const totalFacets = resolved.filter((a: any) => a.type === 'facet').length;
-						const hiddenFacetCount = Math.max(0, totalFacets - 2);
-						let facetIndex = 0;
+						const resolved = (chatItem.attachments || []).map((id: string) => store.currentChat?.attachments.get(id)).filter(Boolean);
+						// Facets are no longer chat attachments — they live on the request that was
+						// stored on the message, derived from urlManager filter state at send-time.
+						const filterOptions: { facetKey: string; label: string }[] = [];
+						const searchFilters = chatItem.request?.searchFilters as
+							| { key: string; options?: ({ key: string } | { low: string; high: string })[] }[]
+							| undefined;
+						searchFilters?.forEach((filter) => {
+							filter.options?.forEach((option) => {
+								if ('low' in option || 'high' in option) {
+									const low = (option as { low: string }).low ?? '*';
+									const high = (option as { high: string }).high ?? '*';
+									filterOptions.push({ facetKey: filter.key, label: `${low}-${high}` });
+								} else {
+									filterOptions.push({ facetKey: filter.key, label: (option as { key: string }).key });
+								}
+							});
+						});
+
+						if (resolved.length === 0 && filterOptions.length === 0) return null;
+
+						const hiddenFacetCount = Math.max(0, filterOptions.length - 1);
 						const items = resolved
 							.map((attachment: any) => {
 								switch (attachment.type) {
@@ -189,20 +209,19 @@ export const MessageUser = observer((props: MessageUserProps) => {
 											</li>
 										);
 									}
-									case 'facet': {
-										facetIndex += 1;
-										if (facetIndex > 2) return null;
-										return (
-											<li className="ss__chat__message-user__attachment__facet" key={attachment.id}>
-												<Icon title={`Filter: ${attachment.facetLabel} = ${attachment.label}`} icon="filter-funnel" size={27} />
-											</li>
-										);
-									}
 									default:
 										return null;
 								}
 							})
 							.filter(Boolean);
+						if (filterOptions.length > 0) {
+							const first = filterOptions[0];
+							items.push(
+								<li className="ss__chat__message-user__attachment__facet" key="facet-first" title={`Filter: ${first.facetKey} = ${first.label}`}>
+									<Icon icon="filter-funnel" size={27} />
+								</li>
+							);
+						}
 						if (hiddenFacetCount > 0) {
 							items.push(
 								<li
@@ -229,5 +248,7 @@ export const MessageUser = observer((props: MessageUserProps) => {
 interface MessageUserProps {
 	chatItem: any;
 	controller: ChatController;
-	onViewProduct?: (product: any) => void;
+	onProductQuickView?: (product: any) => void;
+	primaryColor?: string;
+	primaryColorText?: string;
 }

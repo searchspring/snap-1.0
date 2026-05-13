@@ -789,6 +789,20 @@ export class Snap {
 										throw new Error(`Targets at index ${target_index} missing component value (Component).`);
 									}
 
+									// Chat mounts at the document level — if the consumer aimed at <body>
+									// directly, give DomTargeter a child to render into instead of stomping on body.
+									if (target.selector === 'body' && !target.inject) {
+										target = {
+											...target,
+											inject: {
+												action: 'append',
+												element: () => {
+													return document.createElement('div');
+												},
+											},
+										};
+									}
+
 									const targeter = new DomTargeter([{ ...target }], async (target: Target, elem: Element, originalElem?: Element) => {
 										const cntrlr = await this._createController(
 											ControllerTypes.chat,

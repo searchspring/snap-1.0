@@ -9,19 +9,20 @@ The `ChatController` is used for the AI-powered conversational shopping assistan
 | id | unique identifier for this controller | `'chat'` | ✔️ |
 | globals | keys defined here will be passed to the chat API request | ➖ |   |
 | settings.feedbackAfterMessages | number of assistant messages before showing a session feedback prompt | `3` |   |
-| settings.addToCart | callback function invoked when a product is added to cart from the chat | ➖ |   |
-| settings.displayFields | array of field names to display on product results within the chat | ➖ |   |
-| beacon.enabled | enable or disable analytics tracking for chat events | ➖ |   |
+| settings.quickview.enabled | enable the product quickview panel for chat product clicks | `false` |   |
+| settings.quickview.displayFields | array of field names to display in the product quickview panel | ➖ |   |
+| settings.bgFilters | `Record<string, string>` of background filters forwarded to the chat init API as `searchConfig.bgFilters` | ➖ |   |
+| beacon.enabled | enable or disable analytics tracking for chat events | `true` |   |
 
 ## Initialize
-The `init` method is called automatically during construction. It checks the chat status to determine if chat is enabled for the current site.
+The `init` method is called automatically during construction. It checks the chat status (cached in localStorage for 12 hours) to determine if chat is enabled for the current site and to populate `suggestedQuestions`, `welcomeMessage`, and `features`.
 
 ```js
 chatController.init();
 ```
 
 ## Search
-Sends a chat message. The request is constructed from the current input value, attached images, attached products, and active comparisons. The request type is automatically determined based on context.
+Sends a chat message. The request is constructed from the current input value, attached images, attached products, active comparisons, and any selected facet filters on the active facets display. The request type is automatically determined based on context. The input value is HTML-stripped at submit time to prevent tag injection in both the API request and the rendered user message.
 
 ```js
 chatController.search();
@@ -31,7 +32,7 @@ chatController.search({ data: { message: 'Find me blue shoes' } });
 ```
 
 ## Upload
-Uploads image files for visual search. Accepts a `FileList` from a file input element. Uploading an image starts a fresh context and clears any in-progress comparisons.
+Uploads image files for visual search. Accepts a `FileList` from a file input element. Uploading an image starts a fresh context — clearing in-progress and committed comparisons and dismissing any product-related side chat.
 
 ```js
 const input = document.querySelector('input[type="file"]');
@@ -40,26 +41,31 @@ input.addEventListener('change', (e) => {
 });
 ```
 
-## ViewProduct
-Opens a product quickview within the chat. Fetches full product data from the products API.
+## ProductQuickView
+Pushes a `productQuery` message into the side-chat panel and opens a product quickview within the chat. Fetches full product data from the products API. Drops any prior `productQuery` attachment for a different product so the previous discussion target doesn't remain alongside the newly focused product.
+
+`productQuickView` is a no-op unless `settings.quickview.enabled` is `true`.
 
 ```js
-chatController.viewProduct(result);
+chatController.productQuickView(result);
 ```
 
-## DiscussProduct
-Attaches a product to the chat context for discussion. The `requestType` option determines how the product is used in the next request.
+## ProductQuery
+Attaches a product to the chat context for follow-up discussion and opens the product quickview. Any in-progress or committed comparison set is discarded so the new single-product flow starts cleanly.
 
 ```js
-// ask questions about a product
-chatController.discussProduct(result, { requestType: 'productQuery' });
+chatController.productQuery(result);
+```
 
-// find similar products
-chatController.discussProduct(result, { requestType: 'productSimilar' });
+## ProductSimilar
+Attaches a product with the "find similar" intent and immediately sends a search request. Any in-progress or committed comparison set is discarded first.
+
+```js
+chatController.productSimilar(result);
 ```
 
 ## CompareProduct
-Adds a product to the comparison set. When two or more products are in the comparison set, the next search will be sent as a `productComparison` request.
+Adds a product to the comparison set. When two or more products are in the comparison set, the next search will be sent as a `productComparison` request. Calling this also clears any prior `productQuery` attachments and dismisses an active productQuery/productAnswer/productComparison side chat so the new comparison starts cleanly.
 
 ```js
 chatController.compareProduct(result1);
@@ -68,7 +74,7 @@ chatController.compareProduct(result2);
 ```
 
 ## OpenChat
-Opens the chat UI. Optionally accepts an initial message to start a conversation immediately.
+Opens the chat UI. Optionally accepts an initial message to start a conversation immediately. With no message, a new chat session is created if none exists and the input is focused. If the persisted active session has expired (past the `sessionEndTime` returned by `chatInit`) a fresh session is created so the user lands in a usable chat rather than the expired placeholder. Also exposed as the global event `chat/send` (fire via `window.athos.fire('chat/send', { message })`).
 
 ```js
 chatController.openChat();
@@ -78,15 +84,31 @@ chatController.openChat('I am looking for running shoes');
 ```
 
 ## AddToCart
-Triggers the add-to-cart flow for one or more products. Fires the `addToCart` event and invokes the configured `settings.addToCart` callback. Takes a single Product or an array of Products as a parameter.
+Triggers the add-to-cart flow for one or more products. Fires the `addToCart` event so any registered middleware can react to it (no event is fired when the products array is empty). Takes a single Product or an array of Products as a parameter.
 
 ```js
 chatController.addToCart(result);
 chatController.addToCart([result1, result2]);
 ```
 
+To run custom logic on add-to-cart (e.g. forward to a host cart), register an `addToCart` middleware on the controller config:
+
+```js
+{
+    config: {
+        id: 'chat',
+        middleware: {
+            addToCart: (data, next) => {
+                console.log('chat add to cart!', data.products);
+                next();
+            },
+        },
+    },
+}
+```
+
 ## HandleFeedback
-Records session-level feedback. Accepts `'UP'` or `'DOWN'`. The feedback prompt is automatically dismissed after 3 seconds.
+Records session-level feedback on the current chat. Accepts `'UP'` or `'DOWN'`. Fires the `track.product.feedback` event and automatically dismisses the feedback prompt after 3 seconds.
 
 ```js
 chatController.handleFeedback('UP');
@@ -102,28 +124,14 @@ The controller automatically determines the request type based on the current co
 | `imageSearch` | An image has been uploaded and attached |
 | `productQuery` | A single product is attached for discussion |
 | `productSimilar` | A product is attached with the "find similar" intent |
-| `productComparison` | Two or more products are in the comparison set |
-| `productSearch` | Facet filters are attached |
+| `productComparison` | Two or more products are in the comparison set, or a committed comparison is still active |
+| `productSearch` | Facet filters are selected on the active facets display |
 
 ## Events
 
 ### init
 - Called with `eventData` = { controller }
 - Done once automatically during construction — checks chat availability
-
-### beforeSearch
-- Called with `eventData` = { controller, request }
-- Always invoked before a chat API request is made
-- Prevents the request if chat is disabled
-- Initiates a new chat session if one does not exist
-
-### afterSearch
-- Called with `eventData` = { controller, request, response }
-- Always invoked after a chat API response is received
-
-### afterStore
-- Called with `eventData` = { controller, request, response }
-- Always invoked after data has been stored in the ChatStore
 
 ### addToCart
 - Called with `eventData` = { controller, products }
@@ -135,7 +143,8 @@ The controller automatically determines the request type based on the current co
 
 ### track.product.clickThrough
 - Called with `eventData` = { controller, event, product, trackEvent }
-- Always invoked after `track.product.clickThrough()` or `track.product.click()` method has been invoked
+- Always invoked after `track.product.clickThrough()` is called
+- `track.product.click()` only forwards to `clickThrough` when the click event lands within a product link (deduplicated via a short timeout)
 
 ### track.product.addToCart
 - Called with `eventData` = { controller, product, trackEvent }
@@ -143,4 +152,4 @@ The controller automatically determines the request type based on the current co
 
 ### track.product.feedback
 - Called with `eventData` = { controller, trackEvent }
-- Always invoked after `track.product.feedback()` method has been invoked
+- Always invoked after `track.product.feedback()` method has been invoked (no-op if there is no current chat sessionId)

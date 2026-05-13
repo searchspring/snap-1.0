@@ -31,19 +31,8 @@ import { filters } from '@athoscommerce/snap-toolbox';
 import { AbstractController } from '../Abstract/AbstractController';
 import { ChatControllerConfig, ContextVariables, ControllerServices, ControllerTypes } from '../types';
 import { ErrorType, ChatStore } from '@athoscommerce/snap-store-mobx';
-import { ChatRequestModel, MoiRequestModel } from '@athoscommerce/snap-client';
-import type {
-	ChatAttachmentImage,
-	ChatAttachmentProduct,
-	ChatAttachmentFacet,
-	FacetsData,
-	ValueFacet,
-	FacetValue,
-	FacetRangeValue,
-	Product,
-	Banner,
-	ChatSessionStore,
-} from '@athoscommerce/snap-store-mobx';
+import { ChatRequestModel, ChatTrackingContext, MoiRequestModel } from '@athoscommerce/snap-client';
+import type { ChatAttachmentImage, ChatAttachmentProduct, Product, Banner, ChatSessionStore } from '@athoscommerce/snap-store-mobx';
 import {
 	type Product as BeaconProduct,
 	ChatImpressionSchemaData,
@@ -51,8 +40,8 @@ import {
 	ChatAddtocartSchemaData,
 	ChatResultProduct,
 	ChatFeedbackSchemaData,
+	ChatFeedbackSchemaDataFeedbackEnum,
 } from '@athoscommerce/beacon';
-import { Next } from '@athoscommerce/snap-event-manager';
 import { isClickWithinProductLink, CLICK_DUPLICATION_TIMEOUT } from '../utils/isClickWithinProductLink';
 
 const KEY_ENTER = 13;
@@ -116,44 +105,46 @@ export class ChatController extends AbstractController {
 			next();
 		});
 
-		if (this.config.settings?.addToCart) {
-			this.eventManager.on('addToCart', async (data: { controller: ChatController; products: Product[] }, next: Next) => {
-				this.config.settings?.addToCart?.(data.products);
-				next();
-			});
-		}
-
-		this.eventManager.on('beforeSearch', async (data: { controller: ChatController; request: ChatRequestModel }, next: Next) => {
-			// TODO: test this
-			if (this.store.chatEnabled === false) {
-				this.log.warn('Chat is disabled, preventing search request');
-				this.store.error = {
-					type: ErrorType.WARNING,
-					message: 'Chat is currently unavailable. Please try again later.',
-				};
-				// stop search
-				return;
-			}
-
-			if (this.store.currentChat?.sessionId && this.store.currentChat?.sessionId === data.request.context.sessionId) {
-				return next();
-			}
-
-			// new chat
-			try {
-				const chat: ChatSessionStore | undefined = await this.startNewChat();
-				if (chat?.sessionId) {
-					data.request.context.sessionId = chat?.sessionId;
-				}
-				next();
-			} catch {
-				// stop middleware if startNewChat throws (chat is disabled)
-				return false;
-			}
-		});
-
 		this.init();
 	}
+
+	/** Returns true when the request can proceed, false to abort the search.
+	 * Ensures chat is enabled and seeds the request with a session id (creating one if needed). */
+	private prepareRequest = async (request: ChatRequestModel): Promise<boolean> => {
+		if (this.store.chatEnabled === false) {
+			this.log.warn('Chat is disabled, preventing search request');
+			this.store.error = {
+				type: ErrorType.WARNING,
+				message: 'Chat is currently unavailable. Please try again later.',
+			};
+			return false;
+		}
+
+		if (this.store.currentChat?.sessionId && this.store.currentChat?.sessionId === request.context.sessionId) {
+			return true;
+		}
+
+		try {
+			const chat: ChatSessionStore | undefined = await this.startNewChat();
+			if (chat?.sessionId) {
+				request.context.sessionId = chat.sessionId;
+			}
+			return true;
+		} catch {
+			return false;
+		}
+	};
+
+	private getChatTrackingContext = (): ChatTrackingContext => {
+		const { sessionId, pageLoadId, pageUrl, shopperId, currency } = this.tracker.getContext();
+		return {
+			pageUrl,
+			sessionId,
+			pageLoadId,
+			...(shopperId ? { shopperId } : {}),
+			...(currency?.code ? { currency: currency.code } : {}),
+		};
+	};
 
 	checkChatStatus = async (): Promise<boolean> => {
 		// @ts-ignore - globals is private
@@ -163,7 +154,7 @@ export class ChatController extends AbstractController {
 			siteId = 'test-mattel-demo';
 		}
 		try {
-			const response = await this.client.chatStatus({ siteId });
+			const response = await this.client.chatStatus({ siteId, tracking: this.getChatTrackingContext() });
 			return this.store.handleChatStatusResponse(response);
 		} catch {
 			const response = {
@@ -208,6 +199,7 @@ export class ChatController extends AbstractController {
 		try {
 			this.store.initChatLoading = true;
 			// TODO: add store loading indicator for this api request
+			const bgFilters = this.config.settings?.bgFilters as Record<string, string> | undefined;
 			const response = await this.client.chatInit({
 				siteId,
 				userId,
@@ -215,22 +207,25 @@ export class ChatController extends AbstractController {
 				searchConfig: {
 					sessionId,
 					shopper: shopperId,
+					...(bgFilters ? { bgFilters } : {}),
 					// TODO: add these
-					// bgFilters: [],
 					// landingPage: '',
 					// tag: '',
 					// includeFacets: '',
 					// excludeFacets: '',
 				},
+				tracking: this.getChatTrackingContext(),
 			});
 			// TODO: handle if chatInit fails or denies new chat
 			if (response) {
+				const sessionEndTime = response.sessionEndTime ? new Date(response.sessionEndTime) : undefined;
 				if (this.store.currentChat && !this.store.currentChat.sessionId) {
 					this.store.currentChat.sessionId = response.chatSessionId;
+					this.store.currentChat.sessionEndTime = sessionEndTime;
 					this.store.currentChat.save();
 					chat = this.store.currentChat;
 				} else {
-					chat = this.store.createChat({ sessionId: response.chatSessionId });
+					chat = this.store.createChat({ sessionId: response.chatSessionId, sessionEndTime });
 				}
 			}
 		} catch (e) {
@@ -246,7 +241,8 @@ export class ChatController extends AbstractController {
 	};
 
 	get params(): ChatRequestModel {
-		const { userId, shopperId, sessionId, pageLoadId } = this.tracker.getContext();
+		const { userId, shopperId } = this.tracker.getContext();
+		const tracking = this.getChatTrackingContext();
 
 		const productsToCompare = (this.store.currentChat?.comparisons.compared || []).map((item) => {
 			const d = item.result?.display || item.result;
@@ -261,72 +257,32 @@ export class ChatController extends AbstractController {
 			.filter((attachment) => attachment.type === 'product' && (attachment as ChatAttachmentProduct).requestType !== 'productComparison')
 			.map((attachment) => (attachment as ChatAttachmentProduct).productId);
 
-		// Seed searchFilters with previously applied filters from the most recent
-		// productSearchResult response's SearchFacetStore so that selecting
-		// additional facet options does not discard filters already active on the
-		// server. Only merge when the user is actively modifying filters (has new
-		// facet attachments or has explicitly removed server-side filters);
-		// otherwise a regular text message would incorrectly become a
-		// productSearch request.
-		const newFacetAttachments = (this.store.currentChat?.attachments.attached || []).filter((attachment) => attachment.type === 'facet');
-
-		const removedFacets = this.store.currentChat?.removedFacets || [];
-
-		const facetsAction =
-			newFacetAttachments.length > 0 || removedFacets.length > 0
-				? ((this.store.currentChat?.actions || []).find((action) => action.type === 'facets') as FacetsData | undefined)
-				: undefined;
-
-		// Build existing applied filters from the SearchFacetStore's filtered values
-		const searchFilters: { key: string; options: { key: string }[] }[] = [];
-		if (facetsAction?.data) {
-			for (const facet of facetsAction.data) {
-				const valueFacet = facet as ValueFacet;
-				if (!valueFacet.values) continue;
-
-				const filteredOptions = valueFacet.values
-					.filter((v): v is FacetValue | FacetRangeValue => !!v?.filtered)
-					.filter((v) => {
-						// Exclude facets the user has explicitly unselected
-						const optionKey =
-							'low' in v && 'high' in v ? `${(v as FacetRangeValue).low ?? '*'}:${(v as FacetRangeValue).high ?? '*'}` : (v as FacetValue).value;
-						return !removedFacets.some((rf) => rf.key === valueFacet.field && rf.value === optionKey);
-					})
-					.map((v) => {
-						if ('low' in v && 'high' in v) {
-							return { key: `${(v as FacetRangeValue).low ?? '*'}:${(v as FacetRangeValue).high ?? '*'}` };
-						}
-						return { key: (v as FacetValue).value };
-					});
-
-				if (filteredOptions.length > 0) {
-					searchFilters.push({ key: valueFacet.field, options: filteredOptions });
-				}
-			}
-		}
-
-		// Layer on any newly attached facet selections
-		newFacetAttachments.forEach((attachment) => {
-			const facetAttachment = attachment as ChatAttachmentFacet;
-
-			const existingFacet = searchFilters.find((filter) => filter.key === facetAttachment.key);
-			if (existingFacet) {
-				if (!existingFacet.options.some((o) => o.key === facetAttachment.value)) {
-					existingFacet.options.push({
-						key: facetAttachment.value,
-					});
-				}
-			} else {
-				searchFilters.push({
-					key: facetAttachment.key,
-					options: [
-						{
-							key: facetAttachment.value,
-						},
-					],
+		// Build searchFilters from the detached urlManager state — that's the
+		// single source of truth for the in-progress facet selection on the
+		// active facets display. Range/slider selections are emitted as
+		// `{ low, high }` strings, value selections as `{ key }`.
+		const searchFilters: { key: string; options: ({ key: string } | { low: string; high: string })[] }[] = [];
+		const filterState = (this.store.urlManager.state as any)?.filter as Record<string, any> | undefined;
+		if (filterState) {
+			Object.keys(filterState).forEach((field) => {
+				const raw = filterState[field];
+				const values = Array.isArray(raw) ? raw : [raw];
+				const options: ({ key: string } | { low: string; high: string })[] = [];
+				values.forEach((v) => {
+					if (typeof v === 'object' && v !== null) {
+						const low = v.low;
+						const high = v.high;
+						if (low == null && high == null) return;
+						options.push({ low: low == null ? '*' : String(low), high: high == null ? '*' : String(high) });
+					} else {
+						options.push({ key: String(v) });
+					}
 				});
-			}
-		});
+				if (options.length > 0) {
+					searchFilters.push({ key: field, options });
+				}
+			});
+		}
 
 		const attachedImageId = attachedImageIds.length > 0 ? attachedImageIds[0] : undefined;
 		const similarProducts = this.store.currentChat?.attachments.attached.filter(
@@ -430,10 +386,8 @@ export class ChatController extends AbstractController {
 			},
 			data: chatRequest,
 			tracking: {
+				...tracking,
 				userId,
-				domain: window.location.href,
-				sessionId,
-				pageLoadId,
 			},
 		};
 
@@ -518,23 +472,60 @@ export class ChatController extends AbstractController {
 		}
 	};
 
-	private loadProductQuickview = async (result: Product): Promise<void> => {
-		this.store.setProductQuickview(result);
+	/** Monotonic counter so a slower, earlier products fetch can't overwrite a later one. */
+	private quickviewRequestId = 0;
 
+	private loadProductQuickview = async (result: Product): Promise<void> => {
 		const parentId = (result.mappings?.core?.parentId as string) || result.id;
+		const requestId = ++this.quickviewRequestId;
+
+		// Don't replace the currently displayed product until the parent details
+		// have arrived — otherwise the panel flashes the new product without
+		// variants/mappings while the products API is in flight.
+		const isStillTargeting = (): boolean => {
+			if (this.quickviewRequestId !== requestId) return false;
+			// User backed out (popProductQueryMessage) — the active message no longer
+			// targets this product. Skip applying so the dismissed product doesn't
+			// pop back into view when the fetch resolves.
+			const activeMessage = this.store.currentChat?.activeMessage;
+			return activeMessage?.messageType === 'productQuery' && (activeMessage as any).sourceProduct?.id === result.id;
+		};
+
 		try {
 			const response = await this.client.products({ parentId });
+			if (!isStillTargeting()) return;
+			this.store.setProductQuickview(result);
 			this.store.updateProductQuickview(response);
 		} catch (err) {
+			if (!isStillTargeting()) return;
 			this.log.error('Failed to fetch product details', err);
+			// Still swap to the new product so the user sees the error in context
+			// rather than against the previous product's details.
+			this.store.setProductQuickview(result);
 			this.store.setProductQuickviewError('Failed to load product details. Please try again.');
 		}
 	};
 
-	viewProduct = async (result: Product): Promise<void> => {
+	productQuickView = async (result: Product): Promise<void> => {
+		if (!this.config.settings?.quickview?.enabled) return;
+
 		if (!this.store.currentChat) {
 			this.store.createChat();
 		}
+
+		// Focus has shifted to a new product — drop any prior 'discuss product'
+		// (productQuery) attachment so the previous discussion target doesn't
+		// linger as a chat attachment alongside the newly focused product.
+		const previousProductQueryAttachments = (this.store.currentChat?.attachments.attached || []).filter(
+			(item) =>
+				item.type === 'product' &&
+				(item as ChatAttachmentProduct).requestType === 'productQuery' &&
+				(item as ChatAttachmentProduct).productId !== result.id
+		);
+		previousProductQueryAttachments.forEach((item) => {
+			this.store.currentChat?.attachments.remove(item.id);
+		});
+
 		this.store.currentChat?.pushProductQueryMessage(result);
 		await this.loadProductQuickview(result);
 	};
@@ -569,31 +560,38 @@ export class ChatController extends AbstractController {
 	// 	this.search({ data: { requestType: 'inspiration', message: this.store.inputValue } });
 	// };
 
-	discussProduct = (result: Product, options: { requestType: 'productQuery' | 'productSimilar' | 'productComparison' }): void => {
-		// discard any uncommitted comparison products — discussing or finding similar products abandons an in-progress comparison
-		if (options.requestType !== 'productComparison' && (this.store.currentChat?.comparisons.compared.length || 0) > 0) {
+	/** Shared prep for productQuery/productSimilar: discard any in-progress or committed
+	 * comparison set so the new single-product flow starts cleanly. */
+	private resetComparisonsForSingleProductFlow = (): void => {
+		if ((this.store.currentChat?.comparisons.compared.length || 0) > 0) {
 			this.store.currentChat?.comparisons.reset();
 		}
-
-		// also discard any committed comparison products so they don't persist in the UI
-		if (options.requestType !== 'productComparison' && (this.store.currentChat?.comparisons.committed.length || 0) > 0) {
+		if ((this.store.currentChat?.comparisons.committed.length || 0) > 0) {
 			this.store.currentChat?.comparisons.resetCommitted();
 			this.store.currentChat?.dismissSideChat();
 		}
+	};
 
-		this.store.sendProductQuery(result, options);
-		if (options.requestType === 'productQuery') {
-			this.loadProductQuickview(result);
-		}
-		if (options.requestType === 'productSimilar') {
-			this.search();
-		}
-
-		// focus the input — desktop only; on mobile this would summon the virtual keyboard
+	/** Focus the input on desktop — skipped on mobile so the virtual keyboard doesn't pop up. */
+	private focusInputDesktopOnly = (): void => {
 		const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
 		if (!isMobile) {
 			this.focusInput();
 		}
+	};
+
+	productQuery = (result: Product): void => {
+		this.resetComparisonsForSingleProductFlow();
+		this.store.sendProductQuery(result, { requestType: 'productQuery' });
+		this.loadProductQuickview(result);
+		this.focusInputDesktopOnly();
+	};
+
+	productSimilar = (result: Product): void => {
+		this.resetComparisonsForSingleProductFlow();
+		this.store.sendProductQuery(result, { requestType: 'productSimilar' });
+		this.search();
+		this.focusInputDesktopOnly();
 	};
 
 	handlers = {
@@ -611,6 +609,12 @@ export class ChatController extends AbstractController {
 		},
 		button: {
 			click: () => {
+				// Opening into an expired session would just show the placeholder —
+				// drop the user into a fresh chat instead. The expired UI is
+				// reserved for sessions reached via the history switcher.
+				if (!this.store.open && this.store.currentChat?.isExpired) {
+					this.store.createChat();
+				}
 				this.store.open = !this.store.open;
 			},
 		},
@@ -618,6 +622,13 @@ export class ChatController extends AbstractController {
 
 	openChat = (initialMessage?: string): void => {
 		this.store.open = true;
+
+		// If the persisted active chat has expired, drop into a fresh session so the
+		// user isn't greeted with the "expired" placeholder. The expired-state UI
+		// still renders for older sessions reached via the history switcher.
+		if (this.store.currentChat?.isExpired) {
+			this.store.createChat();
+		}
 
 		if (initialMessage) {
 			this.search({ data: { message: initialMessage } } as Partial<ChatRequestModel>);
@@ -646,23 +657,10 @@ export class ChatController extends AbstractController {
 		this.store.inputValue = filters.stripHTML(this.store.inputValue);
 		let requestChatId: string | undefined;
 		try {
-			// TODO: add middleware
 			const params = deepmerge(this.params, overrides || {});
 
-			try {
-				await this.eventManager.fire('beforeSearch', {
-					controller: this,
-					request: params,
-				});
-			} catch (err: any) {
-				if (err?.message == 'cancelled') {
-					this.log.warn(`'beforeSearch' middleware cancelled`);
-					return;
-				} else {
-					this.log.error(`error in 'beforeSearch' middleware`);
-					throw err;
-				}
-			}
+			const proceed = await this.prepareRequest(params);
+			if (!proceed) return;
 
 			this.store.request(params);
 			this.store.loading = true;
@@ -685,51 +683,7 @@ export class ChatController extends AbstractController {
 				return;
 			}
 
-			const afterSearchProfile = this.profiler.create({ type: 'event', name: 'afterSearch', context: params }).start();
-
-			try {
-				await this.eventManager.fire('afterSearch', {
-					controller: this,
-					request: params,
-					response,
-				});
-			} catch (err: any) {
-				if (err?.message == 'cancelled') {
-					this.log.warn(`'afterSearch' middleware cancelled`);
-					afterSearchProfile.stop();
-					return;
-				} else {
-					this.log.error(`error in 'afterSearch' middleware`);
-					throw err;
-				}
-			}
-
-			afterSearchProfile.stop();
-			this.log.profile(afterSearchProfile);
-
 			this.store.update(response);
-
-			const afterStoreProfile = this.profiler.create({ type: 'event', name: 'afterStore', context: params }).start();
-
-			try {
-				await this.eventManager.fire('afterStore', {
-					controller: this,
-					request: params,
-					response,
-				});
-			} catch (err: any) {
-				if (err?.message == 'cancelled') {
-					this.log.warn(`'afterStore' middleware cancelled`);
-					afterStoreProfile.stop();
-					return;
-				} else {
-					this.log.error(`error in 'afterStore' middleware`);
-					throw err;
-				}
-			}
-
-			afterStoreProfile.stop();
-			this.log.profile(afterStoreProfile);
 		} catch (err: any) {
 			// if user has switched away from this chat, suppress the error so it
 			// doesn't surface (e.g. "failed to fetch") on the new chat
@@ -932,7 +886,7 @@ export class ChatController extends AbstractController {
 
 				const data: ChatFeedbackSchemaData = {
 					chatSessionId,
-					feedback: thumbs === 'UP',
+					feedback: thumbs === 'UP' ? ChatFeedbackSchemaDataFeedbackEnum.Positive : ChatFeedbackSchemaDataFeedbackEnum.Negative,
 				};
 				this.eventManager.fire('track.product.feedback', { controller: this, trackEvent: data });
 				this.config.beacon?.enabled && this.tracker.events.chat.feedback({ data });

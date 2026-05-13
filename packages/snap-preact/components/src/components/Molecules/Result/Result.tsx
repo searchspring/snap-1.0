@@ -16,6 +16,7 @@ import type { SearchController, AutocompleteController, RecommendationController
 import type { Product } from '@athoscommerce/snap-store-mobx';
 import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
+import { Icon } from '../../Atoms/Icon';
 import deepmerge from 'deepmerge';
 import { Lang, useLang, useComponent } from '../../../hooks';
 import { VariantSelection, VariantSelectionProps } from '../VariantSelection';
@@ -273,6 +274,21 @@ export const Result = observer((properties: ResultProps) => {
 								<Image {...subProps.image} />
 							)}
 						</a>
+						{controller?.type === 'recommendation' && (controller as RecommendationController).config.settings?.quickview?.enabled && (
+							<span
+								className="ss__result__product-quick-view-button"
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									(controller as RecommendationController).productQuickView(result);
+								}}
+								role="button"
+								title="Quick view"
+								style={{ position: 'absolute', bottom: '8px', right: '8px', cursor: 'pointer' }}
+							>
+								<Icon icon="eye" title="Quick view" />
+							</span>
+						)}
 					</div>
 				)}
 

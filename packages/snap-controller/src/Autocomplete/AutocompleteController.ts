@@ -821,9 +821,9 @@ export class AutocompleteController extends AbstractController {
 		// loose focus
 		this.setFocused();
 
-		// fire openChat event
-		window.searchspring.fire('chat/open', {
-			query: this.store.state.input,
+		// fire chat send event — defaults to a 'general' request with the current input
+		window.searchspring.fire('chat/send', {
+			message: this.store.state.input,
 		});
 	};
 

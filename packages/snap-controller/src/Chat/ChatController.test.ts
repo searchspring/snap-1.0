@@ -20,6 +20,9 @@ const chatConfigDefault: ChatControllerConfig = {
 	id: 'chat',
 	settings: {
 		feedbackAfterMessages: 3,
+		quickview: {
+			enabled: true,
+		},
 	},
 };
 
@@ -29,7 +32,7 @@ const urlManager = new UrlManager(new QueryStringTranslator(), reactLinker);
 // mocks fetch so beacon client does not make network requests
 jest.spyOn(global.window, 'fetch').mockImplementation(() => Promise.resolve({ status: 200, json: () => Promise.resolve({}) } as Response));
 
-// mock window.matchMedia for jsdom (used by discussProduct to detect mobile)
+// mock window.matchMedia for jsdom (used by productQuery/productSimilar to detect mobile)
 Object.defineProperty(window, 'matchMedia', {
 	writable: true,
 	value: jest.fn().mockImplementation((query: string) => ({
@@ -49,7 +52,7 @@ function createController(configOverrides?: Partial<ChatControllerConfig>, mockC
 	const client = mockClient || new MockClient(globals, {});
 	return new ChatController(config, {
 		client,
-		store: new ChatStore(config),
+		store: new ChatStore(config, { urlManager }),
 		urlManager,
 		eventManager: new EventManager(),
 		profiler: new Profiler(),
@@ -192,7 +195,7 @@ describe('Chat Controller', () => {
 	describe('search', () => {
 		it('sends a chat message and updates the store', async () => {
 			const controller = createController();
-			// pre-create a chat session so beforeSearch doesn't trigger startNewChat
+			// pre-create a chat session so the search doesn't trigger startNewChat
 			controller.store.createChat({ sessionId: 'test-session-001' });
 			controller.store.chatEnabled = true;
 			controller.store.inputValue = 'show me dresses';
@@ -345,45 +348,8 @@ describe('Chat Controller', () => {
 		});
 	});
 
-	describe('middleware events', () => {
-		const events = ['beforeSearch', 'afterSearch', 'afterStore'];
-		events.forEach((event) => {
-			it(`tests ${event} middleware cancellation`, async () => {
-				const controller = createController();
-				controller.store.createChat({ sessionId: 'test-session-001' });
-				controller.store.chatEnabled = true;
-
-				controller.on(event, () => false); // return false to cancel
-				const spy = jest.spyOn(controller.log, 'warn');
-
-				await controller.search();
-
-				expect(spy).toHaveBeenCalledWith(`'${event}' middleware cancelled`);
-				spy.mockClear();
-			});
-		});
-
-		events.forEach((event) => {
-			it(`logs error if middleware throws in ${event}`, async () => {
-				const controller = createController();
-				controller.store.createChat({ sessionId: 'test-session-001' });
-				controller.store.chatEnabled = true;
-
-				const middleware = jest.fn(() => {
-					throw new Error('middleware error');
-				});
-				controller.on(event, middleware);
-
-				const logErrorSpy = jest.spyOn(controller.log, 'error');
-				await controller.search();
-
-				expect(middleware).toHaveBeenCalledTimes(1);
-				expect(logErrorSpy).toHaveBeenCalledWith(`error in '${event}' middleware`);
-				logErrorSpy.mockClear();
-			});
-		});
-
-		it('beforeSearch prevents search when chat is disabled', async () => {
+	describe('request preparation', () => {
+		it('prevents search when chat is disabled', async () => {
 			const controller = createController();
 			controller.store.createChat({ sessionId: 'test-session-001' });
 			controller.store.chatEnabled = false;
@@ -397,7 +363,7 @@ describe('Chat Controller', () => {
 			logSpy.mockClear();
 		});
 
-		it('beforeSearch starts a new chat when no session exists', async () => {
+		it('starts a new chat when no session exists', async () => {
 			const controller = createController();
 			controller.store.chatEnabled = true;
 			expect(controller.store.currentChat).toBeUndefined();
@@ -422,7 +388,7 @@ describe('Chat Controller', () => {
 			expect(params.context.sessionId).toBe('test-session-001');
 			expect(params.data).toEqual({ requestType: 'general', message: 'hello' });
 			expect(params.tracking).toBeDefined();
-			expect(params.tracking.domain).toBe(window.location.href);
+			expect(params.tracking.pageUrl).toBe(window.location.href);
 		});
 
 		it('constructs request with personalization when shopperId exists', () => {
@@ -437,7 +403,7 @@ describe('Chat Controller', () => {
 		});
 	});
 
-	describe('viewProduct', () => {
+	describe('productQuickView', () => {
 		it('sets productQuickview on store and fetches product data', async () => {
 			const controller = createController();
 			controller.store.createChat({ sessionId: 'test-session-001' });
@@ -453,7 +419,7 @@ describe('Chat Controller', () => {
 				mappings: { core: { parentId: 'parent1', name: 'Test Product' } },
 			} as unknown as Product;
 
-			await controller.viewProduct(result);
+			await controller.productQuickView(result);
 
 			expect(controller.store.productQuickview).toBeDefined();
 			expect(controller.client.products).toHaveBeenCalledWith({ parentId: 'parent1' });
@@ -469,7 +435,7 @@ describe('Chat Controller', () => {
 			});
 
 			const result = { id: 'fallback-id', mappings: { core: {} } } as unknown as Product;
-			await controller.viewProduct(result);
+			await controller.productQuickView(result);
 
 			expect(controller.client.products).toHaveBeenCalledWith({ parentId: 'fallback-id' });
 		});
@@ -486,7 +452,7 @@ describe('Chat Controller', () => {
 				mappings: { core: { parentId: 'parent1' } },
 			} as unknown as Product;
 
-			await controller.viewProduct(result);
+			await controller.productQuickView(result);
 
 			expect(logSpy).toHaveBeenCalledWith('Failed to fetch product details', expect.any(Error));
 			expect(controller.store.productQuickviewError).toBe('Failed to load product details. Please try again.');
@@ -503,7 +469,7 @@ describe('Chat Controller', () => {
 			});
 
 			const result = { id: 'prod1', mappings: { core: {} } } as unknown as Product;
-			await controller.viewProduct(result);
+			await controller.productQuickView(result);
 
 			expect(controller.store.currentChat).toBeDefined();
 		});
@@ -553,7 +519,7 @@ describe('Chat Controller', () => {
 		});
 	});
 
-	describe('discussProduct', () => {
+	describe('productQuery', () => {
 		it('sends a product query attachment', () => {
 			const controller = createController();
 			controller.store.createChat({ sessionId: 'test-session-001' });
@@ -564,34 +530,16 @@ describe('Chat Controller', () => {
 				mappings: { core: { name: 'Test', thumbnailImageUrl: 'thumb.jpg' } },
 			} as unknown as Product;
 
-			controller.discussProduct(result, { requestType: 'productQuery' });
+			controller.productQuery(result);
 
 			expect(sendSpy).toHaveBeenCalledWith(result, { requestType: 'productQuery' });
 			sendSpy.mockClear();
 		});
 
-		it('triggers search for productSimilar request type', async () => {
-			const controller = createController();
-			controller.store.createChat({ sessionId: 'test-session-001' });
-			controller.store.chatEnabled = true;
-			const searchSpy = jest.spyOn(controller, 'search').mockResolvedValue();
-
-			const result = {
-				id: 'prod1',
-				mappings: { core: { name: 'Test', thumbnailImageUrl: 'thumb.jpg' } },
-			} as unknown as Product;
-
-			controller.discussProduct(result, { requestType: 'productSimilar' });
-
-			expect(searchSpy).toHaveBeenCalled();
-			searchSpy.mockRestore();
-		});
-
-		it('resets comparisons when discussing a product (non-comparison)', () => {
+		it('resets comparisons before sending the product query', () => {
 			const controller = createController();
 			controller.store.createChat({ sessionId: 'test-session-001' });
 
-			// add comparison items first
 			const compareResult1 = {
 				id: 'comp1',
 				display: { mappings: { core: { uid: 'uid1' } } },
@@ -607,10 +555,32 @@ describe('Chat Controller', () => {
 				mappings: { core: { name: 'Test' } },
 			} as unknown as Product;
 
-			controller.discussProduct(result, { requestType: 'productQuery' });
+			controller.productQuery(result);
 
 			expect(resetSpy).toHaveBeenCalled();
 			resetSpy.mockRestore();
+		});
+	});
+
+	describe('productSimilar', () => {
+		it('attaches the product and triggers a search', async () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+			controller.store.chatEnabled = true;
+			const sendSpy = jest.spyOn(controller.store, 'sendProductQuery');
+			const searchSpy = jest.spyOn(controller, 'search').mockResolvedValue();
+
+			const result = {
+				id: 'prod1',
+				mappings: { core: { name: 'Test', thumbnailImageUrl: 'thumb.jpg' } },
+			} as unknown as Product;
+
+			controller.productSimilar(result);
+
+			expect(sendSpy).toHaveBeenCalledWith(result, { requestType: 'productSimilar' });
+			expect(searchSpy).toHaveBeenCalled();
+			sendSpy.mockClear();
+			searchSpy.mockRestore();
 		});
 	});
 
@@ -779,19 +749,21 @@ describe('Chat Controller', () => {
 		});
 	});
 
-	describe('addToCart callback', () => {
-		it('invokes settings.addToCart callback via middleware', async () => {
-			const addToCartCallback = jest.fn();
+	describe('addToCart middleware', () => {
+		it('invokes a configured addToCart middleware when controller.addToCart is called', async () => {
+			const addToCartMiddleware = jest.fn(async (_data: any, next: Next) => {
+				next();
+			});
 			const controller = createController({
-				settings: {
-					addToCart: addToCartCallback,
+				middleware: {
+					addToCart: addToCartMiddleware,
 				},
 			});
 
 			const products = [{ id: 'prod1', mappings: { core: {} } }] as unknown as Product[];
 			await controller.addToCart(products);
 
-			expect(addToCartCallback).toHaveBeenCalledWith(products);
+			expect(addToCartMiddleware).toHaveBeenCalledWith(expect.objectContaining({ controller, products }), expect.any(Function));
 		});
 	});
 

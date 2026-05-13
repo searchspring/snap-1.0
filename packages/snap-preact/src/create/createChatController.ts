@@ -26,7 +26,7 @@ export default (config: SnapChatControllerConfig, services?: SnapControllerServi
 		config.controller,
 		{
 			client,
-			store: services?.store || new ChatStore({ ...config.controller, siteId }),
+			store: services?.store || new ChatStore({ ...config.controller, siteId }, { urlManager }),
 			urlManager,
 			eventManager: services?.eventManager || new EventManager(),
 			profiler: services?.profiler || new Profiler(),

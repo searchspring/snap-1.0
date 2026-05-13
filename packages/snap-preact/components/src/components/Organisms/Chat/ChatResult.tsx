@@ -78,6 +78,7 @@ const defaultStyles: StyleScript<ChatResultProps> = () => {
 					backgroundColor: '#000',
 					borderRadius: '50%',
 					justifyContent: 'center',
+					boxSizing: 'border-box',
 
 					'&.ss__chat__result__image__icons__icon--cart': {
 						backgroundColor: '#feeeae',
@@ -178,7 +179,7 @@ export const ChatResult = withTracking(
 								className={'ss__chat__result__image__buttons__similar'}
 								content={'Similar'}
 								onClick={() => {
-									controller.discussProduct(result, { requestType: 'productSimilar' });
+									controller.productSimilar(result);
 								}}
 							/>
 						)}
@@ -196,7 +197,7 @@ export const ChatResult = withTracking(
 							className={'ss__chat__result__image__icons__icon--inquire'}
 							icon={{ icon: 'chat', title: 'Discuss Product' }}
 							onClick={() => {
-								controller.discussProduct(result, { requestType: 'productQuery' });
+								controller.productQuery(result);
 							}}
 						/>
 						<Button
@@ -206,7 +207,7 @@ export const ChatResult = withTracking(
 								// configurable products need a variant selection — open the product
 								// information panel so the user can pick options before adding to cart
 								if (isConfigurable) {
-									controller.viewProduct(result);
+									controller.productQuickView(result);
 									return;
 								}
 								controller.track.product.addToCart(result);

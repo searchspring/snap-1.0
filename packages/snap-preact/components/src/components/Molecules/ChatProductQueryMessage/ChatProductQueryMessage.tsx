@@ -4,7 +4,7 @@ import { jsx, css } from '@emotion/react';
 import classnames from 'classnames';
 
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
-import { mergeProps, mergeStyles } from '../../../utilities';
+import { Colour, mergeProps, mergeStyles } from '../../../utilities';
 import { ComponentProps, StyleScript } from '../../../types';
 import type { ChatController } from '@athoscommerce/snap-controller';
 import { Image } from '../../Atoms/Image';
@@ -12,15 +12,16 @@ import { Button } from '../../Atoms/Button';
 import { Icon, Price } from '../../..';
 import type { Product, VariantSelection } from '@athoscommerce/snap-store-mobx';
 
-const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
-	const colorPrimary = '#253B80';
+const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor, primaryColorText }) => {
+	const colorPrimary = primaryColor || '#253B80';
+	const colorPrimaryText = primaryColorText || '#fff';
 	return css({
 		display: 'flex',
 		flexDirection: 'column',
 		gap: '1em',
 
 		'.ss__chat-product-query-message__header': {
-			background: colorPrimary,
+			background: new Colour(colorPrimary).lightenHex(0.2),
 			padding: '1em',
 			display: 'flex',
 			flexDirection: 'column',
@@ -29,7 +30,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 				display: 'flex',
 				alignItems: 'center',
 				gap: '0.35em',
-				color: '#fff',
+				color: colorPrimaryText,
 				cursor: 'pointer',
 				alignSelf: 'flex-start',
 				padding: '0.5em 0',
@@ -39,20 +40,19 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 					opacity: 1,
 				},
 				svg: {
-					fill: '#fff',
-					stroke: '#fff',
+					fill: colorPrimaryText,
+					stroke: colorPrimaryText,
 				},
 			},
 
 			'.ss__price': {
-				color: '#fff',
+				color: colorPrimaryText,
 			},
 
 			'.ss__chat-product-query-message__header__product': {
 				display: 'flex',
 				gap: '0.75em',
 				alignItems: 'center',
-				background: '#40528e',
 				borderRadius: '0.75em',
 				padding: '0.75em',
 
@@ -75,7 +75,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 						fontSize: '0.95em',
 
 						a: {
-							color: '#FFFFFF',
+							color: colorPrimaryText,
 							textDecoration: 'none',
 							'&:hover': {
 								textDecoration: 'underline',
@@ -109,12 +109,13 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 
 					'.ss__chat-product-query-message__header__product__actions__go-to-product': {
 						a: {
-							color: 'rgba(255, 255, 255, 0.85)',
+							color: colorPrimaryText,
+							opacity: 0.85,
 							fontSize: '0.8em',
 							textDecoration: 'underline',
 							cursor: 'pointer',
 							'&:hover': {
-								color: '#FFFFFF',
+								opacity: 1,
 							},
 						},
 					},
@@ -134,20 +135,18 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 						},
 					},
 
-					'.ss__chat-product-query-message__header__product__actions__show-similar .ss__button': {
-						borderRadius: '0.5em',
-						padding: '0.4em 0.75em',
-						fontWeight: 'bold',
-						border: '1px solid rgba(255, 255, 255, 0.6)',
-						whiteSpace: 'nowrap',
-						cursor: 'pointer',
-						fontSize: '0.8em',
-						background: 'transparent',
-						color: '#fff',
-						'&:not(.ss__button--disabled):hover': {
-							background: 'rgba(255, 255, 255, 0.15)',
+					// Visual styles for the Show similar / Discuss product buttons live in the
+					// Chat component so the chat-level theme drives them. Only layout-related
+					// rules remain here.
+					'.ss__chat-product-query-message__header__product__actions__show-similar .ss__button, .ss__chat-product-query-message__header__product__actions__discuss-product .ss__button':
+						{
+							borderRadius: '0.5em',
+							padding: '0.4em 0.75em',
+							fontWeight: 'bold',
+							whiteSpace: 'nowrap',
+							cursor: 'pointer',
+							fontSize: '0.8em',
 						},
-					},
 				},
 			},
 		},
@@ -179,11 +178,11 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 					transition: 'border-color 0.15s ease',
 
 					'&:hover': {
-						borderColor: '#253B80',
+						borderColor: colorPrimary,
 					},
 
 					'&.ss__chat-product-query-message__variants__swatch--selected': {
-						borderColor: '#253B80',
+						borderColor: colorPrimary,
 						borderWidth: '3px',
 						padding: '0.15em',
 					},
@@ -216,8 +215,8 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 		'.ss__chat-product-query-message__section': {
 			padding: '0 1em',
 			'.ss__chat-product-query-message__section__title': {
-				background: '#253B80',
-				color: '#fff',
+				background: colorPrimary,
+				color: colorPrimaryText,
 				padding: '0.5em 0.75em',
 				fontWeight: 'bold',
 				fontSize: '0.95em',
@@ -231,7 +230,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 				borderCollapse: 'separate',
 				borderSpacing: 0,
 				fontSize: '0.9em',
-				border: '3px solid #253B80',
+				border: `3px solid ${colorPrimary}`,
 				borderTop: 'none',
 				borderBottomLeftRadius: '0.5em',
 				borderBottomRightRadius: '0.5em',
@@ -277,7 +276,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = () => {
 				fontSize: '0.9em',
 				color: '#374151',
 				lineHeight: '1.5',
-				border: '3px solid #253B80',
+				border: `3px solid ${colorPrimary}`,
 				borderTop: 'none',
 				borderBottomLeftRadius: '0.5em',
 				borderBottomRightRadius: '0.5em',
@@ -561,12 +560,12 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 							</div>
 							{controller?.store.features.similarProducts.enabled && (
 								<div className={classnames('ss__chat-product-query-message__header__product__actions__show-similar')}>
-									<Button
-										content={'Show Similar'}
-										onClick={() => controller?.discussProduct(sourceProduct as any, { requestType: 'productSimilar' })}
-									/>
+									<Button content={'Show Similar'} onClick={() => controller?.productSimilar(sourceProduct as any)} />
 								</div>
 							)}
+							<div className={classnames('ss__chat-product-query-message__header__product__actions__discuss-product')}>
+								<Button content={'Discuss Product'} onClick={() => controller?.productQuery(sourceProduct as any)} />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -673,6 +672,8 @@ export type ChatProductQueryMessageProps = {
 	controller?: ChatController;
 	displayFields?: string[];
 	lang?: Partial<ChatProductQueryMessageLang>;
+	primaryColor?: string;
+	primaryColorText?: string;
 } & ChatProductQueryMessageTemplatesLegalProps &
 	ComponentProps<ChatProductQueryMessageProps>;
 

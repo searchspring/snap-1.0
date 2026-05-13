@@ -91,8 +91,10 @@ let templatesConfig: SnapTemplatesConfig = {
 			},
 		],
 		settings: {
-			displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
-			addToCart: (products: any) => console.log('chat add to cart!', products),
+			quickview: {
+				enabled: true,
+				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
+			},
 		},
 	},
 	autocomplete: {

@@ -4,6 +4,7 @@ import {
 	SearchResponseModelResultCoreMappings,
 	SearchResponseModelFacetValueAllOfValues,
 	SearchResponseModelFacetRangeBucketsAllOfValues,
+	SearchRequestModelFilterRangeAllOfValue,
 } from '@athoscommerce/snapi-types';
 import type {
 	MoiResponseModel,
@@ -315,6 +316,42 @@ const mapProductToSearchResultProduct = (product: RawResult, responseId: string)
 	});
 };
 
+/** Derive overall low/high bounds from a list of range buckets. Treats `*` and missing
+ * values as open ends — used to seed slider range/active from bucket data. */
+const bucketBounds = (values: any[]): { low: number | undefined; high: number | undefined } => {
+	let low: number | undefined;
+	let high: number | undefined;
+	values.forEach((v) => {
+		if (v.low != null && v.low !== '*') {
+			const n = +v.low;
+			if (!Number.isNaN(n)) low = low === undefined ? n : Math.min(low, n);
+		}
+		if (v.high != null && v.high !== '*') {
+			const n = +v.high;
+			if (!Number.isNaN(n)) high = high === undefined ? n : Math.max(high, n);
+		}
+	});
+	return { low, high };
+};
+
+/** Parse a slider's range/active payload — the upstream sends arrays `[low, high]`
+ * (sometimes nullable) but other shapes appear elsewhere as `{ low, high }`. */
+const parseRangeBounds = (value: any): { low: number | undefined; high: number | undefined } | null => {
+	if (value == null) return null;
+	const toNum = (v: any): number | undefined => {
+		if (v == null || v === '*') return undefined;
+		const n = Number(v);
+		return Number.isNaN(n) ? undefined : n;
+	};
+	if (Array.isArray(value)) {
+		return { low: toNum(value[0]), high: toNum(value[1]) };
+	}
+	if (typeof value === 'object') {
+		return { low: toNum(value.low), high: toNum(value.high) };
+	}
+	return null;
+};
+
 const mapFacetToSearchResultFacets = (searchResult: MoiResponseModelSearchResult): SearchResponseModelFacet[] => {
 	const facets = searchResult?.facets || [];
 	const transformedFacets = facets.map((facet) => {
@@ -323,6 +360,31 @@ const mapFacetToSearchResultFacets = (searchResult: MoiResponseModelSearchResult
 			label: facet.label,
 			type: 'value',
 		};
+
+		// Continuous slider (e.g. price) — upstream sends `type: 'slider'` with
+		// `range`/`active` as `[low, high]` tuples and an empty `values` array.
+		if (facet.type === 'slider' || facet.type === 'range') {
+			const range = parseRangeBounds((facet as any).range);
+			const active = parseRangeBounds((facet as any).active) || range;
+			const rangeLow = range?.low;
+			const rangeHigh = range?.high;
+			// Only emit a slider when bounds are usable — otherwise fall through
+			// so empty/degenerate sliders don't produce empty dropdowns.
+			if (rangeLow != null && rangeHigh != null) {
+				transformedFacet.type = 'range';
+				const rangeOut: SearchRequestModelFilterRangeAllOfValue = { low: rangeLow, high: rangeHigh };
+				const activeOut: SearchRequestModelFilterRangeAllOfValue = {
+					low: active?.low ?? rangeLow,
+					high: active?.high ?? rangeHigh,
+				};
+				transformedFacet.range = rangeOut;
+				transformedFacet.active = activeOut;
+				transformedFacet.step = (facet as any).step ?? 1;
+				transformedFacet.filtered = activeOut.low !== rangeOut.low || activeOut.high !== rangeOut.high;
+				return transformedFacet;
+			}
+		}
+
 		if (facet.values instanceof Array) {
 			if (facet.type == 'hierarchy') {
 				transformedFacet.type = 'value';
@@ -334,23 +396,41 @@ const mapFacetToSearchResultFacets = (searchResult: MoiResponseModelSearchResult
 						count: value.count,
 					};
 				});
-			} else if (facet.values.length && facet.values[0].type == 'value') {
+			} else if (facet.values.length && facet.values[0].type == 'range') {
+				// Discrete range buckets — when no slider data was provided upstream,
+				// `price` synthesizes a slider from the bucket bounds; everything else
+				// renders as range-buckets.
+				if (facet.field === 'price') {
+					transformedFacet.type = 'range';
+					const { low: rangeLow, high: rangeHigh } = bucketBounds(facet.values);
+					const activeBuckets = facet.values.filter((v: any) => v.active);
+					const { low: activeLow, high: activeHigh } = activeBuckets.length ? bucketBounds(activeBuckets) : { low: rangeLow, high: rangeHigh };
+					const range: SearchRequestModelFilterRangeAllOfValue = { low: rangeLow, high: rangeHigh };
+					const active: SearchRequestModelFilterRangeAllOfValue = { low: activeLow, high: activeHigh };
+					transformedFacet.range = range;
+					transformedFacet.active = active;
+					transformedFacet.step = 1;
+					transformedFacet.filtered = activeBuckets.length > 0;
+				} else {
+					transformedFacet.type = 'range-buckets';
+					transformedFacet.values = facet.values.map((value: any): SearchResponseModelFacetRangeBucketsAllOfValues => {
+						return {
+							filtered: value.active,
+							low: value.low == '*' ? undefined : value.low != null ? +value.low : undefined,
+							high: value.high == '*' ? undefined : value.high != null ? +value.high : undefined,
+							label: value.label,
+							count: value.count,
+						};
+					});
+				}
+			} else if (facet.values.length) {
+				// Default to value rendering for `list`, `palette`, and any other
+				// type whose values are individual selectable options.
 				transformedFacet.type = 'value';
 				transformedFacet.values = facet.values.map((value): SearchResponseModelFacetValueAllOfValues => {
 					return {
 						filtered: value.active,
 						value: value.value,
-						label: value.label,
-						count: value.count,
-					};
-				});
-			} else if (facet.values.length && facet.values[0].type == 'range') {
-				transformedFacet.type = 'range-buckets';
-				transformedFacet.values = facet.values.map((value: any): SearchResponseModelFacetRangeBucketsAllOfValues => {
-					return {
-						filtered: value.active,
-						low: value.low == '*' ? undefined : value.low != null ? +value.low : undefined,
-						high: value.high == '*' ? undefined : value.high != null ? +value.high : undefined,
 						label: value.label,
 						count: value.count,
 					};

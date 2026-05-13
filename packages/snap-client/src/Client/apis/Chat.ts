@@ -3,8 +3,19 @@ import { ClientGlobals, HTTPHeaders } from '../../types';
 import { transformChatResponse } from '../transforms/chatResponse';
 import { RawResult } from '../transforms/searchResponse';
 
+/** Tracking values sent as query params on every chat backend request.
+ * `sessionId` here is the tracker/browser session, not the chat session. */
+export type ChatTrackingContext = {
+	pageUrl: string;
+	sessionId: string;
+	pageLoadId: string;
+	shopperId?: string;
+	currency?: string;
+};
+
 export type ChatStatusRequestModel = {
 	siteId: string;
+	tracking: ChatTrackingContext;
 };
 
 export type ChatInitRequestModel = {
@@ -20,10 +31,12 @@ export type ChatInitRequestModel = {
 		excludedFacets?: string;
 		shopper?: string;
 	};
+	tracking: ChatTrackingContext;
 };
 
 export type ChatInitResponseModel = {
 	chatSessionId: string;
+	sessionEndTime: string;
 };
 
 export type UploadImageRequestModel = {
@@ -41,11 +54,8 @@ export type ChatRequestModel = {
 		sessionId?: string;
 	};
 	data: MoiRequestModel;
-	tracking: {
+	tracking: ChatTrackingContext & {
 		userId: string;
-		domain: string;
-		sessionId?: string;
-		pageLoadId?: string;
 	};
 	personalization?: {
 		shopper: string;
@@ -98,9 +108,7 @@ export type MoiRequestModelProductSearch = {
 	searchTerm?: string;
 	searchFilters?: {
 		key: string;
-		options: {
-			key: string;
-		}[];
+		options: ({ key: string } | { low: string; high: string })[];
 	}[];
 };
 
@@ -287,6 +295,17 @@ export type ChatBadRequestResponse = {
 
 const JSON_HEADERS: HTTPHeaders = { 'Content-Type': 'application/json' };
 
+const trackingQuery = (t: ChatTrackingContext): Record<string, string> => {
+	const q: Record<string, string> = {
+		pageUrl: t.pageUrl,
+		sessionId: t.sessionId,
+		pageLoadId: t.pageLoadId,
+	};
+	if (t.shopperId) q.shopperId = t.shopperId;
+	if (t.currency) q.currency = t.currency;
+	return q;
+};
+
 export class ChatAPI extends API<any> {
 	private handle400Error(err: any): never {
 		if (err?.fetchDetails?.status === 400) {
@@ -310,13 +329,14 @@ export class ChatAPI extends API<any> {
 
 		try {
 			const response = await this.request<MoiResponseModel>({
-				path: '/chat/send',
+				path: '/v1/chat/send',
 				method: 'POST',
 				headers: JSON_HEADERS,
 				query: {
 					siteId: requestParameters.siteId,
 					chatSessionId: requestParameters.context.sessionId || '',
 					...(userId ? { userId } : {}),
+					...trackingQuery(requestParameters.tracking),
 				},
 				body: requestParameters.data,
 			});
@@ -342,10 +362,13 @@ export class ChatAPI extends API<any> {
 	async postStatus(queryParameters: ChatStatusRequestModel): Promise<ChatStatusResponse> {
 		try {
 			const response = await this.request<ChatStatusResponse>({
-				path: '/chat/status',
+				path: '/v1/chat/status',
 				method: 'GET',
 				headers: { ...JSON_HEADERS },
-				query: queryParameters,
+				query: {
+					siteId: queryParameters.siteId,
+					...trackingQuery(queryParameters.tracking),
+				},
 			});
 
 			return response;
@@ -357,10 +380,13 @@ export class ChatAPI extends API<any> {
 	async chatInit(queryParameters: ChatInitRequestModel): Promise<ChatInitResponseModel> {
 		try {
 			const response = await this.request<ChatInitResponseModel>({
-				path: '/chat/init',
+				path: '/v1/chat/init',
 				method: 'POST',
 				headers: JSON_HEADERS,
-				query: { siteId: queryParameters.siteId },
+				query: {
+					siteId: queryParameters.siteId,
+					...trackingQuery(queryParameters.tracking),
+				},
 				body: queryParameters,
 			});
 
@@ -380,7 +406,7 @@ export class ChatAPI extends API<any> {
 		}
 
 		const response = await this.request<UploadImageResponseModel>({
-			path: '/chat/upload-image',
+			path: '/v1/chat/upload-image',
 			method: 'POST',
 			headers: {},
 			query: { siteId: requestParameters.siteId },

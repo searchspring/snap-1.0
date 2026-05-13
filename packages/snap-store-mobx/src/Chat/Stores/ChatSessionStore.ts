@@ -22,10 +22,9 @@ import {
 	ChatAttachmentStore,
 } from '../Stores/ChatAttachmentStore';
 import type { StorageStore } from '../../Storage/StorageStore';
-import { MetaResponseModel, SearchResponseModelFacet, SearchResponseModelResult } from '@athoscommerce/snapi-types';
+import { MetaResponseModel, SearchResponseModelResult } from '@athoscommerce/snapi-types';
 import { ChatCompareStore } from './ChatCompareStore';
 import { SearchResultStore, Product } from '../../Search/Stores/SearchResultStore';
-import { SearchFacetStore } from '../../Search/Stores/SearchFacetStore';
 
 function createChatResultStore(results: SearchResponseModelResult[], meta: MetaResponseModel): SearchResultStore {
 	return new SearchResultStore({
@@ -44,17 +43,6 @@ function createChatProduct(result: SearchResponseModelResult, meta: MetaResponse
 		data: { result, meta },
 		position: 0,
 		responseId: '',
-	});
-}
-
-function createChatFacetStore(facets: SearchResponseModelFacet[], meta: MetaResponseModel, storage: StorageStore): SearchFacetStore {
-	return new SearchFacetStore({
-		config: {} as any,
-		stores: { storage },
-		data: {
-			search: { facets } as any,
-			meta,
-		},
 	});
 }
 
@@ -169,49 +157,6 @@ function serializeChatForStorage(chat: ChatMessage[]): any[] {
 	});
 }
 
-/** Serialize SearchFacetStore instances in actions back to plain facet arrays for localStorage. */
-function serializeActionsForStorage(actions: ChatActions): any[] {
-	return actions.map((action) => {
-		if (action.type === 'facets') {
-			return {
-				...action,
-				data: serializeFacetStore(action.data),
-			};
-		}
-		return action;
-	});
-}
-
-/** Convert a SearchFacetStore (or raw array) back to plain serializable facet objects. */
-function serializeFacetStore(facetStore: SearchFacetStore | any[]): any[] {
-	return Array.from(facetStore).map((facet: any) => {
-		const serialized: any = {
-			field: facet.field,
-			label: facet.label,
-			type: facet.type,
-			filtered: facet.filtered,
-		};
-		if (facet.values) {
-			serialized.values = facet.values.map((value: any) => {
-				if (facet.type === 'range-buckets') {
-					return { low: value.low, high: value.high, label: value.label, count: value.count, filtered: value.filtered };
-				}
-				return { value: value.value, label: value.label, count: value.count, filtered: value.filtered };
-			});
-		}
-		if (facet.range) {
-			serialized.range = facet.range;
-		}
-		if (facet.active) {
-			serialized.active = facet.active;
-		}
-		if (facet.step != null) {
-			serialized.step = facet.step;
-		}
-		return serialized;
-	});
-}
-
 export type ChatFeedbacks = { messageId: string; rating: 'UP' | 'DOWN' };
 
 export type ChatSessionFeedback = { rating: 'UP' | 'DOWN' };
@@ -257,6 +202,7 @@ type ChatSessionStoreConfig = {
 		sessionFeedback?: ChatSessionFeedback | null;
 		feedbackDismissed?: boolean;
 		createdAt?: Date;
+		sessionEndTime?: Date;
 		committedComparisons?: any[];
 	};
 	stores: {
@@ -264,18 +210,15 @@ type ChatSessionStoreConfig = {
 	};
 };
 
-export type FacetsData = {
-	type: 'facets';
-	data: SearchFacetStore;
-	filterSummary?: { field: string; value: string; label?: string; filterLabel?: string; filterValue?: string }[];
-};
-
 export type ActionsData = {
 	type: 'actions';
 	// data: ChatResponseActionsData['actions'];
 	data: any;
 };
-export type ChatActions = (FacetsData | ActionsData)[];
+export type ChatActions = ActionsData[];
+
+/** Snapshot of facet labels keyed by field — used to render the user message text for a productSearch request. */
+export type FilterLabelMap = Record<string, { facetLabel: string; values: Record<string, string> }>;
 
 export class ChatSessionStore {
 	public chat: ChatMessage[] = [];
@@ -290,24 +233,35 @@ export class ChatSessionStore {
 	public feedbackDismissed: boolean = false;
 	public feedbackJustGiven: boolean = false;
 	public createdAt: Date = new Date();
+	public sessionEndTime?: Date;
 	public requestType: string = '';
 	public dismissedSideChatMessageId: string | null = null;
 	public activeMessageId: string | null = null;
 	public sessionLimitReached: boolean = false;
-	/** Tracks server-filtered facets the user has explicitly unselected (pending next request). */
-	public removedFacets: { key: string; value: string }[] = [];
 	/** Whether raw stored results have been hydrated into Product/SearchResultStore instances. */
 	public hydrated: boolean = true;
 
 	constructor(params: ChatSessionStoreConfig) {
-		const { id, sessionId, chat, attachments, actions, feedbacks, sessionFeedback, feedbackDismissed, createdAt, committedComparisons } =
-			params.data || {};
+		const {
+			id,
+			sessionId,
+			chat,
+			attachments,
+			actions,
+			feedbacks,
+			sessionFeedback,
+			feedbackDismissed,
+			createdAt,
+			sessionEndTime,
+			committedComparisons,
+		} = params.data || {};
 		const { stores } = params;
 		this.id = id || uuidv4();
 		this.sessionId = sessionId;
 		this.storage = stores.storage;
 		this.actions = actions || [];
 		this.createdAt = createdAt ? new Date(createdAt) : new Date();
+		this.sessionEndTime = sessionEndTime ? new Date(sessionEndTime) : undefined;
 		this.feedbacks = feedbacks || [];
 		this.sessionFeedback = sessionFeedback || null;
 		this.feedbackDismissed = feedbackDismissed || false;
@@ -315,7 +269,7 @@ export class ChatSessionStore {
 		// if chat and attachments are passed, load them
 		if (chat && chat.length > 0) {
 			// productQuery messages only exist to drive the side-chat panel for an
-			// in-flight discussProduct click; they must not be rehydrated on reload
+			// in-flight productQuery click; they must not be rehydrated on reload
 			// or the side chat would re-open without the matching primary-chat state
 			this.chat = chat.filter((message) => message.messageType !== 'productQuery');
 		}
@@ -364,7 +318,6 @@ export class ChatSessionStore {
 			dismissedSideChatMessageId: observable,
 			activeMessageId: observable,
 			sessionLimitReached: observable,
-			removedFacets: observable,
 			activeMessage: computed,
 		});
 	}
@@ -389,7 +342,7 @@ export class ChatSessionStore {
 		// capture the side-chat message that was active at click time so a back action
 		// can restore it even when it's not the last message in the chat
 		const sourceMessageId = this.activeMessage?.id;
-		// drop any trailing productQuery so a fresh discussProduct click replaces
+		// drop any trailing productQuery so a fresh productQuery click replaces
 		// the side-chat target rather than stacking up
 		while (this.chat.length > 0 && this.chat[this.chat.length - 1]?.messageType === 'productQuery') {
 			this.chat.pop();
@@ -415,10 +368,13 @@ export class ChatSessionStore {
 	}
 
 	get isExpired(): boolean {
+		// Prefer the server-provided end time (returned by chatInit); fall back to a
+		// 24-hour window from createdAt for sessions persisted before that field existed.
+		if (this.sessionEndTime) {
+			return Date.now() > this.sessionEndTime.getTime();
+		}
 		const ONE_DAY = 24 * 60 * 60 * 1000;
-		const now = new Date();
-		const diff = now.getTime() - this.createdAt.getTime();
-		return diff > ONE_DAY;
+		return Date.now() - this.createdAt.getTime() > ONE_DAY;
 	}
 
 	get topicDrift(): ChatResponseTopicDriftData | null {
@@ -495,7 +451,6 @@ export class ChatSessionStore {
 		this.attachments.reset();
 		this.chat = [];
 		this.actions = [];
-		this.removedFacets = [];
 		this.feedbacks = [];
 		this.sessionFeedback = null;
 	}
@@ -513,11 +468,12 @@ export class ChatSessionStore {
 			sessionId: this.sessionId,
 			chat: serializeChatForStorage(this.chat),
 			attachments: serializeAttachmentsForStorage(this.attachments.items),
-			actions: serializeActionsForStorage(this.actions),
+			actions: this.actions,
 			feedbacks: this.feedbacks,
 			sessionFeedback: this.sessionFeedback,
 			feedbackDismissed: this.feedbackDismissed,
 			createdAt: this.createdAt,
+			sessionEndTime: this.sessionEndTime,
 			committedComparisons: this.comparisons.committedItems,
 		});
 	}
@@ -590,22 +546,11 @@ export class ChatSessionStore {
 				});
 			}
 		});
-
-		// Re-wrap raw stored facets as SearchFacetStore instances
-		this.actions.forEach((action, index) => {
-			if (action.type === 'facets' && action.data?.length > 0 && !(action.data instanceof SearchFacetStore)) {
-				this.actions[index] = {
-					...action,
-					data: createChatFacetStore(action.data as SearchResponseModelFacet[], meta, this.storage),
-				};
-			}
-		});
 	}
 
-	public request(request: ChatRequestModel): void {
+	public request(request: ChatRequestModel, filterLabels?: FilterLabelMap): void {
 		// clear the questions on new request
 		this.actions = [];
-		this.removedFacets = [];
 		this.requestType = request.data.requestType;
 		this.activeMessageId = null;
 
@@ -620,13 +565,18 @@ export class ChatSessionStore {
 				const filterTextArray: string[] = [];
 
 				searchFilters.forEach((filter) => {
-					const attachedFacets = this.attachments.attached.filter(
-						(item) => item.type == 'facet' && (item as any).key == filter.key
-					) as ChatAttachmentFacet[];
-					attachedFacets.forEach((attachedFacet) => {
-						attachments.push(attachedFacet.id);
-						attachedFacet.activate();
-						filterTextArray.push(`${attachedFacet.facetLabel} ${attachedFacet.label}`);
+					const labelEntry = filterLabels?.[filter.key];
+					filter.options?.forEach((option) => {
+						const facetLabel = labelEntry?.facetLabel || filter.key;
+						if ('low' in option || 'high' in option) {
+							const low = (option as { low: string }).low ?? '*';
+							const high = (option as { high: string }).high ?? '*';
+							filterTextArray.push(`${facetLabel} ${low}-${high}`);
+						} else {
+							const key = (option as { key: string }).key;
+							const optionLabel = labelEntry?.values[key] || key;
+							filterTextArray.push(`${facetLabel} ${optionLabel}`);
+						}
 					});
 				});
 				this.chat.push({
@@ -751,14 +701,6 @@ export class ChatSessionStore {
 					data: messageData.actions,
 				});
 				return;
-			}
-
-			if (messageData.messageType === 'productSearchResult' && messageData.facets?.length > 0) {
-				this.actions.push({
-					type: 'facets',
-					data: createChatFacetStore(messageData.facets as SearchResponseModelFacet[], meta, this.storage),
-					filterSummary: (messageData as any).filterSummary || [],
-				});
 			}
 
 			// convert raw results to Product instances (via SearchResultStore) so

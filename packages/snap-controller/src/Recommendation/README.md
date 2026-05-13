@@ -13,6 +13,8 @@ The `RecommendationController` is used when making queries to the API `recommend
 | limit | maximum number of results to display, can also be set globally via globals | 20 |  |
 | globals | keys defined here will be passed to the API request (can overwrite global config)| ➖ |   |
 | settings.searchOnPageShow | causes a search to be conducted when returning using browser back/forward cache | true |   | 
+| settings.quickview.enabled | enable the product quickview button/panel on recommendation results | `false` |   |
+| settings.quickview.displayFields | array of field names to display in the product quickview panel | ➖ |   |
 | settings.variants.field | used to set the field in which to grab the variant data from | ➖ |   | 
 | settings.variants.showDisabledSelectionValues | determines if completely out of stock (disabled) options should appear in variant selections | false |   | 
 | settings.variants.realtime.enabled | enable real time variant updates | ➖ |   | 
@@ -40,6 +42,19 @@ This will invoke an addToCart event (see below). Takes an array of Products as a
 ```js
 recommendationController.addToCart([recommendationController.store.results[0]]);
 ```
+
+## ProductQuickView
+Clones the supplied result, stashes it on `store.productQuickView`, and fetches parent-level data (including variant `optionConfig` and variant rows) from the products API. Variants and core mappings from the response are merged into the cloned product so the UI can render variant swatches and updated pricing. The clone is intentional — variant selections made in the quickview do **not** mutate the originating result.
+
+`productQuickView` is a no-op unless `settings.quickview.enabled` is `true`.
+
+A monotonic request id discards stale responses if `productQuickView` is called again before an earlier fetch resolves. Errors are surfaced via `store.productQuickView.error` while the cloned product remains visible.
+
+```js
+recommendationController.productQuickView(result);
+```
+
+Render the modal with the [`ProductQuickView` component](https://github.com/athoscommerce/snap/tree/main/packages/snap-preact/components/src/components/Organisms/ProductQuickView), passing the controller as a prop.
 
 ## Events
 ### init

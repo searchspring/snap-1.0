@@ -74,6 +74,11 @@ let config: SnapConfig = {
 				// branch: BRANCHNAME,
 				branch: 'production',
 				plugins: [[mutateResultsURL]],
+				settings: {
+					quickview: {
+						enabled: true,
+					},
+				},
 			},
 		},
 	},
@@ -208,6 +213,33 @@ let config: SnapConfig = {
 						selector: '#athos-finder-hierarchy',
 						component: async () => {
 							return (await import('./components/Finder/Finder')).Finder;
+						},
+					},
+				],
+			},
+		],
+		chat: [
+			{
+				config: {
+					id: 'chat',
+					settings: {
+						quickview: {
+							enabled: true,
+							displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
+						},
+					},
+					middleware: {
+						addToCart: (data: { products: any }, next: () => void) => {
+							console.log('chat add to cart!', data.products);
+							next();
+						},
+					},
+				},
+				targeters: [
+					{
+						selector: 'body',
+						component: async () => {
+							return (await import('@athoscommerce/snap-preact/components')).Chat;
 						},
 					},
 				],

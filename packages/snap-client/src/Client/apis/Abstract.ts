@@ -27,20 +27,24 @@ export class API<PathConfigurationType> {
 	private retryCount = 0;
 
 	public cache: NetworkCache;
+	public memoryCache: NetworkCache;
 
 	constructor(public configuration: ApiConfiguration<PathConfigurationType>) {
 		this.cache = new NetworkCache(this.configuration.cache);
+		// Memory-only cache for endpoints that should never persist to sessionStorage
+		// (e.g. /v1/products — quickview lookups don't need to survive a page reload).
+		this.memoryCache = new NetworkCache({ ...this.configuration.cache, type: 'memory' });
 	}
 
 	protected get mode(): AppMode {
 		return this.configuration.mode;
 	}
 
-	protected async request<T>(context: RequestOpts, cacheKey?: string): Promise<T> {
+	protected async request<T>(context: RequestOpts, cacheKey?: string, cache: NetworkCache = this.cache): Promise<T> {
 		const { url, init } = this.createFetchParams(context);
 
 		if (cacheKey) {
-			const cachedResponse = this.cache.get(`${context.path}/${cacheKey}`) || this.cache.get(`${context.path}/*`);
+			const cachedResponse = cache.get(`${context.path}/${cacheKey}`) || cache.get(`${context.path}/*`);
 			if (cachedResponse) {
 				this.retryCount = 0; // reset count and delay incase rate limit occurs again before a page refresh
 				this.retryDelay = 1000;
@@ -68,7 +72,7 @@ export class API<PathConfigurationType> {
 				this.retryDelay = 1000;
 				if (cacheKey) {
 					// save in the cache before returning
-					this.cache.set(`${context.path}/${cacheKey}`, responseJSON);
+					cache.set(`${context.path}/${cacheKey}`, responseJSON);
 				}
 				return responseJSON;
 			} else if (response.status == 429) {
@@ -88,7 +92,7 @@ export class API<PathConfigurationType> {
 			throw new Error('Unexpected Response Status.');
 		} catch (err: any) {
 			if (err.message == 'Rate limited.') {
-				return await this.request(context, cacheKey);
+				return await this.request(context, cacheKey, cache);
 			}
 
 			// throw an object with fetch details
