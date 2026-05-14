@@ -8,6 +8,7 @@ import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, StyleScript, JSXComponent } from '../../../types';
 import { AutocompleteLayout, AutocompleteLayoutProps } from '../../Organisms/AutocompleteLayout';
+import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import { Modal, ModalProps } from '../../Molecules/Modal';
 import classNames from 'classnames';
 import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
@@ -206,28 +207,35 @@ export const AutocompleteModal = observer((properties: AutocompleteModalProps) =
 	delete acProps.styleScript;
 	delete acProps.themeStyleScript;
 
-	return layout?.length && active ? (
-		<CacheProvider>
-			<div {...styling} className={classNames('ss__autocomplete-modal', className, internalClassName)}>
-				<Modal {...subProps.modal}>
-					<div className="ss__autocomplete-modal__inner" ref={(e) => useA11y(e, 0, true, reset)}>
-						{renderInput ? (
-							<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
-						) : (
-							<></>
-						)}
-						<AutocompleteLayout
-							{...acProps}
-							{...subProps.autocompleteLayout}
-							input={_input!}
-							controller={controller}
-							treePath={`${treePath} modal`}
-						/>
+	return (
+		<>
+			{layout?.length && active ? (
+				<CacheProvider>
+					<div {...styling} className={classNames('ss__autocomplete-modal', className, internalClassName)}>
+						<Modal {...subProps.modal}>
+							<div className="ss__autocomplete-modal__inner" ref={(e) => useA11y(e, 0, true, reset)}>
+								{renderInput ? (
+									<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
+								) : (
+									<></>
+								)}
+								<AutocompleteLayout
+									{...acProps}
+									{...subProps.autocompleteLayout}
+									input={_input!}
+									controller={controller}
+									treePath={`${treePath} modal`}
+								/>
+							</div>
+						</Modal>
 					</div>
-				</Modal>
-			</div>
-		</CacheProvider>
-	) : null;
+				</CacheProvider>
+			) : null}
+			{controller.config.settings?.quickview?.enabled && (
+				<ProductQuickView controller={controller} displayFields={controller.config.settings?.quickview?.displayFields} />
+			)}
+		</>
+	);
 });
 
 interface AutocompleteModalSubProps {

@@ -8,6 +8,7 @@ import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, StyleScript, JSXComponent } from '../../../types';
 import { AutocompleteLayout, AutocompleteLayoutProps } from '../../Organisms/AutocompleteLayout';
+import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import { SlideDirectionType, Slideout, SlideoutProps } from '../../Molecules/Slideout';
 import classNames from 'classnames';
 import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
@@ -158,31 +159,38 @@ export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutPr
 	delete acProps.themeStyleScript;
 
 	/***************************************/
-	return layout?.length ? (
-		<CacheProvider>
-			<Slideout
-				{...styling}
-				{...subProps.slideout}
-				className={classNames('ss__autocomplete-slideout', 'ss__autocomplete-slideout__slideout', className, internalClassName)}
-				active={active}
-			>
-				<div className="ss__autocomplete-slideout__inner" ref={(e) => useA11y(e, 0, true, reset)}>
-					{renderInput ? (
-						<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
-					) : (
-						<></>
-					)}
-					<AutocompleteLayout
-						{...acProps}
-						{...subProps.autocompleteLayout}
-						input={_input!}
-						controller={controller}
-						treePath={`${treePath} slideout`}
-					/>
-				</div>
-			</Slideout>
-		</CacheProvider>
-	) : null;
+	return (
+		<>
+			{layout?.length ? (
+				<CacheProvider>
+					<Slideout
+						{...styling}
+						{...subProps.slideout}
+						className={classNames('ss__autocomplete-slideout', 'ss__autocomplete-slideout__slideout', className, internalClassName)}
+						active={active}
+					>
+						<div className="ss__autocomplete-slideout__inner" ref={(e) => useA11y(e, 0, true, reset)}>
+							{renderInput ? (
+								<SearchInput {...subProps.searchInput} value={controller.store.state.input || ('' as string)} inputRef={renderedInputRef} />
+							) : (
+								<></>
+							)}
+							<AutocompleteLayout
+								{...acProps}
+								{...subProps.autocompleteLayout}
+								input={_input!}
+								controller={controller}
+								treePath={`${treePath} slideout`}
+							/>
+						</div>
+					</Slideout>
+				</CacheProvider>
+			) : null}
+			{controller.config.settings?.quickview?.enabled && (
+				<ProductQuickView controller={controller} displayFields={controller.config.settings?.quickview?.displayFields} />
+			)}
+		</>
+	);
 });
 interface AutocompleteSlideoutSubProps {
 	autocompleteLayout: Partial<AutocompleteLayoutProps>;

@@ -926,6 +926,33 @@ export class SearchController extends AbstractController {
 			this.eventManager.fire('addToCart', { controller: this, products });
 		}
 	};
+
+	/** Monotonic counter so a slower, earlier products fetch can't overwrite a later one. */
+	private quickViewRequestId = 0;
+
+	productQuickView = async (result: Product): Promise<void> => {
+		if (!this.config.settings?.quickview?.enabled) return;
+
+		const parentId = (result.mappings?.core?.parentId as string) || result.id;
+		const requestId = ++this.quickViewRequestId;
+
+		this.store.productQuickView.loading = true;
+		this.store.productQuickView.set(result, this.store.meta?.data);
+
+		try {
+			const response = await this.client.products({ parentId });
+			if (this.quickViewRequestId !== requestId) return;
+			this.store.productQuickView.update(response, this.store.meta?.data);
+		} catch (err) {
+			if (this.quickViewRequestId !== requestId) return;
+			this.log.error('Failed to fetch product details', err);
+			this.store.productQuickView.setError('Failed to load product details. Please try again.');
+		} finally {
+			if (this.quickViewRequestId === requestId) {
+				this.store.productQuickView.loading = false;
+			}
+		}
+	};
 }
 
 export function getStorableRequestParams(request: SearchRequestModel): SearchRequestModel {

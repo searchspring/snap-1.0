@@ -47,10 +47,20 @@ let templatesConfig: SnapTemplatesConfig = {
 				facet: {
 					// iconColor: 'red'
 				},
+				result: {
+					discussProductIcon: { icon: 'chat' },
+				},
 			},
 		},
 	},
 	recommendation: {
+		settings: {
+			branch: 'production',
+			quickview: {
+				enabled: true,
+				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
+			},
+		},
 		email: {
 			Email: {
 				component: 'RecommendationEmail',
@@ -77,6 +87,10 @@ let templatesConfig: SnapTemplatesConfig = {
 		settings: {
 			variants: {
 				showDisabledSelectionValues: true,
+			},
+			quickview: {
+				enabled: true,
+				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
 			},
 			// infinite: {
 			// 	backfill: 5,
@@ -112,6 +126,10 @@ let templatesConfig: SnapTemplatesConfig = {
 			trending: {
 				limit: 6,
 				showResults: true,
+			},
+			quickview: {
+				enabled: true,
+				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
 			},
 		},
 	},

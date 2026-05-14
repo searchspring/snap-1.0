@@ -581,6 +581,11 @@ export class ChatController extends AbstractController {
 	};
 
 	productQuery = (result: Product): void => {
+		// ensure a chat exists — without one, sendProductQuery silently no-ops because
+		// the attachment lives on currentChat (fresh-page firings hit this path)
+		if (!this.store.currentChat) {
+			this.store.createChat();
+		}
 		this.resetComparisonsForSingleProductFlow();
 		this.store.sendProductQuery(result, { requestType: 'productQuery' });
 		this.loadProductQuickview(result);
@@ -588,6 +593,11 @@ export class ChatController extends AbstractController {
 	};
 
 	productSimilar = (result: Product): void => {
+		// ensure a chat exists — without one, sendProductQuery silently no-ops because
+		// the attachment lives on currentChat (fresh-page firings hit this path)
+		if (!this.store.currentChat) {
+			this.store.createChat();
+		}
 		this.resetComparisonsForSingleProductFlow();
 		this.store.sendProductQuery(result, { requestType: 'productSimilar' });
 		this.search();

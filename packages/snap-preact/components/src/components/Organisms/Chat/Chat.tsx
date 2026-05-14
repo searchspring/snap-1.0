@@ -1178,7 +1178,7 @@ export const Chat = observer((properties: ChatProps): JSX.Element => {
 		title: 'Athos Conversational Assistant',
 		subtitle: 'Your Guided Discovery Expert',
 		multiselectFacets: true,
-		disableBubbleSuggestedQuestions: false,
+		disableBubbleSuggestedQuestions: isMobile ? true : false,
 		primaryColorBg: '#253B80',
 		primaryColorFg: '#fff',
 		primaryAccentColorBg: '#feeeae',

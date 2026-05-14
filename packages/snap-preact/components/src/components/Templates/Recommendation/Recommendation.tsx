@@ -12,6 +12,7 @@ import type { Product } from '@athoscommerce/snap-store-mobx';
 
 import { Carousel, CarouselProps, defaultCarouselBreakpoints, defaultVerticalCarouselBreakpoints } from '../../Molecules/Carousel';
 import { Result, ResultProps } from '../../Molecules/Result';
+import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import { cloneWithProps, defined, mergeProps, mergeStyles } from '../../../utilities';
 import { useIntersection } from '../../../hooks';
 import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers';
@@ -160,6 +161,8 @@ export const Recommendation = observer((properties: RecommendationProps) => {
 	const lang = deepmerge(defaultLang, props.lang || {});
 	const mergedLang = useLang(lang as any, {});
 
+	const quickviewEnabled = !!controller.config.settings?.quickview?.enabled;
+
 	return (Array.isArray(children) && children.length) || resultsToRender?.length ? (
 		<CacheProvider>
 			<div {...styling} className={classnames('ss__recommendation', className, internalClassName)} ref={recsRef}>
@@ -219,6 +222,7 @@ export const Recommendation = observer((properties: RecommendationProps) => {
 							  ))}
 					</RecommendationProfileTracker>
 				)}
+				{quickviewEnabled && <ProductQuickView controller={controller} displayFields={controller.config.settings?.quickview?.displayFields} />}
 			</div>
 		</CacheProvider>
 	) : (

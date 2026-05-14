@@ -15,12 +15,14 @@ const openChatProductSimilar = (result: any, controller?: SearchController | Aut
 	}
 };
 
+type QuickViewController = SearchController | AutocompleteController | RecommendationController;
+
 export const CustomResult = (props: ResultProps) => {
 	const { result, controller, treePath } = props;
 	const core = result.mappings.core;
 	const isChatEnabled = !!window?.athos?.controller?.chat;
-	const isRecommendation = controller?.type === 'recommendation';
-	const isQuickViewEnabled = isRecommendation && !!(controller as RecommendationController).config.settings?.quickview?.enabled;
+	const supportsQuickView = controller?.type === 'search' || controller?.type === 'autocomplete' || controller?.type === 'recommendation';
+	const isQuickViewEnabled = supportsQuickView && !!(controller as QuickViewController).config.settings?.quickview?.enabled;
 
 	return (
 		<article className="ss__custom-result">
@@ -57,7 +59,7 @@ export const CustomResult = (props: ResultProps) => {
 								onClick={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
-									(controller as RecommendationController).productQuickView(result as any);
+									(controller as QuickViewController).productQuickView(result as any);
 								}}
 								style={{ position: 'absolute', bottom: '0px', right: '0px', cursor: 'pointer' }}
 							>

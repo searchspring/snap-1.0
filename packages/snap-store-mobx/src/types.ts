@@ -43,6 +43,7 @@ export type SearchStoreConfigSettings = {
 		onPageShow?: boolean;
 	};
 	variants?: VariantConfig;
+	quickview?: QuickviewConfig;
 	history?: {
 		url?: string;
 		max?: number;
@@ -159,6 +160,7 @@ export type AutocompleteStoreConfigSettings = {
 		showResults?: boolean;
 	};
 	variants?: VariantConfig;
+	quickview?: QuickviewConfig;
 	history?: {
 		enabled?: boolean;
 		limit?: number;

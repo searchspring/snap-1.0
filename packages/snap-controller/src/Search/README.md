@@ -28,6 +28,8 @@ The `SearchController` is used when making queries to the API `search` endpoint.
 | settings.variants.realtime.enabled | enable real time variant updates | ➖ |   | 
 | settings.variants.realtime.filters | specify which filters to use to determine which results are updated | ➖ |   | 
 | settings.variants.options | object keyed by individual option field values for configuration of any option settings  | ➖ |   | 
+| settings.quickview.enabled | enable the product quickview button/panel on search results | `false` |   |
+| settings.quickview.displayFields | array of field names to display in the product quickview panel | ➖ |   |
 | settings.infinite | enable infinite scrolling by setting to empty object | ➖ |   |
 | settings.infinite.backfill | number of pages allowed for backfill | ➖ |   |
 | settings.restorePosition.enabled | boolean to enable/disable using `restorePosition` event middleware to restore the window scroll position when navigating back to previous page (when using infinite this is automatically set to true) | false |   |
@@ -54,6 +56,19 @@ This will invoke an addToCart event (see below). Takes an array of Products as a
 ```js
 searchController.addToCart([searchController.store.results[0]]);
 ```
+
+## ProductQuickView
+Clones the supplied result, stashes it on `store.productQuickView`, and fetches parent-level data (including variant `optionConfig` and variant rows) from the products API. Variants and core mappings from the response are merged into the cloned product so the UI can render variant swatches and updated pricing. The clone is intentional — variant selections made in the quickview do **not** mutate the originating result.
+
+`productQuickView` is a no-op unless `settings.quickview.enabled` is `true`.
+
+A monotonic request id discards stale responses if `productQuickView` is called again before an earlier fetch resolves. Errors are surfaced via `store.productQuickView.error` while the cloned product remains visible.
+
+```js
+searchController.productQuickView(result);
+```
+
+Render the modal with the [`ProductQuickView` component](https://github.com/athoscommerce/snap/tree/main/packages/snap-preact/components/src/components/Organisms/ProductQuickView), passing the controller as a prop.
 
 ## Search History
 Search queries made by the controller are stored for later usage. This is enabled by default without providing any settings, to disable set the `max` to zero. The `config.settings.history.url` setting should be set when utilizing the history store outside of the search page in order for the URLs to direct users to the correct location. Common usage of the historical terms are on the search listing page or within autocomplete.
