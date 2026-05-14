@@ -710,7 +710,7 @@ function getTargetArray(targets: TemplatesStore['targets'], type: TemplateTypes)
 	if (category === 'recommendation' && subcategory) {
 		return targets.recommendation[subcategory as RecsTemplateTypes];
 	}
-	if (category === 'search' || category === 'autocomplete') {
+	if (category === 'search' || category === 'autocomplete' || category === 'chat') {
 		return targets[category];
 	}
 	return undefined;
