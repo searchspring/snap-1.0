@@ -112,8 +112,14 @@ Themes and components provide prop their own default component prop configuratio
 ##### Theme `overrides.components`
 The `components` section of `overrides` allows you to customize specific component prop overrides in your theme.
 
-> [!NOTE]
-> By default, only a curated subset of component props is available for overrides. To access the full set of component props in overrides, you must use an unlocked configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
+
+##### Templates Legal Props
+
+When customizing components via theme overrides, not all component props are available. Each component defines a subset of its props as "templates legal" — these are the props that are safe and supported for use within theme configuration. Props that are not templates legal are restricted to internal use and cannot be configured through the theme.
+
+This distinction exists to provide a stable, supported API surface for template customization while preventing access to internal props that could lead to unexpected behavior or break compatibility with future updates.
+
+To see the full list of templates legal props for each component, refer to the **Storybook component library**. Each component's documentation in Storybook will indicate which props are available for use in theme overrides. To access the full set of component props in overrides, you must use an unlocked configuration. See [Unlocked Configuration](./TEMPLATES_CONFIG.md#unlocked-configuration) for more details.
 
 
 ```tsx
