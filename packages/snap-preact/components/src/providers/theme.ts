@@ -4,6 +4,7 @@ import {
 	ThemeComponentsRestrictedWithCustomComponent,
 	ThemeComponentTemplateOverrides,
 } from './themeComponents';
+export type { ThemeComponentsRestrictedWithCustomComponent } from './themeComponents';
 import { ListOption } from '../types';
 
 export { css, useTheme, withTheme, ThemeProvider } from '@emotion/react';
