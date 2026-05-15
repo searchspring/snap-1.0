@@ -1,4 +1,10 @@
-import { ThemeComponents, ThemeComponentsRestricted, ThemeComponentTemplateOverrides } from './themeComponents';
+import {
+	ThemeComponents,
+	ThemeComponentsRestricted,
+	ThemeComponentsRestrictedWithCustomComponent,
+	ThemeComponentTemplateOverrides,
+} from './themeComponents';
+export type { ThemeComponentsRestrictedWithCustomComponent } from './themeComponents';
 import { ListOption } from '../types';
 
 export { css, useTheme, withTheme, ThemeProvider } from '@emotion/react';
@@ -74,14 +80,6 @@ export type ThemeResponsive = {
 };
 
 export type ThemeResponsiveComplete = ThemeResponsive & { default?: ThemeComponentsRestricted };
-
-// Utility type that adds customComponent to every component entry in ThemeComponentsRestricted.
-// For entries typed as `unknown` (open named selectors), we preserve `unknown` so they remain
-// permissive — intersecting unknown & { customComponent?: string } would narrow to only that prop.
-type WithCustomComponent<T> = {
-	[K in keyof T]: [unknown] extends [T[K]] ? T[K] : T[K] & { customComponent?: string };
-};
-export type ThemeComponentsRestrictedWithCustomComponent = WithCustomComponent<ThemeComponentsRestricted>;
 
 // Unlocked versions that allow all component props (for Snap integration migration path)
 export type ThemeResponsiveUnlocked = {
