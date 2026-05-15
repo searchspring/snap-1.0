@@ -258,7 +258,7 @@ export const Autocomplete = observer((properties: AutocompleteProps) => {
 		},
 	};
 
-	if (!((globalTheme as ThemeComplete)?.type === 'snap_templates_theme')) {
+	if (!((globalTheme as ThemeComplete)?.type === 'templates')) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 		props.breakpoints = props.breakpoints || {
 			0: {

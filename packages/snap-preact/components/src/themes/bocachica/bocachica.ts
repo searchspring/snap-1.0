@@ -21,5 +21,5 @@ export const bocachica: ThemeComplete = {
 	variables: bocachicaVariables,
 	components,
 	responsive,
-	type: 'snap_templates_theme',
+	type: 'templates',
 };

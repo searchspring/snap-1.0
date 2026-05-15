@@ -21,5 +21,5 @@ export const base: ThemeComplete = {
 	variables: baseVariables,
 	components,
 	responsive,
-	type: 'snap_templates_theme',
+	type: 'templates',
 };

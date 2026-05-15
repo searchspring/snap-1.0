@@ -195,7 +195,7 @@ describe('mergeProps function with theme type', () => {
 		const componentType = 'select';
 		const globalTheme = {
 			name: GLOBAL_THEME_NAME,
-			type: 'snap_templates_theme',
+			type: 'templates',
 			variables: {
 				breakpoints: { mobile: 540, tablet: 767, desktop: 1200 },
 				colors: {
@@ -227,7 +227,7 @@ describe('mergeProps function with theme type', () => {
 	it('globalTheme components overrides defaultProps', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				[componentType]: {
@@ -270,7 +270,7 @@ describe('mergeProps function with theme type', () => {
 	it('properties overrides defaultProps', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 		};
 
@@ -298,7 +298,7 @@ describe('mergeProps function with theme type', () => {
 	it('globalTheme overrides properties', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				[componentType]: {
@@ -347,7 +347,7 @@ describe('mergeProps function with theme type', () => {
 	it('nested theme on properties', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				[componentType]: {
@@ -408,7 +408,7 @@ describe('mergeProps function with theme type', () => {
 	it('nested treePath and named component', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 		};
 
@@ -431,7 +431,7 @@ describe('mergeProps function with theme type', () => {
 	it('nested treePath and named component with dash', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 		};
 
@@ -482,7 +482,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 	it('user override selector (no *) beats base theme selector (* prefixed)', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { startOpen: true, separator: 'base' },
@@ -502,7 +502,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// winning over global user overrides in globalTheme.components (no * prefix)
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				select: { startOpen: false },
@@ -524,7 +524,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 	it('props.theme.components overrides beat globalTheme base theme selectors (* prefixed)', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { startOpen: false },
@@ -549,7 +549,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// over the child's base theme (* prefixed) value.
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { startOpen: false },
@@ -573,7 +573,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// a parent's theme-derived value respread.
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				select: { startOpen: false },
@@ -597,7 +597,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// so the respread step skips props that were set by it.
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*facet select': { startOpen: false },
@@ -624,7 +624,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// The respread step detects that 'red' is a value tracked in the parent's THEME_PROPS_MAP_SYMBOL,
 		// so it restores color:'red', which wins over the child's base theme color:'blue'.
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*slideout': { overlayColor: 'red' },
@@ -658,7 +658,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 
 	it('parent theme props do not override other child theme props if values match', () => {
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*slideout': { otherProp: true },
@@ -695,7 +695,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// Priority order: *overlay base('blue') < respread parent-theme-derived('red') < overlay user override('orange')
 		// So 'orange' should win over everything.
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*slideout': { overlayColor: 'red' },
@@ -727,7 +727,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 
 	it('responsive mobile theme overrides take priority over default theme overrides', () => {
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*slideout': { otherProp: true },
@@ -743,7 +743,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 
 	it('responsive tablet theme overrides take priority over default theme overrides', () => {
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*slideout': { otherProp: true },
@@ -759,7 +759,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 
 	it('responsive desktop theme overrides take priority over default theme overrides', () => {
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*slideout': { otherProp: true },
@@ -775,7 +775,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 
 	it('user provided overrides take priority over responsive theme overrides', () => {
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				slideout: { otherProp: true },
@@ -794,7 +794,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// *facet dropdown icon.collapse sets icon:'ban' — specific multi-segment path, higher weight
 		// sortSelectors orders more-specific selectors last so they are applied last and win.
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*icon': { icon: 'cog' },
@@ -816,7 +816,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// user override value. This lets child components correctly identify theme-derived values.
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { startOpen: true },
@@ -840,7 +840,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// in the user override (not present in base theme) should still be added to the map.
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { startOpen: true },
@@ -864,7 +864,7 @@ describe('mergeProps function with theme name - prop merge order (templates beha
 		// Verifies all four merge steps interact correctly in one scenario
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { startOpen: false, separator: 'base' },
@@ -906,7 +906,7 @@ describe('respread logic - primitive value collision regression', () => {
 		// prop happened to be `true` — even for unrelated keys.
 		const componentType = 'icon';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				// child's base theme sets `icon` to 'ban'
@@ -941,7 +941,7 @@ describe('respread logic - primitive value collision regression', () => {
 	it('does NOT misclassify a non-theme number prop when the value collides with a parent theme number', () => {
 		const componentType = 'select';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*select': { separator: 'base-sep' },
@@ -972,7 +972,7 @@ describe('respread logic - primitive value collision regression', () => {
 		// and the child also receives `startOpen: true`, it IS theme-derived (key+value match).
 		const componentType = 'icon';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*icon': { icon: 'ban' },
@@ -1000,7 +1000,7 @@ describe('respread logic - primitive value collision regression', () => {
 		// Object references are safe to match by value — they are unique references.
 		const componentType = 'icon';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*icon': { icon: 'ban' },
@@ -1032,7 +1032,7 @@ describe('respread logic - primitive value collision regression', () => {
 		// via reference equality (they are separate allocations).
 		const componentType = 'icon';
 		const globalTheme = {
-			type: 'snap_templates_theme',
+			type: 'templates',
 			name: GLOBAL_THEME_NAME,
 			components: {
 				'*icon': { icon: 'ban' },

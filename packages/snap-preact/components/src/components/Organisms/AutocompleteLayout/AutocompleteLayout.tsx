@@ -254,7 +254,7 @@ export const AutocompleteLayout = observer((properties: AutocompleteLayoutProps)
 		},
 	};
 
-	if (!((globalTheme as ThemeComplete)?.type === 'snap_templates_theme')) {
+	if (!((globalTheme as ThemeComplete)?.type === 'templates')) {
 		const themeDefaults: Theme = {
 			components: {
 				facet: {

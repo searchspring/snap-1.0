@@ -21,5 +21,5 @@ export const snapnco: ThemeComplete = {
 	variables: snapncoVariables,
 	components,
 	responsive,
-	type: 'snap_templates_theme',
+	type: 'templates',
 };

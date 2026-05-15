@@ -42,7 +42,7 @@ export function mergeProps<GenericComponentProps extends ComponentProps>(
 		...defaultProps,
 	};
 
-	if ((globalTheme as ThemeComplete)?.type !== 'snap_templates_theme') {
+	if ((globalTheme as ThemeComplete)?.type !== 'templates') {
 		// add globalTheme props if they exist
 		const globalComponent = globalTheme?.components && globalTheme.components[componentType as keyof typeof globalTheme.components];
 

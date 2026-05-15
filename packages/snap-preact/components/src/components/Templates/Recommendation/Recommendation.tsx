@@ -54,10 +54,7 @@ export const Recommendation = observer((properties: RecommendationProps) => {
 	let displaySettings;
 
 	//no breakpoint props allowed in templates
-	if (
-		!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme') &&
-		props.breakpoints
-	) {
+	if (!((properties.theme as ThemeComplete)?.type == 'templates' || (globalTheme as ThemeComplete)?.type == 'templates') && props.breakpoints) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 
 		displaySettings = useDisplaySettings(props.breakpoints);

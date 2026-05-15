@@ -84,7 +84,7 @@ export const Results = observer((properties: ResultsProps) => {
 
 	let props = mergeProps('results', globalTheme, defaultProps, properties);
 
-	if (!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme')) {
+	if (!((properties.theme as ThemeComplete)?.type == 'templates' || (globalTheme as ThemeComplete)?.type == 'templates')) {
 		// breakpoint settings are calculated in ThemeStore for snap templates
 		const displaySettings = useDisplaySettings(props?.breakpoints || {});
 		const theme = deepmerge(props?.theme || {}, displaySettings?.theme || {}, { arrayMerge: (destinationArray, sourceArray) => sourceArray });

@@ -219,10 +219,7 @@ export const Carousel = observer((properties: CarouselProps) => {
 	let displaySettings;
 
 	//no breakpoint props allowed in templates
-	if (
-		!((properties.theme as ThemeComplete)?.type == 'snap_templates_theme' || (globalTheme as ThemeComplete)?.type == 'snap_templates_theme') &&
-		props.breakpoints
-	) {
+	if (!((properties.theme as ThemeComplete)?.type == 'templates' || (globalTheme as ThemeComplete)?.type == 'templates') && props.breakpoints) {
 		Object.keys(props.breakpoints!).forEach((breakpoint) => {
 			const breakPointProps = props.breakpoints![breakpoint as unknown as keyof typeof props.breakpoints];
 			// make certain props numbers

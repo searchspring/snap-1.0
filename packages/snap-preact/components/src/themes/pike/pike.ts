@@ -22,5 +22,5 @@ export const pike: ThemeComplete = {
 	variables: pikeVariables,
 	components,
 	responsive,
-	type: 'snap_templates_theme',
+	type: 'templates',
 };
