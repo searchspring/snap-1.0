@@ -11,7 +11,6 @@ import { Theme, useTheme, CacheProvider, useTreePath } from '../../../providers'
 import { Sidebar, SidebarProps } from '../../Organisms/Sidebar';
 import { Toolbar, ToolbarProps } from '../../Organisms/Toolbar';
 import { NoResults, NoResultsProps } from '../../Organisms/NoResults';
-import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import { Lang, useLang, useMediaQuery } from '../../../hooks';
 import { FOCUSABLE_ELEMENTS } from '../../../hooks/useA11y';
 import { SearchFilterStore } from '@athoscommerce/snap-store-mobx';
@@ -242,9 +241,6 @@ export const Search = observer((properties: SearchProps) => {
 						{!hideBottomToolbar && <Toolbar {...subProps.BottomToolbar} controller={controller} />}
 					</div>
 				</div>
-				{controller.config.settings?.quickview?.enabled && (
-					<ProductQuickView controller={controller} displayFields={controller.config.settings?.quickview?.displayFields} />
-				)}
 			</div>
 		</CacheProvider>
 	);

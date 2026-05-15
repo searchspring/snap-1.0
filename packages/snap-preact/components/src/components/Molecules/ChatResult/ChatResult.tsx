@@ -179,7 +179,7 @@ export const ChatResult = withTracking(
 								{...subProps.image}
 								className={'ss__chat-result__detail-slot__image'}
 								alt={result.display.mappings.core?.name || ''}
-								src={result.display.mappings.core?.imageUrl || ''}
+								src={result.display.mappings.core?.imageUrl || result.display.mappings.core?.parentImageUrl || ''}
 							/>
 						</OverlayBadge>
 						<div className="ss__chat-result__image__buttons">

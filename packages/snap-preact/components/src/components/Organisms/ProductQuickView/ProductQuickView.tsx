@@ -483,10 +483,10 @@ const ProductQuickViewBody = observer((props: ProductQuickViewBodyProps): h.JSX.
 
 			<div className="ss__product-quick-view__body">
 				<div className="ss__product-quick-view__left">
-					{displayedCore.imageUrl ? (
+					{displayedCore.imageUrl || displayedCore.parentImageUrl ? (
 						<Image
 							className="ss__product-quick-view__left__image"
-							src={displayedCore.imageUrl as string}
+							src={(displayedCore.imageUrl || displayedCore.parentImageUrl) as string}
 							alt={(displayedCore.name as string) || ''}
 						/>
 					) : null}
