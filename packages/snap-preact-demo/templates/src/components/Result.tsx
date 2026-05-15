@@ -15,14 +15,10 @@ const openChatProductSimilar = (result: any, controller?: SearchController | Aut
 	}
 };
 
-type QuickViewController = SearchController | AutocompleteController | RecommendationController;
-
 export const CustomResult = (props: ResultProps) => {
 	const { result, controller, treePath } = props;
 	const core = result.mappings.core;
 	const isChatEnabled = !!window?.athos?.controller?.chat;
-	const supportsQuickView = controller?.type === 'search' || controller?.type === 'autocomplete' || controller?.type === 'recommendation';
-	const isQuickViewEnabled = supportsQuickView && !!(controller as QuickViewController).config.settings?.quickview?.enabled;
 
 	return (
 		<article className="ss__custom-result">
@@ -53,18 +49,6 @@ export const CustomResult = (props: ResultProps) => {
 									<Icon icon={'similar'} title={'Find similar products'} />
 								</span>
 							</>
-						)}
-						{isQuickViewEnabled && (
-							<span
-								onClick={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									(controller as QuickViewController).productQuickView(result as any);
-								}}
-								style={{ position: 'absolute', bottom: '0px', right: '0px', cursor: 'pointer' }}
-							>
-								<Icon icon={'eye'} title={'Quick view'} />
-							</span>
 						)}
 					</OverlayBadge>
 				</a>

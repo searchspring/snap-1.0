@@ -366,8 +366,14 @@ export class ChatController extends AbstractController {
 		}
 
 		if (searchFilters.length > 0) {
+			// `searchFilters` only lives on productSearch in the API model — promote
+			// to productSearch when filters are present, but preserve the user's
+			// typed message so a follow-up like "show me jackets" doesn't get
+			// silently dropped just because a filter happens to be selected.
+			const message = this.store.inputValue?.trim();
 			chatRequest = {
 				requestType: 'productSearch',
+				...(message ? { message } : {}),
 				searchFilters,
 			};
 		}

@@ -275,22 +275,6 @@ export const Result = observer((properties: ResultProps) => {
 								<Image {...subProps.image} />
 							)}
 						</a>
-						{(controller?.type === 'search' || controller?.type === 'autocomplete' || controller?.type === 'recommendation') &&
-							(controller as SearchController | AutocompleteController | RecommendationController).config.settings?.quickview?.enabled && (
-								<span
-									className="ss__result__product-quick-view-button"
-									onClick={(e) => {
-										e.preventDefault();
-										e.stopPropagation();
-										(controller as SearchController | AutocompleteController | RecommendationController).productQuickView(result);
-									}}
-									role="button"
-									title="Quick view"
-									style={{ position: 'absolute', bottom: '8px', right: '8px', cursor: 'pointer' }}
-								>
-									<Icon icon="eye" title="Quick view" />
-								</span>
-							)}
 						{discussProductIcon && (
 							<span
 								className="ss__result__discuss-product-button"

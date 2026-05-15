@@ -28,8 +28,6 @@ The `AutocompleteController` is used when making queries to the API `autocomplet
 | settings.variants.realtime.enabled | enable real time variant updates | ➖ |   | 
 | settings.variants.realtime.filters | specify which filters to use to determine which results are updated | ➖ |   | 
 | settings.variants.options | object keyed by individual option field values for configuration of any option settings  | ➖ |   | 
-| settings.quickview.enabled | enable the product quickview button/panel on autocomplete results | `false` |   |
-| settings.quickview.displayFields | array of field names to display in the product quickview panel | ➖ |   |
 
 
 ## Initialize
@@ -68,19 +66,6 @@ This will invoke an addToCart event (see below). Takes an array of Products as a
 ```js
 autocompleteController.addToCart([autocompleteController.store.results[0]]);
 ```
-
-## ProductQuickView
-Clones the supplied result, stashes it on `store.productQuickView`, and fetches parent-level data (including variant `optionConfig` and variant rows) from the products API. Variants and core mappings from the response are merged into the cloned product so the UI can render variant swatches and updated pricing. The clone is intentional — variant selections made in the quickview do **not** mutate the originating result.
-
-`productQuickView` is a no-op unless `settings.quickview.enabled` is `true`.
-
-A monotonic request id discards stale responses if `productQuickView` is called again before an earlier fetch resolves. Errors are surfaced via `store.productQuickView.error` while the cloned product remains visible.
-
-```js
-autocompleteController.productQuickView(result);
-```
-
-Render the modal with the [`ProductQuickView` component](https://github.com/athoscommerce/snap/tree/main/packages/snap-preact/components/src/components/Organisms/ProductQuickView), passing the controller as a prop.
 
 ## Events
 ### init

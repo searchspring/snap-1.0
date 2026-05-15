@@ -44,6 +44,12 @@ const defaultStyles: StyleScript<ChatInspirationResultMessageProps> = () => {
 						borderRadius: '0.5em',
 						cursor: 'pointer',
 						textDecoration: 'underline',
+						font: 'inherit',
+						color: 'inherit',
+						'&:focus-visible': {
+							outline: '2px solid #253B80',
+							outlineOffset: '2px',
+						},
 					},
 				},
 				'.ss__chat-inspiration-result-message__inspiration-sections__section__products': {
@@ -134,16 +140,18 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 							</div>
 							<div className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__queries')}>
 								{section.searchQueries.map((searchTerm, index) => (
-									<div
+									<button
+										type="button"
 										key={index}
 										className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__queries__query')}
+										aria-label={`Search for "${searchTerm}"`}
 										onClick={() => {
 											if (controller?.store.loading || controller?.store.blocked) return;
 											controller?.search({ data: { requestType: 'productSearch', searchTerm } } as Partial<ChatRequestModel>);
 										}}
 									>
 										{searchTerm}
-									</div>
+									</button>
 								))}
 							</div>
 							<div className={classnames('ss__chat-inspiration-result-message__inspiration-sections__section__products')}>
@@ -162,7 +170,7 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 														onProductQuickView?.();
 													}}
 													alt={display?.mappings?.core?.name || ''}
-													src={display?.mappings?.core?.imageUrl || ''}
+													src={display?.mappings?.core?.imageUrl || display?.mappings?.core?.parentImageUrl || ''}
 												/>
 											</div>
 										);

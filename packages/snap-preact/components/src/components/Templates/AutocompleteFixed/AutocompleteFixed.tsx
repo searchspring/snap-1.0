@@ -8,7 +8,6 @@ import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, StyleScript, JSXComponent } from '../../../types';
 import { AutocompleteLayout, AutocompleteLayoutProps } from '../../Organisms/AutocompleteLayout';
-import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import { Modal, ModalProps } from '../../Molecules/Modal';
 import classNames from 'classnames';
 import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
@@ -271,9 +270,6 @@ export const AutocompleteFixed = observer((properties: AutocompleteFixedProps) =
 					</div>
 				</CacheProvider>
 			) : null}
-			{controller.config.settings?.quickview?.enabled && (
-				<ProductQuickView controller={controller} displayFields={controller.config.settings?.quickview?.displayFields} />
-			)}
 		</>
 	);
 });

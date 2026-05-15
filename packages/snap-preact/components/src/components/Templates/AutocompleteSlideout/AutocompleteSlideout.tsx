@@ -8,7 +8,6 @@ import { defined, mergeProps, mergeStyles } from '../../../utilities';
 import { Theme, useTheme, CacheProvider } from '../../../providers';
 import { ComponentProps, StyleScript, JSXComponent } from '../../../types';
 import { AutocompleteLayout, AutocompleteLayoutProps } from '../../Organisms/AutocompleteLayout';
-import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import { SlideDirectionType, Slideout, SlideoutProps } from '../../Molecules/Slideout';
 import classNames from 'classnames';
 import { SearchInput, SearchInputProps } from '../../Molecules/SearchInput';
@@ -186,9 +185,6 @@ export const AutocompleteSlideout = observer((properties: AutocompleteSlideoutPr
 					</Slideout>
 				</CacheProvider>
 			) : null}
-			{controller.config.settings?.quickview?.enabled && (
-				<ProductQuickView controller={controller} displayFields={controller.config.settings?.quickview?.displayFields} />
-			)}
 		</>
 	);
 });

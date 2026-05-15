@@ -404,7 +404,7 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			requestType: options.requestType,
 			productId: result.id,
 			name: display.mappings?.core?.name,
-			thumbnailUrl: display.mappings?.core?.thumbnailImageUrl || display.mappings?.core?.imageUrl,
+			thumbnailUrl: display.mappings?.core?.thumbnailImageUrl || display.mappings?.core?.imageUrl || display.mappings?.core?.parentImageUrl,
 		});
 
 		// for the productQuery flow we want the secondary chat to immediately

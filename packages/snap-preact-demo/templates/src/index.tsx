@@ -56,10 +56,6 @@ let templatesConfig: SnapTemplatesConfig = {
 	recommendation: {
 		settings: {
 			branch: 'production',
-			quickview: {
-				enabled: true,
-				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
-			},
 		},
 		email: {
 			Email: {
@@ -87,10 +83,6 @@ let templatesConfig: SnapTemplatesConfig = {
 		settings: {
 			variants: {
 				showDisabledSelectionValues: true,
-			},
-			quickview: {
-				enabled: true,
-				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
 			},
 			// infinite: {
 			// 	backfill: 5,
@@ -126,10 +118,6 @@ let templatesConfig: SnapTemplatesConfig = {
 			trending: {
 				limit: 6,
 				showResults: true,
-			},
-			quickview: {
-				enabled: true,
-				displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
 			},
 		},
 	},

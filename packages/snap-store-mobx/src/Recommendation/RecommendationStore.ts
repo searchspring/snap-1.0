@@ -7,7 +7,6 @@ import { RecommendationProfileStore } from './Stores';
 import type { RecommendationStoreConfig, StoreServices } from '../types';
 import type { RecommendCombinedResponseModel } from '@athoscommerce/snap-client';
 import { MetaStore } from '../Meta/MetaStore';
-import { ProductQuickViewStore } from '../ProductQuickView/ProductQuickViewStore';
 
 export class RecommendationStore extends AbstractStore<RecommendationStoreConfig> {
 	public services: StoreServices;
@@ -16,7 +15,6 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 	public profile: RecommendationProfileStore | Record<string, any> = {};
 	public results: Product[] = [];
 	public cart?: CartStore;
-	public productQuickView: ProductQuickViewStore = new ProductQuickViewStore();
 
 	constructor(config: RecommendationStoreConfig, services: StoreServices) {
 		super(config);
@@ -30,7 +28,6 @@ export class RecommendationStore extends AbstractStore<RecommendationStoreConfig
 		makeObservable(this, {
 			profile: observable,
 			results: observable,
-			productQuickView: observable,
 		});
 	}
 
