@@ -4,9 +4,8 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 
 import { ChatInspirationResultMessage, ChatInspirationResultMessageProps } from './ChatInspirationResultMessage';
 import { componentArgs, highlightedCode } from '../../../utilities';
-import { Snapify } from '../../../utilities/snapify';
 import Readme from '../ChatInspirationResultMessage/readme.md';
-import type { ChatController } from '@athoscommerce/snap-controller';
+
 export default {
 	title: 'Molecules/ChatInspirationResultMessage',
 	component: ChatInspirationResultMessage,
@@ -31,67 +30,51 @@ export default {
 	},
 	argTypes: {
 		controller: {
-			description: 'reference to the Search Controller',
-			table: {
-				type: {
-					summary: 'reference to the Search Controller',
-				},
-			},
+			description: 'reference to a ChatController',
+			table: { type: { summary: 'ChatController' } },
 			control: { type: 'none' },
 		},
-		label: {
-			description: 'Header label text to render.',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'string',
-				},
-			},
-			control: { type: 'text' },
+		chatItem: {
+			description: 'inspirationResult chat message',
+			table: { category: 'Templates Legal', type: { summary: 'ChatResponseInspirationResultData' } },
+			control: { type: 'none' },
 		},
-		hideLabel: {
-			description: 'hide header label',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: false },
-			},
-			control: { type: 'boolean' },
-		},
-		type: {
-			description: 'type of Select to render.',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: '"dropdown" | "list" | "radio"',
-				},
-				defaultValue: { summary: 'dropdown' },
-			},
-			options: ['dropdown', 'list', 'radio'],
-			control: {
-				type: 'select',
-			},
+		onProductQuickView: {
+			description: 'callback fired after a product thumbnail is clicked',
+			table: { category: 'Templates Legal', type: { summary: '() => void' } },
+			control: { type: 'none' },
 		},
 		...componentArgs,
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'ChatInspirationResultMessage', globals: { siteId: 'atkzs2' } });
-
-export const Default = (args: ChatInspirationResultMessageProps, { loaded: { controller } }: { loaded: { controller: ChatController } }) => {
-	return <ChatInspirationResultMessage {...args} controller={controller} />;
+const mockController: any = {
+	store: { loading: false, blocked: false },
+	search: () => undefined,
+	track: { product: { click: () => undefined } },
+	productQuickView: () => undefined,
 };
 
-Default.loaders = [
-	async () => {
-		await snapInstance.search();
-		return {
-			controller: snapInstance,
-		};
-	},
-];
+const mockChatItem: any = {
+	id: 'mock-inspiration',
+	messageType: 'inspirationResult',
+	inspirationSections: [
+		{
+			clusterTitle: 'Cozy Layers',
+			clusterDescription: 'Warm, easy-to-style pieces for chilly mornings.',
+			searchQueries: ['waterproof jacket', 'wool beanie', 'thermal base layer'],
+			products: [],
+		},
+		{
+			clusterTitle: 'On-the-Trail',
+			clusterDescription: 'Practical picks for day-hike comfort.',
+			searchQueries: ['hiking boots', 'lightweight backpack'],
+			products: [],
+		},
+	],
+};
+
+export const Default = (args: ChatInspirationResultMessageProps) => <ChatInspirationResultMessage {...args} controller={mockController} />;
 Default.args = {
-	label: 'Sort By', // TODO
+	chatItem: mockChatItem,
 };

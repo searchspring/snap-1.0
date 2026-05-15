@@ -366,8 +366,14 @@ export class ChatController extends AbstractController {
 		}
 
 		if (searchFilters.length > 0) {
+			// `searchFilters` only lives on productSearch in the API model — promote
+			// to productSearch when filters are present, but preserve the user's
+			// typed message so a follow-up like "show me jackets" doesn't get
+			// silently dropped just because a filter happens to be selected.
+			const message = this.store.inputValue?.trim();
 			chatRequest = {
 				requestType: 'productSearch',
+				...(message ? { message } : {}),
 				searchFilters,
 			};
 		}
@@ -581,6 +587,11 @@ export class ChatController extends AbstractController {
 	};
 
 	productQuery = (result: Product): void => {
+		// ensure a chat exists — without one, sendProductQuery silently no-ops because
+		// the attachment lives on currentChat (fresh-page firings hit this path)
+		if (!this.store.currentChat) {
+			this.store.createChat();
+		}
 		this.resetComparisonsForSingleProductFlow();
 		this.store.sendProductQuery(result, { requestType: 'productQuery' });
 		this.loadProductQuickview(result);
@@ -588,6 +599,11 @@ export class ChatController extends AbstractController {
 	};
 
 	productSimilar = (result: Product): void => {
+		// ensure a chat exists — without one, sendProductQuery silently no-ops because
+		// the attachment lives on currentChat (fresh-page firings hit this path)
+		if (!this.store.currentChat) {
+			this.store.createChat();
+		}
 		this.resetComparisonsForSingleProductFlow();
 		this.store.sendProductQuery(result, { requestType: 'productSimilar' });
 		this.search();

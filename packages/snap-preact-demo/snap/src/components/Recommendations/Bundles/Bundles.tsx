@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { RecommendationBundle, RecommendationBundleProps, ProductQuickView } from '@athoscommerce/snap-preact/components';
+import { RecommendationBundle, RecommendationBundleProps } from '@athoscommerce/snap-preact/components';
 import { useEffect } from 'preact/hooks';
 
 import './Bundles.scss';
@@ -32,7 +32,6 @@ export const Bundles = observer((props: BundlesProps) => {
 		<div>
 			<hr style={{ margin: '20px 0' }} />
 			<RecommendationBundle {...bundleRecsProps} />
-			<ProductQuickView controller={controller} />
 		</div>
 	);
 });

@@ -1014,31 +1014,6 @@ describe('RecommendationInstantiator', () => {
 		expect(clientSpy).toHaveBeenCalledTimes(1);
 	});
 
-	it('passes quickview settings through to created controllers', async () => {
-		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
-
-		const quickview = { enabled: true };
-
-		const attachmentConfig = {
-			...baseConfig,
-			config: {
-				branch: baseConfig.config?.branch,
-				quickview,
-			},
-		};
-
-		const client = new MockClient(baseConfig.client!.globals, {});
-		const recommendationInstantiator = new RecommendationInstantiator(attachmentConfig as RecommendationInstantiatorConfig, { client });
-		await wait();
-
-		const controllerIds = Object.keys(recommendationInstantiator.controller);
-		expect(controllerIds.length).toBeGreaterThan(0);
-		controllerIds.forEach((controllerId) => {
-			const controller = recommendationInstantiator.controller[controllerId];
-			expect(controller.config.settings?.quickview).toStrictEqual(quickview);
-		});
-	});
-
 	it(`searchOnPageShow triggers search on persisted pageshow event `, async function () {
 		document.body.innerHTML = `<script type="athos/recommend" profile="${DEFAULT_PROFILE}"></script>`;
 

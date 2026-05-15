@@ -37,6 +37,3 @@ Contains an object with the following properties:
 `display` - object containing details regarding the template and any template parameters
 ## `results` property
 See [SearchStore](https://github.com/athoscommerce/snap/tree/main/packages/snap-store-mobx/src/Search) `results` property
-
-## `productQuickView` property
-An instance of the shared [`ProductQuickViewStore`](../ProductQuickView/) holding the currently displayed quickview product (cloned, so changes don't leak back to the result that triggered it), an error string, and a loading flag. Populated by `recommendationController.productQuickView(result)` and cleared from the modal's close handler. The intended consumer is the `ProductQuickView` organism in `@athoscommerce/snap-preact/components`.

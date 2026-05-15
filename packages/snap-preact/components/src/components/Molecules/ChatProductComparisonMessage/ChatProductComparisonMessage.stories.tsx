@@ -4,9 +4,8 @@ import { ArgsTable, PRIMARY_STORY, Markdown } from '@storybook/blocks';
 
 import { ChatProductComparisonMessage, ChatProductComparisonMessageProps } from './ChatProductComparisonMessage';
 import { componentArgs, highlightedCode } from '../../../utilities';
-import { Snapify } from '../../../utilities/snapify';
 import Readme from '../ChatProductComparisonMessage/readme.md';
-import type { ChatController } from '@athoscommerce/snap-controller';
+
 export default {
 	title: 'Molecules/ChatProductComparisonMessage',
 	component: ChatProductComparisonMessage,
@@ -31,67 +30,37 @@ export default {
 	},
 	argTypes: {
 		controller: {
-			description: 'reference to the Search Controller',
-			table: {
-				type: {
-					summary: 'reference to the Search Controller',
-				},
-			},
+			description: 'reference to a ChatController',
+			table: { type: { summary: 'ChatController' } },
 			control: { type: 'none' },
 		},
-		label: {
-			description: 'Header label text to render.',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'string',
-				},
-			},
-			control: { type: 'text' },
-		},
-		hideLabel: {
-			description: 'hide header label',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: 'boolean',
-				},
-				defaultValue: { summary: false },
-			},
-			control: { type: 'boolean' },
-		},
-		type: {
-			description: 'type of Select to render.',
-			table: {
-				category: 'Templates Legal',
-				type: {
-					summary: '"dropdown" | "list" | "radio"',
-				},
-				defaultValue: { summary: 'dropdown' },
-			},
-			options: ['dropdown', 'list', 'radio'],
-			control: {
-				type: 'select',
-			},
+		chatItem: {
+			description: 'productComparison chat message',
+			table: { category: 'Templates Legal', type: { summary: 'ChatResponseProductComparisonData' } },
+			control: { type: 'none' },
 		},
 		...componentArgs,
 	},
 };
 
-const snapInstance = Snapify.search({ id: 'ChatProductComparisonMessage', globals: { siteId: 'atkzs2' } });
-
-export const Default = (args: ChatProductComparisonMessageProps, { loaded: { controller } }: { loaded: { controller: ChatController } }) => {
-	return <ChatProductComparisonMessage {...args} controller={controller} />;
+const mockChatItem: any = {
+	id: 'mock-comparison',
+	messageType: 'productComparison',
+	comparisonData: {
+		summary: 'Both products are top-rated, but they differ in material and price.',
+		features: [
+			{ featureName: 'Material', values: { p1: 'Wool', p2: 'Cotton' } },
+			{ featureName: 'Weight', values: { p1: '320g', p2: '210g' } },
+			{ featureName: 'Price', values: { p1: '$50', p2: '$30' } },
+		],
+	},
+	searchResults: [
+		{ id: 'p1', display: { mappings: { core: { name: 'Alpine Wool Beanie', imageUrl: 'https://via.placeholder.com/80' } } } },
+		{ id: 'p2', display: { mappings: { core: { name: 'Trailhead Cotton Cap', imageUrl: 'https://via.placeholder.com/80' } } } },
+	],
 };
 
-Default.loaders = [
-	async () => {
-		await snapInstance.search();
-		return {
-			controller: snapInstance,
-		};
-	},
-];
+export const Default = (args: ChatProductComparisonMessageProps) => <ChatProductComparisonMessage {...args} />;
 Default.args = {
-	label: 'Sort By', // TODO
+	chatItem: mockChatItem,
 };

@@ -420,33 +420,4 @@ export class RecommendationController extends AbstractController {
 			this.eventManager.fire('addToCart', { controller: this, products });
 		}
 	};
-
-	/** Monotonic counter so a slower, earlier products fetch can't overwrite a later one. */
-	private quickViewRequestId = 0;
-
-	productQuickView = async (result: Product): Promise<void> => {
-		if (!this.config.settings?.quickview?.enabled) return;
-
-		const parentId = (result.mappings?.core?.parentId as string) || result.id;
-		const requestId = ++this.quickViewRequestId;
-
-		this.store.productQuickView.loading = true;
-		// Set the cloned product up-front so the modal can render with the
-		// originating result's data while the products API resolves.
-		this.store.productQuickView.set(result, this.store.meta?.data);
-
-		try {
-			const response = await this.client.products({ parentId });
-			if (this.quickViewRequestId !== requestId) return;
-			this.store.productQuickView.update(response, this.store.meta?.data);
-		} catch (err) {
-			if (this.quickViewRequestId !== requestId) return;
-			this.log.error('Failed to fetch product details', err);
-			this.store.productQuickView.setError('Failed to load product details. Please try again.');
-		} finally {
-			if (this.quickViewRequestId === requestId) {
-				this.store.productQuickView.loading = false;
-			}
-		}
-	};
 }

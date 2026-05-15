@@ -47,10 +47,16 @@ let templatesConfig: SnapTemplatesConfig = {
 				facet: {
 					// iconColor: 'red'
 				},
+				result: {
+					discussProductIcon: { icon: 'chat' },
+				},
 			},
 		},
 	},
 	recommendation: {
+		settings: {
+			branch: 'production',
+		},
 		email: {
 			Email: {
 				component: 'RecommendationEmail',

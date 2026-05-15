@@ -74,11 +74,6 @@ let config: SnapConfig = {
 				// branch: BRANCHNAME,
 				branch: 'production',
 				plugins: [[mutateResultsURL]],
-				settings: {
-					quickview: {
-						enabled: true,
-					},
-				},
 			},
 		},
 	},
