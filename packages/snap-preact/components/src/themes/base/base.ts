@@ -21,4 +21,5 @@ export const base: ThemeComplete = {
 	variables: baseVariables,
 	components,
 	responsive,
+	type: 'templates',
 };

@@ -21,4 +21,5 @@ export const snappy: ThemeComplete = {
 	variables: snappyVariables,
 	components,
 	responsive,
+	type: 'templates',
 };

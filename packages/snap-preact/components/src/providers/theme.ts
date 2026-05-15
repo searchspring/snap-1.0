@@ -47,7 +47,7 @@ export type ThemeVariablesPartial = {
 export type ThemeLayoutOption = Omit<ListOption, 'overrides'> & { overrides?: ThemeMinimal };
 
 export type Theme = {
-	name?: string; // Used as a flag in components to provide backwards compatability
+	name?: string;
 	variables?: ThemeVariables;
 	responsive?: ThemeResponsive;
 	components?: ThemeComponents;
@@ -62,7 +62,10 @@ export type ThemeComponent<Template extends string, Props extends LegalProps, Le
 	desktop?: ThemeComponentTemplateOverrides<Template, Props, LegalProps>;
 };
 
-export type ThemeComplete = Required<Omit<Theme, 'overrides' | 'activeBreakpoint' | 'components'>> & { components: ThemeComponentsRestricted };
+export type ThemeComplete = Required<Omit<Theme, 'overrides' | 'activeBreakpoint' | 'components'>> & {
+	components: ThemeComponentsRestricted;
+	type: 'templates'; // Used as a flag in components to provide backwards compatibility
+};
 
 export type ThemeResponsive = {
 	mobile?: ThemeComponentsRestricted;
