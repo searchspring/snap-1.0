@@ -36,8 +36,15 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 				padding: '0.5em 0',
 				fontSize: '0.85em',
 				opacity: 0.85,
+				background: 'transparent',
+				border: 'none',
+				font: 'inherit',
 				'&:hover': {
 					opacity: 1,
+				},
+				'&:focus-visible': {
+					outline: `2px solid ${colorPrimaryText}`,
+					outlineOffset: '2px',
 				},
 				svg: {
 					fill: colorPrimaryText,
@@ -176,9 +183,21 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 					borderRadius: '0.5em',
 					border: '2px solid transparent',
 					transition: 'border-color 0.15s ease',
+					background: 'transparent',
+					font: 'inherit',
+					color: 'inherit',
 
 					'&:hover': {
 						borderColor: colorPrimary,
+					},
+
+					'&:focus-visible': {
+						outline: `2px solid ${colorPrimary}`,
+						outlineOffset: '2px',
+					},
+
+					'&[aria-disabled="true"]': {
+						cursor: 'not-allowed',
 					},
 
 					'&.ss__chat-product-query-message__variants__swatch--selected': {
@@ -240,14 +259,15 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 					borderBottom: '1px solid #E5E7EB',
 				},
 
-				td: {
+				'th, td': {
 					padding: '0.6em 0.75em',
 					verticalAlign: 'top',
 					wordBreak: 'break-word',
 					overflowWrap: 'anywhere',
+					textAlign: 'left',
 				},
 
-				'td:first-of-type': {
+				'th[scope="row"]': {
 					fontWeight: '600',
 					color: '#374151',
 					textTransform: 'uppercase',
@@ -268,6 +288,13 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 				'.ss__chat-product-query-message__section__table__availability--out-of-stock': {
 					color: '#DC2626',
 					fontWeight: '600',
+				},
+
+				'.ss__chat-product-query-message__section__table__price': {
+					display: 'flex',
+					gap: '0.5em',
+					alignItems: 'center',
+					justifyContent: 'flex-end',
 				},
 			},
 
@@ -494,10 +521,15 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 			<div className={classnames('ss__chat-product-query-message', className, internalClassName)} {...styling}>
 				<div className={classnames('ss__chat-product-query-message__header')}>
 					{cameFromInspiration && (
-						<div className={classnames('ss__chat-product-query-message__header__back')} onClick={handleBack}>
+						<button
+							type="button"
+							className={classnames('ss__chat-product-query-message__header__back')}
+							aria-label="Back to inspiration"
+							onClick={handleBack}
+						>
 							<Icon icon="angle-left" size="14px" />
 							<span>Back to inspiration</span>
-						</div>
+						</button>
 					)}
 					<div className={classnames('ss__chat-product-query-message__header__product')}>
 						{displayedCore.imageUrl && (
@@ -571,25 +603,34 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 				</div>
 
 				{selections.length > 0 && (
-					<div className={classnames('ss__chat-product-query-message__variants')}>
+					<div className={classnames('ss__chat-product-query-message__variants')} role="group" aria-label="Variant selection">
 						{selections.map((selection: VariantSelection) => (
 							<div key={selection.field}>
-								<div className={classnames('ss__chat-product-query-message__variants__label')}>
+								<div className={classnames('ss__chat-product-query-message__variants__label')} id={`ss__chat-pq-variant-${selection.field}`}>
 									{formatLabel(selection.field)} ({selection.values.length})
 								</div>
-								<div className={classnames('ss__chat-product-query-message__variants__swatches')}>
+								<div
+									className={classnames('ss__chat-product-query-message__variants__swatches')}
+									role="radiogroup"
+									aria-labelledby={`ss__chat-pq-variant-${selection.field}`}
+								>
 									{selection.values.map((selectionValue) => {
 										const isUnavailable = !selectionValue.available;
 										const isSelected = selection.selected?.value === selectionValue.value;
 
 										return (
-											<div
+											<button
+												type="button"
 												key={selectionValue.value}
 												className={classnames('ss__chat-product-query-message__variants__swatch', {
 													'ss__chat-product-query-message__variants__swatch--selected': isSelected,
 													'ss__chat-product-query-message__variants__swatch--unavailable': isUnavailable,
 												})}
 												title={selectionValue.value}
+												role="radio"
+												aria-checked={isSelected}
+												aria-disabled={isUnavailable}
+												aria-label={`${formatLabel(selection.field)}: ${selectionValue.value}${isUnavailable ? ' (unavailable)' : ''}`}
 												onClick={() => selection.select(selectionValue.value)}
 											>
 												{selectionValue.thumbnailImageUrl ? (
@@ -600,7 +641,7 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 													/>
 												) : null}
 												<span className={classnames('ss__chat-product-query-message__variants__swatch__value')}>{selectionValue.value}</span>
-											</div>
+											</button>
 										);
 									})}
 								</div>
@@ -612,11 +653,11 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 				{infoRows.length > 0 && (
 					<div className={classnames('ss__chat-product-query-message__section')}>
 						<div className={classnames('ss__chat-product-query-message__section__title')}>Product Information</div>
-						<table className={classnames('ss__chat-product-query-message__section__table')}>
+						<table className={classnames('ss__chat-product-query-message__section__table')} aria-label="Product information">
 							<tbody>
 								{infoRows.map((row) => (
 									<tr key={row.key}>
-										<td>{row.label}</td>
+										<th scope="row">{row.label}</th>
 										<td>
 											{row.rawKey === 'availability' ? (
 												<span
@@ -628,7 +669,7 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 													{row.value === 'In Stock' ? `\u2713 ${row.value}` : row.value}
 												</span>
 											) : row.rawKey.toLowerCase() === 'price' ? (
-												<span style={{ display: 'flex', gap: '0.5em', alignItems: 'center', justifyContent: 'flex-end' }}>
+												<span className="ss__chat-product-query-message__section__table__price">
 													{displayedCore.msrp != null && Number(displayedCore.msrp) > Number(row.value) && (
 														<Price value={Number(displayedCore.msrp)} lineThrough={true} />
 													)}

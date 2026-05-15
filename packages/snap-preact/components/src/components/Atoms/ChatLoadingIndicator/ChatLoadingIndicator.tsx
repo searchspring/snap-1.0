@@ -79,7 +79,13 @@ export const ChatLoadingIndicator = (properties: ChatLoadingIndicatorProps) => {
 
 	return (
 		<CacheProvider>
-			<div className={classnames('ss__chat-loading-indicator', className, internalClassName)} {...styling}>
+			<div
+				className={classnames('ss__chat-loading-indicator', className, internalClassName)}
+				role="status"
+				aria-live="polite"
+				aria-label={`${verbs[verbIndex]}...`}
+				{...styling}
+			>
 				<span key={verbIndex} className={'ss__chat-loading-indicator__verb'}>
 					{verbs[verbIndex]}...
 				</span>

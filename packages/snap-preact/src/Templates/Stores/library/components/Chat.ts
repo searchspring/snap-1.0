@@ -1,1 +1,1 @@
-export { Chat } from '../../../../../components/src/components/Organisms/Chat';
+export { Chat } from '../../../../../components/src/components/Templates/Chat';

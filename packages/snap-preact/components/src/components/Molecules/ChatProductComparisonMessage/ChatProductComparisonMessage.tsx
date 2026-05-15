@@ -22,6 +22,18 @@ const defaultStyles: StyleScript<ChatProductComparisonMessageProps> = () => {
 			width: '100%',
 			fontSize: '0.9em',
 
+			'.ss__chat-product-comparison-message__table__caption': {
+				position: 'absolute',
+				width: '1px',
+				height: '1px',
+				padding: 0,
+				margin: '-1px',
+				overflow: 'hidden',
+				clip: 'rect(0, 0, 0, 0)',
+				whiteSpace: 'nowrap',
+				border: 0,
+			},
+
 			'th, td': {
 				padding: '0.6em 0.8em',
 				textAlign: 'left',
@@ -107,16 +119,17 @@ export const ChatProductComparisonMessage = observer((properties: ChatProductCom
 		<CacheProvider>
 			<div className={classnames('ss__chat-product-comparison-message', className, internalClassName)} {...styling}>
 				<div className={classnames('ss__chat-product-comparison-message__table-wrapper')}>
-					<table className={classnames('ss__chat-product-comparison-message__table')}>
+					<table className={classnames('ss__chat-product-comparison-message__table')} aria-label="Product comparison">
+						<caption className="ss__chat-product-comparison-message__table__caption">Product comparison</caption>
 						<thead>
 							<tr>
-								<th />
+								<th scope="col" aria-label="Feature" />
 								{headings.map((heading) => {
 									const product = searchResults.find((r: any) => r?.id === heading);
 									const display = getDisplay(product);
 									const productName = (display?.mappings?.core?.name as string) ?? heading;
 									return (
-										<th key={heading} className={classnames('ss__chat-product-comparison-message__table__product-header')}>
+										<th key={heading} scope="col" className={classnames('ss__chat-product-comparison-message__table__product-header')}>
 											{allProductsHaveImage && (
 												<img
 													className={classnames('ss__chat-product-comparison-message__table__product-header__image')}
@@ -133,7 +146,9 @@ export const ChatProductComparisonMessage = observer((properties: ChatProductCom
 						<tbody>
 							{comparisonData.features.map((feature, index) => (
 								<tr key={index}>
-									<td className={classnames('ss__chat-product-comparison-message__table__feature-name')}>{feature.featureName}</td>
+									<th scope="row" className={classnames('ss__chat-product-comparison-message__table__feature-name')}>
+										{feature.featureName}
+									</th>
 									{headings.map((heading) => (
 										<td key={heading} className={classnames('ss__chat-product-comparison-message__table__value')}>
 											{feature.values[heading] ?? '—'}
