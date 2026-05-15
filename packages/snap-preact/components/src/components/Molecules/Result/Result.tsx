@@ -13,11 +13,10 @@ import { ComponentProps, ResultsLayout, StyleScript } from '../../../types';
 import { CalloutBadge, CalloutBadgeProps } from '../../Molecules/CalloutBadge';
 import { OverlayBadge, OverlayBadgeProps } from '../../Molecules/OverlayBadge';
 import type { SearchController, AutocompleteController, RecommendationController, ChatController } from '@athoscommerce/snap-controller';
-import type { Product, ProductQuickViewStore } from '@athoscommerce/snap-store-mobx';
+import type { Product } from '@athoscommerce/snap-store-mobx';
 import { Rating, RatingProps } from '../Rating';
 import { Button, ButtonProps } from '../../Atoms/Button';
 import { Icon, IconProps } from '../../Atoms/Icon';
-import { ProductQuickView } from '../../Organisms/ProductQuickView';
 import deepmerge from 'deepmerge';
 import { Lang, useLang, useComponent } from '../../../hooks';
 import { VariantSelection, VariantSelectionProps } from '../VariantSelection';
@@ -276,22 +275,6 @@ export const Result = observer((properties: ResultProps) => {
 								<Image {...subProps.image} />
 							)}
 						</a>
-						{(controller?.type === 'search' || controller?.type === 'autocomplete' || controller?.type === 'recommendation') &&
-							(controller as SearchController | AutocompleteController | RecommendationController).config.settings?.quickview?.enabled && (
-								<span
-									className="ss__result__product-quick-view-button"
-									onClick={(e) => {
-										e.preventDefault();
-										e.stopPropagation();
-										(controller as SearchController | AutocompleteController | RecommendationController).productQuickView(result);
-									}}
-									role="button"
-									title="Quick view"
-									style={{ position: 'absolute', bottom: '8px', right: '8px', cursor: 'pointer' }}
-								>
-									<Icon icon="eye" title="Quick view" />
-								</span>
-							)}
 						{discussProductIcon && (
 							<span
 								className="ss__result__discuss-product-button"
@@ -362,24 +345,9 @@ export const Result = observer((properties: ResultProps) => {
 						</div>
 					)}
 				</div>
-				<ResultProductQuickView controller={controller} result={result} />
 			</article>
 		</CacheProvider>
 	) : null;
-});
-
-// Renders the shared ProductQuickView only when this Result's product is the active quickview
-// target. Gating by id ensures exactly one modal mounts in the DOM no matter how many Results
-// are on the page. Scoped as its own observer so the surrounding Result doesn't re-render when
-// the quickview opens/closes.
-const ResultProductQuickView = observer((props: { controller?: ResultProps['controller']; result: Product }) => {
-	const { controller, result } = props;
-	if (controller?.type !== 'search' && controller?.type !== 'autocomplete' && controller?.type !== 'recommendation') return null;
-	const settings = (controller as SearchController | AutocompleteController | RecommendationController).config.settings?.quickview;
-	if (!settings?.enabled) return null;
-	const store = (controller.store as any)?.productQuickView as ProductQuickViewStore | undefined;
-	if (!store?.product || store.product.id !== result.id) return null;
-	return <ProductQuickView controller={controller} displayFields={settings.displayFields} />;
 });
 
 interface ResultSubProps {

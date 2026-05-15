@@ -170,7 +170,7 @@ export const ChatInspirationResultMessage = observer((properties: ChatInspiratio
 														onProductQuickView?.();
 													}}
 													alt={display?.mappings?.core?.name || ''}
-													src={display?.mappings?.core?.imageUrl || ''}
+													src={display?.mappings?.core?.imageUrl || display?.mappings?.core?.parentImageUrl || ''}
 												/>
 											</div>
 										);

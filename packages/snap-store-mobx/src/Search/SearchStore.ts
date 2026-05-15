@@ -15,7 +15,6 @@ import {
 } from './Stores';
 import { AbstractStore } from '../Abstract/AbstractStore';
 import { MetaStore } from '../Meta/MetaStore';
-import { ProductQuickViewStore } from '../ProductQuickView/ProductQuickViewStore';
 
 export class SearchStore extends AbstractStore<SearchStoreConfig> {
 	private declare previousSearch?: SearchResponseModel;
@@ -30,7 +29,6 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 	public sorting!: SearchSortingStore;
 	public storage: StorageStore;
 	public history: SearchHistoryStore;
-	public productQuickView: ProductQuickViewStore = new ProductQuickViewStore();
 
 	constructor(config: SearchStoreConfig, services: StoreServices) {
 		super(config);
@@ -58,7 +56,6 @@ export class SearchStore extends AbstractStore<SearchStoreConfig> {
 			results: observable,
 			pagination: observable,
 			sorting: observable,
-			productQuickView: observable,
 		});
 	}
 

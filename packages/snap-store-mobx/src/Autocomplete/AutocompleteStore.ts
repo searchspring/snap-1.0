@@ -24,7 +24,6 @@ import type { AutocompleteResponseModel, MetaResponseModel } from '@athoscommerc
 import type { TrendingResponseModel } from '@athoscommerce/snap-client';
 import type { AutocompleteStoreConfig, StoreServices } from '../types';
 import { MetaStore } from '../Meta/MetaStore';
-import { ProductQuickViewStore } from '../ProductQuickView/ProductQuickViewStore';
 
 export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 	public services: StoreServices;
@@ -41,7 +40,6 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 	public storage: StorageStore;
 	public trending: AutocompleteTrendingStore;
 	public history: AutocompleteHistoryStore;
-	public productQuickView: ProductQuickViewStore = new ProductQuickViewStore();
 
 	constructor(config: AutocompleteStoreConfig, services: StoreServices) {
 		super(config);
@@ -76,7 +74,6 @@ export class AutocompleteStore extends AbstractStore<AutocompleteStoreConfig> {
 			sorting: observable,
 			history: observable,
 			trending: observable,
-			productQuickView: observable,
 		});
 	}
 

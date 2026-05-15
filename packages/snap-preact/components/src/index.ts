@@ -70,7 +70,6 @@ export * from './components/Organisms/FacetsHorizontal';
 export * from './components/Organisms/FilterSummary';
 export * from './components/Organisms/MobileSidebar';
 export * from './components/Organisms/NoResults';
-export * from './components/Organisms/ProductQuickView';
 export * from './components/Organisms/Results';
 export * from './components/Organisms/Sidebar';
 export * from './components/Organisms/Toolbar';

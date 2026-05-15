@@ -620,7 +620,7 @@ export class ChatSessionStore {
 						requestType: 'productComparison',
 						productId: item.result.id,
 						name: d.mappings?.core?.name,
-						thumbnailUrl: d.mappings?.core?.thumbnailImageUrl || d.mappings?.core?.imageUrl,
+						thumbnailUrl: d.mappings?.core?.thumbnailImageUrl || d.mappings?.core?.imageUrl || d.mappings?.core?.parentImageUrl,
 					});
 					if (attachment) {
 						attachments.push(attachment.id);
@@ -660,7 +660,7 @@ export class ChatSessionStore {
 					requestType: 'productComparison',
 					productId: item.result.id,
 					name: d.mappings?.core?.name,
-					thumbnailUrl: d.mappings?.core?.thumbnailImageUrl || d.mappings?.core?.imageUrl,
+					thumbnailUrl: d.mappings?.core?.thumbnailImageUrl || d.mappings?.core?.imageUrl || d.mappings?.core?.parentImageUrl,
 				});
 				if (attachment) {
 					attachments.push(attachment.id);

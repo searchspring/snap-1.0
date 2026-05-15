@@ -14,7 +14,6 @@ import { waitFor } from '@testing-library/preact';
 import { MockClient } from '@athoscommerce/snap-shared';
 import deepmerge from 'deepmerge';
 import { AutocompleteRequestModelSearchSourceEnum } from '@athoscommerce/snapi-types';
-import type { ProductsResponseModel } from '@athoscommerce/snap-client';
 
 const KEY_ENTER = 13;
 const KEY_ESCAPE = 27;
@@ -1708,83 +1707,5 @@ describe('Autocomplete Controller', () => {
 
 		searchTrendingfn.mockClear();
 		trendingfn.mockClear();
-	});
-
-	describe('productQuickView', () => {
-		const buildController = (settings: AutocompleteStoreConfig['settings'] = { quickview: { enabled: true } }) => {
-			const config = { ...acConfig, settings };
-			return new AutocompleteController(config, {
-				client: new MockClient(globals, {}),
-				store: new AutocompleteStore(config, services),
-				urlManager,
-				eventManager: new EventManager(),
-				profiler: new Profiler(),
-				logger: new Logger(),
-				tracker: new Tracker(globals),
-			});
-		};
-
-		it('sets productQuickView on store and fetches product data', async () => {
-			const controller = buildController();
-
-			const mockResponse: ProductsResponseModel = {
-				mappings: { core: { name: 'Test Product' } },
-				variants: { optionConfig: {}, data: [] },
-			} as unknown as ProductsResponseModel;
-			controller.client.products = jest.fn().mockResolvedValue(mockResponse);
-
-			const result = {
-				id: 'prod1',
-				mappings: { core: { parentId: 'parent1', name: 'Test Product' } },
-			} as unknown as Product;
-
-			await controller.productQuickView(result);
-
-			expect(controller.store.productQuickView.product).toBeDefined();
-			expect(controller.client.products).toHaveBeenCalledWith({ parentId: 'parent1' });
-		});
-
-		it('falls back to result.id when parentId is missing', async () => {
-			const controller = buildController();
-
-			controller.client.products = jest.fn().mockResolvedValue({
-				mappings: { core: {} },
-				variants: { optionConfig: {}, data: [] },
-			});
-
-			const result = { id: 'fallback-id', mappings: { core: {} } } as unknown as Product;
-			await controller.productQuickView(result);
-
-			expect(controller.client.products).toHaveBeenCalledWith({ parentId: 'fallback-id' });
-		});
-
-		it('sets error when products API fails', async () => {
-			const controller = buildController();
-			const logSpy = jest.spyOn(controller.log, 'error');
-
-			controller.client.products = jest.fn().mockRejectedValue(new Error('Network error'));
-
-			const result = {
-				id: 'prod1',
-				mappings: { core: { parentId: 'parent1' } },
-			} as unknown as Product;
-
-			await controller.productQuickView(result);
-
-			expect(logSpy).toHaveBeenCalledWith('Failed to fetch product details', expect.any(Error));
-			expect(controller.store.productQuickView.error).toBe('Failed to load product details. Please try again.');
-			logSpy.mockClear();
-		});
-
-		it('is a no-op when quickview is disabled', async () => {
-			const controller = buildController({});
-			controller.client.products = jest.fn();
-
-			const result = { id: 'prod1', mappings: { core: {} } } as unknown as Product;
-			await controller.productQuickView(result);
-
-			expect(controller.client.products).not.toHaveBeenCalled();
-			expect(controller.store.productQuickView.product).toBeNull();
-		});
 	});
 });

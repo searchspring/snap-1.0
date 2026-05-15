@@ -11,7 +11,6 @@ import {
 	withSnap,
 	Recommendation,
 	useCreateController,
-	ProductQuickView,
 } from '@athoscommerce/snap-preact/components';
 
 import { Profile } from '../Profile/Profile';
@@ -51,8 +50,6 @@ export const Results = withController(
 						<ResultsComponent breakpoints={resultsBreakpoints} controller={controller} results={results} />
 					</div>
 				</Profile>
-
-				<ProductQuickView controller={controller} />
 
 				<div className="clear"></div>
 

@@ -12,7 +12,5 @@ export { RecommendationStore } from './Recommendation/RecommendationStore';
 export { CartStore } from './Cart/CartStore';
 export { StorageStore, StorageConfig, StorageType } from '@athoscommerce/snap-toolbox';
 export { MetaStore } from './Meta/MetaStore';
-export { ProductQuickViewStore } from './ProductQuickView/ProductQuickViewStore';
-export { cloneProductForQuickView } from './ProductQuickView/cloneProductForQuickView';
 export * from './types';
 export { ChatSessionStore } from './Chat/Stores/ChatSessionStore';

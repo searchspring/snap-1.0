@@ -64,7 +64,7 @@ A `SearchFacetStore` reflecting the facets on the current `productSearchResult` 
 A counter that bumps on every `urlManager` state change so observers re-evaluate `isFacetSelected` (mobx can't subscribe to the underlying UrlManager directly).
 
 ## `productQuickview` property
-The currently viewed product in the quickview panel, or `null` if no product quickview is open. Set via `setProductQuickview()` and cleared via `clearProductQuickview()`. The same conceptual state is also available in the shared, composable [`ProductQuickViewStore`](../ProductQuickView/) — newer controllers (Recommendation, etc.) compose `ProductQuickViewStore` directly rather than duplicating these fields.
+The currently viewed product in the quickview panel, or `null` if no product quickview is open. Set via `setProductQuickview()` and cleared via `clearProductQuickview()`.
 
 ## `productQuickviewError` property
 An error message string if the product quickview failed to load, or `null` otherwise.

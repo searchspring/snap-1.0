@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { observer } from 'mobx-react-lite';
 
-import { Autocomplete as LibraryAutocomplete, ProductQuickView } from '@athoscommerce/snap-preact/components';
+import { Autocomplete as LibraryAutocomplete } from '@athoscommerce/snap-preact/components';
 import type { Snap, SnapTemplates } from '@athoscommerce/snap-preact';
 
 type AutocompleteProps = {
@@ -48,10 +48,5 @@ export const Autocomplete = observer(({ controller, snap }: AutocompleteProps) =
 		},
 	};
 
-	return (
-		<>
-			<LibraryAutocomplete controller={controller} snap={snap} input={controller.config.selector} breakpoints={breakpoints} theme={theme} />
-			<ProductQuickView controller={controller} />
-		</>
-	);
+	return <LibraryAutocomplete controller={controller} snap={snap} input={controller.config.selector} breakpoints={breakpoints} theme={theme} />;
 });

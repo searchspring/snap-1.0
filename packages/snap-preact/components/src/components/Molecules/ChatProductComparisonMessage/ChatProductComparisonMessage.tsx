@@ -113,7 +113,11 @@ export const ChatProductComparisonMessage = observer((properties: ChatProductCom
 	const headings = searchResults.length ? searchResults.map((r: any) => String(r?.id)) : [];
 	const getDisplay = (r: any) => r?.display || r;
 	const allProductsHaveImage =
-		headings.length > 0 && headings.every((heading) => !!getDisplay(searchResults.find((r: any) => r?.id === heading))?.mappings?.core?.imageUrl);
+		headings.length > 0 &&
+		headings.every((heading) => {
+			const core = getDisplay(searchResults.find((r: any) => r?.id === heading))?.mappings?.core;
+			return !!(core?.imageUrl || core?.parentImageUrl);
+		});
 
 	return comparisonData.features.length ? (
 		<CacheProvider>
@@ -133,7 +137,7 @@ export const ChatProductComparisonMessage = observer((properties: ChatProductCom
 											{allProductsHaveImage && (
 												<img
 													className={classnames('ss__chat-product-comparison-message__table__product-header__image')}
-													src={display.mappings.core.imageUrl as string}
+													src={(display.mappings.core.imageUrl || display.mappings.core.parentImageUrl) as string}
 													alt={productName}
 												/>
 											)}

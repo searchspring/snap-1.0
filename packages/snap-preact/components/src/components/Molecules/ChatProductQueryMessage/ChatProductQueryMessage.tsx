@@ -532,10 +532,10 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 						</button>
 					)}
 					<div className={classnames('ss__chat-product-query-message__header__product')}>
-						{displayedCore.imageUrl && (
+						{(displayedCore.imageUrl || displayedCore.parentImageUrl) && (
 							<Image
 								className={classnames('ss__chat-product-query-message__header__product__image')}
-								src={displayedCore.imageUrl as string}
+								src={(displayedCore.imageUrl || displayedCore.parentImageUrl) as string}
 								alt={(displayedCore.name as string) || ''}
 							/>
 						)}

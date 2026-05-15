@@ -15,7 +15,7 @@ import type {
 	ContextVariables,
 	RecommendationControllerConfig,
 } from '@athoscommerce/snap-controller';
-import type { BeaconSettings, QuickviewConfig, VariantConfig } from '@athoscommerce/snap-store-mobx';
+import type { BeaconSettings, VariantConfig } from '@athoscommerce/snap-store-mobx';
 import type { Middleware } from '@athoscommerce/snap-event-manager';
 import type { Target } from '@athoscommerce/snap-toolbox';
 import { createRecommendationController } from '../create';
@@ -37,7 +37,6 @@ export type RecommendationInstantiatorConfigSettings = {
 	batched?: boolean;
 	limit?: number;
 	variants?: VariantConfig;
-	quickview?: QuickviewConfig;
 	beacon?: BeaconSettings;
 };
 
@@ -411,7 +410,6 @@ async function readyTheController(
 		beacon: instance.config.config?.beacon || { enabled: true },
 		settings: {
 			variants: instance.config.config?.variants,
-			quickview: instance.config.config?.quickview,
 		},
 		globals,
 	};

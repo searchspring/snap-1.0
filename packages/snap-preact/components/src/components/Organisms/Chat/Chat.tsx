@@ -753,7 +753,11 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 																			// 	controller?.productQuickView(product as any);
 																			// }}
 																			alt={(comparisonItem?.result?.display || comparisonItem?.result)?.mappings?.core?.name || ''}
-																			src={(comparisonItem?.result?.display || comparisonItem?.result)?.mappings?.core?.imageUrl || ''}
+																			src={
+																				(comparisonItem?.result?.display || comparisonItem?.result)?.mappings?.core?.imageUrl ||
+																				(comparisonItem?.result?.display || comparisonItem?.result)?.mappings?.core?.parentImageUrl ||
+																				''
+																			}
 																		/>
 																		<div
 																			className="ss__chat__content__header__comparisons__content__comparison__remove"
@@ -1209,7 +1213,8 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 														return {
 															id: result?.id,
 															name: d?.mappings?.core?.name || '',
-															imageUrl: d?.mappings?.core?.thumbnailImageUrl || d?.mappings?.core?.imageUrl || '',
+															imageUrl:
+																d?.mappings?.core?.thumbnailImageUrl || d?.mappings?.core?.imageUrl || d?.mappings?.core?.parentImageUrl || '',
 															onClick: isMobile
 																? () => {
 																		controller.productQuickView(result);
@@ -1224,7 +1229,8 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 														return {
 															id: comparisonItem.result?.id,
 															name: d?.mappings?.core?.name || '',
-															imageUrl: d?.mappings?.core?.thumbnailImageUrl || d?.mappings?.core?.imageUrl || '',
+															imageUrl:
+																d?.mappings?.core?.thumbnailImageUrl || d?.mappings?.core?.imageUrl || d?.mappings?.core?.parentImageUrl || '',
 															onClick: isMobile
 																? () => {
 																		controller.productQuickView(comparisonItem.result);

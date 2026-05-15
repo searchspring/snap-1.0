@@ -74,11 +74,6 @@ let config: SnapConfig = {
 				// branch: BRANCHNAME,
 				branch: 'production',
 				plugins: [[mutateResultsURL]],
-				settings: {
-					quickview: {
-						enabled: true,
-					},
-				},
 			},
 		},
 	},
@@ -89,10 +84,6 @@ let config: SnapConfig = {
 					id: 'search',
 					plugins: [[afterStore], [mutateResultsURL]],
 					settings: {
-						quickview: {
-							enabled: true,
-							displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
-						},
 						infinite: {
 							backfill: 5,
 						},
@@ -156,10 +147,6 @@ let config: SnapConfig = {
 					selector: 'input.athos-ac',
 					plugins: [[mutateResultsURL]],
 					settings: {
-						quickview: {
-							enabled: true,
-							displayFields: ['category', 'brand', 'color', 'price', 'rating', 'available', 'description'],
-						},
 						trending: {
 							limit: 5,
 						},
