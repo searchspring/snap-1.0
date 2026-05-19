@@ -556,7 +556,6 @@ Then register it and wire it in via `customComponent`. Because `customComponent`
 ```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
 import type { SnapTemplatesConfigUnlocked } from '@athoscommerce/snap-preact';
-import { MyPerPage } from './components/MyPerPage';
 
 const config: SnapTemplatesConfigUnlocked = {
 	unlocked: true,
