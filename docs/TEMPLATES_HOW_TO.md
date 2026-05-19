@@ -234,7 +234,7 @@ The `_` token is a flex spacer. Items to the left of `_` are left-aligned, items
 | `facetsHorizontal` | Horizontal facet bar (SearchHorizontal) |
 | `_` | Flex spacer / alignment separator |
 
-Toolbar layouts are configured via `overrides.components` using the path `'toolbar.top'`, `'toolbar.middle'`, or `'toolbar.bottom'`. 
+Toolbar layouts are configured via `theme.overrides` breakpoint keys, for example `theme.overrides.default['toolbar.top']`, `theme.overrides.default['toolbar.middle']`, or `theme.overrides.default['toolbar.bottom']`.
 
 You can also hide a toolbar entirely using the `hideTopToolbar`, `hideMiddleToolbar`, or `hideBottomToolbar` props on the Search templates.
 
