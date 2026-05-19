@@ -359,25 +359,19 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 			return base;
 		}
 
-		const applied = new Set<string>();
+		// Count current selections from the urlManager (source of truth for live state).
+		// `value.filtered` reflects the server's snapshot at response time and goes stale
+		// once the user deselects locally.
+		const applied = ((facet as ValueFacet).values || []).filter((value) => {
+			if (!value) return false;
+			const optionValue =
+				'low' in value && 'high' in value
+					? `${(value as FacetRangeValue).low ?? '*'}:${(value as FacetRangeValue).high ?? '*'}`
+					: (value as FacetValue).value || (value as FacetValue).label;
+			return controller.store.isFacetSelected(facet.field, optionValue);
+		}).length;
 
-		// Count values marked as filtered (already applied on the server)
-		((facet as ValueFacet).values || []).forEach((value) => {
-			if (value?.filtered) {
-				if ('low' in value && 'high' in value) {
-					applied.add(`${(value as FacetRangeValue).low ?? '*'}:${(value as FacetRangeValue).high ?? '*'}`);
-				} else {
-					applied.add((value as FacetValue).value);
-				}
-			}
-		});
-
-		// Count pending facet attachments (newly selected, not yet sent)
-		(controller.store.currentChat?.attachments.items || [])
-			.filter((item: any) => item.type === 'facet' && item.key === facet.field && (item.state === 'active' || item.state === 'attached'))
-			.forEach((item: any) => applied.add(item.value));
-
-		return applied.size > 0 ? `${base} (${applied.size})` : base;
+		return applied > 0 ? `${base} (${applied})` : base;
 	};
 
 	// Slider dropdown grows to fill the remaining chat width from its anchor,

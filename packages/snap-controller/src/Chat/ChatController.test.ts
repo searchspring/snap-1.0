@@ -906,4 +906,313 @@ describe('Chat Controller', () => {
 			logSpy.mockClear();
 		});
 	});
+
+	describe('facet selection', () => {
+		it('addFacet updates urlManager state and isFacetSelected returns true', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(false);
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(true);
+		});
+
+		it('removeFacet clears the value from urlManager state', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(true);
+
+			controller.store.removeFacet('color', 'red');
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(false);
+		});
+
+		it('removeFacet removes specific value while keeping others for the same field', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+			controller.store.addFacet({ key: 'color', value: 'blue' });
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(true);
+			expect(controller.store.isFacetSelected('color', 'blue')).toBe(true);
+
+			controller.store.removeFacet('color', 'red');
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(false);
+			expect(controller.store.isFacetSelected('color', 'blue')).toBe(true);
+		});
+
+		it('removeFacet removes the filter key entirely when the last value is removed', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+			controller.store.removeFacet('color', 'red');
+
+			const filterState = (controller.store.urlManager.state as any)?.filter;
+			expect(filterState?.color).toBeUndefined();
+		});
+
+		it('setActiveFacets seeds the urlManager with server-reported filtered values', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.setActiveFacets(
+				[
+					{
+						field: 'color',
+						type: 'value',
+						values: [
+							{ value: 'red', label: 'Red', count: 5, filtered: true },
+							{ value: 'blue', label: 'Blue', count: 3, filtered: false },
+						],
+					} as any,
+				],
+				'msg-1'
+			);
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(true);
+			expect(controller.store.isFacetSelected('color', 'blue')).toBe(false);
+		});
+
+		it('removing a seeded facet value updates isFacetSelected', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.setActiveFacets(
+				[
+					{
+						field: 'color',
+						type: 'value',
+						values: [
+							{ value: 'red', label: 'Red', count: 5, filtered: true },
+							{ value: 'blue', label: 'Blue', count: 3, filtered: false },
+						],
+					} as any,
+				],
+				'msg-1'
+			);
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(true);
+
+			controller.store.removeFacet('color', 'red');
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(false);
+		});
+
+		it('removing a seeded facet value removes it from urlManager filter state', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.setActiveFacets(
+				[
+					{
+						field: 'color',
+						type: 'value',
+						values: [{ value: 'red', label: 'Red', count: 5, filtered: true }],
+					} as any,
+				],
+				'msg-1'
+			);
+
+			const filterBefore = (controller.store.urlManager.state as any)?.filter;
+			expect(filterBefore?.color).toBeDefined();
+
+			controller.store.removeFacet('color', 'red');
+
+			const filterAfter = (controller.store.urlManager.state as any)?.filter;
+			expect(filterAfter?.color).toBeUndefined();
+		});
+
+		it('clearPendingFacets removes all filter state', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+			controller.store.addFacet({ key: 'size', value: 'large' });
+
+			controller.store.clearPendingFacets();
+
+			expect(controller.store.isFacetSelected('color', 'red')).toBe(false);
+			expect(controller.store.isFacetSelected('size', 'large')).toBe(false);
+		});
+
+		it('addFacet with range-bucket value works with isFacetSelected', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			// Use non-zero low to avoid UrlManager falsy-value serialization issue
+			controller.store.addFacet({ key: 'price', value: '10:50' });
+
+			expect(controller.store.isFacetSelected('price', '10:50')).toBe(true);
+			expect(controller.store.isFacetSelected('price', '50:100')).toBe(false);
+		});
+
+		it('removeFacet with range-bucket value clears the selection', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'price', value: '10:50' });
+			controller.store.removeFacet('price', '10:50');
+
+			expect(controller.store.isFacetSelected('price', '10:50')).toBe(false);
+		});
+	});
+
+	describe('hasPendingFacetChanges', () => {
+		it('is false when no facets have been changed', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			expect(controller.store.hasPendingFacetChanges).toBe(false);
+		});
+
+		it('is true after addFacet', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+
+			expect(controller.store.hasPendingFacetChanges).toBe(true);
+		});
+
+		it('is true after removing a seeded facet value', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.setActiveFacets(
+				[
+					{
+						field: 'color',
+						type: 'value',
+						values: [{ value: 'red', label: 'Red', count: 5, filtered: true }],
+					} as any,
+				],
+				'msg-1'
+			);
+
+			// snapshot was taken — no changes yet
+			expect(controller.store.hasPendingFacetChanges).toBe(false);
+
+			controller.store.removeFacet('color', 'red');
+
+			expect(controller.store.hasPendingFacetChanges).toBe(true);
+		});
+
+		it('is false when changes match the applied snapshot', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.setActiveFacets(
+				[
+					{
+						field: 'color',
+						type: 'value',
+						values: [{ value: 'red', label: 'Red', count: 5, filtered: true }],
+					} as any,
+				],
+				'msg-1'
+			);
+
+			// remove then re-add the same value — should match the snapshot again
+			controller.store.removeFacet('color', 'red');
+			expect(controller.store.hasPendingFacetChanges).toBe(true);
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+			expect(controller.store.hasPendingFacetChanges).toBe(false);
+		});
+	});
+
+	describe('params with facet filters', () => {
+		it('includes searchFilters when hasPendingFacetChanges is true', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+
+			const params = controller.params;
+
+			expect(params.data.requestType).toBe('productSearch');
+			expect((params.data as any).searchFilters).toEqual([{ key: 'color', options: [{ key: 'red' }] }]);
+		});
+
+		it('includes multiple values for the same field', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+			controller.store.addFacet({ key: 'color', value: 'blue' });
+
+			const params = controller.params;
+			const colorFilter = (params.data as any).searchFilters.find((f: any) => f.key === 'color');
+
+			expect(colorFilter.options).toEqual(expect.arrayContaining([{ key: 'red' }, { key: 'blue' }]));
+		});
+
+		it('includes range-bucket filter as low/high', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			// Use non-zero low to avoid UrlManager falsy-value serialization issue
+			controller.store.addFacet({ key: 'price', value: '10:50' });
+
+			const params = controller.params;
+			const priceFilter = (params.data as any).searchFilters.find((f: any) => f.key === 'price');
+
+			expect(priceFilter.options).toEqual([{ low: '10', high: '50' }]);
+		});
+
+		it('does not include searchFilters when there are no pending changes', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+			controller.store.inputValue = 'show me jackets';
+
+			const params = controller.params;
+
+			expect(params.data.requestType).toBe('general');
+			expect((params.data as any).searchFilters).toBeUndefined();
+		});
+
+		it('sends empty searchFilters when all seeded facets are removed', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+
+			controller.store.setActiveFacets(
+				[
+					{
+						field: 'color',
+						type: 'value',
+						values: [{ value: 'red', label: 'Red', count: 5, filtered: true }],
+					} as any,
+				],
+				'msg-1'
+			);
+
+			controller.store.removeFacet('color', 'red');
+
+			const params = controller.params;
+
+			expect(params.data.requestType).toBe('productSearch');
+			expect((params.data as any).searchFilters).toEqual([]);
+		});
+
+		it('preserves user message when promoting to productSearch', () => {
+			const controller = createController();
+			controller.store.createChat({ sessionId: 'test-session-001' });
+			controller.store.inputValue = 'show me jackets';
+
+			controller.store.addFacet({ key: 'color', value: 'red' });
+
+			const params = controller.params;
+
+			expect(params.data.requestType).toBe('productSearch');
+			expect((params.data as any).message).toBe('show me jackets');
+			expect((params.data as any).searchFilters).toEqual([{ key: 'color', options: [{ key: 'red' }] }]);
+		});
+	});
 });

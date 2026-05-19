@@ -21,7 +21,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 		gap: '1em',
 
 		'.ss__chat-product-query-message__header': {
-			background: new Colour(colorPrimary).lightenHex(0.2),
+			background: new Colour(colorPrimary).lightenHex(0.05),
 			padding: '1em',
 			display: 'flex',
 			flexDirection: 'column',
@@ -108,7 +108,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 				'.ss__chat-product-query-message__header__product__actions': {
 					display: 'flex',
 					flexDirection: 'column',
-					alignItems: 'flex-end',
+					alignItems: 'stretch',
 					alignSelf: 'stretch',
 					justifyContent: 'center',
 					gap: '0.35em',
@@ -128,6 +128,7 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 					},
 
 					'.ss__chat-product-query-message__header__product__actions__add-to-cart .ss__button': {
+						flexDirection: 'row-reverse',
 						borderRadius: '0.5em',
 						padding: '0.4em 0.75em',
 						fontWeight: 'bold',
@@ -135,24 +136,38 @@ const defaultStyles: StyleScript<ChatProductQueryMessageProps> = ({ primaryColor
 						whiteSpace: 'nowrap',
 						cursor: 'pointer',
 						fontSize: '0.8em',
-						background: '#D4A843',
-						color: '#1F2937',
+						background: '#feeeae',
+						color: '#000',
+						justifyContent: 'center',
+						width: '100%',
+						textAlign: 'center',
+						svg: {
+							fill: '#000',
+							stroke: '#000',
+						},
 						'&:not(.ss__button--disabled):hover': {
-							background: '#c49a3a',
+							background: '#fde68a',
 						},
 					},
 
-					// Visual styles for the Show similar / Discuss product buttons live in the
-					// Chat component so the chat-level theme drives them. Only layout-related
-					// rules remain here.
 					'.ss__chat-product-query-message__header__product__actions__show-similar .ss__button, .ss__chat-product-query-message__header__product__actions__discuss-product .ss__button':
 						{
+							flexDirection: 'row-reverse',
 							borderRadius: '0.5em',
 							padding: '0.4em 0.75em',
 							fontWeight: 'bold',
 							whiteSpace: 'nowrap',
 							cursor: 'pointer',
 							fontSize: '0.8em',
+							background: '#000',
+							color: '#fff',
+							justifyContent: 'center',
+							width: '100%',
+							textAlign: 'center',
+							svg: {
+								fill: '#fff',
+								stroke: '#fff',
+							},
 						},
 				},
 			},
@@ -583,6 +598,7 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 							)}
 							<div className={classnames('ss__chat-product-query-message__header__product__actions__add-to-cart')}>
 								<Button
+									icon="cart"
 									content={'Add to Cart'}
 									onClick={() => {
 										controller?.track.product.addToCart(product);
@@ -592,11 +608,11 @@ export const ChatProductQueryMessage = observer((properties: ChatProductQueryMes
 							</div>
 							{controller?.store.features.similarProducts.enabled && (
 								<div className={classnames('ss__chat-product-query-message__header__product__actions__show-similar')}>
-									<Button content={'Show Similar'} onClick={() => controller?.productSimilar(sourceProduct as any)} />
+									<Button icon="search-thin" content={'Show Similar'} onClick={() => controller?.productSimilar(sourceProduct as any)} />
 								</div>
 							)}
 							<div className={classnames('ss__chat-product-query-message__header__product__actions__discuss-product')}>
-								<Button content={'Discuss Product'} onClick={() => controller?.productQuery(sourceProduct as any)} />
+								<Button icon="chat" content={'Discuss Product'} onClick={() => controller?.productQuery(sourceProduct as any)} />
 							</div>
 						</div>
 					</div>
