@@ -30,7 +30,7 @@ new SnapTemplates({
 });
 ```
 
-### Customizing The Theme
+### Theme Configuration Overview
 The project theme contains the following properties:
 
 | Configuration Option | Description | Type | Required |
@@ -42,11 +42,11 @@ The project theme contains the following properties:
 | `theme.overrides` | Component overrides | Object | ➖ |
 
 
-#### Theme `extends`
+### Theme `extends`
 The `extends` property is the base theme name to start from and will already contain variables, breakpoint overrides, and component props by default (unless choosing a blank theme)
 
 
-#### Theme `variables`
+### Theme `variables`
 Each theme includes a common set of shared variables (for example, colors and breakpoints) that remain compatible when switching between themes.
 
 ```tsx
@@ -67,7 +67,7 @@ new SnapTemplates({
 });
 ```
 
-#### Theme `style`
+### Theme `style`
 Specifies a function that returns [emotion object styles](https://emotion.sh/docs/object-styles). This function receives theme variables as props and allows you to create styles that respond to specific breakpoints. The resulting styles are injected into the document's `<head>` element.
 
 ```tsx
@@ -95,7 +95,7 @@ new SnapTemplates({
 });
 ```
 
-#### Theme `overrides`
+### Theme `overrides`
 Themes and components provide their own default component prop configurations. The `overrides` property in a theme configuration allows you to customize these defaults.
 
 `overrides` is organized by breakpoint keys:
@@ -104,7 +104,7 @@ Themes and components provide their own default component prop configurations. T
 2. Responsive keys such as `mobile`, `tablet`, and `desktop`: Breakpoint-specific overrides that are merged on top of `default`.
 
 
-##### Templates Legal Props
+#### Templates Legal Props
 
 When customizing components via theme overrides, not all component props are available. Each component defines a subset of its props as "templates legal" — these are the props that are safe and supported for use within theme configuration. Props that are not templates legal are restricted to internal use and cannot be configured through the theme.
 
@@ -139,7 +139,7 @@ new SnapTemplates({
 ```
 
 
-##### Theme `overrides` with Cascading Component Props
+#### Theme `overrides` with Cascading Component Props
 While the previous example demonstrated overriding all instances of image and button components, you may often need to target specific sub-components within a larger component or template. This is where cascading component props come into play.
 
 Cascading component props within override groups such as `overrides.default` (and breakpoint groups like `overrides.mobile`) are available as TypeScript types. It's strongly recommended to use your IDE's IntelliSense (code completion) feature to explore available cascading component prop selectors and values.
@@ -177,7 +177,7 @@ new SnapTemplates({
 });
 ```
 
-##### The `customComponent` Override Prop
+#### The `customComponent` Override Prop
 
 All Atom, Molecule, and Organism components support a `customComponent` prop that allows you to completely replace a component with your own custom implementation. This is particularly useful when you need more control than what standard prop overrides provide.
 
@@ -272,7 +272,7 @@ export const MyCustomResult = (props: ResultProps) => {
 ```
 
 
-##### Responsive Theme Overrides
+#### Responsive Theme Overrides
 Responsive overrides in the `overrides` property allow you to define theme configurations for different screen sizes, such as mobile, tablet, and desktop. These settings adapt your theme to various viewport sizes, enabling responsive designs.
 
 The breakpoints for these overrides are defined in `theme.variables.breakpoints`. For instance, if `theme.variables.breakpoints` is set to `{ mobile: 768, tablet: 1024, desktop: 1280 }`, the `mobile` overrides will apply for viewports between `0-768px`, `tablet` overrides for `769-1024px`, and `desktop` overrides for `1025-1280px`. Overrides specified in `default` apply across all screen sizes, while the active responsive overrides (based on the current viewport) take precedence.

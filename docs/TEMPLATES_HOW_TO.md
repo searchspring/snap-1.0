@@ -152,7 +152,7 @@ new SnapTemplates({
 
 ---
 
-### Using Theme Breakpoints in Styles
+### Using Theme Variables in Styles
 
 Theme breakpoint values (set in `theme.variables.breakpoints`) are available inside both the global `theme.style` function and component-level style scripts. Using them ensures your media queries always stay in sync with the responsive overrides defined in your theme configuration.
 
@@ -208,7 +208,7 @@ new SnapTemplates({
 
 ---
 
-### Adjusting Toolbar Layouts
+### Customizing Toolbar Layouts
 
 The Search component renders three toolbars — **top**, **middle**, and **bottom** — that frame the result grid. Each toolbar accepts a `layout` prop: a 2-D array where each inner array defines a row, and the strings within a row are the module names to render left-to-right.
 
@@ -367,7 +367,7 @@ new SnapTemplates({
 
 ---
 
-### Autocomplete Layout & Column Props
+### Customizing Autocomplete Layouts
 
 Snap Templates ships three autocomplete variants — `AutocompleteFixed`, `AutocompleteModal`, and `AutocompleteSlideout`. All of them use the `AutocompleteLayout` component under the hood, whose `layout` prop controls which sections appear and how they are arranged. The `results` sub-component exposes `columns` and `rows` to control the product grid inside the dropdown.
 
@@ -460,7 +460,7 @@ new SnapTemplates({
 });
 ```
 
-#### Example: Customising Column Widths & Inner Layouts
+#### Example: Customizing Column Widths & Inner Layouts
 
 Each `c1`–`c4` column accepts a `width` (fixed px string or `'auto'`) and a `layout` array of inner modules. Override them via the cascading prop path on the autocomplete component.
 
@@ -507,7 +507,7 @@ new SnapTemplates({
 
 ---
 
-### Custom Component Overrides with `customComponent`
+### Custom Component Overrides
 
 The `customComponent` prop lets you completely replace a component in the tree with your own implementation. It works by referencing the name of a component you've registered in the `components` section of your configuration. This is only available in an **unlocked** configuration.
 
