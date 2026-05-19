@@ -1,6 +1,6 @@
 ## Templates Plugins
 
-Plugins provide functionality to tie into various events within the Snap controllers by adding middleware on these events. The `plugins` object allows you to use and configure various plugins that are available within Snap Templates. Plugin configuration are grouped by the integration platform, `shopify`, `magento2`, `bigCommerce` and `common` (applies to all platforms)
+Plugins provide functionality to tie into various events within the Snap controllers by adding middleware on these events. The `plugins` object allows you to use and configure various plugins that are available within Snap Templates. Plugin configurations are grouped by the integration platform, `shopify`, `magento2`, `bigCommerce` and `common` (applies to all platforms).
 
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|
