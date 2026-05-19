@@ -261,9 +261,12 @@ export class ChatController extends AbstractController {
 		// single source of truth for the in-progress facet selection on the
 		// active facets display. Range/slider selections are emitted as
 		// `{ low, high }` strings, value selections as `{ key }`.
+		// Only emit when the user has actually changed the facets; the urlManager is
+		// seeded from the active productSearchResult's filtered values, so an untouched
+		// facet bar would otherwise promote every follow-up message to productSearch.
 		const searchFilters: { key: string; options: ({ key: string } | { low: string; high: string })[] }[] = [];
 		const filterState = (this.store.urlManager.state as any)?.filter as Record<string, any> | undefined;
-		if (filterState) {
+		if (filterState && this.store.hasPendingFacetChanges) {
 			Object.keys(filterState).forEach((field) => {
 				const raw = filterState[field];
 				const values = Array.isArray(raw) ? raw : [raw];
@@ -365,11 +368,13 @@ export class ChatController extends AbstractController {
 			}
 		}
 
-		if (searchFilters.length > 0) {
+		if (this.store.hasPendingFacetChanges) {
 			// `searchFilters` only lives on productSearch in the API model — promote
-			// to productSearch when filters are present, but preserve the user's
-			// typed message so a follow-up like "show me jackets" doesn't get
-			// silently dropped just because a filter happens to be selected.
+			// to productSearch when the user has changed the facet selection, but
+			// preserve the user's typed message so a follow-up like "show me jackets"
+			// doesn't get silently dropped. An empty `searchFilters: []` is intentional
+			// when the user cleared all previously-applied filters — the backend needs
+			// to see the cleared state.
 			const message = this.store.inputValue?.trim();
 			chatRequest = {
 				requestType: 'productSearch',

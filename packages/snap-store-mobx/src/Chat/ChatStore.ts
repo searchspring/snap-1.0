@@ -41,8 +41,9 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	/** Bumps on every detached-urlManager change so observers re-evaluate isFacetSelected. */
 	public urlVersion: number = 0;
 	/** Snapshot of the applied filter state captured the last time the active message was seeded.
-	 * Compared against the live urlManager state to decide whether there are pending changes. */
-	private appliedFilterSnapshot: string = '{}';
+	 * Compared against the live urlManager state to decide whether there are pending changes.
+	 * `null` means no facets have been seeded yet — there are no pending changes in that case. */
+	private appliedFilterSnapshot: string | null = null;
 
 	constructor(config: ChatStoreConfig, services: StoreServices) {
 		super(config);
@@ -244,8 +245,13 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 	get hasPendingFacetChanges(): boolean {
 		// touch the version so mobx re-runs this when urlManager state changes
 		void this.urlVersion;
-		const current = stableStringify((this.urlManager.state as any)?.filter);
-		return current !== this.appliedFilterSnapshot;
+		const filterState = (this.urlManager.state as any)?.filter;
+		if (this.appliedFilterSnapshot === null) {
+			// No facets have been seeded — pending changes exist only if
+			// the user has manually added filters via addFacet.
+			return filterState !== undefined && Object.keys(filterState).length > 0;
+		}
+		return stableStringify(filterState) !== this.appliedFilterSnapshot;
 	}
 
 	get currentChat(): ChatSessionStore | undefined {
