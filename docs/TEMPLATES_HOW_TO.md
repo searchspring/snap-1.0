@@ -407,7 +407,7 @@ Inside the autocomplete dropdown, product results are rendered by the `Results` 
 - **`columns`** — how many result cards appear per row
 - **`rows`** — how many rows of results to show
 
-The total number of visible products is `columns × rows`. For example, `columns: 2, rows: 2` shows a 2×2 grid of 4 products. These props are set via the cascading override path `'autocomplete results'`.
+The total number of visible products is `columns × rows`. For example, `columns: 2, rows: 2` shows a 2×2 grid of 4 products. Set these props on the `results` sub-component for the specific autocomplete component you are configuring: use the matching template variant selector such as `'autocompleteFixed results'` or `'autocompleteModal results'` when configuring those templates.
 
 ```
 columns: 2, rows: 2  →  [ result ][ result ]
@@ -431,7 +431,7 @@ new SnapTemplates({
 				autocompleteFixed: {
 					layout: [['c1', 'c2', 'c3']],
 				},
-				// 2x2 result grid
+				// 3x2 result grid
 				'autocompleteFixed results': {
 					columns: 3,
 					rows: 2,

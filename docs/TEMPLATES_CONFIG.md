@@ -1,6 +1,6 @@
 ## Templates Config
 
-Snap templates is entirely configuration based. The configuration defines which features are enabled and which template and theme they utilize. A configuration will consist of several top level groups that together define the template.
+Snap templates is configuration based. The configuration defines which features are enabled and which template and theme they utilize. A configuration will consist of several top level groups that together define the template.
 
 | Configuration Key | Description |
 |----|-----------------------|
@@ -10,8 +10,7 @@ Snap templates is entirely configuration based. The configuration defines which 
 | `components` | Custom component registration |
 | `translations` | Custom language translations |
 | `url` | URL translator configuration |
-| `features` | Integration feature configuration |
-| `themes` | Theme configuration |
+| `theme` | Theme configuration |
 | `search` | Search feature target declarations |
 | `autocomplete` | Autocomplete feature target declarations |
 | `recommendation` | Recommendation feature target declarations |
@@ -20,8 +19,9 @@ Here is a minimal example starting configuration to enable search and autocomple
 
 ```tsx
 import { SnapTemplates } from '@athoscommerce/snap-preact';
+import type { SnapTemplatesConfig } from '@athoscommerce/snap-preact';
 
-new SnapTemplates({
+const templatesConfig: SnapTemplatesConfig = {
 	config: {
 		siteId: '8uyt2m',
 		language: 'en',
@@ -46,7 +46,9 @@ new SnapTemplates({
 			},
 		],
 	},
-});
+}
+
+new SnapTemplates(templatesConfig);
 ```
 
 
@@ -54,8 +56,8 @@ new SnapTemplates({
 
 | Configuration Option | Description | Type | Default | Required |
 |----------------------|-------------|------|:---------:|:---------:|
-| `config` | Global configuration options | Object | ➖ | ✔️ |
-| `config.platform` | Shopping platform for the integration | String | 'other' | ✔️ |
+| `config` | Global configuration options | Object | ➖ | ➖ |
+| `config.platform` | Shopping platform for the integration | String | 'other' | ➖ |
 | `config.siteId` | Athos Site ID | String | ➖ | ➖ |
 | `config.language` | Language code for localization | String | 'en' | ➖ |
 | `config.currency` | Currency code for pricing | String | 'usd' | ➖ |
