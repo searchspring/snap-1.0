@@ -26,7 +26,7 @@ When `config.platform` is `shopify`, the following plugins are available:
 
 
 > [!NOTE]
-> See shopify specific plugins documentation under the [Packages > Platform > Shopify](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/shopify) section.
+> See Shopify-specific plugins documentation under the [Packages > Platform > Shopify](https://github.com/athoscommerce/snap/tree/main/packages/snap-platforms/shopify) section.
 
 
 ### Magento2 Plugins
