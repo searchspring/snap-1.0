@@ -5,7 +5,7 @@ Plugins provide functionality to tie into various events within the Snap control
 | Configuration Option | Description | Type | Default |
 |----------------------|-------------|------|---------|
 | `plugins` | Platform-specific plugin configurations | Object | ➖ |
-| `plugins.common` | Platform-specific configurations | Object | ➖ |
+| `plugins.common` | Common/shared plugin configurations | Object | ➖ |
 | `plugins.common.backgroundFilters` | Background filter configurations | Object | Enabled |
 | `plugins.common.scrollToTop` | Configuration for scrolling to top after search | Object | Enabled |
 | `plugins.common.addToCart` | Configuration for add to cart function | Object | Disabled |
