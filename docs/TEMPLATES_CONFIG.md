@@ -42,7 +42,7 @@ const templatesConfig: SnapTemplatesConfig = {
 		targets: [
 			{
 				inputSelector: 'input#search-input',
-				component: 'Autocomplete',
+				component: 'AutocompleteFixed',
 			},
 		],
 	},
@@ -270,7 +270,7 @@ In addition to the common target properties, the following properties apply to t
 | `autocomplete.targets` | Autocomplete target configurations | Array | Required |
 | `autocomplete.targets[].inputSelector` | DOM selector for the autocomplete `<input>` element | String | Required |
 | `autocomplete.targets[].selector` | DOM selector where the component injects; defaults to `inputSelector` | String | ➖ |
-| `autocomplete.targets[].component` | Component to use for autocomplete | String | 'Autocomplete' |
+| `autocomplete.targets[].component` | Component to use for autocomplete | String | 'AutocompleteFixed' |
 | `autocomplete.targets[].resultComponent` | Custom result component for autocomplete | String | 'Result' |
 
 #### Recommendation
