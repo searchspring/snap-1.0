@@ -236,6 +236,7 @@ let config: SnapConfig = {
 						component: async () => {
 							return (await import('@athoscommerce/snap-preact/components')).Chat;
 						},
+						props: {},
 					},
 				],
 			},

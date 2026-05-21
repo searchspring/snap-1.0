@@ -51,7 +51,7 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 		logo: 'https://cdn.athoscommerce.net/snap/images/Athos%20Commerce_Icon_white.svg',
 		title: 'Athos Conversational Assistant',
 		subtitle: 'Your Guided Discovery Expert',
-		multiselectFacets: true,
+		multiselectFacets: false,
 		disableBubbleSuggestedQuestions: isMobile ? true : false,
 		primaryColorBg: '#253B80',
 		primaryColorFg: '#fff',
@@ -191,10 +191,14 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 	// Re-focus the chat input on desktop after a search completes.
 	// The input is disabled while loading, which causes the browser to drop focus.
 	// On mobile we intentionally skip this so the virtual keyboard dismisses.
+	// Only fire on the loading true → false transition — running on mount steals
+	// focus away from the Storybook controls whenever the story re-renders.
+	const prevLoadingRef = useRef(store.loading);
 	useEffect(() => {
-		if (!store.loading && !isMobile && store.open) {
+		if (prevLoadingRef.current && !store.loading && !isMobile && store.open) {
 			controller.focusInput();
 		}
+		prevLoadingRef.current = store.loading;
 	}, [store.loading]);
 
 	// const subProps: ChatSubProps = {};
@@ -219,33 +223,50 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 	const shouldShowSideChat =
 		activeMessage && sideChatTypes.includes(activeMessage?.messageType) && store.currentChat?.dismissedSideChatMessageId !== activeMessage.id;
 
-	const styling = mergeStyles<{
-		mobile: boolean;
-		offset?: string | number;
-		hasSideChat?: boolean;
-		footerHeight: number;
-		primaryColorBg: string;
-		primaryColorFg: string;
-		primaryAccentColorBg: string;
-		primaryAccentColorFg: string;
-		secondaryAccentColorBg: string;
-		secondaryAccentColorFg: string;
-		position: 'left' | 'right';
-	}>(
-		{
-			mobile: isMobile,
+	const hasSideChat = !!shouldShowSideChat;
+	const styling = useMemo(
+		() =>
+			mergeStyles<{
+				mobile: boolean;
+				offset?: string | number;
+				hasSideChat?: boolean;
+				footerHeight: number;
+				primaryColorBg: string;
+				primaryColorFg: string;
+				primaryAccentColorBg: string;
+				primaryAccentColorFg: string;
+				secondaryAccentColorBg: string;
+				secondaryAccentColorFg: string;
+				position: 'left' | 'right';
+			}>(
+				{
+					mobile: isMobile,
+					offset,
+					hasSideChat,
+					footerHeight,
+					primaryColorBg: colorPrimary,
+					primaryColorFg: colorPrimaryText,
+					primaryAccentColorBg: colorPrimaryAccent,
+					primaryAccentColorFg: colorPrimaryAccentText,
+					secondaryAccentColorBg: colorSecondaryAccent,
+					secondaryAccentColorFg: colorSecondaryAccentText,
+					position: chatPosition,
+				},
+				chatDefaultStyles
+			),
+		[
+			isMobile,
 			offset,
-			hasSideChat: !!shouldShowSideChat,
+			hasSideChat,
 			footerHeight,
-			primaryColorBg: colorPrimary,
-			primaryColorFg: colorPrimaryText,
-			primaryAccentColorBg: colorPrimaryAccent,
-			primaryAccentColorFg: colorPrimaryAccentText,
-			secondaryAccentColorBg: colorSecondaryAccent,
-			secondaryAccentColorFg: colorSecondaryAccentText,
-			position: chatPosition,
-		},
-		chatDefaultStyles
+			colorPrimary,
+			colorPrimaryText,
+			colorPrimaryAccent,
+			colorPrimaryAccentText,
+			colorSecondaryAccent,
+			colorSecondaryAccentText,
+			chatPosition,
+		]
 	);
 
 	// Lock body scroll while chat is open so touch/wheel scrolls don't leak to the page behind
@@ -317,27 +338,30 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 			</div>
 			{store.chats.length > 0 ? (
 				<div className="ss__chat__history__chats">
-					{store.chats.map((chat) => (
-						<div key={chat.id} className="ss__chat__history__chats__chat">
-							<Button
-								className="ss__chat__history__chat__button"
-								onClick={() => {
-									controller.store.switchChat(chat.id);
-								}}
-								disabled={chat.id === store.currentChatId}
-							>
-								<div className="ss__chat__history__chat__button__text">
-									{(() => {
-										const lastUserMessage = [...chat.chat].reverse().find((message) => message.messageType === 'user');
-										if (!lastUserMessage) return 'New Chat';
-										const text = lastUserMessage.text;
-										return text.length > 50 ? `${text.slice(0, 50)}...` : text;
-									})()}
-								</div>
-								<div className="ss__chat__history__chat__button__date">{chat.createdAt.toLocaleString()}</div>
-							</Button>
-						</div>
-					))}
+					{store.chats
+						.slice()
+						.reverse()
+						.map((chat) => (
+							<div key={chat.id} className="ss__chat__history__chats__chat">
+								<Button
+									className="ss__chat__history__chat__button"
+									onClick={() => {
+										controller.store.switchChat(chat.id);
+									}}
+									disabled={chat.id === store.currentChatId}
+								>
+									<div className="ss__chat__history__chat__button__text">
+										{(() => {
+											const lastUserMessage = [...chat.chat].reverse().find((message) => message.messageType === 'user');
+											if (!lastUserMessage) return 'New Chat';
+											const text = lastUserMessage.text;
+											return text.length > 50 ? `${text.slice(0, 50)}...` : text;
+										})()}
+									</div>
+									<div className="ss__chat__history__chat__button__date">{chat.createdAt.toLocaleString()}</div>
+								</Button>
+							</div>
+						))}
 				</div>
 			) : null}
 		</div>
@@ -415,7 +439,17 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 				>
 					<div className="ss__chat__actions__facet__options">
 						<div className="ss__chat__actions__facet__slider" style={{ padding: '12px 16px' }}>
-							<FacetSlider facet={props.facet} />
+							<FacetSlider
+								facet={props.facet}
+								onChange={() => {
+									if (!multiselectFacets) {
+										// FacetSlider fires onChange before its urlManager update; defer
+										// so controller.search() reads the updated filter state and
+										// promotes the request to productSearch.
+										queueMicrotask(() => controller.search());
+									}
+								}}
+							/>
 						</div>
 					</div>
 				</Dropdown>
@@ -983,7 +1017,7 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 																		controller.search();
 																	}}
 																>
-																	Apply
+																	{store.pendingFacetCount > 0 ? `Apply (${store.pendingFacetCount})` : 'Clear facets'}
 																</Button>
 															</div>
 														)}
@@ -1001,6 +1035,7 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 																		key={facet.field}
 																		usePortal
 																		dropUp
+																		boundaryRef={chatRef}
 																		button={<FacetButton label={getFacetButtonLabel(facet)} />}
 																		style={{
 																			'.ss__dropdown__content': {
@@ -1235,23 +1270,20 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 												  })
 												: [];
 
-											const productItems: ChatAttachmentContextItem[] = productAttachments.map((item: any) => ({
-												id: item.id,
-												name: item.name || '',
-												imageUrl: item.thumbnailUrl || '',
-												onClick: isMobile
-													? () => {
-															setMobileProductInfoOpen(true);
-													  }
-													: () => {
-															store.currentChat?.setActiveMessage(store.currentChat?.activeMessage?.id || '');
-													  },
-												onRemove: () => {
+											const productItems: ChatAttachmentContextItem[] = productAttachments.map((item: any) => {
+												const remove = () => {
 													store.currentChat?.attachments.remove(item.id);
 													setMobileProductInfoOpen(false);
 													store.currentChat?.dismissSideChat();
-												},
-											}));
+												};
+												return {
+													id: item.id,
+													name: item.name || '',
+													imageUrl: item.thumbnailUrl || '',
+													onClick: remove,
+													onRemove: remove,
+												};
+											});
 
 											const imageItems: ChatAttachmentContextItem[] = imageAttachments.map((item: any) => ({
 												id: item.id,
@@ -1263,8 +1295,7 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 												onRemove: () => store.currentChat?.attachments.remove(item.id),
 											}));
 
-											const productTitle =
-												productItems.length > 1 ? 'Compare these products' : 'Ask about this product' + (isMobile ? '' : ' (click for details)');
+											const productTitle = productItems.length > 1 ? 'Compare these products' : 'Ask about this product';
 											const hasImageError = imageItems.some((item) => item.hasError);
 											const imageTitle = imageItems.length > 0 && !hasImageError ? 'Find products similar to this image:' : '';
 
@@ -1403,7 +1434,6 @@ export const ChatOrganism = observer((properties: ChatOrganismProps): JSX.Elemen
 																// reset value
 																e.target.value = '';
 															}}
-															multiple={true}
 															type="file"
 															accept="image/*"
 															className="ss__chat__input__input__file"

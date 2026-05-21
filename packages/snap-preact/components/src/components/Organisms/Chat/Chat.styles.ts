@@ -308,7 +308,7 @@ export const chatDefaultStyles: StyleScript<ChatStyleProps> = ({
 				top: 6,
 				right: 0,
 				background: 'white',
-				zIndex: 2,
+				zIndex: 21,
 				boxShadow: '0px 3px 6px 0px rgba(0, 0, 0, 0.2)',
 				borderRadius: '6px',
 				display: 'flex',
@@ -337,7 +337,7 @@ export const chatDefaultStyles: StyleScript<ChatStyleProps> = ({
 				},
 				'.ss__chat__history__chats': {
 					display: 'flex',
-					flexDirection: 'column-reverse',
+					flexDirection: 'column',
 					gap: 5,
 					maxHeight: '300px',
 					overflowY: 'auto',
@@ -692,7 +692,10 @@ export const chatDefaultStyles: StyleScript<ChatStyleProps> = ({
 				'.ss__chat__actions--suggested': {
 					overflowX: 'scroll',
 				},
-				'.ss__chat__actions__facet': {},
+				'.ss__chat__actions__facet': {
+					padding: '1px', // make room for outline when focused
+					flexShrink: 0,
+				},
 				'.ss__chat__actions__facets-dropdown': {
 					'.ss__dropdown__content': {
 						bottom: '0',

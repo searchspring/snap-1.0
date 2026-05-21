@@ -336,6 +336,17 @@ export class ChatSessionStore {
 	public setActiveMessage(id: string): void {
 		this.activeMessageId = id;
 		this.dismissedSideChatMessageId = null;
+
+		// Reopening a previous productComparison switches the conversation context
+		// back to the comparison — drop any lingering 'discuss product' (productQuery)
+		// attachment so the footer reflects only the comparison products.
+		const target = this.chat.find((m) => m.id === id);
+		if (target?.messageType === 'productComparison') {
+			const productQueryAttachments = this.attachments.attached.filter(
+				(item) => item.type === 'product' && (item as any).requestType === 'productQuery'
+			);
+			productQueryAttachments.forEach((item) => this.attachments.remove(item.id));
+		}
 	}
 
 	public pushProductQueryMessage(result: any): void {

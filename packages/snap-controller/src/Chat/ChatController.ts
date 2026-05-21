@@ -203,7 +203,7 @@ export class ChatController extends AbstractController {
 			const response = await this.client.chatInit({
 				siteId,
 				userId,
-				languageCode: navigator.language, // TODO: get language from templates config? Or currency from tracker?
+				languageCode: (this.config.settings?.languageCode as string) || navigator.language,
 				searchConfig: {
 					sessionId,
 					shopper: shopperId,
@@ -368,13 +368,16 @@ export class ChatController extends AbstractController {
 			}
 		}
 
-		if (this.store.hasPendingFacetChanges) {
+		if (this.store.hasPendingFacetChanges && chatRequest.requestType !== 'productComparison') {
 			// `searchFilters` only lives on productSearch in the API model — promote
 			// to productSearch when the user has changed the facet selection, but
 			// preserve the user's typed message so a follow-up like "show me jackets"
 			// doesn't get silently dropped. An empty `searchFilters: []` is intentional
 			// when the user cleared all previously-applied filters — the backend needs
 			// to see the cleared state.
+			// Comparison requests skip this promotion: a Compare click is an explicit
+			// user intent that takes priority over the in-progress facet selection,
+			// and `searchFilters` cannot be attached to a productComparison anyway.
 			const message = this.store.inputValue?.trim();
 			chatRequest = {
 				requestType: 'productSearch',
@@ -671,26 +674,42 @@ export class ChatController extends AbstractController {
 	};
 
 	search = async (overrides?: Partial<ChatRequestModel>): Promise<void> => {
+		// Drop concurrent calls — a spam-click on a suggested question used to fire
+		// one `search` per click since the await on prepareRequest yielded the loop
+		// before `store.loading` was set; now the synchronous loading flag below
+		// stops the second click in its tracks.
+		if (this.store.loading) return;
+
 		this.store.error = undefined;
 		// Strip HTML from the input at the submit boundary — the value flows into
 		// both the API request body (via this.params) and the rendered user message,
 		// so sanitizing once here prevents tag injection / XSS in both flows.
 		this.store.inputValue = filters.stripHTML(this.store.inputValue);
-		let requestChatId: string | undefined;
+		const params = deepmerge(this.params, overrides || {});
+
+		// Ensure a chat exists synchronously so the user message can be pushed
+		// without waiting for chatInit; startNewChat below will reuse this same
+		// chat and attach the sessionId once the API roundtrips complete.
+		if (!this.store.currentChat) {
+			this.store.createChat();
+		}
+
+		// Push the user message and flip loading on synchronously. Previously these
+		// happened after `await prepareRequest`, which made the chat feel unresponsive
+		// during the chatStatus/chatInit network calls and let spam clicks slip past
+		// the loading guard.
+		this.store.request(params);
+		this.store.loading = true;
+		this.store.inputValue = '';
+		// capture the chat this request belongs to so a response from a chat
+		// the user has since left isn't applied to the new active chat
+		const requestChatId: string | undefined = this.store.currentChat?.id;
+
 		try {
-			const params = deepmerge(this.params, overrides || {});
-
 			const proceed = await this.prepareRequest(params);
+			// prepareRequest sets store.error when chat is disabled or session init
+			// fails — the existing error banner surfaces that to the user.
 			if (!proceed) return;
-
-			this.store.request(params);
-			this.store.loading = true;
-			// capture the chat this request belongs to so a response from a chat
-			// the user has since left isn't applied to the new active chat
-			requestChatId = this.store.currentChat?.id;
-
-			// clear input value
-			this.store.inputValue = '';
 
 			const searchProfile = this.profiler.create({ type: 'event', name: 'search', context: params }).start();
 

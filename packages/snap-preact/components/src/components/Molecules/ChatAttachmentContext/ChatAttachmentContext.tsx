@@ -54,7 +54,7 @@ const defaultStyles: StyleScript<ChatAttachmentContextProps> = () => {
 				border: '1px solid #eee',
 				borderRadius: '0.5em',
 				background: '#f9fafb',
-				maxWidth: '14em',
+				maxWidth: 'calc(50% - 0.25em)',
 
 				'&.ss__chat-attachment-context__item--clickable': {
 					cursor: 'pointer',
@@ -71,6 +71,7 @@ const defaultStyles: StyleScript<ChatAttachmentContextProps> = () => {
 					background: '#fff5f5',
 					borderColor: '#fca5a5',
 					color: '#b91c1c',
+					maxWidth: '100%',
 				},
 
 				'.ss__chat-attachment-context__item__content': {
@@ -224,7 +225,7 @@ export const ChatAttachmentContext = observer((properties: ChatAttachmentContext
 										</div>
 									</>
 								)}
-								{item.onRemove && (items.length > 1 || !onClose) && (
+								{item.onRemove && (items.length > 1 || !onClose || isClickable) && (
 									<Button
 										{...subProps.removeButton}
 										className={'ss__chat-attachment-context__item__remove'}

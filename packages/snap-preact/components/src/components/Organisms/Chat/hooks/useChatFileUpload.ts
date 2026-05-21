@@ -65,11 +65,11 @@ export const useChatFileUpload = ({ enabled, onUpload }: UseChatFileUploadOption
 		dragCounterRef.current = 0;
 		setIsDraggingFile(false);
 		const dropped = Array.from((e as DragEvent).dataTransfer?.files || []);
-		const images = dropped.filter((f) => f.type.startsWith('image/'));
-		if (images.length === 0) return;
+		const firstImage = dropped.find((f) => f.type.startsWith('image/'));
+		if (!firstImage) return;
 		// Reconstruct a FileList — consumers (e.g. controller.upload) expect FileList | null
 		const dt = new DataTransfer();
-		images.forEach((f) => dt.items.add(f));
+		dt.items.add(firstImage);
 		await onUpload(dt.files);
 	};
 
