@@ -155,15 +155,28 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 			facets: observable,
 			urlVersion: observable,
 			hasPendingFacetChanges: computed,
+			pendingFacetCount: computed,
 		});
 
 		// Sync the root facets display with the active message. Only productSearchResult
 		// messages carry facets — for any other active message, clear the display so a
 		// stale facet bar from a previous response doesn't linger.
+		// Exception: when the user clicks "discuss product" on a carousel result, the
+		// active message becomes the productQuery side-chat, but the carousel is still
+		// the last real message — keep its facets visible alongside the product context.
 		reaction(
 			() => {
-				const active = this.currentChat?.activeMessage;
-				return active && active.messageType === 'productSearchResult' ? active : null;
+				const chat = this.currentChat;
+				const active = chat?.activeMessage;
+				if (active?.messageType === 'productSearchResult') return active;
+				if (active?.messageType === 'productQuery' && chat) {
+					const messages = chat.chat;
+					const activeIdx = messages.findIndex((m) => m.id === active.id);
+					if (activeIdx > 0 && messages[activeIdx - 1].messageType === 'productSearchResult') {
+						return messages[activeIdx - 1];
+					}
+				}
+				return null;
 			},
 			(active) => {
 				if (active && active.id !== this.activeFacetsMessageId) {
@@ -171,6 +184,57 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 					this.setActiveFacets(facets || [], active.id);
 				} else if (!active && this.activeFacetsMessageId !== null) {
 					this.setActiveFacets([], null);
+				}
+			},
+			{ fireImmediately: true }
+		);
+
+		// Mirror the urlManager's pending range filters into each RangeFacet's `active`.
+		// Slider facets are remounted whenever their dropdown closes/reopens and the
+		// FacetSlider seeds its state from facet.active — without this sync the slider
+		// would snap back to the server-provided active on every reopen, losing the
+		// user's pending selection until Apply is clicked.
+		// Note: range filters round-trip through the detached urlManager's URL form,
+		// so they come back as `[{low, high}]` arrays even though they were set as objects.
+		const readRangeFilter = (raw: any): { low?: number; high?: number } | null => {
+			const entry = Array.isArray(raw) ? raw[raw.length - 1] : raw;
+			if (!entry || typeof entry !== 'object') return null;
+			if (typeof entry.low === 'undefined' && typeof entry.high === 'undefined') return null;
+			return {
+				low: entry.low === null || typeof entry.low === 'undefined' ? undefined : Number(entry.low),
+				high: entry.high === null || typeof entry.high === 'undefined' ? undefined : Number(entry.high),
+			};
+		};
+		reaction(
+			() => {
+				void this.urlVersion;
+				const filterState = (this.urlManager.state as any)?.filter || {};
+				return this.facets
+					.filter((f: any) => f.type === 'range')
+					.map((f: any) => {
+						const pending = readRangeFilter(filterState[f.field]);
+						return `${f.field}:${pending?.low ?? '*'}:${pending?.high ?? '*'}`;
+					})
+					.join('|');
+			},
+			() => {
+				const filterState = (this.urlManager.state as any)?.filter || {};
+				for (const facet of this.facets) {
+					if ((facet as any).type !== 'range') continue;
+					const rangeFacet = facet as any;
+					const pending = readRangeFilter(filterState[rangeFacet.field]);
+					const desired = pending
+						? {
+								low: typeof pending.low !== 'undefined' ? pending.low : rangeFacet.range?.low,
+								high: typeof pending.high !== 'undefined' ? pending.high : rangeFacet.range?.high,
+						  }
+						: rangeFacet.range
+						? { low: rangeFacet.range.low, high: rangeFacet.range.high }
+						: null;
+					if (!desired) continue;
+					if (rangeFacet.active?.low !== desired.low || rangeFacet.active?.high !== desired.high) {
+						rangeFacet.active = desired;
+					}
 				}
 			},
 			{ fireImmediately: true }
@@ -237,6 +301,25 @@ export class ChatStore extends AbstractStore<ChatStoreConfig> {
 		this.facets = this.buildFacetStore(facets);
 		this.activeFacetsMessageId = messageId;
 		this.appliedFilterSnapshot = stableStringify((this.urlManager.state as any)?.filter);
+	}
+
+	/** Total number of selected facet values in the in-progress urlManager state, summed
+	 * across all filter fields. Each value in a value facet, each range in a range-bucket
+	 * facet, and the single range on a slider facet each count as one. */
+	get pendingFacetCount(): number {
+		void this.urlVersion;
+		const filterState = (this.urlManager.state as any)?.filter;
+		if (!filterState) return 0;
+		let count = 0;
+		for (const key of Object.keys(filterState)) {
+			const value = filterState[key];
+			if (Array.isArray(value)) {
+				count += value.length;
+			} else if (typeof value !== 'undefined') {
+				count += 1;
+			}
+		}
+		return count;
 	}
 
 	/** True when the in-progress facet selection differs from the filters that were applied

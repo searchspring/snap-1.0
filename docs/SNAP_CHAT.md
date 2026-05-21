@@ -7,6 +7,7 @@ To set up Chat using Snap, we'll need to define a chat controller in our Snap co
 // src/index.js
 
 import { Snap } from '@athoscommerce/snap-preact';
+import { Chat } from '@athoscommerce/snap-preact/components';
 
 const snap = new Snap({
     client: {
@@ -27,7 +28,7 @@ const snap = new Snap({
                     {
                         selector: 'body',
                         component: async () => {
-                            return (await import('@athoscommerce/snap-preact/components')).Chat;
+                            return Chat;
                         },
                     },
                 ],
@@ -59,6 +60,8 @@ The following settings can be configured in the `ChatControllerConfig`:
 To handle add-to-cart actions from within the chat, register an `addToCart` middleware on the controller config. The chat fires the `addToCart` event whenever `controller.addToCart()` is called from a UI component, and any registered middleware will run with `{ controller, products }`:
 
 ```js
+import { Chat } from '@athoscommerce/snap-preact/components';
+
 const snap = new Snap({
     client: {
 		globals: {
@@ -84,7 +87,7 @@ const snap = new Snap({
                     {
                         selector: 'body',
                         component: async () => {
-                            return (await import('@athoscommerce/snap-preact/components')).Chat;
+                            return Chat;
                         },
                     },
                 ],
@@ -138,6 +141,8 @@ This default is only applied when (a) the selector is the literal string `'body'
 Pass component props through the `props` field on the targeter object. Snap forwards them to the `Chat` component when it mounts at the configured selector:
 
 ```js
+import { Chat } from '@athoscommerce/snap-preact/components';
+
 const snap = new Snap({
     client: {
         globals: {
@@ -154,7 +159,7 @@ const snap = new Snap({
                     {
                         selector: 'body',
                         component: async () => {
-                            return (await import('@athoscommerce/snap-preact/components')).Chat;
+                            return Chat;
                         },
                         props: {
                             title: 'Acme Shopping Assistant',
@@ -386,6 +391,8 @@ The Chat controller fires the following middleware events that can be hooked int
 | `track.product.feedback` | Fired when session feedback is tracked |
 
 ```js
+import { Chat } from '@athoscommerce/snap-preact/components';
+
 const snap = new Snap({
     controllers: {
         chat: [
@@ -403,7 +410,7 @@ const snap = new Snap({
                     {
                         selector: 'body',
                         component: async () => {
-                            return (await import('@athoscommerce/snap-preact/components')).Chat;
+                            return Chat;
                         },
                     },
                 ],

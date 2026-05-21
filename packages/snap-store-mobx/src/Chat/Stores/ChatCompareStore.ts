@@ -25,8 +25,7 @@ export class ChatCompareStore {
 			return;
 		}
 		if (this.items.length >= this.maxItems) {
-			// handle max items reached, e.g. remove the oldest item
-			this.items.shift();
+			return;
 		}
 		this.items.push(item);
 	}

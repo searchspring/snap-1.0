@@ -540,7 +540,10 @@ export function createSnapConfig(templateConfig: SnapTemplatesConfig | SnapTempl
 			config: {
 				id: 'chat',
 				plugins: createPlugins(templateConfig, templatesStore, 'chat'),
-				settings: templateConfig.chat.settings || {},
+				settings: {
+					...(templateConfig.chat.settings || {}),
+					languageCode: templatesStore.language,
+				},
 			},
 			targeters: createChatTargeters(templateConfig, templatesStore),
 		};

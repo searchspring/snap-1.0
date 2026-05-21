@@ -219,14 +219,30 @@ export type ChatResponseProductComparisonData = BaseResponseProperties & {
 	};
 };
 transformChatResponse.productComparison = (data: MoiResponseModelProductComparison, responseId: string): ChatResponseProductComparisonData => {
+	const rawSearchResults = Array.isArray(data.searchResults) ? data.searchResults : [data.searchResults];
+
+	// The backend keys comparisonData.values by the raw product `id`, but
+	// mapProductToSearchResultProduct sets Result.id = product.uid. Remap the
+	// keys to uid so the component's `feature.values[result.id]` lookup matches.
+	const idToUid: Record<string, string> = {};
+	rawSearchResults.forEach((product: any) => {
+		if (product?.id && product?.uid) idToUid[product.id] = product.uid;
+	});
+
+	const comparisonData = {
+		...data.comparisonData,
+		features: data.comparisonData?.features?.map((feature) => ({
+			...feature,
+			values: Object.fromEntries(Object.entries(feature.values || {}).map(([key, value]) => [idToUid[key] ?? key, value])),
+		})),
+	};
+
 	return {
 		messageType: data.messageType,
 		id: data.id,
 
-		searchResults: (Array.isArray(data.searchResults) ? data.searchResults : [data.searchResults]).map((product) =>
-			mapProductToSearchResultProduct(product, responseId)
-		),
-		comparisonData: data.comparisonData,
+		searchResults: rawSearchResults.map((product) => mapProductToSearchResultProduct(product, responseId)),
+		comparisonData,
 	};
 };
 

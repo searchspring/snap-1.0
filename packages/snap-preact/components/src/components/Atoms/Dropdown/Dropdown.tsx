@@ -77,6 +77,7 @@ export const Dropdown = observer((properties: DropdownProps) => {
 		treePath,
 		usePortal,
 		dropUp,
+		boundaryRef,
 		customComponent,
 	} = props;
 
@@ -103,6 +104,7 @@ export const Dropdown = observer((properties: DropdownProps) => {
 	const contentRef = useRef<HTMLDivElement | null>(null);
 	const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
 	const [flipX, setFlipX] = useState(false);
+	const [flipRight, setFlipRight] = useState(0);
 
 	let innerRef: MutableRef<HTMLElement | undefined> | undefined;
 	if (!disableClickOutside) {
@@ -148,12 +150,18 @@ export const Dropdown = observer((properties: DropdownProps) => {
 		}
 	}, [dropdownOpen]);
 
-	// After the portal renders, check if content overflows the right viewport edge
-	// and flip the horizontal anchor if so. useLayoutEffect fires before paint to avoid flash.
+	// After the portal renders, check if content overflows the right edge of the
+	// boundary (when provided) or the viewport and flip the horizontal anchor if so.
+	// When flipped, anchor the portal to the boundary's right edge so the dropdown
+	// stops at the boundary rather than at the button's right edge.
+	// useLayoutEffect fires before paint to avoid flash.
 	useLayoutEffect(() => {
 		if (usePortal && dropdownOpen && contentRef.current && coords.width > 0) {
 			const rect = contentRef.current.getBoundingClientRect();
-			setFlipX(rect.right > window.innerWidth);
+			const limit = boundaryRef?.current?.getBoundingClientRect().right ?? window.innerWidth;
+			const shouldFlip = rect.right > limit;
+			setFlipX(shouldFlip);
+			if (shouldFlip) setFlipRight(Math.max(0, window.innerWidth - limit));
 		}
 	}, [usePortal, dropdownOpen, coords.left, coords.width]);
 
@@ -271,8 +279,7 @@ export const Dropdown = observer((properties: DropdownProps) => {
 								style={{
 									position: 'fixed',
 									top: coords.top,
-									left: coords.left,
-									width: coords.width,
+									...(flipX ? { right: flipRight } : { left: coords.left, width: coords.width }),
 									zIndex: 9999,
 									...(dropUp ? { transform: 'translateY(-100%)' } : {}),
 								}}
@@ -306,4 +313,5 @@ export type DropdownTemplatesLegalProps = {
 	disableA11y?: boolean;
 	usePortal?: boolean;
 	dropUp?: boolean;
+	boundaryRef?: { current: HTMLElement | null };
 };

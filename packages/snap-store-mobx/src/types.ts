@@ -101,6 +101,9 @@ export type ChatStoreConfigSettings = {
 	feedbackAfterMessages?: number;
 	/** Background filters forwarded to the chat init API as `searchConfig.bgFilters`. */
 	bgFilters?: Record<string, string>;
+	/** Language code forwarded to chat init as `languageCode`. Sourced from the Snap
+	 * Templates configured locale; falls back to `navigator.language` when absent. */
+	languageCode?: string;
 	[key: string]: unknown;
 };
 
